@@ -9,14 +9,14 @@ SRC_DIR = REPO_ROOT / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from agree_exp_refactor import runtime
-from agree_exp_refactor.pipeline import AGREEVerificationPipeline
-from agree_exp_refactor.case_runner import run_single_case
+from agree_autogen import runtime
+from agree_autogen.pipeline import AGREEVerificationPipeline
+from agree_autogen.case_runner import run_single_case
 
 
 def main():
-    """Single-case entrypoint for the refactored experiment framework."""
-    parser = argparse.ArgumentParser(description="Run refactored AGREE experiment pipeline for one case.")
+    """Single-case entry point for the Agree-Autogen pipeline."""
+    parser = argparse.ArgumentParser(description="Run the Agree-Autogen pipeline for one case.")
     parser.add_argument("--case-num", type=int, default=1, help="Case number, e.g. 58")
     parser.add_argument("--case-letter", default="A", help="Case letter, e.g. A or B")
     parser.add_argument("--use-rag", dest="use_rag", action="store_true", default=True)

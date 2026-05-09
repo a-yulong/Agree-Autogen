@@ -14,23 +14,25 @@ The framework orchestrates five main agents:
 
 ```text
 .
-??? run_case.py                         # Single-case CLI entry point
-??? src/
-?   ??? agree_exp_refactor/
-?   ?   ??? runtime.py                  # Runtime config, token accounting, shared utilities
-?   ?   ??? agents.py                   # Multi-agent prompts and LLM interaction logic
-?   ?   ??? pipeline.py                 # RAG, validators, dependency sync, orchestration
-?   ?   ??? case_runner.py              # Case loading and target-component extraction
-?   ??? experiment_recorder.py          # Report and artifact generation
-?   ??? error_type_analyzer.py          # T1-T5 error classification
-??? scripts/
-?   ??? run_batch.py                    # Batch runner for A/B experiments
-??? docs/
-?   ??? architecture.md                 # Design notes
-??? data/
-?   ??? README.md                       # Expected dataset layout
-??? .env.example                        # Configuration template
-??? requirements.txt
+|-- run_case.py                         # Single-case CLI entry point
+|-- src/
+|   |-- agree_autogen/
+|   |   |-- runtime.py                  # Runtime config, token accounting, shared utilities
+|   |   |-- agents.py                   # Multi-agent prompts and LLM interaction logic
+|   |   |-- pipeline.py                 # RAG, validators, dependency sync, orchestration
+|   |   `-- case_runner.py              # Case loading and target-component extraction
+|   |-- experiment_recorder.py          # Report and artifact generation
+|   `-- error_type_analyzer.py          # T1-T5 error classification
+|-- scripts/
+|   `-- run_batch.py                    # Batch runner for A/B experiments
+|-- docs/
+|   |-- architecture.md                 # Design notes
+|   `-- knowledge_base.md               # RAG corpus policy
+|-- data/
+|   `-- README.md                       # Expected dataset layout
+|-- .env.example                        # Configuration template
+|-- pyproject.toml                      # Package metadata
+`-- requirements.txt
 ```
 
 ## Installation
@@ -72,12 +74,12 @@ The default case runner expects cases in this format:
 
 ```text
 data/Sources/
-??? Case01_A/
-    ??? Case01_Base.txt
-    ??? Case01_Req.txt
-    ??? Case01/
-        ??? dependency_package_1.aadl
-        ??? dependency_package_2.aadl
+`-- Case01_A/
+    |-- Case01_Base.txt
+    |-- Case01_Req.txt
+    `-- Case01/
+        |-- dependency_package_1.aadl
+        `-- dependency_package_2.aadl
 ```
 
 `CaseXX_Base.txt` contains the base AADL model text. `CaseXX_Req.txt` contains the natural-language requirement. The nested `CaseXX/` directory contains AADL dependencies referenced by `with` clauses.
@@ -107,17 +109,19 @@ Each case writes a report directory under `AGREE_RESULT_ROOT`:
 
 ```text
 results/Case01_A/Report/
-??? Case01_first.txt
-??? Case01_initial.txt
-??? Case01_fixed.txt
-??? Case01_errors.txt
-??? Case01_report.md
-??? Case01_report.json
+|-- Case01_first.txt
+|-- Case01_initial.txt
+|-- Case01_fixed.txt
+|-- Case01_errors.txt
+|-- Case01_report.md
+`-- Case01_report.json
 ```
 
 ## Notes
 
 This repository intentionally excludes large vector databases, generated experiment results, local AADL/OSATE installations, and private API keys.
+
+The RAG knowledge base is also not bundled by default. See `docs/knowledge_base.md` for the recommended policy and local layout.
 
 ## Citation
 

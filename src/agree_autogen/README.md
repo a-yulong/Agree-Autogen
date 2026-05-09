@@ -22,7 +22,7 @@ python run_case.py --case-num 1 --case-letter A --use-rag --llm-base-url https:/
 | `case_runner.py` | Case input loading, target component extraction, related AADL model collection, single-case runner. |
 | `run_case.py` | Repository-level CLI entry point. |
 
-## Refactor principle
+## Design principle
 
 The runtime is organized around explicit responsibility boundaries:
 

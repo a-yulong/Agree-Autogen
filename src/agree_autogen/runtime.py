@@ -1,16 +1,16 @@
-import os
-import sys
-import re
 import hashlib
+import json
 import logging
+import os
+import re
+import shutil
 import subprocess
-import time
+import sys
 import tempfile
 import threading
-import shutil
+import time
 from pathlib import Path
-from typing import List, Dict, Optional, Any, Union
-import json
+from typing import Any, Dict, List, Optional, Union
 
 try:
     import tiktoken
@@ -29,11 +29,11 @@ if script_dir not in sys.path:
 
 from experiment_recorder import ExperimentRecorder, create_recorder
 
+
 def configure_utf8_stdio():
-    """在 Windows 下强制标准输入输出使用 UTF-8，避免 GBK 控制台编码异常。"""
+    """Force UTF-8 standard streams on Windows consoles."""
     os.environ.setdefault("PYTHONIOENCODING", "utf-8")
     os.environ.setdefault("PYTHONUTF8", "1")
-
     for stream_name in ("stdout", "stderr"):
         stream = getattr(sys, stream_name, None)
         reconfigure = getattr(stream, "reconfigure", None)
@@ -59,7 +59,6 @@ def update_runtime_model_config(
     result_root: Optional[str] = None,
 ):
     global MODEL_BASE_URL, MODEL_API_KEY, MODEL_NAME, RESULT_ROOT
-
     if model_base_url:
         MODEL_BASE_URL = model_base_url
     if model_api_key is not None:
@@ -71,12 +70,14 @@ def update_runtime_model_config(
 
 
 try:
-    import win32gui
     import win32con
+    import win32gui
+
     HAS_WIN32 = True
 except ImportError:
     HAS_WIN32 = False
     logger.warning("pywin32 is not installed; license pop-up auto-close is disabled.")
+
 
 def _get_token_encoder():
     if tiktoken is None:
@@ -147,67 +148,45 @@ def normalize_token_usage(messages: List[Dict[str, str]], response: str, token_u
 
 
 def format_file_link(file_path):
-    """
-    需求5：格式化文件路径为可点击的链接格式
-
-    在支持的终端中，file:/// 协议的路径可以直接点击打开文件
-    """
+    """Format a local file path as a file URI."""
     if not file_path:
         return ""
-
-    # 转换为绝对路径
-    abs_path = os.path.abspath(file_path)
-
-    # 替换反斜杠为正斜杠
-    abs_path = abs_path.replace('\\', '/')
-
-    # 格式化: file:///C:/path/to/file
-    if abs_path.startswith('/'):
-        # Unix/Linux 路径
+    abs_path = os.path.abspath(file_path).replace("\\", "/")
+    if abs_path.startswith("/"):
         return f"file://{abs_path}"
-    else:
-        # Windows 路径 (需要三个斜杠)
-        return f"file:///{abs_path}"
+    return f"file:///{abs_path}"
 
 
 def close_license_error_window():
-    """自动关闭 AADL Inspector 的许可证错误弹窗"""
+    """Automatically close known AADL Inspector license pop-up windows."""
     if not HAS_WIN32:
         return
 
     def callback(hwnd, _):
-        # 获取窗口标题
         title = win32gui.GetWindowText(hwnd)
-
-        # 跳过主程序窗口
         if title == "AADLInspector":
             return True
 
-        # 获取窗口类名
         try:
             class_name = win32gui.GetClassName(hwnd)
-        except:
+        except Exception:
             class_name = ""
 
-        # 检查窗口是否可见
         try:
             is_visible = win32gui.IsWindowVisible(hwnd)
-        except:
+        except Exception:
             is_visible = False
-
         if not is_visible:
             return True
 
-        # 获取窗口样式，检查是否是弹出窗口/对话框
         try:
             style = win32gui.GetWindowLong(hwnd, win32con.GWL_STYLE)
             is_popup = (style & win32con.WS_POPUP) != 0
             is_dialog = (style & win32con.WS_OVERLAPPEDWINDOW) == 0 and is_popup
-        except:
+        except Exception:
             is_popup = False
             is_dialog = False
 
-        # 尝试通过子窗口判断是否是许可证错误弹窗（查找"确定"按钮等）
         has_ok_button = False
         has_license_text = False
 
@@ -215,68 +194,58 @@ def close_license_error_window():
             nonlocal has_ok_button, has_license_text
             try:
                 child_text = win32gui.GetWindowText(child_hwnd)
-                if child_text in ["确定", "OK", "Ok"]:
+                if child_text in ["OK", "Ok"]:
                     has_ok_button = True
-                if "License error" in child_text or "license error" in child_text.lower():
+                if "license error" in child_text.lower():
                     has_license_text = True
-            except:
+            except Exception:
                 pass
             return True
 
         try:
             win32gui.EnumChildWindows(hwnd, child_callback, None)
-        except:
+        except Exception:
             pass
 
-        # 综合判断是否是需要关闭的错误窗口
         is_error_window = False
-
-        # 1. 标题匹配
-        if ("Error" in title or "error" in title.lower() or "License" in title or "Error in startup script" in title):
+        if "error" in title.lower() or "license" in title.lower() or "Error in startup script" in title:
             is_error_window = True
-
-        # 2. 空标题但有"确定"按钮且是弹出窗口（许可证错误弹窗的特征）
         if title == "" and has_ok_button and (is_popup or is_dialog):
             is_error_window = True
-
-        # 3. 子窗口包含许可证错误文本
         if has_license_text:
             is_error_window = True
 
         if is_error_window:
             try:
-                # 方法1: 发送 WM_CLOSE 消息
                 win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
-                logger.info(f"已尝试关闭错误窗口 (WM_CLOSE): title='{title}', class='{class_name}'")
-
-                # 方法2: 如果有"确定"按钮，直接点击按钮（更可靠）
+                logger.info("Attempted to close error window: title='%s', class='%s'", title, class_name)
                 if has_ok_button:
                     def click_button(child_hwnd, _):
                         try:
                             child_text = win32gui.GetWindowText(child_hwnd)
-                            if child_text in ["确定", "OK", "Ok"]:
-                                # 点击按钮：发送 BM_CLICK 消息
+                            if child_text in ["OK", "Ok"]:
                                 win32gui.PostMessage(child_hwnd, win32con.BM_CLICK, 0, 0)
-                                logger.info(f"已点击按钮: {child_text}")
-                        except:
+                                logger.info("Clicked button: %s", child_text)
+                        except Exception:
                             pass
                         return True
+
                     try:
                         win32gui.EnumChildWindows(hwnd, click_button, None)
-                    except:
+                    except Exception:
                         pass
-            except Exception as e:
-                logger.debug(f"关闭窗口时出错: {e}")
+            except Exception as exc:
+                logger.debug("Error while closing window: %s", exc)
         return True
 
     try:
         win32gui.EnumWindows(callback, None)
-    except Exception as e:
-        logger.debug(f"枚举窗口时出错: {e}")
+    except Exception as exc:
+        logger.debug("Error while enumerating windows: %s", exc)
 
 
 def start_window_monitor(stop_event, interval=0.5):
-    """启动一个线程持续监控并关闭弹窗"""
+    """Start a background monitor that closes known pop-up windows."""
     def monitor():
         while not stop_event.is_set():
             close_license_error_window()
@@ -285,4 +254,3 @@ def start_window_monitor(stop_event, interval=0.5):
     thread = threading.Thread(target=monitor, daemon=True)
     thread.start()
     return thread
-
