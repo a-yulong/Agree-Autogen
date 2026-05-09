@@ -1,15 +1,15 @@
-# agree_exp_refactor
+# Agree-Autogen Runtime
 
-This directory is the refactored baseline extracted from `demo15.py`.
+This package contains the production runtime for the Agree-Autogen pipeline.
 
 ## Entry point
 
-Use `C:\Users\25780\Desktop\py_item\DeepSeek\demo16.py` for new experiments.
+Use the repository-level `run_case.py` entry point for single-case experiments.
 
 Example:
 
 ```powershell
-D:\anaconda\envs\new\python.exe C:\Users\25780\Desktop\py_item\DeepSeek\demo16.py --case-num 1 --case-letter A --use-rag --llm-base-url https://api.silra.cn/v1 --llm-api-key YOUR_KEY --llm-model-name qwen3-coder-30b-a3b-instruct --result-root C:\Users\25780\Desktop\Exp_Data\Result\demo16-smoke
+python run_case.py --case-num 1 --case-letter A --use-rag --llm-base-url https://api.example.com/v1 --llm-api-key YOUR_KEY --llm-model-name YOUR_MODEL --result-root results
 ```
 
 ## Module map
@@ -20,22 +20,20 @@ D:\anaconda\envs\new\python.exe C:\Users\25780\Desktop\py_item\DeepSeek\demo16.p
 | `agents.py` | Conversation, BaseAgent, requirements analyst, AGREE generator, AADL model analyst, AADL merger, validator/repair agent. |
 | `pipeline.py` | AGREEVerificationPipeline, RAG vectorstores, dependency sync, AADL Inspector, standalone AGREE validator, full orchestration. |
 | `case_runner.py` | Case input loading, target component extraction, related AADL model collection, single-case runner. |
-| `demo16.py` | Thin CLI entry point. |
+| `run_case.py` | Repository-level CLI entry point. |
 
 ## Refactor principle
 
-The first refactor is intentionally conservative:
+The runtime is organized around explicit responsibility boundaries:
 
-- Keep the verified behavior from `demo15.py`.
-- Split responsibilities by runtime / agents / pipeline / case IO / CLI.
-- Avoid changing prompts and validation semantics in the same step.
-- Make future edits local: model config in `runtime.py`, prompts and agent behavior in `agents.py`, validators and orchestration in `pipeline.py`, case loading in `case_runner.py`.
+- Runtime configuration and accounting live in `runtime.py`.
+- Agent prompts and model-facing behavior live in `agents.py`.
+- Validator integration and orchestration live in `pipeline.py`.
+- Dataset loading and target-component extraction live in `case_runner.py`.
 
 ## Smoke test result
 
 Validated with:
 
 - Case: `Case01_A`
-- Model: `qwen3-coder-30b-a3b-instruct`
-- Result root: `C:\Users\25780\Desktop\Exp_Data\Result\demo16-smoke`
-- Outcome: completed successfully, final validation passed after 4 repair iterations.
+- A smoke test should complete with generated reports under the configured result root.

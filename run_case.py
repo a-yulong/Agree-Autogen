@@ -37,13 +37,13 @@ def main():
         result_root=args.result_root,
     )
 
-    os.makedirs(runtime.GLM_RESULT_ROOT, exist_ok=True)
+    os.makedirs(runtime.RESULT_ROOT, exist_ok=True)
     pipeline = AGREEVerificationPipeline(args.docs_dir, use_rag=args.use_rag)
 
     print(f"Pipeline initialized. RAG: {'on' if args.use_rag else 'off'}")
     print(f"Model: {runtime.MODEL_NAME}")
     print(f"Base URL: {runtime.MODEL_BASE_URL}")
-    print(f"Result root: {runtime.GLM_RESULT_ROOT}")
+    print(f"Result root: {runtime.RESULT_ROOT}")
     print("\n" + "=" * 80)
     print(f"Starting Case{args.case_num:02d}_{args.case_letter}")
     print("=" * 80)

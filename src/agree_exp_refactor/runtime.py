@@ -43,7 +43,7 @@ def configure_utf8_stdio():
 
 configure_utf8_stdio()
 
-GLM_RESULT_ROOT = os.environ.get("AGREE_RESULT_ROOT", os.path.abspath("results"))
+RESULT_ROOT = os.environ.get("AGREE_RESULT_ROOT", os.path.abspath("results"))
 DEFAULT_MODEL_API_KEY = ""
 DEFAULT_MODEL_BASE_URL = os.environ.get("AGREE_MODEL_BASE_URL", "https://api.openai.com/v1")
 DEFAULT_MODEL_NAME = os.environ.get("AGREE_MODEL_NAME", "gpt-4o-mini")
@@ -58,7 +58,7 @@ def update_runtime_model_config(
     model_name: Optional[str] = None,
     result_root: Optional[str] = None,
 ):
-    global MODEL_BASE_URL, MODEL_API_KEY, MODEL_NAME, GLM_RESULT_ROOT
+    global MODEL_BASE_URL, MODEL_API_KEY, MODEL_NAME, RESULT_ROOT
 
     if model_base_url:
         MODEL_BASE_URL = model_base_url
@@ -67,7 +67,7 @@ def update_runtime_model_config(
     if model_name:
         MODEL_NAME = model_name
     if result_root:
-        GLM_RESULT_ROOT = result_root
+        RESULT_ROOT = result_root
 
 
 try:

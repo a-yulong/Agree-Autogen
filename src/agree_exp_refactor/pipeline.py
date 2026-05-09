@@ -62,7 +62,7 @@ class AGREEVerificationPipeline:
         self.llm_api_key = runtime.MODEL_API_KEY
         self.llm_base_url = runtime.MODEL_BASE_URL
         self.llm_model_name = runtime.MODEL_NAME
-        self.result_root = runtime.GLM_RESULT_ROOT
+        self.result_root = runtime.RESULT_ROOT
         self.client = OpenAI(api_key=self.llm_api_key, base_url=self.llm_base_url)
 
         # AGREE standalone 验证器配置

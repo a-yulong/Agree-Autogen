@@ -1,6 +1,6 @@
 ﻿"""
-错误类型分析工具 - 使用 LLM 智能分析 AADL 错误并进行 T1-T5 分类
-独立脚本，可单独运行，也可被 demo12.py 调用
+Error type analyzer for classifying AADL/AGREE validation issues into T1-T5 categories.
+It can be used standalone or called by the Agree-Autogen pipeline.
 """
 
 import os
@@ -14,7 +14,7 @@ from openai import OpenAI
 
 # ==================== 配置 ====================
 
-# LLM 配置 - 与 demo12.py 保持一致
+# LLM configuration. By default it reuses the main Agree-Autogen model settings.
 LLM_BASE_URL = os.environ.get("AGREE_ERROR_ANALYZER_BASE_URL", os.environ.get("AGREE_MODEL_BASE_URL", "https://api.openai.com/v1"))
 LLM_API_KEY = os.environ.get("AGREE_ERROR_ANALYZER_API_KEY", os.environ.get("AGREE_MODEL_API_KEY", ""))
 LLM_MODEL_NAME = os.environ.get("AGREE_ERROR_ANALYZER_MODEL", os.environ.get("AGREE_MODEL_NAME", "gpt-4o-mini"))
