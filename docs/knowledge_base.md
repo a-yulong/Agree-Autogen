@@ -1,12 +1,12 @@
 # Knowledge Base Policy
 
-Agree-Autogen supports retrieval-augmented generation, but this repository does not bundle large external knowledge bases by default.
+Agree-Autogen supports retrieval-augmented generation. External knowledge bases are configured as local resources so that each experiment can use an explicitly controlled corpus.
 
-## Why the knowledge base is not bundled
+## Bundling policy
 
-- AGREE manuals, AADL examples, papers, PDFs, and course materials may have independent copyright or distribution terms.
-- Generated vector stores are large derived artifacts and are usually not appropriate for source control.
-- Reproducible research repositories commonly provide the code, configuration templates, lightweight examples, and instructions for rebuilding local indexes rather than committing private corpora or generated caches.
+- Keep API keys, generated vector stores, and private corpora outside the repository.
+- Commit only documents, examples, and metadata that are owned by the project or explicitly redistributable.
+- Record corpus sources and versions when preparing reproducible experiment releases.
 
 ## Recommended layout
 

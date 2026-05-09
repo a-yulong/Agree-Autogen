@@ -25,6 +25,8 @@ The framework orchestrates five main agents:
 |   `-- error_type_analyzer.py          # T1-T5 error classification
 |-- scripts/
 |   `-- run_batch.py                    # Batch runner for A/B experiments
+|-- tools/
+|   `-- agree-validator/                # Standalone AGREE validation CLI
 |-- docs/
 |   |-- architecture.md                 # Design notes
 |   `-- knowledge_base.md               # RAG corpus policy
@@ -48,7 +50,7 @@ You also need local AADL/AGREE tooling:
 - AADL Inspector executable, configured by `AADL_INSPECTOR_PATH`.
 - OSATE installation, configured by `OSATE_HOME`.
 - Java 17 or later, configured by `JAVA_HOME`.
-- Standalone AGREE validator, configured by `AGREE_VALIDATOR_ROOT`.
+- Standalone AGREE validator under `tools/agree-validator`, configured by `AGREE_VALIDATOR_ROOT`.
 
 ## Configuration
 
@@ -102,6 +104,16 @@ python run_case.py `
 ```powershell
 python scripts/run_batch.py --start 1 --end 10 --letters A B --result-root ./results
 ```
+
+## Build the standalone AGREE validator
+
+```powershell
+$env:JAVA_HOME = "path/to/jdk17"
+$env:OSATE_HOME = "path/to/osate"
+.\tools\agree-validator\build.ps1
+```
+
+See `tools/agree-validator/README.md` for details.
 
 ## Outputs
 

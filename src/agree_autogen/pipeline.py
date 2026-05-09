@@ -63,9 +63,9 @@ class AGREEVerificationPipeline:
         self.client = OpenAI(api_key=self.llm_api_key, base_url=self.llm_base_url)
 
         self.osate_path = os.environ.get("OSATE_HOME", "")
-        self.standalone_validator_root = os.environ.get("AGREE_VALIDATOR_ROOT", os.path.abspath("tools/agree-validator-standalone"))
+        self.standalone_validator_root = os.environ.get("AGREE_VALIDATOR_ROOT", os.path.abspath("tools/agree-validator"))
         self.standalone_validator_out = os.path.join(self.standalone_validator_root, "out")
-        self.standalone_validator_main = "com.example.agreevalidator.AgreeValidationCli"
+        self.standalone_validator_main = "org.agreeautogen.validator.AgreeValidationCli"
         self.standalone_java_home = os.environ.get("JAVA_HOME", "")
         self.static_libs_dir = os.path.join(self.standalone_validator_root, "static-libs")
         self._dependency_catalog = None
@@ -1360,4 +1360,3 @@ AADL
                 "error": f"Pipeline exception: {str(e)}",
                 "runtime": runtime
             }
-
