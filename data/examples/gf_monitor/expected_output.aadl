@@ -1,0 +1,26 @@
+package GF_Monitor_Example
+public
+  with Base_Types;
+
+  system GF_Monitor
+    features
+      latitude: in data port Base_Types::Float;
+      longitude: in data port Base_Types::Float;
+      gfReq: out data port Base_Types::Boolean;
+      alarm_out: out data port Base_Types::Boolean;
+    annex agree {**
+      eq fence_violation : bool = (latitude = 10.0) and (longitude = 15.0);
+
+      guarantee "gf request is activated at the fence point":
+        fence_violation => gfReq;
+
+      guarantee "alarm is triggered on fence violation":
+        fence_violation => alarm_out;
+    **};
+  end GF_Monitor;
+
+  system implementation GF_Monitor.impl
+  end GF_Monitor.impl;
+
+end GF_Monitor_Example;
+
