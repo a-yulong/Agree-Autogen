@@ -102,3 +102,9 @@ def test_disable_rag_does_not_require_knowledge_base_index(tmp_path):
     report = json.loads((out / "dry_run_report.json").read_text(encoding="utf-8"))
     assert report["knowledge_base_status"]["status"] == "disabled"
 
+
+def test_help_returns_success():
+    result = run_cli(["--help"])
+    assert result.returncode == 0
+    assert "--requirement" in result.stdout
+    assert "--dry-run" in result.stdout

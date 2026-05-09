@@ -230,15 +230,17 @@ def _run_pipeline(args) -> int:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run AGREE-AutoGen from requirement and AADL files.")
-    parser.add_argument("--requirement", required=True, help="Path to natural-language requirement text.")
-    parser.add_argument("--aadl", required=True, help="Path to input AADL model.")
-    parser.add_argument("--output-dir", required=True, help="Output directory.")
-    parser.add_argument("--config", default="configs/experiment_config.yaml", help="Optional experiment config path.")
-    parser.add_argument("--disable-rag", action="store_true", help="Disable retrieval augmentation.")
-    parser.add_argument("--disable-repair", action="store_true", help="Record repair as disabled for this run.")
-    parser.add_argument("--skip-validation", action="store_true", help="Skip external validator calls.")
-    parser.add_argument("--dry-run", action="store_true", help="Check inputs and configuration without calling LLMs or validators.")
+    parser = argparse.ArgumentParser(
+        description="Run AGREE-AutoGen from a natural-language requirement and an AADL architecture file."
+    )
+    parser.add_argument("--requirement", required=True, help="Requirement text file.")
+    parser.add_argument("--aadl", required=True, help="Input AADL architecture file.")
+    parser.add_argument("--output-dir", required=True, help="Directory for copied inputs, generated artifacts, and reports.")
+    parser.add_argument("--config", default="configs/experiment_config.yaml", help="Experiment config file.")
+    parser.add_argument("--disable-rag", action="store_true", help="Run without retrieval augmentation or a knowledge-base index.")
+    parser.add_argument("--disable-repair", action="store_true", help="Do not run iterative repair when runtime support is available.")
+    parser.add_argument("--skip-validation", action="store_true", help="Do not call external AADL/AGREE validators.")
+    parser.add_argument("--dry-run", action="store_true", help="Check paths and configuration without calling LLMs or validators.")
     args = parser.parse_args()
 
     if args.dry_run:
@@ -248,4 +250,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

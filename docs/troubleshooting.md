@@ -1,40 +1,12 @@
 # Troubleshooting
 
-## API key is missing
+| Symptom | Likely cause | Action |
+| --- | --- | --- |
+| API key error | `AGREE_MODEL_API_KEY` is unset | Set model environment variables or run `scripts/run_files.py --dry-run`. |
+| Validator reports `not_configured` | AADL Inspector, Java, OSATE, or validator root is missing | Set `AADL_INSPECTOR_PATH`, `JAVA_HOME`, `OSATE_HOME`, and `AGREE_VALIDATOR_ROOT`. |
+| RAG index error | Knowledge-base path is absent or empty | Use `--disable-rag` for smoke runs or configure `AGREE_DOCS_DIR`. |
+| AADL parsing failure | Invalid package, `with` clause, component, feature, connection, or `end` statement | Inspect the generated artifact and validator diagnostics. |
+| LLM output malformed | Empty, partial, JSON-like, or non-AADL output | Inspect first-pass artifacts and retry with stricter prompts or a different model. |
+| Repair limit reached | Missing dependencies, invalid scope, unresolved identifiers, or type mismatch | Review initial diagnostics and final artifact. |
+| Direct-file dry run fails | Missing input or config path | Check `--requirement`, `--aadl`, `--config`, and output directory permissions. |
 
-Set `AGREE_MODEL_API_KEY` or pass `--llm-api-key` to `run_case.py`.
-
-For `scripts/run_files.py`, a missing key produces `report.json` with a configuration error. Use `--dry-run` to check inputs without a key.
-
-## Validator path is wrong
-
-Check:
-
-- `AADL_INSPECTOR_PATH`
-- `JAVA_HOME`
-- `OSATE_HOME`
-- `AGREE_VALIDATOR_ROOT`
-
-Validator wrappers return `not_configured` when required paths are missing.
-
-## RAG index is missing
-
-If RAG is enabled, ensure `AGREE_DOCS_DIR` or the configured knowledge-base path exists and contains redistributable documents. For smoke tests, use `--no-rag`.
-
-For direct-file runs, use `--disable-rag` to run without a knowledge-base index.
-
-## AADL parsing failure
-
-Check package names, `with` clauses, component declarations, feature declarations, connections, and `end` statements.
-
-## LLM output is malformed
-
-The pipeline rejects empty or incomplete outputs. Retry with a lower temperature or a stronger model, and inspect saved first-pass artifacts.
-
-## Repair reaches maximum rounds
-
-Inspect the initial diagnostics and final artifact. Common causes include missing dependencies, invalid scopes, unresolved identifiers, or type mismatches.
-
-## Direct-file dry run fails
-
-Check that `--requirement`, `--aadl`, and `--config` point to existing files. The dry-run report is written to `OUTPUT_DIR/dry_run_report.json` when the output directory can be created.

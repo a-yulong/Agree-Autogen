@@ -1,34 +1,31 @@
 # Installation
 
-## Python
+## Python Environment
 
 AGREE-AutoGen targets Python 3.9 or later.
-
-## Virtual environment with pip
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-pip install -e .
 ```
 
-## Optional conda environment
+Conda is also supported:
 
 ```powershell
 conda create -n agree-autogen python=3.10
 conda activate agree-autogen
+```
+
+## Package Installation
+
+```powershell
 pip install -r requirements.txt
 pip install -e .
 ```
 
-## Optional Docker
+## Model API Configuration
 
-A Docker image is not currently provided in this repository. A future Docker setup should still mount external validator installations or install redistributable validator dependencies explicitly.
-
-## LLM API configuration
-
-Set an OpenAI-compatible endpoint and API key:
+The runtime expects an OpenAI-compatible chat-completions endpoint:
 
 ```powershell
 $env:AGREE_MODEL_BASE_URL = "https://api.example.com/v1"
@@ -36,27 +33,17 @@ $env:AGREE_MODEL_API_KEY = "replace-with-your-key"
 $env:AGREE_MODEL_NAME = "your-model-name"
 ```
 
-Do not commit `.env` files or real keys.
+Use `--dry-run` to check local inputs without model credentials.
 
-Before configuring a model, you can run a no-LLM dry run:
+## Optional Validation Tools
 
-```powershell
-python scripts/run_files.py --requirement data/examples/gf_monitor/requirement.txt --aadl data/examples/gf_monitor/input.aadl --output-dir outputs/gf_monitor --disable-rag --skip-validation --dry-run
-```
-
-## AADL Inspector configuration
-
-AADL-level validation requires a local AADL Inspector executable:
+AADL Inspector:
 
 ```powershell
 $env:AADL_INSPECTOR_PATH = "path/to/AADLInspector.exe"
 ```
 
-If this variable is not configured, validator wrappers should report `not_configured` instead of crashing.
-
-## AGREE validator configuration
-
-AGREE-level validation requires Java, OSATE, and the standalone validator:
+Standalone AGREE validator:
 
 ```powershell
 $env:JAVA_HOME = "path/to/jdk17"
@@ -65,4 +52,11 @@ $env:AGREE_VALIDATOR_ROOT = "./tools/agree-validator"
 .\tools\agree-validator\build.ps1
 ```
 
-The validator depends on local OSATE/AGREE installations and does not bundle third-party tool distributions.
+Missing validation tools are reported as `not_configured`.
+
+## Optional RAG Index
+
+The current pipeline builds Chroma indexes from `AGREE_DOCS_DIR` when RAG is enabled. The public `knowledge_base/` directory contains layout and policy files only.
+
+For smoke tests, use `--disable-rag`.
+

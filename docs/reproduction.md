@@ -1,42 +1,37 @@
 # Reproduction
 
-This document describes the intended experiment settings. Full benchmark data may require separate access.
+## Experiment Settings
 
-## Experiment settings
+| ID | Setting | Public script status |
+| --- | --- | --- |
+| E1 | Bare Model | Template |
+| E2 | Full Framework | Connected to case-layout runner |
+| E3 | NoRAG | Connected to case-layout runner |
+| E4 | NoRepair | Template |
+| E5 | No Model Analyst | Template |
+| E6 | No Requirement Analyst | Template |
+| E7 | No Dual Analysts | Template |
 
-- E1 Bare Model: direct-generation baseline with RAG, repair, model analysis, requirement analysis, and fusion disabled where supported.
-- E2 Full Framework: complete AGREE-AutoGen pipeline.
-- E3 NoRAG: disable retrieval augmentation.
-- E4 NoRepair: disable iterative repair.
-- E5 No Model Analyst: disable model-analysis agent.
-- E6 No Requirement Analyst: disable requirement-analysis agent.
-- E7 No Dual Analysts: disable both model and requirement analysts.
-
-The current public scripts provide command-line templates for these settings. Some ablations require additional integration with the full benchmark runner.
-
-## Run scripts
+## Commands
 
 ```powershell
-python experiments/run_e2_full_framework.py --start 1 --end 10 --letters A
-python experiments/run_ablation.py --setting E3 --start 1 --end 10 --letters A
+python experiments/run_e2_full_framework.py --start 1 --end 10 --letters A --result-root ./results
+python experiments/run_ablation.py --setting E3 --start 1 --end 10 --letters A --result-root ./results
+python experiments/compute_metrics.py --results-dir ./results --output ./results/metrics/metrics.csv
 ```
 
 ## Metrics
 
-- FVSR: final validation success rate.
-- ZRR: zero-repair rate.
-- IEC: initial error count.
-- ARR: average repair rounds.
-- RRR: rescue rate for cases fixed after initially failing.
-- MFR: multi-round failure ratio.
-- ART: average runtime.
-- ATC: average token consumption.
+| Metric | Meaning |
+| --- | --- |
+| FVSR | Final Validation Success Rate |
+| ZRR | Zero-Repair Rate |
+| IEC | Initial Error Count |
+| ARR | Average Repair Rounds |
+| RRR | Rescue Rate |
+| MFR | Multi-Round Failure Ratio |
+| ART | Average Runtime |
+| ATC | Average Token Consumption |
 
-Use:
-
-```powershell
-python experiments/compute_metrics.py --results-dir ./results --output ./results/metrics/metrics.csv
-```
-
-Do not report experimental conclusions from private or incomplete data without documenting the dataset and configuration.
+Full benchmark data is not bundled. Use `data/benchmark/metadata.example.csv` for metadata structure.
 
