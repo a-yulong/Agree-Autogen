@@ -133,7 +133,42 @@ It includes:
 
 The example is illustrative and should be validated with a local OSATE/AGREE installation before being treated as a benchmark artifact.
 
-The current production entry point uses the `CaseXX_A` benchmark layout:
+Start with a dry run. This checks files, output paths, RAG status, and validator configuration without calling an LLM or external validator:
+
+```powershell
+python scripts/run_files.py `
+  --requirement data/examples/gf_monitor/requirement.txt `
+  --aadl data/examples/gf_monitor/input.aadl `
+  --output-dir outputs/gf_monitor `
+  --disable-rag `
+  --skip-validation `
+  --dry-run
+```
+
+The command writes:
+
+```text
+outputs/gf_monitor/dry_run_report.json
+outputs/gf_monitor/requirement.txt
+outputs/gf_monitor/input.aadl
+```
+
+To run generation, configure an OpenAI-compatible model endpoint first:
+
+```powershell
+$env:AGREE_MODEL_BASE_URL = "https://api.example.com/v1"
+$env:AGREE_MODEL_API_KEY = "replace-with-your-key"
+$env:AGREE_MODEL_NAME = "your-model-name"
+
+python scripts/run_files.py `
+  --requirement data/examples/gf_monitor/requirement.txt `
+  --aadl data/examples/gf_monitor/input.aadl `
+  --output-dir outputs/gf_monitor `
+  --disable-rag `
+  --skip-validation
+```
+
+The legacy case-layout runner remains available:
 
 ```powershell
 python scripts/prepare_gf_monitor_case.py --case-num 1 --case-letter A --source-root ./data/Sources
@@ -171,7 +206,7 @@ $env:AGREE_VALIDATOR_ROOT = "./tools/agree-validator"
 .\tools\agree-validator\build.ps1
 ```
 
-Lightweight wrappers return `not_configured` when external tools are unavailable. The full pipeline requires the external tools for validation-ready execution.
+Lightweight wrappers and `scripts/run_files.py --dry-run` report `not_configured` when external tools are unavailable. The full validation loop requires the external tools for validation-ready execution.
 
 ## Experiment Reproduction Overview
 

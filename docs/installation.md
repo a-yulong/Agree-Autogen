@@ -38,6 +38,12 @@ $env:AGREE_MODEL_NAME = "your-model-name"
 
 Do not commit `.env` files or real keys.
 
+Before configuring a model, you can run a no-LLM dry run:
+
+```powershell
+python scripts/run_files.py --requirement data/examples/gf_monitor/requirement.txt --aadl data/examples/gf_monitor/input.aadl --output-dir outputs/gf_monitor --disable-rag --skip-validation --dry-run
+```
+
 ## AADL Inspector configuration
 
 AADL-level validation requires a local AADL Inspector executable:
