@@ -8,6 +8,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RUN_BATCH = REPO_ROOT / "scripts" / "run_batch.py"
+DEFAULT_CONFIG = Path(__file__).resolve().parent / "configs" / "e2_full_framework.yaml"
 
 
 def main() -> int:
@@ -17,8 +18,10 @@ def main() -> int:
     parser.add_argument("--letters", nargs="+", default=["A"])
     parser.add_argument("--result-root", default="./results")
     parser.add_argument("--python", default=sys.executable)
+    parser.add_argument("--config", default=str(DEFAULT_CONFIG))
     args = parser.parse_args()
 
+    print(f"Using experiment config: {args.config}")
     cmd = [
         args.python,
         str(RUN_BATCH),
@@ -36,4 +39,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

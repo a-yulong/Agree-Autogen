@@ -1,14 +1,36 @@
 # Knowledge Base
 
-AGREE-AutoGen supports a project-owned knowledge base for retrieval-augmented generation.
+This directory contains the public sample RAG knowledge base for AGREE-AutoGen.
 
-The public repository contains the directory structure, policy, and small redistributable examples only. Do not commit proprietary documents, standards text, full official manuals, private course materials, or third-party repository contents unless redistribution is explicitly permitted by their license.
+The sample KB is intentionally small and project-owned. It is meant to make the artifact inspectable and runnable without redistributing standards text, official manuals, private notes, or license-unclear third-party content.
 
-Recommended categories:
+## Structure
 
-- `ksyn`: AADL/AGREE syntax and semantic rules prepared by the project authors.
-- `kexp`: Verified exemplar triples in the form RequirementNL, LogicProp, and CodeAGREE.
-- `kdef`: Defensive heuristic rules used to reduce invalid identifiers, invalid scopes, and unsupported syntax.
+- `manifest.yaml`: index of public KB files.
+- `ksyn/`: toy AADL/AGREE syntax, scope, and temporal-pattern rules.
+- `kexp/`: toy RequirementNL-LogicProp-CodeAGREE triples.
+- `kdef/`: defensive heuristics and common error patterns.
+- `sources/`: reconstruction notes for larger local KBs.
 
-If a resource cannot be redistributed, document its source and keep the file outside this repository. Users must obtain such resources separately.
+## Public Sample KB vs. Full Paper KB
 
+The public sample KB documents the expected schema and contains redistributable seed entries. A full paper KB may contain additional project notes, validated examples, diagnostics, and locally available references. Materials that cannot be redistributed should remain outside this repository and be documented through metadata or reconstruction instructions.
+
+## Entry Schema
+
+Each rule or pattern should include:
+
+- `id`
+- `category`
+- `description`
+- `pattern` or `example`
+- `notes`
+
+Each exemplar triplet should include:
+
+- `id`
+- `category`
+- `requirement_nl`
+- `logic_prop`
+- `code_agree`
+- `notes`

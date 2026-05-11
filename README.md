@@ -9,7 +9,7 @@ External validation requires local AADL/AGREE tooling. The repository includes a
 - Multi-agent workflow: Model Analyst Agent, Requirement Analyst Agent, AGREE Generator Agent, Model Fusion Agent, and Validation-and-Repair Agent.
 - Direct-file CLI for `requirement.txt + input.aadl` inputs.
 - Legacy case-layout runner for benchmark-style experiments.
-- RAG knowledge-base layout with `Ksyn`, `Kexp`, and `Kdef`.
+- Sample RAG knowledge base with toy `Ksyn`, `Kexp`, and `Kdef` entries.
 - Report generation for first-pass artifacts, final artifacts, diagnostics, tokens, runtime, and repair rounds.
 - Lightweight tests that do not require an LLM API or external AADL/AGREE validators.
 
@@ -41,7 +41,7 @@ configs/                  YAML configuration templates
 data/examples/gf_monitor/ Minimal public example
 docs/                     Installation, quick start, pipeline, benchmark, reproduction, troubleshooting
 experiments/              Experiment and metrics entry points
-knowledge_base/           Public RAG layout and redistribution policy
+knowledge_base/           Public sample RAG knowledge base and redistribution policy
 prompts/                  Agent prompt templates
 scripts/                  Direct-file, case preparation, and batch CLIs
 src/agree_autogen/        Runtime package
@@ -106,7 +106,7 @@ Do not commit `.env` files or credentials.
 
 ## Experiments and Reproduction
 
-Experiment entry points are in `experiments/`.
+Experiment entry points and configuration files are in `experiments/`.
 
 ```powershell
 python experiments/run_e2_full_framework.py --start 1 --end 10 --letters A --result-root ./results
@@ -114,9 +114,11 @@ python experiments/run_ablation.py --setting E3 --start 1 --end 10 --letters A -
 python experiments/compute_metrics.py --results-dir ./results --output ./results/metrics/metrics.csv
 ```
 
-E2 Full Framework and E3 NoRAG are connected to the current case-layout runner. E1 Bare Model, E4 NoRepair, E5 No Model Analyst, E6 No Requirement Analyst, and E7 No Dual Analysts are provided as experiment-entry templates pending dedicated runtime switches.
+E2 Full Framework and E3 NoRAG are executable with configured LLM credentials and case-layout data. E1 Bare Model, E4 NoRepair, E5 No Model Analyst, E6 No Requirement Analyst, and E7 No Dual Analysts are configuration templates pending dedicated runtime switches.
 
 No benchmark data or experimental conclusions are bundled by default.
+
+See [docs/artifact.md](docs/artifact.md), [docs/experiment_matrix.md](docs/experiment_matrix.md), and [docs/knowledge_base_reconstruction.md](docs/knowledge_base_reconstruction.md).
 
 ## Validation Tools
 
@@ -149,4 +151,3 @@ If you use AGREE-AutoGen in academic work, cite this repository. See [CITATION.c
 ## License
 
 MIT License. See [LICENSE](LICENSE).
-
