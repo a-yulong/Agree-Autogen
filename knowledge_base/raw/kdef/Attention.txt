@@ -1,0 +1,72 @@
+@@@
+1. 变量声明规则
+1.1 所有在 annex agree {** ... **} 中使用的内部变量（非端口）必须通过 eq 显式声明，并指定类型（如 real, bool, int）,严禁出现任何不以 eq、const、assume 或 guarantee 开头的孤立赋值语句。
+1.2 禁止用 eq 声明已在组件 features 中定义的端口名称（如 outACLVV）。系统端口在 AGREE 中自动可见，重复声明会导致命名冲突错误。
+1.3 自定义数据类型的原子命题变量，也需先通过 eq 在对应 annex 中显式声明。
+1.4 给端口设定固定值，直接在实现层的 assign 中赋值
+2. 自定义基础类型定义（必须在 AGREE 外部）
+若在 AGREE 中使用 int / real / bool，需在包（package）层级定义对应 AADL 数据类型：
+data int extends Base_Types::Integer
+end int;
+
+data real extends Base_Types::Float
+end real;
+
+data bool extends Base_Types::Boolean
+end bool;
+3. with 引用要求
+任何使用 :: 的语法（如 Base_Types::Float），必须在文件开头通过 with 引入对应包：with Base_Types;
+3.1AADL代码跨包引用使用点引用，如：gcas.timeToRecovery；
+3.2而其中的agree annex代码跨包引用不同，必须使用双冒号"::" 符号引用，如：PackageName::VariableName
+4. Annex 插入位置规则
+4.1 eq 变量、const 常量、assume/guarantee的插入位置：只能出现在组件类型（component type）内部，位于 features/properties 之后，end component; 之前。不能出现在 implementation 中。
+4.2 assign、lemma语句的插入位置：仅允许在组件实现（component implementation）内部，位于 subcomponents/connections 之后，end component.impl; 之前
+5. assign 语句的左值必须是预先存在的，要么是在 features 中定义的输出端口，要么是在组件类型中通过 eq 声明过的变量；禁止在实现层通过 assign 直接创建新变量
+6. 逻辑运算符使用：and（与）or（或）not(...)（非）；禁止使用 C/Java 风格符号：&&, ||, !
+7. 禁止使用的符号与语句：禁止引入非标准符号：∃, ∀, ∞, ◇, □ 等
+8. assume / guarantee /assign 及其他标签名的标签名必须用双引号括起，如：guarantee "safe after recovery": ... ;
+9. 赋值语句
+9.1 赋值使用 =，禁止使用 :=
+9.2 赋值语句左右两侧类型必须一致.数值变量（如 real）右侧必须是数值表达式（常量、变量、算术运算）,禁止将逻辑表达式（返回 bool）赋值给数值变量;
+示例：
+--  错误
+eq danger : real = (altitude < 30);  -- 类型不匹配！
+--正确（若需布尔变量）
+eq danger : bool = (altitude < 30);
+10. 比较运算符（>, <, >= 等）返回 bool，不可直接用于数值赋值。
+11. AGREE规约生成内容必须体现 “触发条件 → 时间约束 → 目标行为” 的完整逻辑链
+11.1 推荐包含时间范围与动态行为。例如：guarantee "climb after gcas":
+    gcasRequested -> (t >= timeToRecovery => outACLVV > 0.0);
+11.2 避免仅写抽象逻辑（如 A and B => C 而无时间或状态演进）
+12. 所有基于 pre() 的状态递推（如时间 t、位移 s）必须在 system 类型的 eq 语句中通过 -> 算子一次性闭环定义（如 eq t : real = 0.0 -> pre(t) + 1.0;），禁止将初始值写在 assume 里或将递推过程写在 assign 里.
+13. 常量定义：固定阈值必须用 const 声明。示例：const low_altitude_threshold : real = 30.0;
+const time_step : real = 0.001;
+14. 变量关联性：
+14.1 所有 assume/guarantee 中的变量，必须关联 AADL 模型中的组件、端口、子程序或内部状态。
+14.2 禁止出现孤立变量或无来源的默认值
+15. 高频错误汇总
+15.1 assume 和 guarantee 语句必须包含唯一的、带双引号的字符串标签（如 assume "label": expression;
+15.2 assume 语句不可出现在组件实现（implementation）中
+15.3 必须显式引用所依赖的包
+15.4 逻辑运算符必须使用 AGREE 标准语法
+15.5 assign 语句只能出现在组件实现的 annex 中,禁止在实现层通过 assign 直接创建新变量，且严禁对已在 eq 中完成定义的变量进行二次 assign.
+16. 在 guarantee 中，使用 单向蕴含 => 表达“若条件成立，则结果必须成立”,不使用双向蕴含 <->
+17. AGREE 不支持任何内置的数学库函数（如 min, max, abs, sqrt, sin 等）；除基础算术和逻辑运算外，所有选择逻辑必须通过 if-then-else 条件表达式显式实现
+18. 必须将 AGREE 变量与 AADL 模型中的实际元素（如子组件输出、端口值）绑定
+19. AGREE annex不允许在assume/guarantee中引用任何子组件.子组件绑定只能在assign 中完成.
+19.1 即使子组件名称在当前作用域“看起来可见”，只要在 component 层，就不能引用它们。
+19.2 通过 assign 将这些内部变量绑定到实际子组件端口，这些变量需要在Component中通过 eq 声明。
+20. 每个 annex agree 块的作用域仅限于其所在的 组件定义上下文,在 system X（类型）中声明的 eq 变量，在 system implementation X.impl 的 annex 中不可见
+21. 避免在 system implementation 中使用 assign 绑定子组件端口到自身端口
+22. 二元运算（如 +, -, *, /, >, = 等）的左右操作数必须具有完全相同的类型
+23. pre 语句使用必须和（）搭配，例如：pre (t)； 不允许：pre t；
+24. 当在某组件引用另一个子组件的端口时，该子组件的 implementation 必须包含至少一个 annex agree 块（内容可为空）。
+25.严禁对同一个变量同时使用 eq 赋值定义和 assign 赋值定义。
+25.1 若变量在组件类型（System Type）中已通过 eq 变量名 : 类型 = 表达式;（包含等号）完成了定义
+25.2 则严禁在实现层（Implementation）中对此变量再次使用 assign
+正确做法：
+方式一（Type层完成）：eq x : int = 5;（Impl层不准写 assign）。
+方式二（Impl层完成）：eq x : int;（Type层不给等号） + assign x = 5;（Impl层定义）。
+26.应使用即时逻辑关系 => 来描述每一时刻的安全性保证,不支持 is_int 类型的运行时类型检查，且不支持 eventually 等 LTL 活度算子。
+27. 分支选择逻辑必须使用嵌套的 if ... then ... else,严禁使用 elsif 关键字
+@@@

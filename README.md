@@ -41,18 +41,21 @@ See `docs/usage.md` for runners and validator configuration.
 
 ## Knowledge Base
 
-The RAG artifact is organized as:
+The RAG artifact is organized as real source files plus processed retrieval files:
 
-- `knowledge_base/curated/kdef/`: Chinese defensive rules adapted from `Attention.txt`.
-- `knowledge_base/curated/kexp/`: AGREE code examples from `AGREE_code_knowledge_dataset.txt`.
-- `knowledge_base/curated/ksyn/`: AGREE syntax and AADL scope notes.
+- `knowledge_base/raw/kdef/Attention.txt` -> Kdef.
+- `knowledge_base/raw/kexp/AGREE_code_knowledge_dataset.txt` -> Kexp.
+- `knowledge_base/raw/ksyn/AGREE_knowledge_dataset_en.pdf` and `knowledge_base/raw/ksyn/AGREE_Users_Guide.pdf` -> Ksyn.
+- `knowledge_base/raw/ksyn/AADL_AS5506C.local_source.md` records the AADL AS5506C local Ksyn source.
+- `knowledge_base/processed/` contains Markdown and JSONL files derived from the raw sources.
 - `knowledge_base/sources.yaml`: source inventory.
 - `knowledge_base/local_sources.example.yaml`: local PDF source manifest template.
 
 Build the lightweight local corpus manifest:
 
 ```powershell
-python scripts/build_rag_index.py --knowledge-base knowledge_base
+python scripts/build_rag_index.py --dry-run
+python scripts/build_rag_index.py --knowledge-base knowledge_base --output knowledge_base/index
 ```
 
 See `docs/knowledge_base.md` for source preparation and runtime RAG usage.

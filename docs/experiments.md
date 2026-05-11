@@ -25,6 +25,8 @@ Compute metrics:
 python experiments/compute_metrics.py --results-dir outputs/e2 --output outputs/e2/metrics.csv
 ```
 
+RAG is enabled in E2 and disabled in E3. The full framework uses `AGREE_DOCS_DIR` or the configured knowledge-base directory; `scripts/build_rag_index.py --dry-run` shows the source files available for RAG preparation.
+
 Sample result files under `experiments/sample_results/` document the report format consumed by `compute_metrics.py`.
 
 Recommended benchmark metadata fields:
