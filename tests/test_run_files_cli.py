@@ -8,7 +8,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 RUN_FILES = REPO_ROOT / "scripts" / "run_files.py"
 REQ = REPO_ROOT / "data" / "examples" / "gf_monitor" / "requirement.txt"
 AADL = REPO_ROOT / "data" / "examples" / "gf_monitor" / "input.aadl"
-CONFIG = REPO_ROOT / "configs" / "experiment_config.yaml"
+CONFIG = REPO_ROOT / "configs" / "experiments.yaml"
 
 
 def run_cli(args):

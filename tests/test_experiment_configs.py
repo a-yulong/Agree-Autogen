@@ -1,3 +1,5 @@
+import subprocess
+import sys
 from pathlib import Path
 
 import yaml
@@ -5,7 +7,9 @@ import yaml
 from experiments.compute_metrics import compute_metrics, load_reports
 
 
-CONFIG_DIR = Path("experiments/configs")
+REPO_ROOT = Path(__file__).resolve().parents[1]
+SETTINGS = REPO_ROOT / "experiments" / "settings.yaml"
+RUN_EXPERIMENT = REPO_ROOT / "experiments" / "run_experiment.py"
 
 
 def load_yaml(path: Path):
@@ -13,27 +17,35 @@ def load_yaml(path: Path):
         return yaml.safe_load(file)
 
 
-def test_e1_to_e7_configs_exist_and_parse():
-    expected = {
-        "e1_bare_model.yaml",
-        "e2_full_framework.yaml",
-        "e3_no_rag.yaml",
-        "e4_no_repair.yaml",
-        "e5_no_model_analyst.yaml",
-        "e6_no_requirement_analyst.yaml",
-        "e7_no_dual_analysts.yaml",
-    }
-    actual = {path.name for path in CONFIG_DIR.glob("*.yaml")}
-    assert expected <= actual
-    for path in CONFIG_DIR.glob("*.yaml"):
-        data = load_yaml(path)
-        assert data["experiment_id"].startswith("E")
-        assert "settings" in data
-        assert "supported_in_public_release" in data
+def test_e1_to_e7_settings_exist_and_parse():
+    data = load_yaml(SETTINGS)
+    settings = data["settings"]
+    assert set(settings) == {"E1", "E2", "E3", "E4", "E5", "E6", "E7"}
+    for item in settings.values():
+        assert "enable_rag" in item
+        assert "enable_repair" in item
+        assert "enable_model_analyst" in item
+        assert "enable_requirement_analyst" in item
+        assert "enable_fusion" in item
+        assert "public_runner_status" in item
+        assert "required_runtime_support" in item
+
+
+def test_run_experiment_help_returns_success():
+    result = subprocess.run(
+        [sys.executable, str(RUN_EXPERIMENT), "--help"],
+        cwd=REPO_ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    assert result.returncode == 0
+    assert "--setting" in result.stdout
 
 
 def test_sample_results_are_readable_by_metrics_loader():
-    reports = load_reports(Path("experiments/sample_results"))
+    reports = load_reports(REPO_ROOT / "experiments" / "sample_results")
     assert len(reports) == 2
     metrics = compute_metrics(reports)
     assert metrics["cases"] == 2.0
