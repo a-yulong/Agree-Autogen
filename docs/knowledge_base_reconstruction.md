@@ -1,44 +1,42 @@
-# Knowledge-Base Reconstruction
+# Knowledge Base Reconstruction
 
-The public KB contains toy-level entries for review and testing. Larger KBs should be reconstructed locally from materials that the user is allowed to use.
+AGREE-AutoGen uses a local retrieval corpus to provide AGREE syntax guidance, verified examples, and defensive repair rules. The public repository now documents the source inventory and directory layout used to reconstruct that corpus.
 
-## Ksyn
+## Source Inventory
 
-Add project-owned syntax, scope, type, and temporal-pattern rules. Do not paste full standards or official manuals unless redistribution is permitted.
+Start with:
 
-Required fields:
+- `knowledge_base/SOURCE_INDEX.md`
+- `knowledge_base/sources.yaml`
+- `knowledge_base/manifests/public_sources.yaml`
+- `knowledge_base/manifests/local_sources.example.yaml`
 
-- `id`
-- `category`
-- `description`
-- `pattern`
-- `notes`
+The corpus is organized into three knowledge roles:
 
-## Kexp
+| Role | Purpose | Prepared directory |
+| --- | --- | --- |
+| `Ksyn` | AGREE/AADL syntax, scope, typing, and temporal-expression guidance | `knowledge_base/curated/ksyn/` |
+| `Kexp` | Verified RequirementNL-LogicProp-CodeAGREE examples | `knowledge_base/curated/kexp/` |
+| `Kdef` | Defensive generation and repair rules | `knowledge_base/curated/kdef/` |
 
-Add validated RequirementNL-LogicProp-CodeAGREE triples. Keep examples small and traceable.
+Case-specific AADL topology is extracted from the input model by the Model Analyst Agent. Static KB content should guide syntax and patterns; it should not replace runtime architecture analysis.
 
-Required fields:
+## Runtime Format
 
-- `id`
-- `category`
-- `requirement_nl`
-- `logic_prop`
-- `code_agree`
-- `notes`
+The current pipeline indexes top-level `.pdf` and `.txt` files from the directory passed as `docs_directory`. In direct-file runs, this directory is selected by `AGREE_DOCS_DIR`; otherwise it defaults to `knowledge_base/`.
 
-## Kdef
+If curated material is maintained as Markdown, YAML, or CSV, export selected chunks into `.txt` files before running with RAG enabled.
 
-Add defensive rules and observed error patterns, preferably derived from project-owned diagnostics.
+## Build Steps
 
-Required fields:
+1. Prepare source notes and examples under `knowledge_base/curated/ksyn/`, `knowledge_base/curated/kexp/`, and `knowledge_base/curated/kdef/`.
+2. Export selected chunks into a runtime document directory, for example `knowledge_base/local_rag_docs/`.
+3. Set:
 
-- `id`
-- `category`
-- `description`
-- `pattern` or `example`
-- `notes`
+   ```powershell
+   $env:AGREE_DOCS_DIR = "knowledge_base/local_rag_docs"
+   ```
 
-## Non-Redistributable Sources
+4. Run the framework with RAG enabled. The first run creates Chroma collections under `./vectorstore_cache`.
 
-For private or license-unclear resources, keep files outside the repository. Record source names, versions, access instructions, and license notes in local metadata only.
+See `knowledge_base/BUILD_INDEX.md` for the detailed build guide.

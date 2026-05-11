@@ -1,4 +1,4 @@
-"""Command-line placeholder for building a RAG index."""
+"""Command-line helper for inspecting prepared RAG source files."""
 
 import argparse
 
@@ -6,7 +6,7 @@ from .knowledge_loader import list_knowledge_files
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="List redistributable knowledge files for index construction.")
+    parser = argparse.ArgumentParser(description="List prepared knowledge files recognized by the lightweight loader.")
     parser.add_argument("--knowledge-base-dir", default="./knowledge_base")
     args = parser.parse_args()
     files = list_knowledge_files(args.knowledge_base_dir)

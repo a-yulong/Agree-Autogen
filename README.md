@@ -9,7 +9,7 @@ External validation requires local AADL/AGREE tooling. The repository includes a
 - Multi-agent workflow: Model Analyst Agent, Requirement Analyst Agent, AGREE Generator Agent, Model Fusion Agent, and Validation-and-Repair Agent.
 - Direct-file CLI for `requirement.txt + input.aadl` inputs.
 - Legacy case-layout runner for benchmark-style experiments.
-- Sample RAG knowledge base with toy `Ksyn`, `Kexp`, and `Kdef` entries.
+- RAG source inventory and curated knowledge-base layout for `Ksyn`, `Kexp`, and `Kdef`.
 - Report generation for first-pass artifacts, final artifacts, diagnostics, tokens, runtime, and repair rounds.
 - Lightweight tests that do not require an LLM API or external AADL/AGREE validators.
 
@@ -41,7 +41,7 @@ configs/                  YAML configuration templates
 data/examples/gf_monitor/ Minimal public example
 docs/                     Installation, quick start, pipeline, benchmark, reproduction, troubleshooting
 experiments/              Experiment and metrics entry points
-knowledge_base/           Public sample RAG knowledge base and redistribution policy
+knowledge_base/           RAG source inventory, curated layout, and index build guide
 prompts/                  Agent prompt templates
 scripts/                  Direct-file, case preparation, and batch CLIs
 src/agree_autogen/        Runtime package
@@ -104,6 +104,20 @@ Common environment variables:
 
 Do not commit `.env` files or credentials.
 
+## RAG Knowledge Base
+
+RAG-enabled runs use a prepared document directory. `scripts/run_files.py` uses `AGREE_DOCS_DIR` when set; otherwise it passes `knowledge_base/` to the pipeline. The current pipeline indexes top-level `.pdf` and `.txt` files and stores Chroma collections under `./vectorstore_cache`.
+
+The repository documents the knowledge source inventory and expected organization:
+
+- `knowledge_base/SOURCE_INDEX.md`
+- `knowledge_base/BUILD_INDEX.md`
+- `knowledge_base/FORMAT.md`
+- `knowledge_base/sources.yaml`
+- `knowledge_base/curated/`
+
+The YAML files under `knowledge_base/curated/examples/` are format examples for review and tests. They are not treated as the runtime RAG corpus unless exported to `.txt` or `.pdf`.
+
 ## Experiments and Reproduction
 
 Experiment entry points and configuration files are in `experiments/`.
@@ -142,7 +156,7 @@ python -m pytest -q
 
 ## Data and Third-Party Resources
 
-This repository does not redistribute license-unclear standards, official manuals, private datasets, generated vector stores, local tool installations, or API keys. Users must obtain non-redistributable resources separately.
+This repository includes project code, source inventories, public examples, and configuration templates. Local API keys, generated vector stores, generated outputs, local tool installations, and locally prepared corpora should remain outside version control.
 
 ## Citation
 

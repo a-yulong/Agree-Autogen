@@ -12,4 +12,4 @@
 
 Configuration files are under `experiments/configs/`.
 
-Toy sample results under `experiments/sample_results/` are format examples only. They are not paper benchmark results.
+Sample results under `experiments/sample_results/` document the result-file format used by `compute_metrics.py`. They are not paper benchmark results.

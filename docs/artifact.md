@@ -8,16 +8,16 @@ This repository is the public AGREE-AutoGen artifact.
 - Direct-file CLI and legacy case-layout CLI.
 - Standalone AGREE validator source.
 - Public GF_Monitor example.
-- Sample RAG knowledge base with toy `Ksyn`, `Kexp`, and `Kdef` entries.
+- RAG knowledge source inventory, reconstruction guide, and curated source layout for `Ksyn`, `Kexp`, and `Kdef`.
 - Experiment configuration files for E1-E7.
-- Toy sample result JSON files for metrics parsing.
+- Sample result JSON files for metrics parsing.
 - Tests and GitHub Actions CI.
 
 ## Not Included
 
 - Full private benchmark data.
 - Paper benchmark results.
-- Non-redistributable AADL/AGREE manuals or standards text.
+- External AADL/AGREE reference installations or locally prepared source corpora.
 - Local OSATE, AADL Inspector, or Java installations.
 - API keys, vector stores, generated logs, or generated outputs.
 
