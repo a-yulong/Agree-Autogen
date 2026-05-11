@@ -1,41 +1,34 @@
-# Knowledge Base Policy
+# Knowledge Base
 
-Agree-Autogen supports retrieval-augmented generation. External knowledge bases are configured as local resources so that each experiment can use an explicitly controlled corpus.
+AGREE-AutoGen supports retrieval-augmented generation through a prepared local corpus. The corpus is organized around source roles and then exported into runtime documents.
 
-## Bundling policy
+## Source Roles
 
-- Keep API keys, generated vector stores, and private corpora outside the repository.
-- Commit only documents, examples, and metadata that are owned by the project or explicitly redistributable.
-- Record corpus sources and versions when preparing reproducible experiment releases.
+- `Ksyn`: AGREE/AADL syntax, scope, type, and temporal-expression guidance.
+- `Kexp`: verified RequirementNL-LogicProp-CodeAGREE examples.
+- `Kdef`: defensive generation and repair rules from project experience.
 
-## Recommended layout
+The source inventory is maintained in `knowledge_base/SOURCE_INDEX.md` and `knowledge_base/sources.yaml`.
 
-Place locally available and legally redistributable documents under a path such as:
+## Runtime Loading
+
+The current pipeline indexes top-level `.pdf` and `.txt` files from the configured document directory. Direct-file runs use `AGREE_DOCS_DIR` when set; otherwise they pass `knowledge_base/` to the pipeline.
+
+Recommended preparation:
 
 ```text
-docs/AGREE_Users_Guide/
-|-- guide.pdf
-|-- syntax_notes.txt
-`-- examples.txt
+knowledge_base/curated/ksyn/
+knowledge_base/curated/kexp/
+knowledge_base/curated/kdef/
+knowledge_base/local_rag_docs/
 ```
 
-Then set:
+Export selected curated chunks to `.txt` files under `knowledge_base/local_rag_docs/`, then set:
 
 ```powershell
-$env:AGREE_DOCS_DIR = "docs/AGREE_Users_Guide"
+$env:AGREE_DOCS_DIR = "knowledge_base/local_rag_docs"
 ```
 
-If a document is not redistributable, keep it outside the repository and point `AGREE_DOCS_DIR` to that local path.
+The vector cache is created under `./vectorstore_cache`.
 
-## What may be committed
-
-- Small original examples created for this project.
-- Publicly redistributable documentation with a compatible license.
-- Metadata that describes corpus sources, versions, and download instructions.
-
-## What should not be committed
-
-- Private datasets.
-- API keys or service credentials.
-- Generated vector stores or cache directories.
-- Third-party PDFs or manuals without explicit redistribution permission.
+See `knowledge_base/BUILD_INDEX.md` for the build procedure and `knowledge_base/FORMAT.md` for chunk formatting.

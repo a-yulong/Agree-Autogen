@@ -71,9 +71,11 @@ The repair loop runs until zero validation errors or the configured maximum numb
 
 ## RAG knowledge injection
 
-When enabled, retrieval augments generation and repair prompts with project-owned or redistributable knowledge from:
+When enabled, retrieval augments generation and repair prompts with prepared knowledge from:
 
 - `Ksyn`: syntax and semantic rules.
 - `Kexp`: verified examples.
 - `Kdef`: defensive heuristics.
+
+The current public pipeline indexes `.pdf` and `.txt` files from `AGREE_DOCS_DIR` or the configured knowledge directory. Case-specific AADL identifiers are supplied by the Model Analyst Agent rather than by the static RAG corpus.
 

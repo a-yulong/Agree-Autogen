@@ -35,3 +35,15 @@ python experiments/compute_metrics.py --results-dir ./results --output ./results
 
 Full benchmark data is not bundled. Use `data/benchmark/metadata.example.csv` for metadata structure.
 
+## RAG Setup
+
+E2 uses RAG when the runner is invoked without `--no-rag`. E3 disables RAG through `--no-rag`.
+
+For RAG-enabled experiments, prepare a document directory containing `.txt` or `.pdf` files and set:
+
+```powershell
+$env:AGREE_DOCS_DIR = "knowledge_base/local_rag_docs"
+```
+
+The runtime builds or reuses Chroma collections under `./vectorstore_cache`. See `knowledge_base/BUILD_INDEX.md` and `docs/knowledge_base_reconstruction.md`.
+

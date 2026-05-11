@@ -12,13 +12,22 @@ def load_yaml(path: Path):
 
 
 def test_knowledge_base_manifest_and_files_parse():
-    manifest = load_yaml(KB_ROOT / "manifest.yaml")
-    assert manifest["name"] == "agree-autogen-public-sample-kb"
+    manifest = load_yaml(KB_ROOT / "curated" / "examples" / "manifest.yaml")
+    assert manifest["name"] == "agree-autogen-format-examples"
     for category in manifest["categories"].values():
         for relative in category["files"]:
-            path = KB_ROOT / relative
+            path = KB_ROOT / "curated" / "examples" / relative
             assert path.exists(), path
             assert load_yaml(path)
+
+
+def test_source_inventory_files_parse():
+    sources = load_yaml(KB_ROOT / "sources.yaml")
+    public_sources = load_yaml(KB_ROOT / "manifests" / "public_sources.yaml")
+    local_example = load_yaml(KB_ROOT / "manifests" / "local_sources.example.yaml")
+    assert sources["sources"]
+    assert public_sources["sources"]
+    assert local_example["local_rag_corpus"]["docs_directory"]
 
 
 def test_knowledge_base_entries_have_id_and_description():

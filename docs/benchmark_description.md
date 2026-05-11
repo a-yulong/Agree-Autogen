@@ -9,8 +9,8 @@ Recommended fields:
 - `requirement_path`: path to the natural-language requirement.
 - `aadl_path`: path to the base AADL model.
 - `target_component`: target component or implementation.
-- `data_source`: project-owned, public dataset, private dataset, or third-party source.
-- `license_status`: redistributable, private, unknown, or not redistributed.
+- `data_source`: project-owned, public dataset, local dataset, or third-party source.
+- `access_status`: included, local preparation, or external acquisition.
 - `notes`: additional details.
 
 ## Case types
@@ -19,7 +19,7 @@ Recommended fields:
 
 `generation` cases are evaluated by validation results, manual review, or downstream formal-analysis criteria.
 
-## Third-party data
+## Source tracking
 
-Do not redistribute license-unclear standards, manuals, benchmark files, or repository snapshots. If a case depends on such material, publish metadata and acquisition instructions instead.
+For each case, record where the requirement and AADL model came from, how the target component was selected, and whether the files are included in the public artifact or prepared locally for a reproduction run.
 
