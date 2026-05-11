@@ -1,40 +1,52 @@
-# Agree-Autogen
+# AGREE-AutoGen
 
-Agree-Autogen is a multi-agent framework for generating and validating AGREE contracts for AADL models from natural-language requirements.
+AGREE-AutoGen is a research prototype for generating AGREE contracts for AADL architectures from natural-language requirements. It takes a natural-language requirement and an AADL architecture as input, then produces a fused AADL+AGREE artifact with optional validation and repair.
 
-The framework orchestrates five main agents:
+External validation requires local AADL/AGREE tooling. The repository includes a dry-run path, prompt templates, configuration templates, a minimal public example, experiment entry points, and standalone AGREE validator source.
 
-1. AADL model analyst: extracts structured model information.
-2. Requirement analyst: extracts atomic propositions from natural-language requirements.
-3. AGREE generator: produces AGREE annex candidates for a target component.
-4. AADL merger: inserts AGREE annexes into the target AADL model.
-5. Validator/repair agent: runs AADL Inspector and a standalone AGREE validator, then repairs validation errors iteratively.
+## Key Features
 
-## Repository layout
+- Multi-agent workflow: Model Analyst Agent, Requirement Analyst Agent, AGREE Generator Agent, Model Fusion Agent, and Validation-and-Repair Agent.
+- Direct-file CLI for `requirement.txt + input.aadl` inputs.
+- Legacy case-layout runner for benchmark-style experiments.
+- RAG knowledge-base layout with `Ksyn`, `Kexp`, and `Kdef`.
+- Report generation for first-pass artifacts, final artifacts, diagnostics, tokens, runtime, and repair rounds.
+- Lightweight tests that do not require an LLM API or external AADL/AGREE validators.
+
+## Workflow Overview
 
 ```text
-.
-|-- run_case.py                         # Single-case CLI entry point
-|-- src/
-|   |-- agree_autogen/
-|   |   |-- runtime.py                  # Runtime config, token accounting, shared utilities
-|   |   |-- agents.py                   # Multi-agent prompts and LLM interaction logic
-|   |   |-- pipeline.py                 # RAG, validators, dependency sync, orchestration
-|   |   `-- case_runner.py              # Case loading and target-component extraction
-|   |-- experiment_recorder.py          # Report and artifact generation
-|   `-- error_type_analyzer.py          # T1-T5 error classification
-|-- scripts/
-|   `-- run_batch.py                    # Batch runner for A/B experiments
-|-- tools/
-|   `-- agree-validator/                # Standalone AGREE validation CLI
-|-- docs/
-|   |-- architecture.md                 # Design notes
-|   `-- knowledge_base.md               # RAG corpus policy
-|-- data/
-|   `-- README.md                       # Expected dataset layout
-|-- .env.example                        # Configuration template
-|-- pyproject.toml                      # Package metadata
-`-- requirements.txt
+natural-language requirement + AADL architecture
+        |
+        v
+Model Analyst + Requirement Analyst
+        |
+        v
+AGREE Generator + RAG Knowledge Base
+        |
+        v
+Model Fusion
+        |
+        v
+Validation-and-Repair
+        |
+        v
+fused AADL+AGREE artifact
+```
+
+## Repository Layout
+
+```text
+configs/                  YAML configuration templates
+data/examples/gf_monitor/ Minimal public example
+docs/                     Installation, quick start, pipeline, benchmark, reproduction, troubleshooting
+experiments/              Experiment and metrics entry points
+knowledge_base/           Public RAG layout and redistribution policy
+prompts/                  Agent prompt templates
+scripts/                  Direct-file, case preparation, and batch CLIs
+src/agree_autogen/        Runtime package
+tests/                    Unit tests independent of LLMs and validators
+tools/agree-validator/    Standalone AGREE validator CLI source
 ```
 
 ## Installation
@@ -43,98 +55,98 @@ The framework orchestrates five main agents:
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
+pip install -e .
 ```
 
-You also need local AADL/AGREE tooling:
+See [docs/installation.md](docs/installation.md) for conda, model API, RAG, and validation-tool configuration.
 
-- AADL Inspector executable, configured by `AADL_INSPECTOR_PATH`.
-- OSATE installation, configured by `OSATE_HOME`.
-- Java 17 or later, configured by `JAVA_HOME`.
-- Standalone AGREE validator under `tools/agree-validator`, configured by `AGREE_VALIDATOR_ROOT`.
+## Quick Start
+
+Run the GF_Monitor dry run. This checks inputs and configuration without calling an LLM or external validators:
+
+```powershell
+python scripts/run_files.py `
+  --requirement data/examples/gf_monitor/requirement.txt `
+  --aadl data/examples/gf_monitor/input.aadl `
+  --output-dir outputs/gf_monitor `
+  --disable-rag `
+  --skip-validation `
+  --dry-run
+```
+
+Expected files:
+
+```text
+outputs/gf_monitor/dry_run_report.json
+outputs/gf_monitor/requirement.txt
+outputs/gf_monitor/input.aadl
+```
+
+To run generation, configure an OpenAI-compatible endpoint:
+
+```powershell
+$env:AGREE_MODEL_BASE_URL = "https://api.example.com/v1"
+$env:AGREE_MODEL_API_KEY = "replace-with-your-key"
+$env:AGREE_MODEL_NAME = "your-model-name"
+```
+
+Then run the same command without `--dry-run`. Use `--skip-validation` until local AADL Inspector and AGREE validator tools are configured.
 
 ## Configuration
 
-Copy `.env.example` to `.env` and fill in your own values. Do not commit `.env`.
+Configuration templates are in `configs/`.
 
-The LLM backend must expose an OpenAI-compatible `/chat/completions` endpoint.
+Common environment variables:
 
-Important environment variables:
+- `AGREE_MODEL_BASE_URL`, `AGREE_MODEL_API_KEY`, `AGREE_MODEL_NAME`
+- `AGREE_SOURCE_ROOT`, `AGREE_RESULT_ROOT`, `AGREE_DOCS_DIR`
+- `AADL_INSPECTOR_PATH`, `JAVA_HOME`, `OSATE_HOME`, `AGREE_VALIDATOR_ROOT`
 
-- `AGREE_MODEL_BASE_URL`
-- `AGREE_MODEL_API_KEY`
-- `AGREE_MODEL_NAME`
-- `AGREE_SOURCE_ROOT`
-- `AGREE_RESULT_ROOT`
-- `AADL_INSPECTOR_PATH`
-- `OSATE_HOME`
-- `JAVA_HOME`
-- `AGREE_VALIDATOR_ROOT`
+Do not commit `.env` files or credentials.
 
-## Dataset layout
+## Experiments and Reproduction
 
-The default case runner expects cases in this format:
-
-```text
-data/Sources/
-`-- Case01_A/
-    |-- Case01_Base.txt
-    |-- Case01_Req.txt
-    `-- Case01/
-        |-- dependency_package_1.aadl
-        `-- dependency_package_2.aadl
-```
-
-`CaseXX_Base.txt` contains the base AADL model text. `CaseXX_Req.txt` contains the natural-language requirement. The nested `CaseXX/` directory contains AADL dependencies referenced by `with` clauses.
-
-## Run one case
+Experiment entry points are in `experiments/`.
 
 ```powershell
-python run_case.py `
-  --case-num 1 `
-  --case-letter A `
-  --use-rag `
-  --llm-base-url $env:AGREE_MODEL_BASE_URL `
-  --llm-api-key $env:AGREE_MODEL_API_KEY `
-  --llm-model-name $env:AGREE_MODEL_NAME `
-  --result-root ./results
+python experiments/run_e2_full_framework.py --start 1 --end 10 --letters A --result-root ./results
+python experiments/run_ablation.py --setting E3 --start 1 --end 10 --letters A --result-root ./results
+python experiments/compute_metrics.py --results-dir ./results --output ./results/metrics/metrics.csv
 ```
 
-## Run a batch
+E2 Full Framework and E3 NoRAG are connected to the current case-layout runner. E1 Bare Model, E4 NoRepair, E5 No Model Analyst, E6 No Requirement Analyst, and E7 No Dual Analysts are provided as experiment-entry templates pending dedicated runtime switches.
 
-```powershell
-python scripts/run_batch.py --start 1 --end 10 --letters A B --result-root ./results
-```
+No benchmark data or experimental conclusions are bundled by default.
 
-## Build the standalone AGREE validator
+## Validation Tools
+
+AADL-level validation requires AADL Inspector. AGREE-level validation requires Java, OSATE, and the standalone validator under `tools/agree-validator/`.
 
 ```powershell
 $env:JAVA_HOME = "path/to/jdk17"
 $env:OSATE_HOME = "path/to/osate"
+$env:AGREE_VALIDATOR_ROOT = "./tools/agree-validator"
 .\tools\agree-validator\build.ps1
 ```
 
-See `tools/agree-validator/README.md` for details.
+If validation tools are absent, wrappers report `not_configured`; they do not report validation success.
 
-## Outputs
+## Tests
 
-Each case writes a report directory under `AGREE_RESULT_ROOT`:
-
-```text
-results/Case01_A/Report/
-|-- Case01_first.txt
-|-- Case01_initial.txt
-|-- Case01_fixed.txt
-|-- Case01_errors.txt
-|-- Case01_report.md
-`-- Case01_report.json
+```powershell
+python -m compileall src experiments scripts tests
+python -m pytest -q
 ```
 
-## Notes
+## Data and Third-Party Resources
 
-This repository intentionally excludes large vector databases, generated experiment results, local AADL/OSATE installations, and private API keys.
-
-The RAG knowledge base is also not bundled by default. See `docs/knowledge_base.md` for the recommended policy and local layout.
+This repository does not redistribute license-unclear standards, official manuals, private datasets, generated vector stores, local tool installations, or API keys. Users must obtain non-redistributable resources separately.
 
 ## Citation
 
-If you use this framework in academic work, please cite this repository. A `CITATION.cff` file is provided.
+If you use AGREE-AutoGen in academic work, cite this repository. See [CITATION.cff](CITATION.cff).
+
+## License
+
+MIT License. See [LICENSE](LICENSE).
+

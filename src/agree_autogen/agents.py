@@ -142,7 +142,7 @@ class RequirementsAnalystAgent(BaseAgent):
             "- Each proposition must be a minimal truth-valued expression.\n"
             "- Do not generate AGREE code.\n"
             "- Do not invent ports, components, subcomponents, or functions.\n"
-            "- If exact AADL names are unknown, use clear semantic placeholders.\n"
+            "- If exact AADL names are unknown, record them as unresolved terms; do not generate placeholder identifiers.\n"
             "- Do not return Markdown, JSON, bullets, explanations, or code fences.\n\n"
             f"Requirement:\n{user_requirements}",
             mode="generate",
