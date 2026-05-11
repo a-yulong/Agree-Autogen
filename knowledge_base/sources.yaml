@@ -1,55 +1,44 @@
 sources:
-  - id: attention_defensive_rules
+  - id: attention_rules
     role: kdef
-    type: project_curated_rules
-    public_files:
-      - knowledge_base/curated/kdef/attention_zh.md
-      - knowledge_base/curated/kdef/defensive_rules.jsonl
-    source_name: Attention.txt
-    source_location: local AGREE users guide notes
-    used_for:
-      - defensive generation constraints
-      - repair heuristics
-      - common AGREE syntax and scope failures
-    included_in_repository: true
+    source_file: Attention.txt
+    repository_path: knowledge_base/raw/kdef/Attention.txt
+    processed_outputs:
+      - knowledge_base/processed/kdef/attention_zh.md
+      - knowledge_base/processed/kdef/defensive_rules.jsonl
+    description: Defensive heuristic rules used to reduce AGREE generation failures.
 
   - id: agree_code_knowledge_dataset
     role: kexp
-    type: verified_agree_examples
-    public_files:
-      - knowledge_base/curated/kexp/agree_code_knowledge_dataset.txt
-      - knowledge_base/curated/kexp/agree_examples.jsonl
-    source_name: AGREE_code_knowledge_dataset.txt
-    source_location: local AGREE users guide notes
-    used_for:
-      - in-context AGREE examples
-      - RequirementNL-LogicProp-CodeAGREE alignment
-      - contract synthesis patterns
-    included_in_repository: true
+    source_file: AGREE_code_knowledge_dataset.txt
+    repository_path: knowledge_base/raw/kexp/AGREE_code_knowledge_dataset.txt
+    processed_outputs:
+      - knowledge_base/processed/kexp/agree_code_knowledge_dataset.txt
+      - knowledge_base/processed/kexp/agree_examples.jsonl
+    description: AGREE code-oriented exemplar dataset used for retrieval-augmented contract synthesis.
 
-  - id: agree_syntax_documents
+  - id: agree_knowledge_dataset_en
     role: ksyn
-    type: local_reference_documents
-    public_files:
-      - knowledge_base/curated/ksyn/agree_syntax_notes.md
-    local_source_placeholders:
-      - <LOCAL_AGREE_LIBRARY>/AGREE_knowledge_dataset - en.pdf
-      - <LOCAL_AGREE_LIBRARY>/AGREE_Users_Guide.pdf
-    used_for:
-      - AGREE syntax and semantic guidance
-      - annex well-formedness
-      - temporal and type rules
-    included_in_repository: notes_only
+    source_file: AGREE_knowledge_dataset - en.pdf
+    repository_path: knowledge_base/raw/ksyn/AGREE_knowledge_dataset_en.pdf
+    processed_outputs:
+      - knowledge_base/processed/ksyn/agree_syntax_notes.md
+    description: AGREE syntax and semantic knowledge source.
 
-  - id: aadl_scope_reference
+  - id: agree_users_guide
     role: ksyn
-    type: local_reference_documents
-    public_files:
-      - knowledge_base/curated/ksyn/aadl_scope_notes.md
-    local_source_placeholders:
-      - <LOCAL_AADL_STANDARD>/AADL-2759780542AS5506C.pdf
-    used_for:
-      - AADL scope and package reference guidance
-      - model element grounding
-      - component type and implementation placement
-    included_in_repository: notes_only
+    source_file: AGREE_Users_Guide.pdf
+    repository_path: knowledge_base/raw/ksyn/AGREE_Users_Guide.pdf
+    processed_outputs:
+      - knowledge_base/processed/ksyn/agree_syntax_notes.md
+    description: AGREE user guide used for syntax, annex, and contract-pattern grounding.
+
+  - id: aadl_as5506c
+    role: ksyn
+    source_file: AADL-2759780542AS5506C.pdf
+    repository_path: null
+    local_source_placeholder: "<LOCAL_AADL_STANDARD>/AADL-2759780542AS5506C.pdf"
+    public_note_file: knowledge_base/raw/ksyn/AADL_AS5506C.local_source.md
+    processed_outputs:
+      - knowledge_base/processed/ksyn/aadl_scope_notes.md
+    description: AADL language standard used for AADL component, feature, port, implementation, and annex-scope knowledge.
