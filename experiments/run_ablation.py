@@ -18,6 +18,13 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RUN_BATCH = REPO_ROOT / "scripts" / "run_batch.py"
+CONFIGS = {
+    "E3": Path(__file__).resolve().parent / "configs" / "e3_no_rag.yaml",
+    "E4": Path(__file__).resolve().parent / "configs" / "e4_no_repair.yaml",
+    "E5": Path(__file__).resolve().parent / "configs" / "e5_no_model_analyst.yaml",
+    "E6": Path(__file__).resolve().parent / "configs" / "e6_no_requirement_analyst.yaml",
+    "E7": Path(__file__).resolve().parent / "configs" / "e7_no_dual_analysts.yaml",
+}
 
 
 def main() -> int:
@@ -28,7 +35,11 @@ def main() -> int:
     parser.add_argument("--letters", nargs="+", default=["A"])
     parser.add_argument("--result-root", default="./results")
     parser.add_argument("--python", default=sys.executable)
+    parser.add_argument("--config", default=None)
     args = parser.parse_args()
+
+    config_path = args.config or str(CONFIGS[args.setting])
+    print(f"Using experiment config: {config_path}")
 
     if args.setting != "E3":
         print(f"{args.setting} is currently provided as a template.")
@@ -54,4 +65,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

@@ -75,9 +75,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Compute aggregate metrics from result JSON files.")
     parser.add_argument("--results-dir", default="./results")
     parser.add_argument("--output", default="./results/metrics/metrics.csv")
+    parser.add_argument("--sample", action="store_true", help="Read toy sample results under experiments/sample_results.")
     args = parser.parse_args()
 
-    reports = load_reports(Path(args.results_dir))
+    results_dir = Path(__file__).resolve().parent / "sample_results" if args.sample else Path(args.results_dir)
+    reports = load_reports(results_dir)
     metrics = compute_metrics(reports)
     write_metrics(metrics, Path(args.output))
     print(f"Loaded {int(metrics['cases'])} report(s)")
@@ -87,4 +89,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
