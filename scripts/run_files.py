@@ -236,7 +236,7 @@ def main() -> int:
     parser.add_argument("--requirement", required=True, help="Requirement text file.")
     parser.add_argument("--aadl", required=True, help="Input AADL architecture file.")
     parser.add_argument("--output-dir", required=True, help="Directory for copied inputs, generated artifacts, and reports.")
-    parser.add_argument("--config", default="configs/experiment_config.yaml", help="Experiment config file.")
+    parser.add_argument("--config", default="configs/experiments.yaml", help="Experiment config file.")
     parser.add_argument("--disable-rag", action="store_true", help="Run without retrieval augmentation or a knowledge-base index.")
     parser.add_argument("--disable-repair", action="store_true", help="Do not run iterative repair when runtime support is available.")
     parser.add_argument("--skip-validation", action="store_true", help="Do not call external AADL/AGREE validators.")

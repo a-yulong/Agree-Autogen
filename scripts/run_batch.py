@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-RUN_CASE = REPO_ROOT / "run_case.py"
+RUN_CASE = REPO_ROOT / "scripts" / "run_case.py"
 
 
 def main():

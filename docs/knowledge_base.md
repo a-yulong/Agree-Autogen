@@ -1,34 +1,36 @@
 # Knowledge Base
 
-AGREE-AutoGen supports retrieval-augmented generation through a prepared local corpus. The corpus is organized around source roles and then exported into runtime documents.
+The RAG artifact is organized into three roles:
 
-## Source Roles
+- `Kdef`: defensive generation and repair rules.
+- `Kexp`: verified AGREE examples and code patterns.
+- `Ksyn`: syntax, semantic, and AADL scope guidance.
 
-- `Ksyn`: AGREE/AADL syntax, scope, type, and temporal-expression guidance.
-- `Kexp`: verified RequirementNL-LogicProp-CodeAGREE examples.
-- `Kdef`: defensive generation and repair rules from project experience.
+## Included Sources
 
-The source inventory is maintained in `knowledge_base/SOURCE_INDEX.md` and `knowledge_base/sources.yaml`.
+`knowledge_base/sources.yaml` records the source inventory.
 
-## Runtime Loading
+- `Attention.txt` is adapted into `knowledge_base/curated/kdef/attention_zh.md` and `knowledge_base/curated/kdef/defensive_rules.jsonl`.
+- `AGREE_code_knowledge_dataset.txt` is stored in `knowledge_base/curated/kexp/` and summarized into `agree_examples.jsonl`.
+- Ksyn notes are stored in `knowledge_base/curated/ksyn/` as concise AGREE syntax and AADL scope notes.
 
-The current pipeline indexes top-level `.pdf` and `.txt` files from the configured document directory. Direct-file runs use `AGREE_DOCS_DIR` when set; otherwise they pass `knowledge_base/` to the pipeline.
+PDF references used for paper-scale source preparation are represented through `knowledge_base/local_sources.example.yaml`. The public repository stores notes and manifests, not local PDF corpora.
 
-Recommended preparation:
-
-```text
-knowledge_base/curated/ksyn/
-knowledge_base/curated/kexp/
-knowledge_base/curated/kdef/
-knowledge_base/local_rag_docs/
-```
-
-Export selected curated chunks to `.txt` files under `knowledge_base/local_rag_docs/`, then set:
+## Building the Local Corpus
 
 ```powershell
-$env:AGREE_DOCS_DIR = "knowledge_base/local_rag_docs"
+python scripts/build_rag_index.py --knowledge-base knowledge_base
 ```
 
-The vector cache is created under `./vectorstore_cache`.
+The script reads `.txt`, `.md`, and `.jsonl` files from `knowledge_base/curated/` and writes:
 
-See `knowledge_base/BUILD_INDEX.md` for the build procedure and `knowledge_base/FORMAT.md` for chunk formatting.
+```text
+knowledge_base/index/manifest.json
+knowledge_base/index/corpus.jsonl
+```
+
+The generated index files are ignored by Git. Use the generated corpus or exported TXT/PDF files as the runtime RAG document directory through `AGREE_DOCS_DIR`.
+
+## Runtime RAG
+
+The current pipeline builds Chroma collections from `.pdf` and `.txt` files in `AGREE_DOCS_DIR` or the provided document directory. The static knowledge base supplies syntax and examples; case-specific AADL identifiers come from the Model Analyst Agent.

@@ -1,44 +1,55 @@
 sources:
-  - id: agree_user_documentation
-    role: ksyn
-    type: external_documentation
-    location: "See knowledge_base/SOURCE_INDEX.md"
-    expected_local_dir: "knowledge_base/curated/ksyn/"
-    used_for:
-      - AGREE syntax constraints
-      - assume and guarantee patterns
-      - annex-level well-formedness guidance
-    status: "requires local preparation"
-
-  - id: aadl_architecture_context
-    role: architecture_grounding
-    type: runtime_model_analysis
-    location: "Input AADL model analyzed by the Model Analyst Agent"
-    expected_local_dir: "case input, not static KB"
-    used_for:
-      - component hierarchy
-      - port names and directions
-      - data-flow relations
-      - valid AGREE insertion scopes
-    status: "computed at runtime"
-
-  - id: verified_agree_examples
-    role: kexp
-    type: curated_examples
-    expected_local_dir: "knowledge_base/curated/kexp/"
-    used_for:
-      - RequirementNL-LogicProp-CodeAGREE exemplars
-      - in-context contract synthesis patterns
-      - validated scope and identifier usage
-    status: "project-curated or user-provided"
-
-  - id: defensive_generation_rules
+  - id: attention_defensive_rules
     role: kdef
     type: project_curated_rules
-    expected_local_dir: "knowledge_base/curated/kdef/"
+    public_files:
+      - knowledge_base/curated/kdef/attention_zh.md
+      - knowledge_base/curated/kdef/defensive_rules.jsonl
+    source_name: Attention.txt
+    source_location: local AGREE users guide notes
     used_for:
-      - label quotation
-      - identifier grounding
-      - scope-aware placement
-      - common failure prevention
-    status: "project-curated"
+      - defensive generation constraints
+      - repair heuristics
+      - common AGREE syntax and scope failures
+    included_in_repository: true
+
+  - id: agree_code_knowledge_dataset
+    role: kexp
+    type: verified_agree_examples
+    public_files:
+      - knowledge_base/curated/kexp/agree_code_knowledge_dataset.txt
+      - knowledge_base/curated/kexp/agree_examples.jsonl
+    source_name: AGREE_code_knowledge_dataset.txt
+    source_location: local AGREE users guide notes
+    used_for:
+      - in-context AGREE examples
+      - RequirementNL-LogicProp-CodeAGREE alignment
+      - contract synthesis patterns
+    included_in_repository: true
+
+  - id: agree_syntax_documents
+    role: ksyn
+    type: local_reference_documents
+    public_files:
+      - knowledge_base/curated/ksyn/agree_syntax_notes.md
+    local_source_placeholders:
+      - <LOCAL_AGREE_LIBRARY>/AGREE_knowledge_dataset - en.pdf
+      - <LOCAL_AGREE_LIBRARY>/AGREE_Users_Guide.pdf
+    used_for:
+      - AGREE syntax and semantic guidance
+      - annex well-formedness
+      - temporal and type rules
+    included_in_repository: notes_only
+
+  - id: aadl_scope_reference
+    role: ksyn
+    type: local_reference_documents
+    public_files:
+      - knowledge_base/curated/ksyn/aadl_scope_notes.md
+    local_source_placeholders:
+      - <LOCAL_AADL_STANDARD>/AADL-2759780542AS5506C.pdf
+    used_for:
+      - AADL scope and package reference guidance
+      - model element grounding
+      - component type and implementation placement
+    included_in_repository: notes_only

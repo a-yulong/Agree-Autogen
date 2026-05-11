@@ -1,0 +1,388 @@
+﻿@@@
+package gcas_single
+public
+	with base_types;
+	with gcas_nodes;
+
+	system GCAS_singleton
+		features
+			altitude: in data port real;
+			timeToRecovery: out data port real;
+
+		annex agree {**
+			eq t: real = 0.0 -> pre(t) + 0.1;
+			eq height: real;
+
+			const minHeightAllowed: real = 200.0;
+
+			guarantee "safe after some time": t >= timeToRecovery => (height > minHeightAllowed) and (height > pre(height));
+
+		**};
+	end GCAS_singleton;
+
+	system implementation GCAS_singleton.impl
+		annex agree {**
+
+				assign height = gcas_nodes.kinematicLinearization(t);
+				assign timeToRecovery = 3.7;
+		**};
+	end GCAS_singleton.impl;
+
+
+	-- Type Aliases
+
+	data int extends base_types::Integer
+	end int;
+
+	data real extends base_types::Float
+	end real;
+
+	data bool extends base_types::Boolean
+	end bool;
+
+end gcas_single;
+@@@
+
+@@@
+package geofence_single
+public
+	with base_types;
+	with geofence_nodes;
+
+	system GeoFence_singleton
+		features
+			timeToRecovery: out data port real;
+
+		annex agree {**
+			eq t: real = 0.0 -> pre(t) + 0.1;
+			eq distanceFromFence: real;
+--
+			guarantee "recovery occurs after some time": t >= timeToRecovery => distanceFromFence > pre(distanceFromFence);
+		**};
+	end GeoFence_singleton;
+
+	system implementation GeoFence_singleton.impl
+		annex agree {**
+			assign distanceFromFence = geofence_nodes.circleLinearization(t);
+			assign timeToRecovery = 1.7;
+		**};
+	end GeoFence_singleton.impl;
+
+
+	-- Type Aliases
+
+	data int extends base_types::Integer
+	end int;
+
+	data real extends base_types::Float
+	end real;
+
+end geofence_single;
+@@@
+
+@@@
+package agree_temperature
+
+public
+
+with base_types;
+
+data temperature_type extends base_types::unsigned_8
+end temperature_type;
+
+data command
+end command;
+
+data implementation command.impl
+subcomponents
+	heater_on : data base_types::boolean;
+	cooler_on : data base_types::boolean;
+end command.impl;
+
+
+system temperature_sensor
+features
+	dataout : out data port temperature_type;
+annex agree {**
+    guarantee "data between 0 and 20 (both included)": dataout <= 20 and dataout >= 0;
+**};
+end temperature_sensor;
+
+system implementation temperature_sensor.i1
+annex agree {**
+	eq k : int = 10 -> if (pre(k) >= 20) then pre(k) - 1 else if (pre(k) <= 0) then pre(k) + 1 else pre(k);
+	assert (dataout = k);
+**};
+end temperature_sensor.i1;
+
+system implementation temperature_sensor.i2
+annex agree {**
+	eq k : int = 10 -> if (pre(k) >= 20) then pre(k) - 1 else if (pre(k) <= 0) then pre(k) + 1 else pre(k);
+	assert (dataout = k);
+**};
+end temperature_sensor.i2;
+
+--
+--  The control panel that shows the temperature
+--  and has two buttons to activate the cooling system.
+--
+
+system control_panel
+features
+	cmd : out data port command.impl;
+end control_panel;
+
+system implementation control_panel.i
+end control_panel.i;
+
+
+--
+--  Regulate the system according
+--  to the user request but keep the temperature
+--  within 0 to 20 degrees.
+--
+
+system temp_control
+features
+	temp1 			: in data port temperature_type;
+	temp2 			: in data port temperature_type;
+	user_request 	: in data port command.impl;
+annex agree {**
+    assume "incoming temperature on sensor1 between 0 and 20 (both included)": temp1 <= 20 and temp1 >= 0;
+    assume "incoming temperature on sensor2 between 0 and 20 (both included)": temp2 <= 20 and temp2 >= 0;
+**};
+end temp_control;
+
+system implementation temp_control.i
+subcomponents
+	heater 		: system heater.impl;
+	cooler 		: system cooler.impl;
+	controller 	: system controller.impl;
+	voter  		: system voter.impl;
+connections
+	c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+	c1 : port temp2 -> voter.tempin2 {communication_properties::timing => immediate;};
+	c2 : port user_request -> controller.user_request {communication_properties::timing => immediate;};
+	c3 : port controller.heater_on -> heater.enabled {communication_properties::timing => immediate;};
+	c4 : port controller.cooler_on -> cooler.enabled {communication_properties::timing => immediate;};
+	c5 : port voter.tempout -> controller.tempin {communication_properties::timing => immediate;};
+end temp_control.i;
+
+system voter
+features
+	tempin1 		: in data port temperature_type;
+	tempin2 		: in data port temperature_type;
+	tempout 		: out data port temperature_type;
+annex agree {**
+    assume "incoming temperature on sensor1 between 0 and 20 (both included)": tempin1 <= 20 and tempin1 >= 0;
+    assume "incoming temperature on sensor2 between 0 and 20 (both included)": tempin2 <= 20 and tempin2 >= 0;
+    guarantee "outgoing temperature is between 0 and 20 (both included)": tempout <= 20 and tempout >= 0;
+**};
+end voter;
+
+system implementation voter.impl
+annex agree {**
+	eq selected_temp : int = 0 -> if (tempin1 = tempin2) then tempin1 else pre(selected_temp);
+
+	-- to be completed
+--	eq selected_temp : int = -1;
+    assert (tempout = selected_temp);
+**};
+end voter.impl;
+
+system controller
+features
+	tempin 			: in data port temperature_type;
+	user_request 	: in data port command.impl;
+	heater_on		: out data port base_types::boolean;
+	cooler_on		: out data port base_types::boolean;
+annex agree {**
+    assume "incoming temperature is between 0 and 20 (both included)": tempin <= 20 and tempin >= 0;
+
+	guarantee "Cannot heat and cool at the same time" : not (heater_on and cooler_on);
+**};
+end controller;
+
+system implementation controller.impl
+annex agree {**
+	--eq heating_request : bool = false -> if ((user_request.heater_on = true) and (user_request.cooler_on = false)) then true else false;
+	--eq cooling_request  : bool = false -> if ((user_request.cooler_on = true) and (user_request.heater_on = false)) then true else false;
+
+	-- to be completed
+	eq heating_request : bool = true;
+	eq cooling_request : bool = true;
+	assert (heater_on = (heating_request and (tempin <= 20)));
+	assert (cooler_on = (cooling_request and (tempin > 0)));
+**};
+end controller.impl;
+
+--
+-- Heater to warm the place
+--
+
+system heater
+features
+	enabled : in data port base_types::boolean;
+end heater;
+
+system implementation heater.impl
+end heater.impl;
+
+--
+--  Cooler to lower the temperature
+--
+
+system cooler
+features
+	enabled : in data port base_types::boolean;
+end cooler;
+
+system implementation cooler.impl
+end cooler.impl;
+
+
+system integration
+annex agree {**
+	assume "Dumb assumption !" : true;
+	guarantee "I am dumb!": true;
+**};
+end integration;
+
+system implementation integration.impl
+subcomponents
+	temp_control   : system temp_control.i;
+	user_panel 	: system control_panel.i;
+	sensor1 	: system temperature_sensor.i1;
+	sensor2 	: system temperature_sensor.i2;
+connections
+	sensor1_tc : port sensor1.dataout -> temp_control.temp1 {communication_properties::timing => immediate;};
+	sensor2_tc : port sensor2.dataout -> temp_control.temp2 {communication_properties::timing => immediate;};
+	up_to_tc   : port user_panel.cmd -> temp_control.user_request {communication_properties::timing => immediate;};
+end integration.impl;
+
+end agree_basic;
+@@@
+
+@@@
+package tcas_single
+public
+	with base_types;
+
+	with tcas_nodes;
+
+	system TCAS_singleton
+		features
+			nearestIntruderAltitude: in data port int;
+			nearestIntruderGroundDistance: in data port int;
+			nearestIntruderLongitude: in data port int;
+			ownAltitude_in: in data port int;
+			ownHeading: in data port int; -- degrees from North
+			ownVerticalVelocity: in data port int;
+			ownLatitude: in data port int;
+			ownLongitude: in data port int;
+
+			requiredVerticalVelocity: out data port int;
+			timeToRecovery: out data port real;
+		annex agree {**
+
+			eq t: real = 0.0 -> pre(t) + 1.0;
+			eq ownAltitude: int = ownAltitude_in -> pre(ownAltitude) + pre(requiredVerticalVelocity);
+
+
+			eq intrusionSurfaceTop: bool = True;
+			eq ownAircraftGoesUpOnTie: bool;
+			eq threatDetected: bool;
+			eq altitude_diff: int = tcas_nodes.abs_diff(ownAltitude, nearestIntruderAltitude);
+
+			const sameAltitudeGoUp: int = 50;
+			const sameAltitudeGoDown: int = -50;
+			const intrustionFromAbove: int = -10;
+			const intrustionFromBelow: int = 10;
+			const safeAltitudeDifference: int = 100;
+
+			assume"constant intruder altitude": True -> nearestIntruderAltitude = pre(nearestIntruderAltitude);
+
+
+			assume"intruder aircraft above ground (in)": nearestIntruderAltitude > 0;
+			assume"intruder aircraft above ground": nearestIntruderAltitude > 0;
+			assume"intruder distance above zero": nearestIntruderGroundDistance > 0; -- Distance using lat/long values
+			assume"Own aircraft above ground": ownAltitude > 0;
+			assume"heading is in normalized degrees": ownHeading >= 0 and ownHeading < 360;
+			assume"own latitude is sensible": ownLatitude >= 0 and ownLatitude <= 90;
+			assume"own longitude is sensible": ownLongitude >= -180 and ownLongitude <= 180;
+
+			guarantee"more eastern aircraft has priority": ownAircraftGoesUpOnTie = (ownLongitude > nearestIntruderLongitude);
+			guarantee"there is exists a non-zero requiredVerticalVelocity": True -> threatDetected => requiredVerticalVelocity != 0;
+			guarantee"higher aircraft goes up": threatDetected and ownAltitude < nearestIntruderAltitude => requiredVerticalVelocity < 0;
+			guarantee"lower aircraft goes down": threatDetected and ownAltitude > nearestIntruderAltitude => requiredVerticalVelocity > 0;
+
+			guarantee"Recovery Time from intrusion below thresehold": t >= timeToRecovery => altitude_diff >= safeAltitudeDifference;
+		**};
+	end TCAS_singleton;
+
+	system implementation TCAS_singleton.impl
+		annex agree {**
+
+			assign timeToRecovery = 9.1;
+
+			assign ownAircraftGoesUpOnTie = (ownLongitude > nearestIntruderLongitude);
+
+			assign requiredVerticalVelocity =
+				if (ownAltitude = nearestIntruderAltitude)
+					then if (ownAircraftGoesUpOnTie)
+						then sameAltitudeGoUp
+						else sameAltitudeGoDown
+				else if(ownAltitude < nearestIntruderAltitude)
+					then intrustionFromAbove
+					else intrustionFromBelow;
+		**};
+	end TCAS_singleton.impl;
+
+	data int extends base_types::Integer
+	end int;
+
+	data real extends base_types::Float
+	end float;
+end tcas_single;
+@@@
+
+@@@
+if鍒嗘敮璇彞浣跨敤绀轰緥1锛?
+assign staticDecide = if inpFLS then 1
+	else if inpGCASM then 2
+	else if inpACASM then 3
+	else if inpGFM then 4
+	else if inpSAM then 5
+	else if inpWxM then 6
+	else 7;
+if鍒嗘敮璇彞浣跨敤绀轰緥2锛?
+assign numberServicesTrue = if inpFLS and not inpGCASM and not inpACASM and not inpGFM and not inpSAM and not inpWxM then 1
+					else if not inpFLS and inpGCASM and not inpACASM and not inpGFM and not inpSAM and not inpWxM then 1
+					else if not inpFLS and not inpGCASM and inpACASM and not inpGFM and not inpSAM and not inpWxM then 1
+					else if not inpFLS and not inpGCASM and not inpACASM and inpGFM and not inpSAM and not inpWxM then 1
+					else if not inpFLS and not inpGCASM and not inpACASM and not inpGFM and inpSAM and not inpWxM then 1
+					else if not inpFLS and not inpGCASM and not inpACASM and not inpGFM and not inpSAM and inpWxM then 1
+					else if inpFLS and inpGCASM then 2
+					else if inpFLS and inpACASM then 2
+					else if inpFLS and inpGFM then 2
+					else if inpFLS and inpSAM then 2
+					else if inpFLS and inpWxM then 2
+					else if inpGCASM and inpACASM then 2
+					else if inpGCASM and inpGFM then 2
+					else if inpGCASM and inpSAM then 2
+					else if inpGCASM and inpWxM then 2
+					else if inpACASM and inpGFM then 2
+					else if inpACASM and inpSAM then 2
+					else if inpACASM and inpWxM then 2
+					else if inpGFM and inpSAM then 2
+					else if inpGFM and inpWxM then 2
+					else if inpSAM and inpWxM then 2
+					else if inpFLS and inpGCASM and inpACASM and not inpGFM and not inpSAM and not inpWxM then 3
+					else if inpFLS and inpGCASM and not inpACASM and inpGFM and not inpSAM and not inpWxM then 3
+					else if inpFLS and inpGCASM and not inpACASM and not inpGFM and inpSAM and not inpWxM then 3
+					else if inpFLS and inpGCASM and not inpACASM and not inpGFM and not inpSAM and inpWxM then 3
+					else if not inpFLS and inpGCASM and inpACASM and inpGFM and not inpSAM and not inpWxM then 3
+					else if not inpFLS and inpGCASM and  inpACASM and not inpGFM and inpSAM and not inpWxM then 3
+					else if not inpFLS and inpGCASM and  inpACASM and not inpGFM and not inpSAM and inpWxM then 3
+					else 4;
+@@@

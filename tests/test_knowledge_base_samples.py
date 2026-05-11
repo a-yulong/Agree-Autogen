@@ -1,9 +1,13 @@
+import subprocess
+import sys
 from pathlib import Path
 
 import yaml
 
 
-KB_ROOT = Path("knowledge_base")
+REPO_ROOT = Path(__file__).resolve().parents[1]
+KB_ROOT = REPO_ROOT / "knowledge_base"
+BUILD_RAG_INDEX = REPO_ROOT / "scripts" / "build_rag_index.py"
 
 
 def load_yaml(path: Path):
@@ -11,38 +15,30 @@ def load_yaml(path: Path):
         return yaml.safe_load(file)
 
 
-def test_knowledge_base_manifest_and_files_parse():
-    manifest = load_yaml(KB_ROOT / "curated" / "examples" / "manifest.yaml")
-    assert manifest["name"] == "agree-autogen-format-examples"
-    for category in manifest["categories"].values():
-        for relative in category["files"]:
-            path = KB_ROOT / "curated" / "examples" / relative
-            assert path.exists(), path
-            assert load_yaml(path)
-
-
 def test_source_inventory_files_parse():
     sources = load_yaml(KB_ROOT / "sources.yaml")
-    public_sources = load_yaml(KB_ROOT / "manifests" / "public_sources.yaml")
-    local_example = load_yaml(KB_ROOT / "manifests" / "local_sources.example.yaml")
+    local_example = load_yaml(KB_ROOT / "local_sources.example.yaml")
     assert sources["sources"]
-    assert public_sources["sources"]
-    assert local_example["local_rag_corpus"]["docs_directory"]
+    assert local_example["local_sources"]
 
 
-def test_knowledge_base_entries_have_id_and_description():
-    for path in KB_ROOT.rglob("*.yaml"):
-        data = load_yaml(path)
-        entries = data.get("rules") or data.get("patterns")
-        if entries:
-            for entry in entries:
-                assert entry.get("id"), path
-                assert entry.get("description"), path
-                assert entry.get("notes"), path
-        if "triplet" in data:
-            triplet = data["triplet"]
-            assert triplet.get("id"), path
-            assert triplet.get("requirement_nl"), path
-            assert triplet.get("logic_prop"), path
-            assert triplet.get("code_agree"), path
-            assert triplet.get("notes"), path
+def test_real_curated_sources_exist():
+    assert (KB_ROOT / "curated" / "kdef" / "attention_zh.md").exists()
+    assert (KB_ROOT / "curated" / "kdef" / "defensive_rules.jsonl").exists()
+    assert (KB_ROOT / "curated" / "kexp" / "agree_code_knowledge_dataset.txt").exists()
+    assert (KB_ROOT / "curated" / "kexp" / "agree_examples.jsonl").exists()
+    assert (KB_ROOT / "curated" / "ksyn" / "agree_syntax_notes.md").exists()
+    assert (KB_ROOT / "curated" / "ksyn" / "aadl_scope_notes.md").exists()
+
+
+def test_build_rag_index_help_returns_success():
+    result = subprocess.run(
+        [sys.executable, str(BUILD_RAG_INDEX), "--help"],
+        cwd=REPO_ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    assert result.returncode == 0
+    assert "--knowledge-base" in result.stdout
