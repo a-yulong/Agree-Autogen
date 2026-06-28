@@ -502,9 +502,6 @@ public final class AgreeValidationCli {
                 continue;
             }
             for (Issue issue : resourceIssues) {
-                if (shouldIgnoreIssue(issue)) {
-                    continue;
-                }
                 if (issue.getSeverity() == Severity.ERROR) {
                     errors++;
                     ValidationIssue validationIssue = new ValidationIssue("error", issue.getMessage(),
@@ -545,15 +542,6 @@ public final class AgreeValidationCli {
         String normalizedFocus = focusFile.replace("\\", "/").trim();
         String normalizedPath = platformPath.replace("\\", "/");
         return normalizedPath.endsWith("/" + normalizedFocus) || normalizedPath.equals(normalizedFocus);
-    }
-
-    private static boolean shouldIgnoreIssue(Issue issue) {
-        String message = issue.getMessage();
-        if (message == null) {
-            return false;
-        }
-
-        return message.contains("has duplicates");
     }
 
     private static String problemLineKey(String file, int line) {

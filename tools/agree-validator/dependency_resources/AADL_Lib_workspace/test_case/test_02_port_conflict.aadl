@@ -1,0 +1,24 @@
+package TestPortConflict
+public
+	with Base_Types;
+	data int extends Base_Types::Integer
+	end int;
+
+	data real extends Base_Types::Float
+	end real;
+
+	data bool extends Base_Types::Boolean
+	end bool;
+
+	system TestSystem
+		features
+			input1: in data port int;
+			output1: out data port int;
+		annex agree {**
+			-- 错误2：用eq声明已在features中定义的端口名称
+			eq input1 : int = 0;
+			eq output1 : int = 0;
+		**};
+	end TestSystem;
+
+end TestPortConflict;

@@ -1,0 +1,31 @@
+package TestEventPorts
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            event_in: in event port;
+            event_data_in: in event data port int;
+            regular_in: in data port int;
+            output1: out data port int;
+        annex agree {**
+            -- 错误32：事件端口使用错误
+            eq x : int = event_in + 5;           -- 事件端口不能作为数值
+            eq y : bool = event_data_in;         -- 事件数据端口需要值访问
+
+            -- 事件发生操作符
+            guarantee "bad_event": event_in = true;  -- 事件端口比较方式错误
+            guarantee "occurrence": event_data_in'occurred;  -- 如果支持'occurred
+
+            -- 赋值给事件端口
+            assign event_in = regular_in;        -- 不能给事件端口赋值
+        **};
+    end TestSystem;
+
+end TestEventPorts;

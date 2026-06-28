@@ -1,0 +1,63 @@
+package TestComplexNodeState
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            reset: in data port bool;
+            enable: in data port bool;
+            output1: out data port int;
+        annex agree {**
+            -- 错误49：复杂的有状态节点
+
+            -- 简单计数器
+            node simple_counter(reset : bool) returns (count : int);
+            let
+                count = 0 -> if reset then 0 else pre(count) + 1;
+            tel;
+
+            -- 带使能的计数器
+            node enabled_counter(reset, enable : bool) returns (count : int);
+            let
+                count = 0 -> if reset then 0
+                              else if enable then pre(count) + 1
+                              else pre(count);
+            tel;
+
+            -- 错误：循环引用的节点
+            node cyclic_node(inp : int) returns (out1, out2 : int);
+            let
+                out1 = out2 + inp;  -- out1依赖out2
+                out2 = out1 - inp;  -- out2依赖out1
+            tel;
+
+            -- 错误：pre在初始化时使用
+            node bad_pre_init(inp : int) returns (out : int);
+            let
+                out = pre(inp) + 1;  -- 没有初始化分支
+            tel;
+
+            -- 多个状态变量
+            node multi_state(inp : int) returns (sum, prod, count : int);
+            let
+                sum = 0 -> pre(sum) + inp;
+                prod = 1 -> pre(prod) * inp;
+                count = 0 -> pre(count) + 1;
+            tel;
+
+            -- 使用节点
+            eq c1 : int = simple_counter(reset);
+            eq c2 : int = enabled_counter(reset, enable);
+            eq s, p, cnt : int = multi_state(c1);
+
+            assign output1 = s;
+        **};
+    end TestSystem;
+
+end TestComplexNodeState;

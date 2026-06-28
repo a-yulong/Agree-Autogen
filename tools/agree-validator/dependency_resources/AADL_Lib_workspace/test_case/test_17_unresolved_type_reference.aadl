@@ -1,0 +1,30 @@
+package TestUnresolvedTypeReference
+public
+    -- 引用了Base_Types包，但使用了一个不存在的类型
+    with Base_Types;
+
+    system TestSystem
+        features
+            input1: in data port Base_Types::Integer;  -- 这个类型引用可能有问题
+            output1: out data port Base_Types::Integer;
+        
+        annex agree {**
+            -- 使用可能无法解析的类型定义变量
+            eq counter : Base_Types::Integer = 0;
+            
+            -- 保证语句
+            guarantee "counter non-negative": counter >= 0;
+        **};
+    end TestSystem;
+
+    system implementation TestSystem.Impl
+        annex agree {**
+            -- 在实现中定义状态变量
+            eq state : Base_Types::Integer = 0 -> pre(state) + 1;
+            
+            -- 赋值语句
+            assign output1 = state;
+        **};
+    end TestSystem.Impl;
+
+end TestUnresolvedTypeReference;

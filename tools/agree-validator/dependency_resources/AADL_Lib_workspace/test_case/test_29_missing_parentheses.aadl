@@ -1,0 +1,33 @@
+package TestMissingParentheses
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input1: in data port int;
+            input2: in data port real;
+            output1: out data port int;
+        annex agree {**
+            -- 错误29：pre操作符缺少括号（类似test11但更多变体）
+            eq x : int = 0 -> pre x + 1;
+            eq y : real = 0.0 -> pre y * input2;
+
+            -- pre操作符复杂表达式
+            eq z : int = pre x + pre y;
+            eq w : bool = pre(input1 > 0);
+
+            -- -> 操作符使用
+            eq bad_arrow : int = input1 -> input2;  -- 类型不匹配
+        **};
+    end TestSystem;
+
+end TestMissingParentheses;

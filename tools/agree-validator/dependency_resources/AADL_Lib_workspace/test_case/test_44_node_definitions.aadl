@@ -1,0 +1,55 @@
+package TestNodeDefinitions
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input1: in data port int;
+            input2: in data port bool;
+            output1: out data port int;
+        annex agree {**
+            -- 错误44：节点定义错误
+
+            node add(a : int; b : int) returns (c : int);
+            let
+                c = a + b;
+            tel;
+
+            -- 有状态的节点
+            node counter(inc : bool) returns (count : int);
+            let
+                count = 0 -> if inc then pre(count) + 1 else pre(count);
+            tel;
+
+            -- 错误：参数名冲突
+            node bad_param(a : int; a : int) returns (b : int);
+            let
+                b = a;
+            tel;
+
+            -- 错误：返回值未定义
+            node missing_return(a : int) returns (b : int);
+            let
+                -- 没有给b赋值
+            tel;
+
+            -- 错误：类型不匹配
+            node type_mismatch(a : int) returns (b : bool);
+            let
+                b = a + 5;
+            tel;
+
+            -- 使用节点
+            eq sum : int = add(input1, 10);
+            eq cnt : int = counter(input2);
+            eq bad_call : int = add(input1);  -- 参数太少
+        **};
+    end TestSystem;
+
+end TestNodeDefinitions;

@@ -1,0 +1,38 @@
+package TestBaseTypesCaseInsensitive
+public
+    -- 修复记录#14场景：Base_Types类型大小写不敏感匹配
+    with Base_Types;
+
+    system TestSystem
+        features
+            -- 小写形式
+            int_input: in data port Base_Types::integer;
+            real_input: in data port Base_Types::float;
+            bool_input: in data port Base_Types::boolean;
+
+            -- 大写形式
+            int_output: out data port Base_Types::Integer;
+            real_output: out data port Base_Types::Float;
+            bool_output: out data port Base_Types::Boolean;
+        annex agree {**
+            -- 使用小写类型定义变量
+            eq x : Base_Types::integer = int_input + 1;
+            eq y : Base_Types::float = real_input * 2.0;
+            eq z : Base_Types::boolean = bool_input and (int_input > 0);
+
+            -- 使用大写类型定义变量
+            eq a : Base_Types::Integer = x + 10;
+            eq b : Base_Types::Float = y + 100.0;
+            eq c : Base_Types::Boolean = z or (a > 50);
+
+            assign int_output = a;
+            assign real_output = b;
+            assign bool_output = c;
+
+            -- 保证语句
+            guarantee "a_positive": a > 0;
+            guarantee "b_bounds": b >= 0.0 and b < 1000.0;
+        **};
+    end TestSystem;
+
+end TestBaseTypesCaseInsensitive;

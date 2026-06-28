@@ -1,31 +1,79 @@
 # Knowledge Base
 
-This directory contains the RAG knowledge base used by AGREE-AutoGen.
+The knowledge base provides retrieval support for AGREE-AutoGen. It is used to supply compact AGREE/AADL rules, verified patterns, and defensive constraints to the generation pipeline.
 
-## Source Roles
+The knowledge base is not treated as a general document dump. Its purpose is to improve grounded contract generation by making relevant syntax, scope, and example knowledge available at the point where agents need it.
 
-- `raw/kdef/Attention.txt`: Kdef defensive heuristic rules.
-- `raw/kexp/AGREE_code_knowledge_dataset.txt`: Kexp AGREE code exemplar dataset.
-- `raw/ksyn/AGREE_knowledge_dataset_en.pdf`: Ksyn AGREE syntax and semantic source.
-- `raw/ksyn/AGREE_Users_Guide.pdf`: Ksyn AGREE user-guide source.
-- `raw/ksyn/AADL_AS5506C.local_source.md`: Ksyn local-source note for AADL AS5506C.
+## Knowledge Roles
 
-`sources.yaml` records the mapping from source files to Ksyn, Kexp, and Kdef roles. `local_sources.example.yaml` shows how to configure the AADL AS5506C local PDF and optional additional local sources.
+The repository organizes retrieval sources into three roles:
 
-## Processed Files
+- **Syntax and scope knowledge:** AGREE syntax, AADL scoping rules, annex placement, visible identifiers, property sets, and type references.
+- **Example-pattern knowledge:** verified AGREE snippets and contract patterns that illustrate valid forms.
+- **Defensive-rule knowledge:** constraints that discourage unsupported constructs, invisible identifiers, unlabeled assumptions or guarantees, and accidental copying of irrelevant examples.
 
-- `processed/kdef/attention_zh.md`
-- `processed/kdef/defensive_rules.jsonl`
-- `processed/kexp/agree_code_knowledge_dataset.txt`
-- `processed/kexp/agree_examples.jsonl`
-- `processed/ksyn/agree_syntax_notes.md`
-- `processed/ksyn/aadl_scope_notes.md`
+These roles are recorded in `sources.yaml`.
 
-## Build RAG Index
+## Directory Layout
+
+```text
+knowledge_base/
+  raw/             Source documents and local source notes
+  processed/       Curated markdown, text, and JSONL retrieval inputs
+  index/           Local retrieval index output
+  sources.yaml     Source inventory
+```
+
+`index/` is a generated local artifact. The repository should track only the files required to rebuild or inspect the index.
+
+## Source Inventory
+
+Representative sources include:
+
+- `raw/kdef/Attention.txt`;
+- `raw/kexp/AGREE_code_knowledge_dataset.txt`;
+- `raw/ksyn/AGREE_knowledge_dataset_en.pdf`;
+- `raw/ksyn/AGREE_Users_Guide.pdf`;
+- `raw/ksyn/AADL_AS5506C.local_source.md`.
+
+Processed files include:
+
+- `processed/kdef/attention_en.md`;
+- `processed/kdef/defensive_rules.jsonl`;
+- `processed/kexp/agree_code_knowledge_dataset.txt`;
+- `processed/ksyn/agree_syntax_notes.md`;
+- `processed/ksyn/aadl_scope_notes.md`.
+
+## Retrieval Digest
+
+AGREE-AutoGen does not pass long retrieved documents directly to every downstream agent. Retrieved material is summarized into digest rules that emphasize:
+
+- visible identifiers and owner scope;
+- labeled `assume` and `guarantee` clauses;
+- valid AGREE expression operands;
+- placement of type-level and implementation-level content;
+- common invalid patterns to avoid.
+
+The digest stage reduces noise and lowers the risk of copying irrelevant examples.
+
+## Building Retrieval Assets
+
+Dry-run the index builder:
 
 ```powershell
 python scripts/build_rag_index.py --dry-run
-python scripts/build_rag_index.py --knowledge-base knowledge_base --output knowledge_base/index
 ```
 
-The script scans `raw/`, `processed/`, and `sources.yaml`. Generated files under `index/` are local build artifacts; only `.gitkeep` is tracked.
+Build the local retrieval index:
+
+```powershell
+python scripts/build_rag_index.py `
+  --knowledge-base knowledge_base `
+  --output knowledge_base/index
+```
+
+Generated vector-store or cache directories should not be committed unless the release explicitly documents them as reproducibility artifacts.
+
+## Licensing and Source Boundaries
+
+Knowledge-base files may originate from specifications, guides, examples, and curated notes. Each source should be listed in `sources.yaml` with enough information to identify its role and origin. Materials with uncertain redistribution rights should be referenced through source notes rather than copied into the repository.

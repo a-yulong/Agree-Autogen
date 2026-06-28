@@ -1,0 +1,30 @@
+package TestSubcomponentReference
+public
+	with Base_Types;
+
+	data int extends Base_Types::Integer
+	end int;
+
+	data real extends Base_Types::Float
+	end real;
+
+	data bool extends Base_Types::Boolean
+	end bool;
+
+	system SubSystem
+		features
+			subInput: in data port int;
+			subOutput: out data port int;
+	end SubSystem;
+
+	system TestSystem
+		features
+			input1: in data port int;
+			output1: out data port int;
+		annex agree {**
+			-- 错误13：在component type中引用子组件
+			guarantee "test": SubSystem.subOutput >= 0;
+		**};
+	end TestSystem;
+
+end TestSubcomponentReference;

@@ -1,0 +1,27 @@
+package TestCircularDependency
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input1: in data port int;
+            output1: out data port int;
+        annex agree {**
+            -- 错误28：循环依赖（变量定义互相引用）
+            eq a : int = b + 1;
+            eq b : int = c * 2;
+            eq c : int = a - 3;
+
+            -- 另一种循环依赖
+            eq x : bool = y implies input1 > 0;
+            eq y : bool = x or input1 < 0;
+        **};
+    end TestSystem;
+
+end TestCircularDependency;

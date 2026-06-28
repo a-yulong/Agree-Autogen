@@ -1,0 +1,39 @@
+package TestChineseComments
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input: in data port int;
+            output: out data port int;
+        annex agree {**
+            -- 这是一个中文注释
+            eq x : int = input + 1;
+
+            -- 实现层通过assign绑定占位变量，替换内置min为显式if-then-else
+            -- 上面这行中文注释不应该被误解析为assign的id
+
+            eq y : int;
+
+           
+            assign y = if x > 0 then x else -x;
+
+            -- 更多中文注释
+            -- 这个变量用于输出
+            assign output = y;
+
+            -- 保证语句
+            guarantee "output_non_negative": output >= 0;  -- 输出非负
+        **};
+    end TestSystem;
+
+end TestChineseComments;

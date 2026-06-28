@@ -1,0 +1,32 @@
+package TestHistoryVariables
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input1: in data port int;
+            output1: out data port int;
+        annex agree {**
+            eq x : int = 0 -> pre(x) + 1;
+            eq y : int = pre(pre(x));  -- 双重pre
+
+            -- pre用于端口
+            eq z : int = pre(input1) + input1;
+
+            eq bad_init : int = x -> pre(x) + 1;  -- x在初始化前使用
+
+            -- 复杂的pre表达式
+            eq w : int = if pre(input1) > 0 then pre(x) else 0;
+        **};
+    end TestSystem;
+
+end TestHistoryVariables;

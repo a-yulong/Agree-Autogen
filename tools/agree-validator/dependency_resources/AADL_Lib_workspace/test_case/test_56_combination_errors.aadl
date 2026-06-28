@@ -1,0 +1,78 @@
+package TestCombinationErrors
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    -- 包含多种错误组合的综合测试
+    system TestSystem
+        features
+            in1: in data port int;
+            in2: in data port real;
+            in3: in data port bool;
+            out1: out data port int;
+            out2: out data port bool;
+        annex agree {**
+            -- 错误56：多种错误组合
+
+            -- 1. 未声明变量
+            eq x : int = undeclared + 5;
+
+            -- 2. 类型不匹配
+            eq y : bool = in1 + 10;
+
+            -- 3. 与端口名冲突
+            eq in1 : int = 0;
+
+            -- 4. pre操作符错误
+            eq z : int = pre in1 + 1;
+
+            -- 5. 节点定义错误
+            node bad_node(a : int; a : bool) returns (b : int);
+            let
+                b = a + "string";
+            tel;
+
+            -- 6. 节点调用错误
+            eq result : int = bad_node(in1);
+
+            -- 7. assume/guarantee错误
+            assume "bad_assume": in2 = true;
+            guarantee "bad_guarantee": out1;
+
+            -- 8. if-then-else类型错误
+            eq w : int = if in3 then 5 else 3.14;
+
+            -- 9. 多次赋值
+            assign out1 = in1;
+            assign out1 = in1 + 1;
+
+            -- 10. 逻辑操作符类型错误
+            eq logic : bool = in1 and in3;
+        **};
+    end TestSystem;
+
+    system implementation TestSystem.impl
+        annex agree {**
+            -- 实现中的更多错误
+            eq internal : int = in1 + 5;
+            eq internal : int = internal * 2;  -- 重复定义
+
+            -- 子组件访问错误
+            guarantee "bad_sub": SubSystem.internal > 0;
+        **};
+    end TestSystem.impl;
+
+    system SubSystem
+        features
+            a: in data port int;
+    end SubSystem;
+
+end TestCombinationErrors;

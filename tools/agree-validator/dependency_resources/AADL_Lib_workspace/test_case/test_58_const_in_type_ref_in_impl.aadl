@@ -1,0 +1,46 @@
+package TestConstInTypeRefInImpl
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    -- 修复记录#3场景：const在ComponentType中，在ComponentImplementation中引用
+    system TestSystem
+        features
+            input: in data port int;
+            output: out data port int;
+        annex agree {**
+            -- const定义在component type中
+            const MAX_VALUE : int = 100;
+            const MIN_VALUE : int = 0;
+            const THRESHOLD : int = 50;
+
+            eq x : int;
+        **};
+    end TestSystem;
+
+    system implementation TestSystem.impl
+        annex agree {**
+            -- 在implementation中引用type中的const
+            eq clamped : int = if input > MAX_VALUE then MAX_VALUE
+                              else if input < MIN_VALUE then MIN_VALUE
+                              else input;
+
+            eq over_threshold : bool = clamped > THRESHOLD;
+
+            assign x = clamped;
+            assign output = x;
+
+            -- 保证语句也引用const
+            guarantee "within_bounds": output >= MIN_VALUE and output <= MAX_VALUE;
+        **};
+    end TestSystem.impl;
+
+end TestConstInTypeRefInImpl;

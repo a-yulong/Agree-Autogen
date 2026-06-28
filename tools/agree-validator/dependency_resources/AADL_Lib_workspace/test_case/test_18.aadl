@@ -1,0 +1,31 @@
+package TestAndError
+public
+
+with Base_Types;
+
+system TestSystem
+end TestSystem;
+
+system implementation TestSystem.impl
+    subcomponents
+        mc: system MC;
+    annex agree {**
+        eq input_valid : bool = true;
+        eq threshold : int = 10;
+        eq value : int = 5;
+        
+        
+        guarantee "Test 1" : input_valid and (value > threshold);
+        
+        -- 这个表达式使用了未定义的变量，会导致 <error> 类型
+        guarantee "Test 2" : undefined_var and (value > threshold);
+    **};
+end TestSystem.impl;
+
+system MC
+end MC;
+
+system implementation MC.impl
+end MC.impl;
+
+end TestAndError;

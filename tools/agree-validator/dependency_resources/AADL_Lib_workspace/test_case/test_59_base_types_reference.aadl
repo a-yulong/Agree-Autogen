@@ -1,0 +1,29 @@
+package TestBaseTypesReference
+public
+    -- 修复记录#6场景：Base_Types标准类型引用
+    with Base_Types;
+
+    system TestSystem
+        features
+            -- 直接引用Base_Types中的类型
+            int_input: in data port Base_Types::Integer;
+            real_input: in data port Base_Types::Float;
+            bool_input: in data port Base_Types::Boolean;
+            int_output: out data port Base_Types::Integer;
+            real_output: out data port Base_Types::Float;
+        annex agree {**
+            -- 使用Base_Types类型定义eq变量
+            eq x : Base_Types::Integer = int_input + 1;
+            eq y : Base_Types::Float = real_input * 2.0;
+            eq z : Base_Types::Boolean = bool_input and (int_input > 0);
+
+            assign int_output = x;
+            assign real_output = y;
+
+            -- 保证语句
+            guarantee "x_positive": x > 0;
+            assume "y_bounds": y >= 0.0 and y < 1000.0;
+        **};
+    end TestSystem;
+
+end TestBaseTypesReference;

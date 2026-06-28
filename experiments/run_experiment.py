@@ -31,6 +31,7 @@ def main() -> int:
     parser.add_argument("--start", type=int, default=1, help="First case number.")
     parser.add_argument("--end", type=int, default=1, help="Last case number.")
     parser.add_argument("--letters", nargs="+", default=["A"], help="Case letters to run.")
+    parser.add_argument("--max-repair-rounds", type=int, default=8)
     parser.add_argument("--python", default=sys.executable)
     args = parser.parse_args()
 
@@ -59,12 +60,18 @@ def main() -> int:
         str(args.end),
         "--letters",
         *args.letters,
+        "--setting",
+        args.setting,
+        "--max-repair-rounds",
+        str(args.max_repair_rounds),
         "--result-root",
         args.output_dir,
     ]
     if not setting.get("enable_rag", True):
         cmd.append("--no-rag")
 
+    env.setdefault("PYTHONIOENCODING", "utf-8")
+    env.setdefault("PYTHONUTF8", "1")
     return subprocess.run(cmd, check=False, env=env).returncode
 
 

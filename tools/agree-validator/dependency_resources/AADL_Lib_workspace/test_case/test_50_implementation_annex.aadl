@@ -1,0 +1,54 @@
+package TestImplementationAnnex
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    -- 系统类型（可能有自己的annex）
+    system TestSystem
+        features
+            input1: in data port int;
+            output1: out data port int;
+        annex agree {**
+            -- 错误50a：在type中定义eq变量（通常只应该有assume/guarantee）
+            eq x : int = input1 + 5;
+            guarantee "x_positive": x > 0;
+        **};
+    end TestSystem;
+
+    -- 系统实现
+    system implementation TestSystem.impl
+        subcomponents
+            sub1: system SubSystem;
+        annex agree {**
+            -- 这里可以有eq、assign等
+            eq y : int = input1 * 2;
+
+            -- 错误50b：assign与eq冲突
+            eq z : int = 10;
+            assign z = y;  -- 同时有eq和assign
+
+            -- 正确：assign输出
+            assign output1 = y;
+        **};
+    end TestSystem.impl;
+
+    -- 子系统
+    system SubSystem
+        features
+            a: in data port int;
+            b: out data port int;
+    end SubSystem;
+
+    system implementation SubSystem.impl
+        annex agree {**
+            eq internal : int = a + 1;
+            assign b = internal;
+        **};
+    end SubSystem.impl;
+
+end TestImplementationAnnex;

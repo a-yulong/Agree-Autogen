@@ -1,0 +1,36 @@
+package TestNameShadowingReal
+public
+    -- 错误场景：自定义类型名 'real' 与内置类型名冲突
+    with Base_Types;
+
+    -- 自定义类型名与 AGREE 内置类型名相同！
+    data real extends Base_Types::Float
+    end real;
+
+    system TestSystem
+        features
+            input1: in data port real;      -- 使用自定义的 real
+            input2: in data port real;      -- 使用自定义的 real
+            output: out data port real;     -- 使用自定义的 real
+
+        annex agree {**
+            -- const 使用自定义 real 类型
+            const THRESHOLD : real = 100.0;
+
+            -- eq 语句
+            eq sum : real = input1 + input2;
+            eq over_threshold : bool = sum > THRESHOLD;
+
+            -- guarantee 语句
+            guarantee "output_equals_sum": output = sum;
+            guarantee "threshold_check": over_threshold => (output > THRESHOLD);
+        **};
+    end TestSystem;
+
+    system implementation TestSystem.impl
+        annex agree {**
+            assign output = sum;
+        **};
+    end TestSystem.impl;
+
+end TestNameShadowingReal;

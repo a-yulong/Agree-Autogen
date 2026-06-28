@@ -1,20 +1,38 @@
 # AGREE-AutoGen
 
-AGREE-AutoGen is a research artifact for generating AGREE contracts for AADL architectures from natural-language requirements. It combines architecture analysis, requirement decomposition, AGREE synthesis, model fusion, and validation-guided repair to produce fused AADL+AGREE artifacts.
+AGREE-AutoGen is a multi-agent framework for generating and validating AGREE contracts from natural-language requirements and AADL architecture models. It treats contract generation as a sequence of constrained decisions: retrieved AGREE/AADL knowledge constrains the available formal patterns, architecture analysis constrains the visible model scope, requirement analysis constrains formalization intent, generation produces candidate AGREE clauses, model fusion inserts the clauses into the appropriate AADL owner, and validation-guided repair uses tool diagnostics to make bounded corrections.
 
-## What Is Included
+The repository is designed as a research artifact. It contains the implementation, prompts, validation interface, retrieval resources, experiment configuration, and result-processing scripts needed to inspect the method and reproduce the reported analyses.
 
-- Multi-agent pipeline source in `src/agree_autogen/`.
-- Direct-file and case-layout runners in `scripts/`.
-- Standalone AGREE validator source in `tools/agree-validator/`.
-- A GF_Monitor minimal example in `data/examples/gf_monitor/`.
-- Curated RAG source package in `knowledge_base/`.
-- Experiment settings and metric scripts in `experiments/`.
-- Tests that run without model credentials or external validators.
+## Highlights
+
+- Scope-aware AADL analysis for identifying visible component features, owners, connections, properties, and insertion targets.
+- Requirement analysis that separates behavioral intent from structural descriptions before formalization.
+- Retrieval-augmented AGREE generation using curated syntax, scope, example, and defensive-rule knowledge.
+- Controlled model fusion that inserts or replaces AGREE annexes without rewriting unrelated AADL model content.
+- Validation-guided repair through a standalone AGREE validator and focused diagnostic feedback.
+- Experiment scripts for model comparison, retrieval settings, agent ablations, optimization ablations, reruns, and metric aggregation.
+
+## Repository Contents
+
+```text
+configs/             Runtime configuration templates
+data/                Public examples and benchmark manifests
+docs/                Architecture, reproducibility, experiment, and schema documentation
+experiments/         Experiment settings, lightweight runners, and metric utilities
+knowledge_base/      Curated retrieval sources and processed knowledge assets
+prompts/             Agent prompts used by the pipeline
+scripts/             Single-case, batch, rerun, and aggregation entry points
+src/agree_autogen/   Pipeline implementation
+tests/               Unit tests and offline smoke checks
+tools/               Standalone AGREE validation tool
+```
+
+The artifact boundary is described in `ARTIFACT_SCOPE.md`.
 
 ## Quick Start
 
-Install:
+Create an environment and install the package:
 
 ```powershell
 python -m venv .venv
@@ -23,13 +41,25 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-Run the example dry run:
+Run an offline dry run on the bundled example:
 
 ```powershell
-python scripts/run_files.py --requirement data/examples/gf_monitor/requirement.txt --aadl data/examples/gf_monitor/input.aadl --output-dir outputs/gf_monitor --disable-rag --skip-validation --dry-run
+python scripts/run_files.py `
+  --requirement data/examples/gf_monitor/requirement.txt `
+  --aadl data/examples/gf_monitor/input.aadl `
+  --output-dir outputs/gf_monitor_dry `
+  --setting E2 `
+  --skip-validation `
+  --dry-run
 ```
 
-Configure an OpenAI-compatible endpoint before full generation:
+Run the offline test subset:
+
+```powershell
+python -m pytest -q tests/test_fusion.py tests/test_model_analyst.py tests/test_validators.py tests/test_metrics.py tests/test_build_rag_index.py tests/test_experiment_configs.py tests/test_run_files_cli.py
+```
+
+Full generation requires an OpenAI-compatible model endpoint:
 
 ```powershell
 $env:AGREE_MODEL_BASE_URL = "https://api.example.com/v1"
@@ -37,54 +67,40 @@ $env:AGREE_MODEL_API_KEY = "replace-with-your-key"
 $env:AGREE_MODEL_NAME = "model-name"
 ```
 
-See `docs/usage.md` for runners and validator configuration.
+Use `.env.example` as a template. Do not commit real credentials.
 
-## Knowledge Base
+## Validation Tool
 
-The RAG artifact is organized as real source files plus processed retrieval files:
+The standalone AGREE validator is included under `tools/agree-validator/`. It provides a Java command-line interface that loads AADL projects, AGREE annexes, bundled static libraries, and OSATE/AGREE plugin resources, then emits JSON diagnostics.
 
-- `knowledge_base/raw/kdef/Attention.txt` -> Kdef.
-- `knowledge_base/raw/kexp/AGREE_code_knowledge_dataset.txt` -> Kexp.
-- `knowledge_base/raw/ksyn/AGREE_knowledge_dataset_en.pdf` and `knowledge_base/raw/ksyn/AGREE_Users_Guide.pdf` -> Ksyn.
-- `knowledge_base/raw/ksyn/AADL_AS5506C.local_source.md` records the AADL AS5506C local Ksyn source.
-- `knowledge_base/processed/` contains Markdown and JSONL files derived from the raw sources.
-- `knowledge_base/sources.yaml`: source inventory.
-- `knowledge_base/local_sources.example.yaml`: local PDF source manifest template.
+The validator requires a local JDK and OSATE/AGREE installation. OSATE itself is not redistributed in this repository.
 
-Build the lightweight local corpus manifest:
+See `docs/validator_setup.md` for setup and command examples.
 
-```powershell
-python scripts/build_rag_index.py --dry-run
-python scripts/build_rag_index.py --knowledge-base knowledge_base --output knowledge_base/index
-```
+## Experiments and Results
 
-See `docs/knowledge_base.md` for source preparation and runtime RAG usage.
+The experiment scripts support:
 
-## Experiments
+- model comparison;
+- retrieval setting selection;
+- agent ablation;
+- optimization ablation;
+- rerun of missing or provider-failed cases;
+- aggregate metric generation.
 
-Experiment settings are consolidated in `experiments/settings.yaml`.
+Experiment design is documented in `docs/experiment_design.md`. Result formats and metric definitions are documented in `docs/result_schema.md`.
 
-```powershell
-python experiments/run_experiment.py --setting E2 --benchmark data/Sources --output-dir outputs/e2 --start 1 --end 10 --letters A
-python experiments/run_experiment.py --setting E3 --benchmark data/Sources --output-dir outputs/e3 --start 1 --end 10 --letters A
-python experiments/compute_metrics.py --results-dir outputs/e2 --output outputs/e2/metrics.csv
-```
+Complete result artifacts should be placed under `results/` or attached as a release asset when the per-case reports are too large for the repository. The repository should retain aggregate summaries, manifests, and checksums so that reported metrics can be traced back to case-level records.
 
-E2 and E3 are connected to the public case-layout runner. Other ablations are recorded in `settings.yaml` with their required runtime switches.
+## Reproducibility
 
-## Repository Layout
+The repository distinguishes three reproduction levels:
 
-```text
-configs/             Runtime configuration templates
-data/examples/       Public examples
-docs/                Usage, artifact, knowledge-base, and experiment notes
-experiments/         Experiment settings, runner, metrics, sample reports
-knowledge_base/      Curated RAG source package and local source manifest
-scripts/             User-facing CLIs
-src/agree_autogen/   Pipeline implementation
-tests/               Unit and CLI tests
-tools/               Standalone AGREE validator source
-```
+- offline inspection of code, prompts, configurations, and results;
+- local smoke execution with bundled examples and a local validator setup;
+- full experiment execution with model-provider credentials.
+
+See `docs/reproducibility.md` for commands, dependencies, and expected outputs.
 
 ## Citation
 
@@ -92,4 +108,4 @@ If you use AGREE-AutoGen in academic work, cite this repository. See `CITATION.c
 
 ## License
 
-MIT License. See `LICENSE`.
+The code is released under the MIT License. See `LICENSE`. Third-party tools and source documents may have their own licenses; see the relevant documentation and source manifests.

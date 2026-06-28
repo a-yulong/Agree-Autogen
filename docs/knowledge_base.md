@@ -11,7 +11,7 @@ The RAG artifact is organized into three roles:
 `knowledge_base/sources.yaml` records the source inventory.
 
 - `raw/kdef/Attention.txt` is Kdef and is processed into `processed/kdef/attention_zh.md` and `processed/kdef/defensive_rules.jsonl`.
-- `raw/kexp/AGREE_code_knowledge_dataset.txt` is Kexp and is processed into `processed/kexp/agree_code_knowledge_dataset.txt` and `processed/kexp/agree_examples.jsonl`.
+- `raw/kexp/AGREE_code_knowledge_dataset.txt` is scenario-neutral Kexp and is processed into `processed/kexp/agree_code_knowledge_dataset.txt`.
 - `raw/ksyn/AGREE_knowledge_dataset_en.pdf` and `raw/ksyn/AGREE_Users_Guide.pdf` are Ksyn AGREE sources.
 - `raw/ksyn/AADL_AS5506C.local_source.md` records AADL AS5506C as a local Ksyn source.
 

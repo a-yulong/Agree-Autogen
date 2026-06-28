@@ -152,9 +152,9 @@ def _run_pipeline(args) -> int:
 
     _copy_inputs(requirement, aadl, output_dir)
 
-    from agree_autogen import runtime
-    from agree_autogen.case_runner import run_single_case
-    from agree_autogen.pipeline import AGREEVerificationPipeline
+    from agree_autogen.case_runner import collect_aadl_models, extract_target_component
+    from agree_autogen.refactor.config import EXPERIMENTS, RuntimeConfig
+    from agree_autogen.refactor.orchestrator import RefactoredAgreeAutogenPipeline
 
     start_time = time.time()
     original_env = {key: os.environ.get(key) for key in ["AGREE_SOURCE_ROOT", "AGREE_RESULT_ROOT", "AGREE_WORK_MODEL"]}
@@ -164,45 +164,45 @@ def _run_pipeline(args) -> int:
             _prepare_temp_case(temp_root, requirement, aadl)
             os.environ["AGREE_SOURCE_ROOT"] = str(temp_root)
             os.environ["AGREE_RESULT_ROOT"] = str(output_dir)
-            os.environ["AGREE_WORK_MODEL"] = str(output_dir / "generated_output.aadl")
-            runtime.update_runtime_model_config(result_root=str(output_dir))
-
-            docs_dir = os.environ.get("AGREE_DOCS_DIR", str(REPO_ROOT / "knowledge_base"))
-            pipeline = AGREEVerificationPipeline(docs_dir, use_rag=not args.disable_rag)
-
+            setting = args.setting.upper()
+            config = RuntimeConfig.from_env(
+                result_root=str(output_dir),
+                docs_dir=os.environ.get("AGREE_DOCS_DIR", str(REPO_ROOT / "knowledge_base")),
+            )
+            if args.disable_repair and setting != "E1":
+                setting = "E4"
+            if args.disable_rag and setting == "E2":
+                setting = "E3"
             if args.skip_validation:
-                def skipped_validation(state):
-                    return {
-                        "inspection_result": {"success": True, "skipped": True},
-                        "agree_result": {"success": True, "skipped": True},
-                        "error_level_info": {
-                            "has_aadl_errors": False,
-                            "has_agree_errors": False,
-                            "aadl_errors": [],
-                            "agree_errors": [],
-                            "warnings": [],
-                            "validation_status": "skipped",
-                        },
-                    }
+                print("Warning: --skip-validation is not supported by the refactored full runner; validators remain part of the experiment contract.")
 
-                pipeline.run_dual_validation = skipped_validation
-
-            if args.disable_repair:
-                print("Repair is disabled for this run. Validation errors will not be repaired.")
-
-            case_result = run_single_case(pipeline, 1, "A")
-            result = case_result.get("result", {})
-            final_model = result.get("final_model", "")
+            aadl_model = aadl.read_text(encoding="utf-8", errors="replace")
+            requirement_text = requirement.read_text(encoding="utf-8", errors="replace").strip()
+            models = collect_aadl_models(str(temp_root / "Case01_A" / "Case01_Base.aadl"))
+            target_component = extract_target_component(requirement_text, aadl_model)
+            pipeline = RefactoredAgreeAutogenPipeline(config)
+            result = pipeline.run_case(
+                setting=setting,
+                case_num="01",
+                case_letter="A",
+                aadl_model=aadl_model,
+                requirement_text=requirement_text,
+                target_component=target_component,
+                references=models.get("references", []),
+            )
+            final_model = result.get("artifacts", {}).get("Case01_final.aadl", "")
             if final_model:
-                (output_dir / "final_output.aadl").write_text(final_model, encoding="utf-8")
-                (output_dir / "generated_output.aadl").write_text(final_model, encoding="utf-8")
+                final_path = Path(final_model)
+                if final_path.exists():
+                    shutil.copyfile(final_path, output_dir / "final_output.aadl")
             report = {
                 "success": bool(result.get("success")),
                 "stage": "pipeline",
                 "runtime": time.time() - start_time,
-                "case_result": case_result,
-                "rag_enabled": not args.disable_rag,
-                "repair_enabled": not args.disable_repair,
+                "case_result": result,
+                "setting": setting,
+                "rag_enabled": EXPERIMENTS[setting].rag,
+                "repair_enabled": EXPERIMENTS[setting].repair,
                 **_validator_status(aadl, args.skip_validation),
             }
             _write_json(output_dir / "report.json", report)
@@ -239,6 +239,7 @@ def main() -> int:
     parser.add_argument("--config", default="configs/experiments.yaml", help="Experiment config file.")
     parser.add_argument("--disable-rag", action="store_true", help="Run without retrieval augmentation or a knowledge-base index.")
     parser.add_argument("--disable-repair", action="store_true", help="Do not run iterative repair when runtime support is available.")
+    parser.add_argument("--setting", default="E2", choices=["E1", "E2", "E3", "E4", "E5", "E6", "E7"], help="Experiment setting for the refactored runner.")
     parser.add_argument("--skip-validation", action="store_true", help="Do not call external AADL/AGREE validators.")
     parser.add_argument("--dry-run", action="store_true", help="Check paths and configuration without calling LLMs or validators.")
     args = parser.parse_args()

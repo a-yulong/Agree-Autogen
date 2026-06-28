@@ -1,0 +1,47 @@
+package TestPatternMatching
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    -- 变体类型（如果支持）
+    data maybe_int
+        variants
+            Nothing;
+            Just(value: int);
+        end variants;
+    end maybe_int;
+
+    system TestSystem
+        features
+            input1: in data port maybe_int;
+            output1: out data port int;
+        annex agree {**
+            -- 错误37：模式匹配错误
+            eq x : int =
+                match input1 with
+                | Nothing => 0
+                | Just(v) => v + true  -- 类型不匹配
+                end match;
+
+            -- 不完整的模式匹配
+            eq y : int =
+                match input1 with
+                | Just(v) => v
+                end match;  -- 缺少Nothing分支
+
+            -- 多余的分支
+            eq z : int =
+                match input1 with
+                | Nothing => 0
+                | Just(v) => v
+                | Extra => 100  -- 不存在的模式
+                end match;
+        **};
+    end TestSystem;
+
+end TestPatternMatching;

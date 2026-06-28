@@ -1,0 +1,40 @@
+package TestNameShadowingBoolean
+public
+    -- 错误场景：自定义类型名 'boolean' 与内置类型名冲突
+    with Base_Types;
+
+    -- 自定义类型名与 AGREE 内置类型名相同！
+    data boolean extends Base_Types::Boolean
+    end boolean;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system SafetyMonitor
+        features
+            sensor_ok: in data port boolean;       -- 使用自定义的 boolean
+            actuator_ok: in data port boolean;     -- 使用自定义的 boolean
+            system_safe: out data port boolean;    -- 使用自定义的 boolean
+            emergency_stop: out data port boolean; -- 使用自定义的 boolean
+
+        annex agree {**
+            const TRUE : boolean = true;    -- 这里会非常混乱！
+            const FALSE : boolean = false;
+
+            eq all_sensors_ok : boolean = sensor_ok and actuator_ok;
+            eq need_emergency_stop : boolean = not all_sensors_ok;
+
+            guarantee "system_safe_implication": all_sensors_ok = system_safe;
+            guarantee "emergency_stop_when_unsafe": need_emergency_stop = emergency_stop;
+            guarantee "safety_invariant": system_safe = (sensor_ok and actuator_ok);
+        **};
+    end SafetyMonitor;
+
+    system implementation SafetyMonitor.impl
+        annex agree {**
+            assign system_safe = all_sensors_ok;
+            assign emergency_stop = need_emergency_stop;
+        **};
+    end SafetyMonitor.impl;
+
+end TestNameShadowingBoolean;

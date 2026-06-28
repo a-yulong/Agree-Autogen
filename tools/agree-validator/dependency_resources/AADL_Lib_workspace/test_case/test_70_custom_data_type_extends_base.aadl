@@ -1,0 +1,67 @@
+package TestCustomDataTypeExtendsBase
+public
+    -- 错误场景：自定义 data type 扩展 Base_Types 后类型推断失败
+    with Base_Types;
+
+    -- 自定义 data type 扩展 Base_Types
+    data real extends Base_Types::Float
+    end real;
+
+    data integer extends Base_Types::Integer
+    end integer;
+
+    data boolean extends Base_Types::Boolean
+    end boolean;
+
+    system SteeringSystem
+        features
+            Target_Tire_Direction: in data port real;
+            Actual_Tire_Direction: out data port real;
+            Speed: in data port real;
+            Enable_Limit: in data port boolean;
+            Max_Angle: in data port real;
+
+        annex agree {**
+            -- const 定义使用自定义类型
+            const HIGH_SPEED_THRESHOLD : real = 45.0;
+            const MAX_SAFE_ANGLE : real = 0.20;
+            const MIN_SAFE_ANGLE : real = -0.20;
+
+            -- eq 变量使用自定义类型
+            eq is_high_speed : boolean = Speed > HIGH_SPEED_THRESHOLD;
+            eq angle_too_large : boolean = Target_Tire_Direction > MAX_SAFE_ANGLE;
+            eq angle_too_small : boolean = Target_Tire_Direction < MIN_SAFE_ANGLE;
+
+            -- guarantee 语句引用自定义类型的 port 和 const
+            guarantee "high_speed_positive_large_target_limit_upper":
+                (Speed > HIGH_SPEED_THRESHOLD) and (Target_Tire_Direction > MAX_SAFE_ANGLE)
+                => (Actual_Tire_Direction = MAX_SAFE_ANGLE);
+
+            guarantee "high_speed_negative_large_target_limit_lower":
+                (Speed > HIGH_SPEED_THRESHOLD) and (Target_Tire_Direction < -MAX_SAFE_ANGLE)
+                => (Actual_Tire_Direction = -MAX_SAFE_ANGLE);
+
+            guarantee "low_speed_or_small_target_follow_exactly":
+                ((Speed <= HIGH_SPEED_THRESHOLD) or (Target_Tire_Direction >= -MAX_SAFE_ANGLE and Target_Tire_Direction <= MAX_SAFE_ANGLE))
+                => (Actual_Tire_Direction = Target_Tire_Direction);
+        **};
+    end SteeringSystem;
+
+    system implementation SteeringSystem.Impl
+        annex agree {**
+            -- assign 语句使用嵌套 if-else 和自定义类型
+            assign Actual_Tire_Direction =
+                if (Speed > HIGH_SPEED_THRESHOLD) then
+                    if (Target_Tire_Direction > MAX_SAFE_ANGLE) then
+                        MAX_SAFE_ANGLE
+                    else
+                        if (Target_Tire_Direction < -MAX_SAFE_ANGLE) then
+                            -MAX_SAFE_ANGLE
+                        else
+                            Target_Tire_Direction
+                else
+                    Target_Tire_Direction;
+        **};
+    end SteeringSystem.Impl;
+
+end TestCustomDataTypeExtendsBase;

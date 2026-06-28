@@ -5,6 +5,154 @@ from typing import Any, Dict, Optional
 from .runtime import format_file_link
 
 
+_BUILTIN_PACKAGE_NAMES = {
+    "aadl_project",
+    "agree_constants",
+    "agree_nodes",
+    "agree_pltl",
+    "agree_stdlib",
+    "arinc429",
+    "arinc653",
+    "arp4761",
+    "base_types",
+    "behavior_properties",
+    "code_generation_properties",
+    "communication_properties",
+    "data_model",
+    "deployment",
+    "deployment_properties",
+    "dreal",
+    "emv2",
+    "errorlibrary",
+    "linearizer",
+    "memory_properties",
+    "milstd882",
+    "modeling_properties",
+    "physical",
+    "physicalresources",
+    "programming_properties",
+    "qs_properties",
+    "sei",
+    "thread_properties",
+    "timing_properties",
+}
+
+
+def _repo_root() -> str:
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+
+
+def _static_lib_dir() -> str:
+    return os.environ.get(
+        "AGREE_VALIDATOR_STATIC_LIBS",
+        os.path.join(_repo_root(), "tools", "agree-validator", "static-libs"),
+    )
+
+
+def _external_aadl_lib_roots() -> list[str]:
+    configured = os.environ.get("AGREE_AADL_LIB_WORKSPACE", "")
+    roots = [path.strip() for path in configured.split(os.pathsep) if path.strip()]
+    configured_dirs = os.environ.get("AGREE_AADL_LIB_DIRS", "")
+    roots.extend(path.strip() for path in configured_dirs.split(os.pathsep) if path.strip())
+    default_workspace = r"D:\AADL_Lib_workspace"
+    if os.path.isdir(default_workspace) and default_workspace not in roots:
+        roots.append(default_workspace)
+    seen = set()
+    existing = []
+    for root in roots:
+        normalized = os.path.normpath(root)
+        key = normalized.lower()
+        if key in seen or not os.path.isdir(normalized):
+            continue
+        seen.add(key)
+        existing.append(normalized)
+    return existing
+
+
+def _top_level_package(model_unit: str) -> str:
+    return model_unit.split("::", 1)[0].strip()
+
+
+def _package_declared_in(content: str, package_name: str) -> bool:
+    pattern = rf"(?im)^\s*(?:public\s+)?package\s+{re.escape(package_name)}(?:\b|::)"
+    return re.search(pattern, content) is not None
+
+
+def _library_unit_declared_in(content: str, unit_name: str) -> bool:
+    normalized = (unit_name or "").strip().replace(".", "::")
+    if not normalized:
+        return False
+    package_pattern = rf"(?im)^\s*(?:public\s+)?package\s+{re.escape(normalized)}(?:\b|::)"
+    property_pattern = rf"(?im)^\s*property\s+set\s+{re.escape(normalized)}\b"
+    return re.search(package_pattern, content) is not None or re.search(property_pattern, content) is not None
+
+
+def _strip_aadl_line_comments(content: str) -> str:
+    return re.sub(r"(?m)--.*$", "", content or "")
+
+
+def _extract_qualified_unit_references(content: str) -> list[str]:
+    refs: list[str] = []
+    for match in re.finditer(r"\b([A-Za-z_][A-Za-z0-9_]*(?:::[A-Za-z_][A-Za-z0-9_]*)+)\b", _strip_aadl_line_comments(content or "")):
+        parts = match.group(1).split("::")
+        if len(parts) < 2:
+            continue
+        if parts[0].lower() in _BUILTIN_PACKAGE_NAMES:
+            continue
+        for size in range(len(parts), 1, -1):
+            candidate = "::".join(parts[:size])
+            refs.append(candidate)
+    return list(dict.fromkeys(refs))
+
+
+def _find_dependency_file(package_name: str, preferred_dirs: list[str]) -> Optional[str]:
+    primary_roots = preferred_dirs + _external_aadl_lib_roots()
+    static_roots = [_static_lib_dir()]
+    top_level = _top_level_package(package_name)
+    lookup_order = [package_name]
+    if top_level and top_level.lower() != package_name.lower():
+        lookup_order.append(top_level)
+
+    for roots in (primary_roots, static_roots):
+        for candidate in lookup_order:
+            for file_name in (f"{candidate}.aadl", f"{candidate}_nodes.aadl"):
+                for root in roots:
+                    if not root or not os.path.isdir(root):
+                        continue
+                    direct = os.path.join(root, file_name)
+                    if os.path.isfile(direct):
+                        return os.path.normpath(direct)
+            for root in roots:
+                if not root or not os.path.isdir(root):
+                    continue
+                for dirpath, _, filenames in os.walk(root):
+                    for filename in filenames:
+                        if not filename.lower().endswith(".aadl"):
+                            continue
+                        path = os.path.join(dirpath, filename)
+                        try:
+                            with open(path, "r", encoding="utf-8", errors="replace") as file:
+                                content = file.read()
+                        except OSError:
+                            continue
+                        if _library_unit_declared_in(content, candidate):
+                            return os.path.normpath(path)
+    return None
+
+
+def _add_reference(references: list[dict[str, str]], seen_paths: set[str], path: str, label: str) -> bool:
+    normalized = os.path.normpath(path)
+    path_key = os.path.abspath(normalized).lower()
+    if not os.path.exists(normalized) or path_key in seen_paths:
+        return False
+    with open(normalized, "r", encoding="utf-8", errors="replace") as file:
+        content = file.read()
+    references.append({"path": normalized, "content": content})
+    seen_paths.add(path_key)
+    print(f"{label}: {format_file_link(normalized)}")
+    return True
+
+
 def _collect_declared_component_names(aadl_model: str) -> list[str]:
     """Collect component type and implementation names declared in an AADL model."""
     names: list[str] = []
@@ -88,13 +236,25 @@ def extract_target_component(requirement_text: str, aadl_model: str) -> str:
     if mentioned_declared:
         return mentioned_declared
 
+    patterns = [
+        r"请为\s*([A-Za-z_][A-Za-z0-9_\.]*)",
+        r"请为\s*.*?\b([A-Za-z_][A-Za-z0-9_\.]*)\b",
+        r"请在\s*([A-Za-z_][A-Za-z0-9_\.]*)\s*组件",
+        r"请根据\s*([A-Za-z_][A-Za-z0-9_\.]*)\s*的",
+        r"针对\s*([A-Za-z_][A-Za-z0-9_\.]*)\s*组件",
+        r"组件\s*([A-Za-z_][A-Za-z0-9_\.]*)",
+        r"系统组件\s*([A-Za-z_][A-Za-z0-9_\.]*)",
+        r"实现层\s*([A-Za-z_][A-Za-z0-9_\.]*)",
+        r"(?:component|system|implementation)\s+([A-Za-z_][A-Za-z0-9_\.]*)",
+        r"for\s+(?:the\s+)?([A-Za-z_][A-Za-z0-9_\.]*)\s+(?:component|system|implementation)",
+        r"(?:specification|contract)\s+for\s+(?:the\s+)?([A-Za-z_][A-Za-z0-9_\.]*)",
+    ]
+
     candidate = None
-    for token in re.findall(r"\b[A-Za-z_][A-Za-z0-9_\.]*\b", requirement_text):
-        if token.lower() in {"case", "aadl", "agree", "system", "component", "implementation"}:
-            continue
-        resolved = _resolve_component_name(token, declared_names)
-        if resolved:
-            candidate = resolved
+    for pattern in patterns:
+        match = re.search(pattern, requirement_text, flags=re.IGNORECASE)
+        if match:
+            candidate = match.group(1)
             break
 
     resolved = _resolve_component_name(candidate or "", declared_names)
@@ -131,10 +291,21 @@ def extract_target_component(requirement_text: str, aadl_model: str) -> str:
     raise ValueError("Unable to extract a target component from the requirement text")
 
 
-def run_single_case(pipeline, case_num: int, case_letter: str = "A") -> Dict[str, Any]:
+def run_single_case(pipeline, case_num: int, case_letter: str = "A", setting: str = "E2") -> Dict[str, Any]:
     case_str = f"Case{case_num:02d}"
-    case_dir = f"{case_str}_{case_letter}"
     source_root = os.environ.get("AGREE_SOURCE_ROOT", os.path.abspath("data/Sources"))
+    case_dirs = []
+    if case_letter:
+        case_dirs.append(f"{case_str}_{case_letter}")
+    case_dirs.append(case_str)
+    case_dir = None
+    for candidate in case_dirs:
+        candidate_path = os.path.join(source_root, candidate)
+        if os.path.exists(os.path.join(candidate_path, f"{case_str}_Base.txt")) and os.path.exists(os.path.join(candidate_path, f"{case_str}_Req.txt")):
+            case_dir = candidate
+            break
+    if case_dir is None:
+        raise FileNotFoundError(f"No source case with Base/Req files found for {case_str}: {case_dirs}")
 
     txt_file_path = os.path.join(source_root, case_dir, f"{case_str}_Base.txt")
     req_file_path = os.path.join(source_root, case_dir, f"{case_str}_Req.txt")
@@ -162,18 +333,30 @@ def run_single_case(pipeline, case_num: int, case_letter: str = "A") -> Dict[str
     target_component = extract_target_component(user_requirements, aadl_model)
     print(f"Target component: {target_component}")
 
-    result = pipeline.run_full_pipeline(
-        aadl_model,
-        user_requirements,
-        target_component=target_component,
-        models=models,
-        case_num=f"{case_num:02d}",
-        case_letter=case_letter,
-    )
+    normalized_setting = setting.upper()
+    if normalized_setting == "E1":
+        result = pipeline.run_bare_pipeline(
+            aadl_model,
+            user_requirements,
+            target_component=target_component,
+            models=models,
+            case_num=f"{case_num:02d}",
+            case_letter=case_letter,
+        )
+    else:
+        result = pipeline.run_full_pipeline(
+            aadl_model,
+            user_requirements,
+            target_component=target_component,
+            models=models,
+            case_num=f"{case_num:02d}",
+            case_letter=case_letter,
+        )
 
     return {
         "case_num": f"{case_num:02d}",
         "case_letter": case_letter,
+        "setting": normalized_setting,
         "target_component": target_component,
         "result": result,
     }
@@ -184,48 +367,68 @@ def collect_aadl_models(main_aadl_path):
         main_content = file.read()
 
     references = []
-    seen_paths = set()
+    seen_paths = {os.path.abspath(os.path.normpath(main_aadl_path)).lower()}
     base_dir = os.path.dirname(main_aadl_path)
     base_name = os.path.basename(base_dir)
 
     case_dir_match = re.search(r"Case(\d+)", base_name)
     case_num = case_dir_match.group(1) if case_dir_match else "01"
     package_dir = os.path.join(base_dir, f"Case{case_num}")
+    package_dirs = [package_dir]
+    for name in sorted(os.listdir(base_dir)):
+        path = os.path.join(base_dir, name)
+        if os.path.isdir(path) and re.match(r"(?i)^Case\d+", name) and path not in package_dirs:
+            package_dirs.append(path)
 
     with_statements = []
-    for clause in re.findall(r"with\s+([^;]+);", main_content):
+    for clause in re.findall(r"(?im)^\s*with\s+([^;]+);", _strip_aadl_line_comments(main_content)):
         parts = [part.strip() for part in clause.split(",")]
         with_statements.extend([part for part in parts if part])
 
     for pkg in with_statements:
+        top_pkg = _top_level_package(pkg)
         possible_paths = [
             os.path.join(base_dir, f"{pkg}.aadl"),
             os.path.join(base_dir, f"{pkg}_nodes.aadl"),
-            os.path.join(package_dir, f"{pkg}.aadl"),
-            os.path.join(package_dir, f"{pkg}_nodes.aadl"),
+            os.path.join(base_dir, f"{top_pkg}.aadl"),
+            os.path.join(base_dir, f"{top_pkg}_nodes.aadl"),
         ]
+        for local_package_dir in package_dirs:
+            possible_paths.extend(
+                [
+                    os.path.join(local_package_dir, f"{pkg}.aadl"),
+                    os.path.join(local_package_dir, f"{pkg}_nodes.aadl"),
+                    os.path.join(local_package_dir, f"{top_pkg}.aadl"),
+                    os.path.join(local_package_dir, f"{top_pkg}_nodes.aadl"),
+                ]
+            )
+        found = False
         for path in possible_paths:
-            normalized = os.path.normpath(path)
-            if not os.path.exists(normalized) or normalized in seen_paths:
-                continue
-            with open(normalized, "r", encoding="utf-8") as file:
-                content = file.read()
-            references.append({"path": normalized, "content": content})
-            seen_paths.add(normalized)
-            print(f"Collected referenced package model: {format_file_link(normalized)}")
-            break
+            if _add_reference(references, seen_paths, path, "Collected referenced package model"):
+                found = True
+                break
+        if found:
+            continue
+        if top_pkg.lower() in _BUILTIN_PACKAGE_NAMES:
+            continue
+        dependency = _find_dependency_file(pkg, [base_dir] + package_dirs)
+        if dependency:
+            _add_reference(references, seen_paths, dependency, "Collected external dependency model")
+        else:
+            print(f"Dependency not found for with clause: {pkg}")
 
-    if os.path.isdir(package_dir):
-        for file_name in sorted(os.listdir(package_dir)):
-            if not file_name.lower().endswith(".aadl"):
-                continue
-            full_path = os.path.normpath(os.path.join(package_dir, file_name))
-            if full_path in seen_paths:
-                continue
-            with open(full_path, "r", encoding="utf-8") as file:
-                content = file.read()
-            references.append({"path": full_path, "content": content})
-            seen_paths.add(full_path)
-            print(f"Collected case-local model: {format_file_link(full_path)}")
+    for local_package_dir in package_dirs:
+        if os.path.isdir(local_package_dir):
+            for file_name in sorted(os.listdir(local_package_dir)):
+                if not file_name.lower().endswith(".aadl"):
+                    continue
+                full_path = os.path.normpath(os.path.join(local_package_dir, file_name))
+                _add_reference(references, seen_paths, full_path, "Collected case-local model")
+
+    dependency_scan_content = "\n".join([main_content] + [ref.get("content", "") for ref in references])
+    for unit in _extract_qualified_unit_references(dependency_scan_content):
+        dependency = _find_dependency_file(unit, [base_dir] + package_dirs)
+        if dependency:
+            _add_reference(references, seen_paths, dependency, "Collected qualified reference dependency model")
 
     return {"main": main_content, "references": references}

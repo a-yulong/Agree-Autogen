@@ -1,0 +1,37 @@
+package TestIntegerOverflow
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data int8 extends Base_Types::Integer_8
+    end int8;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input1: in data port int8;
+            output1: out data port int8;
+        annex agree {**
+            -- 错误40：整数溢出和范围问题
+            eq x : int8 = 127;  -- int8最大值
+            eq y : int8 = x + 1;  -- 可能溢出
+            eq z : int8 = -128 - 1;  -- 可能下溢
+
+            -- 大整数常量
+            eq big : int = 999999999999999999;
+
+            -- 混合大小类型
+            eq a : int8 = input1;
+            eq b : int = a + 100;  -- 提升到int
+            eq c : int8 = b;  -- 可能截断
+
+            -- 位运算（如果支持）
+            eq d : int8 = input1 << 2;  -- 左移可能溢出
+        **};
+    end TestSystem;
+
+end TestIntegerOverflow;

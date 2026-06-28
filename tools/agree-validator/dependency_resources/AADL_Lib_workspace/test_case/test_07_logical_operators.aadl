@@ -1,0 +1,29 @@
+package TestLogicalOperators
+public
+	with Base_Types;
+
+	data int extends Base_Types::Integer
+	end int;
+
+	data real extends Base_Types::Float
+	end real;
+
+	data bool extends Base_Types::Boolean
+	end bool;
+
+	system TestSystem
+		features
+			input1: in data port int;
+			input2: in data port int;
+			output1: out data port int;
+		annex agree {**
+			eq x : bool = true;
+			eq y : bool = false;
+			-- 错误7：使用了C/Java风格的逻辑运算符
+			guarantee "test1": x && y;
+			guarantee "test2": x || y;
+			guarantee "test3": !x;
+		**};
+	end TestSystem;
+
+end TestLogicalOperators;

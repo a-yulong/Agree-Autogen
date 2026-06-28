@@ -1,0 +1,55 @@
+package TestNameShadowing
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            x: in data port int;  -- 端口名x
+            output1: out data port int;
+        annex agree {**
+            -- 错误48：名称遮蔽
+
+            -- 用eq声明与端口同名的变量
+            eq x : int = 5;  -- 遮蔽了端口x
+
+            -- 节点参数遮蔽外部名称
+            node shadow_param(x : int) returns (y : int);
+            let
+                -- 这里的x是参数，不是端口或外部eq
+                y = x + 1;
+            tel;
+
+            -- 节点let内定义遮蔽
+            node inner_shadow(a : int) returns (b : int);
+            let
+                eq a : int = 10;  -- 遮蔽参数a
+                b = a;  -- 使用的是内部a=10
+            tel;
+
+            -- 嵌套节点的遮蔽
+            node outer(x : int) returns (z : int);
+            let
+                node inner(y : int) returns (w : int);
+                let
+                    eq x : int = y;  -- 遮蔽outer的x
+                    w = x;
+                tel;
+                z = inner(x);
+            tel;
+
+            -- 使用
+            eq result1 : int = shadow_param(x);
+            eq result2 : int = inner_shadow(20);
+            eq result3 : int = outer(100);
+
+            assign output1 = result1 + result2 + result3;
+        **};
+    end TestSystem;
+
+end TestNameShadowing;

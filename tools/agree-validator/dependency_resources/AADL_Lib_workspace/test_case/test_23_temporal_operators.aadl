@@ -1,0 +1,30 @@
+package TestTemporalOperators
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input1: in data port bool;
+            output1: out data port bool;
+        annex agree {**
+            -- 错误23：时间逻辑操作符使用错误
+            guarantee "bad_globally": G(input1 > 5);  -- G需要bool
+            guarantee "bad_finally": F(10);            -- F需要bool
+            guarantee "bad_next": X("string");         -- X需要bool
+
+            -- 嵌套时间操作符
+            eq x : bool = G(F(input1));
+            guarantee "nested_temporal": G(F(input1) -> X(x));
+        **};
+    end TestSystem;
+
+end TestTemporalOperators;

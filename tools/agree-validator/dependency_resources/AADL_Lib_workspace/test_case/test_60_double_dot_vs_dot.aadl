@@ -1,0 +1,32 @@
+package TestDoubleDotVsDot
+public
+    with Base_Types;
+    -- 假设有一个defs1包
+    with defs1;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input: in data port int;
+            output: out data port bool;
+        annex agree {**
+            -- 修复记录#7场景：使用.而不是::来引用
+            -- 错误：应该用::但用了.
+            eq x : bool = defs1.is_setup();  -- 应该是defs::is_setup()
+
+            -- 正确的写法
+            eq y : bool = defs1::is_setup();
+
+            -- 更多错误例子
+            eq z : int = defs1.counter;  -- 应该是defs::counter
+
+            assign output = x or y;
+        **};
+    end TestSystem;
+
+end TestDoubleDotVsDot;

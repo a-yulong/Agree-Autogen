@@ -1,0 +1,52 @@
+package TestContractRefinement
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    -- 抽象系统
+    system AbstractSystem
+        features
+            input: in data port int;
+            output: out data port int;
+        annex agree {**
+            assume "input_range": input >= 0 and input < 100;
+            guarantee "output_positive": output > 0;
+            guarantee "output_less": output <= input * 2;
+        **};
+    end AbstractSystem;
+
+    -- 具体实现系统
+    system ConcreteSystem
+        features
+            input: in data port int;
+            output: out data port int;
+        annex agree {**
+            -- 错误52：契约细化问题
+
+            -- 更弱的假设（允许更多输入，这是好的）
+            assume "weaker_input": input >= -50 and input < 200;
+
+            -- 更强的保证（更严格的输出，这是好的）
+            guarantee "stronger_output": output > 0 and output < input;
+
+            -- 错误：更强的假设（不允许的细化）
+            assume "stronger_input": input > 10;  -- 太严格了
+
+            -- 错误：更弱的保证（不允许的细化）
+            guarantee "weaker_output": output >= 0;  -- 比抽象的弱
+        **};
+    end ConcreteSystem;
+
+    system implementation ConcreteSystem.impl
+        annex agree {**
+            eq x : int = input + 1;
+            assign output = x;
+        **};
+    end ConcreteSystem.impl;
+
+end TestContractRefinement;

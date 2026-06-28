@@ -71,4 +71,4 @@ If validators are not configured, wrappers return a configuration status rather 
 | missing model configuration | model endpoint variables are unset | set `AGREE_MODEL_BASE_URL`, `AGREE_MODEL_API_KEY`, and `AGREE_MODEL_NAME` |
 | RAG directory not found | `AGREE_DOCS_DIR` points to a missing path | set it to a prepared corpus directory or use `--disable-rag` |
 | validator not configured | Java, OSATE, or validator paths are missing | configure validation variables or use `--skip-validation` |
-| unsupported experiment setting | runtime switch is not implemented | check `experiments/settings.yaml` |
+| unknown or incomplete run configuration | the selected setting does not match the configured runner inputs | check `experiments/settings.yaml` and the selected launcher |

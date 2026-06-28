@@ -1,0 +1,52 @@
+package TestProvingObligations
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            x: in data port int;
+            y: in data port int;
+            z: out data port int;
+        annex agree {**
+            eq sum : int = x + y;
+            eq diff : int = x - y;
+            eq prod : int = x * y;
+
+            -- 假设
+            assume "x_positive": x > 0;
+            assume "y_positive": y > 0;
+            assume "x_small": x < 100;
+            assume "y_small": y < 100;
+
+            -- 错误54：证明义务相关的保证
+
+            -- 可证明的保证
+            guarantee "sum_positive": sum > 0;
+            guarantee "sum_bigger": sum > x and sum > y;
+
+            -- 可能不可证明的（取决于x和y的范围）
+            guarantee "prod_big": prod > 100;  -- 如果x和y都小于10就不成立
+
+            -- 不可能证明的（矛盾）
+            guarantee "impossible": sum < 0;  -- 与假设矛盾
+
+            -- 需要归纳证明的
+            eq counter : int = 0 -> pre(counter) + 1;
+            guarantee "counter_non_neg": counter >= 0;  -- 归纳不变式
+            guarantee "counter_increases": counter > pre(counter);  -- 第一时间步不成立
+
+            -- 赋值
+            assign z = prod;
+        **};
+    end TestSystem;
+
+end TestProvingObligations;

@@ -1,0 +1,82 @@
+package TestCustomTypePortTypeErrors
+public
+    -- 错误场景变体：多种自定义类型组合使用
+    with Base_Types;
+
+    -- 多个自定义 data type
+    data MyFloat extends Base_Types::Float
+    end MyFloat;
+
+    data MyInt extends Base_Types::Integer
+    end MyInt;
+
+    data MyBool extends Base_Types::Boolean
+    end MyBool;
+
+    -- 另一个层级的自定义类型
+    data Temperature extends MyFloat
+    end Temperature;
+
+    data Pressure extends MyFloat
+    end Pressure;
+
+    system Thermostat
+        features
+            current_temp: in data port Temperature;
+            target_temp: in data port Temperature;
+            heater_on: out data port MyBool;
+            pressure: in data port Pressure;
+            threshold: in data port MyFloat;
+            cycles: out data port MyInt;
+
+        annex agree {**
+            -- 各种类型的 const
+            const TEMP_TOLERANCE : MyFloat = 0.5;
+            const MAX_PRESSURE : Pressure = 100.0;
+            const MIN_CYCLES : MyInt = 0;
+            const DEFAULT_BOOL : MyBool = true;
+
+            -- eq 变量混合使用自定义类型
+            eq temp_diff : MyFloat = current_temp - target_temp;
+            eq too_cold : MyBool = current_temp < target_temp - TEMP_TOLERANCE;
+            eq too_hot : MyBool = current_temp > target_temp + TEMP_TOLERANCE;
+            eq pressure_ok : MyBool = pressure <= MAX_PRESSURE;
+            eq cycle_count : MyInt = if heater_on then 1 else 0;
+
+            -- 复杂的保证语句
+            guarantee "heater_on_when_too_cold":
+                too_cold and pressure_ok => heater_on = true;
+
+            guarantee "heater_off_when_too_hot":
+                too_hot => heater_on = false;
+
+            guarantee "pressure_safety":
+                pressure > MAX_PRESSURE => heater_on = false;
+
+            guarantee "cycle_count_positive":
+                cycles >= MIN_CYCLES;
+        **};
+    end Thermostat;
+
+    system implementation Thermostat.Impl
+        subcomponents
+            sensor: data Temperature;
+            actuator: data MyBool;
+
+        annex agree {**
+            -- 复杂的 assign 逻辑
+            assign heater_on =
+                if pressure > MAX_PRESSURE then false
+                else if current_temp < target_temp - TEMP_TOLERANCE then true
+                else if current_temp > target_temp + TEMP_TOLERANCE then false
+                else heater_on;
+
+            assign cycles =
+                if heater_on then
+                    if pressure_ok then 1
+                    else 0
+                else 0;
+        **};
+    end Thermostat.Impl;
+
+end TestCustomTypePortTypeErrors;

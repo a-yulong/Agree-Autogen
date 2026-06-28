@@ -1,0 +1,43 @@
+package TestNameShadowingInteger
+public
+    -- 错误场景：自定义类型名 'integer' 与内置类型名冲突
+    with Base_Types;
+
+    -- 自定义类型名与 AGREE 内置类型名相同！
+    data integer extends Base_Types::Integer
+    end integer;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    system Counter
+        features
+            reset: in data port boolean;
+            increment: in data port boolean;
+            count: out data port integer;     -- 使用自定义的 integer
+            max_count: in data port integer;   -- 使用自定义的 integer
+
+        annex agree {**
+            const INIT_VALUE : integer = 0;
+            const MAX_ALLOWED : integer = 1000;
+
+            eq current_count : integer = INIT_VALUE ->
+                if reset then INIT_VALUE
+                else if increment then pre(current_count) + 1
+                else pre(current_count);
+
+            eq is_max : boolean = current_count >= max_count;
+            eq is_overflow : boolean = current_count > MAX_ALLOWED;
+
+            guarantee "count_in_range": current_count >= INIT_VALUE and current_count <= MAX_ALLOWED;
+            guarantee "reset_works": reset => (current_count = INIT_VALUE);
+        **};
+    end Counter;
+
+    system implementation Counter.impl
+        annex agree {**
+            assign count = current_count;
+        **};
+    end Counter.impl;
+
+end TestNameShadowingInteger;

@@ -1,0 +1,38 @@
+package TestRealPrecision
+public
+    with Base_Types;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input1: in data port real;
+            output1: out data port real;
+        annex agree {**
+            -- 错误41：浮点数精度问题
+            eq x : real = 0.1 + 0.2;  -- 可能不等于0.3
+            eq y : real = x = 0.3;     -- 浮点数直接比较有问题
+
+            -- 很大的浮点数
+            eq big : real = 1e308;
+            eq tiny : real = 1e-308;
+
+            -- 无穷和NaN（如果支持）
+            eq inf : real = 1.0 / 0.0;
+            eq nan : real = 0.0 / 0.0;
+
+            -- 浮点运算
+            eq a : real = input1 * 0.0;
+            eq b : real = a + 1.0;
+
+            -- 混合整数和浮点数
+            eq c : real = 5 + 3.14;
+            eq d : bool = input1 = 0;  -- 与整数比较
+        **};
+    end TestSystem;
+
+end TestRealPrecision;

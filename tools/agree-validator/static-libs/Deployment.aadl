@@ -1,0 +1,76 @@
+property set Deployment is
+
+  Allowed_Transport_APIs : type enumeration
+    (BSD_Sockets,
+     SpaceWire);
+
+  Transport_API : Deployment::Allowed_Transport_APIs applies to (bus);
+
+  Location : aadlstring applies to (processor, device);
+  Port_Number : aadlinteger applies to (process, device);
+
+  Protocol_Type : type enumeration (iiop, diop);
+  Protocol : Deployment::Protocol_Type applies to (system);
+
+  Allowed_Execution_Platform : type enumeration
+   (Native,
+    Native_Compcert,
+    bench,
+    GNAT_Runtime,
+    LEON_ORK,
+    LEON_RTEMS,
+    LEON_RTEMS_POSIX,
+    LEON3_SCOC3,
+    LEON3_XTRATUM,
+    LEON3_XM3,
+    LEON_GNAT,
+    LINUX32,
+    LINUX_DLL,
+    LINUX32_XENOMAI_NATIVE,
+    LINUX32_XENOMAI_POSIX,
+    LINUX64,
+    ERC32_ORK,
+    X86_RTEMS_POSIX,
+    X86_LINUXTASTE,
+    MARTE_OS,
+    WIN32,
+    VXWORKS,
+    FREERTOS,
+    MSP430_FREERTOS,
+    AIR,
+    AIR_IOP);
+
+  Execution_Platform : Deployment::Allowed_Execution_Platform
+    applies to (all);
+
+  Ada_Runtime : aadlstring applies to (processor);
+  USER_CFLAGS : aadlstring applies to (processor);
+  USER_LDFLAGS : aadlstring applies to (processor);
+
+  Supported_Execution_Platform : list of Deployment::Allowed_Execution_Platform
+    applies to (device);
+
+  USER_ENV: aadlstring applies to (processor);
+
+  Runtime : type enumeration
+    (PolyORB_HI_C,
+     PolyORB_HI_Ada,
+     POK);
+
+  Supported_Runtime : Deployment::Runtime applies to (all);
+
+  Priority_Type : type aadlinteger 0 .. 255;
+  Priority : Deployment::Priority_Type applies to (data, thread);
+
+  Driver_Name : aadlstring applies to (device);
+
+  Configuration : aadlstring applies to (device, thread);
+  Config : aadlstring applies to (device);
+
+  ASN1_Module_Name : aadlstring applies to (all);
+
+  Help : aadlstring applies to (all);
+  Version : aadlstring applies to (all);
+  Configuration_Type : classifier (data) applies to (all);
+
+end Deployment;

@@ -1,0 +1,56 @@
+package TestConnectionErrors
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    -- 生产者系统
+    system Producer
+        features
+            int_out: out data port int;
+            real_out: out data port real;
+            bool_out: out data port bool;
+    end Producer;
+
+    -- 消费者系统
+    system Consumer
+        features
+            int_in: in data port int;
+            real_in: in data port real;
+            bool_in: in data port bool;
+    end Consumer;
+
+    -- 顶层系统
+    system TopSystem
+        features
+            trigger: in data port bool;
+    end TopSystem;
+
+    system implementation TopSystem.impl
+        subcomponents
+            prod: system Producer;
+            cons: system Consumer;
+        connections
+            -- 正确的连接
+            c1: port prod.int_out -> cons.int_in;
+            c2: port prod.real_out -> cons.real_in;
+            c3: port prod.bool_out -> cons.bool_in;
+
+            -- 错误53：连接错误
+            c4: port prod.int_out -> cons.real_in;  -- 类型不匹配
+            c5: port prod.real_out -> cons.bool_in;  -- 类型不匹配
+            c6: port trigger -> prod.int_out;  -- 给out端口连接输入
+            c7: port cons.int_in -> prod.int_out;  -- 方向反了
+        annex agree {**
+            -- 这里的annex可能也可以引用连接
+        **};
+    end TopSystem.impl;
+
+end TestConnectionErrors;
