@@ -77,7 +77,7 @@ def _load_excluded_cases(path: Path) -> set[int]:
 
 
 def _base_model_kb(case_num: int, letter: str) -> float:
-    source_root = Path(os.environ.get("AGREE_SOURCE_ROOT", REPO_ROOT / "data" / "Sources"))
+    source_root = Path(os.environ.get("AGREE_SOURCE_ROOT", REPO_ROOT / "data" / "benchmark" / "cases"))
     case_str = f"Case{case_num:02d}"
     base = source_root / f"{case_str}_{letter}" / f"{case_str}_Base.txt"
     if not base.exists():

@@ -1,0 +1,98 @@
+{
+  "case": 97,
+  "letter": "A",
+  "target": "mitigationActor_th",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The mitigationActor_th thread shall operate with a periodic dispatch protocol, a period of 3000 milliseconds, a deadline of 500 milliseconds, and a priority of 8. The thread shall accept a valid input errorData value on the mitigation_in event data port and produce a corresponding actionData value on the mitigation_command event data port. Environmental assumptions shall specify that the mitigation_in port receives valid errorData values. The thread shall guarantee that the mitigation_command port output is determined exclusively by the current mitigation_in input and internal computations performed by the mitigationActor subprogram. The thread shall further guarantee that all state updates maintain the integrity of the data types associated with the mitigation_in and mitigation_command ports.",
+  "natural_requirement": "The mitigationActor_th component shall define the implementation-level signal routing for mitigationActor_th.impl. In the implementation layer, mitigationActor_th.impl shall route data flow from mitigation_in to mitigationActor.inData_para through C1 and control signal from mitigationActor.outData_para to mitigation_command through C2.",
+  "requirement_items": [
+    {
+      "text": "The mitigationActor_th.impl implementation shall route the data flow from mitigation_in to mitigationActor.inData_para through connection C1.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "mitigationActor_th.impl",
+        "C1",
+        "mitigation_in",
+        "mitigationActor.inData_para"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "mitigationActor_th.impl",
+        "connection": "C1",
+        "source": "mitigation_in",
+        "destination": "mitigationActor.inData_para"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The mitigationActor_th.impl implementation shall declare connection C1 from mitigation_in to mitigationActor.inData_para.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The mitigationActor_th.impl implementation shall route the control signal from mitigationActor.outData_para to mitigation_command through connection C2.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "mitigationActor_th.impl",
+        "C2",
+        "mitigationActor.outData_para",
+        "mitigation_command"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "mitigationActor_th.impl",
+        "connection": "C2",
+        "source": "mitigationActor.outData_para",
+        "destination": "mitigation_command"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The mitigationActor_th.impl implementation shall declare connection C2 from mitigationActor.outData_para to mitigation_command.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 151,
+  "original_label": "Case151_A",
+  "natural_requirement_before_behavior_style_rewrite": "The mitigationActor_th.impl implementation shall declare connection C1 from mitigation_in to mitigationActor.inData_para. The mitigationActor_th.impl implementation shall declare connection C2 from mitigationActor.outData_para to mitigation_command.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The mitigationActor_th.impl implementation shall route the data flow from mitigation_in to mitigationActor.inData_para through connection C1. The mitigationActor_th.impl implementation shall route the control signal from mitigationActor.outData_para to mitigation_command through connection C2.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

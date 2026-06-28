@@ -1,0 +1,98 @@
+{
+  "case": 89,
+  "letter": "A",
+  "target": "acc4_dataOutput",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The acc4_dataOutput thread shall operate with a periodic dispatch protocol, priority 1, and a period of 4000 ms, with a compute execution time between 400 ms and 500 ms and a deadline of 500 ms. The thread shall assume that the acc_command_in event data port receives valid actionData values. The thread shall guarantee that the accout data port consistently outputs values of type SHM_DataType::accData that are determined exclusively by the current values received on acc_command_in and the internal computations performed by the acc4_dataOutput.impl implementation. The thread shall further guarantee that all updates to the accout port comply with the data type constraints of SHM_DataType::accData.",
+  "natural_requirement": "The acc4_dataOutput component shall define the implementation-level signal routing for acc4_dataOutput.impl. In the implementation layer, acc4_dataOutput.impl shall route data flow from spg.accDataOut to accout through C1 and control signal from acc_command_in to spg.event_in through C2.",
+  "requirement_items": [
+    {
+      "text": "The acc4_dataOutput.impl implementation shall route the data flow from spg.accDataOut to accout through connection C1.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "acc4_dataOutput.impl",
+        "C1",
+        "spg.accDataOut",
+        "accout"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "acc4_dataOutput.impl",
+        "connection": "C1",
+        "source": "spg.accDataOut",
+        "destination": "accout"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The acc4_dataOutput.impl implementation shall declare connection C1 from spg.accDataOut to accout.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The acc4_dataOutput.impl implementation shall route the control signal from acc_command_in to spg.event_in through connection C2.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "acc4_dataOutput.impl",
+        "C2",
+        "acc_command_in",
+        "spg.event_in"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "acc4_dataOutput.impl",
+        "connection": "C2",
+        "source": "acc_command_in",
+        "destination": "spg.event_in"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The acc4_dataOutput.impl implementation shall declare connection C2 from acc_command_in to spg.event_in.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 140,
+  "original_label": "Case140_A",
+  "natural_requirement_before_behavior_style_rewrite": "The acc4_dataOutput.impl implementation shall declare connection C1 from spg.accDataOut to accout. The acc4_dataOutput.impl implementation shall declare connection C2 from acc_command_in to spg.event_in.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The acc4_dataOutput.impl implementation shall route the data flow from spg.accDataOut to accout through connection C1. The acc4_dataOutput.impl implementation shall route the control signal from acc_command_in to spg.event_in through connection C2.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "case": 95,
+  "letter": "A",
+  "target": "alarmAggregator",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "not_enough_explicit_structure",
+  "source_old_req": "The alarmAggregator thread shall process input error data from the arlarm_acc_in and arlarm_adirup_in ports, and produce a combined error output on the alarmAggregator_out port. The thread shall execute periodically with a period of 3000 ms, have a deadline of 500 ms, and operate at priority level 6. The thread shall guarantee that the alarmAggregator_out port value is determined exclusively by the current values of arlarm_acc_in and arlarm_adirup_in, along with the internal computations performed by the alarmAggregator_spg subprogram. The thread shall ensure that all data written to the alarmAggregator_out port conforms to the SHM_DataType::errorData data type. The thread shall not violate the data type constraints of the arlarm_acc_in, arlarm_adirup_in, or alarmAggregator_out ports under any circumstances.",
+  "natural_requirement": "The alarmAggregator component shall define the implementation-level signal routing for alarmAggregator.impl. In the implementation layer, alarmAggregator.impl shall route data flow from arlarm_acc_in to alarmAggregator.inData_para1 through C1 and data flow from arlarm_adirup_in to alarmAggregator.inData_para2 through C2.",
+  "requirement_items": [
+    {
+      "text": "The alarmAggregator.impl implementation shall route the data flow from arlarm_acc_in to alarmAggregator.inData_para1 through connection C1.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "alarmAggregator.impl",
+        "C1",
+        "arlarm_acc_in",
+        "alarmAggregator.inData_para1"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "alarmAggregator.impl",
+        "connection": "C1",
+        "source": "arlarm_acc_in",
+        "destination": "alarmAggregator.inData_para1"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The alarmAggregator.impl implementation shall declare connection C1 from arlarm_acc_in to alarmAggregator.inData_para1.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The alarmAggregator.impl implementation shall route the data flow from arlarm_adirup_in to alarmAggregator.inData_para2 through connection C2.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "alarmAggregator.impl",
+        "C2",
+        "arlarm_adirup_in",
+        "alarmAggregator.inData_para2"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "alarmAggregator.impl",
+        "connection": "C2",
+        "source": "arlarm_adirup_in",
+        "destination": "alarmAggregator.inData_para2"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The alarmAggregator.impl implementation shall declare connection C2 from arlarm_adirup_in to alarmAggregator.inData_para2.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 149,
+  "original_label": "Case149_A",
+  "natural_requirement_before_behavior_style_rewrite": "The alarmAggregator.impl implementation shall declare connection C1 from arlarm_acc_in to alarmAggregator.inData_para1. The alarmAggregator.impl implementation shall declare connection C2 from arlarm_adirup_in to alarmAggregator.inData_para2.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The alarmAggregator.impl implementation shall route the data flow from arlarm_acc_in to alarmAggregator.inData_para1 through connection C1. The alarmAggregator.impl implementation shall route the data flow from arlarm_adirup_in to alarmAggregator.inData_para2 through connection C2.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

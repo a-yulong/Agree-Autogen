@@ -13,9 +13,7 @@ The RAG artifact is organized into three roles:
 - `raw/kdef/Attention.txt` is Kdef and is processed into `processed/kdef/attention_zh.md` and `processed/kdef/defensive_rules.jsonl`.
 - `raw/kexp/AGREE_code_knowledge_dataset.txt` is scenario-neutral Kexp and is processed into `processed/kexp/agree_code_knowledge_dataset.txt`.
 - `raw/ksyn/AGREE_knowledge_dataset_en.pdf` and `raw/ksyn/AGREE_Users_Guide.pdf` are Ksyn AGREE sources.
-- `raw/ksyn/AADL_AS5506C.local_source.md` records AADL AS5506C as a local Ksyn source.
-
-The AADL AS5506C raw PDF is configured locally through `knowledge_base/local_sources.yaml` using `knowledge_base/local_sources.example.yaml` as a template.
+- `raw/ksyn/AADL_AS5506C.local_source.md` records the AADL AS5506C source boundary. The raw standard PDF is not redistributed; the repository includes the derived AADL scope notes used by the pipeline.
 
 ## Building the Local Corpus
 

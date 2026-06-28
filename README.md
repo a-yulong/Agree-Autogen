@@ -16,16 +16,14 @@ The repository is designed as a research artifact. It contains the implementatio
 ## Repository Contents
 
 ```text
-configs/             Runtime configuration templates
-data/                Public examples and benchmark manifests
-docs/                Architecture, reproducibility, experiment, and schema documentation
-experiments/         Experiment settings, lightweight runners, and metric utilities
-knowledge_base/      Curated retrieval sources and processed knowledge assets
-prompts/             Agent prompts used by the pipeline
-scripts/             Single-case, batch, rerun, and aggregation entry points
-src/agree_autogen/   Pipeline implementation
-tests/               Unit tests and offline smoke checks
-tools/               Standalone AGREE validation tool
+data/benchmark/cases/    459 benchmark inputs used by the experiments
+knowledge_base/          Three retrieval sources: syntax/scope, examples, and defensive rules
+prompts/                 Agent prompts used by the pipeline
+src/agree_autogen/       Pipeline implementation
+tools/agree-validator/   Standalone AGREE validation interface and bundled AADL support files
+results/                 Released aggregate experiment results and result manifests
+scripts/                 Core run and aggregation entry points
+tests/                   Offline checks for the released artifact
 ```
 
 The artifact boundary is described in `ARTIFACT_SCOPE.md`.
@@ -45,9 +43,9 @@ Run an offline dry run on the bundled example:
 
 ```powershell
 python scripts/run_files.py `
-  --requirement data/examples/gf_monitor/requirement.txt `
-  --aadl data/examples/gf_monitor/input.aadl `
-  --output-dir outputs/gf_monitor_dry `
+  --requirement data/benchmark/cases/Case01/Case01_Req.txt `
+  --aadl data/benchmark/cases/Case01/Case01_Base.aadl `
+  --output-dir outputs/case01_dry `
   --setting E2 `
   --skip-validation `
   --dry-run
@@ -90,7 +88,7 @@ The experiment scripts support:
 
 Experiment design is documented in `docs/experiment_design.md`. Result formats and metric definitions are documented in `docs/result_schema.md`.
 
-Complete result artifacts should be placed under `results/` or attached as a release asset when the per-case reports are too large for the repository. The repository should retain aggregate summaries, manifests, and checksums so that reported metrics can be traced back to case-level records.
+The repository includes released aggregate summaries under `results/`. The full per-case result tree contains hundreds of thousands of files and is distributed outside the Git working tree as an archive artifact; `results/FULL_RESULTS_RELEASE_MANIFEST.json` records its file count, size, and publication policy.
 
 ## Reproducibility
 

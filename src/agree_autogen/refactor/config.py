@@ -59,7 +59,7 @@ class RuntimeConfig:
         max_repair_rounds: int | None = None,
     ) -> "RuntimeConfig":
         repo_root = Path(__file__).resolve().parents[3]
-        source_root = Path(os.environ.get("AGREE_SOURCE_ROOT", repo_root / "data" / "Sources"))
+        source_root = Path(os.environ.get("AGREE_SOURCE_ROOT", repo_root / "data" / "benchmark" / "cases"))
         validator_root = Path(os.environ.get("AGREE_VALIDATOR_ROOT", repo_root / "tools" / "agree-validator"))
         library_dirs = cls._aadl_library_dirs_from_env(repo_root, source_root, validator_root)
         return cls(
@@ -93,12 +93,9 @@ class RuntimeConfig:
             item = item.strip().strip('"')
             if item:
                 dirs.append(Path(item))
-        default_workspace = Path(r"D:\AADL_Lib_workspace")
-        if default_workspace.exists():
-            dirs.append(default_workspace)
-
         candidates = [
             validator_root / "static-libs",
+            validator_root / "dependency_resources" / "AADL_Lib_workspace",
             source_root,
             repo_root / "data",
         ]

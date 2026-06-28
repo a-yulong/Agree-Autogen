@@ -6,8 +6,8 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RUN_FILES = REPO_ROOT / "scripts" / "run_files.py"
-REQ = REPO_ROOT / "data" / "examples" / "gf_monitor" / "requirement.txt"
-AADL = REPO_ROOT / "data" / "examples" / "gf_monitor" / "input.aadl"
+REQ = REPO_ROOT / "data" / "benchmark" / "cases" / "Case01" / "Case01_Req.txt"
+AADL = REPO_ROOT / "data" / "benchmark" / "cases" / "Case01" / "Case01_Base.aadl"
 CONFIG = REPO_ROOT / "configs" / "experiments.yaml"
 
 
@@ -22,8 +22,8 @@ def run_cli(args):
     )
 
 
-def test_dry_run_with_gf_monitor_succeeds(tmp_path):
-    out = tmp_path / "gf_monitor"
+def test_dry_run_with_released_case_succeeds(tmp_path):
+    out = tmp_path / "case01"
     result = run_cli([
         "--requirement", str(REQ),
         "--aadl", str(AADL),

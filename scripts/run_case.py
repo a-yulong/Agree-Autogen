@@ -14,7 +14,7 @@ from agree_autogen.refactor.orchestrator import RefactoredAgreeAutogenPipeline
 from agree_autogen.runtime import configure_utf8_stdio
 
 
-OPENROUTER_STOP_MARKERS = (
+PROVIDER_STOP_MARKERS = (
     "insufficient",
     "quota",
     "credit",
@@ -37,7 +37,7 @@ def _should_stop_for_provider_error(report: dict) -> bool:
         str(report.get(key, ""))
         for key in ("stage_error", "error", "message")
     ).lower()
-    return any(marker in text for marker in OPENROUTER_STOP_MARKERS)
+    return any(marker in text for marker in PROVIDER_STOP_MARKERS)
 
 
 def _case_layout(source_root: Path, case_num: int, case_letter: str):

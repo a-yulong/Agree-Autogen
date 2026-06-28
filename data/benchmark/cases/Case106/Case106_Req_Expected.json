@@ -1,0 +1,98 @@
+{
+  "case": 84,
+  "letter": "A",
+  "target": "ADIRUp_process",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The ADIRUp_process process component and its implementation layer ADIRUp_process.impl must enforce that each of the input data ports acc1_input, acc2_input, acc3_input, acc4_input, acc5_input, and acc6_input satisfies the legal communication envelope defined at system integration. The implementation layer must specify the data transmission relationships between the HM_th thread and the solve_th1 thread through the established connections C1 through C12. The process must guarantee that the data values transmitted through the internal connections from HM_th to solve_th1 remain consistent with the corresponding input data provided to the HM_th thread, and that no invalid or incorrect input events are forwarded within the process.",
+  "natural_requirement": "The ADIRUp_process component shall define the implementation-level signal routing for ADIRUp_process.impl. In the implementation layer, ADIRUp_process.impl shall route data flow from acc1_input to HM_th.accData_in1 through C1 and data flow from acc2_input to HM_th.accData_in2 through C2.",
+  "requirement_items": [
+    {
+      "text": "The ADIRUp_process.impl implementation shall route the data flow from acc1_input to HM_th.accData_in1 through connection C1.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "ADIRUp_process.impl",
+        "C1",
+        "acc1_input",
+        "HM_th.accData_in1"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "ADIRUp_process.impl",
+        "connection": "C1",
+        "source": "acc1_input",
+        "destination": "HM_th.accData_in1"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The ADIRUp_process.impl implementation shall declare connection C1 from acc1_input to HM_th.accData_in1.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The ADIRUp_process.impl implementation shall route the data flow from acc2_input to HM_th.accData_in2 through connection C2.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "ADIRUp_process.impl",
+        "C2",
+        "acc2_input",
+        "HM_th.accData_in2"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "ADIRUp_process.impl",
+        "connection": "C2",
+        "source": "acc2_input",
+        "destination": "HM_th.accData_in2"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The ADIRUp_process.impl implementation shall declare connection C2 from acc2_input to HM_th.accData_in2.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 120,
+  "original_label": "Case120_A",
+  "natural_requirement_before_behavior_style_rewrite": "The ADIRUp_process.impl implementation shall declare connection C1 from acc1_input to HM_th.accData_in1. The ADIRUp_process.impl implementation shall declare connection C2 from acc2_input to HM_th.accData_in2.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The ADIRUp_process.impl implementation shall route the data flow from acc1_input to HM_th.accData_in1 through connection C1. The ADIRUp_process.impl implementation shall route the data flow from acc2_input to HM_th.accData_in2 through connection C2.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

@@ -117,7 +117,7 @@ def _missing_model_config() -> Optional[str]:
 
 
 def _prepare_temp_case(temp_root: Path, requirement: Path, aadl: Path) -> Path:
-    case_dir = temp_root / "Case01_A"
+    case_dir = temp_root / "Case01"
     case_dir.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(aadl, case_dir / "Case01_Base.txt")
     shutil.copyfile(requirement, case_dir / "Case01_Req.txt")
@@ -178,13 +178,13 @@ def _run_pipeline(args) -> int:
 
             aadl_model = aadl.read_text(encoding="utf-8", errors="replace")
             requirement_text = requirement.read_text(encoding="utf-8", errors="replace").strip()
-            models = collect_aadl_models(str(temp_root / "Case01_A" / "Case01_Base.aadl"))
+            models = collect_aadl_models(str(temp_root / "Case01" / "Case01_Base.aadl"))
             target_component = extract_target_component(requirement_text, aadl_model)
             pipeline = RefactoredAgreeAutogenPipeline(config)
             result = pipeline.run_case(
                 setting=setting,
                 case_num="01",
-                case_letter="A",
+                case_letter="",
                 aadl_model=aadl_model,
                 requirement_text=requirement_text,
                 target_component=target_component,

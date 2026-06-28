@@ -35,7 +35,7 @@ These boundaries are important for experiment interpretation because each ablati
 Prompts should prefer structured outputs when downstream code parses them. They should also make the following constraints explicit:
 
 - use only grounded AADL identifiers;
-- avoid undeclared predicates and placeholder variables;
+- avoid undeclared predicates and filler variables;
 - preserve explicit numeric bounds and operators;
 - keep assumptions and guarantees labeled;
 - distinguish type-level contracts from implementation-level bindings;

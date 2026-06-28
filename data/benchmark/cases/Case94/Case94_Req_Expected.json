@@ -1,0 +1,98 @@
+{
+  "case": 72,
+  "letter": "A",
+  "target": "acc_process_emv2",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The acc_process_emv2 component shall enforce environmental assumptions on its six acceleration input ports (acc1_input to acc6_input), requiring each to contain physically valid data within nominal range, and on its six control event input ports (acc1_event_in to acc6_event_in), requiring each to carry legitimate action commands. The component shall provide safety guarantees ensuring that each of its six output ports (acc1_output to acc6_output) maintains a strict physical mapping with the corresponding input port. In the implementation layer, the component shall use structured assignments to map each input port (acc1_input to acc6_input) directly to the corresponding internal thread's input port (acc1.acc1_input to acc6.acc6_input). Additionally, the implementation shall include verification lemmas proving that a numerical anomaly (ValueErroneous) on any single channel propagates strictly and independently along that channel to its corresponding output port, without causing unintended cross-channel fault propagation.",
+  "natural_requirement": "The acc_process_emv2 component shall define the implementation-level signal routing for acc_process_emv2.impl. In the implementation layer, acc_process_emv2.impl shall route signal flow from acc1_input to acc1.acc1_input through C21 and signal flow from acc2_input to acc2.acc2_input through C22.",
+  "requirement_items": [
+    {
+      "text": "The acc_process_emv2.impl implementation shall route the signal flow from acc1_input to acc1.acc1_input through connection C21.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "acc_process_emv2.impl",
+        "C21",
+        "acc1_input",
+        "acc1.acc1_input"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "acc_process_emv2.impl",
+        "connection": "C21",
+        "source": "acc1_input",
+        "destination": "acc1.acc1_input"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The acc_process_emv2.impl implementation shall declare connection C21 from acc1_input to acc1.acc1_input.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The acc_process_emv2.impl implementation shall route the signal flow from acc2_input to acc2.acc2_input through connection C22.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "acc_process_emv2.impl",
+        "C22",
+        "acc2_input",
+        "acc2.acc2_input"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "acc_process_emv2.impl",
+        "connection": "C22",
+        "source": "acc2_input",
+        "destination": "acc2.acc2_input"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The acc_process_emv2.impl implementation shall declare connection C22 from acc2_input to acc2.acc2_input.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 107,
+  "original_label": "Case107_A",
+  "natural_requirement_before_behavior_style_rewrite": "The acc_process_emv2.impl implementation shall declare connection C21 from acc1_input to acc1.acc1_input. The acc_process_emv2.impl implementation shall declare connection C22 from acc2_input to acc2.acc2_input.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The acc_process_emv2.impl implementation shall route the signal flow from acc1_input to acc1.acc1_input through connection C21. The acc_process_emv2.impl implementation shall route the signal flow from acc2_input to acc2.acc2_input through connection C22.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

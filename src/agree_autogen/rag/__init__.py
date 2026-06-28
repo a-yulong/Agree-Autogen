@@ -1,2 +1,2 @@
-"""RAG helper placeholders for AGREE-AutoGen."""
+"""Retrieval helpers for AGREE-AutoGen."""
 

@@ -33,8 +33,8 @@ OSATE is an external dependency and is not redistributed in this repository.
 ## Build
 
 ```powershell
-$env:JAVA_HOME = "D:\jdk17"
-$env:OSATE_HOME = "E:\osate2-2.12.0-vfinal-win32.win32.x86_64"
+$env:JAVA_HOME = "path\to\jdk17"
+$env:OSATE_HOME = "path\to\osate"
 
 .\tools\agree-validator\build.ps1
 ```

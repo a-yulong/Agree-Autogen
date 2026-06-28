@@ -1,0 +1,77 @@
+{
+  "case": 98,
+  "letter": "A",
+  "target": "SBC_32F411EDISCOVERY",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The SBC_32F411EDISCOVERY system component and its implementations SBC_32F411EDISCOVERY.RTOS, SBC_32F411EDISCOVERY.impl, and SBC_32F411EDISCOVERY.v2 must operate under legitimate operational scenarios for all external interactions at the system boundary. The system shall maintain end-to-end directional consistency and type consistency for all connections. For the SBC_32F411EDISCOVERY.v2 implementation, the following guarantee statements apply: the accelerometer data outputs from LSM303DLHC (acc_out_data_x, acc_out_data_y, acc_out_data_z) shall be correctly transmitted through ports ACC_PC1, ACC_PC2, and ACC_PC3 to the corresponding inputs of the Software process (acc_in_data_x, acc_in_data_y, acc_in_data_z); the magnetometer data outputs from LSM303DLHC (mag_out_data_x, mag_out_data_y, mag_out_data_z) shall be correctly transmitted through ports MAG_PC1, MAG_PC2, and MAG_PC3 to the corresponding inputs of the Software process (mag_in_data_x, mag_in_data_y, mag_in_data_z); and the gyroscope data outputs from L3GD20 (gyro_out_data_x, gyro_out_data_y, gyro_out_data_z) shall be correctly transmitted through ports GYRO_PC1, GYRO_PC2, and GYRO_PC3 to the corresponding inputs of the Software process (gyro_in_data_x, gyro_in_data_y, gyro_in_data_z). Additionally, the end-to-end flow etef1 shall ensure that the latency of data transmission from LSM303DLHC.f1 through ACC_PC1 to Software.f1 is within the range of 40 ms to 90 ms. All data types shall be of type AHRS::Data_Types::FLOAT32_TYPE_AADL.",
+  "natural_requirement": "The SBC_32F411EDISCOVERY component shall use the deployment bindings defined for SBC_32F411EDISCOVERY.RTOS. The deployment mapping shall bind Software to processor cpu.",
+  "requirement_items": [
+    {
+      "text": "The SBC_32F411EDISCOVERY.RTOS implementation shall bind Software to processor cpu.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "SBC_32F411EDISCOVERY.RTOS",
+        "",
+        "Actual_Processor_Binding",
+        "(reference(cpu)) applies to Software"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "SBC_32F411EDISCOVERY.RTOS",
+        "owner_kind": "implementation",
+        "element": "",
+        "property": "Actual_Processor_Binding",
+        "value": "(reference(cpu)) applies to Software"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The SBC_32F411EDISCOVERY.RTOS implementation shall assign Actual_Processor_Binding as (reference(cpu)) applies to Software.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 152,
+  "original_label": "Case152_A",
+  "natural_requirement_before_behavior_style_rewrite": "The SBC_32F411EDISCOVERY.RTOS implementation shall assign Actual_Processor_Binding as (reference(cpu)) applies to Software.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The SBC_32F411EDISCOVERY.RTOS implementation shall bind Software to processor cpu.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

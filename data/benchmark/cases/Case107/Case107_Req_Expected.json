@@ -1,0 +1,98 @@
+{
+  "case": 85,
+  "letter": "A",
+  "target": "systemHM_process",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The systemHM_process process and its implementation layer systemHM_process.impl must ensure that the arlarm_acc_in and arlarm_adirup_in input ports conform to the valid communication envelope defined at system integration. The process must maintain accurate data flow between the alarmAggregator, diagnosisEngine, and mitigationActor threads in the implementation layer, as specified by the connections C1, C2, C4, and C5. The system must guarantee that the output ports systemHM_action_acc_hm and systemHM_action_adirup consistently reflect the internal processing results from the mitigationActor thread and prevent the incorrect forwarding of input events within the process.",
+  "natural_requirement": "The systemHM_process component shall define the implementation-level signal routing for systemHM_process.impl. In the implementation layer, systemHM_process.impl shall route signal flow from arlarm_acc_in< to alarmAggregator.arlarm_acc_in through C1 and signal flow from arlarm_adirup_in< to alarmAggregator.arlarm_adirup_in through C2.",
+  "requirement_items": [
+    {
+      "text": "The systemHM_process.impl implementation shall route the signal flow from arlarm_acc_in< to alarmAggregator.arlarm_acc_in through connection C1.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "systemHM_process.impl",
+        "C1",
+        "arlarm_acc_in<",
+        "alarmAggregator.arlarm_acc_in"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "systemHM_process.impl",
+        "connection": "C1",
+        "source": "arlarm_acc_in<",
+        "destination": "alarmAggregator.arlarm_acc_in"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The systemHM_process.impl implementation shall declare connection C1 from arlarm_acc_in< to alarmAggregator.arlarm_acc_in.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The systemHM_process.impl implementation shall route the signal flow from arlarm_adirup_in< to alarmAggregator.arlarm_adirup_in through connection C2.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "systemHM_process.impl",
+        "C2",
+        "arlarm_adirup_in<",
+        "alarmAggregator.arlarm_adirup_in"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "systemHM_process.impl",
+        "connection": "C2",
+        "source": "arlarm_adirup_in<",
+        "destination": "alarmAggregator.arlarm_adirup_in"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The systemHM_process.impl implementation shall declare connection C2 from arlarm_adirup_in< to alarmAggregator.arlarm_adirup_in.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 121,
+  "original_label": "Case121_A",
+  "natural_requirement_before_behavior_style_rewrite": "The systemHM_process.impl implementation shall declare connection C1 from arlarm_acc_in< to alarmAggregator.arlarm_acc_in. The systemHM_process.impl implementation shall declare connection C2 from arlarm_adirup_in< to alarmAggregator.arlarm_adirup_in.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The systemHM_process.impl implementation shall route the signal flow from arlarm_acc_in< to alarmAggregator.arlarm_acc_in through connection C1. The systemHM_process.impl implementation shall route the signal flow from arlarm_adirup_in< to alarmAggregator.arlarm_adirup_in through connection C2.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

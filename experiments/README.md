@@ -1,30 +1,25 @@
 # Experiments
 
-This directory contains lightweight experiment configuration, runner utilities, sample reports, and metric computation scripts.
+The released experiments use the 459 benchmark cases in `data/benchmark/cases` and the same JSON report schema across all settings.
 
-## Files
+## Experiment Axes
 
-| File | Purpose |
-|---|---|
-| `settings.yaml` | Machine-readable experiment settings. |
-| `run_experiment.py` | Case-layout experiment runner. |
-| `compute_metrics.py` | Metric computation from per-case reports. |
-| `sample_results/` | Minimal report examples used for schema and metric checks. |
+- **Model comparison:** run the full AGREE-AutoGen workflow with different base models.
+- **Retrieval configuration:** compare balanced retrieval against smaller and larger retrieval depths.
+- **Agent contribution:** compare the full workflow against direct generation and analysis-stage ablations.
+- **Optimization ablation:** isolate retrieval digest, agent strategy guidance, and target-context expansion.
 
-## Example
+## Runner
+
+`run_experiment.py` is a thin wrapper around `scripts/run_existing_batch.py`.
 
 ```powershell
 python experiments/run_experiment.py `
   --setting E2 `
-  --benchmark data/Sources `
-  --output-dir outputs/e2 `
+  --benchmark data/benchmark/cases `
   --start 1 `
   --end 10 `
-  --letters A
-
-python experiments/compute_metrics.py `
-  --results-dir outputs/e2 `
-  --output outputs/e2/metrics.csv
+  --output-dir outputs/e2_cases_1_10
 ```
 
-For full released experiment suites, use the RQ-specific launchers and aggregation scripts under `scripts/`. The detailed design is documented in `docs/experiment_design.md`.
+Full runs require model-provider credentials and the validator dependencies described in `docs/validator_setup.md`. The committed result summaries under `results/` were computed from completed per-case JSON reports.

@@ -1,0 +1,98 @@
+{
+  "case": 93,
+  "letter": "A",
+  "target": "ADIRUp_solve",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The ADIRUp_solve thread shall operate periodically with a period of 4000 ms and a deadline of 500 ms, executing within a compute execution time range of 400 ms to 500 ms, with a priority of 4 and a stack size of 20 KByte. It shall assume that all input data ports solver_in1 through solver_in5 contain valid SHM_DataType::accData values at the start of each execution cycle. The thread shall guarantee that the values propagated through solver_in4, solver_in5, and solver_in6 depend solely on the current values received on solver_in1 through solver_in6 and the internal computations performed during the current execution cycle. Additionally, the thread shall guarantee that all internal state updates maintain the integrity of the SHM_DataType::accData values on the input ports, ensuring no invalid data types or out-of-range values are introduced into the system.",
+  "natural_requirement": "The ADIRUp_solve component shall define the implementation-level signal routing for ADIRUp_solve.impl. In the implementation layer, ADIRUp_solve.impl shall route data flow from solver_in1 to ADIRUp_solve.inData_para1 through C1 and data flow from solver_in2 to ADIRUp_solve.inData_para2 through C2.",
+  "requirement_items": [
+    {
+      "text": "The ADIRUp_solve.impl implementation shall route the data flow from solver_in1 to ADIRUp_solve.inData_para1 through connection C1.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "ADIRUp_solve.impl",
+        "C1",
+        "solver_in1",
+        "ADIRUp_solve.inData_para1"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "ADIRUp_solve.impl",
+        "connection": "C1",
+        "source": "solver_in1",
+        "destination": "ADIRUp_solve.inData_para1"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The ADIRUp_solve.impl implementation shall declare connection C1 from solver_in1 to ADIRUp_solve.inData_para1.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The ADIRUp_solve.impl implementation shall route the data flow from solver_in2 to ADIRUp_solve.inData_para2 through connection C2.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "ADIRUp_solve.impl",
+        "C2",
+        "solver_in2",
+        "ADIRUp_solve.inData_para2"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "ADIRUp_solve.impl",
+        "connection": "C2",
+        "source": "solver_in2",
+        "destination": "ADIRUp_solve.inData_para2"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The ADIRUp_solve.impl implementation shall declare connection C2 from solver_in2 to ADIRUp_solve.inData_para2.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 147,
+  "original_label": "Case147_A",
+  "natural_requirement_before_behavior_style_rewrite": "The ADIRUp_solve.impl implementation shall declare connection C1 from solver_in1 to ADIRUp_solve.inData_para1. The ADIRUp_solve.impl implementation shall declare connection C2 from solver_in2 to ADIRUp_solve.inData_para2.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The ADIRUp_solve.impl implementation shall route the data flow from solver_in1 to ADIRUp_solve.inData_para1 through connection C1. The ADIRUp_solve.impl implementation shall route the data flow from solver_in2 to ADIRUp_solve.inData_para2 through connection C2.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

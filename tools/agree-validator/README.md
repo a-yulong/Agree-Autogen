@@ -59,8 +59,11 @@ The main Python pipeline calls the same Java entry point:
 org.agreeautogen.validator.AgreeValidationCli
 ```
 
-## Static AADL libraries
+## AADL support files
 
-If a local experiment requires additional AADL libraries, place legally redistributable `.aadl` files under `tools/agree-validator/static-libs/` or pass external folders with `--lib-dir`.
+The validator loads AADL support files from two repository locations:
 
-This repository does not bundle third-party OSATE or AGREE library snapshots by default. Many of those files originate from external projects and should only be redistributed when their license explicitly allows it.
+- `tools/agree-validator/static-libs/`: compact static libraries used by the released pipeline;
+- `tools/agree-validator/dependency_resources/`: redistributable AADL workspace resources needed by the benchmark cases.
+
+Local users can add more folders with `--lib-dir` or `AGREE_AADL_LIB_DIRS`. OSATE and the AGREE Eclipse plugins are not redistributed in this repository and must be installed separately.

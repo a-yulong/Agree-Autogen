@@ -1,0 +1,169 @@
+{
+  "case": 46,
+  "letter": "A",
+  "target": "Attitude_Control_Function",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The Attitude_Control_Function component must assume that the nominal_attitude input is a valid attitude vector, the sensored_attitude input is valid GYR_data, and the sun_direction input is valid FSS_data, all within reasonable operational ranges. The component must guarantee that the reference_torque output is always within the maximum rated torque envelope defined for the RW_data actuator. Additionally, due to the 500 µs periodic scheduling of the Attitude_Control_Function thread, the component must guarantee that the step amplitude of the reference_torque output between consecutive scheduling cycles does not exceed the structural smoothness threshold to prevent high-frequency oscillations that could cause spacecraft structural resonance. These guarantees apply to the component interface only and do not extend to the implementation layer.",
+  "natural_requirement": "The Attitude_Control_Function component shall execute according to the scheduling and timing constraints defined for Attitude_Control_Function.impl. The implementation shall use the Periodic dispatch protocol, execute with a period of 500 us, meet a deadline of 500 us, complete compute execution within 0 ms .. 250 us, and run at priority 1.",
+  "requirement_items": [
+    {
+      "text": "The Attitude_Control_Function.impl implementation shall execute using the Periodic dispatch protocol.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "Attitude_Control_Function.impl",
+        "",
+        "Dispatch_Protocol",
+        "Periodic"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "Attitude_Control_Function.impl",
+        "owner_kind": "implementation",
+        "element": "",
+        "property": "Dispatch_Protocol",
+        "value": "Periodic"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The Attitude_Control_Function.impl implementation shall assign Dispatch_Protocol as Periodic.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The Attitude_Control_Function.impl implementation shall complete its compute execution within 0 ms .. 250 us.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "Attitude_Control_Function.impl",
+        "",
+        "Compute_Execution_Time",
+        "0 ms .. 250 us"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "Attitude_Control_Function.impl",
+        "owner_kind": "implementation",
+        "element": "",
+        "property": "Compute_Execution_Time",
+        "value": "0 ms .. 250 us"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The Attitude_Control_Function.impl implementation shall assign Compute_Execution_Time as 0 ms .. 250 us.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The Attitude_Control_Function.impl implementation shall execute with a period of 500 us.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "Attitude_Control_Function.impl",
+        "",
+        "Period",
+        "500 us"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "Attitude_Control_Function.impl",
+        "owner_kind": "implementation",
+        "element": "",
+        "property": "Period",
+        "value": "500 us"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The Attitude_Control_Function.impl implementation shall assign Period as 500 us.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The Attitude_Control_Function.impl implementation shall meet a deadline of 500 us.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "Attitude_Control_Function.impl",
+        "",
+        "Deadline",
+        "500 us"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "Attitude_Control_Function.impl",
+        "owner_kind": "implementation",
+        "element": "",
+        "property": "Deadline",
+        "value": "500 us"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The Attitude_Control_Function.impl implementation shall assign Deadline as 500 us.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The Attitude_Control_Function.impl implementation shall run at priority 1.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "Attitude_Control_Function.impl",
+        "",
+        "Priority",
+        "1"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "Attitude_Control_Function.impl",
+        "owner_kind": "implementation",
+        "element": "",
+        "property": "Priority",
+        "value": "1"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The Attitude_Control_Function.impl implementation shall assign Priority as 1.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 71,
+  "original_label": "Case71_A",
+  "natural_requirement_before_behavior_style_rewrite": "The Attitude_Control_Function.impl implementation shall assign Dispatch_Protocol as Periodic. The Attitude_Control_Function.impl implementation shall assign Compute_Execution_Time as 0 ms .. 250 us. The Attitude_Control_Function.impl implementation shall assign Period as 500 us. The Attitude_Control_Function.impl implementation shall assign Deadline as 500 us. The Attitude_Control_Function.impl implementation shall assign Priority as 1.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The Attitude_Control_Function.impl implementation shall execute using the Periodic dispatch protocol. The Attitude_Control_Function.impl implementation shall complete its compute execution within 0 ms .. 250 us. The Attitude_Control_Function.impl implementation shall execute with a period of 500 us. The Attitude_Control_Function.impl implementation shall meet a deadline of 500 us. The Attitude_Control_Function.impl implementation shall run at priority 1.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

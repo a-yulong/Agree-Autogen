@@ -1709,7 +1709,7 @@ class AgreeGeneratorAgent:
                 return json.dumps({"suggested_agree_expressions": expressions}, ensure_ascii=False, indent=2)
             raw = requirement_analysis.get("raw_atomic_propositions")
             if isinstance(raw, str) and raw.strip():
-                return json.dumps({"legacy_atomic_expressions": self._lightly_format_requirement_expression_text(raw).splitlines()}, ensure_ascii=False, indent=2)
+                return json.dumps({"requirement_expression_candidates": self._lightly_format_requirement_expression_text(raw).splitlines()}, ensure_ascii=False, indent=2)
         if isinstance(requirement_analysis, str):
             return self._lightly_format_requirement_expression_text(requirement_analysis)
         return ""

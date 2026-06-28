@@ -1,6 +1,6 @@
 # AADL Scope Notes
 
-This Ksyn note summarizes AADL scope knowledge used by AGREE-AutoGen during architecture grounding and fusion. The AADL AS5506C standard is recorded as a local source through `raw/ksyn/AADL_AS5506C.local_source.md` and `local_sources.example.yaml`.
+This Ksyn note summarizes AADL scope knowledge used by AGREE-AutoGen during architecture grounding and fusion. The AADL AS5506C standard is recorded through `raw/ksyn/AADL_AS5506C.local_source.md`; the raw standard PDF is not redistributed in this repository.
 
 ## Architecture Grounding
 

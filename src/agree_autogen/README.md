@@ -1,39 +1,17 @@
-# Agree-Autogen Runtime
+# Runtime Package
 
-This package contains the production runtime for the Agree-Autogen pipeline.
+The package contains the implementation used by the released pipeline.
 
-## Entry point
-
-Use the repository-level `run_case.py` entry point for single-case experiments.
-
-Example:
-
-```powershell
-python run_case.py --case-num 1 --case-letter A --use-rag --llm-base-url https://api.example.com/v1 --llm-api-key YOUR_KEY --llm-model-name YOUR_MODEL --result-root results
+```text
+agree_autogen/
+  case_runner.py              Benchmark case loading and AADL dependency collection
+  refactor/
+    agents.py                 Model analyst, requirement analyst, generator, fusion, and repair agents
+    orchestrator.py           Stage orchestration and report generation
+    rag_bundle.py             Three-source retrieval and post-retrieval digest support
+    validation.py             AADL Inspector and standalone AGREE validator integration
+  metrics/                    Aggregate metrics and error taxonomy helpers
+  validators/                 Thin wrappers around validation tools
 ```
 
-## Module map
-
-| File | Responsibility |
-| --- | --- |
-| `runtime.py` | Runtime config, model config, token accounting, file-link formatting, Windows pop-up monitor, recorder imports. |
-| `agents.py` | Conversation, BaseAgent, requirements analyst, AGREE generator, AADL model analyst, AADL merger, validator/repair agent. |
-| `pipeline.py` | AGREEVerificationPipeline, RAG vectorstores, dependency sync, AADL Inspector, standalone AGREE validator, full orchestration. |
-| `case_runner.py` | Case input loading, target component extraction, related AADL model collection, single-case runner. |
-| `run_case.py` | Repository-level CLI entry point. |
-
-## Design principle
-
-The runtime is organized around explicit responsibility boundaries:
-
-- Runtime configuration and accounting live in `runtime.py`.
-- Agent prompts and model-facing behavior live in `agents.py`.
-- Validator integration and orchestration live in `pipeline.py`.
-- Dataset loading and target-component extraction live in `case_runner.py`.
-
-## Smoke test result
-
-Validated with:
-
-- Case: `Case01_A`
-- A smoke test should complete with generated reports under the configured result root.
+The default benchmark root is `data/benchmark/cases`. Runtime paths can be overridden with environment variables such as `AGREE_SOURCE_ROOT`, `AGREE_RESULT_ROOT`, `AGREE_DOCS_DIR`, `AGREE_MODEL_BASE_URL`, `AGREE_MODEL_API_KEY`, and `AGREE_MODEL_NAME`.

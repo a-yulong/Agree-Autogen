@@ -1,0 +1,146 @@
+{
+  "case": 110,
+  "letter": "A",
+  "target": "hello",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The hello system component and its implementation layer hello.impl must ensure that all external interactions at the system boundary occur only under valid operational scenarios. The system guarantees that, for each process node_a.impl and node_b.impl, the associated processor bindings (cpu_rm.p0 and cpu_rm.p1) and memory bindings (mem.segment1 and mem.segment2) are correctly applied. Additionally, the system must maintain end-to-end consistency in connection types and directions between the processes node_a and node_b, their respective processors cpu_rm.p0 and cpu_rm.p1, and their assigned memory segments mem.segment1 and mem.segment2.",
+  "natural_requirement": "The hello component shall use the deployment bindings defined for hello.impl. The deployment mapping shall bind node_a to processor cpu_rm.p0, bind Node_A to memory mem.segment1, bind node_b to processor cpu_rm.p1, and bind Node_b to memory mem.segment2.",
+  "requirement_items": [
+    {
+      "text": "The hello.impl implementation shall bind node_a to processor cpu_rm.p0.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "hello.impl",
+        "",
+        "Actual_Processor_Binding",
+        "(reference (cpu_rm.p0)) applies to node_a"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "hello.impl",
+        "owner_kind": "implementation",
+        "element": "",
+        "property": "Actual_Processor_Binding",
+        "value": "(reference (cpu_rm.p0)) applies to node_a"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The hello.impl implementation shall assign Actual_Processor_Binding as (reference (cpu_rm.p0)) applies to node_a.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The hello.impl implementation shall bind Node_A to memory mem.segment1.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "hello.impl",
+        "",
+        "actual_memory_binding",
+        "(reference (mem.segment1)) applies to Node_A"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "hello.impl",
+        "owner_kind": "implementation",
+        "element": "",
+        "property": "actual_memory_binding",
+        "value": "(reference (mem.segment1)) applies to Node_A"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The hello.impl implementation shall assign actual_memory_binding as (reference (mem.segment1)) applies to Node_A.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The hello.impl implementation shall bind node_b to processor cpu_rm.p1.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "hello.impl",
+        "",
+        "Actual_Processor_Binding",
+        "(reference (cpu_rm.p1)) applies to node_b"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "hello.impl",
+        "owner_kind": "implementation",
+        "element": "",
+        "property": "Actual_Processor_Binding",
+        "value": "(reference (cpu_rm.p1)) applies to node_b"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The hello.impl implementation shall assign Actual_Processor_Binding as (reference (cpu_rm.p1)) applies to node_b.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The hello.impl implementation shall bind Node_b to memory mem.segment2.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "hello.impl",
+        "",
+        "actual_memory_binding",
+        "(reference (mem.segment2)) applies to Node_b"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "hello.impl",
+        "owner_kind": "implementation",
+        "element": "",
+        "property": "actual_memory_binding",
+        "value": "(reference (mem.segment2)) applies to Node_b"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The hello.impl implementation shall assign actual_memory_binding as (reference (mem.segment2)) applies to Node_b.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 176,
+  "original_label": "Case176_A",
+  "natural_requirement_before_behavior_style_rewrite": "The hello.impl implementation shall assign Actual_Processor_Binding as (reference (cpu_rm.p0)) applies to node_a. The hello.impl implementation shall assign actual_memory_binding as (reference (mem.segment1)) applies to Node_A. The hello.impl implementation shall assign Actual_Processor_Binding as (reference (cpu_rm.p1)) applies to node_b. The hello.impl implementation shall assign actual_memory_binding as (reference (mem.segment2)) applies to Node_b.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The hello.impl implementation shall bind node_a to processor cpu_rm.p0. The hello.impl implementation shall bind Node_A to memory mem.segment1. The hello.impl implementation shall bind node_b to processor cpu_rm.p1. The hello.impl implementation shall bind Node_b to memory mem.segment2.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

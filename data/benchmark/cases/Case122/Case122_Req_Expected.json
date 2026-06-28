@@ -1,0 +1,98 @@
+{
+  "case": 100,
+  "letter": "A",
+  "target": "ACCELERO_SUB_wrapper",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The ACCELERO_SUB_wrapper subprogram shall establish parameter validity assumptions for the input data and guarantee that the output parameters acc_out_data_x, acc_out_data_y, and acc_out_data_z are valid floating-point values within the expected range after each invocation. These output parameters shall be deterministically computed from the input parameters, and their values shall be consistently mapped to the corresponding out parameters in the implementation layer ACCELERO_SUB_wrapper.i. The implementation shall ensure that the values of acc_out_data_x, acc_out_data_y, and acc_out_data_z are correctly propagated from the called subprogram AHRS::Subprograms::ACCELERO_SUB through the connections P1, P2, and P3.",
+  "natural_requirement": "The ACCELERO_SUB_wrapper component shall define the implementation-level signal routing for ACCELERO_SUB_wrapper.i. In the implementation layer, ACCELERO_SUB_wrapper.i shall route data flow from Spg.acc_out_data_x to Acc_Out_Data_X through P1 and data flow from Spg.acc_out_data_Y to Acc_Out_Data_Y through P2.",
+  "requirement_items": [
+    {
+      "text": "The ACCELERO_SUB_wrapper.i implementation shall route the data flow from Spg.acc_out_data_x to Acc_Out_Data_X through connection P1.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "ACCELERO_SUB_wrapper.i",
+        "P1",
+        "Spg.acc_out_data_x",
+        "Acc_Out_Data_X"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "ACCELERO_SUB_wrapper.i",
+        "connection": "P1",
+        "source": "Spg.acc_out_data_x",
+        "destination": "Acc_Out_Data_X"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The ACCELERO_SUB_wrapper.i implementation shall declare connection P1 from Spg.acc_out_data_x to Acc_Out_Data_X.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The ACCELERO_SUB_wrapper.i implementation shall route the data flow from Spg.acc_out_data_Y to Acc_Out_Data_Y through connection P2.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "ACCELERO_SUB_wrapper.i",
+        "P2",
+        "Spg.acc_out_data_Y",
+        "Acc_Out_Data_Y"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "ACCELERO_SUB_wrapper.i",
+        "connection": "P2",
+        "source": "Spg.acc_out_data_Y",
+        "destination": "Acc_Out_Data_Y"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The ACCELERO_SUB_wrapper.i implementation shall declare connection P2 from Spg.acc_out_data_Y to Acc_Out_Data_Y.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 156,
+  "original_label": "Case156_A",
+  "natural_requirement_before_behavior_style_rewrite": "The ACCELERO_SUB_wrapper.i implementation shall declare connection P1 from Spg.acc_out_data_x to Acc_Out_Data_X. The ACCELERO_SUB_wrapper.i implementation shall declare connection P2 from Spg.acc_out_data_Y to Acc_Out_Data_Y.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The ACCELERO_SUB_wrapper.i implementation shall route the data flow from Spg.acc_out_data_x to Acc_Out_Data_X through connection P1. The ACCELERO_SUB_wrapper.i implementation shall route the data flow from Spg.acc_out_data_Y to Acc_Out_Data_Y through connection P2.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

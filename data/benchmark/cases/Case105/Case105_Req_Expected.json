@@ -1,0 +1,98 @@
+{
+  "case": 83,
+  "letter": "A",
+  "target": "acc_hm_process",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The acc_hm_process component shall enforce that each of the input data ports acc1_input, acc2_input, acc3_input, acc4_input, acc5_input, and acc6_input conforms to the SHM_DataType::accData communication envelope at system integration. The acc_hm_process.impl implementation shall ensure that data flows from the input ports acc1_input through acc6_input to the internal thread acc_HM via the connections C13 through C18, and that validated outputs from acc_HM are correctly routed to the corresponding output ports v_acc1_dataout through v_acc6_dataout via connections C1 through C6. Additionally, the implementation shall ensure that event data from acc_error_action is properly forwarded to acc_HM via connection C20, and that error signals from acc_HM are correctly transmitted to the external port acc_error_out via connection C19. The process shall guarantee that event data from the internal thread acc_HM is correctly forwarded to the respective external event ports event2acc1 through event2acc6 via connections C7 through C12, ensuring no incorrect forwarding of input events occurs within the process.",
+  "natural_requirement": "The acc_hm_process component shall define the implementation-level signal routing for acc_hm_process.impl. In the implementation layer, acc_hm_process.impl shall route data flow from acc_HM.acc1_validated_dataout to v_acc1_dataout through C1 and data flow from acc_HM.acc2_validated_dataout to v_acc2_dataout through C2.",
+  "requirement_items": [
+    {
+      "text": "The acc_hm_process.impl implementation shall route the data flow from acc_HM.acc1_validated_dataout to v_acc1_dataout through connection C1.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "acc_hm_process.impl",
+        "C1",
+        "acc_HM.acc1_validated_dataout",
+        "v_acc1_dataout"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "acc_hm_process.impl",
+        "connection": "C1",
+        "source": "acc_HM.acc1_validated_dataout",
+        "destination": "v_acc1_dataout"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The acc_hm_process.impl implementation shall declare connection C1 from acc_HM.acc1_validated_dataout to v_acc1_dataout.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The acc_hm_process.impl implementation shall route the data flow from acc_HM.acc2_validated_dataout to v_acc2_dataout through connection C2.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "acc_hm_process.impl",
+        "C2",
+        "acc_HM.acc2_validated_dataout",
+        "v_acc2_dataout"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "acc_hm_process.impl",
+        "connection": "C2",
+        "source": "acc_HM.acc2_validated_dataout",
+        "destination": "v_acc2_dataout"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The acc_hm_process.impl implementation shall declare connection C2 from acc_HM.acc2_validated_dataout to v_acc2_dataout.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 119,
+  "original_label": "Case119_A",
+  "natural_requirement_before_behavior_style_rewrite": "The acc_hm_process.impl implementation shall declare connection C1 from acc_HM.acc1_validated_dataout to v_acc1_dataout. The acc_hm_process.impl implementation shall declare connection C2 from acc_HM.acc2_validated_dataout to v_acc2_dataout.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The acc_hm_process.impl implementation shall route the data flow from acc_HM.acc1_validated_dataout to v_acc1_dataout through connection C1. The acc_hm_process.impl implementation shall route the data flow from acc_HM.acc2_validated_dataout to v_acc2_dataout through connection C2.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

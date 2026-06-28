@@ -23,7 +23,7 @@ CASE_RE = re.compile(r"^Case(\d+)(?:_([AB]))?$")
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run existing AGREE-AutoGen cases.")
-    parser.add_argument("--source-root", default=os.environ.get("AGREE_SOURCE_ROOT", str(REPO_ROOT / "data" / "Sources")))
+    parser.add_argument("--source-root", default=os.environ.get("AGREE_SOURCE_ROOT", str(REPO_ROOT / "data" / "benchmark" / "cases")))
     parser.add_argument("--result-root", required=True)
     parser.add_argument("--setting", default="E2", choices=["E1", "E2", "E3", "E4", "E5", "E6", "E7"])
     parser.add_argument("--case-from", type=int, default=1)

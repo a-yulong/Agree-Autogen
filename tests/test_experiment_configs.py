@@ -44,8 +44,19 @@ def test_run_experiment_help_returns_success():
     assert "--setting" in result.stdout
 
 
-def test_sample_results_are_readable_by_metrics_loader():
-    reports = load_reports(REPO_ROOT / "experiments" / "sample_results")
+def test_report_metrics_are_readable_by_metrics_loader(tmp_path):
+    report_root = tmp_path / "reports"
+    (report_root / "Case01" / "Report").mkdir(parents=True)
+    (report_root / "Case02" / "Report").mkdir(parents=True)
+    (report_root / "Case01" / "Report" / "Case01_report.json").write_text(
+        '{"success": true, "repair_count": 0, "initial_error_count": 0}',
+        encoding="utf-8",
+    )
+    (report_root / "Case02" / "Report" / "Case02_report.json").write_text(
+        '{"success": false, "repair_count": 2, "initial_error_count": 3}',
+        encoding="utf-8",
+    )
+    reports = load_reports(report_root)
     assert len(reports) == 2
     metrics = compute_metrics(reports)
     assert metrics["cases"] == 2.0

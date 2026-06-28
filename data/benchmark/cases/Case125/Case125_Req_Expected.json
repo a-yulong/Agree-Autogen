@@ -1,0 +1,98 @@
+{
+  "case": 103,
+  "letter": "A",
+  "target": "GYRO",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "Specify the GYRO thread and its implementation GYRO.IMPL, ensuring that the thread's period of 80 ms, priority of 3, and periodic dispatch protocol are respected. Assume that the input data ports gyro_in_data_x, gyro_in_data_y, and gyro_in_data_z contain valid values of type AHRS::Data_Types::FLOAT32_TYPE_AADL. Guarantee that the output data ports gyro_out_data_x, gyro_out_data_y, and gyro_out_data_z are updated only based on the current values of the input ports and internal computations performed by the GYRO thread. Guarantee that the values written to gyro_out_data_x, gyro_out_data_y, and gyro_out_data_z remain within the bounds of the AHRS::Data_Types::FLOAT32_TYPE_AADL data type.",
+  "natural_requirement": "The GYRO component shall define the implementation-level signal routing for GYRO.IMPL. In the implementation layer, GYRO.IMPL shall route data flow from gyro_sub.gyro_out_data_x to gyro_out_data_x through GYRO_PC1 and data flow from gyro_sub.gyro_out_data_y to gyro_out_data_y through GYRO_PC2.",
+  "requirement_items": [
+    {
+      "text": "The GYRO.IMPL implementation shall route the data flow from gyro_sub.gyro_out_data_x to gyro_out_data_x through connection GYRO_PC1.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "GYRO.IMPL",
+        "GYRO_PC1",
+        "gyro_sub.gyro_out_data_x",
+        "gyro_out_data_x"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "GYRO.IMPL",
+        "connection": "GYRO_PC1",
+        "source": "gyro_sub.gyro_out_data_x",
+        "destination": "gyro_out_data_x"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The GYRO.IMPL implementation shall declare connection GYRO_PC1 from gyro_sub.gyro_out_data_x to gyro_out_data_x.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The GYRO.IMPL implementation shall route the data flow from gyro_sub.gyro_out_data_y to gyro_out_data_y through connection GYRO_PC2.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "GYRO.IMPL",
+        "GYRO_PC2",
+        "gyro_sub.gyro_out_data_y",
+        "gyro_out_data_y"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "GYRO.IMPL",
+        "connection": "GYRO_PC2",
+        "source": "gyro_sub.gyro_out_data_y",
+        "destination": "gyro_out_data_y"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The GYRO.IMPL implementation shall declare connection GYRO_PC2 from gyro_sub.gyro_out_data_y to gyro_out_data_y.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 159,
+  "original_label": "Case159_A",
+  "natural_requirement_before_behavior_style_rewrite": "The GYRO.IMPL implementation shall declare connection GYRO_PC1 from gyro_sub.gyro_out_data_x to gyro_out_data_x. The GYRO.IMPL implementation shall declare connection GYRO_PC2 from gyro_sub.gyro_out_data_y to gyro_out_data_y.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The GYRO.IMPL implementation shall route the data flow from gyro_sub.gyro_out_data_x to gyro_out_data_x through connection GYRO_PC1. The GYRO.IMPL implementation shall route the data flow from gyro_sub.gyro_out_data_y to gyro_out_data_y through connection GYRO_PC2.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

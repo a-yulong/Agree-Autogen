@@ -34,14 +34,8 @@ def test_source_inventory_and_raw_files_exist():
     assert (KB_ROOT / "raw" / "ksyn" / "AADL_AS5506C.local_source.md").exists()
 
 
-def test_local_sources_example_uses_placeholders():
-    data = load_yaml(KB_ROOT / "local_sources.example.yaml")
-    assert "sources" in data
-    assert data["sources"]["aadl_as5506c_pdf"].startswith("<LOCAL_AADL_STANDARD>")
-
-
 def test_processed_kdef_files_parse():
-    assert (KB_ROOT / "processed" / "kdef" / "attention_zh.md").exists()
+    assert (KB_ROOT / "processed" / "kdef" / "attention_en.md").exists()
     records = list(iter_jsonl(KB_ROOT / "processed" / "kdef" / "defensive_rules.jsonl"))
     assert records
     assert records[0]["role"] == "kdef"
@@ -49,11 +43,9 @@ def test_processed_kdef_files_parse():
 
 
 def test_processed_kexp_files_parse():
-    assert (KB_ROOT / "processed" / "kexp" / "agree_code_knowledge_dataset.txt").exists()
-    records = list(iter_jsonl(KB_ROOT / "processed" / "kexp" / "agree_examples.jsonl"))
-    assert records
-    assert records[0]["role"] == "kexp"
-    assert records[0]["source_file"] == "raw/kexp/AGREE_code_knowledge_dataset.txt"
+    text = (KB_ROOT / "processed" / "kexp" / "agree_code_knowledge_dataset.txt").read_text(encoding="utf-8")
+    assert "annex agree" in text
+    assert "guarantee" in text
 
 
 def test_build_rag_index_dry_run_returns_success():

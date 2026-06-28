@@ -1,49 +1,41 @@
 # Experiments
 
-Experiment configuration is stored in `experiments/settings.yaml` and the experiment launch scripts under `scripts/`.
+The released experiments are organized around the 459 benchmark cases in `data/benchmark/cases`. Every case produces a JSON report, and aggregate tables are computed from those reports.
 
-The evaluation studies four dimensions:
+## Benchmark Inputs
 
-- base model behavior under a fixed generation pipeline;
-- retrieval support and retrieval configuration;
-- contribution of analysis agents;
-- optimization mechanisms inside the full workflow.
+The benchmark contains:
 
-The detailed design is documented in `docs/experiment_design.md`. Result fields and metric definitions are documented in `docs/result_schema.md`.
+- 459 case directories;
+- 459 AADL model files;
+- 459 natural-language requirement files;
+- 459 requirement-analysis reference files;
+- `data/benchmark/cases_manifest.csv` for file-level inventory.
 
-## Running a Case-Layout Experiment
+## Experiment Axes
+
+- **RQ1 model comparison:** full AGREE-AutoGen workflow with different base models.
+- **RQ2 retrieval configuration:** balanced retrieval compared with smaller and larger retrieval depths.
+- **RQ3 agent contribution:** direct generation and analysis-stage ablations compared against the full workflow.
+- **RQ4 optimization ablation:** retrieval digest, agent strategy guidance, and target-context expansion.
+
+The exact metrics are defined in `docs/result_schema.md`.
+
+## Running A Benchmark Slice
 
 ```powershell
 python experiments/run_experiment.py `
   --setting E2 `
-  --benchmark data/Sources `
-  --output-dir outputs/e2 `
+  --benchmark data/benchmark/cases `
   --start 1 `
   --end 10 `
-  --letters A
+  --output-dir outputs/e2_cases_1_10
 ```
 
-## Computing Metrics
+## Aggregating Results
 
 ```powershell
-python experiments/compute_metrics.py `
-  --results-dir outputs/e2 `
-  --output outputs/e2/metrics.csv
+python scripts/aggregate_experiment_results.py --result-root outputs/e2_cases_1_10
 ```
 
-For released experiment suites, prefer the RQ-specific launchers and aggregation scripts under `scripts/`, because they preserve the run configuration used for paper-level results.
-
-## Benchmark Metadata
-
-Recommended benchmark metadata fields:
-
-- `case_id`;
-- `case_type`;
-- `requirement_path`;
-- `aadl_path`;
-- `target_component`;
-- `data_source`;
-- `access_status`;
-- `notes`.
-
-Each released result set should record its benchmark manifest and aggregation command.
+Released aggregate files are committed under `results/`. Full per-case results are distributed as an external archive artifact because the complete result tree is too large for Git history.

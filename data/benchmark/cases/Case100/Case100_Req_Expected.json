@@ -1,0 +1,98 @@
+{
+  "case": 78,
+  "letter": "A",
+  "target": "acc_HM",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The ADIRUp_solve thread component must receive valid physical payloads from all six independent acceleration inputs (solver_in1 through solver_in6) provided by the upstream monitoring node. The system must guarantee that the solve thread executes stably within its allocated execution cycle, ensuring no out-of-bounds computations occur during the processing of these inputs. In the implementation layer, each of the six external input channels must be mapped via structured assignment to the corresponding input parameters (inData_para1 through inData_para6) of the core solve subroutine (ADIRUp_solve).",
+  "natural_requirement": "The acc_HM component shall define the implementation-level signal routing for acc_HM.impl. In the implementation layer, acc_HM.impl shall route data flow from acc1_data_monitor to spg.in_para1 through C1 and data flow from acc2_data_monitor to spg.in_para2 through C2.",
+  "requirement_items": [
+    {
+      "text": "The acc_HM.impl implementation shall route the data flow from acc1_data_monitor to spg.in_para1 through connection C1.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "acc_HM.impl",
+        "C1",
+        "acc1_data_monitor",
+        "spg.in_para1"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "acc_HM.impl",
+        "connection": "C1",
+        "source": "acc1_data_monitor",
+        "destination": "spg.in_para1"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The acc_HM.impl implementation shall declare connection C1 from acc1_data_monitor to spg.in_para1.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The acc_HM.impl implementation shall route the data flow from acc2_data_monitor to spg.in_para2 through connection C2.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "acc_HM.impl",
+        "C2",
+        "acc2_data_monitor",
+        "spg.in_para2"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "acc_HM.impl",
+        "connection": "C2",
+        "source": "acc2_data_monitor",
+        "destination": "spg.in_para2"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The acc_HM.impl implementation shall declare connection C2 from acc2_data_monitor to spg.in_para2.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 113,
+  "original_label": "Case113_A",
+  "natural_requirement_before_behavior_style_rewrite": "The acc_HM.impl implementation shall declare connection C1 from acc1_data_monitor to spg.in_para1. The acc_HM.impl implementation shall declare connection C2 from acc2_data_monitor to spg.in_para2.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The acc_HM.impl implementation shall route the data flow from acc1_data_monitor to spg.in_para1 through connection C1. The acc_HM.impl implementation shall route the data flow from acc2_data_monitor to spg.in_para2 through connection C2.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

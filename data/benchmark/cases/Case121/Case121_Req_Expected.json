@@ -1,0 +1,98 @@
+{
+  "case": 99,
+  "letter": "A",
+  "target": "ACCELERO",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The ACCELERO thread shall execute periodically with a period of 80 ms and a priority of 5, and its compute execution time shall be within 0 ms to 4 ms. The thread shall process incoming accelerometer data from the acc_in_data_x, acc_in_data_y, and acc_in_data_z input ports, and produce corresponding output values on the acc_out_data_x, acc_out_data_y, and acc_out_data_z output ports. The thread shall ensure that the values written to acc_out_data_x, acc_out_data_y, and acc_out_data_z are determined solely by the current values received on acc_in_data_x, acc_in_data_y, and acc_in_data_z, along with internal computations performed during the thread's execution. The thread shall maintain data type integrity for all port connections, ensuring that the data types of acc_out_data_x, acc_out_data_y, and acc_out_data_z match the declared AHRS::Data_Types::FLOAT32_TYPE_AADL type. Environmental assumptions shall be established regarding the validity and timing constraints of the input data, specifically that acc_in_data_x, acc_in_data_y, and acc_in_data_z are valid FLOAT32 values received within a latency range of 10 ms to 20 ms.",
+  "natural_requirement": "The ACCELERO component shall define the implementation-level signal routing for ACCELERO.IMPL. In the implementation layer, ACCELERO.IMPL shall route data flow from accelero_sub.acc_out_data_x to acc_out_data_x through ACC_PC1 and data flow from accelero_sub.acc_out_data_y to acc_out_data_y through ACC_PC2.",
+  "requirement_items": [
+    {
+      "text": "The ACCELERO.IMPL implementation shall route the data flow from accelero_sub.acc_out_data_x to acc_out_data_x through connection ACC_PC1.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "ACCELERO.IMPL",
+        "ACC_PC1",
+        "accelero_sub.acc_out_data_x",
+        "acc_out_data_x"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "ACCELERO.IMPL",
+        "connection": "ACC_PC1",
+        "source": "accelero_sub.acc_out_data_x",
+        "destination": "acc_out_data_x"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The ACCELERO.IMPL implementation shall declare connection ACC_PC1 from accelero_sub.acc_out_data_x to acc_out_data_x.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The ACCELERO.IMPL implementation shall route the data flow from accelero_sub.acc_out_data_y to acc_out_data_y through connection ACC_PC2.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "ACCELERO.IMPL",
+        "ACC_PC2",
+        "accelero_sub.acc_out_data_y",
+        "acc_out_data_y"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "ACCELERO.IMPL",
+        "connection": "ACC_PC2",
+        "source": "accelero_sub.acc_out_data_y",
+        "destination": "acc_out_data_y"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The ACCELERO.IMPL implementation shall declare connection ACC_PC2 from accelero_sub.acc_out_data_y to acc_out_data_y.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 155,
+  "original_label": "Case155_A",
+  "natural_requirement_before_behavior_style_rewrite": "The ACCELERO.IMPL implementation shall declare connection ACC_PC1 from accelero_sub.acc_out_data_x to acc_out_data_x. The ACCELERO.IMPL implementation shall declare connection ACC_PC2 from accelero_sub.acc_out_data_y to acc_out_data_y.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The ACCELERO.IMPL implementation shall route the data flow from accelero_sub.acc_out_data_x to acc_out_data_x through connection ACC_PC1. The ACCELERO.IMPL implementation shall route the data flow from accelero_sub.acc_out_data_y to acc_out_data_y through connection ACC_PC2.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

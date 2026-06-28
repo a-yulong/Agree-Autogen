@@ -1,23 +1,18 @@
-# Data Directory
+# Data
 
-This directory contains redistributable examples and benchmark metadata templates.
-
-## Public examples
-
-Small examples under `data/examples/` are intended for quick-start runs and documentation. They should be project-owned or explicitly redistributable.
-
-## Benchmark data
-
-Full benchmark inputs are not bundled by default. Place local benchmark sources under `data/Sources/` when running private experiments:
+This directory contains the benchmark inputs used by the released AGREE-AutoGen experiments.
 
 ```text
-data/Sources/Case01_A/Case01_Base.txt
-data/Sources/Case01_A/Case01_Req.txt
-data/Sources/Case01_A/Case01/*.aadl
+data/benchmark/
+  cases/
+    Case01/
+      Case01_Base.aadl
+      Case01_Base.txt
+      Case01_Req.txt
+      Case01_Req_Expected.json
+    ...
+    Case459/
+  cases_manifest.csv
 ```
 
-Generated outputs are written to `results/` by default or to the path configured by `AGREE_RESULT_ROOT`.
-
-## Third-party resources
-
-Do not commit third-party standards, manuals, course materials, or repository snapshots unless redistribution is clearly allowed by their license. If a dataset cannot be redistributed, provide metadata and acquisition instructions instead.
+Each case contains an AADL model, the natural-language requirement, and the expected requirement-analysis reference used for inspection. Generated outputs are not mixed into this directory; experiment reports are written to a separate result root.

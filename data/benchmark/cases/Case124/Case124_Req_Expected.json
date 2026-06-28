@@ -1,0 +1,98 @@
+{
+  "case": 102,
+  "letter": "A",
+  "target": "MAGNETO_SUB_wrapper",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The MAGNETO_SUB_wrapper subprogram shall establish parameter validity assumptions for the input data mag_in_data_x, mag_in_data_y, and mag_in_data_z. For each call to the subprogram, the implementation MAGNETO_SUB_wrapper.i shall guarantee that the output parameters mag_out_data_x, mag_out_data_y, and mag_out_data_z are valid floating-point values within the range defined by the MAGNETO_SUB algorithm. The values of mag_out_data_x, mag_out_data_y, and mag_out_data_z shall be deterministically computed based on the corresponding input parameters mag_in_data_x, mag_in_data_y, and mag_in_data_z. The subprogram shall maintain consistent mapping between its declared output parameters and the AADL parameter declarations in its implementation layer.",
+  "natural_requirement": "The MAGNETO_SUB_wrapper component shall define the implementation-level signal routing for MAGNETO_SUB_wrapper.i. In the implementation layer, MAGNETO_SUB_wrapper.i shall route data flow from Spg.mag_out_data_x to Mag_Out_Data_X through P1 and data flow from Spg.mag_out_data_Y to Mag_Out_Data_Y through P2.",
+  "requirement_items": [
+    {
+      "text": "The MAGNETO_SUB_wrapper.i implementation shall route the data flow from Spg.mag_out_data_x to Mag_Out_Data_X through connection P1.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "MAGNETO_SUB_wrapper.i",
+        "P1",
+        "Spg.mag_out_data_x",
+        "Mag_Out_Data_X"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "MAGNETO_SUB_wrapper.i",
+        "connection": "P1",
+        "source": "Spg.mag_out_data_x",
+        "destination": "Mag_Out_Data_X"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The MAGNETO_SUB_wrapper.i implementation shall declare connection P1 from Spg.mag_out_data_x to Mag_Out_Data_X.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The MAGNETO_SUB_wrapper.i implementation shall route the data flow from Spg.mag_out_data_Y to Mag_Out_Data_Y through connection P2.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "MAGNETO_SUB_wrapper.i",
+        "P2",
+        "Spg.mag_out_data_Y",
+        "Mag_Out_Data_Y"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "MAGNETO_SUB_wrapper.i",
+        "connection": "P2",
+        "source": "Spg.mag_out_data_Y",
+        "destination": "Mag_Out_Data_Y"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The MAGNETO_SUB_wrapper.i implementation shall declare connection P2 from Spg.mag_out_data_Y to Mag_Out_Data_Y.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 158,
+  "original_label": "Case158_A",
+  "natural_requirement_before_behavior_style_rewrite": "The MAGNETO_SUB_wrapper.i implementation shall declare connection P1 from Spg.mag_out_data_x to Mag_Out_Data_X. The MAGNETO_SUB_wrapper.i implementation shall declare connection P2 from Spg.mag_out_data_Y to Mag_Out_Data_Y.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The MAGNETO_SUB_wrapper.i implementation shall route the data flow from Spg.mag_out_data_x to Mag_Out_Data_X through connection P1. The MAGNETO_SUB_wrapper.i implementation shall route the data flow from Spg.mag_out_data_Y to Mag_Out_Data_Y through connection P2.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

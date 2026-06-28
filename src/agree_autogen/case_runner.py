@@ -54,9 +54,6 @@ def _external_aadl_lib_roots() -> list[str]:
     roots = [path.strip() for path in configured.split(os.pathsep) if path.strip()]
     configured_dirs = os.environ.get("AGREE_AADL_LIB_DIRS", "")
     roots.extend(path.strip() for path in configured_dirs.split(os.pathsep) if path.strip())
-    default_workspace = r"D:\AADL_Lib_workspace"
-    if os.path.isdir(default_workspace) and default_workspace not in roots:
-        roots.append(default_workspace)
     seen = set()
     existing = []
     for root in roots:
@@ -293,7 +290,7 @@ def extract_target_component(requirement_text: str, aadl_model: str) -> str:
 
 def run_single_case(pipeline, case_num: int, case_letter: str = "A", setting: str = "E2") -> Dict[str, Any]:
     case_str = f"Case{case_num:02d}"
-    source_root = os.environ.get("AGREE_SOURCE_ROOT", os.path.abspath("data/Sources"))
+    source_root = os.environ.get("AGREE_SOURCE_ROOT", os.path.abspath("data/benchmark/cases"))
     case_dirs = []
     if case_letter:
         case_dirs.append(f"{case_str}_{case_letter}")
