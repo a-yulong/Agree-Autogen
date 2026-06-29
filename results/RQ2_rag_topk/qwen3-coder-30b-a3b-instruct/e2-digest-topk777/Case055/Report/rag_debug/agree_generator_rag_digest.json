@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place input assumptions and output guarantees in component type scopes when they reference visible ports or features.",
+    "Use AGREE syntax for assumptions and guarantees with proper labeling and expressions.",
+    "Generate valid AGREE annex blocks within `annex agree {** ... **};` scope.",
+    "Assign output values in implementation scope only when the left-hand side is a valid output feature."
+  ],
+  "generic_rules": [
+    "Ensure all AGREE expressions reference only visible AADL features or declared helpers.",
+    "Use correct AGREE scalar types: int, real, bool for constants and equations.",
+    "Avoid referencing AADL properties directly as AGREE variables unless explicitly exposed.",
+    "Validate that assumption and guarantee expressions have well-defined types."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contracts.",
+    "Declare equations with `eq name : type = expression;` and constants with `const name : type = value;`.",
+    "Use `assign output = expression;` for implementation-level output bindings.",
+    "Apply logical operators like `and`, `or`, `not(...)`, and implication `=>` in expressions."
+  ],
+  "anti_patterns": [
+    "Do not place guarantees in implementation scope unless the left-hand side is a valid output.",
+    "Do not reference AADL property names directly in AGREE expressions without model exposure.",
+    "Do not use invalid AGREE scalar types like 'integer' or 'boolean' in declarations.",
+    "Do not generate assumptions or guarantees that reference unresolved identifiers."
+  ],
+  "irrelevant_topics": [
+    "AADL AS5506C standard documentation",
+    "Model fusion and scope preservation rules",
+    "Validator-driven repair patterns",
+    "Requirement traceability and compact semantics"
+  ]
+}

@@ -1,0 +1,101 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use initialized temporal recurrence for stateful equations, e.g., `0.0 -> pre(t) + step`
+- Use nested `if ... then ... else` for branching logic
+- Use AGREE logical operators: `and`, `or`, `not(...)`, and implication `=>`
+- Place assumptions and guarantees in valid component type scopes
+- Use `assign` only for existing output features or declared auxiliary variables in implementation scope
+Generic rules:
+- Use concrete bounds, named constants, or visible relations for input assumptions and output guarantees
+- Declare helper variables with matching types to avoid type mismatches
+- Avoid direct references to AADL properties in AGREE expressions unless exposed as ports or constants
+Syntax or pattern reminders:
+- Use `eq name : type = expression;` for helper variables
+- Use `const name : type = value;` for constants
+- Use `assign output = expression;` for output assignments in implementation scope
+Anti-patterns:
+- Do not place guarantee statements in implementation scope
+- Do not use subcomponent ports in component type contracts unless represented through variables or outputs
+- Do not encode AADL timing properties as AGREE expressions without explicit ports or constants
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- timeToRecovery
+
+Target interface:
+Exact expression symbols: timeToRecovery
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+timeToRecovery | out | data | opaque | real
+
+Raw requirement:
+The GeoFence_singleton component shall maintain a real-valued recursive variable t with an initial value of 0.0 and a step size of 0.1. At the implementation level, the component shall invoke the circleLinearization function from the geofence_nodes library, passing t as a parameter, to compute the distanceFromFence variable. The component shall set the value of the output port timeToRecovery to 1.7. Additionally, the component shall enforce the following guarantee: when the simulation time t reaches or exceeds the recovery time, the distanceFromFence at the current time instance must be greater than the distanceFromFence at the previous time instance, ensuring that the system is executing a recovery action that moves the system away from the geofence boundary.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "t is a real-valued recursive variable with initial value 0.0 and step size 0.1",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "t"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "circleLinearization function is invoked with t as a parameter to compute distanceFromFence",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "circleLinearization",
+        "t",
+        "distanceFromFence"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "timeToRecovery is set to 1.7",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "timeToRecovery"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "when simulation time t reaches or exceeds recovery time, distanceFromFence at current time instance must be greater than distanceFromFence at previous time instance",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "t",
+        "distanceFromFence"
+      ]
+    }
+  ]
+}

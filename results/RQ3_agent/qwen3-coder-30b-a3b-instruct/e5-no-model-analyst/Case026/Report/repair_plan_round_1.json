@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 56: Couldn't resolve reference to 'tempin1'.",
+      "cause": "AGREE annex is in system implementation scope but references component type ports directly",
+      "minimal_edit": "Remove the signal flow assumptions referencing voter.tempin1 and voter.tempin2 from the implementation annex"
+    },
+    {
+      "diagnostic": "line 57: Couldn't resolve reference to 'tempin2'.",
+      "cause": "AGREE annex is in system implementation scope but references component type ports directly",
+      "minimal_edit": "Remove the signal flow assumptions referencing voter.tempin1 and voter.tempin2 from the implementation annex"
+    },
+    {
+      "diagnostic": "line 58: Couldn't resolve reference to 'c0'.",
+      "cause": "AGREE annex is in system implementation scope but references implementation-specific connections directly",
+      "minimal_edit": "Remove the timing assumptions referencing c0, c1, c2, c3 from the implementation annex"
+    },
+    {
+      "diagnostic": "line 59: Couldn't resolve reference to 'c1'.",
+      "cause": "AGREE annex is in system implementation scope but references implementation-specific connections directly",
+      "minimal_edit": "Remove the timing assumptions referencing c0, c1, c2, c3 from the implementation annex"
+    },
+    {
+      "diagnostic": "line 60: Couldn't resolve reference to 'c2'.",
+      "cause": "AGREE annex is in system implementation scope but references implementation-specific connections directly",
+      "minimal_edit": "Remove the timing assumptions referencing c0, c1, c2, c3 from the implementation annex"
+    },
+    {
+      "diagnostic": "line 61: Couldn't resolve reference to 'c3'.",
+      "cause": "AGREE annex is in system implementation scope but references implementation-specific connections directly",
+      "minimal_edit": "Remove the timing assumptions referencing c0, c1, c2, c3 from the implementation annex"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from temp_control.i to temp_control",
+    "Remove all assumptions referencing voter.tempin1, voter.tempin2, c0, c1, c2, c3 from the annex",
+    "Add a new AGREE annex to temp_control with only valid assumptions about the component type interface"
+  ]
+}

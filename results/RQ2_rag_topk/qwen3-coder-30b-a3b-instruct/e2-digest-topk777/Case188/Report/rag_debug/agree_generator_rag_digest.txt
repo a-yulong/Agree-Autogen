@@ -1,0 +1,15 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate output guarantees using visible ports or eq helpers declared in the same annex; avoid subcomponent paths in component type annexes.
+- Use AGREE logical operators (and, or, not, =>) and temporal patterns (e.g., 0.0 -> pre(t)) for stateful expressions.
+- Place guarantees in component type annexes only when based on visible inputs/outputs, not implementation bindings.
+Generic rules:
+- Relate outputs to visible inputs directly in guarantees without intermediate implementation details.
+- Declare helper variables with correct AGREE scalar types (int, real, bool) to support type-safe expressions.
+Syntax or pattern reminders:
+- Use format: guarantee "label": expression; within annex agree {** ... **};
+- Use eq name : type = expression; to define typed helper variables for complex conditions.
+Anti-patterns:
+- Do not reference AADL properties (e.g., Period, Deadline) as if they are AGREE variables.
+- Do not use unresolved identifiers or invent declarations to fix type errors; delete invalid clauses instead.
+</RAG_DIGEST>

@@ -1,0 +1,17 @@
+annex agree {**
+  eq dynamicDecision : int = 
+    if (inpGCASImpact > inpACASImpact and inpGCASRecovery + inpACASRecovery >= 0) then
+      1
+    else
+      0;
+  
+  guarantee "dynamic_decision_logic": outDec = dynamicDecision;
+  
+  assume "service_count_bounds": numberServicesTrue >= 0 and numberServicesTrue <= 10;
+  
+  guarantee "final_decision_when_services_ge2": 
+    (numberServicesTrue >= 2) => (outDec = dynamicDecision);
+  
+  guarantee "static_priority_fallback": 
+    (numberServicesTrue < 2) => (outDec = 0);
+**};

@@ -1,0 +1,105 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.
+- Place input assumptions and output guarantees in annex agree only when concrete bounds or visible relations are provided.
+Generic rules:
+- Use AGREE logical operators (and, or, not, =>) for contract expressions.
+- Align helper declaration types with expression types to avoid type mismatches.
+- Structure guarantees to reflect conditional relationships between boolean attributes and value constraints.
+Syntax or pattern reminders:
+- Equations in AGREE should declare a type and use valid logical operators.
+- Guarantees should express conditional relationships using implication or conjunction.
+Anti-patterns:
+- Avoid placing assumptions or guarantees in annex agree without concrete bounds or visible feature names.
+- Do not mix type declarations with incorrect arithmetic or comparison types in helper equations.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Target_Speed
+- Actual_Speed
+- Target_Tire_Pitch
+- Actual_Tire_Pitch
+- State_Signal
+
+Target interface:
+Exact expression symbols: Target_Speed, Actual_Speed, Target_Tire_Pitch, Actual_Tire_Pitch, State_Signal
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Target_Speed | in | data | opaque | Types::speed.speed_impl
+Actual_Speed | out | data | opaque | Types::speed.speed_impl
+Target_Tire_Pitch | in | data | opaque | Types::pitch.pitch_impl
+Actual_Tire_Pitch | out | data | opaque | Types::pitch.pitch_impl
+State_Signal | out | data | opaque | Types::state_sig.impl
+
+Raw requirement:
+The Car component shall assume that the input data Target_Speed.val is always non-negative and less than 150.0. The system shall define the const_tar_speed attribute to indicate the logical state of the target speed being constant. As a guarantee, when const_tar_speed is true, the output data Actual_Speed.val shall not exceed Target_Speed.val, and the absolute value of the difference between Actual_Speed.val in consecutive cycles (representing acceleration) must be strictly less than the constant max_accel, which is 40.0.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Target_Speed.val >= 0 and Target_Speed.val < 150.0",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "Target_Speed"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "const_tar_speed is a boolean attribute indicating the logical state of the target speed being constant",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "const_tar_speed"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "when const_tar_speed is true, Actual_Speed.val <= Target_Speed.val",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "const_tar_speed",
+        "Actual_Speed",
+        "Target_Speed"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "when const_tar_speed is true, abs(Actual_Speed.val - Actual_Speed.val_previous) < 40.0",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "const_tar_speed",
+        "Actual_Speed",
+        "max_accel"
+      ]
+    }
+  ]
+}

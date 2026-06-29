@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Generate AGREE annex blocks using only visible identifiers from the AADL model structure, avoiding implicit or unexposed ports.",
+    "Place assumptions and guarantees in component type annexes when referring to component-level inputs and outputs, never implementation subcomponent paths."
+  ],
+  "generic_rules": [
+    "Use numeric range constraints only when the source data is a scalar numeric port or constant, never Boolean or opaque types.",
+    "Express relationships between visible inputs and outputs as direct boolean equations, not through implementation-level variables."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Wrap AGREE content in `annex agree {** ... **};` within component type scopes for assumptions and guarantees.",
+    "Define helper boolean expressions for ranges as `eq name : bool = value >= min and value <= max;` before use in guarantees."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL properties (e.g., Period, Deadline) as if they are AGREE variables; they are not in scope unless mapped to explicit ports or constants.",
+    "Avoid converting Boolean or enumeration ports into numeric comparisons; such clauses are unsafe and invalid."
+  ],
+  "irrelevant_topics": [
+    "assign",
+    "validator",
+    "repair",
+    "fusion",
+    "component implementation annex bindings for subcomponents"
+  ]
+}

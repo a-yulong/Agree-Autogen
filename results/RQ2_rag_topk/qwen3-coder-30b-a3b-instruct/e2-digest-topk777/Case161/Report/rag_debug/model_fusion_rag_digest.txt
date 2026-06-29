@@ -1,0 +1,23 @@
+<RAG_DIGEST agent="model_fusion">
+Generic rules:
+- AGREE contracts must be placed in valid AADL scopes: component types for assumptions/guarantees, implementations for assignments.
+- Generated AGREE expressions must preserve type consistency and use only visible identifiers or declared helpers.
+- Assumptions and guarantees should reference concrete bounds or named constants when available.
+- Avoid using implementation-only subcomponent paths in component type annexes.
+Syntax or pattern reminders:
+- AGREE annex blocks are enclosed in `annex agree {** ... **};`.
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct syntax and types.
+- Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.
+- Branching logic should use nested `if ... then ... else` expressions.
+Anti-patterns:
+- Do not place implementation-level bindings in component type scopes.
+- Do not reference undefined or package-qualified identifiers not present in the model.
+- Do not encode AADL timing properties as AGREE expressions unless explicitly exposed as typed ports or constants.
+- Do not attempt to convert Boolean domain values into integers unless the data type is explicitly numeric.
+Irrelevant retrieved material:
+- AGREE validator diagnostics and repair patterns
+- Requirement semantics and traceability
+- Model analyst component extraction details
+- AGREE syntax for assume/guarantee logic
+- Fusion insertion location decisions
+</RAG_DIGEST>

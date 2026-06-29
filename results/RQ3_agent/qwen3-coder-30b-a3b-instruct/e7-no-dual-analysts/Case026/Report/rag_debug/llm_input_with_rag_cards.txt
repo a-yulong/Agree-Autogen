@@ -1,0 +1,89 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assume/guarantee in component type annexes; use assign only in implementation annexes for output features.
+- Use visible identifiers from the AADL model—never invent or copy names from examples.
+Generic rules:
+- Contract obligations (guarantees) should relate visible inputs to visible outputs.
+- Constants and equations should be declared where they are semantically bound to the component's interface or implementation.
+Syntax or pattern reminders:
+- AGREE blocks must be wrapped as annex agree {** ... **};
+- Use 'assume' for input constraints, 'guarantee' for output claims, 'assign' for implementation bindings.
+Anti-patterns:
+- Do not reference AADL properties (e.g., Period, Deadline) as AGREE variables without explicit typed exposure.
+- Never place guarantee statements inside implementation annexes.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- temperature_type
+- command
+- command.impl
+- heater_on
+- cooler_on
+- temperature_sensor
+- dataout
+- temperature_sensor.i1
+- temperature_sensor.i2
+- control_panel
+- cmd
+- control_panel.i
+- temp_control
+- temp1
+- temp2
+- user_request
+- temp_control.i
+- heater
+- cooler
+- controller
+- voter
+- tempin1
+- tempin2
+- tempout
+- voter.impl
+- tempin
+- controller.impl
+- enabled
+- heater.impl
+- cooler.impl
+- integration
+- integration.impl
+- user_panel
+- sensor1
+- sensor2
+
+Target interface:
+Exact expression symbols: tempin1, tempin2, tempout
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+tempin1 | in | data | opaque | temperature_type
+tempin2 | in | data | opaque | temperature_type
+tempout | out | data | opaque | temperature_type
+
+Raw requirement:
+The temp_control component shall define the implementation-level data routing and execution constraints for temp_control.i. In the implementation layer, temp_control.i shall route signal flow from temp1 to voter.tempin1 through c0 and signal flow from temp2 to voter.tempin2 through c1. Additionally, temp_control.i shall use immediate communication timing on connection c0, use immediate communication timing on connection c1, use immediate communication timing on connection c2, and use immediate communication timing on connection c3.
+
+Requirement items:
+DISABLED

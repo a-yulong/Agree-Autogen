@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place timing guarantees in component type annexes when they refer to abstract properties like period, deadline, or priority; use implementation annexes for dispatch protocol bindings.",
+    "Use `assume` for input constraints and `guarantee` for output behaviors in AGREE contracts.",
+    "Declare helper equations with `eq` for boolean range checks and use `const` for numeric limits in AGREE contracts.",
+    "Avoid encoding AADL property names directly as AGREE variables unless they are explicitly typed ports or constants in the model."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be scoped to the owning component type or implementation, depending on the nature of the contract.",
+    "Only reference visible AADL features or declared helpers within an AGREE annex block.",
+    "Use `assign` statements only for implementation-level output bindings to existing features.",
+    "Ensure all AGREE expressions have valid types: int, real, or bool; avoid invalid scalar type names."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks are enclosed in `annex agree {** ... **};` and must be placed in the correct AADL component scope.",
+    "Use `eq` for helper declarations and `const` for constants; both must have explicit type annotations.",
+    "Guarantees are expressed with `guarantee \"label\": expression;` and assumptions with `assume \"label\": expression;`.",
+    "Assignments are written as `assign output = expression;` and must reference valid output features."
+  ],
+  "anti_patterns": [
+    "Do not place guarantees in implementation scope unless they bind to actual output features or auxiliary variables.",
+    "Do not reference AADL property names like Period or Deadline directly in AGREE expressions without model-level typed equivalents.",
+    "Avoid using Boolean data in numeric comparisons unless the AADL model exposes a scalar representation.",
+    "Do not generate AGREE clauses that reference unresolved identifiers or invalid helper declarations."
+  ],
+  "irrelevant_topics": [
+    "AADL AS5506C standard documentation",
+    "Model fusion and owner/scope preservation rules",
+    "Validator-driven repair patterns",
+    "Requirement traceability and compact semantics"
+  ]
+}

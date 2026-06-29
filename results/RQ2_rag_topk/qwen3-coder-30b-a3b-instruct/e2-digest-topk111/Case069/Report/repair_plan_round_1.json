@@ -1,0 +1,50 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 55: extraneous input 'us' expecting ';'",
+      "cause": "Unit 'us' used in numeric literal within AGREE expression; AGREE does not parse AADL units in expressions",
+      "minimal_edit": "replace '0 us <= telecommand and telecommand <= 100 us' with '0.0 <= telecommand and telecommand <= 0.1'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 55: left and right sides of binary expression '<=' are of type 'real' and 'int', but must be of the same type",
+      "cause": "Integer literal '0' compared with real port 'telecommand'; AGREE requires consistent real types",
+      "minimal_edit": "replace '0 us <= telecommand' with '0.0 <= telecommand'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 55: left side of binary expression 'and' is of type 'int' but must be of type 'bool'",
+      "cause": "Numeric comparison result used in boolean context without explicit boolean conversion; AGREE treats comparisons as bool but type mismatch from literal",
+      "minimal_edit": "ensure all comparisons use real literals (fixed in prior edit)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 55: no viable alternative at input 'us'",
+      "cause": "AGREE parser cannot tokenize AADL unit 'us' in expression context",
+      "minimal_edit": "remove all unit suffixes; use scalar real values (0.1 for 100 us)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 56: left side of binary expression '=>' is of type 'real' but must be of type 'bool'",
+      "cause": "Implication operator '=>' requires boolean antecedent; 'telecommand' is real, not boolean",
+      "minimal_edit": "remove entire guarantee 'compute_execution_time': telecommand => nominal_attitude = nominal_orbit"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 57: left and right sides of binary expression '=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "'manoeuvre_command' is opaque, 'attitude_window' is real; type mismatch prevents equality",
+      "minimal_edit": "remove guarantee 'dispatch_protocol': telecommand => manoeuvre_command = attitude_window"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 57: left side of binary expression '=>' is of type 'real' but must be of type 'bool'",
+      "cause": "Same as line 56: telecommand is real, cannot be antecedent of implication",
+      "minimal_edit": "remove entire guarantee clause (covered by prior edit)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 57: named thing must be an expression with a type",
+      "cause": "Expression 'manoeuvre_command = attitude_window' is ill-typed, making entire implication invalid",
+      "minimal_edit": "remove guarantee clause (covered by prior edit)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the assume clause '0 us <= telecommand and telecommand <= 100 us' with '0.0 <= telecommand and telecommand <= 0.1' to use scalar real literals without AADL units",
+    "Remove the guarantee clause 'guarantee \"compute_execution_time\": telecommand => nominal_attitude = nominal_orbit;' because telecommand is real and cannot be a boolean antecedent, and the consequent equates incompatible types",
+    "Remove the guarantee clause 'guarantee \"dispatch_protocol\": telecommand => manoeuvre_command = attitude_window;' because manoeuvre_command (opaque) and attitude_window (real) are incompatible types, and telecommand is not boolean"
+  ]
+}

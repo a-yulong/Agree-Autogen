@@ -1,0 +1,7 @@
+annex agree {**
+  guarantee "timeToFailure_computation": timeToFailure = min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure);
+  guarantee "p1_computation": p1 = concurrencyFactor(gcas_timeToRecovery, timeToFailure);
+  guarantee "p2_computation": p2 = concurrencyFactor(tcas_timeToRecovery, timeToFailure);
+  guarantee "p3_computation": p3 = concurrencyFactor(geof_timeToRecovery, timeToFailure);
+  guarantee "timeToFailure_bound": timeToFailure > gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery;
+**};

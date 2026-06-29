@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Generate AGREE annex clauses only for visible identifiers that match the AADL model's typed ports or constants, not AADL properties or implementation-level subcomponents.",
+    "Use component type annexes for assumptions and guarantees referencing visible input/output features; use implementation annexes only for assignments tied to subcomponents."
+  ],
+  "generic_rules": [
+    "Assumptions should bound input ranges; guarantees should express output dependencies using only visible, typed symbols.",
+    "Express numeric range constraints as boolean equations using direct comparisons, not property names or unit literals."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks must be wrapped in `annex agree {** ... **};` and placed in the correct AADL scope (type vs implementation).",
+    "Boolean expressions in guarantees must evaluate to bool; use eq declarations to encapsulate range logic (e.g., eq in_range = x >= min and x <= max)."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL properties (e.g., Period, Deadline, Dispatch_Protocol) as if they are AGREE variables.",
+    "Do not convert Boolean or enumeration ports into numeric comparisons unless explicitly typed as scalar in the AADL model."
+  ],
+  "irrelevant_topics": [
+    "validator diagnostics",
+    "repair patterns",
+    "assume/guarantee fusion",
+    "assign statements",
+    "model traceability",
+    "AADL structural extraction"
+  ]
+}

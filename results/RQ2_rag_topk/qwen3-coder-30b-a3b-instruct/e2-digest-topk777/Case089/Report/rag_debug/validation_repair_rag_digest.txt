@@ -1,0 +1,20 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- When generating AGREE contracts, always validate that referenced identifiers exist in the current scope.
+- Avoid introducing package-qualified identifiers that are not present in the model's configured dependencies.
+- Ensure all AGREE expressions conform to the expected scalar types (int, real, bool) as defined by the AADL model.
+- Prefer minimal repairs that preserve existing architecture and avoid adding new components or ports.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Component type annexes are for assumptions/guarantees involving ports; implementation annexes are for bindings.
+- Helper functions and constants must be declared before use and match the types of their expressions.
+- Use only visible AADL features or helper declarations within the same annex to avoid resolution errors.
+Anti-patterns:
+- Do not attempt to resolve missing identifiers by adding new architecture elements or property associations.
+- Avoid generating AGREE expressions that reference AADL property names like Stack_Size directly as variables.
+- Do not assume that all AADL identifiers are automatically available in AGREE scope without explicit declaration or visibility.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about property associations
+- AGREE validator diagnostics about missing package references
+- Requirements related to signal routing in implementation layer
+</RAG_DIGEST>

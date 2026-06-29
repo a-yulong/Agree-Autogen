@@ -1,0 +1,178 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: acc_in_data_x, acc_in_data_y, acc_in_data_z, mag_in_data_x, mag_in_data_y, mag_in_data_z, gyro_in_data_x, gyro_in_data_y, gyro_in_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "ATTITUDE_CALCULATION.IMPL routes data flow from acc_in_data_x to attitude_sub.acc_in_data_x through ACC_PC1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "ATTITUDE_CALCULATION.IMPL",
+        "acc_in_data_x",
+        "attitude_sub.acc_in_data_x",
+        "ACC_PC1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "ATTITUDE_CALCULATION.IMPL routes data flow from acc_in_data_y to attitude_sub.acc_in_data_y through ACC_PC2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "ATTITUDE_CALCULATION.IMPL",
+        "acc_in_data_y",
+        "attitude_sub.acc_in_data_y",
+        "ACC_PC2"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: ATTITUDE_CALCULATION | lines 181-184
+annex agree {**
+    assume "signal_flow_acc_x": acc_in_data_x = attitude_sub.acc_in_data_x;
+    assume "signal_flow_acc_y": acc_in_data_y = attitude_sub.acc_in_data_y;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   178:     Period                 => 80 ms;
+   179:     Compute_Execution_Time => 0 ms .. 65 ms;
+   180:     Source_Stack_Size      => 4096 Bytes;
+   181:   annex agree {**
+>> 182:     assume "signal_flow_acc_x": acc_in_data_x = attitude_sub.acc_in_data_x;
+   183:     assume "signal_flow_acc_y": acc_in_data_y = attitude_sub.acc_in_data_y;
+   184:   **};
+   185:   end ATTITUDE_CALCULATION;
+   186: 
+
+   179:     Compute_Execution_Time => 0 ms .. 65 ms;
+   180:     Source_Stack_Size      => 4096 Bytes;
+   181:   annex agree {**
+   182:     assume "signal_flow_acc_x": acc_in_data_x = attitude_sub.acc_in_data_x;
+>> 183:     assume "signal_flow_acc_y": acc_in_data_y = attitude_sub.acc_in_data_y;
+   184:   **};
+   185:   end ATTITUDE_CALCULATION;
+   186: 
+   187:   thread implementation ATTITUDE_CALCULATION.IMPL
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: ATTITUDE_CALCULATION
+thread ATTITUDE_CALCULATION
+  features
+    acc_in_data_x : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    acc_in_data_y : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    acc_in_data_z : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+
+    mag_in_data_x : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    mag_in_data_y : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    mag_in_data_z : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+
+    gyro_in_data_x : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    gyro_in_data_y : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    gyro_in_data_z : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+
+  properties
+    Priority               => 1;
+    Dispatch_Protocol      => Periodic;
+    Period                 => 80 ms;
+    Compute_Execution_Time => 0 ms .. 65 ms;
+    Source_Stack_Size      => 4096 Bytes;
+  end ATTITUDE_CALCULATION;
+
+-- TARGET DECLARATION: ATTITUDE_CALCULATION.IMPL
+thread implementation ATTITUDE_CALCULATION.IMPL
+  calls
+    ATTITUDE_CALL: {
+    attitude_sub : subprogram AHRS::Subprograms::ATTITUDE_SUB;
+    };
+
+  connections
+    ACC_PC1 : parameter acc_in_data_x	-> attitude_sub.acc_in_data_x;
+    ACC_PC2 : parameter acc_in_data_y	-> attitude_sub.acc_in_data_y;
+    ACC_PC3 : parameter acc_in_data_z	-> attitude_sub.acc_in_data_z;
+
+    MAG_PC1 : parameter mag_in_data_x	-> attitude_sub.mag_in_data_x;
+    MAG_PC2 : parameter mag_in_data_y	-> attitude_sub.mag_in_data_y;
+    MAG_PC3 : parameter mag_in_data_z	-> attitude_sub.mag_in_data_z;
+
+    GYRO_PC1 : parameter gyro_in_data_x -> attitude_sub.gyro_in_data_x;
+    GYRO_PC2 : parameter gyro_in_data_y -> attitude_sub.gyro_in_data_y;
+    GYRO_PC3 : parameter gyro_in_data_z -> attitude_sub.gyro_in_data_z;
+
+  end ATTITUDE_CALCULATION.IMPL;
+
+-- RELATED MODEL LINES
+thread ACCELERO
+acc_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+f1 : flow sink acc_in_data_x { latency => 10 ms .. 20 ms;};
+end ACCELERO;
+acc_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+P1: parameter Spg.acc_out_data_x -> Acc_Out_Data_X;
+thread implementation ACCELERO.IMPL
+ACC_PC1 : parameter accelero_sub.acc_out_data_x -> acc_out_data_x;
+ACC_PC2 : parameter accelero_sub.acc_out_data_y -> acc_out_data_y;
+ACC_PC3 : parameter accelero_sub.acc_out_data_z -> acc_out_data_z;
+end ACCELERO.IMPL;
+thread MAGNETO
+mag_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+end MAGNETO;
+mag_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+P1: parameter Spg.mag_out_data_x -> Mag_Out_Data_X;
+thread implementation MAGNETO.IMPL
+MAG_PC1 : parameter magneto_sub.mag_out_data_x -> mag_out_data_x;
+MAG_PC2 : parameter magneto_sub.mag_out_data_y -> mag_out_data_y;
+MAG_PC3 : parameter magneto_sub.mag_out_data_z -> mag_out_data_z;
+end MAGNETO.IMPL;
+thread GYRO
+gyro_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+end GYRO;
+gyro_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+P1: parameter Spg.gyro_out_data_x -> Gyro_Out_Data_X;
+thread implementation GYRO.IMPL
+GYRO_PC1 : parameter gyro_sub.gyro_out_data_x -> gyro_out_data_x;
+GYRO_PC2 : parameter gyro_sub.gyro_out_data_y -> gyro_out_data_y;
+GYRO_PC3 : parameter gyro_sub.gyro_out_data_z -> gyro_out_data_z;
+end GYRO.IMPL;
+thread ATTITUDE_CALCULATION
+acc_in_data_x : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_in_data_y : in event data port AHRS::Data_Types::FLO
+-- [target model context truncated]

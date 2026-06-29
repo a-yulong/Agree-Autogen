@@ -1,0 +1,24 @@
+{
+  "rag_rules": [
+    "Use valid AGREE annex syntax for contracts and keep assumptions/guarantees within component contract scope.",
+    "Generate clauses only from concrete requirement semantics using visible model symbols and explicit bounds or relations.",
+    "In component contracts, relate visible inputs and outputs only; avoid implementation-only paths or hidden subcomponent references.",
+    "If introducing helper equations, ensure their declared type matches the expression type, especially bool for comparisons."
+  ],
+  "generic_rules": [
+    "Prefer compact range assumptions or guarantees only when the requirement provides numeric bounds.",
+    "Rely on the model as the authority for identifiers, directions, and data types before emitting expressions."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts use an `annex agree {** ... **};` block.",
+    "Range checks are typically boolean expressions using chained comparisons with `and`."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent ports or implementation-only names from a component contract expression.",
+    "Do not treat AADL property names or unit tokens as in-scope AGREE variables.",
+    "Do not generate numeric range comparisons for Boolean, opaque, or non-numeric data without confirmed scalar typing."
+  ],
+  "irrelevant_topics": [
+    "Implementation-level assignment placement details are not needed for pure contract clause generation."
+  ]
+}

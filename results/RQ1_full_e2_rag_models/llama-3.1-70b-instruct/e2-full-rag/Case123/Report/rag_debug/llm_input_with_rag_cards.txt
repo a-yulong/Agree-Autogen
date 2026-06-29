@@ -1,0 +1,84 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `assume` and `guarantee` statements in component type annexes, and `assign` statements in implementation annexes.
+- Place assumptions and guarantees in valid component type scopes, and implementation-level bindings in implementation scopes.
+Generic rules:
+- Use concrete bounds, named constants, or visible relations for input envelope assumptions and output range guarantees.
+- Use `assign` only when the left-hand side is an existing output feature or declared auxiliary variable.
+Syntax or pattern reminders:
+- AGREE contracts are written inside `annex agree {** ... **};` blocks.
+- Use `eq` declarations for boolean expressions, and `const` declarations for scalar values.
+Anti-patterns:
+- Do not use AADL property names as AGREE variables unless explicitly exposed as typed ports or constants.
+- Avoid using invalid AGREE scalar type names (e.g., 'integer' instead of 'int').
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- mag_in_data_x
+- mag_in_data_y
+- mag_in_data_z
+- mag_out_data_x
+- mag_out_data_y
+- mag_out_data_z
+
+Target interface:
+Exact expression symbols: mag_in_data_x, mag_in_data_y, mag_in_data_z, mag_out_data_x, mag_out_data_y, mag_out_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+mag_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_x | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_y | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_z | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+Raw requirement:
+The MAGNETO component shall define the implementation-level signal routing for MAGNETO.IMPL. In the implementation layer, MAGNETO.IMPL shall route data flow from magneto_sub.mag_out_data_x to mag_out_data_x through MAG_PC1 and data flow from magneto_sub.mag_out_data_y to mag_out_data_y through MAG_PC2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "magneto_sub.mag_out_data_x -> mag_out_data_x through MAG_PC1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO.IMPL.MAG_PC1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "magneto_sub.mag_out_data_y -> mag_out_data_y through MAG_PC2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO.IMPL.MAG_PC2"
+      ]
+    }
+  ]
+}

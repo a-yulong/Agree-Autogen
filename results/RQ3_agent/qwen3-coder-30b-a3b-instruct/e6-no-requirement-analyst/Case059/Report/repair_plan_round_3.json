@@ -1,0 +1,79 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 27: missing EOF at 'with'",
+      "cause": "Invalid 'with Agree_Nodes;' in component type annex; AGREE does not support 'with' clauses in component type annexes, and Agree_Nodes is not a visible package.",
+      "minimal_edit": "Remove line 27: 'with Agree_Nodes;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 104: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes::Brake_Mode is not a visible symbol; no with clause for Agree_Nodes exists and it is not defined in the model.",
+      "minimal_edit": "Remove line 104: 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 107: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not a visible symbol; no with clause exists and it is not defined.",
+      "minimal_edit": "Remove line 107: 'guarantee G_COM_1 \"Valve Command\" : not Fail => CMD = Agree_Nodes::Brake_Cmd(Mode, Pedal);'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 125: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes::Brake_Mode is not a visible symbol; no with clause exists and it is not defined.",
+      "minimal_edit": "Remove line 125: 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 140: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not a visible symbol; no with clause exists and it is not defined.",
+      "minimal_edit": "Remove line 140: 'guarantee G_MON_1 \"MON Brake Command\" : not Fail => (Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal));'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 250: Couldn't resolve reference to 'Initializing'.",
+      "cause": "Initializing is declared in BSCU annex but referenced in BSCU_Impl; BSCU_Impl cannot access variables declared in its parent component type annex.",
+      "minimal_edit": "Replace line 250: 'assign Initializing = not (COM1_Running and COM2_Running and MON1_Running and MON2_Running);' with 'assign Initializing = false;' (temporary placeholder; requires full model edit to move Initializing to implementation)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 250: LHS of assignment must be an AGREE 'eq' variable or an output port of this component",
+      "cause": "Initializing is not declared as an output port or eq variable in BSCU_Impl; it is declared in BSCU and inaccessible.",
+      "minimal_edit": "Replace line 250: 'assign Initializing = not (COM1_Running and COM2_Running and MON1_Running and MON2_Running);' with 'assign Initializing = false;' (temporary placeholder)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not a visible symbol; no with clause exists and it is not defined.",
+      "minimal_edit": "Remove line 257: 'lemma L1 \"COM1 Consistency\" : COM1._CLK and not FailCOM1 => (COM1.CMD = Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal));'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 258: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not a visible symbol; no with clause exists and it is not defined.",
+      "minimal_edit": "Remove line 258: 'lemma L2 \"COM2 Consistency\" : COM2._CLK and not FailCOM2 => (COM2.CMD = Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal));'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 259: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not a visible symbol; no with clause exists and it is not defined.",
+      "minimal_edit": "Remove line 259: 'lemma L3 \"MON1 Consistency\" : MON1._CLK and not FailMON1 => (MON1.Status.Cmd = Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal));'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 260: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not a visible symbol; no with clause exists and it is not defined.",
+      "minimal_edit": "Remove line 260: 'lemma L4 \"MON2 Consistency\" : MON2._CLK and not FailMON2 => (MON2.Status.Cmd = Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal));'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 268: Couldn't resolve reference to 'COM1Failed'.",
+      "cause": "COM1Failed is declared in BSCU annex but referenced in BSCU_Impl; BSCU_Impl cannot access variables from parent type annex.",
+      "minimal_edit": "Remove line 268: 'lemma L11 \"CH1 Error Only if Failed\" : CH1.Error => COM1Failed or MON1Failed;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 269: Couldn't resolve reference to 'COM2Failed'.",
+      "cause": "COM2Failed is declared in BSCU annex but referenced in BSCU_Impl; BSCU_Impl cannot access variables from parent type annex.",
+      "minimal_edit": "Remove line 269: 'lemma L12 \"Ch2 Error Only if Failed\" : CH2.Error => COM2Failed or MON2Failed;'"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove all 'with Agree_Nodes;' lines from all annexes (only line 27 is present).",
+    "Remove all references to Agree_Nodes::Brake_Mode and Agree_Nodes::Brake_Cmd from COM and MON annexes (lines 104, 107, 125, 140).",
+    "Remove all lemmas L1-L4 from BSCU_Impl annex that reference Agree_Nodes::Brake_Cmd (lines 257-260).",
+    "Remove all lemmas L11 and L12 from BSCU_Impl annex that reference COM1Failed, MON1Failed, COM2Failed, MON2Failed (lines 268-269).",
+    "Move the declaration of Initializing from BSCU annex to BSCU_Impl as an 'eq' variable, and update the assign statement to reference it correctly.",
+    "Ensure all assume/guarantee statements referencing CH1, CH2, Panel, Pedal, Fail* are retained only in BSCU (component type) annex, and remove any invalid references from BSCU_Impl.",
+    "Verify that no package-qualified symbols (e.g., Agree_Nodes::*) remain without corresponding with clauses, and remove all such references."
+  ]
+}

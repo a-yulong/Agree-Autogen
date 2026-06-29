@@ -1,0 +1,19 @@
+annex agree {**
+  assume "D1_handle_position routing": D1_handle_position = door1.handle_position;
+  assume "D1_closed routing": D1_closed = door1.closed;
+  guarantee "D1_swivel control": D1_swivel = (D1_handle_position and D1_closed);
+  guarantee "D1_de_arrest control": D1_de_arrest = (D1_handle_position or D1_closed);
+  guarantee "D1_lock control": D1_lock = (D1_latched and D1_locked);
+  guarantee "D1_warn_diff_pres control": D1_warn_diff_pres = (D1_in_flight and not D1_on_ground);
+  guarantee "D1_warn_slide control": D1_warn_slide = (D1_engine_running or D1_emergency_evacuation);
+  guarantee "D1_warning_info control": D1_warning_info = (D1_dps > 0);
+  guarantee "D1_ecam_info control": D1_ecam_info = (D1_dps < 100);
+  guarantee "D2_swivel control": D2_swivel = (D2_handle_position and D2_closed);
+  guarantee "D2_de_arrest control": D2_de_arrest = (D2_handle_position or D2_closed);
+  guarantee "D2_lock control": D2_lock = (D2_latched and D2_locked);
+  guarantee "D2_warn_diff_pres control": D2_warn_diff_pres = (D2_in_flight and not D2_on_ground);
+  guarantee "D2_warn_slide control": D2_warn_slide = (D2_engine_running or D2_emergency_evacuation);
+  guarantee "D2_warning_info control": D2_warning_info = (D2_dps > 0);
+  guarantee "D2_ecam_info control": D2_ecam_info = (D2_dps < 100);
+  guarantee "Mix_cll control": Mix_cll = (D1_handle_position and D2_handle_position);
+**};

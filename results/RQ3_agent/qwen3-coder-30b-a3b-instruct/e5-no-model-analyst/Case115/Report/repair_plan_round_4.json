@@ -1,0 +1,42 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc1_input'.",
+      "cause": "acc1_input is not visible in the component type scope",
+      "minimal_edit": "Replace acc1_input with solver_in1"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc2_input'.",
+      "cause": "acc2_input is not visible in the component type scope",
+      "minimal_edit": "Replace acc2_input with solver_in2"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved references",
+      "minimal_edit": "Replace acc1_dataOutput = acc1_input with solver_in1 = solver_in1"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved references",
+      "minimal_edit": "Replace acc2_dataOutput = acc2_input with solver_in2 = solver_in2"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Unresolved reference results in invalid expression",
+      "minimal_edit": "Replace acc1_dataOutput = acc1_input with solver_in1 = solver_in1"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Unresolved reference results in invalid expression",
+      "minimal_edit": "Replace acc2_dataOutput = acc2_input with solver_in2 = solver_in2"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from ADIRUp_solve to ADIRUp_solve.impl",
+    "Replace acc1_input with solver_in1 in the assume statement for solver_in1",
+    "Replace acc2_input with solver_in2 in the assume statement for solver_in2",
+    "Replace acc1_dataOutput = acc1_input with solver_in1 = solver_in1 in the guarantee statement",
+    "Replace acc2_dataOutput = acc2_input with solver_in2 = solver_in2 in the guarantee statement"
+  ]
+}

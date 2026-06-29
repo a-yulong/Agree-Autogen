@@ -1,0 +1,27 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 191: Assume statements are allowed only in component types",
+      "cause": "AGREE assume statements are placed in a component implementation (ADIRU.EMV2) instead of a component type",
+      "minimal_edit": "Move the entire annex agree block from ADIRU.EMV2 to ADIRU"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 193: Couldn't resolve reference to 'acc1_input'.",
+      "cause": "Port names acc1_input, acc1_output are not visible in AGREE; only subcomponent names are visible, and AGREE cannot resolve port references without type context",
+      "minimal_edit": "Remove all port equality and flow expressions (lines 191-205) since ports cannot be referenced in AGREE without type-level visibility"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 210: Couldn't resolve reference to 'impl'.",
+      "cause": "ADIRU.impl is an implementation name, not a component type; AGREE cannot compare component instances to implementation names",
+      "minimal_edit": "Remove the deployment_mapping assumption entirely, as it compares subcomponents to implementation names which are not valid AGREE expressions"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the annex agree block from ADIRU.EMV2",
+    "Create a new annex agree block in the component type ADIRU (not its implementation)",
+    "In the new ADIRU annex agree block, do not include any port equality or flow expressions (acc_pr.acc1_output = ..., acc_pr.acc1_output -> ...)",
+    "In the new ADIRU annex agree block, do not include any deployment_mapping assumption (ADIRU.impl = main_cpu.part1, etc.)",
+    "Leave the ADIRU.EMV2 annex agree block entirely deleted as it is invalid in implementation scope"
+  ]
+}

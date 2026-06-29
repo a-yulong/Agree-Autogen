@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "AGREE equation declares 'e' as real type, but it is being assigned a difference of opaque-type ports",
+      "minimal_edit": "Change 'e' declaration to 'eq e : real = Target - Actual;' to match the expected real type for the difference operation"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types 'Types::speed.speed_impl' are not compatible with arithmetic operations",
+      "minimal_edit": "Remove or replace the expression with a valid real-valued operation using visible port values"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types 'Types::speed.speed_impl' are not compatible with arithmetic operations",
+      "minimal_edit": "Remove or replace the expression with a valid real-valued operation using visible port values"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that Target and Actual are opaque types and cannot be used in arithmetic expressions directly",
+    "Modify the equation 'eq e : real = Target - Actual;' to use a valid real-valued expression",
+    "Since the requirement is to compute error as difference between Target and Actual, and these are opaque types, the expression must be rewritten to be valid in AGREE",
+    "Replace the invalid expression with a placeholder or remove it if it's not essential to the model"
+  ]
+}

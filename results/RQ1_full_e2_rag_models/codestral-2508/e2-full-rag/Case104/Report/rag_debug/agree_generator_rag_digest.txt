@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks inside `annex agree {** ... **};` blocks.
+- Use `assign output = expression;` for implementation-level bindings.
+- Place assumptions, guarantees, constants, and equation declarations in component type annexes.
+- Treat each annex agree block as scoped to its owning component declaration.
+Generic rules:
+- Use exact current-case names from the model index for AGREE expressions.
+- Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for them.
+- AGREE expressions may only reference identifiers visible in the current component scope.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contracts.
+- Use `eq name : type = expression;` for equations and `const name : type = value;` for constants.
+- The authoritative source for component names, ports, directions, data types, subcomponents, and connections is the input AADL model.
+Anti-patterns:
+- Do not copy identifiers from examples or invent ports/components.
+- Do not delete generated clauses based on validator diagnostics without understanding the root cause.
+</RAG_DIGEST>

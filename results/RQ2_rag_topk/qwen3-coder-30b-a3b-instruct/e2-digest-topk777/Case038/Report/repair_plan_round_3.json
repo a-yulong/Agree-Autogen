@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "AGREE equation declares 'e' as real type but attempts to assign a port expression of type 'Types::speed.speed_impl'",
+      "minimal_edit": "Change 'eq e : real = Target - Actual;' to 'eq e : real = Target - Actual;' and ensure Target and Actual are properly typed in the context"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types 'Types::speed.speed_impl' are not directly subtractable in AGREE expressions",
+      "minimal_edit": "Remove or rewrite the expression to use only visible symbols of compatible types"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types 'Types::speed.speed_impl' are not directly subtractable in AGREE expressions",
+      "minimal_edit": "Remove or rewrite the expression to use only visible symbols of compatible types"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that Target and Actual are ports of type 'Types::speed.speed_impl' which cannot be directly used in arithmetic expressions in AGREE",
+    "Replace the equation 'eq e : real = Target - Actual;' with a valid expression using only visible symbols of compatible types",
+    "Since the requirement defines 'error e equals Target minus Actual', and Target/Actual are opaque types, rewrite the equation to use a valid real-valued expression or remove the equation if it cannot be expressed in AGREE"
+  ]
+}

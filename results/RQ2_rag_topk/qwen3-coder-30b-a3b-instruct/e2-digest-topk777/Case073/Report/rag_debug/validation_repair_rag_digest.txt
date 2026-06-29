@@ -1,0 +1,24 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE contracts must use only identifiers and types visible in the current AADL component scope.
+- Type consistency is required in AGREE expressions: numeric variables must be assigned numeric expressions, and Boolean variables must be assigned Boolean expressions.
+- Generated AGREE code should not introduce package-qualified identifiers or data types not present in the input model.
+- When fixing AGREE diagnostics, prefer removing invalid clauses over adding new architecture elements.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Use `assign output = expression;` for implementation-level bindings to outputs.
+- Use `const name : type = value;` and `eq name : type = expression;` for constants and equations in component type scopes.
+- Helper functions and variables must be declared within the same AGREE annex or imported from available packages.
+Anti-patterns:
+- Do not attempt to resolve missing identifiers by inventing new declarations or modifying unrelated architecture.
+- Do not place implementation-level guarantees in component type annexes; move valid bindings to implementation scope instead.
+- Do not use AADL property names (e.g., Compute_Execution_Time, Deadline) as AGREE variables unless explicitly exposed as typed ports or constants.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics
+- AGREE validator diagnostics
+- Model Analyst Agent's role in extracting AADL structure
+- Requirement Analyst's role in compact requirement semantics
+- Model Fusion's role in owner/scope preservation
+- AGREE syntax for component type contracts
+- AGREE syntax for implementation-level bindings
+</RAG_DIGEST>

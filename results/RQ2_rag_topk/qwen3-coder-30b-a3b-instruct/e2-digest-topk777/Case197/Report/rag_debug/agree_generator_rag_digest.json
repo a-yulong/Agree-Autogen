@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "Generate assume/guarantee clauses only for visible ports or constants explicitly defined in the AADL model, using direct references without qualification.",
+    "Place component-type contracts in component type annexes; implementation bindings (assign) belong only in implementation annexes."
+  ],
+  "generic_rules": [
+    "Assumptions and guarantees must reflect requirement-bound numeric ranges or Boolean relations using only model-exposed, typed identifiers.",
+    "Use eq declarations to define reusable Boolean expressions for ranges or conditions, ensuring type consistency with port declarations."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annexes use syntax: annex agree {** ... **}; with no trailing semicolon inside the block.",
+    "Constant declarations must use 'const name : type = value;' and expressions must return bool for guarantees/assumptions."
+  ],
+  "anti_patterns": [
+    "Do not infer numeric bounds (e.g., x >= 0) unless explicitly stated in the requirement.",
+    "Do not reference AADL properties (e.g., Period, Deadline) or event ports as numeric/Boolean variables in AGREE expressions.",
+    "Do not use subcomponent paths or package-qualified names unless explicitly visible and declared in the model."
+  ],
+  "irrelevant_topics": [
+    "AADL_AS5506C.local_source.md",
+    "validator diagnostics",
+    "repair content",
+    "fusion insertion logic",
+    "assign clauses",
+    "AGREE annex placement decision for implementation vs type"
+  ]
+}

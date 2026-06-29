@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assignment statements are allowed only in component implementations",
+      "cause": "AGREE annex is placed in component type instead of implementation",
+      "minimal_edit": "Move the AGREE annex block from ACCELERO to ACCELERO.IMPL"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_out_data_x'",
+      "cause": "Port name not visible in current annex scope",
+      "minimal_edit": "Ensure port names are properly referenced in implementation context"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'accelero_sub'",
+      "cause": "Subcomponent not visible in current annex scope",
+      "minimal_edit": "Reference subcomponent through valid implementation binding"
+    },
+    {
+      "diagnostic": "mismatched input '\"accelero_impl_signal_flow_x\"' expecting RULE_ID",
+      "cause": "Invalid syntax in AGREE assignment statement",
+      "minimal_edit": "Remove quoted string labels from AGREE assignments"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire AGREE annex block from ACCELERO component type to ACCELERO.IMPL component implementation",
+    "Remove the quoted string labels from each AGREE assignment statement",
+    "Ensure all referenced identifiers are valid in the implementation context"
+  ]
+}

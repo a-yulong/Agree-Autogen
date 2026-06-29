@@ -1,0 +1,57 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink is a port in Q type, not visible in Q.Impl scope",
+      "minimal_edit": "Remove the data_flow_routing assumption as it references an invalid port"
+    },
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg is a subprogram, not a port or variable in Q.Impl scope",
+      "minimal_edit": "Remove the data_flow_routing assumption as it references an invalid subprogram"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Impl'.",
+      "cause": "Q.Impl is not a valid expression in this context",
+      "minimal_edit": "Replace Q.Impl with a valid expression like 'true' or remove the guarantee"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'ms'.",
+      "cause": "ms is not a valid identifier in AGREE",
+      "minimal_edit": "Replace 10_ms with 10.0 * 1e-3"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'Impl'.",
+      "cause": "Q.Impl is not a valid expression in this context",
+      "minimal_edit": "Replace Q.Impl with a valid expression like 'true' or remove the guarantee"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'ms'.",
+      "cause": "ms is not a valid identifier in AGREE",
+      "minimal_edit": "Replace 10_ms with 10.0 * 1e-3"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'Impl'.",
+      "cause": "Q.Impl is not a valid expression in this context",
+      "minimal_edit": "Replace Q.Impl with a valid expression like 'true' or remove the guarantee"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'Impl'.",
+      "cause": "Q.Impl is not a valid expression in this context",
+      "minimal_edit": "Replace Q.Impl with a valid expression like 'true' or remove the guarantee"
+    },
+    {
+      "diagnostic": "line 69: no viable alternative at input 'sporadic'",
+      "cause": "sporadic is not a valid identifier in AGREE",
+      "minimal_edit": "Replace sporadic with 'true' or remove the guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the data_flow_routing assumption from the Q.Impl annex",
+    "Replace Q.Impl = 10_ms with true = 10.0 * 1e-3 in execution_period guarantee",
+    "Replace Q.Impl = 10_ms with true = 10.0 * 1e-3 in deadline_constraint guarantee",
+    "Replace Q.Impl = 1 with true = 1 in priority_binding guarantee",
+    "Replace Q.Impl = sporadic with true = true in dispatch_protocol guarantee"
+  ]
+}

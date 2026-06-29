@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Generate AGREE annex blocks within `annex agree {** ... **};` and place assumptions, guarantees, constants, and equations in component type annexes.",
+    "Use `assume \"label\": expression;` for input assumptions and `guarantee \"label\": expression;` for output guarantees in type scope.",
+    "For implementation scope, use `assign output = expression;` only for existing output features or declared auxiliary variables.",
+    "Do not place guarantee statements in implementation scope; use type scope for output dependency contracts."
+  ],
+  "generic_rules": [
+    "AGREE expressions must reference only identifiers visible in the current component scope.",
+    "Component type annexes are for structural and behavioral assumptions/guarantees; implementation annexes are for bindings.",
+    "Use concrete bounds, named constants, or visible relations when creating assumptions or guarantees.",
+    "Do not encode AADL timing properties as AGREE variables unless explicitly exposed in the model."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract statements.",
+    "Use `eq name : type = expression;` for equation declarations.",
+    "Use `const name : type = value;` for constant declarations.",
+    "Use `assign output = expression;` for output assignments in implementation scope."
+  ],
+  "anti_patterns": [
+    "Do not reference identifiers not visible in the current component scope.",
+    "Do not place guarantee statements in implementation scope.",
+    "Do not encode AADL properties like Deadline or Period as AGREE variables without explicit model exposure.",
+    "Do not copy identifiers from examples or invent new ports/components."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing properties",
+    "Model fusion and component merging",
+    "Validator diagnostics and repair patterns",
+    "Requirement traceability and compact semantics"
+  ]
+}

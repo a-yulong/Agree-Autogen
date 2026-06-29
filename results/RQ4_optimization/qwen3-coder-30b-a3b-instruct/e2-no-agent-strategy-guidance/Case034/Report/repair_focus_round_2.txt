@@ -1,0 +1,269 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: threatDetected, threatAltitude, ownAltitude, ownLongitude, threatLongitude, requiredVerticalVelocity
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+threatDetected | in | data | bool | base_types::Boolean
+threatAltitude | in | data | real | base_types::float
+ownAltitude | in | data | real | base_types::float
+ownLongitude | in | data | opaque | int
+threatLongitude | in | data | opaque | int
+requiredVerticalVelocity | out | data | opaque | int
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "threatDetected is Boolean",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "threatDetected"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "threatAltitude is Float",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "threatAltitude"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "ownAltitude is Float",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "ownAltitude"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "ownLongitude is Int",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "ownLongitude"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "threatLongitude is Int",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "threatLongitude"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "requiredVerticalVelocity is Int",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "when threatDetected and ownAltitude = threatAltitude and ownLongitude > threatLongitude, then requiredVerticalVelocity = 50",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "threatDetected",
+        "ownAltitude",
+        "threatAltitude",
+        "ownLongitude",
+        "threatLongitude",
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R8",
+      "text": "when threatDetected and ownAltitude = threatAltitude and ownLongitude <= threatLongitude, then requiredVerticalVelocity = -50",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "threatDetected",
+        "ownAltitude",
+        "threatAltitude",
+        "ownLongitude",
+        "threatLongitude",
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R9",
+      "text": "when threatDetected and ownAltitude < threatAltitude, then requiredVerticalVelocity = -10",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "threatDetected",
+        "ownAltitude",
+        "threatAltitude",
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R10",
+      "text": "when threatDetected and ownAltitude > threatAltitude, then requiredVerticalVelocity = 10",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "threatDetected",
+        "ownAltitude",
+        "threatAltitude",
+        "requiredVerticalVelocity"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: ResponseSelection | lines 153-167
+annex agree {**
+	  assume "threatDetected is Boolean": threatDetected in {true, false};
+	  assume "threatAltitude is Float": threatAltitude >= -10000.0 and threatAltitude <= 10000.0;
+	  assume "ownAltitude is Float": ownAltitude >= -10000.0 and ownAltitude <= 10000.0;
+	  assume "ownLongitude is Int": ownLongitude >= -180 and ownLongitude <= 180;
+	  assume "threatLongitude is Int": threatLongitude >= -180 and threatLongitude <= 180;
+	  guarantee "priority based on longitude when altitudes equal and threat detected": 
+	    threatDetected and ownAltitude = threatAltitude => 
+	      (ownLongitude > threatLongitude => requiredVerticalVelocity = 50) and 
+	      (ownLongitude <= threatLongitude => requiredVerticalVelocity = -50);
+	  guarantee "bottom intrusion avoidance when own altitude higher": 
+	    threatDetected and ownAltitude > threatAltitude => requiredVerticalVelocity = 10;
+	  guarantee "top intrusion avoidance when own altitude lower": 
+	    threatDetected and ownAltitude < threatAltitude => requiredVerticalVelocity = -10;
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   150: 			threatLongitude: in data port int;
+   151: 			
+   152: 			requiredVerticalVelocity: out data port int;
+   153: 	annex agree {**
+>> 154: 	  assume "threatDetected is Boolean": threatDetected in {true, false};
+   155: 	  assume "threatAltitude is Float": threatAltitude >= -10000.0 and threatAltitude <= 10000.0;
+   156: 	  assume "ownAltitude is Float": ownAltitude >= -10000.0 and ownAltitude <= 10000.0;
+   157: 	  assume "ownLongitude is Int": ownLongitude >= -180 and ownLongitude <= 180;
+   158: 	  assume "threatLongitude is Int": threatLongitude >= -180 and threatLongitude <= 180;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: ResponseSelection
+system ResponseSelection
+		features
+			threatDetected: in data port base_types::Boolean;
+			threatAltitude: in data port base_types::float;
+			ownAltitude: in data port base_types::float;
+			ownLongitude: in data port int;
+			threatLongitude: in data port int;
+			
+			requiredVerticalVelocity: out data port int;
+	end ResponseSelection;
+
+-- TARGET DECLARATION: ResponseSelection.impl
+system implementation ResponseSelection.impl
+	end ResponseSelection.impl;
+
+-- RELATED MODEL LINES
+ownAltitude: in data port base_types::float;
+ownLongitude: in data port int;
+requiredVerticalVelocity: out data port int;
+responseSelection: system ResponseSelection.impl;
+oa_from_external: port ownAltitude -> instrumentation.altitude_in {Communication_Properties::Timing => immediate;};
+olo_from_external: port ownLongitude -> instrumentation.ownLongitude_in {Communication_Properties::Timing => immediate;};
+td_to_rs: port threatDetection.threatDetected -> responseSelection.threatDetected {Communication_Properties::Timing => immediate;};
+oa_to_rs: port instrumentation.altitude -> responseSelection.ownAltitude {Communication_Properties::Timing => immediate;};
+ia_to_rs: port surveillance.nearestIntruderAltitude -> responseSelection.threatAltitude {Communication_Properties::Timing => immediate;};
+ol_to_rs: port instrumentation.ownLongitude -> responseSelection.ownLongitude {Communication_Properties::Timing => immediate;};
+il_to_rs: port surveillance.nearestIntruderLongitude -> responseSelection.threatLongitude {Communication_Properties::Timing => immediate;};
+rvv_to_external: port responseSelection.requiredVerticalVelocity -> requiredVerticalVelocity {Communication_Properties::Timing => immediate;};
+ownLongitude: out data port int;
+threatDetected: out data port base_types::Boolean;
+system ResponseSelection
+threatDetected: in data port base_types::Boolean;
+threatAltitude: in data port base_types::float;
+threatLongitude: in data port int;
+end ResponseSelection;
+system implementation ResponseSelection.impl
+end ResponseSelection.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "ResponseSelection",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "ResponseSelection.impl",
+      "kind": "system implementation",
+      "type_name": "ResponseSelection"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "ResponseSelection.impl",
+      "name": "responseSelection",
+      "category": "system",
+      "classifier": "ResponseSelection.impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "ResponseSelection",
+      "name": "threatDetected",
+      "direction": "in",
+      "category": "data port",
+      "type": "base_types::Boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ResponseSelection",
+      "name": "threatAltitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "base_types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ResponseSelection",
+      "name": "ownAltitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "base_types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ResponseSelection",
+      "name": "ownLongitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ResponseSelection",
+      "name": "threatLongitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ResponseSelection",
+      "name": "requiredVerticalVelocity",
+      "direction": "out",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    }
+  ]
+}

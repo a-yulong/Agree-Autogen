@@ -1,0 +1,61 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- Task
+- Task.impl_1
+- node_a
+- node_a.impl
+- Task1
+- hello
+- hello.impl
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Task | lines 22-24
+annex agree {**
+          guarantee "execution_timing": 100 = 100 => 0 <= 3;
+        **};
+
+[DIAGNOSTIC LINE CONTEXT]
+No validator line numbers were available.
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Task
+thread Task
+  end Task;
+
+-- TARGET DECLARATION: Task.impl_1
+thread implementation Task.impl_1
+  calls
+    Mycalls: {
+    P_Spg : subprogram Hello_Spg_1;
+    };
+  properties
+    Priority => 100;
+    Dispatch_Protocol                  => Periodic;
+    Period                             => 100 ms;
+    Compute_Execution_time             => 0 ms .. 3 ms;
+  end Task.impl_1;
+
+-- RELATED MODEL LINES
+Source_Text     => ("hello.c");
+thread Task
+end Task;
+thread implementation Task.impl_1
+end Task.impl_1;
+process node_a
+end node_a;
+process implementation node_a.impl
+Task1 : thread Task.impl_1;
+end node_a.impl;
+system hello
+end hello;
+system implementation hello.impl
+node_a : process node_a.impl;
+Actual_Processor_Binding => (reference (cpu_rm.p0)) applies to node_a;
+end hello.impl;

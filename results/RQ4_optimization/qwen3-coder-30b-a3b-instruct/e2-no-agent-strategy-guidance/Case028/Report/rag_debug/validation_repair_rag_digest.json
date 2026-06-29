@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by ensuring all identifiers used in guarantees are declared or visible in the current scope.",
+    "Resolve type mismatches by aligning expression types with expected types (int, real, bool) and using proper helper declarations.",
+    "Avoid placing invalid guarantee expressions in implementation scope; move them to appropriate component type scope if needed."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or declared helpers in AGREE contracts to prevent 'Couldn't resolve reference' errors.",
+    "Ensure all binary expressions in guarantees have matching left and right operand types to avoid type mismatch diagnostics.",
+    "Declare auxiliary variables with explicit types using `eq name : type = expression` to support complex logical conditions.",
+    "Place output assignments in implementation scope only when the left-hand side is an existing output feature or declared auxiliary variable."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `eq` for helper declarations and `const` for named constants in AGREE contracts.",
+    "Use `assign` for output port assignments in implementation scope only.",
+    "Use `assume` and `guarantee` statements with proper logical operators (`and`, `or`, `not`, `=>`) for contract expressions."
+  ],
+  "anti_patterns": [
+    "Do not reference undefined identifiers in guarantee expressions; always ensure visibility or declaration before use.",
+    "Do not mix incompatible types in binary comparisons; align types explicitly using helper declarations or casts."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "implementation scope output assign",
+    "type scope range assumption and guarantee"
+  ]
+}

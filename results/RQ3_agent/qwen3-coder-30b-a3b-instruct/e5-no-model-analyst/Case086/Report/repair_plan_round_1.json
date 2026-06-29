@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "acc_in_data_x is not visible in the component type scope where the AGREE annex is located",
+      "minimal_edit": "Move the AGREE annex to the implementation scope where acc_in_data_x and attitude_sub are visible"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "attitude_sub is not visible in the component type scope where the AGREE annex is located",
+      "minimal_edit": "Move the AGREE annex to the implementation scope where acc_in_data_x and attitude_sub are visible"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE assumes must reference valid expressions; references are unresolved",
+      "minimal_edit": "Move the AGREE annex to the implementation scope where acc_in_data_x and attitude_sub are visible"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_in_data_y'.",
+      "cause": "acc_in_data_y is not visible in the component type scope where the AGREE annex is located",
+      "minimal_edit": "Move the AGREE annex to the implementation scope where acc_in_data_y and attitude_sub are visible"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "attitude_sub is not visible in the component type scope where the AGREE annex is located",
+      "minimal_edit": "Move the AGREE annex to the implementation scope where acc_in_data_y and attitude_sub are visible"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE assumes must reference valid expressions; references are unresolved",
+      "minimal_edit": "Move the AGREE annex to the implementation scope where acc_in_data_y and attitude_sub are visible"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from the ATTITUDE_CALCULATION component type",
+    "Add a new AGREE annex block to the ATTITUDE_CALCULATION.IMPL component implementation",
+    "Place the assume statements inside the new implementation annex",
+    "Ensure all referenced identifiers (acc_in_data_x, acc_in_data_y, attitude_sub) are visible in the implementation scope"
+  ]
+}

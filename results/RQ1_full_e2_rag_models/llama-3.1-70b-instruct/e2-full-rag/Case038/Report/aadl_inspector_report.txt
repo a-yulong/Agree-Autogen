@@ -1,0 +1,53 @@
+set oldState [${sbpText}.text cget -state]
+${sbpText}.text configure -state normal
+${sbpText}.text fastdelete 1.0 end
+array set lines [list ]
+set lines(error) [list ]
+set lines(warning) [list ]
+set lines(information) [list ]
+${sbpText}.text fastinsert end 20 d20
+${sbpText}.text tag bind d20 <Any-Enter> "${sbpText}.text tag configure d20 -foreground white -background black"
+${sbpText}.text tag bind d20 <Any-Leave> "${sbpText}.text tag configure d20 -foreground {} -background {}"
+${sbpText}.text tag bind d20 <1> "event generate . <<selectLine>> -data 20"
+lappend lines(error) 20
+TextEditor::fastaddText $sbpText " Actual (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind 
+"
+${sbpText}.text fastinsert end 20 d20
+${sbpText}.text tag bind d20 <Any-Enter> "${sbpText}.text tag configure d20 -foreground white -background black"
+${sbpText}.text tag bind d20 <Any-Leave> "${sbpText}.text tag configure d20 -foreground {} -background {}"
+${sbpText}.text tag bind d20 <1> "event generate . <<selectLine>> -data 20"
+lappend lines(error) 20
+TextEditor::fastaddText $sbpText " Actual (port spec) does not point to anything or to something unreachable 
+"
+${sbpText}.text fastinsert end 28 d28
+${sbpText}.text tag bind d28 <Any-Enter> "${sbpText}.text tag configure d28 -foreground white -background black"
+${sbpText}.text tag bind d28 <Any-Leave> "${sbpText}.text tag configure d28 -foreground {} -background {}"
+${sbpText}.text tag bind d28 <1> "event generate . <<selectLine>> -data 28"
+lappend lines(error) 28
+TextEditor::fastaddText $sbpText " State_Out (port spec) points to Types  state_sig.impl (entity reference), which is not of an adequate kind 
+"
+${sbpText}.text fastinsert end 28 d28
+${sbpText}.text tag bind d28 <Any-Enter> "${sbpText}.text tag configure d28 -foreground white -background black"
+${sbpText}.text tag bind d28 <Any-Leave> "${sbpText}.text tag configure d28 -foreground {} -background {}"
+${sbpText}.text tag bind d28 <1> "event generate . <<selectLine>> -data 28"
+lappend lines(error) 28
+TextEditor::fastaddText $sbpText " State_Out (port spec) does not point to anything or to something unreachable 
+"
+${sbpText}.text fastinsert end 41 d41
+${sbpText}.text tag bind d41 <Any-Enter> "${sbpText}.text tag configure d41 -foreground white -background black"
+${sbpText}.text tag bind d41 <Any-Leave> "${sbpText}.text tag configure d41 -foreground {} -background {}"
+${sbpText}.text tag bind d41 <1> "event generate . <<selectLine>> -data 41"
+lappend lines(error) 41
+TextEditor::fastaddText $sbpText " State_Out (port spec) points to Types  state_sig.impl (entity reference), which is not of an adequate kind 
+"
+${sbpText}.text fastinsert end 41 d41
+${sbpText}.text tag bind d41 <Any-Enter> "${sbpText}.text tag configure d41 -foreground white -background black"
+${sbpText}.text tag bind d41 <Any-Leave> "${sbpText}.text tag configure d41 -foreground {} -background {}"
+${sbpText}.text tag bind d41 <1> "event generate . <<selectLine>> -data 41"
+lappend lines(error) 41
+TextEditor::fastaddText $sbpText " State_Out (port spec) does not point to anything or to something unreachable 
+"
+TextEditor::fastaddText $sbpText " Cannot analyze AADL specifications
+"
+${sbpText}.text configure -state $oldState
+return [array get lines]

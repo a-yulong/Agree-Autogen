@@ -1,0 +1,17 @@
+annex agree {**
+  assume "input_validity": 
+    nearestIntruderAltitude_in > 0.0 and 
+    nearestIntruderGroundDistance_in > 0.0 and 
+    nearestIntruderLongitude_in > 0.0;
+
+  guarantee "vertical_velocity_computation":
+    verticalVelocity = (nearestIntruderAltitude_in - nearestIntruderAltitude_in) / delta_t;
+
+  guarantee "projected_altitude_calculation":
+    projectedIntruderAltitude = nearestIntruderAltitude_in + verticalVelocity * delta_t;
+
+  guarantee "output_assignment":
+    projectedIntruderAltitude = projectedIntruderAltitude;
+
+  const delta_t = 1.0;
+**};

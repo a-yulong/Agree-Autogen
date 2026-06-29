@@ -1,0 +1,107 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: Port_1, Port_2
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Port_1 | in | event | event | 
+Port_2 | in | event | event | 
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Mixin | lines 47-52
+annex agree {**
+      assume "signal_routing_from_Port_1": Port_1 = Port_1;
+      assume "signal_routing_from_Port_2": Port_2 = Port_2;
+      guarantee "flow_through_Y1": Port_1 = Port_1;
+      guarantee "flow_through_Y2": Port_2 = Port_2;
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   44:   features
+   45:     Port_1 : in event port;
+   46:     Port_2 : in event port;
+   47:   annex agree {**
+>> 48:       assume "signal_routing_from_Port_1": Port_1 = Port_1;
+   49:       assume "signal_routing_from_Port_2": Port_2 = Port_2;
+   50:       guarantee "flow_through_Y1": Port_1 = Port_1;
+   51:       guarantee "flow_through_Y2": Port_2 = Port_2;
+   52:     **};
+
+   45:     Port_1 : in event port;
+   46:     Port_2 : in event port;
+   47:   annex agree {**
+   48:       assume "signal_routing_from_Port_1": Port_1 = Port_1;
+>> 49:       assume "signal_routing_from_Port_2": Port_2 = Port_2;
+   50:       guarantee "flow_through_Y1": Port_1 = Port_1;
+   51:       guarantee "flow_through_Y2": Port_2 = Port_2;
+   52:     **};
+   53:   end Mixin;
+
+   46:     Port_2 : in event port;
+   47:   annex agree {**
+   48:       assume "signal_routing_from_Port_1": Port_1 = Port_1;
+   49:       assume "signal_routing_from_Port_2": Port_2 = Port_2;
+>> 50:       guarantee "flow_through_Y1": Port_1 = Port_1;
+   51:       guarantee "flow_through_Y2": Port_2 = Port_2;
+   52:     **};
+   53:   end Mixin;
+   54: 
+
+   47:   annex agree {**
+   48:       assume "signal_routing_from_Port_1": Port_1 = Port_1;
+   49:       assume "signal_routing_from_Port_2": Port_2 = Port_2;
+   50:       guarantee "flow_through_Y1": Port_1 = Port_1;
+>> 51:       guarantee "flow_through_Y2": Port_2 = Port_2;
+   52:     **};
+   53:   end Mixin;
+   54: 
+   55:   abstract implementation Mixin.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Mixin
+abstract Mixin
+  features
+    Port_1 : in event port;
+    Port_2 : in event port;
+  end Mixin;
+
+-- TARGET DECLARATION: Mixin.impl
+abstract implementation Mixin.impl
+  subcomponents
+    Mix_1 : abstract Interface_1;
+    Mix_2 : abstract Interface_2;
+
+  connections
+    Y1:port Port_1 -> Mix_1.Port_1;
+    Y2:port Port_2 -> Mix_2.Port_2;
+  end Mixin.impl;
+
+-- RELATED MODEL LINES
+package Mixin
+Port_1 : in event port;
+Port_2 : in event port;
+abstract Mixin
+end Mixin;
+abstract implementation Mixin.impl
+Y1:port Port_1 -> Mix_1.Port_1;
+Y2:port Port_2 -> Mix_2.Port_2;
+end Mixin.impl;
+device Buzzer
+end Buzzer;
+device implementation Buzzer.impl
+end Buzzer.impl;
+device Light
+end Light;
+device implementation Light.impl
+end Light.impl;
+--  And then, instantiate the Mixin
+system Demo extends Mixin
+end Demo;
+system implementation Demo.impl extends Mixin.impl
+Mix_1 : refined to device Buzzer.impl { Classifier_Substitution_Rule => Signature_Match;};
+Mix_2 : refined to device Light.impl { Classifier_Substitution_Rule => Signature_Match;};
+end Demo.impl;

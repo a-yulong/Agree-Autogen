@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'impl'.",
+      "cause": "AGREE expressions incorrectly reference 'Consumer.impl' as a value instead of using valid component type identifiers or properties",
+      "minimal_edit": "Replace 'Consumer.impl' with 'Consumer' in all assume/guarantee expressions"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Invalid syntax where 'Consumer.impl' is treated as a type or value in comparisons",
+      "minimal_edit": "Replace 'Consumer.impl = 1000 ms' with 'Consumer = 1000 ms' and similar for other constraints"
+    },
+    {
+      "diagnostic": "Expression for assume statement is of type 'int' but must be of type 'bool'",
+      "cause": "Numeric expressions used where boolean conditions are required",
+      "minimal_edit": "Remove the numeric expressions that are not boolean conditions"
+    },
+    {
+      "diagnostic": "extraneous input 'ms' expecting ';'",
+      "cause": "Invalid time unit syntax in AGREE expressions",
+      "minimal_edit": "Remove 'ms' from all expressions and use integer values directly"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'Consumer.impl' with 'Consumer' in all assume/guarantee expressions",
+    "Remove 'ms' from all expressions",
+    "Convert numeric comparisons to valid boolean expressions or remove them",
+    "Ensure all expressions are valid AGREE boolean conditions"
+  ]
+}

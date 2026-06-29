@@ -1,0 +1,44 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'gps_pos'.",
+      "cause": "Reference to external component port 'gps_pos' in AGREE annex of component type 'thr_mgmt' is not valid in this scope",
+      "minimal_edit": "Replace 'thr_gps_simulation.gps_pos' with 'gps_pos' in the assume and guarantee statements"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'latitude'.",
+      "cause": "Reference to external component port 'latitude' in AGREE annex of component type 'thr_mgmt' is not valid in this scope",
+      "minimal_edit": "Replace 'thr_gps_simulation.gps_pos.latitude' with 'gps_pos.latitude' in the assume and guarantee statements"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'longitude'.",
+      "cause": "Reference to external component port 'longitude' in AGREE annex of component type 'thr_mgmt' is not valid in this scope",
+      "minimal_edit": "Replace 'thr_gps_simulation.gps_pos.longitude' with 'gps_pos.longitude' in the assume and guarantee statements"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid reference to component ports in AGREE annex of component type 'thr_mgmt'",
+      "minimal_edit": "Replace 'thr_gps_simulation.gps_pos.latitude' with 'gps_pos.latitude' in the assume and guarantee statements"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'speed'.",
+      "cause": "Reference to external component port 'speed' in AGREE annex of component type 'thr_mgmt' is not valid in this scope",
+      "minimal_edit": "Replace 'thr_throttle_simulation.speed' with 'speed' in the assume and guarantee statements"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid reference to component ports in AGREE annex of component type 'thr_mgmt'",
+      "minimal_edit": "Replace 'thr_throttle_simulation.speed' with 'speed' in the assume and guarantee statements"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the AGREE annex block from the component type 'thr_mgmt'",
+    "Add a new AGREE annex block to the component implementation 'thr_mgmt.i'",
+    "In the new annex block, replace all references to external component ports with direct references to the component's own ports",
+    "Change 'thr_gps_simulation.gps_pos.latitude' to 'gps_pos.latitude'",
+    "Change 'thr_gps_simulation.gps_pos.longitude' to 'gps_pos.longitude'",
+    "Change 'thr_throttle_simulation.speed' to 'speed'",
+    "Change 'thr_throttle_simulation.angle' to 'angle'"
+  ]
+}

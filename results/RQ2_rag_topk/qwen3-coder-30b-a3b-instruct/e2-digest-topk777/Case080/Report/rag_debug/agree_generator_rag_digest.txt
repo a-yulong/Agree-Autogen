@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- AGREE contracts must be placed in annex blocks within component type or implementation scopes, with type scopes for interface behavior and implementation scopes for subcomponent bindings.
+- AGREE assumptions and guarantees referencing ports must be in valid scopes; implementation-level bindings are only allowed in implementation annexes.
+Generic rules:
+- AGREE annex blocks must use only visible identifiers from the AADL model; no package-qualified names or undefined references are allowed.
+- AGREE expressions must not assume AADL properties are automatically available as variables; explicit typed ports or constants are required for timing or data constraints.
+- AGREE clauses should avoid unsafe numeric or Boolean encodings of event ports or opaque data types unless model-provided values are available.
+- Component type contracts should reference only features visible at the type scope; implementation-level guarantees must use valid subcomponent paths or outputs.
+Syntax or pattern reminders:
+- AGREE annex blocks are enclosed in `annex agree {** ... **};` and must follow valid AGREE syntax for assumptions, guarantees, constants, and assignments.
+- Use exact AADL identifiers and avoid introducing new package or data type references not present in the model.
+Anti-patterns:
+- Do not place implementation-level bindings in component type annexes or reference subcomponent paths in type-level contracts.
+- Do not encode AADL properties like Period or Deadline as AGREE variables unless typed ports or constants are explicitly defined in the model.
+</RAG_DIGEST>

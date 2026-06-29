@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "AGREE annex is in component type scope but references subcomponent port 'attitude_sub.acc_in_data_x' which is not visible in that scope",
+      "minimal_edit": "Remove the AGREE annex from component type and place equivalent assumptions in implementation annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "Subcomponent 'attitude_sub' is not visible in component type scope",
+      "minimal_edit": "Remove the AGREE annex from component type and place equivalent assumptions in implementation annex"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE annex is in component type scope but references subcomponent port 'attitude_sub.acc_in_data_x' which is not visible in that scope",
+      "minimal_edit": "Remove the AGREE annex from component type and place equivalent assumptions in implementation annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from ATTITUDE_CALCULATION component type",
+    "Add a new AGREE annex block to ATTITUDE_CALCULATION.IMPL component implementation",
+    "Copy all assume statements from the removed component type annex to the new implementation annex",
+    "Replace all references to subcomponent ports with direct references to the corresponding component ports"
+  ]
+}

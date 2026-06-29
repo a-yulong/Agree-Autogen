@@ -1,0 +1,146 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.
+- Place component type assumptions and guarantees in valid component type scopes, avoiding subcomponent ports unless represented through variables or outputs.
+Generic rules:
+- Generate AGREE contracts using logical operators (and, or, not, =>) and ensure all expressions are syntactically valid.
+- Relate visible outputs to visible inputs in guarantees; avoid implementation-only subcomponent paths in type contracts.
+- Use proper AGREE scalar types (int, real, bool) and align helper declaration types with expression types.
+- Encode input envelope assumptions and output range guarantees only when concrete bounds or named constants are provided.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract clauses.
+- Use `eq name : type = expression;` for defining temporal or logical expressions.
+- Use `const name : type = value;` for declaring constants with explicit types.
+- Use `assign output = expression;` for output assignments.
+Anti-patterns:
+- Do not reference AADL property names (e.g., Compute_Execution_Time) as AGREE variables unless explicitly exposed as typed ports or constants.
+- Do not use implementation-only subcomponent ports in component type annexes.
+- Do not generate assumptions or guarantees without visible or named constants for bounds.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- inpGCASM
+- inpGCASImpact
+- inpGCASRecovery
+- inpSAM
+- inpACASM
+- inpACASImpact
+- inpACASRecovery
+- inpGFM
+- inpWxM
+- inpFLS
+- outDec
+
+Target interface:
+Exact expression symbols: inpGCASM, inpGCASImpact, inpGCASRecovery, inpSAM, inpACASM, inpACASImpact, inpACASRecovery, inpGFM, inpWxM, inpFLS, outDec
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+inpGCASM | in | data | bool | Base_Types::boolean
+inpGCASImpact | in | data | real | Base_Types::float
+inpGCASRecovery | in | data | real | Base_Types::float
+inpSAM | in | data | bool | Base_Types::boolean
+inpACASM | in | data | bool | Base_Types::boolean
+inpACASImpact | in | data | real | Base_Types::float
+inpACASRecovery | in | data | real | Base_Types::float
+inpGFM | in | data | bool | Base_Types::boolean
+inpWxM | in | data | bool | Base_Types::boolean
+inpFLS | in | data | bool | Base_Types::boolean
+outDec | out | data | int | Base_Types::integer
+
+Raw requirement:
+The Aviate_Decider component shall maintain an internal variable numberServicesTrue that counts the total number of currently active service requests. The component shall implement dynamicDecide logic such that when the GCAS estimated time of impact (inpGCASImpact) is greater than the ACAS estimated time of impact (inpACASImpact) and the sum of their recovery times (inpGCASRecovery + inpACASRecovery) ensures no secondary collision occurs, the decision shall be ACAS; otherwise, the decision shall be GCAS. The final output outDec shall use the dynamic decision result when the value of numberServicesTrue is greater than or equal to 2; otherwise, outDec shall fall back to a static priority-based decision.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "outDec = ACAS when inpGCASImpact > inpACASImpact and inpGCASRecovery + inpACASRecovery >= 0",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "inpGCASImpact",
+        "inpACASImpact",
+        "inpGCASRecovery",
+        "inpACASRecovery",
+        "outDec"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "outDec = GCAS when inpGCASImpact <= inpACASImpact or inpGCASRecovery + inpACASRecovery < 0",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "inpGCASImpact",
+        "inpACASImpact",
+        "inpGCASRecovery",
+        "inpACASRecovery",
+        "outDec"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "outDec = static_priority_decision when numberServicesTrue < 2",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "numberServicesTrue",
+        "outDec"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "numberServicesTrue >= 0 and numberServicesTrue <= 100",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "numberServicesTrue"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "inpGCASImpact >= 0 and inpACASImpact >= 0",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "inpGCASImpact",
+        "inpACASImpact"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "inpGCASRecovery >= 0 and inpACASRecovery >= 0",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "inpGCASRecovery",
+        "inpACASRecovery"
+      ]
+    }
+  ]
+}

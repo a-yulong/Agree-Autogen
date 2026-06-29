@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink is a port in component type Q, not visible in annex scope",
+      "minimal_edit": "Remove the data flow assumption from component type annex"
+    },
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg is a subcomponent, not visible in component type annex",
+      "minimal_edit": "Remove the data flow assumption from component type annex"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "Property reference not visible in component type annex",
+      "minimal_edit": "Move dispatch protocol guarantee to implementation annex"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'Period'.",
+      "cause": "Property reference not visible in component type annex",
+      "minimal_edit": "Move execution period guarantee to implementation annex"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'Deadline'.",
+      "cause": "Property reference not visible in component type annex",
+      "minimal_edit": "Move deadline guarantee to implementation annex"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'Priority'.",
+      "cause": "Property reference not visible in component type annex",
+      "minimal_edit": "Move priority guarantee to implementation annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the dispatch protocol, execution period, deadline, and priority guarantees from the component type annex to the component implementation annex",
+    "Remove the data flow assumption from the component type annex",
+    "Add a new annex block to Q.Impl containing the guarantees for dispatch protocol, execution period, deadline, and priority",
+    "Ensure the new annex block in Q.Impl uses correct property references without package qualification"
+  ]
+}

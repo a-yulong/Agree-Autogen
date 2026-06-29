@@ -1,0 +1,128 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place input envelope assumptions in component type annexes using visible feature names and concrete bounds from the requirement.
+- Use only scalar numeric expressions in AGREE contracts; avoid Boolean or opaque port comparisons unless explicitly typed as bool in scope.
+Generic rules:
+- Assumptions and guarantees must reference only visible, typed features or declared auxiliary variables.
+- Contract clauses should derive bounds or conditions directly from requirement text, not inferred AADL properties.
+Syntax or pattern reminders:
+- AGREE annexes use `annex agree {** ... **};` syntax within component types for assumptions and guarantees.
+- Comparison expressions must return bool; use helper equations like `eq range_check : bool = x >= min and x <= max;` for clarity.
+Anti-patterns:
+- Do not reference AADL properties (e.g., Period, Deadline) as if they are AGREE variables.
+- Do not place guarantee clauses in component implementation scopes; use assign only for implementation-level bindings.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- radio_control_task
+- radio_control_task.Impl
+- stabilisation_task
+- IR_Input
+- stabilisation_task.Impl
+- link_fbw_send
+- MCU0_Send_Output
+- link_fbw_send.Impl
+- receive_gps_data_task
+- GPS_Output
+- receive_gps_data_task.Impl
+- navigation_task
+- GPS_Data_Input
+- Altitude_Desiree_Output
+- navigation_task.Impl
+- altitude_control_task
+- Altitude_Desiree_Input
+- Montee_Desiree_Output
+- altitude_control_task.Impl
+- climb_control_task
+- Montee_Desiree_Input
+- climb_control_task.Impl
+- reporting_task
+- Data_Output
+- reporting_task.Impl
+- Interruption_SPI_MCU0_1
+- Evt_Rec_SPI_Input
+- Data_Rec_MCU0_Output
+- Data_Send_SPI_Output
+- Evt_Send_SPI_Input
+- Interruption_SPI_MCU0_1.Impl
+- Interruption_SPI_MCU0_2
+- Data_Send_SPI_Input
+- Data_Rec_MCU0_Input
+- Interruption_SPI_MCU0_2.Impl
+- Interruption_Modem
+- Data_Input
+- Interruption_Modem.Impl
+- Interruption_GPS
+- GPS_Input
+
+Target interface:
+Exact expression symbols: MCU1_Data_Input, MCU1_Data_Input.channels, MCU1_Data_Input.ppm_cpt, MCU1_Data_Input.satus, MCU1_Data_Input.nb_err, MCU1_Data_Input.vsupply, GPS_Input, GPS_Evt_Input, IR_Input, P_Input, T_Input, Compas_Input, V_Air_Input, Trans_MCU0_Output, Trans_MCU0_Output.channels, Trans_MCU0_Output.ppm_cpt, Trans_MCU0_Output.satus, Trans_MCU0_Output.nb_err, Trans_MCU0_Output.vsupply, Trans_Sol_Output, Trans_Sol_Output.channels, Trans_Sol_Output.ppm_cpt, Trans_Sol_Output.satus, Trans_Sol_Output.nb_err, Trans_Sol_Output.vsupply
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+MCU1_Data_Input | in | data | opaque | Papa_Types::Inter_mcu_msg.Generic
+MCU1_Data_Input.channels | in | data_field | opaque | Tableau.Generic
+MCU1_Data_Input.ppm_cpt | in | data_field | opaque | Base_Types::Integer_8
+MCU1_Data_Input.satus | in | data_field | opaque | Base_Types::Integer_8
+MCU1_Data_Input.nb_err | in | data_field | opaque | Base_Types::Integer_8
+MCU1_Data_Input.vsupply | in | data_field | opaque | Base_Types::Integer_8
+GPS_Input | in | data | opaque | Papa_Types::Stream_Element.Generic
+GPS_Evt_Input | in | event | event | 
+IR_Input | in | data | opaque | Papa_Types::Stream_Element.Generic
+P_Input | in | data | opaque | Base_Types::Float_32
+T_Input | in | data | opaque | Base_Types::Integer_8
+Compas_Input | in | data | opaque | Base_Types::Float_32
+V_Air_Input | in | data | opaque | Base_Types::Integer_8
+Trans_MCU0_Output | out | data | opaque | Papa_Types::Inter_mcu_msg.Generic
+Trans_MCU0_Output.channels | out | data_field | opaque | Tableau.Generic
+Trans_MCU0_Output.ppm_cpt | out | data_field | opaque | Base_Types::Integer_8
+Trans_MCU0_Output.satus | out | data_field | opaque | Base_Types::Integer_8
+Trans_MCU0_Output.nb_err | out | data_field | opaque | Base_Types::Integer_8
+Trans_MCU0_Output.vsupply | out | data_field | opaque | Base_Types::Integer_8
+Trans_Sol_Output | out | data | opaque | Papa_Types::Inter_mcu_msg.Generic
+Trans_Sol_Output.channels | out | data_field | opaque | Tableau.Generic
+Trans_Sol_Output.ppm_cpt | out | data_field | opaque | Base_Types::Integer_8
+Trans_Sol_Output.satus | out | data_field | opaque | Base_Types::Integer_8
+Trans_Sol_Output.nb_err | out | data_field | opaque | Base_Types::Integer_8
+Trans_Sol_Output.vsupply | out | data_field | opaque | Base_Types::Integer_8
+
+Raw requirement:
+The Nav_Stab_Control_Proc component shall operate under a bounded input condition for P_Input. The environment shall keep P_Input greater than or equal to 0.0 and less than or equal to 100.0.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "P_Input >= 0.0 and P_Input <= 100.0",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "P_Input"
+      ]
+    }
+  ]
+}

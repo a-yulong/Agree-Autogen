@@ -1,0 +1,68 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 14: left and right sides of binary expression '<' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Port type mismatch in comparison expression",
+      "minimal_edit": "Replace Target_Speed with Target_Speed.val in the assumption"
+    },
+    {
+      "diagnostic": "line 14: left and right sides of binary expression '>=' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Port type mismatch in comparison expression",
+      "minimal_edit": "Replace Target_Speed with Target_Speed.val in the assumption"
+    },
+    {
+      "diagnostic": "line 14: left side of binary expression '<' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port type mismatch in comparison expression",
+      "minimal_edit": "Replace Target_Speed with Target_Speed.val in the assumption"
+    },
+    {
+      "diagnostic": "line 14: left side of binary expression '>=' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port type mismatch in comparison expression",
+      "minimal_edit": "Replace Target_Speed with Target_Speed.val in the assumption"
+    },
+    {
+      "diagnostic": "line 16: Couldn't resolve reference to 'const_tar_speed'",
+      "cause": "Undeclared variable in guarantee",
+      "minimal_edit": "Declare const_tar_speed as a boolean constant in the annex"
+    },
+    {
+      "diagnostic": "line 16: left side of binary expression '<=' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port type mismatch in comparison expression",
+      "minimal_edit": "Replace Actual_Speed with Actual_Speed.val in the guarantee"
+    },
+    {
+      "diagnostic": "line 16: right side of binary expression '<=' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port type mismatch in comparison expression",
+      "minimal_edit": "Replace Target_Speed with Target_Speed.val in the guarantee"
+    },
+    {
+      "diagnostic": "line 17: Couldn't resolve reference to 'abs'",
+      "cause": "Unresolved function in expression",
+      "minimal_edit": "Use abs() function with proper argument types"
+    },
+    {
+      "diagnostic": "line 17: Couldn't resolve reference to 'const_tar_speed'",
+      "cause": "Undeclared variable in guarantee",
+      "minimal_edit": "Declare const_tar_speed as a boolean constant in the annex"
+    },
+    {
+      "diagnostic": "line 17: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port type mismatch in arithmetic expression",
+      "minimal_edit": "Replace Actual_Speed with Actual_Speed.val in the expression"
+    },
+    {
+      "diagnostic": "line 17: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port type mismatch in arithmetic expression",
+      "minimal_edit": "Replace Actual_Speed with Actual_Speed.val in the expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add 'const const_tar_speed : bool = true;' declaration to the annex",
+    "Replace Target_Speed with Target_Speed.val in the input_speed_bounds assumption",
+    "Replace Actual_Speed with Actual_Speed.val in the speed_limit_guarantee guarantee",
+    "Replace Target_Speed with Target_Speed.val in the speed_limit_guarantee guarantee",
+    "Replace Actual_Speed with Actual_Speed.val in the acceleration_constraint guarantee",
+    "Replace Actual_Speed with Actual_Speed.val in the acceleration_constraint guarantee"
+  ]
+}

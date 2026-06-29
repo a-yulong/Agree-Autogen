@@ -1,0 +1,50 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'HM_th'.",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent 'HM_th'",
+      "minimal_edit": "Remove 'HM_th' from the guarantee expressions"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'accData_in1'.",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent port 'accData_in1'",
+      "minimal_edit": "Remove 'accData_in1' from the guarantee expressions"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent port 'accData_in1' which is not visible",
+      "minimal_edit": "Replace 'accData_in1' with a valid visible expression or remove the expression"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent port 'accData_in1' which is not visible",
+      "minimal_edit": "Remove the invalid reference to 'accData_in1'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'HM_th'.",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent 'HM_th'",
+      "minimal_edit": "Remove 'HM_th' from the guarantee expressions"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'accData_in2'.",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent port 'accData_in2'",
+      "minimal_edit": "Remove 'accData_in2' from the guarantee expressions"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent port 'accData_in2' which is not visible",
+      "minimal_edit": "Replace 'accData_in2' with a valid visible expression or remove the expression"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent port 'accData_in2' which is not visible",
+      "minimal_edit": "Remove the invalid reference to 'accData_in2'"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from process type ADIRUp_process to process implementation ADIRUp_process.impl",
+    "Remove references to implementation-only identifiers 'HM_th' and 'accData_in1'/'accData_in2' from the guarantee expressions",
+    "Replace the guarantee expressions with valid expressions that only use visible identifiers from the component type"
+  ]
+}

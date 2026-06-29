@@ -1,0 +1,51 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 29: Couldn't resolve reference to 'CMD'.",
+      "cause": "Reference to undefined symbol CMD in component type contract",
+      "minimal_edit": "Replace CMD with COM1.CMD in the guarantee statement"
+    },
+    {
+      "diagnostic": "line 29: Couldn't resolve reference to 'Fail'.",
+      "cause": "Reference to undefined symbol Fail in component type contract",
+      "minimal_edit": "Replace Fail with COM1.Fail in the guarantee statement"
+    },
+    {
+      "diagnostic": "line 41: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Package reference not available in current scope",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Mode with valid expression"
+    },
+    {
+      "diagnostic": "line 44: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Package reference not available in current scope",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with valid expression"
+    },
+    {
+      "diagnostic": "line 62: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Package reference not available in current scope",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Mode with valid expression"
+    },
+    {
+      "diagnostic": "line 77: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Package reference not available in current scope",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with valid expression"
+    },
+    {
+      "diagnostic": "line 179: Couldn't resolve reference to 'COM1.Panel'.",
+      "cause": "Reference to subcomponent port in implementation annex",
+      "minimal_edit": "Move assignment to component type annex or replace with valid expression"
+    },
+    {
+      "diagnostic": "line 180: Couldn't resolve reference to 'MON1.CMD_From_COM'.",
+      "cause": "Reference to subcomponent port in implementation annex",
+      "minimal_edit": "Move assignment to component type annex or replace with valid expression"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove or replace Agree_Nodes::Brake_Mode references with valid expressions in COM and MON component type annexes",
+    "Remove or replace Agree_Nodes::Brake_Cmd references with valid expressions in COM and MON component type annexes",
+    "Move the assignments COM1.Panel = Panel and MON1.CMD_From_COM = COM1.CMD from BSCU.BSCU_Impl annex to appropriate component type annexes",
+    "Replace undefined references CMD and Fail in COM component type annex with valid expressions"
+  ]
+}

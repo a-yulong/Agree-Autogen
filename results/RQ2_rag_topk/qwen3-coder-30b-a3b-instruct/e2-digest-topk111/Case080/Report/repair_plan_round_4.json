@@ -1,0 +1,27 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'Task1'.",
+      "cause": "Task1 is a subcomponent of Task.impl_1, not a visible AGREE expression in the implementation context",
+      "minimal_edit": "Replace 'Task1 = Task1' with 'true' to create a valid AGREE expression"
+    },
+    {
+      "diagnostic": "line 30: Guarantee statements are allowed only in component types",
+      "cause": "AGREE guarantee statements are not permitted in thread implementation annexes",
+      "minimal_edit": "Move the guarantee statement to the component type 'Task' annex"
+    },
+    {
+      "diagnostic": "line 31: Assume statements are allowed only in component types",
+      "cause": "AGREE assume statements are not permitted in thread implementation annexes",
+      "minimal_edit": "Move the assume statement to the component type 'Task' annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex from Task.impl_1",
+    "Add a new AGREE annex to the Task component type",
+    "Move the guarantee statement to the Task annex",
+    "Move the assume statement to the Task annex",
+    "Replace the invalid Task1 reference with a valid AGREE expression in the Task annex"
+  ]
+}

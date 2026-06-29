@@ -1,0 +1,20 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink is a port of Q, not Q.Impl; AGREE contract in Q refers to Q.Impl's port",
+      "minimal_edit": "Replace Data_Sink with Q_Spg.Data_Sink in the assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg is a subprogram, not a port; AGREE contract in Q refers to Q.Impl's subcomponent",
+      "minimal_edit": "Remove Q_Spg from the assume statement"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the assume statement in the Q annex to reference only visible symbols",
+    "Replace Data_Sink = Q_Spg.Data_Sink with Data_Sink = Q_Spg.Data_Sink in the assume statement",
+    "Remove Q_Spg from the assume statement since it's not a port"
+  ]
+}

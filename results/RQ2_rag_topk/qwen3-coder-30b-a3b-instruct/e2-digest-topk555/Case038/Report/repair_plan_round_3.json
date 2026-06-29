@@ -1,0 +1,55 @@
+{
+  "problems": [
+    {
+      "diagnostic": "The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "Port types do not support direct arithmetic operations in AGREE",
+      "minimal_edit": "Change 'Target' and 'Actual' to be of type 'real' in the component type"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types do not support direct arithmetic operations in AGREE",
+      "minimal_edit": "Change 'Target' and 'Actual' to be of type 'real' in the component type"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types do not support direct arithmetic operations in AGREE",
+      "minimal_edit": "Change 'Target' and 'Actual' to be of type 'real' in the component type"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'integral'.",
+      "cause": "Integral function not recognized in AGREE context",
+      "minimal_edit": "Replace integral with a valid AGREE expression or remove"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '+' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Invalid expression due to unresolved integral",
+      "minimal_edit": "Replace integral with a valid AGREE expression or remove"
+    },
+    {
+      "diagnostic": "right side of binary expression '+' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "Invalid expression due to unresolved integral",
+      "minimal_edit": "Replace integral with a valid AGREE expression or remove"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'derivative'.",
+      "cause": "Derivative function not recognized in AGREE context",
+      "minimal_edit": "Replace derivative with a valid AGREE expression or remove"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '+' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Invalid expression due to unresolved derivative",
+      "minimal_edit": "Replace derivative with a valid AGREE expression or remove"
+    },
+    {
+      "diagnostic": "right side of binary expression '+' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "Invalid expression due to unresolved derivative",
+      "minimal_edit": "Replace derivative with a valid AGREE expression or remove"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Modify the Speed_Control component type to change Target and Actual ports from Types::speed.speed_impl to Base_Types::Float",
+    "Update the AGREE annex to use real-valued variables for e, e_int, and e_dot",
+    "Replace integral and derivative functions with valid AGREE constructs or remove them"
+  ]
+}

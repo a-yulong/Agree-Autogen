@@ -1,0 +1,7 @@
+annex agree {**
+  guarantee "timeToFailure is minimum of subsystems": timeToFailure = min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure);
+  guarantee "p1 computed from gcas recovery and system failure": p1 = concurrencyFactor(gcas_timeToRecovery, timeToFailure);
+  guarantee "p2 computed from tcas recovery and system failure": p2 = concurrencyFactor(tcas_timeToRecovery, timeToFailure);
+  guarantee "p3 computed from geof recovery and system failure": p3 = concurrencyFactor(geof_timeToRecovery, timeToFailure);
+  guarantee "system failure time exceeds sum of recovery times": timeToFailure > gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery;
+**};

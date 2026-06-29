@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by using only visible identifiers from the current component scope; do not introduce new architecture.",
+    "Ensure type consistency in AGREE expressions: numeric variables must have numeric expressions, Boolean variables must have Boolean expressions.",
+    "Move implementation-level bindings from component type annexes to implementation annexes when necessary.",
+    "Delete invalid AGREE clauses that reference unresolved identifiers instead of adding missing architecture."
+  ],
+  "generic_rules": [
+    "Validator diagnostics pointing to unresolved identifiers should be resolved by referencing only existing visible symbols.",
+    "AGREE expressions must maintain type consistency; avoid mixing incompatible types like int and <error>.",
+    "Component type contracts should only reference features available at that scope; implementation-level details go in implementation annexes.",
+    "When AGREE reports type mismatches, align helper declarations with the actual expression types (int, bool, real)."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Use only declared constants, equations, or visible ports in AGREE expressions.",
+    "Helper functions and variables must be defined within the same annex or imported.",
+    "Implementation-level assignments should be placed in implementation scopes, not component type scopes."
+  ],
+  "anti_patterns": [
+    "Do not attempt to resolve missing identifiers by inventing new declarations or architecture elements.",
+    "Avoid mixing incompatible types in AGREE expressions, such as assigning an int to a <error> type.",
+    "Do not place implementation-level references in component type annexes unless they are valid variables or outputs."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes"
+  ]
+}

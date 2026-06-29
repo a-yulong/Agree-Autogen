@@ -1,4 +1,4 @@
-# Usage
+﻿# Usage
 
 ## Install
 
@@ -13,9 +13,9 @@ pip install -e .
 
 ```powershell
 python scripts/run_files.py `
-  --requirement data/benchmark/cases/Case01/Case01_Req.txt `
-  --aadl data/benchmark/cases/Case01/Case01_Base.aadl `
-  --output-dir outputs/case01_dry `
+  --requirement data/benchmark/cases/Case001/Case001_Req.txt `
+  --aadl data/benchmark/cases/Case001/Case001_Base.aadl `
+  --output-dir outputs/Case001_dry `
   --disable-rag `
   --skip-validation `
   --dry-run
@@ -55,3 +55,4 @@ $env:AGREE_VALIDATOR_ROOT = "tools/agree-validator"
 ```
 
 If validators are not configured, wrappers return a configuration status rather than reporting validation success.
+

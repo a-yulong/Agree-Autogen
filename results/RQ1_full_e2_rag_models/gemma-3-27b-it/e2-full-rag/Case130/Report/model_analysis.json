@@ -1,0 +1,80 @@
+{
+  "component_types": [
+    {
+      "name": "hello",
+      "kind": "system"
+    },
+    {
+      "name": "node_a",
+      "kind": "process"
+    },
+    {
+      "name": "cpurm",
+      "kind": "processor"
+    },
+    {
+      "name": "myram",
+      "kind": "memory"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "hello.impl",
+      "kind": "system",
+      "type_name": "hello"
+    },
+    {
+      "name": "node_a.impl",
+      "kind": "process",
+      "type_name": "node_a"
+    },
+    {
+      "name": "cpurm.impl",
+      "kind": "processor",
+      "type_name": "cpurm"
+    },
+    {
+      "name": "myram.sdram",
+      "kind": "memory",
+      "type_name": "myram"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "hello.impl",
+      "name": "node_a",
+      "category": "thread",
+      "classifier": "node_a.impl"
+    },
+    {
+      "owner": "hello.impl",
+      "name": "cpu_rm",
+      "category": "processor",
+      "classifier": "cpurm.impl"
+    },
+    {
+      "owner": "hello.impl",
+      "name": "mem",
+      "category": "memory",
+      "classifier": "myram.sdram"
+    }
+  ],
+  "features": [],
+  "connections": [],
+  "properties": [
+    {
+      "owner": "hello.impl",
+      "owner_kind": "system implementation",
+      "name": "Actual_Processor_Binding",
+      "value": "reference (cpu_rm.p0)",
+      "applies_to": "node_a"
+    },
+    {
+      "owner": "hello.impl",
+      "owner_kind": "system implementation",
+      "name": "actual_memory_binding",
+      "value": "reference (mem.segment1)",
+      "applies_to": "Node_A"
+    }
+  ]
+}

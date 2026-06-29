@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.",
+    "Place input assumptions and output guarantees in component type scopes only when concrete bounds or visible relations are provided.",
+    "Declare initialized state variables to guard previous-value comparisons in AGREE contracts."
+  ],
+  "generic_rules": [
+    "AGREE contracts should use logical operators (and, or, not, =>) and follow valid syntax for assume/guarantee declarations.",
+    "Visible identifiers in AGREE must be either AADL features or locally declared helpers; avoid referencing AADL properties directly.",
+    "Ensure type consistency in AGREE expressions by matching helper declarations with actual expression types.",
+    "Generate minimal, syntactically valid AGREE annex blocks that reflect the semantic intent of the requirement items."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for formal contract statements.",
+    "Use `eq name : type = expression;` for local helper declarations in AGREE.",
+    "Guard pre() comparisons with an initialized boolean flag to avoid undefined behavior."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL property names (e.g., Deadline, Period) directly in AGREE expressions without explicit typed model exposure.",
+    "Do not generate assumptions or guarantees for ports not present in the component type scope or visible in the model.",
+    "Avoid generating clauses with unresolved identifiers or mismatched types; remove invalid expressions instead."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing-related tokens such as ms/us/Hz/Bytes",
+    "Model implementation scope and subcomponent port usage",
+    "Validator diagnostics and repair actions"
+  ]
+}

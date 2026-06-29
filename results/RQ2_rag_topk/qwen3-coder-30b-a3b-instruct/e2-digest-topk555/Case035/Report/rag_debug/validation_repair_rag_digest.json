@@ -1,0 +1,34 @@
+{
+  "rag_rules": [
+    "Fix type mismatches in AGREE expressions by ensuring all operands are of matching types (int, real, bool).",
+    "Resolve 'named thing must be an expression with a type' errors by removing or correcting invalid helper declarations or references.",
+    "Avoid referencing implementation-specific subcomponents or ports in component type annexes; move valid bindings to implementation scopes.",
+    "Do not introduce package-qualified identifiers or types that are not present in the AADL model's configured dependencies."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or declared helpers in AGREE annexes to prevent resolution errors.",
+    "Ensure AGREE scalar types are correctly specified as int, real, or bool to avoid 'Couldn't resolve reference' diagnostics.",
+    "Place component type contracts in component type scopes and implementation bindings in implementation scopes.",
+    "Validate that all expressions in guarantees and assumptions have consistent and resolvable types before model validation."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct syntax and type annotations.",
+    "Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.",
+    "Binary expressions in AGREE require operands of matching types."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent ports or implementation-level features in component type annexes.",
+    "Do not use AADL property names like 'Deadline' or unit tokens like 'ms' as AGREE variables.",
+    "Do not introduce package-qualified identifiers or types not defined in the AADL model.",
+    "Do not write guarantees that reference invalid or unresolved identifiers on the same line."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "type scope range assumption and guarantee",
+    "type scope deterministic dependency guarantee",
+    "output envelope chunk 2",
+    "pairwise consistency chunk 1"
+  ]
+}

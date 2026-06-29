@@ -1,0 +1,114 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks within `annex agree {** ... **};` and place assumptions/guarantees in component type annexes, assignments in implementation annexes
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` syntax as per AGREE specification
+Generic rules:
+- AGREE contracts must be scoped to the owning component and reference only visible identifiers from the AADL model
+- Do not encode AADL properties like Period, Deadline, Priority as AGREE variables unless explicitly exposed in the model
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements
+- Use `assign output = expression;` for implementation-level bindings in component implementations
+Anti-patterns:
+- Do not reference AADL property names like Period or Deadline as AGREE variables without model exposure
+- Do not copy identifiers from examples or invent new ports/components not present in the AADL model
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Simple_Type
+- P
+- Data_Source
+- P.Impl
+- Q
+- Data_Sink
+- Q.Impl
+
+Target interface:
+Exact expression symbols: Data_Sink
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_Sink | in | data | int | Simple_Type
+
+Raw requirement:
+The Q component shall define the implementation-level data routing and execution constraints for Q.Impl. In the implementation layer, Q.Impl shall route the data flow from Data_Sink to Q_Spg.Data_Sink through P1. The implementation shall use the Sporadic dispatch protocol, execute with a period of 10 Ms, meet a deadline of 10 Ms, and run at priority 1.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Q.Impl routes data flow from Data_Sink to Q_Spg.Data_Sink through P1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl",
+        "Data_Sink",
+        "Q_Spg.Data_Sink",
+        "P1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Q.Impl executes with a period of 10 Ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl",
+        "10 Ms"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Q.Impl meets a deadline of 10 Ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl",
+        "10 Ms"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Q.Impl runs at priority 1",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl",
+        "priority 1"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Q.Impl uses the Sporadic dispatch protocol",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl",
+        "Sporadic dispatch protocol"
+      ]
+    }
+  ]
+}

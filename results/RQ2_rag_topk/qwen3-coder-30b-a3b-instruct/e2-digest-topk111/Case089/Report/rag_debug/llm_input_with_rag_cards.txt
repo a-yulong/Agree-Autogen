@@ -1,0 +1,172 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks scoped to the owning component declaration.
+- Use assume/guarantee syntax to express signal flow routing requirements.
+Generic rules:
+- Express data flow routing using assign statements linking source and target features through intermediate components.
+- Use consistent naming for signal flow paths to enable traceability.
+- Ensure all visible symbols referenced in AGREE contracts are properly declared in the model.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract assertions.
+- Use `assign output = expression;` to define data flow assignments.
+Anti-patterns:
+- Avoid referencing undeclared or non-visible symbols in AGREE contracts.
+- Do not generate AGREE blocks outside the scope of the owning component.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- acc_in_data_x
+- acc_in_data_y
+- acc_in_data_z
+- mag_in_data_x
+- mag_in_data_y
+- mag_in_data_z
+- gyro_in_data_x
+- gyro_in_data_y
+- gyro_in_data_z
+
+Target interface:
+Exact expression symbols: acc_in_data_x, acc_in_data_y, acc_in_data_z, mag_in_data_x, mag_in_data_y, mag_in_data_z, gyro_in_data_x, gyro_in_data_y, gyro_in_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+Raw requirement:
+The ATTITUDE_CALCULATION component shall define the implementation-level signal routing for ATTITUDE_CALCULATION.IMPL. In the implementation layer, ATTITUDE_CALCULATION.IMPL shall route data flow from acc_in_data_x to attitude_sub.acc_in_data_x through ACC_PC1 and data flow from acc_in_data_y to attitude_sub.acc_in_data_y through ACC_PC2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "ATTITUDE_CALCULATION.IMPL shall route data flow from acc_in_data_x to attitude_sub.acc_in_data_x through ACC_PC1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc_in_data_x",
+        "attitude_sub.acc_in_data_x",
+        "ACC_PC1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "ATTITUDE_CALCULATION.IMPL shall route data flow from acc_in_data_y to attitude_sub.acc_in_data_y through ACC_PC2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc_in_data_y",
+        "attitude_sub.acc_in_data_y",
+        "ACC_PC2"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "ATTITUDE_CALCULATION.IMPL shall route data flow from acc_in_data_z to attitude_sub.acc_in_data_z through ACC_PC3",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc_in_data_z",
+        "attitude_sub.acc_in_data_z",
+        "ACC_PC3"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "ATTITUDE_CALCULATION.IMPL shall route data flow from mag_in_data_x to attitude_sub.mag_in_data_x through MAG_PC1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "mag_in_data_x",
+        "attitude_sub.mag_in_data_x",
+        "MAG_PC1"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "ATTITUDE_CALCULATION.IMPL shall route data flow from mag_in_data_y to attitude_sub.mag_in_data_y through MAG_PC2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "mag_in_data_y",
+        "attitude_sub.mag_in_data_y",
+        "MAG_PC2"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "ATTITUDE_CALCULATION.IMPL shall route data flow from mag_in_data_z to attitude_sub.mag_in_data_z through MAG_PC3",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "mag_in_data_z",
+        "attitude_sub.mag_in_data_z",
+        "MAG_PC3"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "ATTITUDE_CALCULATION.IMPL shall route data flow from gyro_in_data_x to attitude_sub.gyro_in_data_x through GYRO_PC1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "gyro_in_data_x",
+        "attitude_sub.gyro_in_data_x",
+        "GYRO_PC1"
+      ]
+    },
+    {
+      "id": "R8",
+      "text": "ATTITUDE_CALCULATION.IMPL shall route data flow from gyro_in_data_y to attitude_sub.gyro_in_data_y through GYRO_PC2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "gyro_in_data_y",
+        "attitude_sub.gyro_in_data_y",
+        "GYRO_PC2"
+      ]
+    },
+    {
+      "id": "R9",
+      "text": "ATTITUDE_CALCULATION.IMPL shall route data flow from gyro_in_data_z to attitude_sub.gyro_in_data_z through GYRO_PC3",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "gyro_in_data_z",
+        "attitude_sub.gyro_in_data_z",
+        "GYRO_PC3"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "rag_rules": [
+    "Generate AGREE only with identifiers and types confirmed visible in the relevant model scope.",
+    "Keep assumptions, guarantees, constants, and equations in valid contract scopes; use implementation-level bindings only where that scope permits them.",
+    "Do not treat AADL property associations or unit tokens as AGREE expression variables unless the model explicitly exposes typed symbols for them."
+  ],
+  "generic_rules": [
+    "Translate a requirement into an AGREE clause only when its operands have known AGREE-visible names and compatible types.",
+    "Prefer small helper equations for reusable predicates, and declare each helper with the expression's actual type."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts use the form annex agree {** ... **};.",
+    "A range check is a Boolean expression, so a helper for it should be declared as bool."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent ports from a component type contract unless they are surfaced through valid in-scope symbols.",
+    "Do not generate numeric comparisons over Boolean, enumeration-like, or opaque data unless the model proves a numeric scalar representation."
+  ],
+  "irrelevant_topics": [
+    "Upstream model-extraction workflow details beyond the supplied visible names, ports, data types, and connections."
+  ]
+}

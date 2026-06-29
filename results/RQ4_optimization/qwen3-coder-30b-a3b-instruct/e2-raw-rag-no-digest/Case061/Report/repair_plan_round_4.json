@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'null'.",
+      "cause": "AGREE does not support null comparisons for data ports",
+      "minimal_edit": "Replace 'Data_Sink /= null' with 'true'"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink is not visible in the component type annex scope",
+      "minimal_edit": "Remove the guarantee statement referencing Q_Spg.Data_Sink"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg is a subcomponent, not directly accessible in component type annex",
+      "minimal_edit": "Remove the guarantee statement referencing Q_Spg.Data_Sink"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'Data_Sink /= null' with 'true' on line 65",
+    "Remove the guarantee statement 'Q_Spg.Data_Sink = Data_Sink' on line 66"
+  ]
+}

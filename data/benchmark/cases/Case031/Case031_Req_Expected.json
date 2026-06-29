@@ -1,0 +1,190 @@
+{
+  "case": 17,
+  "letter": "B",
+  "target": "TCAS",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The TCAS system shall assume that the external input data provided through the following ports are physically valid: nearestIntruderAltitude must be strictly greater than 0.0, nearestIntruderGroundDistance must be strictly greater than 0, ownAltitude must be strictly greater than 0.0, ownHeading must be within the half-open interval [0, 360), ownLatitude must be within the closed interval [0, 90], and ownLongitude must be within the closed interval [-180, 180]. These assumptions define the baseline preconditions for all system-level logical computations performed by the TCAS component.",
+  "natural_requirement": "The TCAS component shall define the implementation-level data routing and execution constraints for TCAS.impl. In the implementation layer, TCAS.impl shall route signal flow from nearestIntruderAltitude to surveillance.nearestIntruderAltitude_in through nia_from_external and signal flow from nearestIntruderGroundDistance to surveillance.nearestIntruderGroundDistance_in through nigd_from_external. Additionally, TCAS.impl shall use immediate communication timing on connection nia_from_external, use immediate communication timing on connection nigd_from_external, use immediate communication timing on connection nilo_from_external, and use immediate communication timing on connection oa_from_external.",
+  "requirement_items": [
+    {
+      "text": "The TCAS.impl implementation shall route the signal flow from nearestIntruderAltitude to surveillance.nearestIntruderAltitude_in through connection nia_from_external.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "TCAS.impl",
+        "nia_from_external",
+        "nearestIntruderAltitude",
+        "surveillance.nearestIntruderAltitude_in"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "TCAS.impl",
+        "connection": "nia_from_external",
+        "source": "nearestIntruderAltitude",
+        "destination": "surveillance.nearestIntruderAltitude_in"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The TCAS.impl implementation shall declare connection nia_from_external from nearestIntruderAltitude to surveillance.nearestIntruderAltitude_in.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The TCAS.impl implementation shall route the signal flow from nearestIntruderGroundDistance to surveillance.nearestIntruderGroundDistance_in through connection nigd_from_external.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "TCAS.impl",
+        "nigd_from_external",
+        "nearestIntruderGroundDistance",
+        "surveillance.nearestIntruderGroundDistance_in"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "TCAS.impl",
+        "connection": "nigd_from_external",
+        "source": "nearestIntruderGroundDistance",
+        "destination": "surveillance.nearestIntruderGroundDistance_in"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The TCAS.impl implementation shall declare connection nigd_from_external from nearestIntruderGroundDistance to surveillance.nearestIntruderGroundDistance_in.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The TCAS.impl implementation shall use immediate communication timing on connection nia_from_external.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "TCAS.impl",
+        "nia_from_external",
+        "timing",
+        "immediate"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "TCAS.impl",
+        "owner_kind": "connection",
+        "element": "nia_from_external",
+        "property": "timing",
+        "value": "immediate"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The TCAS.impl implementation shall assign timing on connection nia_from_external as immediate.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The TCAS.impl implementation shall use immediate communication timing on connection nigd_from_external.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "TCAS.impl",
+        "nigd_from_external",
+        "timing",
+        "immediate"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "TCAS.impl",
+        "owner_kind": "connection",
+        "element": "nigd_from_external",
+        "property": "timing",
+        "value": "immediate"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The TCAS.impl implementation shall assign timing on connection nigd_from_external as immediate.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The TCAS.impl implementation shall use immediate communication timing on connection nilo_from_external.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "TCAS.impl",
+        "nilo_from_external",
+        "timing",
+        "immediate"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "TCAS.impl",
+        "owner_kind": "connection",
+        "element": "nilo_from_external",
+        "property": "timing",
+        "value": "immediate"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The TCAS.impl implementation shall assign timing on connection nilo_from_external as immediate.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The TCAS.impl implementation shall use immediate communication timing on connection oa_from_external.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "TCAS.impl",
+        "oa_from_external",
+        "timing",
+        "immediate"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "TCAS.impl",
+        "owner_kind": "connection",
+        "element": "oa_from_external",
+        "property": "timing",
+        "value": "immediate"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The TCAS.impl implementation shall assign timing on connection oa_from_external as immediate.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 27,
+  "original_label": "Case27_B",
+  "natural_requirement_before_behavior_style_rewrite": "The TCAS.impl implementation shall declare connection nia_from_external from nearestIntruderAltitude to surveillance.nearestIntruderAltitude_in. The TCAS.impl implementation shall declare connection nigd_from_external from nearestIntruderGroundDistance to surveillance.nearestIntruderGroundDistance_in. The TCAS.impl implementation shall assign timing on connection nia_from_external as immediate. The TCAS.impl implementation shall assign timing on connection nigd_from_external as immediate. The TCAS.impl implementation shall assign timing on connection nilo_from_external as immediate. The TCAS.impl implementation shall assign timing on connection oa_from_external as immediate.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The TCAS.impl implementation shall route the signal flow from nearestIntruderAltitude to surveillance.nearestIntruderAltitude_in through connection nia_from_external. The TCAS.impl implementation shall route the signal flow from nearestIntruderGroundDistance to surveillance.nearestIntruderGroundDistance_in through connection nigd_from_external. The TCAS.impl implementation shall use immediate communication timing on connection nia_from_external. The TCAS.impl implementation shall use immediate communication timing on connection nigd_from_external. The TCAS.impl implementation shall use immediate communication timing on connection nilo_from_external. The TCAS.impl implementation shall use immediate communication timing on connection oa_from_external.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 116: Couldn't resolve reference to 'cpu_rm'.",
+      "cause": "AGREE cannot resolve 'cpu_rm' because it is a subcomponent of hello.impl, but the annex is attached to system hello, not hello.impl; subcomponent references are not visible in parent type annexes.",
+      "minimal_edit": "Move the entire annex agree block from system hello to system implementation hello.impl"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 116: Couldn't resolve reference to 'impl'.",
+      "cause": "'hello.impl' is a component implementation name, not a valid AGREE namespace path; AGREE uses direct subcomponent names, not package-style qualification.",
+      "minimal_edit": "Replace 'hello.impl.node_a' with 'node_a' and 'hello.impl.node_b' with 'node_b'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 116: Couldn't resolve reference to 'p0'.",
+      "cause": "p0 is a port of subcomponent cpu_rm, but AGREE does not allow direct port access from component type annexes; the binding must be expressed via subcomponent identity, not port references.",
+      "minimal_edit": "Remove '= cpu_rm.p0' and replace with a boolean assumption that captures the intended binding: 'node_a in cpu_rm' is not valid AGREE; instead, since the binding is structural in AADL, the AGREE assumption must reflect that node_a and cpu_rm are bound via their existence in the same implementation — but without port expressions. Since no valid symbolic relation exists, the only repair is to remove the assumption and rely on AADL binding properties."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 117: Couldn't resolve reference to 'mem'.",
+      "cause": "mem is a subcomponent of hello.impl, but AGREE annex attached to hello cannot reference subcomponents of hello.impl.",
+      "minimal_edit": "Move annex to hello.impl and use 'mem' directly without qualification."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 119: Couldn't resolve reference to 'segment2'.",
+      "cause": "segment2 is a memory segment of subcomponent mem, not a visible AGREE symbol; AGREE cannot access AADL memory segment ports.",
+      "minimal_edit": "Remove '= mem.segment2' and replace with a structural binding assumption using only subcomponent names, or remove the clause entirely if no legal symbolic relation remains."
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the annex agree block from system hello",
+    "Add a new annex agree block inside system implementation hello.impl",
+    "Inside the new annex, replace all qualified references (hello.impl.node_a, etc.) with unqualified subcomponent names (node_a, node_b, cpu_rm, mem)",
+    "Remove all port references (p0, p1, segment1, segment2) since they are not valid AGREE symbols and cannot be used in assumptions",
+    "Replace each binding assumption with a simple identity assertion that the subcomponent exists in the implementation — but note: AGREE cannot express AADL deployment bindings directly; therefore, the assumptions are semantically invalid and must be removed entirely"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 159: left and right sides of binary expression '<=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "temp is not properly typed in AGREE expression",
+      "minimal_edit": "Change `temp >= 0 and temp <= 100` to `temp >= 0 and temp <= 100` (no change needed, but ensure temp is properly typed in AGREE context)"
+    },
+    {
+      "diagnostic": "line 156: Couldn't resolve reference to property definition 'ARINC653::HM_Errors'",
+      "cause": "Property definition not found in model",
+      "minimal_edit": "Remove ARINC653::HM_Errors property from component properties"
+    },
+    {
+      "diagnostic": "line 157: Couldn't resolve reference to property definition 'ARINC653::HM_Process_Recovery_Actions'",
+      "cause": "Property definition not found in model",
+      "minimal_edit": "Remove ARINC653::HM_Process_Recovery_Actions property from component properties"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove ARINC653::HM_Errors property from commandboard_receiveinput_thread properties",
+    "Remove ARINC653::HM_Process_Recovery_Actions property from commandboard_receiveinput_thread properties",
+    "Verify that the AGREE annex expressions remain valid with the remaining properties"
+  ]
+}

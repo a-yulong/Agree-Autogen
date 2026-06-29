@@ -1,0 +1,182 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: D1_handle_position, D1_closed, D1_latched, D1_locked, D1_swivel, D1_de_arrest, D1_lock, D1_warn_diff_pres, D1_warn_slide, D1_in_flight, D1_on_ground, D1_engine_running, D1_emergency_evacuation, D1_dps, D1_warning_info, D1_ecam_info, D2_handle_position, D2_closed, D2_latched, D2_locked, D2_swivel, D2_de_arrest, D2_lock, D2_warn_diff_pres, D2_warn_slide, D2_in_flight, D2_on_ground, D2_engine_running, D2_emergency_evacuation, D2_warning_info, D2_ecam_info, D2_dps, Mix_cll
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+D1_handle_position | in | data | bool | Base_Types::boolean
+D1_closed | in | data | bool | Base_Types::boolean
+D1_latched | in | data | bool | Base_Types::boolean
+D1_locked | in | data | bool | Base_Types::boolean
+D1_swivel | out | data | bool | Base_Types::boolean
+D1_de_arrest | out | data | bool | Base_Types::boolean
+D1_lock | out | data | bool | Base_Types::boolean
+D1_warn_diff_pres | out | data | bool | Base_Types::boolean
+D1_warn_slide | out | data | bool | Base_Types::boolean
+D1_in_flight | in | data | bool | Base_Types::boolean
+D1_on_ground | in | data | bool | Base_Types::boolean
+D1_engine_running | in | data | bool | Base_Types::boolean
+D1_emergency_evacuation | in | data | bool | Base_Types::boolean
+D1_dps | in | data | int | Base_Types::integer
+D1_warning_info | out | data | bool | Base_Types::boolean
+D1_ecam_info | out | data | bool | Base_Types::boolean
+D2_handle_position | in | data | bool | Base_Types::boolean
+D2_closed | in | data | bool | Base_Types::boolean
+D2_latched | in | data | bool | Base_Types::boolean
+D2_locked | in | data | bool | Base_Types::boolean
+D2_swivel | out | data | bool | Base_Types::boolean
+D2_de_arrest | out | data | bool | Base_Types::boolean
+D2_lock | out | data | bool | Base_Types::boolean
+D2_warn_diff_pres | out | data | bool | Base_Types::boolean
+D2_warn_slide | out | data | bool | Base_Types::boolean
+D2_in_flight | in | data | bool | Base_Types::boolean
+D2_on_ground | in | data | bool | Base_Types::boolean
+D2_engine_running | in | data | bool | Base_Types::boolean
+D2_emergency_evacuation | in | data | bool | Base_Types::boolean
+D2_warning_info | out | data | bool | Base_Types::boolean
+D2_ecam_info | out | data | bool | Base_Types::boolean
+D2_dps | in | data | int | Base_Types::integer
+Mix_cll | out | data | bool | Base_Types::boolean
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "D1_ecam_info == D1_engine_running",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "D1_engine_running",
+        "D1_ecam_info"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: doors_process | lines 198-200
+annex agree {**
+    guarantee "ECAM_info_matches_engine": D1_ecam_info == D1_engine_running;
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   195: 
+   196:       -- door Mix
+   197:       Mix_cll: out data port Base_Types::boolean;
+   198:   annex agree {**
+>> 199:     guarantee "ECAM_info_matches_engine": D1_ecam_info == D1_engine_running;
+   200:     **};
+   201:   end doors_process;
+   202: 
+   203:   process implementation doors_process.imp
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: doors_process
+process doors_process
+    features
+      -- door 1
+      D1_handle_position: in data port Base_Types::boolean;
+      D1_closed: in data port Base_Types::boolean;
+      D1_latched: in data port Base_Types::boolean;
+      D1_locked: in data port Base_Types::boolean;
+      D1_swivel: out data port Base_Types::boolean;
+      D1_de_arrest: out data port Base_Types::boolean;
+      D1_lock: out data port Base_Types::boolean;
+      D1_warn_diff_pres: out data port Base_Types::boolean;
+      D1_warn_slide: out data port Base_Types::boolean;
+      D1_in_flight: in data port Base_Types::boolean;
+      D1_on_ground: in data port Base_Types::boolean;
+      D1_engine_running: in data port Base_Types::boolean;
+      D1_emergency_evacuation: in data port Base_Types::boolean;
+      D1_dps: in data port Base_Types::integer;
+      D1_warning_info: out data port Base_Types::boolean;
+      D1_ecam_info: out data port Base_Types::boolean;
+
+      -- door 2
+      D2_handle_position: in data port Base_Types::boolean;
+      D2_closed: in data port Base_Types::boolean;
+      D2_latched: in data port Base_Types::boolean;
+      D2_locked: in data port Base_Types::boolean;
+      D2_swivel: out data port Base_Types::boolean;
+      D2_de_arrest: out data port Base_Types::boolean;
+      D2_lock: out data port Base_Types::boolean;
+      D2_warn_diff_pres: out data port Base_Types::boolean;
+      D2_warn_slide: out data port Base_Types::boolean;
+      D2_in_flight: in data port Base_Types::boolean;
+      D2_on_ground: in data port Base_Types::boolean;
+      D2_engine_running: in data port Base_Types::boolean;
+      D2_emergency_evacuation: in data port Base_Types::boolean;
+      D2_warning_info: out data port Base_Types::boolean;
+      D2_ecam_info: out data port Base_Types::boolean;
+      D2_dps: in data port Base_Types::integer;
+
+      -- door Mix
+      Mix_cll: out data port Base_Types::boolean;
+  end doors_process;
+
+-- TARGET DECLARATION: doors_process.imp
+process implementation doors_process.imp
+    subcomponents
+      door1: thread door_handler.imp;
+      door2: thread door_handler.imp;
+      doors_mix: thread doors_int.imp;
+    connections
+      connD11: port D1_handle_position -> door1.handle_position;
+      connD12: port D1_closed -> door1.closed;
+      connD102: port D1_latched -> door1.latched;
+      connD13: port D1_locked -> door1.locked;
+      connD14: port door1.swivel -> D1_swivel;
+      connD15: port door1.de_arrest -> D1_de_arrest;
+      connD16: port door1.lock -> D1_lock;
+      connD17: port door1.warn_diff_pres -> D1_warn_diff_pres;
+      connD18: port door1.warn_slide -> D1_warn_slide;
+      connD19: port D1_in_flight -> door1.in_flight;
+      connD110: port D1_on_ground -> door1.on_ground;
+      connD111: port D1_engine_running -> door1.engine_running;
+      connD112: port D1_emergency_evacuation -> door1.emergency_evacuation;
+      connD113: port door1.warning_info -> D1_warning_info;
+      connD114: port door1.ecam_info -> D1_ecam_info;
+      connD116: port D1_dps -> door1.dps;
+
+      connD21: port D2_handle_position -> door2.handle_position;
+      connD22: port D2_closed -> door2.closed;
+      connD202: port D2_latched -> door2.latched;
+      connD23: port D2_locked -> door2.locked;
+      connD24: port door2.swivel -> D2_swivel;
+      connD25: port door2.de_arrest -> D2_de_arrest;
+      connD26: port door2.lock -> D2_lock;
+      connD27: port door2.warn_diff_pres -> D2_warn_diff_pres;
+      connD28: port door2.warn_slide -> D2_warn_slide;
+      connD29: port D2_in_flight -> door2.in_flight;
+      connD210: port D2_on_ground -> door2.on_ground;
+      connD211: port D2_engine_running -> door2.engine_running;
+      connD212: port D2_emergency_evacuation -> door2.emergency_evacuation;
+      connD213: port door2.warning_info -> D2_warning_info;
+      connD214: port door2.ecam_info -> D2_ecam_info;
+      connD216: port D2_dps -> door2.dps;
+
+      connMix: port doors_mix.cll -> Mix_cll;
+
+      -- inter-thread connections
+      connD218: port door2.door_locked -> doors_mix.door2;
+      connD118: port door1.door_locked -> doors_mix.door1;
+  end doors_process.imp;
+
+-- RELATED MODEL LINES
+process_door: process doors_process.imp;
+connPD11: port door1.handle_position -> process_door.D1_handle_position;
+connPD12: port door1.closed -> process_door.D1_closed;
+connPD102: port door1.latched -> process_door.D1_latched;
+connPD13: port door1.locked  -> process_door.D1_locked;
+connPD14: port process_door.D1_swivel -> door1.swivel;
+connPD15: port process_door.D1_de_arrest -> door1.de_arrest;
+connPD16: port process_door.D1_lock -> door1.lock;
+connPD17: port process_door.D1_warn_diff_pres -> door1.warn_diff_pres;
+connPD18: port process_door.D1_warn_slide -> door1.warn_slide;
+connPD19: port lgs.in_flight1 -> process_door.D1_in_flight;
+connPD110: port lgs.on_ground1 -> process_door.D1_on_ground;
+connPD111: port lgs.engine_running1 -> process_door.D1_engine_running;
+connPD112: port lgs.emergency_evacuation1
+-- [target model context truncated]

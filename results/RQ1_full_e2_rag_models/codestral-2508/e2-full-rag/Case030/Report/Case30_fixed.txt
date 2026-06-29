@@ -1,0 +1,33 @@
+package geofence_single
+public
+
+	with geofence_nodes;
+	with base_types;
+
+	system GeoFence_singleton
+		features
+			timeToRecovery: out data port real;
+	annex agree {**
+	  const initial_t : real = 0.0;
+	  const step_size : real = 0.1;
+	  const recovery_time : real = 1.7;
+
+	  eq t : real = initial_t -> pre(t) + step_size;
+	**};
+	end GeoFence_singleton;
+
+	system implementation GeoFence_singleton.impl
+	annex agree {**
+	  assign timeToRecovery = recovery_time;
+	**};
+	end GeoFence_singleton.impl;
+
+	-- Type Aliases
+
+	data int extends base_types::Integer
+	end int;
+
+	data real extends base_types::Float
+	end real;
+
+end geofence_single;

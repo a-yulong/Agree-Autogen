@@ -1,0 +1,21 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to ConnectionEnd 'attitude_window'.",
+      "cause": "ConnectionEnd 'attitude_window' is not a valid port name in the component",
+      "minimal_edit": "Remove or replace the connection 'Cnx5 : port TCP.attitude_window -> FDR.attitude_window;' with a valid port reference"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to ConnectionEnd 'check_thresholds'.",
+      "cause": "ConnectionEnd 'check_thresholds' is not a valid port name in the component",
+      "minimal_edit": "Remove or replace the connection 'Cnx6 : port TCP.check_thresholds -> FDR.check_thresholds;' with a valid port reference"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Identify the correct port names available on TCP and FDR components from the AADL model",
+    "Update the connection Cnx5 to use a valid port name from the TCP component that connects to a valid port on FDR",
+    "Update the connection Cnx6 to use a valid port name from the TCP component that connects to a valid port on FDR",
+    "Ensure all referenced ports exist in the component's feature list"
+  ]
+}

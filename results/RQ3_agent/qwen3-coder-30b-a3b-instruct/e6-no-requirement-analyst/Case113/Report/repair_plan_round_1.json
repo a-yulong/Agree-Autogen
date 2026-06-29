@@ -1,0 +1,46 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'event_in'.",
+      "cause": "Reference to subcomponent port 'event_in' not visible in component type scope",
+      "minimal_edit": "Replace 'spg.event_in' with 'acc_command_in' on left side of equality"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'spg'.",
+      "cause": "Reference to subcomponent 'spg' not visible in component type scope",
+      "minimal_edit": "Remove 'spg.' prefix from 'spg.event_in' and 'spg.accDataOut'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved reference 'spg.event_in' causing error type propagation",
+      "minimal_edit": "Replace 'spg.event_in' with 'acc_command_in' on left side of equality"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Reference to 'spg.event_in' resolves to error type",
+      "minimal_edit": "Replace 'spg.event_in' with 'acc_command_in' on left side of equality"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'accDataOut'.",
+      "cause": "Reference to subcomponent port 'accDataOut' not visible in component type scope",
+      "minimal_edit": "Replace 'spg.accDataOut' with 'accout' on right side of equality"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved reference 'spg.accDataOut' causing error type propagation",
+      "minimal_edit": "Replace 'spg.accDataOut' with 'accout' on right side of equality"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Reference to 'spg.accDataOut' resolves to error type",
+      "minimal_edit": "Replace 'spg.accDataOut' with 'accout' on right side of equality"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from acc6_dataOutput component type to acc6_dataOutput.impl component implementation",
+    "Replace 'spg.event_in' with 'acc_command_in' in the assume statement",
+    "Replace 'spg.accDataOut' with 'accout' in the guarantee statement",
+    "Remove the 'spg.' prefix from both references in the annex block"
+  ]
+}

@@ -1,0 +1,23 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Validate all AGREE expressions for type correctness and reference resolution before repair.
+- Use only declared constants, variables, and features that are visible in the current scope.
+- Prefer minimal repairs that preserve existing architecture and avoid introducing new dependencies.
+- When a guarantee or equation references an undefined identifier, remove the clause entirely.
+Syntax or pattern reminders:
+- AGREE contracts must be placed in `annex agree {** ... **};` blocks within valid component scopes.
+- Assignments in implementation scope must target valid output features or declared auxiliary variables.
+- Type declarations in AGREE must use int, real, or bool; avoid package-qualified scalar types.
+- Guarantees in component type annexes should relate visible inputs to visible outputs, not subcomponent paths.
+Anti-patterns:
+- Do not attempt to resolve missing identifiers by adding new declarations or imports in repair.
+- Do not place implementation-level references in component type contracts.
+- Do not assume numeric or Boolean encodings for event ports or opaque data types.
+- Do not generate new architecture elements to fix AGREE diagnostics; only modify existing AGREE clauses.
+Irrelevant retrieved material:
+- AADL package references and with clauses
+- AGREE annex placement in component types vs. implementations
+- Model Analyst agent's structural extraction tasks
+- Requirement Analyst agent's traceability concerns
+- Model Fusion agent's owner/scope preservation rules
+</RAG_DIGEST>

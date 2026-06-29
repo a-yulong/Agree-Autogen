@@ -1,0 +1,28 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 43: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is invalid syntax",
+      "minimal_edit": "Replace `acc_out_data_x = acc_out_data_x` with `acc_out_data_x = acc_out_data_x` (no change needed, but the expression is syntactically invalid as a guarantee)"
+    },
+    {
+      "diagnostic": "line 44: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is invalid syntax",
+      "minimal_edit": "Replace `acc_out_data_y = acc_out_data_y` with `acc_out_data_y = acc_out_data_y` (no change needed, but the expression is syntactically invalid as a guarantee)"
+    },
+    {
+      "diagnostic": "line 45: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is invalid syntax",
+      "minimal_edit": "Replace `acc_out_data_z = acc_out_data_z` with `acc_out_data_z = acc_out_data_z` (no change needed, but the expression is syntactically invalid as a guarantee)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that the AGREE annex in ACCELERO_SUB_wrapper uses invalid equality expressions in guarantees",
+    "Replace each guarantee with a valid AGREE expression that relates the output port to a valid input or constant",
+    "Since the requirement is about routing data flow, rewrite the guarantees to express that the outputs are equal to the corresponding inputs from the subprogram call",
+    "Update guarantee \"signal_flow_x\" to reference the correct input port from the subprogram call",
+    "Update guarantee \"signal_flow_y\" to reference the correct input port from the subprogram call",
+    "Update guarantee \"signal_flow_z\" to reference the correct input port from the subprogram call"
+  ]
+}

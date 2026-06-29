@@ -1,0 +1,32 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'gps_pos'.",
+      "cause": "gps_pos is a port in component type, not visible in implementation annex",
+      "minimal_edit": "Remove gps_pos reference from assume statement in implementation annex"
+    },
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent, not visible in component type annex",
+      "minimal_edit": "Remove pspg reference from assume statement in implementation annex"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent, not visible in component type annex",
+      "minimal_edit": "Remove pspg reference from assume statement in implementation annex"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'speed'.",
+      "cause": "speed is a port in component type, not visible in implementation annex",
+      "minimal_edit": "Remove speed reference from assume statement in implementation annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the assume statement 'assume \"signal_routing_R2\": gps_pos = pspg.gps_pos;' from the component type annex",
+    "Remove the assume statement 'assume \"signal_routing_R3\": pspg.speed = speed;' from the component type annex",
+    "Move the signal routing assumptions to the component implementation annex",
+    "In the implementation annex, replace 'gps_pos = pspg.gps_pos' with 'gps_pos = pspg.gps_pos' (this is already correct syntax)",
+    "In the implementation annex, replace 'pspg.speed = speed' with 'pspg.speed = speed' (this is already correct syntax)"
+  ]
+}

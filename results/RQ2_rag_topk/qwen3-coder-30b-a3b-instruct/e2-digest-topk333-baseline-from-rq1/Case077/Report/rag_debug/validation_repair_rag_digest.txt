@@ -1,0 +1,19 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- In AGREE contracts, always reference visible AADL features or previously declared helpers; do not introduce undefined symbols.
+- When assigning values in implementation scope, ensure the left-hand side is an existing output feature or declared auxiliary variable.
+- Use only scalar types int, real, and bool in AGREE declarations; avoid references to non-existent or invalid type names.
+- If a guarantee or equation expression evaluates to type '<error>', trace and resolve the root cause of the unresolved identifier.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Component type annexes are for assumptions, guarantees, constants, and equation declarations; implementation annexes are for bindings and assignments.
+- Assignments in implementation scope must reference existing outputs or declared auxiliary variables.
+- Helper declarations like `eq` or `const` must have consistent types on both sides of the expression.
+Anti-patterns:
+- Do not introduce identifiers or types that are not defined in the current AADL model or its dependencies.
+- Do not place guarantee statements in implementation scope; use only assignments and equations.
+- Do not mix incompatible types in expressions without proper casting or declaration.
+Irrelevant retrieved material:
+- aadl_scope_notes
+- agree_syntax_notes
+</RAG_DIGEST>

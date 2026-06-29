@@ -1,0 +1,84 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 104: The variable 'Mode' on the left side of equation is of type 'int' but must be of type 'bool'",
+      "cause": "Mode is declared as int but used in boolean context",
+      "minimal_edit": "eq Mode: bool = Panel.LO + Panel.MED + Panel.MAX;"
+    },
+    {
+      "diagnostic": "line 104: left side of binary expression '+' is of type 'bool' but must be of type'int' or 'real'",
+      "cause": "Cannot add boolean values directly",
+      "minimal_edit": "eq Mode: bool = Panel.LO or Panel.MED or Panel.MAX;"
+    },
+    {
+      "diagnostic": "line 104: right side of binary expression '+' is of type 'bool' but must be of type'int' or 'real'",
+      "cause": "Cannot add boolean values directly",
+      "minimal_edit": "eq Mode: bool = Panel.LO or Panel.MED or Panel.MAX;"
+    },
+    {
+      "diagnostic": "line 123: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Reference to undefined function",
+      "minimal_edit": "eq Mode: int = Panel.LO + Panel.MED + Panel.MAX;"
+    },
+    {
+      "diagnostic": "line 138: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined function",
+      "minimal_edit": "CMD = (Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 138: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in guarantee",
+      "minimal_edit": "CMD = (Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 255: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined function",
+      "minimal_edit": "COM1.CMD = (Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 255: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in lemma",
+      "minimal_edit": "COM1.CMD = (Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 256: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined function",
+      "minimal_edit": "COM2.CMD = (Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 256: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in lemma",
+      "minimal_edit": "COM2.CMD = (Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined function",
+      "minimal_edit": "MON1.Status.Cmd = (Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 257: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in lemma",
+      "minimal_edit": "MON1.Status.Cmd = (Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 258: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined function",
+      "minimal_edit": "MON2.Status.Cmd = (Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 258: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in lemma",
+      "minimal_edit": "MON2.Status.Cmd = (Pedal * 2);"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Change line 104 from 'eq Mode: int = Panel.LO + Panel.MED + Panel.MAX;' to 'eq Mode: bool = Panel.LO or Panel.MED or Panel.MAX;'",
+    "Change line 123 from 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' to 'eq Mode: int = Panel.LO + Panel.MED + Panel.MAX;'",
+    "Change line 138 from 'not Fail => (Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal));' to 'not Fail => (Status.Cmd = (Pedal * 2));'",
+    "Change line 255 from 'COM1._CLK and not FailCOM1 => (COM1.CMD = Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal));' to 'COM1._CLK and not FailCOM1 => (COM1.CMD = (Pedal * 2));'",
+    "Change line 256 from 'COM2._CLK and not FailCOM2 => (COM2.CMD = Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal));' to 'COM2._CLK and not FailCOM2 => (COM2.CMD = (Pedal * 2));'",
+    "Change line 257 from 'MON1._CLK and not FailMON1 => (MON1.Status.Cmd = Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal));' to 'MON1._CLK and not FailMON1 => (MON1.Status.Cmd = (Pedal * 2));'",
+    "Change line 258 from 'MON2._CLK and not FailMON2 => (MON2.Status.Cmd = Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal));' to 'MON2._CLK and not FailMON2 => (MON2.Status.Cmd = (Pedal * 2));'"
+  ]
+}

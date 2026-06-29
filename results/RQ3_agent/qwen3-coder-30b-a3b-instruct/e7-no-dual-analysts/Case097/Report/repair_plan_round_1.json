@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 359: Couldn't resolve reference to 'alarmAggregator'.",
+      "cause": "Reference to subcomponent 'alarmAggregator' not visible in component type scope",
+      "minimal_edit": "Remove assumption 'signal_flow_from_arlarm_acc_in' referencing non-visible subcomponent"
+    },
+    {
+      "diagnostic": "line 359: Couldn't resolve reference to 'arlarm_acc_in'.",
+      "cause": "Reference to port 'arlarm_acc_in' not visible in component type scope",
+      "minimal_edit": "Remove assumption 'signal_flow_from_arlarm_acc_in' referencing non-visible port"
+    },
+    {
+      "diagnostic": "line 360: Couldn't resolve reference to 'alarmAggregator'.",
+      "cause": "Reference to subcomponent 'alarmAggregator' not visible in component type scope",
+      "minimal_edit": "Remove assumption 'signal_flow_from_arlarm_adirup_in' referencing non-visible subcomponent"
+    },
+    {
+      "diagnostic": "line 360: Couldn't resolve reference to 'arlarm_adirup_in'.",
+      "cause": "Reference to port 'arlarm_adirup_in' not visible in component type scope",
+      "minimal_edit": "Remove assumption 'signal_flow_from_arlarm_adirup_in' referencing non-visible port"
+    },
+    {
+      "diagnostic": "line 361: Couldn't resolve reference to 'acc1_output'.",
+      "cause": "Reference to port 'acc1_output' not visible in component type scope",
+      "minimal_edit": "Remove guarantee 'systemHM_action_acc_hm_output' referencing non-visible port"
+    },
+    {
+      "diagnostic": "line 362: Couldn't resolve reference to 'acc2_output'.",
+      "cause": "Reference to port 'acc2_output' not visible in component type scope",
+      "minimal_edit": "Remove guarantee 'systemHM_action_adirup_output' referencing non-visible port"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire annex agree block from systemHM_process component type",
+    "Move any valid implementation-level contracts to systemHM_process.impl annex block",
+    "Ensure all references in AGREE annex are visible in the component type scope"
+  ]
+}

@@ -1,0 +1,156 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: Data_Sink
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_Sink | in | data | int | Simple_Type
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Q.Impl routes data flow from Data_Sink to Q_Spg.Data_Sink through P1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl",
+        "Data_Sink",
+        "Q_Spg.Data_Sink",
+        "P1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Q.Impl executes with a period of 10 Ms",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Q.Impl",
+        "10 Ms"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Q.Impl meets a deadline of 10 Ms",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Q.Impl",
+        "10 Ms"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Q.Impl runs at priority 1",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Q.Impl",
+        "priority 1"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Q.Impl uses the Sporadic dispatch protocol",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl",
+        "Sporadic dispatch protocol"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Q.Impl | lines 78-83
+annex agree {**
+    guarantee "signal_flow": Data_Sink = Q_Spg.Data_Sink;
+    guarantee "period": period = 10 Ms;
+    guarantee "deadline": deadline = 10 Ms;
+    guarantee "priority": priority = 1;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   75:     Period                             => 10 Ms;
+   76:     deadline                           => 10 Ms;
+   77:     Priority                           => 1;
+   78:   annex agree {**
+>> 79:     guarantee "signal_flow": Data_Sink = Q_Spg.Data_Sink;
+   80:     guarantee "period": period = 10 Ms;
+   81:     guarantee "deadline": deadline = 10 Ms;
+   82:     guarantee "priority": priority = 1;
+   83:   **};
+
+   76:     deadline                           => 10 Ms;
+   77:     Priority                           => 1;
+   78:   annex agree {**
+   79:     guarantee "signal_flow": Data_Sink = Q_Spg.Data_Sink;
+>> 80:     guarantee "period": period = 10 Ms;
+   81:     guarantee "deadline": deadline = 10 Ms;
+   82:     guarantee "priority": priority = 1;
+   83:   **};
+   84:   end Q.Impl;
+
+   77:     Priority                           => 1;
+   78:   annex agree {**
+   79:     guarantee "signal_flow": Data_Sink = Q_Spg.Data_Sink;
+   80:     guarantee "period": period = 10 Ms;
+>> 81:     guarantee "deadline": deadline = 10 Ms;
+   82:     guarantee "priority": priority = 1;
+   83:   **};
+   84:   end Q.Impl;
+   85: 
+
+   78:   annex agree {**
+   79:     guarantee "signal_flow": Data_Sink = Q_Spg.Data_Sink;
+   80:     guarantee "period": period = 10 Ms;
+   81:     guarantee "deadline": deadline = 10 Ms;
+>> 82:     guarantee "priority": priority = 1;
+   83:   **};
+   84:   end Q.Impl;
+   85: 
+   86: end Software;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Q
+thread Q
+  features
+    Data_Sink : in event data port Simple_Type;
+  end Q;
+
+-- TARGET DECLARATION: Q.Impl
+thread implementation Q.Impl
+  calls
+    Mycalls: {
+    Q_Spg : subprogram Ping_Spg;
+    };
+  connections
+    P1 : parameter Data_Sink -> Q_Spg.Data_Sink;
+  properties
+    Dispatch_Protocol                  => Sporadic;
+    Period                             => 10 Ms;
+    deadline                           => 10 Ms;
+    Priority                           => 1;
+  end Q.Impl;
+
+-- RELATED MODEL LINES
+data Simple_Type
+end Simple_Type;
+Data_Source : out parameter Simple_Type;
+Data_Sink : in parameter Simple_Type;
+thread P
+Data_Source : out event data port Simple_Type;
+end P;
+thread implementation P.Impl
+P1 : parameter P_Spg.Data_Source -> Data_Source;
+end P.Impl;
+thread Q
+Data_Sink : in event data port Simple_Type;
+end Q;
+thread implementation Q.Impl
+P1 : parameter Data_Sink -> Q_Spg.Data_Sink;
+end Q.Impl;

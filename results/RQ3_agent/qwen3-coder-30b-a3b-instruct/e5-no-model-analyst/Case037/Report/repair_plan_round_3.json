@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "Type mismatch in equation declaration",
+      "minimal_edit": "Change 'eq e : real = Target - Actual;' to 'eq e : Types::speed.speed_impl = Target - Actual;'"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port type mismatch in subtraction operation",
+      "minimal_edit": "Ensure Target and Actual are treated as real values by casting or redefining their types appropriately"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port type mismatch in subtraction operation",
+      "minimal_edit": "Ensure Target and Actual are treated as real values by casting or redefining their types appropriately"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Modify the equation declaration to correctly specify the type of 'e' as 'Types::speed.speed_impl'",
+    "Verify that the subtraction operation between Target and Actual is valid by ensuring they are compatible types"
+  ]
+}

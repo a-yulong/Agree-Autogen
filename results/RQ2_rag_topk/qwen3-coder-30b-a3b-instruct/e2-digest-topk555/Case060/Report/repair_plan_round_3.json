@@ -1,0 +1,80 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 123: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "eq Mode: int = Panel.LO or Panel.MED or Panel.MAX;"
+    },
+    {
+      "diagnostic": "line 138: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "guarantee \"CMD equals theoretical brake command\": CMD = (Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 138: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "guarantee \"CMD equals theoretical brake command\": CMD = (Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 255: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "lemma L1 \"COM1 Consistency\" : COM1._CLK and not FailCOM1 => (COM1.CMD = (Pedal * 2));"
+    },
+    {
+      "diagnostic": "line 255: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "lemma L1 \"COM1 Consistency\" : COM1._CLK and not FailCOM1 => (COM1.CMD = (Pedal * 2));"
+    },
+    {
+      "diagnostic": "line 256: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "lemma L2 \"COM2 Consistency\" : COM2._CLK and not FailCOM2 => (COM2.CMD = (Pedal * 2));"
+    },
+    {
+      "diagnostic": "line 256: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "lemma L2 \"COM2 Consistency\" : COM2._CLK and not FailCOM2 => (COM2.CMD = (Pedal * 2));"
+    },
+    {
+      "diagnostic": "line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "lemma L3 \"MON1 Consistency\" : MON1._CLK and not FailMON1 => (MON1.Status.Cmd = (Pedal * 2));"
+    },
+    {
+      "diagnostic": "line 257: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "lemma L3 \"MON1 Consistency\" : MON1._CLK and not FailMON1 => (MON1.Status.Cmd = (Pedal * 2));"
+    },
+    {
+      "diagnostic": "line 258: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "lemma L4 \"MON2 Consistency\" : MON2._CLK and not FailMON2 => (MON2.Status.Cmd = (Pedal * 2));"
+    },
+    {
+      "diagnostic": "line 258: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "lemma L4 \"MON2 Consistency\" : MON2._CLK and not FailMON2 => (MON2.Status.Cmd = (Pedal * 2));"
+    },
+    {
+      "diagnostic": "line 260: left and right sides of binary expression '!=' are of type 'int' and 'bool', but must be of the same type",
+      "cause": "Type mismatch in duration expression",
+      "minimal_edit": "lemma L5 \"CH1 Consistency\" : (MON1_Running and COM1_Running) => Agree_Nodes::Duration(not (MON1.Mode = COM1.Mode)) < 7;"
+    },
+    {
+      "diagnostic": "line 261: left and right sides of binary expression '!=' are of type 'int' and 'bool', but must be of the same type",
+      "cause": "Type mismatch in duration expression",
+      "minimal_edit": "lemma L6 \"CH2 Consistency\" : (MON2_Running and COM2_Running) => Agree_Nodes::Duration(not (MON2.Mode = COM2.Mode)) < 7;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace Agree_Nodes::Brake_Mode with Panel.LO or Panel.MED or Panel.MAX on line 123",
+    "Replace Agree_Nodes::Brake_Cmd with (Pedal * 2) on line 138",
+    "Replace Agree_Nodes::Brake_Cmd with (Pedal * 2) on line 255",
+    "Replace Agree_Nodes::Brake_Cmd with (Pedal * 2) on line 256",
+    "Replace Agree_Nodes::Brake_Cmd with (Pedal * 2) on line 257",
+    "Replace Agree_Nodes::Brake_Cmd with (Pedal * 2) on line 258",
+    "Replace MON1.Mode != COM1.Mode with not (MON1.Mode = COM1.Mode) on line 260",
+    "Replace MON2.Mode != COM2.Mode with not (MON2.Mode = COM2.Mode) on line 261"
+  ]
+}

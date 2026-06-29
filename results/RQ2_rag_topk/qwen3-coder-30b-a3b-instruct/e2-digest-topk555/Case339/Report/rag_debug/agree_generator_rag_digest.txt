@@ -1,0 +1,14 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate output guarantees using only visible ports or constants declared in the same annex, with bounds derived from requirement intent.
+- Use AGREE logical operators (and, or, not, =>) and scalar types (int, real, bool) in expressions; avoid AADL property names as variables.
+Generic rules:
+- Place component-type guarantees in annex agree blocks within the type scope, not implementation scope.
+- Ensure all identifiers in guarantees are either AADL-visible ports or locally declared eq/const helpers with explicit scalar types.
+Syntax or pattern reminders:
+- guarantee "label": expression; must use valid AGREE syntax with bool-typed expressions.
+- Use eq to define helper booleans for complex ranges, e.g., eq in_range : bool = x >= min and x <= max;
+Anti-patterns:
+- Do not reference AADL properties (e.g., Period, Deadline) as if they are AGREE variables.
+- Avoid implementation-level subcomponent paths in component type annexes.
+</RAG_DIGEST>

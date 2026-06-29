@@ -1,0 +1,182 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: gyro_out_data_x, gyro_out_data_y, gyro_out_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+gyro_out_data_x | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_out_data_y | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_out_data_z | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "GYRO_SUB_wrapper.i routes data flow from Spg.gyro_out_data_x to Gyro_Out_Data_X through P1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "Spg.gyro_out_data_x",
+        "Gyro_Out_Data_X",
+        "P1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "GYRO_SUB_wrapper.i routes data flow from Spg.gyro_out_data_Y to Gyro_Out_Data_Y through P2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "Spg.gyro_out_data_Y",
+        "Gyro_Out_Data_Y",
+        "P2"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GYRO_SUB_wrapper | lines 139-143
+annex agree {**
+    guarantee "gyro_x_signal_flow": gyro_out_data_x = gyro_out_data_x;
+    guarantee "gyro_y_signal_flow": gyro_out_data_y = gyro_out_data_y;
+    guarantee "gyro_z_signal_flow": gyro_out_data_z = gyro_out_data_z;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   136:     gyro_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   137:     gyro_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   138:     gyro_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   139:   annex agree {**
+>> 140:     guarantee "gyro_x_signal_flow": gyro_out_data_x = gyro_out_data_x;
+   141:     guarantee "gyro_y_signal_flow": gyro_out_data_y = gyro_out_data_y;
+   142:     guarantee "gyro_z_signal_flow": gyro_out_data_z = gyro_out_data_z;
+   143:   **};
+   144:   end GYRO_SUB_wrapper;
+
+   137:     gyro_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   138:     gyro_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   139:   annex agree {**
+   140:     guarantee "gyro_x_signal_flow": gyro_out_data_x = gyro_out_data_x;
+>> 141:     guarantee "gyro_y_signal_flow": gyro_out_data_y = gyro_out_data_y;
+   142:     guarantee "gyro_z_signal_flow": gyro_out_data_z = gyro_out_data_z;
+   143:   **};
+   144:   end GYRO_SUB_wrapper;
+   145: 
+
+   138:     gyro_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   139:   annex agree {**
+   140:     guarantee "gyro_x_signal_flow": gyro_out_data_x = gyro_out_data_x;
+   141:     guarantee "gyro_y_signal_flow": gyro_out_data_y = gyro_out_data_y;
+>> 142:     guarantee "gyro_z_signal_flow": gyro_out_data_z = gyro_out_data_z;
+   143:   **};
+   144:   end GYRO_SUB_wrapper;
+   145: 
+   146:   subprogram implementation GYRO_SUB_wrapper.i
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: GYRO_SUB_wrapper
+subprogram GYRO_SUB_wrapper
+  features
+    gyro_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    gyro_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    gyro_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+  end GYRO_SUB_wrapper;
+
+-- TARGET DECLARATION: GYRO_SUB_wrapper.i
+subprogram implementation GYRO_SUB_wrapper.i
+  calls
+    Mycalls: { Spg : subprogram AHRS::Subprograms::GYRO_SUB; };
+  connections
+    P1: parameter Spg.gyro_out_data_x -> Gyro_Out_Data_X;
+    P2: parameter Spg.gyro_out_data_Y -> Gyro_Out_Data_Y;
+    P3: parameter Spg.gyro_out_data_Z -> Gyro_Out_Data_Z;
+  end GYRO_SUB_wrapper.i;
+
+-- RELATED MODEL LINES
+gyro_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+subprogram GYRO_SUB_wrapper
+gyro_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+end GYRO_SUB_wrapper;
+subprogram implementation GYRO_SUB_wrapper.i
+P1: parameter Spg.gyro_out_data_x -> Gyro_Out_Data_X;
+end GYRO_SUB_wrapper.i;
+GYRO_CALL: { gyro_sub : subprogram GYRO_SUB_wrapper.i; };
+GYRO_PC1 : parameter gyro_sub.gyro_out_data_x -> gyro_out_data_x;
+GYRO_PC2 : parameter gyro_sub.gyro_out_data_y -> gyro_out_data_y;
+GYRO_PC3 : parameter gyro_sub.gyro_out_data_z -> gyro_out_data_z;
+GYRO_SUBMIT_PC1 : port gyro_thread.gyro_out_data_x	 -> attitude_calculation_thread.gyro_in_data_x;
+GYRO_SUBMIT_PC2 : port gyro_thread.gyro_out_data_y	 -> attitude_calculation_thread.gyro_in_data_y;
+GYRO_SUBMIT_PC3 : port gyro_thread.gyro_out_data_z	 -> attitude_calculation_thread.gyro_in_data_z;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "GYRO_SUB_wrapper",
+      "kind": "subprogram"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "GYRO_SUB_wrapper.i",
+      "kind": "subprogram implementation",
+      "type_name": "GYRO_SUB_wrapper"
+    }
+  ],
+  "features": [
+    {
+      "owner": "GYRO_SUB_wrapper",
+      "name": "gyro_out_data_x",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO_SUB_wrapper",
+      "name": "gyro_out_data_y",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO_SUB_wrapper",
+      "name": "gyro_out_data_z",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "GYRO_SUB_wrapper.i",
+      "name": "P1",
+      "kind": "parameter",
+      "source": "Spg.gyro_out_data_x",
+      "destination": "Gyro_Out_Data_X"
+    },
+    {
+      "owner": "GYRO_SUB_wrapper.i",
+      "name": "P2",
+      "kind": "parameter",
+      "source": "Spg.gyro_out_data_Y",
+      "destination": "Gyro_Out_Data_Y"
+    },
+    {
+      "owner": "GYRO_SUB_wrapper.i",
+      "name": "P3",
+      "kind": "parameter",
+      "source": "Spg.gyro_out_data_Z",
+      "destination": "Gyro_Out_Data_Z"
+    }
+  ]
+}

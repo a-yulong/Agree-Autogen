@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 23: Couldn't resolve reference to 'Input'.",
+      "cause": "AGREE annex in component type C references port 'Input' not declared in C",
+      "minimal_edit": "Change 'Input' to 'Input1' in the assume statement on line 23"
+    },
+    {
+      "diagnostic": "line 33: Couldn't resolve reference to 'Input1'.",
+      "cause": "AGREE annex in system top_level references port 'Input1' not declared in top_level",
+      "minimal_edit": "Remove the assume statement referencing 'Input1' in the top_level annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex for component C, change 'Input < 10' to 'Input1 < 10' on line 23",
+    "In the AGREE annex for system top_level, remove the assume statement 'assume \"Input1 less than 10\": Input1 < 10;' on line 33"
+  ]
+}

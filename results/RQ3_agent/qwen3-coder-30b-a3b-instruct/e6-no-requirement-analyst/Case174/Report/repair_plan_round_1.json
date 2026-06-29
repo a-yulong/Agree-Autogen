@@ -1,0 +1,32 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "The 'latched' port is referenced in a guarantee within a component type annex, but it is an output port in the component type",
+      "minimal_edit": "Remove 'latched' from all boolean expressions in the AGREE annex guarantees"
+    },
+    {
+      "diagnostic": "Latched expressions can appear only in component implementations",
+      "cause": "Guarantees referencing 'latched' are placed in component type annex, but 'latched' is an output port",
+      "minimal_edit": "Remove 'latched' from all boolean expressions in the AGREE annex guarantees"
+    },
+    {
+      "diagnostic": "mismatched input 'and' expecting '('",
+      "cause": "Invalid syntax due to malformed boolean expression involving 'latched'",
+      "minimal_edit": "Remove 'latched' from all boolean expressions in the AGREE annex guarantees"
+    },
+    {
+      "diagnostic": "right side of binary expression 'and' is of type '<error>' but must be of type 'bool'",
+      "cause": "Expression includes 'latched' which is not a valid input for this context",
+      "minimal_edit": "Remove 'latched' from all boolean expressions in the AGREE annex guarantees"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove 'latched' from all boolean expressions in the AGREE annex guarantees",
+    "Update guarantee 'swivel_output' to: swivel = (handle_position and closed and locked)",
+    "Update guarantee 'de_arrest_output' to: de_arrest = (handle_position and closed and locked)",
+    "Update guarantee 'lock_output' to: lock = (handle_position and closed and locked)",
+    "Update guarantee 'door_locked_output' to: door_locked = (handle_position and closed and locked)"
+  ]
+}

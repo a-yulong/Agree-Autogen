@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Fix type mismatches by aligning helper declarations with expression types; use eq for boolean comparisons and ensure scalar types are int, real, or bool.",
+    "Resolve 'named thing must be an expression with a type' errors by tracing unresolved identifiers or invalid helper declarations and removing invalid clauses.",
+    "Use initialized state guards for pre() expressions to avoid undefined previous values in temporal recurrence."
+  ],
+  "generic_rules": [
+    "AGREE contracts must use valid visible identifiers and type-consistent expressions.",
+    "Component type contracts should place assumptions and guarantees in appropriate scopes.",
+    "Assignments and equations in AGREE must reference only declared or visible features.",
+    "Guard temporal recurrence with initialized state to prevent undefined behavior."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `eq name : type = expression;` for helper declarations and `assign output = expression;` for structured assignments.",
+    "Ensure binary expressions in guarantees have matching left and right types.",
+    "Guard pre() usage with initialized state variables like `initialized : bool = false -> true`."
+  ],
+  "anti_patterns": [
+    "Do not reference unresolved identifiers or invalid types in AGREE clauses; remove invalid guarantees instead of adding architecture.",
+    "Avoid using invalid scalar type names like 'integer' or 'boolean' in const or eq declarations; use 'int', 'real', or 'bool'.",
+    "Do not mix incompatible types in binary expressions without explicit conversion."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about unreachable ports or entity references",
+    "AGREE validator diagnostics about annex placement or assume/guarantee syntax",
+    "Requirement traceability or compact semantics"
+  ]
+}

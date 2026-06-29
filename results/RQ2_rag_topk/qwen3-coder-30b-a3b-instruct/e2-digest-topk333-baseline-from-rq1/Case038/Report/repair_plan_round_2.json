@@ -1,0 +1,32 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '+' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Port types 'Types::speed.speed_impl' used in arithmetic expressions without conversion to real",
+      "minimal_edit": "Change 'Target' and 'Actual' to 'Target.value' and 'Actual.value' assuming they are scalar values of type 'Types::speed.speed_impl' that can be accessed via a '.value' attribute"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'e'",
+      "cause": "Variable 'e' not declared in AGREE scope",
+      "minimal_edit": "Remove or replace 'e' with direct expression '(Target - Actual)'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'integral'",
+      "cause": "Function 'integral' not recognized in AGREE context",
+      "minimal_edit": "Replace 'integral((Target - Actual))' with 'e_int' and define 'e_int' as a variable with proper initialization"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'derivative'",
+      "cause": "Function 'derivative' not recognized in AGREE context",
+      "minimal_edit": "Replace 'derivative((Target - Actual))' with 'e_dot' and define 'e_dot' as a variable with proper initialization"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex, replace 'Target' and 'Actual' with 'Target.value' and 'Actual.value' assuming scalar access",
+    "Replace 'e = (Target - Actual)' with 'eq e : real = (Target.value - Actual.value)'",
+    "Replace 'eq e_int : real = integral((Target - Actual))' with 'eq e_int : real = integral(e)'",
+    "Replace 'eq e_dot : real = derivative((Target - Actual))' with 'eq e_dot : real = derivative(e)'",
+    "Update the guarantee to use the corrected expressions: 'Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int'"
+  ]
+}

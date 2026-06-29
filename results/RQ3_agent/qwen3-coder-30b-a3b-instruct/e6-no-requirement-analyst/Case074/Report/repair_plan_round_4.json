@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'gps_pos'.",
+      "cause": "AGREE annex is in thread type scope but references implementation-level subcomponent ports",
+      "minimal_edit": "Move the assume statement to thread implementation scope and reference ports directly"
+    },
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'pspg'.",
+      "cause": "AGREE annex is in thread type scope but references implementation-level subcomponent",
+      "minimal_edit": "Move the assume statement to thread implementation scope and reference ports directly"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'pspg'.",
+      "cause": "AGREE annex is in thread type scope but references implementation-level subcomponent",
+      "minimal_edit": "Move the assume statement to thread implementation scope and reference ports directly"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'speed'.",
+      "cause": "AGREE annex is in thread type scope but references implementation-level subcomponent ports",
+      "minimal_edit": "Move the assume statement to thread implementation scope and reference ports directly"
+    },
+    {
+      "diagnostic": "line 109: Couldn't resolve reference to 'angle'.",
+      "cause": "AGREE annex is in thread type scope but references implementation-level subcomponent ports",
+      "minimal_edit": "Move the assume statement to thread implementation scope and reference ports directly"
+    },
+    {
+      "diagnostic": "line 109: Couldn't resolve reference to 'pspg'.",
+      "cause": "AGREE annex is in thread type scope but references implementation-level subcomponent",
+      "minimal_edit": "Move the assume statement to thread implementation scope and reference ports directly"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the current AGREE annex from thread type thr_mgmt",
+    "Add a new AGREE annex to thread implementation thr_mgmt.i",
+    "In the new annex, replace each assume statement with equivalent expressions using only visible identifiers (gps_pos, speed, angle)",
+    "Ensure all expressions reference only ports available in the implementation scope"
+  ]
+}

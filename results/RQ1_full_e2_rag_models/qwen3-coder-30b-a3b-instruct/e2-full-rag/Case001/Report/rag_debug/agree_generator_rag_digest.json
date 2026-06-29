@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.",
+    "Place component type assumptions and guarantees in valid component type scopes, and implementation bindings in implementation scopes."
+  ],
+  "generic_rules": [
+    "AGREE contracts must use logical operators (and, or, not, =>) and follow valid syntax for assume, guarantee, eq, const, and assign statements.",
+    "Ensure type consistency between declared AGREE variables and their expressions; use int, real, bool for scalar types.",
+    "In implementation contracts, use assign only for existing output features or declared auxiliary variables, and avoid placing guarantees in implementation scope.",
+    "For component type contracts, place input envelope assumptions and output range guarantees only when concrete bounds or visible relations are provided."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract statements.",
+    "Use `eq name : type = expression;` for equation declarations and `const name : type = value;` for constant declarations.",
+    "Use `assign output = expression;` only for output features or auxiliary variables in implementation scope."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL property names like Deadline or Period directly in AGREE expressions unless they are explicitly typed ports or constants.",
+    "Do not place guarantee statements in implementation scope; use only assume or eq declarations there.",
+    "Avoid using invalid scalar type names like 'integer' or 'boolean' in AGREE declarations; use 'int', 'real', or 'bool' instead."
+  ],
+  "irrelevant_topics": [
+    "AADL structural extraction",
+    "Requirement semantics and traceability",
+    "Model fusion and owner/scope preservation",
+    "Validator-driven repair patterns"
+  ]
+}

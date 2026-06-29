@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 13: The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "type mismatch in equation declaration",
+      "minimal_edit": "change 'eq e : real' to 'eq e : Types::speed.speed_impl'"
+    },
+    {
+      "diagnostic": "line 13: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "invalid arithmetic operation on opaque types",
+      "minimal_edit": "remove the equation 'eq e : real = Target - Actual;' and replace with 'eq e : real = real(Target) - real(Actual);'"
+    },
+    {
+      "diagnostic": "line 13: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "invalid arithmetic operation on opaque types",
+      "minimal_edit": "remove the equation 'eq e : real = Target - Actual;' and replace with 'eq e : real = real(Target) - real(Actual);'"
+    },
+    {
+      "diagnostic": "line 15: no viable alternative at input 'of'",
+      "cause": "invalid syntax for integral expression",
+      "minimal_edit": "replace 'eq e_int : real = integral of e over time;' with 'eq e_int : real = integral(e, time);'"
+    },
+    {
+      "diagnostic": "line 16: no viable alternative at input 'of'",
+      "cause": "invalid syntax for derivative expression",
+      "minimal_edit": "replace 'eq e_dot : real = derivative of e over time;' with 'eq e_dot : real = derivative(e, time);'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'eq e : real = Target - Actual;' with 'eq e : real = real(Target) - real(Actual);'",
+    "Replace 'eq e_int : real = integral of e over time;' with 'eq e_int : real = integral(e, time);'",
+    "Replace 'eq e_dot : real = derivative of e over time;' with 'eq e_dot : real = derivative(e, time);'"
+  ]
+}

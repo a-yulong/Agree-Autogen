@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 152: Assume statements are allowed only in component types",
+      "cause": "assume statement placed in thread implementation annex",
+      "minimal_edit": "Move assume statement to Telecommand_Processing component type annex"
+    },
+    {
+      "diagnostic": "line 156: Guarantee statements are allowed only in component types",
+      "cause": "guarantee statement placed in thread implementation annex",
+      "minimal_edit": "Move guarantee statement to Telecommand_Processing component type annex"
+    },
+    {
+      "diagnostic": "line 154: Couldn't resolve reference to 'Compute_Execution_Time'",
+      "cause": "Compute_Execution_Time is an implementation property, not accessible in AGREE contracts",
+      "minimal_edit": "Remove Compute_Execution_Time from assume expression"
+    },
+    {
+      "diagnostic": "line 158: Couldn't resolve reference to 'Compute_Execution_Time'",
+      "cause": "Compute_Execution_Time is an implementation property, not accessible in AGREE contracts",
+      "minimal_edit": "Remove Compute_Execution_Time from guarantee expression"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex from Telecommand_Processing.impl",
+    "Add a new AGREE annex to the Telecommand_Processing component type",
+    "Move the assume and guarantee statements to the component type annex",
+    "Replace the Compute_Execution_Time references with appropriate visible expressions or remove them"
+  ]
+}

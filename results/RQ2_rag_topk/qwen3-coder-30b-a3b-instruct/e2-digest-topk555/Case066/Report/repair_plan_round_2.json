@@ -1,0 +1,43 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 72: Argument of event expression must be an event port or event data port",
+      "cause": "Invalid syntax 'Forcing_Safe_Mode = event triggered'; AGREE does not support 'event triggered' as an expression form; event ports must be used directly as boolean conditions.",
+      "minimal_edit": "Replace 'Forcing_Safe_Mode = event triggered' with 'Forcing_Safe_Mode'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 72: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "Comparing event port (boolean) to data port 'telecommand' (real) is type mismatch; telecommand is a real data port, not an event.",
+      "minimal_edit": "Remove the entire assume clause 'signal_flow_attitude' since it incorrectly equates an event port to a data port"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 75: Argument of event expression must be an event port or event data port",
+      "cause": "Invalid syntax 'Getting_Back_To_Normal_Mode = event triggered'; same as line 72.",
+      "minimal_edit": "Replace 'Getting_Back_To_Normal_Mode = event triggered' with 'Getting_Back_To_Normal_Mode'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 75: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "Comparing event port (boolean) to data port 'telecommand' (real) is type mismatch; telecommand is a real data port, not an event.",
+      "minimal_edit": "Remove the entire assume clause 'signal_flow_orbit' since it incorrectly equates an event port to a data port"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 103: Couldn't resolve reference to ConnectionEnd 'attitude_window'.",
+      "cause": "Connection uses non-existent port 'attitude_window' on TCP; no such port is declared in TCP or AOCSprocessing.",
+      "minimal_edit": "Remove connection Cnx5: port TCP.attitude_window -> FDR.attitude_window"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 104: Couldn't resolve reference to ConnectionEnd 'check_thresholds'.",
+      "cause": "Connection uses non-existent port 'check_thresholds' on TCP; no such port is declared in TCP or AOCSprocessing.",
+      "minimal_edit": "Remove connection Cnx6: port TCP.check_thresholds -> FDR.check_thresholds"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the entire assume clause 'signal_flow_attitude' from the AGREE annex",
+    "Remove the entire assume clause 'signal_flow_orbit' from the AGREE annex",
+    "Remove connection Cnx5: port TCP.attitude_window -> FDR.attitude_window",
+    "Remove connection Cnx6: port TCP.check_thresholds -> FDR.check_thresholds",
+    "Leave guarantee clauses 'route_attitude' and 'route_orbit' intact as they use legal port references (sensored_attitude, telecommand, reference_torque, torque_command, sun_direction, reference_force, force_command) and are syntactically valid",
+    "Do not modify any other lines or add new identifiers"
+  ]
+}

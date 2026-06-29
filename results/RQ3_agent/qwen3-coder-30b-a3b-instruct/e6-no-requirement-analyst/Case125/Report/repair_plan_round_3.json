@@ -1,0 +1,42 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'gyro_thread'",
+      "cause": "gyro_thread is a subcomponent, not a feature of the component type",
+      "minimal_edit": "Replace 'gyro_thread' with direct feature references"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'gyro_in_data_x'",
+      "cause": "gyro_in_data_x is not visible in the component type scope",
+      "minimal_edit": "Use direct feature names without subcomponent prefix"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'gyro_out_data_x'",
+      "cause": "gyro_out_data_x is not visible in the component type scope",
+      "minimal_edit": "Use direct feature names without subcomponent prefix"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE expressions must reference valid features or variables",
+      "minimal_edit": "Replace subcomponent references with direct feature references"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'gyro_in_data_y'",
+      "cause": "gyro_in_data_y is not visible in the component type scope",
+      "minimal_edit": "Use direct feature names without subcomponent prefix"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'gyro_out_data_y'",
+      "cause": "gyro_out_data_y is not visible in the component type scope",
+      "minimal_edit": "Use direct feature names without subcomponent prefix"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Move the AGREE annex block from component type GYRO to component implementation GYRO.IMPL",
+    "Replace 'gyro_thread.gyro_out_data_x' with 'gyro_out_data_x' in the assume statements",
+    "Replace 'gyro_thread.gyro_in_data_x' with 'gyro_in_data_x' in the assume statements",
+    "Replace 'gyro_thread.gyro_out_data_y' with 'gyro_out_data_y' in the assume statements",
+    "Replace 'gyro_thread.gyro_in_data_y' with 'gyro_in_data_y' in the assume statements"
+  ]
+}

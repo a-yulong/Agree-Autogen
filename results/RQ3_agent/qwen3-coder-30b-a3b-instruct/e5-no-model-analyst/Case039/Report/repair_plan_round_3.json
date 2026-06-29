@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Actual_prev'.",
+      "cause": "AGREE requires explicit state initialization for temporal recurrence; 'Actual_prev' is not declared.",
+      "minimal_edit": "Replace 'Actual_prev' with a legal AGREE state variable, e.g., 'actual_prev' initialized to 0.0."
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '+' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Expression involves an invalid type '<error>' due to unresolved 'Actual_prev' reference.",
+      "minimal_edit": "Ensure all operands in the expression are of compatible types by using a valid state variable."
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::speed.speed_impl' and '<error>', but must be of the same type",
+      "cause": "Assignment involves incompatible types due to unresolved references.",
+      "minimal_edit": "Correct the expression to ensure both sides are of the same type, using valid state variables."
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "The expression uses an invalid or unresolved identifier.",
+      "minimal_edit": "Replace 'Actual_prev' with a valid state variable declaration and usage."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Declare a state variable 'actual_prev' of type real initialized to 0.0",
+    "Replace 'Actual_prev' with 'actual_prev' in the guarantee expression",
+    "Ensure the guarantee expression uses compatible types for all operands"
+  ]
+}

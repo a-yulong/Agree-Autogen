@@ -1,0 +1,397 @@
+{
+  "component_types": [
+    {
+      "name": "TCAS",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "TCAS.impl",
+      "kind": "system",
+      "type_name": "TCAS"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "TCAS.impl",
+      "name": "surveillance",
+      "category": "system",
+      "classifier": "Surveillance.impl"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "instrumentation",
+      "category": "system",
+      "classifier": "Instrumentation.impl"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "trajectoryExtrapolation",
+      "category": "system",
+      "classifier": "TrajectoryExtrapolation.impl"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "threatDetection",
+      "category": "system",
+      "classifier": "ThreatDetection.impl"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "maneuverTemplates",
+      "category": "system",
+      "classifier": "ManeuverTemplates.impl"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "responseSelection",
+      "category": "system",
+      "classifier": "ResponseSelection.impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "TCAS",
+      "name": "nearestIntruderAltitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "base_types::Float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS",
+      "name": "nearestIntruderGroundDistance",
+      "direction": "in",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS",
+      "name": "nearestIntruderLongitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS",
+      "name": "ownAltitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "base_types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS",
+      "name": "ownHeading",
+      "direction": "in",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS",
+      "name": "ownVerticalVelocity",
+      "direction": "in",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS",
+      "name": "ownLatitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS",
+      "name": "ownLongitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS",
+      "name": "requiredVerticalVelocity",
+      "direction": "out",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "TCAS.impl",
+      "name": "nia_from_external",
+      "kind": "port",
+      "source": "nearestIntruderAltitude",
+      "destination": "surveillance.nearestIntruderAltitude_in"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "nigd_from_external",
+      "kind": "port",
+      "source": "nearestIntruderGroundDistance",
+      "destination": "surveillance.nearestIntruderGroundDistance_in"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "nilo_from_external",
+      "kind": "port",
+      "source": "nearestIntruderLongitude",
+      "destination": "surveillance.nearestIntruderLongitude_in"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "oa_from_external",
+      "kind": "port",
+      "source": "ownAltitude",
+      "destination": "instrumentation.altitude_in"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "oh_from_external",
+      "kind": "port",
+      "source": "ownHeading",
+      "destination": "instrumentation.heading_in"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "ovv_from_external",
+      "kind": "port",
+      "source": "ownVerticalVelocity",
+      "destination": "instrumentation.verticalVelocity_in"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "ola_from_external",
+      "kind": "port",
+      "source": "ownLatitude",
+      "destination": "instrumentation.ownLatitude_in"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "olo_from_external",
+      "kind": "port",
+      "source": "ownLongitude",
+      "destination": "instrumentation.ownLongitude_in"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "a_to_td",
+      "kind": "port",
+      "source": "instrumentation.altitude",
+      "destination": "threatDetection.altitude"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "h_to_td",
+      "kind": "port",
+      "source": "instrumentation.heading",
+      "destination": "threatDetection.heading"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "vv_to_td",
+      "kind": "port",
+      "source": "instrumentation.verticalVelocity",
+      "destination": "threatDetection.verticalVelocity"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "nia_to_td",
+      "kind": "port",
+      "source": "surveillance.nearestIntruderAltitude",
+      "destination": "threatDetection.nearestIntruderAltitude"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "nigd_to_td",
+      "kind": "port",
+      "source": "surveillance.nearestIntruderGroundDistance",
+      "destination": "threatDetection.nearestIntruderGroundDistance"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "td_to_rs",
+      "kind": "port",
+      "source": "threatDetection.threatDetected",
+      "destination": "responseSelection.threatDetected"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "oa_to_rs",
+      "kind": "port",
+      "source": "instrumentation.altitude",
+      "destination": "responseSelection.ownAltitude"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "ia_to_rs",
+      "kind": "port",
+      "source": "surveillance.nearestIntruderAltitude",
+      "destination": "responseSelection.threatAltitude"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "ol_to_rs",
+      "kind": "port",
+      "source": "instrumentation.ownLongitude",
+      "destination": "responseSelection.ownLongitude"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "il_to_rs",
+      "kind": "port",
+      "source": "surveillance.nearestIntruderLongitude",
+      "destination": "responseSelection.threatLongitude"
+    },
+    {
+      "owner": "TCAS.impl",
+      "name": "rvv_to_external",
+      "kind": "port",
+      "source": "responseSelection.requiredVerticalVelocity",
+      "destination": "requiredVerticalVelocity"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "TCAS.impl.nia_from_external",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.nigd_from_external",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.nilo_from_external",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.oa_from_external",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.oh_from_external",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.ovv_from_external",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.ola_from_external",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.olo_from_external",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.a_to_td",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.h_to_td",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.vv_to_td",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.nia_to_td",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.nigd_to_td",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.td_to_rs",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.oa_to_rs",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.ia_to_rs",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.ol_to_rs",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.il_to_rs",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "TCAS.impl.rvv_to_external",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": ""
+    }
+  ]
+}

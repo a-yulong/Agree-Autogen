@@ -1,0 +1,24 @@
+{
+  "rag_rules": [
+    "When AGREE diagnostics report 'named thing must be an expression with a type' or '<error>' type, resolve the first unresolved identifier or invalid helper declaration on the same line by ensuring references are to visible AADL features or declared eq helpers in the same annex.",
+    "If AGREE reports 'Couldn't resolve reference to' a component or feature, verify that the reference is to a valid, visible AADL component or feature in the current scope and that the feature is properly declared or inherited."
+  ],
+  "generic_rules": [
+    "In AGREE contracts, only reference features or variables that are explicitly declared or visible in the current scope to avoid resolution errors.",
+    "When fixing AGREE diagnostics, prioritize resolving root causes like missing references or invalid expressions rather than adding new architecture elements.",
+    "Use assign statements only for existing output features or declared auxiliary variables in implementation scopes."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE guarantee expressions must evaluate to a boolean type; ensure right-hand sides of '=>' are valid boolean expressions.",
+    "AGREE const and eq declarations must reference valid types and features visible in the same annex."
+  ],
+  "anti_patterns": [
+    "Avoid adding new architecture elements to fix AGREE resolution errors; instead, correct or remove invalid clauses referencing unresolved identifiers.",
+    "Do not place guarantee statements in implementation scopes; use assign for output bindings and ensure guarantees are in component type scopes."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "implementation scope output assign",
+    "Named Thing Has No Type"
+  ]
+}

@@ -1,0 +1,172 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: Alpha1, Alpha1.All_elems, Alpha1.elem, Alpha2, Alpha2.All_elems, Alpha2.elem, Alpha3
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Alpha1 | out | data | opaque | A_Struct.impl
+Alpha1.All_elems | out | data_field | opaque | One_Dimension_Array
+Alpha1.elem | out | data_field | int | Base_Types::Integer
+Alpha2 | out | data | opaque | A_Struct.impl
+Alpha2.All_elems | out | data_field | opaque | One_Dimension_Array
+Alpha2.elem | out | data_field | int | Base_Types::Integer
+Alpha3 | out | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Alpha3 >= 0 and Alpha3 <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Alpha3"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: A | lines 124-128
+annex agree {**
+  annex agree {
+    guarantee "Alpha3 bounds": Alpha3 >= 0 and Alpha3 <= 100;
+  };
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   121:     Alpha1 : out data port A_Struct.impl;
+   122:     Alpha2 : out data port A_Struct.impl;
+   123:     Alpha3 : out data port Base_Types::Integer;
+   124:   annex agree {**
+>> 125:   annex agree {
+   126:     guarantee "Alpha3 bounds": Alpha3 >= 0 and Alpha3 <= 100;
+   127:   };
+   128:   **};
+   129:   end A;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: A
+process A
+  features
+    Alpha1 : out data port A_Struct.impl;
+    Alpha2 : out data port A_Struct.impl;
+    Alpha3 : out data port Base_Types::Integer;
+  end A;
+
+-- TARGET DECLARATION: A.Impl
+process implementation A.Impl
+  subcomponents
+        Computation : thread Computation_Th;
+    Producer    : thread Producer_Th;
+  connections
+    Z3:port Producer.Data_Source1 -> Alpha1;
+    Z5:port Producer.Data_Source2 -> Alpha2;
+    Z9:port Producer.Pr_Index -> Alpha3;
+    Z12:port Computation.Data_Out -> Producer.Data_In;
+  end A.Impl;
+
+-- RELATED MODEL LINES
+process A
+Alpha1 : out data port A_Struct.impl;
+Alpha2 : out data port A_Struct.impl;
+Alpha3 : out data port Base_Types::Integer;
+end A;
+process implementation A.Impl
+Z3:port Producer.Data_Source1 -> Alpha1;
+Z5:port Producer.Data_Source2 -> Alpha2;
+Z9:port Producer.Pr_Index -> Alpha3;
+end A.Impl;
+pr_A : process A.Impl;
+Z6 : port pr_A.Alpha1 -> pr_B.Beta1;
+Z8 : port pr_A.Alpha2 -> pr_B.Beta2;
+Z11: port pr_A.Alpha3 -> pr_B.Beta3;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "A",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "A.Impl",
+      "kind": "process",
+      "type_name": "A"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "A.Impl",
+      "name": "Computation",
+      "category": "thread",
+      "classifier": "Computation_Th"
+    },
+    {
+      "owner": "A.Impl",
+      "name": "Producer",
+      "category": "thread",
+      "classifier": "Producer_Th"
+    }
+  ],
+  "features": [
+    {
+      "owner": "A",
+      "name": "Alpha1",
+      "direction": "out",
+      "category": "data port",
+      "type": "A_Struct.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "A",
+      "name": "Alpha2",
+      "direction": "out",
+      "category": "data port",
+      "type": "A_Struct.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "A",
+      "name": "Alpha3",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "A.Impl",
+      "name": "Z3",
+      "kind": "port",
+      "source": "Producer.Data_Source1",
+      "destination": "Alpha1"
+    },
+    {
+      "owner": "A.Impl",
+      "name": "Z5",
+      "kind": "port",
+      "source": "Producer.Data_Source2",
+      "destination": "Alpha2"
+    },
+    {
+      "owner": "A.Impl",
+      "name": "Z9",
+      "kind": "port",
+      "source": "Producer.Pr_Index",
+      "destination": "Alpha3"
+    },
+    {
+      "owner": "A.Impl",
+      "name": "Z12",
+      "kind": "port",
+      "source": "Computation.Data_Out",
+      "destination": "Producer.Data_In"
+    }
+  ]
+}

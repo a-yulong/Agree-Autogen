@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.",
+    "Place assumptions and guarantees in valid component type scopes when referring to ports, and in implementation scopes for bindings.",
+    "Generate AGREE contracts using logical operators (and, or, not, =>) and follow syntax: assume \"label\": expr; guarantee \"label\": expr; eq name : type = expr; const name : type = value; assign output = expr;"
+  ],
+  "generic_rules": [
+    "For component type contracts, place input assumptions and output guarantees only when concrete bounds or visible relations are provided.",
+    "Write output dependency guarantees that relate visible outputs to visible inputs, avoiding implementation-only subcomponent paths.",
+    "Ensure AGREE type declarations use valid scalar types: int, real, bool, and align helper declaration types with expression types.",
+    "Do not encode AADL timing properties (e.g., Deadline, Period) as AGREE variables unless explicitly exposed as typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `0.0 -> pre(t) + step` for stateful equations and nested `if ... then ... else` for conditional logic.",
+    "AGREE contracts must use `assume`, `guarantee`, `eq`, `const`, and `assign` with proper syntax and labels.",
+    "Visible identifiers must be declared or available in the component scope for use in AGREE expressions."
+  ],
+  "anti_patterns": [
+    "Avoid placing implementation-only subcomponent ports in component type contracts.",
+    "Do not assume AADL property names (e.g., Period, Deadline) are automatically available in AGREE scope."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing properties not tied to visible ports or constants",
+    "Model traceability and requirement semantics",
+    "Component type vs. implementation scope boundaries beyond AGREE annex placement",
+    "Validator diagnostics and repair patterns"
+  ]
+}

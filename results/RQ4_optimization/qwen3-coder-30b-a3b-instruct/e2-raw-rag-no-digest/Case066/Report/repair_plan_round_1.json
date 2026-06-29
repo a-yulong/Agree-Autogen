@@ -1,0 +1,55 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 71: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Forcing_Safe_Mode is an event port, not a boolean expression",
+      "minimal_edit": "Replace Forcing_Safe_Mode with a boolean variable or expression that evaluates to bool"
+    },
+    {
+      "diagnostic": "line 73: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Getting_Back_To_Normal_Mode is an event port, not a boolean expression",
+      "minimal_edit": "Replace Getting_Back_To_Normal_Mode with a boolean variable or expression that evaluates to bool"
+    },
+    {
+      "diagnostic": "line 79: Equation assigns 0 variables, but right side returns 1 values",
+      "cause": "eq statement syntax error - missing variable declaration",
+      "minimal_edit": "Rewrite as 'eq \"attitude_valid\": sensored_attitude >= -1.0 and sensored_attitude <= 1.0;'"
+    },
+    {
+      "diagnostic": "line 81: Equation assigns 0 variables, but right side returns 1 values",
+      "cause": "eq statement syntax error - missing variable declaration",
+      "minimal_edit": "Rewrite as 'eq \"force_valid\": reference_force >= 0.0 and reference_force <= 100.0;'"
+    },
+    {
+      "diagnostic": "line 83: mismatched input '\"max_torque\"' expecting RULE_ID",
+      "cause": "const statement syntax error - missing variable declaration",
+      "minimal_edit": "Rewrite as 'const \"max_torque\": real = 1000.0;'"
+    },
+    {
+      "diagnostic": "line 85: mismatched input '\"min_force\"' expecting RULE_ID",
+      "cause": "const statement syntax error - missing variable declaration",
+      "minimal_edit": "Rewrite as 'const \"min_force\": real = 0.0;'"
+    },
+    {
+      "diagnostic": "line 106: Couldn't resolve reference to ConnectionEnd 'attitude_window'",
+      "cause": "Connection reference to non-existent port",
+      "minimal_edit": "Remove or correct the connection reference to a valid port"
+    },
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to ConnectionEnd 'check_thresholds'",
+      "cause": "Connection reference to non-existent port",
+      "minimal_edit": "Remove or correct the connection reference to a valid port"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace Forcing_Safe_Mode with a boolean expression in assume statement at line 71",
+    "Replace Getting_Back_To_Normal_Mode with a boolean expression in assume statement at line 73",
+    "Rewrite eq statement at line 79 to properly declare the boolean variable",
+    "Rewrite eq statement at line 81 to properly declare the boolean variable",
+    "Rewrite const statement at line 83 to properly declare the constant variable",
+    "Rewrite const statement at line 85 to properly declare the constant variable",
+    "Remove or correct the connection reference to 'attitude_window' at line 106",
+    "Remove or correct the connection reference to 'check_thresholds' at line 107"
+  ]
+}

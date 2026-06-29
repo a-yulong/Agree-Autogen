@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 98: Couldn't resolve reference to 'step'.",
+      "cause": "undefined variable 'step' in AGREE expression",
+      "minimal_edit": "replace 'step' with a valid expression or remove the clause"
+    },
+    {
+      "diagnostic": "line 98: Couldn't resolve reference to 't'.",
+      "cause": "undefined variable 't' in AGREE expression",
+      "minimal_edit": "replace 't' with a valid expression or remove the clause"
+    },
+    {
+      "diagnostic": "line 98: left and right sides of binary expression '->' are of type 'bool' and '<error>', but must be of the same type",
+      "cause": "type mismatch in implication operator",
+      "minimal_edit": "rewrite the implication expression using valid AGREE syntax"
+    },
+    {
+      "diagnostic": "line 98: left side of binary expression '+' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "invalid expression on left side of '+'",
+      "minimal_edit": "replace invalid expression with valid numeric expression"
+    },
+    {
+      "diagnostic": "line 98: right side of binary expression '+' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "invalid expression on right side of '+'",
+      "minimal_edit": "replace invalid expression with valid numeric expression"
+    },
+    {
+      "diagnostic": "line 98: named thing must be an expression with a type",
+      "cause": "invalid expression in guarantee",
+      "minimal_edit": "remove or rewrite invalid guarantee clause"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove or rewrite the invalid guarantee clause on line 98 that references undefined variables 'step' and 't'",
+    "Replace the expression 'Data_Output = 0 -> pre(t) + step' with a valid AGREE expression that uses only visible identifiers",
+    "Ensure the remaining guarantee clause '0 <= Data_Output and Data_Output <= 100' remains intact"
+  ]
+}

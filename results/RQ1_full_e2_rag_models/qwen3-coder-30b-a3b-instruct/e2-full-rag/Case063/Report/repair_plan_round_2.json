@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "assume \"data_flow_routing\": Data_Sink = Q_Spg.Data_Sink;",
+      "cause": "assume statements are allowed only in component types",
+      "minimal_edit": "remove the assume statement from the implementation annex"
+    },
+    {
+      "diagnostic": "assume \"dispatch_protocol\": Dispatch_Protocol = Sporadic;",
+      "cause": "assume statements are allowed only in component types",
+      "minimal_edit": "remove the assume statement from the implementation annex"
+    },
+    {
+      "diagnostic": "assume \"period_constraint\": Period = 10 Ms;",
+      "cause": "assume statements are allowed only in component types",
+      "minimal_edit": "remove the assume statement from the implementation annex"
+    },
+    {
+      "diagnostic": "assume \"deadline_constraint\": deadline = 10 Ms;",
+      "cause": "assume statements are allowed only in component types",
+      "minimal_edit": "remove the assume statement from the implementation annex"
+    },
+    {
+      "diagnostic": "assume \"priority_constraint\": Priority = 1;",
+      "cause": "assume statements are allowed only in component types",
+      "minimal_edit": "remove the assume statement from the implementation annex"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from Q.Impl to Q (the component type)",
+    "Ensure that the annex block in Q contains only valid assume/guarantee statements for the component type contract",
+    "Remove the AGREE annex block from Q.Impl"
+  ]
+}

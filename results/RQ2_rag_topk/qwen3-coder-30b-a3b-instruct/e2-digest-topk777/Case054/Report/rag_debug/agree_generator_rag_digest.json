@@ -1,0 +1,24 @@
+{
+  "rag_rules": [
+    "Place input assumptions and output guarantees in component type scopes using `assume` and `guarantee` keywords with valid AADL feature names.",
+    "Use `annex agree {** ... **};` blocks for AGREE contracts, placing type-level contracts in component type annexes and implementation-level bindings in implementation annexes."
+  ],
+  "generic_rules": [
+    "Generate AGREE contracts using logical operators (`and`, `or`, `not`, `=>`) and valid expression types (int, real, bool).",
+    "Ensure all visible identifiers from the AADL model are used in AGREE expressions; avoid referencing implementation-only subcomponents in type-level contracts.",
+    "Declare helper equations and constants with correct scalar types (int, real, bool) to match AADL feature types."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for assumptions and guarantees.",
+    "Use `eq name : type = expression;` for stateful equations and `const name : type = value;` for constants."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent ports or implementation paths in component type contracts; move such bindings to implementation scopes.",
+    "Do not encode AADL timing properties (e.g., Deadline, Period) as AGREE expressions unless explicitly exposed as typed ports or constants."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing-related AADL tokens",
+    "Model fusion and insertion location decisions",
+    "Validator diagnostics and repair actions"
+  ]
+}

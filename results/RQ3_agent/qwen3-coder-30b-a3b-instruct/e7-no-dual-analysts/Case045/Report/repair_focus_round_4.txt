@@ -1,0 +1,67 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: Input1, Input2, Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Input1 | in | data | int | Base_Types::Integer
+Input2 | in | data | int | Base_Types::Integer
+Output | out | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: C | lines 23-29
+annex agree {**
+  constant mode = 0 -> if mode_pre = 3 then 0 else pre(mode);
+  constant mode_pre = 0 -> if mode_pre = 3 then 0 else pre(mode);
+  assume "initial_mode": mode >= 0;
+  guarantee "mode_increasing": mode > mode_pre;
+  guarantee "output_logic": (mode = 3) => (Output = Input1 + Input2) and (mode != 3) => (Output = 0);
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   20: 		Input1: in data port Base_Types::Integer;
+   21: 		Input2: in data port Base_Types::Integer;
+   22: 		Output: out data port Base_Types::Integer;
+   23: annex agree {**
+>> 24:   constant mode = 0 -> if mode_pre = 3 then 0 else pre(mode);
+   25:   constant mode_pre = 0 -> if mode_pre = 3 then 0 else pre(mode);
+   26:   assume "initial_mode": mode >= 0;
+   27:   guarantee "mode_increasing": mode > mode_pre;
+   28:   guarantee "output_logic": (mode = 3) => (Output = Input1 + Input2) and (mode != 3) => (Output = 0);
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: C
+system C
+	features
+		Input1: in data port Base_Types::Integer;
+		Input2: in data port Base_Types::Integer;
+		Output: out data port Base_Types::Integer;
+end C ;
+
+-- RELATED MODEL LINES
+system A
+Input: in data port Base_Types::Integer;
+Output: out data port Base_Types::Integer;
+end A ;
+system B
+end B ;
+system C
+Input1: in data port Base_Types::Integer;
+Input2: in data port Base_Types::Integer;
+end C ;
+system top_level
+end top_level;
+system implementation top_level.Impl
+A_sub : system A ;
+B_sub : system B ;
+C_sub : system C ;
+IN_TO_A : port Input -> A_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_B : port A_sub.Output -> B_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_C : port A_sub.Output -> C_sub.Input1 {Communication_Properties::Timing => immediate;};
+B_TO_C : port B_sub.Output -> C_sub.Input2 {Communication_Properties::Timing => immediate;};
+C_TO_Output : port C_sub.Output -> Output {Communication_Properties::Timing => immediate;};
+end top_level.Impl;

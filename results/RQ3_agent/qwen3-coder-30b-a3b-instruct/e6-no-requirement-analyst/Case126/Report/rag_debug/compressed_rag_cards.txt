@@ -1,0 +1,60 @@
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+- `assume "label": expression;` - `guarantee "label": expression;` - `eq name : type = expression;` - `const name : type = value;` - `assign output = expression;`
+
+[KSYN-2]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+The authoritative source for component names, ports, directions, data types, subcomponents, and connections is the input AADL model. The Model Analyst Agent extracts this structure before AGREE generation and fusion.
+
+[KSYN-3]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+AGREE contracts are written inside `annex agree {** ... **};` blocks. Component type annexes are the normal location for assumptions, guarantees, constants, and equation declarations. Component implementation annexes are used for implementation-level bindings such as assignments when they are valid in that scope.
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+[KEXP-1]
+Source: distilled pattern library
+Topic: subprogram parameter contract
+Subprogram features may be in/out parameters rather than ports. Treat visible parameters like legal AGREE identifiers in the owning subprogram scope.
+
+[KEXP-2]
+Source: processed\kexp\agree_code_knowledge_dataset.txt
+Topic: integrated pattern chunk 1
+package agree_kexp_integrated_pattern public with Base_Types; data int extends Base_Types::Integer end int; data real extends Base_Types::Float end real; data bool extends Base_Types::Boolean end bool; system RangeMonitorExample features value_in : in data port real; safe_flag : out data port bool; annex agree {** const lower_limit : real = 0.0; const upper_limit : real = 100.0; eq value_in_range : bool = value_in >= lower_limit and value_in <= upper_limit; gua
+
+[KEXP-3]
+Source: processed\kexp\agree_code_knowledge_dataset.txt
+Topic: boolean logic chunk 1
+package agree_kexp_boolean_logic public with Base_Types; data bool extends Base_Types::Boolean end bool; system BooleanLogicExample features condition_a : in data port bool; condition_b : in data port bool; condition_c : in data port bool; decision : out data port bool; annex agree {** eq two_conditions_hold : bool = (condition_a and condition_b) or (condition_a and condition_c) or (condition_b and condition_c); guarantee "decision requires at least two active
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: built-in defensive rule
+Topic: Scope & Naming
+Rule: AGREE expressions may only reference identifiers visible in the current component scope. Must: use exact current-case names from the model index. Forbid: copying identifiers from examples or inventing ports/components.
+
+[KDEF-2]
+Source: built-in defensive rule
+Topic: Structural Binding
+Rule: component types and implementations have different legal scopes. Must: place assume/guarantee/eq/const in the component type when they describe interface behavior, and implementation-oriented assign/assert clauses in the matching implementation. Forbid: redesigning architecture during fusion/repair.
+
+[KDEF-3]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Annex Scope
+Treat each annex agree block as scoped to its owning component declaration.
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>

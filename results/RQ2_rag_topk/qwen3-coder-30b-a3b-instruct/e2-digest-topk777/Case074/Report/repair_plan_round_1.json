@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'gps_pos'.",
+      "cause": "AGREE annex in thread type references implementation-level port names",
+      "minimal_edit": "Replace 'gps_pos' with 'pspg.gps_pos' in the assume statement"
+    },
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'pspg'.",
+      "cause": "AGREE annex in thread type references implementation-level subcomponent names",
+      "minimal_edit": "Remove the assume statement referencing pspg"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'pspg'.",
+      "cause": "AGREE annex in thread type references implementation-level subcomponent names",
+      "minimal_edit": "Remove the assume statement referencing pspg"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'speed'.",
+      "cause": "AGREE annex in thread type references implementation-level port names",
+      "minimal_edit": "Replace 'speed' with 'pspg.speed' in the assume statement"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex from thread type 'thr_mgmt' to thread implementation 'thr_mgmt.i'",
+    "Remove the assume statements that reference implementation-level identifiers",
+    "Add an implementation-level AGREE annex to 'thr_mgmt.i' with only valid feature references"
+  ]
+}

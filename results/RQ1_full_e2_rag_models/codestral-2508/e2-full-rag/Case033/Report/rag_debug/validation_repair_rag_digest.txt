@@ -1,0 +1,20 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Repair validator diagnostics without changing unrelated architecture or requirements.
+- Use only visible AADL features or eq helpers declared in the same annex for guarantees.
+- Place assumptions and guarantees in the correct scope: component type for input/output contracts, implementation for assignments.
+- Use initialized temporal recurrence for stateful equations, e.g., `0.0 -> pre(t) + step`.
+- Use nested `if ... then ... else` for branching logic in AGREE contracts.
+Syntax or pattern reminders:
+- AGREE contracts are written inside `annex agree {** ... **};` blocks.
+- Use AGREE logical operators such as `and`, `or`, `not(...)`, and implication `=>`.
+- For implementation contracts, use `assign` only for existing output features or declared auxiliary variables.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope.
+- Do not use subcomponent ports in a component type contract unless represented through valid variables or outputs.
+- Do not encode AADL property associations as AGREE expressions unless the model exposes explicit typed ports or constants.
+Irrelevant retrieved material:
+- AADL property names are not AGREE variables
+- Assumed type vs actual type
+- Named thing has no type
+</RAG_DIGEST>

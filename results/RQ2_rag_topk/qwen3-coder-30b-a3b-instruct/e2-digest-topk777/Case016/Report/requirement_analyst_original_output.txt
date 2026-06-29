@@ -1,0 +1,39 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "outDec = ACAS when inpGCASImpact > inpACASImpact and inpGCASRecovery + inpACASRecovery ensures no secondary collision",
+      "evidence": ["inpGCASImpact", "inpACASImpact", "inpGCASRecovery", "inpACASRecovery", "outDec"]
+    },
+    {
+      "id": "R2",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "outDec = GCAS when not (inpGCASImpact > inpACASImpact and inpGCASRecovery + inpACASRecovery ensures no secondary collision)",
+      "evidence": ["inpGCASImpact", "inpACASImpact", "inpGCASRecovery", "inpACASRecovery", "outDec"]
+    },
+    {
+      "id": "R3",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "numberServicesTrue counts total number of currently active service requests",
+      "evidence": ["numberServicesTrue"]
+    },
+    {
+      "id": "R4",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "outDec = dynamic decision result when numberServicesTrue >= 2",
+      "evidence": ["outDec", "numberServicesTrue"]
+    },
+    {
+      "id": "R5",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "outDec = static priority-based decision when numberServicesTrue < 2",
+      "evidence": ["outDec", "numberServicesTrue"]
+    }
+  ]
+}

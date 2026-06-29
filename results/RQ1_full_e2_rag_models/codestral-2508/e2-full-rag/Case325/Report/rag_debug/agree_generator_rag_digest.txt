@@ -1,0 +1,21 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place input assumptions in component type annexes when bounds are concrete or visible
+- Use assign only for implementation-level bindings of existing outputs or auxiliary variables
+- Avoid range comparisons or 0/1 equality over Boolean, enumeration-like, or opaque data ports
+- Do not encode AADL timing properties as AGREE expressions without explicit typed ports or constants
+Generic rules:
+- Use visible identifiers when available; otherwise rely on the authoritative AADL model structure
+- Place assumptions in component type annexes and guarantees in implementation annexes when appropriate
+- Use exact Boolean expressions only when the port is an AGREE bool in scope
+- Align helper declaration types with the expression types for valid comparisons
+Syntax or pattern reminders:
+- AGREE contracts are written inside `annex agree {** ... **};` blocks
+- Use `eq` for equation declarations and `assign` for implementation-level bindings
+- Comparison expressions are bool; integer literals and arithmetic are int; real literals and arithmetic are real
+Anti-patterns:
+- Do not place guarantee statements in implementation scope
+- Do not use subcomponent ports in component type contracts unless represented through valid variables or outputs
+- Do not convert Boolean domain values into integers for range comparisons
+- Do not encode AADL property names as AGREE variables without explicit typed ports or constants
+</RAG_DIGEST>

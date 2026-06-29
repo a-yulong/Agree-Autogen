@@ -1,4 +1,4 @@
-# Scripts
+﻿# Scripts
 
 This directory contains the core entry points used to inspect and reproduce the released artifact.
 
@@ -16,9 +16,9 @@ Offline dry run on a released case:
 
 ```powershell
 python scripts/run_files.py `
-  --requirement data/benchmark/cases/Case01/Case01_Req.txt `
-  --aadl data/benchmark/cases/Case01/Case01_Base.aadl `
-  --output-dir outputs/case01_dry `
+  --requirement data/benchmark/cases/Case001/Case001_Req.txt `
+  --aadl data/benchmark/cases/Case001/Case001_Base.aadl `
+  --output-dir outputs/Case001_dry `
   --setting E2 `
   --skip-validation `
   --dry-run
@@ -41,3 +41,4 @@ Aggregate reports:
 ```powershell
 python scripts/aggregate_experiment_results.py --result-root outputs/e2_cases_1_5
 ```
+

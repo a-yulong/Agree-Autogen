@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port names as both left and right hand side of equality, which is invalid syntax",
+      "minimal_edit": "Replace each port name with a fresh AGREE variable name and add an assign statement to relate the variable to the port"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex, replace each guarantee with a const declaration for a new variable name",
+    "In the AGREE annex, add an assign statement for each variable to the corresponding port",
+    "Update the guarantee statements to reference the new variables instead of the ports"
+  ]
+}

@@ -1,0 +1,10 @@
+annex agree {**
+  eq t_init : real = 0.0;
+  eq t_step : real = 0.1;
+  eq recovery_time : real = 1.7;
+  eq distanceFromFence : real = 0.0;
+  eq prev_distanceFromFence : real = 0.0;
+  eq t : real = t_init -> pre(t) + t_step;
+  guarantee "output timeToRecovery is set to 1.7": timeToRecovery = 1.7;
+  guarantee "distanceFromFence increases during recovery": (t >= recovery_time) => (distanceFromFence > prev_distanceFromFence);
+**};

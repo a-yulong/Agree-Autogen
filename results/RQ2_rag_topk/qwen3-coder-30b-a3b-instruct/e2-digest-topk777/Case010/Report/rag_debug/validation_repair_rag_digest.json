@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Fix type mismatches by ensuring AGREE expressions use valid, visible identifiers and correct scalar types (int, real, bool).",
+    "Resolve '<error>' type issues by tracing invalid references or helper declarations and either fixing or removing the clause.",
+    "Do not place implementation-level bindings or subcomponent paths in component type annexes; move valid assignments to implementation scope."
+  ],
+  "generic_rules": [
+    "AGREE contracts must preserve type consistency: numeric variables must be assigned numeric expressions, and Boolean expressions must be used for Boolean variables.",
+    "Only use visible AADL features or declared helpers in AGREE annexes; avoid introducing undefined or package-qualified identifiers.",
+    "Component type contracts should reference only visible ports and features; implementation-level guarantees must be placed in the implementation annex.",
+    "Generated AGREE expressions should align with AADL data types and avoid referencing AADL properties as variables unless explicitly exposed."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume` and `guarantee` with labeled expressions inside `annex agree {** ... **};` blocks.",
+    "Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.",
+    "Branching logic in AGREE should use nested `if ... then ... else` expressions.",
+    "Helper functions and variables must be declared with correct types before use."
+  ],
+  "anti_patterns": [
+    "Do not introduce package-qualified identifiers or AADL property names (e.g., Compute_Execution_Time) as AGREE variables.",
+    "Avoid placing implementation-level references or subcomponent paths in component type annexes.",
+    "Do not attempt to define new identifiers or types not present in the AADL model during repair."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes"
+  ]
+}

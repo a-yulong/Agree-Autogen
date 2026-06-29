@@ -1,0 +1,17 @@
+<RAG_DIGEST agent="model_fusion">
+Generic rules:
+- AGREE contracts must reference only visible identifiers from the AADL model; subcomponent ports are not valid in type-level contracts unless represented through variables.
+- Use only Boolean expressions for Boolean ports; avoid numeric or opaque data comparisons in AGREE unless explicitly typed in the model.
+- Do not encode AADL timing properties (e.g., Period, Deadline) as AGREE variables unless the model exposes typed ports or constants for them.
+- Do not use event ports in numeric or Boolean comparisons unless an explicit data value is provided in the model.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks and must follow valid AGREE syntax for assumptions, guarantees, and assignments.
+- Component type contracts should relate visible inputs to visible outputs; implementation contracts should bind to existing features or declared variables.
+Anti-patterns:
+- Do not place implementation-only subcomponent paths in component type annexes; use only visible ports and features.
+- Do not reference AADL property names (e.g., Period, Priority) as AGREE variables unless they are explicitly typed in the model.
+Irrelevant retrieved material:
+- requirement semantics and traceability
+- AGREE validator diagnostics and repair patterns
+- assume/guarantee syntax and fusion rules
+</RAG_DIGEST>

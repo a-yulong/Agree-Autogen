@@ -1,0 +1,26 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks inside the target component's implementation annex
+- Use only visible identifiers from the current component scope
+- Place signal flow requirements as guarantees in the component type annex
+- Use assign statements only for implementation-level bindings
+- Avoid using AADL property names directly in AGREE expressions
+Generic rules:
+- Use exact current-case names from the model index
+- Treat each annex agree block as scoped to its owning component declaration
+- For signal flow requirements, write guarantees that relate visible outputs to visible inputs
+- Use case-provided thresholds and legal visible feature names in assumptions and guarantees
+- Do not place guarantee statements in implementation scope
+Syntax or pattern reminders:
+- Use `guarantee "label": expression;` for output dependency contracts
+- Use `assign output = expression;` for implementation-level bindings
+- Use `assume "label": expression;` for input envelope assumptions
+- Use `eq name : type = expression;` for equations
+- Use `const name : type = value;` for constants
+Anti-patterns:
+- Do not use implementation-only subcomponent paths in a component type annex
+- Do not encode AADL timing properties as AGREE expressions
+- Do not invent ports/components or copy identifiers from examples
+- Do not place assumptions or guarantees in implementation scope
+- Do not use AADL property names directly in AGREE expressions
+</RAG_DIGEST>

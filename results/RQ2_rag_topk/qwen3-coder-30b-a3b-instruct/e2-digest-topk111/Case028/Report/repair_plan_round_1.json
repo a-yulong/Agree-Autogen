@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "mismatched input '=' expecting ':'",
+      "cause": "Invalid syntax in AGREE const declaration",
+      "minimal_edit": "Change 'const minHeightAllowed = 200.0;' to 'const minHeightAllowed : real = 200.0;'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 't'",
+      "cause": "Reference to undefined variable 't' in assume statement",
+      "minimal_edit": "Replace 't = 0.0' with 't = 0.0' (no change needed, but ensure proper variable declaration)"
+    },
+    {
+      "diagnostic": "Expression for assume statement is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression in assume statement",
+      "minimal_edit": "Ensure assume statement uses valid boolean expression"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'height'",
+      "cause": "Reference to undefined variable 'height' in guarantee statements",
+      "minimal_edit": "Add function call to compute height from t"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Type mismatch in assignment expression",
+      "minimal_edit": "Ensure proper type declaration for variables"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add proper type declaration for const minHeightAllowed as 'const minHeightAllowed : real = 200.0;'",
+    "Add function call to compute height from t in the AGREE annex",
+    "Ensure all variable references are properly declared and typed"
+  ]
+}

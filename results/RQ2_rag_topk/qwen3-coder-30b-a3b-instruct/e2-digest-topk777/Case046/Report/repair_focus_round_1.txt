@@ -1,0 +1,249 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: Input, Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Input | in | data | int | Base_Types::Integer
+Output | out | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Input < 10",
+      "kind": "data_constraint",
+      "intent": "assume",
+      "evidence": [
+        "Input"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "mode >= 0",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "mode"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Output < 50",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Output"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Input -> A_sub.Input",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "Input",
+        "A_sub.Input"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "A_sub.Output -> B_sub.Input",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "A_sub.Output",
+        "B_sub.Input"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "A_sub.Output -> C_sub.Input1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "A_sub.Output",
+        "C_sub.Input1"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "B_sub.Output -> C_sub.Input2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "B_sub.Output",
+        "C_sub.Input2"
+      ]
+    },
+    {
+      "id": "R8",
+      "text": "C_sub.Output -> Output",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "C_sub.Output",
+        "Output"
+      ]
+    },
+    {
+      "id": "R9",
+      "text": "C_sub.mode = mode",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "C_sub.mode",
+        "mode"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: top_level | lines 28-32
+annex agree {**
+  assume "Input < 10": Input < 10;
+  guarantee "mode >= 0": mode >= 0;
+  guarantee "Output < 50": Output < 50;
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   26: 		Input: in data port Base_Types::Integer;
+   27: 		Output: out data port Base_Types::Integer;
+   28: annex agree {**
+   29:   assume "Input < 10": Input < 10;
+>> 30:   guarantee "mode >= 0": mode >= 0;
+   31:   guarantee "Output < 50": Output < 50;
+   32: **};
+   33: end top_level;
+   34: 
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: top_level
+system top_level
+	features
+		Input: in data port Base_Types::Integer;
+		Output: out data port Base_Types::Integer;
+end top_level;
+
+-- TARGET DECLARATION: top_level.Impl
+system implementation top_level.Impl
+	subcomponents
+		A_sub : system A ; 
+		B_sub : system B ; 
+		C_sub : system C ; 
+	connections
+		IN_TO_A : port Input -> A_sub.Input {Communication_Properties::Timing => immediate;};
+		A_TO_B : port A_sub.Output -> B_sub.Input {Communication_Properties::Timing => immediate;};
+		A_TO_C : port A_sub.Output -> C_sub.Input1 {Communication_Properties::Timing => immediate;};
+		B_TO_C : port B_sub.Output -> C_sub.Input2 {Communication_Properties::Timing => immediate;};
+		C_TO_Output : port C_sub.Output -> Output {Communication_Properties::Timing => immediate;}; 
+		
+end top_level.Impl;
+
+-- RELATED MODEL LINES
+Input: in data port Base_Types::Integer;
+Output: out data port Base_Types::Integer;
+system top_level
+end top_level;
+system implementation top_level.Impl
+IN_TO_A : port Input -> A_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_B : port A_sub.Output -> B_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_C : port A_sub.Output -> C_sub.Input1 {Communication_Properties::Timing => immediate;};
+B_TO_C : port B_sub.Output -> C_sub.Input2 {Communication_Properties::Timing => immediate;};
+C_TO_Output : port C_sub.Output -> Output {Communication_Properties::Timing => immediate;};
+end top_level.Impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "top_level",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "top_level.Impl",
+      "kind": "system implementation",
+      "type_name": "top_level"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "top_level.Impl",
+      "name": "A_sub",
+      "category": "system",
+      "classifier": "A"
+    },
+    {
+      "owner": "top_level.Impl",
+      "name": "B_sub",
+      "category": "system",
+      "classifier": "B"
+    },
+    {
+      "owner": "top_level.Impl",
+      "name": "C_sub",
+      "category": "system",
+      "classifier": "C"
+    }
+  ],
+  "features": [
+    {
+      "owner": "top_level",
+      "name": "Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "top_level",
+      "name": "Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "top_level.Impl",
+      "name": "IN_TO_A",
+      "kind": "port",
+      "source": "Input",
+      "destination": "A_sub.Input"
+    },
+    {
+      "owner": "top_level.Impl",
+      "name": "A_TO_B",
+      "kind": "port",
+      "source": "A_sub.Output",
+      "destination": "B_sub.Input"
+    },
+    {
+      "owner": "top_level.Impl",
+      "name": "A_TO_C",
+      "kind": "port",
+      "source": "A_sub.Output",
+      "destination": "C_sub.Input1"
+    },
+    {
+      "owner": "top_level.Impl",
+      "name": "B_TO_C",
+      "kind": "port",
+      "source": "B_sub.Output",
+      "destination": "C_sub.Input2"
+    },
+    {
+      "owner": "top_level.Impl",
+      "name": "C_TO_Output",
+      "kind": "port",
+      "source": "C_sub.Output",
+      "destination": "Output"
+    }
+  ]
+}

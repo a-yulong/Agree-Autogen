@@ -1,0 +1,47 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 55: Couldn't resolve reference to 'Compute_Execution_Time'.",
+      "cause": "Compute_Execution_Time is a property, not a boolean expression",
+      "minimal_edit": "Replace 'Compute_Execution_Time' with a boolean expression that checks if the execution time is within bounds"
+    },
+    {
+      "diagnostic": "line 55: Expression for assume statement is of type 'real' but must be of type 'bool'",
+      "cause": "Timing constraint is expressed as a real value instead of a boolean condition",
+      "minimal_edit": "Rewrite timing constraint as a boolean condition using a new variable or constant"
+    },
+    {
+      "diagnostic": "line 55: left and right sides of binary expression '->' are of type 'real' and 'bool', but must be of the same type",
+      "cause": "Port and property types mismatch in implication",
+      "minimal_edit": "Remove the implication operator or ensure both sides are boolean"
+    },
+    {
+      "diagnostic": "line 55: Couldn't resolve reference to 'Aperiodic'.",
+      "cause": "Aperiodic is a property value, not a boolean expression",
+      "minimal_edit": "Replace 'Aperiodic' with a boolean expression that evaluates to true"
+    },
+    {
+      "diagnostic": "line 55: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "Dispatch_Protocol is a property, not a boolean expression",
+      "minimal_edit": "Replace 'Dispatch_Protocol' with a boolean expression that evaluates to true"
+    },
+    {
+      "diagnostic": "line 56: Couldn't resolve reference to 'f'.",
+      "cause": "Function 'f' is not defined in the AGREE annex",
+      "minimal_edit": "Replace 'f(telecommand)' with a valid expression or remove the guarantee"
+    },
+    {
+      "diagnostic": "line 57: Expression for guarantee statement is of type 'real' but must be of type 'bool'",
+      "cause": "Guarantee statement has incorrect expression type",
+      "minimal_edit": "Rewrite guarantee as a boolean condition or remove it"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the timing constraint assumption on line 55",
+    "Replace the dispatch protocol assumption with a simple boolean true",
+    "Remove the output consistency guarantee on line 56",
+    "Replace the function 'f' with a valid expression or remove the guarantee",
+    "Ensure all expressions in the annex are boolean-valued"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by using only visible identifiers from the current component scope; do not introduce new model units or package qualifiers.",
+    "Resolve type mismatches by ensuring expressions match the expected scalar types (int, real, bool) and avoid <error> types in guarantees or constants.",
+    "When diagnostics point to implementation-level issues in a component type annex, move valid implementation bindings to the implementation scope or delete invalid clauses.",
+    "Do not add new architecture or model dependencies during repair; only correct AGREE syntax and references within existing visible scope."
+  ],
+  "generic_rules": [
+    "AGREE expressions must preserve type consistency: numeric variables take numeric expressions, Boolean variables take Boolean expressions.",
+    "Assume and guarantee statements should reference only identifiers visible in their current scope.",
+    "Assignments in implementation scope must target existing output features or declared auxiliary variables.",
+    "Generated AGREE code should not introduce package-qualified identifiers unless they are present in the model's configured dependencies."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct syntax and type alignment.",
+    "Helper functions and variables must be declared in the same annex or imported from valid packages.",
+    "Component type annexes should not contain implementation-level bindings or references to subcomponents not visible at that scope."
+  ],
+  "anti_patterns": [
+    "Avoid introducing new package references or data types that are not already present in the model.",
+    "Do not attempt to fix unresolved references by adding new model elements or dependencies.",
+    "Do not place implementation-level guarantees in component type annexes; move them to implementation scope instead.",
+    "Do not generate AGREE clauses that reference identifiers not visible in the current component's scope."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics",
+    "AGREE validator diagnostics",
+    "Component type vs implementation scope boundaries",
+    "Model traceability and requirement mapping"
+  ]
+}

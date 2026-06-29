@@ -1,0 +1,20 @@
+<RAG_DIGEST agent="model_fusion">
+Generic rules:
+- Component type contracts should reference only visible features and not implementation-specific subcomponents or paths.
+- AGREE annexes must be placed in valid AADL scopes: component types for assumptions/guarantees, implementations for bindings.
+- Generated AGREE code must use only scalar types int, real, and bool as declared in the AADL model.
+- Avoid referencing AADL properties such as Compute_Execution_Time or unit tokens directly in AGREE expressions.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Assumptions use `assume "label": expression;`, guarantees use `guarantee "label": expression;`.
+- Equations use `eq name : type = expression;` and constants use `const name : type = value;`.
+- Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.
+Anti-patterns:
+- Do not place implementation-level guarantees in component type annexes; move them to implementation scopes.
+- Do not reference AADL property names or unit tokens as AGREE variables unless explicitly exposed as typed ports or constants.
+Irrelevant retrieved material:
+- assume/guarantee syntax and validation diagnostics
+- AGREE repair patterns and minimal fix generation
+- requirement traceability and compact semantics
+- model analyst component structure extraction
+</RAG_DIGEST>

@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "Dispatch_Protocol is not a visible identifier in the current scope.",
+      "minimal_edit": "Remove the Dispatch_Protocol reference from the assume statement."
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Compute_Execution_Time'.",
+      "cause": "Compute_Execution_Time is not a visible identifier in the current scope.",
+      "minimal_edit": "Remove the Compute_Execution_Time reference from the guarantee statement."
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '>=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Compute_Execution_Time is not a visible identifier in the current scope.",
+      "minimal_edit": "Remove the Compute_Execution_Time reference from the guarantee statement."
+    },
+    {
+      "diagnostic": "left side of binary expression '>=' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Compute_Execution_Time is not a visible identifier in the current scope.",
+      "minimal_edit": "Remove the Compute_Execution_Time reference from the guarantee statement."
+    },
+    {
+      "diagnostic": "mismatched input 'ms' expecting ';'",
+      "cause": "The 'ms' unit is not recognized in the current scope.",
+      "minimal_edit": "Remove the 'ms' unit from the guarantee statement."
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "The expressions in the assume and guarantee statements are not valid in the current scope.",
+      "minimal_edit": "Remove the assume and guarantee statements."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the assume statement 'assume \"dispatch_protocol\": Dispatch_Protocol = Aperiodic;'",
+    "Remove the guarantee statement 'guarantee \"compute_time\": Compute_Execution_Time >= 0 ms and Compute_Execution_Time <= 100 us;'",
+    "Ensure the annex block is properly closed with '**};'"
+  ]
+}

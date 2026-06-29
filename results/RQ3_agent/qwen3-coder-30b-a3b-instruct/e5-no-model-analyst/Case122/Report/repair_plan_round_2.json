@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 43: named thing must be an expression with a type",
+      "cause": "guarantee uses port name in isolation without relating it to a source or target of the signal flow",
+      "minimal_edit": "replace 'acc_out_data_x = acc_out_data_x' with 'acc_out_data_x = Spg.acc_out_data_x'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 44: named thing must be an expression with a type",
+      "cause": "guarantee uses port name in isolation without relating it to a source or target of the signal flow",
+      "minimal_edit": "replace 'acc_out_data_y = acc_out_data_y' with 'acc_out_data_y = Spg.acc_out_data_y'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 45: named thing must be an expression with a type",
+      "cause": "guarantee uses port name in isolation without relating it to a source or target of the signal flow",
+      "minimal_edit": "replace 'acc_out_data_z = acc_out_data_z' with 'acc_out_data_z = Spg.acc_out_data_z'"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the current annex block on ACCELERO_SUB_wrapper (lines 42-46)",
+    "Move the annex to the implementation ACCELERO_SUB_wrapper.i where Spg.acc_out_data_x, Spg.acc_out_data_y, Spg.acc_out_data_z are visible via connections",
+    "In ACCELERO_SUB_wrapper.i, add an annex with guarantees that bind component outputs to subcomponent outputs via the connection paths: guarantee \"signal_flow_acc_x\": acc_out_data_x = Spg.acc_out_data_x; guarantee \"signal_flow_acc_y\": acc_out_data_y = Spg.acc_out_data_y; guarantee \"signal_flow_acc_z\": acc_out_data_z = Spg.acc_out_data_z;"
+  ]
+}

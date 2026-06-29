@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE annexes must be placed in appropriate AADL scopes: component types for assumptions/guarantees, implementations for bindings.
+- AGREE expressions must use only visible identifiers or locally declared helpers; avoid referencing undefined or package-qualified names.
+- AGREE guarantees must relate visible inputs to visible outputs; do not reference implementation-only subcomponent paths in type-level contracts.
+- AGREE scalar type declarations must use int, real, or bool; avoid AADL property names or invalid type references.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks with valid syntax: assume, guarantee, eq, const, assign.
+- Component type annexes are for assumptions and guarantees involving visible ports; implementation annexes are for assignments and bindings.
+Anti-patterns:
+- Do not place implementation-level assignments or subcomponent references in component type annexes; move them to implementation scope or remove them.
+- Do not reference AADL property names (e.g., Compute_Execution_Time) as AGREE variables; these are not automatically available in AGREE scope.
+Irrelevant retrieved material:
+- aadl_scope_notes
+- agree_syntax_notes
+- type scope range assumption and guarantee
+- type scope deterministic dependency guarantee
+- range monitor chunk 1
+- output envelope chunk 2
+- Named Thing Has No Type
+- Assumed Type vs Actual Type
+</RAG_DIGEST>

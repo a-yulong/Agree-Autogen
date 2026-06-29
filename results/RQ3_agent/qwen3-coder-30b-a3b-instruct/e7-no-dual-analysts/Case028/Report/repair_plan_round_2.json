@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "mismatched input '=' expecting ':'",
+      "cause": "Invalid syntax in AGREE const declaration",
+      "minimal_edit": "Change `const minHeightAllowed = 200.0;` to `const minHeightAllowed : real = 200.0;`"
+    },
+    {
+      "diagnostic": "mismatched input '=' expecting ':'",
+      "cause": "Invalid syntax in AGREE const declaration",
+      "minimal_edit": "Change `const recovery_time = 3.7;` to `const recovery_time : real = 3.7;`"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '>=' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Invalid expression in guarantee: `altitude > altitude` is malformed",
+      "minimal_edit": "Change `altitude > altitude` to `altitude > minHeightAllowed`"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in guarantee: `altitude > altitude` is malformed",
+      "minimal_edit": "Change `altitude > altitude` to `altitude > minHeightAllowed`"
+    },
+    {
+      "diagnostic": "right side of binary expression '>=' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Invalid expression in guarantee: `altitude > altitude` is malformed",
+      "minimal_edit": "Change `altitude > altitude` to `altitude > minHeightAllowed`"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Update line 13: change 'const minHeightAllowed = 200.0;' to 'const minHeightAllowed : real = 200.0;'",
+    "Update line 14: change 'const recovery_time = 3.7;' to 'const recovery_time : real = 3.7;'",
+    "Update line 15: change '(timeToRecovery >= recovery_time) => (altitude > altitude)' to '(timeToRecovery >= recovery_time) => (altitude > minHeightAllowed)'",
+    "Update line 16: change '(timeToRecovery >= recovery_time) => (altitude > altitude)' to '(timeToRecovery >= recovery_time) => (altitude > minHeightAllowed)'"
+  ]
+}

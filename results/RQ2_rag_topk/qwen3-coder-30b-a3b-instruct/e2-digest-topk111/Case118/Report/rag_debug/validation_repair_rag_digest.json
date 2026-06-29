@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "When AGREE diagnostics report 'named thing must be an expression with a type' or '<error>' types, resolve the root cause by ensuring all identifiers are valid and visible in the current scope before adding or modifying clauses.",
+    "If a reference cannot be resolved, such as 'inData_para' or 'outData_para', verify that the referenced feature exists in the component's scope and is properly declared."
+  ],
+  "generic_rules": [
+    "In AGREE contracts, only use identifiers that are explicitly declared or visible in the current component scope.",
+    "Avoid placing guarantee statements in implementation scope; use assign for output features or auxiliary variables instead.",
+    "When a diagnostic reports type mismatches, ensure both sides of an expression are of compatible types by resolving any unresolved references first.",
+    "If a clause references an undefined or inaccessible identifier, remove the clause rather than attempting to add missing architecture."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE expressions must have consistent types; do not mix '<error>' with valid types like 'int' or 'real'.",
+    "Assign statements in implementation scope should reference existing output features or declared auxiliary variables."
+  ],
+  "anti_patterns": [
+    "Do not attempt to define or reference features in AGREE contracts that are not declared in the component's visible scope.",
+    "Do not add new architecture elements to resolve AGREE diagnostics; instead, correct the root cause of unresolved references."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "implementation scope output assign",
+    "Named Thing Has No Type"
+  ]
+}

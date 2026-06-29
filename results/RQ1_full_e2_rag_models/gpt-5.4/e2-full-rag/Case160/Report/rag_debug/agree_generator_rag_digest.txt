@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use only identifiers, directions, data types, and connection facts confirmed by the AADL model or explicit visible-symbol context.
+- Respect scope visibility: contract expressions may use only symbols valid in that component scope, and hidden subcomponent ports are not directly usable unless exposed through valid local symbols.
+- Use the standard AGREE annex block form and keep implementation-only bindings separate from ordinary contract expressions.
+- Treat AADL property associations and unit tokens as out of AGREE expression scope unless the model exposes explicit typed symbols for them.
+Generic rules:
+- Translate each supported requirement claim into a small, well-typed AGREE expression using only in-scope symbols.
+- Prefer executable semantic predicates over descriptive structural restatements that AGREE cannot evaluate directly.
+Syntax or pattern reminders:
+- Numeric range helpers should evaluate to a boolean result, and all compared operands must be numeric and in scope.
+- Choose helper declaration types from the expression result: comparisons and logical combinations are boolean, integer arithmetic is int, and real arithmetic is real.
+Anti-patterns:
+- Do not reference unresolved property names, unit strings, or hidden subcomponent identifiers as if they were AGREE variables.
+- Do not generate numeric range comparisons for Boolean, enumeration-like, or otherwise opaque data unless an explicit numeric scalar type is established.
+</RAG_DIGEST>

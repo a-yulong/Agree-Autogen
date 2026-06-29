@@ -1,4 +1,4 @@
-import subprocess
+﻿import subprocess
 import sys
 from pathlib import Path
 
@@ -46,9 +46,9 @@ def test_run_experiment_help_returns_success():
 
 def test_report_metrics_are_readable_by_metrics_loader(tmp_path):
     report_root = tmp_path / "reports"
-    (report_root / "Case01" / "Report").mkdir(parents=True)
+    (report_root / "Case001" / "Report").mkdir(parents=True)
     (report_root / "Case02" / "Report").mkdir(parents=True)
-    (report_root / "Case01" / "Report" / "Case01_report.json").write_text(
+    (report_root / "Case001" / "Report" / "Case001_report.json").write_text(
         '{"success": true, "repair_count": 0, "initial_error_count": 0}',
         encoding="utf-8",
     )
@@ -62,3 +62,4 @@ def test_report_metrics_are_readable_by_metrics_loader(tmp_path):
     assert metrics["cases"] == 2.0
     assert metrics["FVSR"] == 0.5
     assert metrics["IEC"] == 1.5
+

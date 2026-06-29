@@ -1,0 +1,20 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 32: Couldn't resolve reference to 'Input1'.",
+      "cause": "Input1 and Input2 are ports of component C, but the AGREE annex is attached to top_level, which has no such ports; only Input and Output are visible at top_level.",
+      "minimal_edit": "Replace 'Input1' with 'Input' and 'Input2' with 'Input' (since top_level's only input port is Input, and it is connected to both C_sub.Input1 and C_sub.Input2 via A_to_C and B_to_C)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 33: Couldn't resolve reference to 'Input2'.",
+      "cause": "Same as above: Input2 is not a port of top_level; only Input and Output are visible.",
+      "minimal_edit": "Replace 'Input2' with 'Input'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the AGREE annex on top_level to replace 'Input1' with 'Input'",
+    "Edit the AGREE annex on top_level to replace 'Input2' with 'Input'",
+    "Retain the existing guarantee 'Output < 55' since Output is a visible port of top_level"
+  ]
+}

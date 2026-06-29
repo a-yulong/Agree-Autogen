@@ -1,0 +1,77 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE assumptions and guarantees in component type scopes when they refer to component ports.
+- Use annex agree blocks for contract declarations and ensure valid AADL scope placement.
+Generic rules:
+- Only generate AGREE clauses that directly reflect requirement bounds or visible feature names.
+- Ensure type consistency between AGREE expressions and AADL data types.
+- Avoid encoding AADL properties as AGREE variables unless explicit typed ports exist.
+- Do not invent numeric constraints like x >= 0 unless explicitly stated in the requirement.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Use `const` for named limits and `eq` for boolean range expressions.
+Anti-patterns:
+- Do not place implementation-level bindings in component type scopes.
+- Do not assume numeric values for event ports or opaque Boolean data.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Data_In
+- Data_Source1
+- Data_Source2
+- Pr_Index
+
+Target interface:
+Exact expression symbols: Data_In, Data_Source1, Data_Source1.All_elems, Data_Source1.elem, Data_Source2, Data_Source2.All_elems, Data_Source2.elem, Pr_Index
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_In | in | data | int | Base_Types::Integer
+Data_Source1 | out | data | opaque | A_Struct.impl
+Data_Source1.All_elems | out | data_field | opaque | One_Dimension_Array
+Data_Source1.elem | out | data_field | int | Base_Types::Integer
+Data_Source2 | out | data | opaque | A_Struct.impl
+Data_Source2.All_elems | out | data_field | opaque | One_Dimension_Array
+Data_Source2.elem | out | data_field | int | Base_Types::Integer
+Pr_Index | out | data | int | Base_Types::Integer
+
+Raw requirement:
+The Producer_Th component shall operate under a bounded input condition for Data_In. The environment shall keep Data_In greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data_In >= 0 and Data_In <= 100",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "Data_In"
+      ]
+    }
+  ]
+}

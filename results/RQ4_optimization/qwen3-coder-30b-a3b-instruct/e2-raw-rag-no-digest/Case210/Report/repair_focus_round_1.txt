@@ -1,0 +1,178 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: handle_position, closed, latched, locked, swivel, de_arrest, lock, warn_diff_pres, warn_slide, in_flight, on_ground, engine_running, emergency_evacuation, dps, door_locked, warning_info, ecam_info
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+handle_position | in | data | bool | Base_Types::boolean
+closed | in | data | bool | Base_Types::boolean
+latched | in | data | bool | Base_Types::boolean
+locked | in | data | bool | Base_Types::boolean
+swivel | out | data | bool | Base_Types::boolean
+de_arrest | out | data | bool | Base_Types::boolean
+lock | out | data | bool | Base_Types::boolean
+warn_diff_pres | out | data | bool | Base_Types::boolean
+warn_slide | out | data | bool | Base_Types::boolean
+in_flight | in | data | bool | Base_Types::boolean
+on_ground | in | data | bool | Base_Types::boolean
+engine_running | in | data | bool | Base_Types::boolean
+emergency_evacuation | in | data | bool | Base_Types::boolean
+dps | in | data | int | Base_Types::integer
+door_locked | out | data | bool | Base_Types::boolean
+warning_info | out | data | bool | Base_Types::boolean
+ecam_info | out | data | bool | Base_Types::boolean
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "engine_running is true",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "engine_running"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "door_handler operates under Boolean input condition on engine_running",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "door_handler",
+        "engine_running"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: door_handler | lines 282-288
+annex agree {**
+
+    assume "engine_running_true": engine_running = true;
+
+    guarantee "door_handler_condition": door_handler => engine_running = true;
+
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   282:   annex agree {**
+   283: 
+   284:     assume "engine_running_true": engine_running = true;
+   285: 
+>> 286:     guarantee "door_handler_condition": door_handler => engine_running = true;
+   287: 
+   288:   **};
+   289: 
+   290:   end door_handler;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: door_handler
+thread door_handler
+    features
+      -- door device
+      handle_position: in data port Base_Types::boolean; -- handle in open (true) or closed (false) pos
+      closed: in data port Base_Types::boolean; -- the door state: open (true) or closed (false)
+      latched: in data port Base_Types::boolean;
+      locked: in data port Base_Types::boolean; -- the door state: open (true) or closed (false)
+      swivel : out data port Base_Types::boolean; -- Actuator that opens and closes the aircraft door
+      de_arrest : out data port Base_Types::boolean; -- Actuator that secures the door in the open pos
+      lock : out data port Base_Types::boolean; -- Actuator that ensures the door remains closed
+      warn_diff_pres: out data port Base_Types::boolean; -- pressure cabin warning
+      warn_slide: out data port Base_Types::boolean; -- slide armed warning
+
+      -- LGS device
+      in_flight: in data port Base_Types::boolean;
+      on_ground: in data port Base_Types::boolean;
+      engine_running: in data port Base_Types::boolean;
+      emergency_evacuation : in data port Base_Types::boolean;
+      --  airspeed1: in data port Base_Types::integer; -- x
+
+      -- DPS device
+      dps: in data port Base_Types::integer;
+
+      -- mix door thread
+      door_locked: out data port Base_Types::boolean;
+
+      -- FWS device
+      warning_info: out data port Base_Types::boolean;
+
+      -- ECAM device
+      ecam_info: out data port Base_Types::boolean;
+
+  end door_handler;
+
+-- TARGET DECLARATION: door_handler.imp
+thread implementation door_handler.imp
+    properties
+      Dispatch_Protocol => Periodic;
+      Compute_Execution_Time => 0 ms .. 20 ms;
+      Period => 50 Ms;
+
+
+
+  end door_handler.imp;
+
+-- RELATED MODEL LINES
+dps: device DPS.imp;
+connPD11: port door1.handle_position -> process_door.D1_handle_position;
+connPD12: port door1.closed -> process_door.D1_closed;
+connPD102: port door1.latched -> process_door.D1_latched;
+connPD13: port door1.locked  -> process_door.D1_locked;
+connPD14: port process_door.D1_swivel -> door1.swivel;
+connPD15: port process_door.D1_de_arrest -> door1.de_arrest;
+connPD16: port process_door.D1_lock -> door1.lock;
+connPD17: port process_door.D1_warn_diff_pres -> door1.warn_diff_pres;
+connPD18: port process_door.D1_warn_slide -> door1.warn_slide;
+connPD116: port dps.dps1 ->  process_door.D1_dps;
+connPD21: port door2.handle_position -> process_door.D2_handle_position;
+connPD22: port door2.closed -> process_door.D2_closed;
+connPD202: port door2.latched -> process_door.D2_latched;
+connPD23: port door2.locked  -> process_door.D2_locked;
+connPD24: port process_door.D2_swivel -> door2.swivel;
+connPD25: port process_door.D2_de_arrest -> door2.de_arrest;
+connPD26: port process_door.D2_lock -> door2.lock;
+connPD27: port process_door.D2_warn_diff_pres -> door2.warn_diff_pres;
+connPD28: port process_door.D2_warn_slide -> door2.warn_slide;
+connPD216: port dps.dps2 ->  process_door.D2_dps;
+--        the Flight Lock Actuator that ensures the door remains closed during flight.
+handle_position: out data port Base_Types::boolean; -- handle in open (true) or closed (false) pos
+-- sensor is closed
+closed: out data port Base_Types::boolean; -- the door state: open (true) or closed (false)
+-- sensor is latched
+latched: out data port Base_Types::boolean; -- the door is latched with swivel actuator (true)
+-- sensor is locked
+locked: out data port Base_Types::boolean; -- the door is locked with the lock actuator
+swivel    : in data port Base_Types::boolean; -- Actuator which opens and closes the door
+de_arrest : in data port Base_Types::boolean; -- Actuator that secures the door in the open pos
+lock : in data port Base_Types::boolean; -- Actuator that ensures the door remains closed
+warn_diff_pres: in data port Base_Types::boolean; -- pressure cabin warning
+warn_slide: in data port Base_Types::boolean; -- slide armed warning
+--  If a door (warn_slide) is put into armed mode,
+door1: thread door_handler.imp;
+door2: thread door_handler.imp;
+connD11: port D1_handle_position -> door1.handle_position;
+connD12: port D1_closed -> door1.closed;
+connD102: port D1_latched -> door1.latched;
+connD13: port D1_locked -> door1.locked;
+connD14: port door1.swivel -> D1_swivel;
+connD15: port door1.de_arrest -> D1_de_arrest;
+connD16: port door1.lock -> D1_lock;
+connD17: port door1.warn_diff_pres -> D1_warn_diff_pres;
+connD18: port door1.warn_slide -> D1_warn_slide;
+connD19: port D1_in_flight -> door1.in_flight;
+connD110: port D1_on_ground -> door1.on_ground;
+connD111: port D1_engine_running -> door1.engine_running;
+connD112: port D1_emergency_evacuation -> door1.emergency_evacuation;
+connD113: port door1.warning_info -> D1_warning_info;
+connD114: port door1.ecam_info -> D1_ecam_info;
+connD116: port D1_dps -> door1.dps;
+connD21: port D2_handle_position -> door2.handle_position;
+connD22: port D2_closed -> door2.closed;
+connD202: port D2_latched -> door2.latched;
+connD23: port D2_locked -> door2.locked;
+con
+-- [target model context truncated]

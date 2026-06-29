@@ -1,0 +1,15 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Write contracts inside `annex agree {** ... **};` and keep assumptions/guarantees in a valid component type scope.
+- Use only symbols confirmed by model facts and case-provided bounds or constants; the AADL model is the source of valid names, directions, and types.
+Generic rules:
+- Relate visible outputs to visible inputs for dependency-style guarantees; avoid implementation-only paths.
+- Use helper equations only when they simplify a relation and stay within the current visible scope.
+Syntax or pattern reminders:
+- A range test is a boolean expression; any helper that stores it should be declared `bool`.
+- Type literals and arithmetic consistently with the underlying data type; integer expressions stay `int`, real expressions stay `real`.
+Anti-patterns:
+- Do not reference subcomponent ports or other implementation-only names in a component type contract unless the model explicitly exposes them in scope.
+- Do not treat AADL property names or unit tokens as AGREE variables unless explicit typed symbols are provided.
+- Do not generate numeric comparisons for Boolean, opaque, or enumeration-like data unless a numeric scalar type is explicitly established.
+</RAG_DIGEST>

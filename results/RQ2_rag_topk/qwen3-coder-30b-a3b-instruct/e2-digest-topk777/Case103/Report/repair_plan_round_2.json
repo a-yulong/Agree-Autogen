@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left side of binary expression '/' is of type 'int' but must be of type 'real'",
+      "cause": "AGREE requires real-valued expressions for division operations",
+      "minimal_edit": "Replace '/=' with '/= 0' to create valid real-valued comparison expressions"
+    },
+    {
+      "diagnostic": "no viable alternative at input '='",
+      "cause": "Invalid syntax for equality in AGREE expressions",
+      "minimal_edit": "Replace '=' with '=>' to form valid implication expressions"
+    },
+    {
+      "diagnostic": "right side of binary expression '/' is of type '<error>' but must be of type 'real'",
+      "cause": "AGREE requires real-valued expressions for division operations",
+      "minimal_edit": "Replace '/=' with '/= 0' to create valid real-valued comparison expressions"
+    },
+    {
+      "diagnostic": "mismatched input '=' expecting ';'",
+      "cause": "Invalid syntax for equality in AGREE expressions",
+      "minimal_edit": "Replace '=' with '=>' to form valid implication expressions"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace acc1_event_in /= 0 => acc1_output /= 0 with acc1_event_in /= 0 => acc1_output /= 0 in the assume statement",
+    "Replace acc2_event_in /= 0 => acc2_output /= 0 with acc2_event_in /= 0 => acc2_output /= 0 in the assume statement",
+    "Replace acc1_output /= 0 = acc1_event_in /= 0 with acc1_output /= 0 => acc1_event_in /= 0 in the guarantee statement",
+    "Replace acc2_output /= 0 = acc2_event_in /= 0 with acc2_output /= 0 => acc2_event_in /= 0 in the guarantee statement"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Place AGREE annex blocks in component type scopes for assumptions and guarantees that reference component ports, and in implementation scopes for implementation-level bindings.",
+    "Insert AGREE contracts inside `annex agree {** ... **};` blocks, ensuring visible identifiers from the AADL model are used."
+  ],
+  "generic_rules": [
+    "Use component type annexes for input envelope assumptions and output range guarantees when concrete bounds or visible features are provided.",
+    "Avoid using implementation-only subcomponent paths in component type contracts; ensure guarantees relate visible inputs to visible outputs.",
+    "Ensure AGREE variable types match AADL data types, especially for boolean, integer, and real expressions.",
+    "Do not encode AADL properties such as timing or unit tokens directly into AGREE expressions unless explicitly exposed as typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Assumptions and guarantees should reference visible identifiers from the AADL model.",
+    "Boolean expressions in AGREE must align with the actual AADL data types of ports and variables.",
+    "Do not reference AADL property names like Period or Deadline directly in AGREE expressions."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level bindings in component type annexes unless they are valid in that scope.",
+    "Do not use subcomponent ports in component type contracts unless represented through valid variables or outputs.",
+    "Do not convert Boolean domain values into integers unless the requirement and AADL model support numeric scalar representations.",
+    "Do not include AADL timing or unit properties (e.g., ms, Hz) as AGREE variables without explicit typed port exposure."
+  ],
+  "irrelevant_topics": [
+    "assume/guarantee syntax and validation diagnostics",
+    "requirement traceability and compact semantics",
+    "AGREE model repair patterns",
+    "component type and implementation structure extraction"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "rag_rules": [
+    "Place assumptions and guarantees in component type annexes unless binding to implementation-level subcomponents or connections.",
+    "Only reference ports or variables explicitly exposed in the AADL model structure; do not infer or assume hidden identifiers."
+  ],
+  "generic_rules": [
+    "Map requirement intentions (assume/guarantee) to contract clauses using only visible, typed symbols from the AADL model.",
+    "Ensure arithmetic comparisons involve numeric scalars; avoid Boolean or opaque data in range expressions unless explicitly typed as such."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` within a component type or implementation scope.",
+    "Use helper declarations like `eq range_value : bool = x >= min and x <= max` to encode range constraints safely."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL properties (e.g., Period, Deadline) as AGREE variables—they are not in scope without explicit typed exposure.",
+    "Do not convert Boolean or enumeration ports into numeric comparisons; omit such clauses unless the port is explicitly typed as bool or numeric."
+  ],
+  "irrelevant_topics": [
+    "Assumed Type vs Actual Type",
+    "Opaque Boolean Data Range Comparison",
+    "AADL Property Names Are Not AGREE Variables"
+  ]
+}

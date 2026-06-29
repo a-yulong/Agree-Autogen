@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place input envelope assumptions in component type annexes using visible feature names and concrete bounds from the requirement.",
+    "Use AGREE 'assume' statements for input constraints and ensure type compatibility with AADL port types.",
+    "Generate syntactically valid AGREE annex blocks with proper scope placement for component type contracts.",
+    "Avoid introducing package-qualified identifiers or data types not present in the analyzed AADL model."
+  ],
+  "generic_rules": [
+    "Only generate AGREE clauses that directly reflect requirement semantics and are supported by visible AADL identifiers.",
+    "Ensure all AGREE expressions use valid types (int, real, bool) and are compatible with the AADL model's data types.",
+    "Do not assume numeric bounds unless explicitly stated in the requirement or supported by AADL port declarations.",
+    "Do not encode AADL properties like timing or resource usage as AGREE variables unless explicitly exposed in the model."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `const` for named constants and `eq` for boolean expressions in AGREE.",
+    "Assumptions and guarantees should reference valid AADL features or declared variables.",
+    "Implementation-level bindings use `assign` only for output features or auxiliary variables."
+  ],
+  "anti_patterns": [
+    "Do not introduce invented numeric constraints like x >= 0 unless explicitly required by the requirement.",
+    "Do not encode Boolean or event ports as numeric values unless the model provides a data representation.",
+    "Do not reference AADL property names (e.g., Deadline, Period) as AGREE variables.",
+    "Do not place implementation-level guarantees or assignments in component type scopes."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE validator diagnostics and repair actions",
+    "Model fusion and insertion location decisions",
+    "Requirement traceability and compact semantics"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "rag_rules": [
+    "Keep each annex block with the owner scope it was generated for: type-level contracts stay on component types, and implementation-level content stays on implementations.",
+    "Use the extracted AADL structure as the authority for valid owners and scopes before inserting any annex content.",
+    "Preserve the existing architecture during fusion: do not alter component names, features, subcomponents, connections, or property associations unless the edit explicitly targets annex content."
+  ],
+  "generic_rules": [
+    "Insert new annex content as a scoped addition, not as a structural rewrite of the surrounding AADL declaration.",
+    "If an owner already has annex content, merge carefully without disturbing unrelated declarations or changing their order unnecessarily."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AADL annex blocks use the form: annex agree {** ... **};",
+    "Implementation-scoped content must remain after the declarations it depends on, while type-scoped content must remain within the component type declaration."
+  ],
+  "anti_patterns": [
+    "Do not move content between a component type and its implementation just to make insertion easier.",
+    "Do not introduce references to subcomponent internals into a type-level scope or otherwise broaden visibility during fusion."
+  ],
+  "irrelevant_topics": [
+    "Validator-driven type mismatch repair guidance",
+    "Rules about numeric comparisons on Boolean or opaque data",
+    "Guidance about using AADL property names as expression variables"
+  ]
+}

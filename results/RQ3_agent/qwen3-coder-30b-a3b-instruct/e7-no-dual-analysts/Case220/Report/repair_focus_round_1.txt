@@ -1,0 +1,137 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: handle_position, closed, latched, locked, swivel, de_arrest, lock, warn_diff_pres, warn_slide
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+handle_position | out | data | bool | Base_Types::boolean
+closed | out | data | bool | Base_Types::boolean
+latched | out | data | bool | Base_Types::boolean
+locked | out | data | bool | Base_Types::boolean
+swivel | in | data | bool | Base_Types::boolean
+de_arrest | in | data | bool | Base_Types::boolean
+lock | in | data | bool | Base_Types::boolean
+warn_diff_pres | in | data | bool | Base_Types::boolean
+warn_slide | in | data | bool | Base_Types::boolean
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: door | lines 98-101
+annex agree {**
+    assume "de_arrest_condition": de_arrest = true;
+    guarantee "door_operation": de_arrest => (handle_position and closed and latched and locked);
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   97:       warn_slide: in data port Base_Types::boolean; -- slide armed warning
+   98:   annex agree {**
+   99:     assume "de_arrest_condition": de_arrest = true;
+   100:     guarantee "door_operation": de_arrest => (handle_position and closed and latched and locked);
+>> 101:   **};
+   102:   end door;
+   103: 
+   104: --  If a door (warn_slide) is put into armed mode,
+   105: --  it will trigger the evacuation slide when the door is opened.
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: door
+device door -- without duplication
+    features
+      -- sensors
+      -- sensor of handle position
+      handle_position: out data port Base_Types::boolean; -- handle in open (true) or closed (false) pos
+      -- sensor is closed  
+      closed: out data port Base_Types::boolean; -- the door state: open (true) or closed (false)
+      -- sensor is latched  
+      latched: out data port Base_Types::boolean; -- the door is latched with swivel actuator (true)
+      -- sensor is locked  
+      locked: out data port Base_Types::boolean; -- the door is locked with the lock actuator
+
+      -- actuators from A380
+      swivel    : in data port Base_Types::boolean; -- Actuator which opens and closes the door
+      de_arrest : in data port Base_Types::boolean; -- Actuator that secures the door in the open pos
+      lock : in data port Base_Types::boolean; -- Actuator that ensures the door remains closed
+
+      -- lighting warning
+      warn_diff_pres: in data port Base_Types::boolean; -- pressure cabin warning
+      warn_slide: in data port Base_Types::boolean; -- slide armed warning
+  end door;
+
+-- TARGET DECLARATION: door.imp
+device implementation door.imp
+  end door.imp;
+
+-- RELATED MODEL LINES
+system door_management
+end door_management;
+system implementation door_management.imp
+door1: device door.imp;
+door2: device door.imp;
+lgs: device LGS.imp;
+dps: device DPS.imp;
+ocu: device OCU.imp;
+fws: device FWS.imp;
+ecam: device ECAM.imp;
+process_door: process doors_process.imp;
+connPD11: port door1.handle_position -> process_door.D1_handle_position;
+connPD12: port door1.closed -> process_door.D1_closed;
+connPD102: port door1.latched -> process_door.D1_latched;
+connPD13: port door1.locked  -> process_door.D1_locked;
+connPD14: port process_door.D1_swivel -> door1.swivel;
+connPD15: port process_door.D1_de_arrest -> door1.de_arrest;
+connPD16: port process_door.D1_lock -> door1.lock;
+connPD17: port process_door.D1_warn_diff_pres -> door1.warn_diff_pres;
+connPD18: port process_door.D1_warn_slide -> door1.warn_slide;
+connPD19: port lgs.in_flight1 -> process_door.D1_in_flight;
+connPD110: port lgs.on_ground1 -> process_door.D1_on_ground;
+connPD111: port lgs.engine_running1 -> process_door.D1_engine_running;
+connPD112: port lgs.emergency_evacuation1 -> process_door.D1_emergency_evacuation;
+connPD113 : port process_door.D1_ecam_info  -> ecam.info_door1;
+connPD114 : port process_door.D1_warning_info -> fws.wrn_door1;
+connPD116: port dps.dps1 ->  process_door.D1_dps;
+connPD21: port door2.handle_position -> process_door.D2_handle_position;
+connPD22: port door2.closed -> process_door.D2_closed;
+connPD202: port door2.latched -> process_door.D2_latched;
+connPD23: port door2.locked  -> process_door.D2_locked;
+connPD24: port process_door.D2_swivel -> door2.swivel;
+connPD25: port process_door.D2_de_arrest -> door2.de_arrest;
+connPD26: port process_door.D2_lock -> door2.lock;
+connPD27: port process_door.D2_warn_diff_pres -> door2.warn_diff_pres;
+connPD28: port process_door.D2_warn_slide -> door2.warn_slide;
+connPD29: port lgs.in_flight2 -> process_door.D2_in_flight;
+connPD210: port lgs.on_ground2 -> process_door.D2_on_ground;
+connPD211: port lgs.engine_running2 -> process_door.D2_engine_running;
+connPD212: port lgs.emergency_evacuation2 -> process_door.D2_emergency_evacuation;
+connPD213 : port process_door.D2_warning_info -> fws.wrn_door2;
+connPD214 : port process_door.D2_ecam_info -> ecam.info_door2;
+connPD216: port dps.dps2 ->  process_door.D2_dps;
+connMix: port process_door.Mix_cll -> ocu.cll;
+end door_management.imp;
+--The electric door actuation system on the A380 replaces conventional manual door opening mechanisms.
+--        the Swivel Actuator which opens and closes the aircraft door;
+--        the De-Arrest Actuator which secures the door in the open position;
+--        the Flight Lock Actuator that ensures the door remains closed during flight.
+device door -- without duplication
+handle_position: out data port Base_Types::boolean; -- handle in open (true) or closed (false) pos
+-- sensor is closed
+closed: out data port Base_Types::boolean; -- the door state: open (true) or closed (false)
+-- sensor is latched
+latched: out data port Base_Types::boolean; -- the door is latched with swivel actuator (true)
+-- sensor is locked
+locked: out data port Base_Types::boolean; -- the door is locked with the lock actuator
+swivel    : in data port Base_Types::boolean; -- Actuator which opens and closes the door
+de_arrest : in data port Base_Types::boolean; -- Actuator that secures the door in the open pos
+lock : in data port Base_Types::boolean; -- Actuator that ensures the door remains closed
+warn_diff_pres: in data port Base_Types::boolean; -- pressure cabin warning
+warn_slide: in data port Base_Types::boolean; -- slide armed warning
+end door;
+--  If a door (warn_slide) is put into armed mode,
+--  it will trigger the evacuation slide when the door is opened.
+device implementation door.imp
+end door.imp;
+device LGS
+in_fli
+-- [target model context truncated]

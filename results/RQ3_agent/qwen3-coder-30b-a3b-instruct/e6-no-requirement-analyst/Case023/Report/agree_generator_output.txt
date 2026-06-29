@@ -1,0 +1,17 @@
+annex agree {**
+  assume "user_request_valid": 
+    (user_request.heater_on = true => user_request.cooler_on = false) 
+    and (user_request.cooler_on = true => user_request.heater_on = false);
+  
+  guarantee "heating_request_def": 
+    heating_request = (user_request.heater_on = true and user_request.cooler_on = false);
+  
+  guarantee "cooling_request_def": 
+    cooling_request = (user_request.cooler_on = true and user_request.heater_on = false);
+  
+  guarantee "heater_on_condition": 
+    heater_on = true => (heating_request = true and tempin <= 20);
+  
+  guarantee "cooler_on_condition": 
+    cooler_on = true => (cooling_request = true and tempin > 0);
+**};

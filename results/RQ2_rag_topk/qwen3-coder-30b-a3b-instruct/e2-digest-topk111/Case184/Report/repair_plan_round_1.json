@@ -1,0 +1,34 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "latched is an output port, not an input port",
+      "minimal_edit": "Remove the latched_logic guarantee"
+    },
+    {
+      "diagnostic": "Latched expressions can appear only in component implementations",
+      "cause": "latched_logic is in a component type annex",
+      "minimal_edit": "Remove the latched_logic guarantee"
+    },
+    {
+      "diagnostic": "left side of binary expression 'and' is of type '<error>' but must be of type 'bool'",
+      "cause": "latched is an output port, not a boolean variable",
+      "minimal_edit": "Remove the latched_logic guarantee"
+    },
+    {
+      "diagnostic": "mismatched input 'and' expecting '('",
+      "cause": "Invalid expression syntax due to latched being an output port",
+      "minimal_edit": "Remove the latched_logic guarantee"
+    },
+    {
+      "diagnostic": "extraneous input '=' expecting '('",
+      "cause": "Invalid expression syntax due to latched being an output port",
+      "minimal_edit": "Remove the latched_logic guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee statement 'latched_logic' from the AGREE annex block",
+    "Verify that the remaining guarantees are valid for the component type scope"
+  ]
+}

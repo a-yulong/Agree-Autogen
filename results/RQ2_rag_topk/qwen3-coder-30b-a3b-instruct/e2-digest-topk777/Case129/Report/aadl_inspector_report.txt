@@ -1,0 +1,32 @@
+set oldState [${sbpText}.text cget -state]
+${sbpText}.text configure -state normal
+${sbpText}.text fastdelete 1.0 end
+array set lines [list ]
+set lines(error) [list ]
+set lines(warning) [list ]
+set lines(information) [list ]
+${sbpText}.text fastinsert end 93 d93
+${sbpText}.text tag bind d93 <Any-Enter> "${sbpText}.text tag configure d93 -foreground white -background black"
+${sbpText}.text tag bind d93 <Any-Leave> "${sbpText}.text tag configure d93 -foreground {} -background {}"
+${sbpText}.text tag bind d93 <1> "event generate . <<selectLine>> -data 93"
+lappend lines(error) 93
+TextEditor::fastaddText $sbpText " Byte_Count (property association) does not point to anything 
+"
+${sbpText}.text fastinsert end 98 d98
+${sbpText}.text tag bind d98 <Any-Enter> "${sbpText}.text tag configure d98 -foreground white -background black"
+${sbpText}.text tag bind d98 <Any-Leave> "${sbpText}.text tag configure d98 -foreground {} -background {}"
+${sbpText}.text tag bind d98 <1> "event generate . <<selectLine>> -data 98"
+lappend lines(error) 98
+TextEditor::fastaddText $sbpText " Byte_Count (property association) does not point to anything 
+"
+${sbpText}.text fastinsert end 101 d101
+${sbpText}.text tag bind d101 <Any-Enter> "${sbpText}.text tag configure d101 -foreground white -background black"
+${sbpText}.text tag bind d101 <Any-Leave> "${sbpText}.text tag configure d101 -foreground {} -background {}"
+${sbpText}.text tag bind d101 <1> "event generate . <<selectLine>> -data 101"
+lappend lines(error) 101
+TextEditor::fastaddText $sbpText " Byte_Count (property association) does not point to anything 
+"
+TextEditor::fastaddText $sbpText " Cannot analyze AADL specifications
+"
+${sbpText}.text configure -state $oldState
+return [array get lines]

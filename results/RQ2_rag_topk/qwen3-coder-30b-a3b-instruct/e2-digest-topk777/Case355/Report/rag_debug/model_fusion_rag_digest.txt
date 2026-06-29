@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="model_fusion">
+Generic rules:
+- Use only visible AADL features (ports, constants, data types) in AGREE contracts; do not reference implementation-specific subcomponents in type-level annexes.
+- Ensure AGREE expressions use consistent scalar types: int, real, or bool; avoid mapping AADL properties or opaque types into numeric comparisons.
+Syntax or pattern reminders:
+- AGREE annexes must be enclosed in `annex agree {** ... **};` and contain only valid declarations: assume, guarantee, eq, const, or assign.
+- Range guarantees should use direct feature names (e.g., `output >= min and output <= max`) without intermediate subcomponent paths.
+Anti-patterns:
+- Do not inject AADL property names (e.g., Period, Deadline) as if they are AGREE variables; they are not in scope unless explicitly exposed as ports or constants.
+- Avoid type coercion: do not treat Boolean, enumeration, or opaque data ports as numeric values for range checks.
+Irrelevant retrieved material:
+- AGREE validator diagnostics
+- Repair strategies
+- Model fusion insertion location decisions
+- AGREE annex placement strategy for assume/guarantee splitting
+</RAG_DIGEST>

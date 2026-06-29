@@ -1,0 +1,23 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 50: no viable alternative at input '1.7'",
+      "cause": "Invalid constant declaration",
+      "minimal_edit": "Replace 'const timeToRecoveryThreshold: 1.7;' with 'const timeToRecoveryThreshold: real = 1.7;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 51: mismatched input 'const' expecting '='",
+      "cause": "Invalid constant declaration",
+      "minimal_edit": "Replace 'const timeToFailureValue: 9.5;' with 'const timeToFailureValue: real = 9.5;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 52: left and right sides of binary expression '=' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Invalid guarantee statement",
+      "minimal_edit": "Replace 'guarantee \"timeToFailure is set\": timeToFailure = timeToFailureValue;' with 'guarantee \"timeToFailure is set\": timeToFailure = timeToFailureValue: real;'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the AGREE annex block in GeoFence_singleton to fix the constant declarations and guarantee statement."
+  ]
+}

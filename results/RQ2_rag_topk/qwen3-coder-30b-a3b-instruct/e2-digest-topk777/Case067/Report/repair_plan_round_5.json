@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 72: missing EOF at 'var'",
+      "cause": "AGREE annex syntax error due to missing closing delimiter",
+      "minimal_edit": "Add missing closing delimiter `**};` at the end of the AGREE annex block"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 128: Couldn't resolve reference to ConnectionEnd 'attitude_window'.",
+      "cause": "Connection references non-existent port 'attitude_window' on TCP component",
+      "minimal_edit": "Remove or correct the invalid connection Cnx5 referencing 'attitude_window'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 129: Couldn't resolve reference to ConnectionEnd 'check_thresholds'.",
+      "cause": "Connection references non-existent port 'check_thresholds' on TCP component",
+      "minimal_edit": "Remove or correct the invalid connection Cnx6 referencing 'check_thresholds'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add closing delimiter '**};' to the end of the AGREE annex block",
+    "Remove connection Cnx5 that references non-existent port 'attitude_window'",
+    "Remove connection Cnx6 that references non-existent port 'check_thresholds'"
+  ]
+}

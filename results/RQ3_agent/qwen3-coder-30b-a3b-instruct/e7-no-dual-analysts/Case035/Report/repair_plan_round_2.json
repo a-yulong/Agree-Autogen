@@ -1,0 +1,27 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 33: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "THROT.Actual is an internal subcomponent port not visible in component type contract; AGREE cannot reference it directly.",
+      "minimal_edit": "Remove the assumption/guarantee clauses that reference THROT.Actual; only use visible ports: Target_Speed, Actual_Speed, Target_Tire_Pitch, Actual_Tire_Pitch, State_Signal."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 35: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "CNTRL.Target is an internal subcomponent port; AGREE cannot compare Target_Speed (component port) to CNTRL.Target (subcomponent port) in a component type contract.",
+      "minimal_edit": "Remove the guarantee 'speed_limit' that implicitly relies on CNTRL.Target; replace with direct relation between visible ports: Actual_Speed and Target_Speed."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 40: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "SM.State_Out is an internal subcomponent port; AGREE cannot reference it in component type annex; State_Signal is the only visible representation.",
+      "minimal_edit": "Replace 'State_Signal.val = 1' with a direct assumption on State_Signal as visible; remove dependency on SM.State_Out."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the assumption 'non_negative_target_speed' and 'upper_bound_target_speed' if they rely on non-visible type semantics; retain only if valid for visible port.",
+    "Remove the constant definition 'max_accel' and the guarantee 'acceleration_constraint' because it references Actual_Speed.val - Actual_Speed.val (tautology) and uses non-visible subcomponent logic.",
+    "Replace the equation 'const_tar_speed : bool = (State_Signal.val = 1)' with an assumption that State_Signal.val is 0 or 1, since it is a visible state signal and cannot reference SM.State_Out.",
+    "Rewrite the guarantee 'speed_limit' to directly relate visible input Target_Speed to visible output Actual_Speed: 'guarantee \"speed_limit\": State_Signal.val = 1 => Actual_Speed.val <= Target_Speed.val;'",
+    "Ensure all remaining clauses use only the five allowed visible identifiers: Target_Speed, Actual_Speed, Target_Tire_Pitch, Actual_Tire_Pitch, State_Signal."
+  ]
+}

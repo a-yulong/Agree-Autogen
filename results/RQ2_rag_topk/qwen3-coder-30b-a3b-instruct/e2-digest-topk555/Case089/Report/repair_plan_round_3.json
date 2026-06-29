@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 182: Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "AGREE annex is attached to component type ATTITUDE_CALCULATION, but acc_in_data_x and attitude_sub.acc_in_data_x are not both visible in the component type scope; attitude_sub is an implementation-level subcomponent.",
+      "minimal_edit": "Move the annex block from ATTITUDE_CALCULATION to ATTITUDE_CALCULATION.IMPL"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 182: Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "attitude_sub is declared in the implementation calls section and is not visible in the component type annex context.",
+      "minimal_edit": "Move the annex block from ATTITUDE_CALCULATION to ATTITUDE_CALCULATION.IMPL"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 182: named thing must be an expression with a type",
+      "cause": "The expressions acc_in_data_x and attitude_sub.acc_in_data_x cannot be resolved, so AGREE cannot infer their types for comparison.",
+      "minimal_edit": "Move the annex block from ATTITUDE_CALCULATION to ATTITUDE_CALCULATION.IMPL"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 183: Couldn't resolve reference to 'acc_in_data_y'.",
+      "cause": "Same as line 182: acc_in_data_y is not resolvable in component type annex context.",
+      "minimal_edit": "Move the annex block from ATTITUDE_CALCULATION to ATTITUDE_CALCULATION.IMPL"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 183: Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "Same as line 182: attitude_sub is not visible in component type scope.",
+      "minimal_edit": "Move the annex block from ATTITUDE_CALCULATION to ATTITUDE_CALCULATION.IMPL"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 183: named thing must be an expression with a type",
+      "cause": "Same as line 182: unresolved identifiers prevent type inference.",
+      "minimal_edit": "Move the annex block from ATTITUDE_CALCULATION to ATTITUDE_CALCULATION.IMPL"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the annex agree block from ATTITUDE_CALCULATION (lines 181-184)",
+    "Insert a new annex agree block inside ATTITUDE_CALCULATION.IMPL after the connections section",
+    "In the new annex block, write: assume \"acc_x_route\": acc_in_data_x = attitude_sub.acc_in_data_x;",
+    "In the new annex block, write: assume \"acc_y_route\": acc_in_data_y = attitude_sub.acc_in_data_y;"
+  ]
+}

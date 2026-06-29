@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level subcomponent ports",
+      "minimal_edit": "Remove the AGREE annex from component type and place equivalent connections in implementation"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level subcomponent",
+      "minimal_edit": "Remove the AGREE annex from component type and place equivalent connections in implementation"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE annex is in component type scope but references implementation-level subcomponent ports",
+      "minimal_edit": "Remove the AGREE annex from component type and place equivalent connections in implementation"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from the ATTITUDE_CALCULATION component type",
+    "Add a new AGREE annex to the ATTITUDE_CALCULATION.IMPL component implementation",
+    "In the implementation annex, declare the required signal flow relationships as AGREE equations using only visible identifiers",
+    "Ensure all referenced identifiers are available in the implementation scope"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "No AGREE annex block is present.",
+      "cause": "There is no AGREE content to repair, and the only reported diagnostics are AADL property/model-analysis errors unrelated to an AGREE annex.",
+      "minimal_edit": "Do not add or modify any AGREE annex; leave the annex absent unless the underlying AADL property issue is repaired elsewhere."
+    },
+    {
+      "diagnostic": "Source_Stack_Size (property association) does not point to anything",
+      "cause": "The AADL model has an invalid property association unrelated to AGREE syntax or expressions.",
+      "minimal_edit": "Do not edit the AGREE annex; repair or remove the invalid Source_Stack_Size property association in the owning AADL declaration."
+    },
+    {
+      "diagnostic": "Cannot analyze AADL specifications",
+      "cause": "Model analysis is blocked by the invalid AADL property association, so AGREE repair is not the driver.",
+      "minimal_edit": "Fix the invalid AADL property association first; make no AGREE edit."
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Make no change to MAGNETO or MAGNETO.IMPL AGREE annex content.",
+    "Locate the Source_Stack_Size property association on MAGNETO and correct or remove the invalid target/reference in the AADL model.",
+    "Re-run AADL analysis after the property fix.",
+    "Only if new AGREE-specific diagnostics appear after AADL analysis succeeds, plan a separate AGREE repair from those diagnostics."
+  ]
+}

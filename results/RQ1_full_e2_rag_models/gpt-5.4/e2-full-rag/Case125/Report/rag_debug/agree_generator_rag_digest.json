@@ -1,0 +1,23 @@
+{
+  "rag_rules": [
+    "Treat each AGREE annex as scoped to its owning component declaration and use only identifiers visible in that scope.",
+    "Use assumptions, guarantees, constants, and equations for owner-visible contract relations; use assignments for implementation-level bindings when they are scope-valid.",
+    "Do not use implementation-only subcomponent paths inside a type-level contract; if a subcomponent output must be reflected, bind it through a valid implementation-level assignment pattern."
+  ],
+  "generic_rules": [
+    "Generate clauses only from concrete relations, bounds, or dependencies supported by the inputs; do not invent thresholds or extra semantics.",
+    "Prefer relations over visible inputs, outputs, and locally declared names rather than nested internal names.",
+    "Use assign only when the left-hand side is an existing output feature or a declared auxiliary variable."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use the standard annex agree block form and only valid clause kinds such as assume, guarantee, eq, const, and assign.",
+    "Keep guarantee statements out of implementation scope; reserve implementation AGREE content for valid bindings such as assignments."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent port paths, AADL property names, or unit tokens as if they were automatically visible AGREE variables.",
+    "Do not emit clauses with unresolved, out-of-scope, or implicitly assumed identifiers."
+  ],
+  "irrelevant_topics": [
+    "Validator-driven clause deletion workflows when no diagnostics are active"
+  ]
+}

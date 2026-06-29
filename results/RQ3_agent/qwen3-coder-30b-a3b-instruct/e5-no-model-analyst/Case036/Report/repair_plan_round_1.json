@@ -1,0 +1,37 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 16: mismatched input '\"max_accel\"' expecting RULE_ID",
+      "cause": "AGREE constant declaration uses quoted string instead of identifier",
+      "minimal_edit": "Remove quotes around max_accel to make it a valid identifier"
+    },
+    {
+      "diagnostic": "line 17: mismatched input '\"const_tar_speed\"' expecting RULE_ID",
+      "cause": "AGREE equation declaration uses quoted string instead of identifier",
+      "minimal_edit": "Remove quotes around const_tar_speed to make it a valid identifier"
+    },
+    {
+      "diagnostic": "line 18: Couldn't resolve reference to 'const_tar_speed'.",
+      "cause": "const_tar_speed is declared as an equation but not properly defined as a boolean expression",
+      "minimal_edit": "Replace eq declaration with a proper boolean equation using visible port values"
+    },
+    {
+      "diagnostic": "line 19: Couldn't resolve reference to 'abs'.",
+      "cause": "abs function is not recognized in AGREE context",
+      "minimal_edit": "Replace abs with legal AGREE expression using if-then-else for absolute value"
+    },
+    {
+      "diagnostic": "line 19: Couldn't resolve reference to 'max_accel'.",
+      "cause": "max_accel is not properly declared as a constant in AGREE",
+      "minimal_edit": "Move max_accel declaration to proper location and remove quotes"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Change \"max_accel\" to max_accel on line 16",
+    "Change \"const_tar_speed\" to const_tar_speed on line 17",
+    "Replace the eq declaration on line 17 with a proper boolean equation",
+    "Replace abs(Actual_Speed.val - pre(Actual_Speed.val)) with if(Actual_Speed.val > pre(Actual_Speed.val), Actual_Speed.val - pre(Actual_Speed.val), pre(Actual_Speed.val) - Actual_Speed.val) on line 19",
+    "Move the const declaration to the correct location and remove quotes"
+  ]
+}

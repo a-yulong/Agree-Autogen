@@ -1,0 +1,142 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: altitude, timeToRecovery
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+altitude | in | data | opaque | real
+timeToRecovery | out | data | opaque | real
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "GCAS_singleton shall maintain a real-valued recursive variable t with an initial value of 0.0 and a step size of 0.1",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "t",
+        "GCAS_singleton"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "GCAS_singleton shall define the constant minHeightAllowed as 200.0",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "minHeightAllowed",
+        "GCAS_singleton"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "GCAS_singleton shall invoke the kinematicLinearization function from the gcas_nodes library, passing t as a parameter, to compute the height variable height",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "kinematicLinearization",
+        "gcas_nodes",
+        "t",
+        "height"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "GCAS_singleton shall set the output port timeToRecovery to the constant 3.7",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "timeToRecovery",
+        "3.7"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "When the simulation time t reaches or exceeds the recovery time, the computed height value must always be greater than minHeightAllowed",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "t",
+        "recovery time",
+        "height",
+        "minHeightAllowed"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "When the simulation time t reaches or exceeds the recovery time, the current height value must be greater than the previous height value to indicate a pull-up trend",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "t",
+        "recovery time",
+        "height",
+        "previous height"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GCAS_singleton | lines 10-20
+annex agree {**
+		const minHeightAllowed: real = 200.0;
+		const recoveryTime: real = 3.7;
+		eq t: real = 0.0 -> pre(t) + 0.1;
+		-- Placeholder for height computation using kinematicLinearization(t)
+		guarantee "output_timeToRecovery": timeToRecovery = 3.7;
+		guarantee "height_greater_than_minHeightAllowed": 
+		  (t >= recoveryTime) => (height > minHeightAllowed);
+		guarantee "pull_up_trend": 
+		  (t >= recoveryTime) => (height > pre(height));
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   13: 		eq t: real = 0.0 -> pre(t) + 0.1;
+   14: 		-- Placeholder for height computation using kinematicLinearization(t)
+   15: 		guarantee "output_timeToRecovery": timeToRecovery = 3.7;
+   16: 		guarantee "height_greater_than_minHeightAllowed": 
+>> 17: 		  (t >= recoveryTime) => (height > minHeightAllowed);
+   18: 		guarantee "pull_up_trend": 
+   19: 		  (t >= recoveryTime) => (height > pre(height));
+   20: 	**};
+   21: 	end GCAS_singleton;
+
+   15: 		guarantee "output_timeToRecovery": timeToRecovery = 3.7;
+   16: 		guarantee "height_greater_than_minHeightAllowed": 
+   17: 		  (t >= recoveryTime) => (height > minHeightAllowed);
+   18: 		guarantee "pull_up_trend": 
+>> 19: 		  (t >= recoveryTime) => (height > pre(height));
+   20: 	**};
+   21: 	end GCAS_singleton;
+   22: 	
+   23: 	system implementation GCAS_singleton.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: GCAS_singleton
+system GCAS_singleton
+		features
+			altitude: in data port real;
+			timeToRecovery: out data port real;
+	end GCAS_singleton;
+
+-- TARGET DECLARATION: GCAS_singleton.impl
+system implementation GCAS_singleton.impl
+	end GCAS_singleton.impl;
+
+-- RELATED MODEL LINES
+system GCAS_singleton
+altitude: in data port real;
+timeToRecovery: out data port real;
+end GCAS_singleton;
+system implementation GCAS_singleton.impl
+end GCAS_singleton.impl;
+data int extends base_types::Integer
+end int;
+data real extends base_types::Float
+end real;
+data bool extends base_types::Boolean
+end bool;

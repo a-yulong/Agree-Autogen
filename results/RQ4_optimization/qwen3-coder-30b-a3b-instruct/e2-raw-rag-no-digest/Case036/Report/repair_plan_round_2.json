@@ -1,0 +1,43 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '>=' are of type 'real' and 'int', but must be of the same type",
+      "cause": "integer literal 150 used in real-valued comparison",
+      "minimal_edit": "change 150.0 to 150.0"
+    },
+    {
+      "diagnostic": "The 'then' and 'else' expressions are of non-matching types 'RealTypeDef' and 'BoolTypeDef'",
+      "cause": "inconsistent return types in conditional expression",
+      "minimal_edit": "rewrite conditional to return real values"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type 'real' but must be of type 'bool'",
+      "cause": "non-boolean expression in implication",
+      "minimal_edit": "correct conditional expression to return boolean"
+    },
+    {
+      "diagnostic": "'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "port reference mismatch in connection",
+      "minimal_edit": "replace 'Actual' with 'THROT.Actual' in connection"
+    },
+    {
+      "diagnostic": "The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "port reference mismatch in connection",
+      "minimal_edit": "replace 'Target' with 'CNTRL.Target' in connection"
+    },
+    {
+      "diagnostic": "'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "port reference mismatch in connection",
+      "minimal_edit": "replace 'State_Out' with 'SM.State_Out' in connection"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Fix type mismatch in target speed bounds assumption by ensuring 150.0 is real",
+    "Rewrite acceleration limit guarantee to ensure consistent return types in conditional",
+    "Correct the acceleration limit guarantee to return boolean expression",
+    "Update AcSpeedToTop connection to reference THROT.Actual instead of Actual",
+    "Update TgSpeedToCntrl connection to reference CNTRL.Target instead of Target",
+    "Update SSToSM connection to reference SM.State_Out instead of State_Out"
+  ]
+}

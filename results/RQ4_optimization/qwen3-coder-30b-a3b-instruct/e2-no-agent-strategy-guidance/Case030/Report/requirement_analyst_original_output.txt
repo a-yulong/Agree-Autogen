@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "text": "GeoFence_singleton maintains a real-valued recursive variable t with initial value 0.0 and step size 0.1",
+      "evidence": ["t"]
+    },
+    {
+      "id": "R2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "text": "GeoFence_singleton invokes circleLinearization function from geofence_nodes library with parameter t to compute distanceFromFence",
+      "evidence": ["circleLinearization", "t", "distanceFromFence"]
+    },
+    {
+      "id": "R3",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "text": "GeoFence_singleton sets output port timeToRecovery to 1.7",
+      "evidence": ["timeToRecovery"]
+    },
+    {
+      "id": "R4",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "When simulation time t >= recovery time, distanceFromFence at current time instance > distanceFromFence at previous time instance",
+      "evidence": ["t", "recovery time", "distanceFromFence"]
+    }
+  ]
+}

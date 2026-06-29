@@ -1,0 +1,33 @@
+{
+  "rag_rules": [
+    "Fix unresolved references like 'Compute_Execution_Time' by deleting invalid AGREE clauses or rewriting them with visible identifiers.",
+    "Ensure type consistency in AGREE expressions: numeric variables must use numeric expressions, Boolean variables must use Boolean expressions.",
+    "Do not place implementation-level bindings in component type scopes; move valid assigns to implementation annexes.",
+    "Validate that all AGREE identifiers are visible in the current AADL scope and avoid introducing package-qualified names not in the model."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, only reference identifiers that are explicitly declared or visible in the current component scope.",
+    "Ensure all AGREE expressions maintain type consistency and avoid mismatched operand types.",
+    "Use only valid AADL features or declared helpers in AGREE annexes; do not assume property names are automatically available as variables.",
+    "If a diagnostic points to an invalid reference or type error, trace the root cause and either fix the reference or remove the clause."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be placed inside `annex agree {** ... **};` blocks in appropriate component type or implementation scopes.",
+    "Constants and equations in AGREE must be declared with correct scalar types: int, real, bool.",
+    "Assignments in implementation scope must reference valid output features or declared auxiliary variables.",
+    "Helper functions and variables must be defined within the same AGREE annex or imported from valid packages."
+  ],
+  "anti_patterns": [
+    "Do not attempt to resolve missing identifiers by inventing new declarations; instead, remove or rewrite clauses using only visible identifiers.",
+    "Avoid placing implementation-level guarantees or assignments in component type annexes; they must be in implementation scopes.",
+    "Do not assume AADL property names (e.g., 'Compute_Execution_Time') are automatically available as AGREE variables.",
+    "Do not mix Boolean and numeric comparisons unless the data types are explicitly compatible and the requirement supports such usage."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE annex placement in component types vs. implementations",
+    "Model Analyst agent's role in extracting AADL structure",
+    "Requirement Analyst agent's role in traceability",
+    "Model Fusion agent's insertion location decisions"
+  ]
+}

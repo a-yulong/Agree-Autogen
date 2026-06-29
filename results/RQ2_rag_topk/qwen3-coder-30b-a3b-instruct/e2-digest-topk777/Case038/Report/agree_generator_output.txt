@@ -1,0 +1,15 @@
+annex agree {**
+  const P : real = 1.0;
+  const D : real = 0.0;
+  const I : real = 0.0;
+  
+  eq e : real = Target - Actual;
+  
+  guarantee "actuator_input_relation": Actuator_Input = P * e + D * e_dot + I * e_int;
+  
+  guarantee "error_definition": e = Target - Actual;
+  
+  guarantee "error_integration": e_int = integral(e);
+  
+  guarantee "error_derivative": e_dot = derivative(e);
+**};

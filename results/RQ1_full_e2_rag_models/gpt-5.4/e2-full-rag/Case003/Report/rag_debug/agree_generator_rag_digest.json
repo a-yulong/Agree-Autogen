@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Use valid AGREE annex syntax with assume/guarantee, eq helper declarations, const declarations, and assign only when that form is legal for the scope.",
+    "Keep guarantees and helper equations in component contract scope; use implementation scope only for valid implementation-level bindings such as assign.",
+    "Reference only symbols that are visible in the current AGREE scope or helpers declared in the same annex."
+  ],
+  "generic_rules": [
+    "Translate requirement semantics into typed boolean or data equations before asserting guarantees when that improves clarity and type safety.",
+    "Use concrete thresholds or constants only when they are explicitly provided by the inputs to generation.",
+    "For implementation bindings, assign may target only an existing output feature or a declared auxiliary variable."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Wrap contracts in annex agree {** ... **};.",
+    "Comparison and range-check expressions are bool; helper declaration types must match the expression type.",
+    "Do not use subcomponent-internal names in a component contract unless they are exposed through valid visible symbols."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope.",
+    "Do not reference unresolved identifiers, hidden features, or AADL property names as if they were AGREE variables.",
+    "Do not force timing/property metadata or unit tokens into AGREE expressions unless exposed as explicit typed model elements."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and unit tokens as direct AGREE expressions",
+    "Validator-specific repair actions beyond generic visible-symbol and typing discipline"
+  ]
+}

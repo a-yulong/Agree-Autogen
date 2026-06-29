@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "When fixing AADL scope issues, ensure that AGREE contracts are placed in the correct component scope: type annexes for component-level contracts, implementation annexes for implementation-level bindings.",
+    "If a diagnostic references unreachable or invalid port specs, verify that the referenced features exist and are properly declared in the correct scope before adding AGREE clauses."
+  ],
+  "generic_rules": [
+    "Use only visible identifiers from the AADL model in AGREE contracts; avoid introducing package-qualified or undeclared references.",
+    "In implementation scopes, use assign statements only for existing output features or declared auxiliary variables; do not place guarantees in implementation scopes.",
+    "When a guarantee references an unresolved identifier or invalid type, trace the root cause and either fix the reference or remove the clause.",
+    "AGREE scalar types must be declared using int, real, or bool; avoid using AADL type names directly in const or eq declarations."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks, with type annexes for assumptions/guarantees and implementation annexes for assignments.",
+    "Guarantee expressions must reference valid identifiers or helper declarations within the same annex scope."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level guarantees in component type annexes; instead, move valid bindings to implementation annexes or remove invalid clauses.",
+    "Do not introduce package-qualified identifiers or types that are not present in the AADL model or its dependencies."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about unreachable or invalid port specs",
+    "AGREE validator diagnostics",
+    "Component type vs. implementation scope distinctions in AADL"
+  ]
+}

@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use guarantee clauses to express visible deterministic relationships between signals.
+- Only reference identifiers that are visible in the chosen component scope; avoid implementation-only paths unless that scope explicitly supports them.
+- Keep contracts in a valid AADL/AGREE scope and avoid referring to subcomponent ports from a component-type contract unless exposed through valid variables or outputs.
+Generic rules:
+- Translate direct equivalence requirements into a boolean relation using valid AGREE logical operators.
+- Prefer simple visible signal-to-signal guarantees over helper declarations unless a helper improves clarity or typing.
+- Use concrete case-provided relations and names only; do not invent thresholds, constants, or hidden state.
+Syntax or pattern reminders:
+- AGREE clause forms include: assume "label": expr; guarantee "label": expr; eq name : type = expr; const name : type = value;
+- Use AGREE scalar types bool, int, and real.
+- For stateful logic, use initialized recurrence with -> and pre(...); use if ... then ... else for branching.
+Anti-patterns:
+- Do not use unresolved AADL property names or unit tokens as AGREE variables.
+- Do not use invalid scalar type names such as boolean or integer.
+- Do not create helper declarations with a type that does not match the expression type.
+</RAG_DIGEST>

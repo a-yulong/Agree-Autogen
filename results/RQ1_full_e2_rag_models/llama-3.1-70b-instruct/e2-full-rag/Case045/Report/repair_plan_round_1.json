@@ -1,0 +1,61 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 23: Duplicate Element 'mode'",
+      "cause": "Duplicate declaration of 'mode'",
+      "minimal_edit": "Remove the duplicate declaration of 'mode'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 23: The assumed type of constant statement 'mode' is 'IntTypeDef' but the actual type is 'ErrorTypeDef'",
+      "cause": "Type mismatch in constant declaration",
+      "minimal_edit": "Replace 'const mode: int;' with 'const mode: int = 0;' to provide an initial value"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 23: mismatched input ';' expecting '='",
+      "cause": "Syntax error in constant declaration",
+      "minimal_edit": "Replace 'const mode: int;' with 'const mode: int = 0;' to fix syntax"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 24: Duplicate Element 'mode'",
+      "cause": "Duplicate declaration of 'mode'",
+      "minimal_edit": "Remove the duplicate declaration of 'mode'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 24: mismatched input '' > mode;\\r\\n  guarantee \"mode init\": mode >= 0;\\r\\n  guarantee \"mode increasing\": mode'' expecting ':'",
+      "cause": "Syntax error in equation declaration",
+      "minimal_edit": "Replace 'eq mode' > mode;' with 'eq mode' = mode' > mode;' to fix syntax"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 27: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in equation",
+      "minimal_edit": "Replace 'mode = 3 => Output = Input1 + Input2;' with 'mode = 3 -> Output = Input1 + Input2;' to fix syntax"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 27: named thing must be an expression with a type",
+      "cause": "Invalid expression",
+      "minimal_edit": "Replace 'mode = 3 => Output = Input1 + Input2;' with 'mode = 3 -> Output = Input1 + Input2;' to fix syntax"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 28: left and right sides of binary expression '!=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in equation",
+      "minimal_edit": "Replace 'mode!= 3 => Output = 0;' with 'mode!= 3 -> Output = 0;' to fix syntax"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 28: named thing must be an expression with a type",
+      "cause": "Invalid expression",
+      "minimal_edit": "Replace 'mode!= 3 => Output = 0;' with 'mode!= 3 -> Output = 0;' to fix syntax"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the duplicate declaration of 'mode'",
+    "Replace 'const mode: int;' with 'const mode: int = 0;' to provide an initial value",
+    "Replace 'const mode: int;' with 'const mode: int = 0;' to fix syntax",
+    "Remove the duplicate declaration of 'mode'",
+    "Replace 'eq mode' > mode;' with 'eq mode' = mode' > mode;' to fix syntax",
+    "Replace 'mode = 3 => Output = Input1 + Input2;' with 'mode = 3 -> Output = Input1 + Input2;' to fix syntax",
+    "Replace 'mode = 3 => Output = Input1 + Input2;' with 'mode = 3 -> Output = Input1 + Input2;' to fix syntax",
+    "Replace 'mode!= 3 => Output = 0;' with 'mode!= 3 -> Output = 0;' to fix syntax",
+    "Replace 'mode!= 3 => Output = 0;' with 'mode!= 3 -> Output = 0;' to fix syntax"
+  ]
+}

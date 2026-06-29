@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 100: Couldn't resolve reference to 'min'.",
+      "cause": "AGREE does not support direct use of AADL 'min' function; it must be defined as an equation or constant",
+      "minimal_edit": "Replace 'min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure)' with a new equation defining timeToFailure_min as the minimum of the three inputs"
+    },
+    {
+      "diagnostic": "line 102: Couldn't resolve reference to 'concurrencyFactor'.",
+      "cause": "AGREE does not support direct use of AADL 'concurrencyFactor' function; it must be defined as an equation or constant",
+      "minimal_edit": "Replace 'concurrencyFactor(gcas_timeToRecovery, timeToFailure)' with a new equation defining p1 as the result of a logical expression using the inputs"
+    },
+    {
+      "diagnostic": "line 103: Couldn't resolve reference to 'concurrencyFactor'.",
+      "cause": "AGREE does not support direct use of AADL 'concurrencyFactor' function; it must be defined as an equation or constant",
+      "minimal_edit": "Replace 'concurrencyFactor(tcas_timeToRecovery, timeToFailure)' with a new equation defining p2 as the result of a logical expression using the inputs"
+    },
+    {
+      "diagnostic": "line 104: Couldn't resolve reference to 'concurrencyFactor'.",
+      "cause": "AGREE does not support direct use of AADL 'concurrencyFactor' function; it must be defined as an equation or constant",
+      "minimal_edit": "Replace 'concurrencyFactor(geof_timeToRecovery, timeToFailure)' with a new equation defining p3 as the result of a logical expression using the inputs"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the min() function call with a new equation that computes the minimum of the three input real values",
+    "Replace each concurrencyFactor() function call with a new equation that defines the corresponding boolean output",
+    "Ensure all new equations use only visible identifiers from the component type",
+    "Update the guarantees to reference the newly defined equations instead of the unresolved functions"
+  ]
+}

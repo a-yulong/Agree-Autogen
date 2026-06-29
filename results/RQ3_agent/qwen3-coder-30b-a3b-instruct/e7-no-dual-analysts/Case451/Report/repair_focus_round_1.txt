@@ -1,0 +1,62 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: Data_Input, Dev_bus
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_Input | in | data | opaque | Base_Types::Integer_16
+Dev_bus | requires | access | opaque | 
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Servo | lines 44-47
+annex agree {**
+    assume "bounded_input": (Data_Input >= 0) and (Data_Input <= 100);
+    guarantee "operating_condition": Data_Input in [0..100];
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   42:     Data_Input : in data port Base_Types::Integer_16;
+   43:     Dev_bus : requires bus access Device_Bus.MCU1;
+   44:   annex agree {**
+   45:     assume "bounded_input": (Data_Input >= 0) and (Data_Input <= 100);
+>> 46:     guarantee "operating_condition": Data_Input in [0..100];
+   47:   **};
+   48:   end Servo;
+   49: 
+   50:   device Recepteur
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Servo
+device Servo
+  features
+    Data_Input : in data port Base_Types::Integer_16;
+    Dev_bus : requires bus access Device_Bus.MCU1;
+  end Servo;
+
+-- RELATED MODEL LINES
+device Compteur
+Data_Elev_Input : in data port Base_Types::Integer_16;
+Data_AilL_Input : in data port Base_Types::Integer_16;
+Data_AilR_Input : in data port Base_Types::Integer_16;
+Data_MotorL_Input : in data port Base_Types::Integer_16;
+Data_MotorR_Input : in data port Base_Types::Integer_16;
+Data_Rudder_Input : in data port Base_Types::Integer_16;
+Data_Elev_Output : out data port Base_Types::Integer_16;
+Data_AilL_Output : out data port Base_Types::Integer_16;
+Data_AilR_Output : out data port Base_Types::Integer_16;
+Data_MotorL_Output : out data port Base_Types::Integer_16;
+Data_MotorR_Output : out data port Base_Types::Integer_16;
+Data_Rudder_Output : out data port Base_Types::Integer_16;
+end Compteur;
+device Servo
+Data_Input : in data port Base_Types::Integer_16;
+end Servo;
+device Recepteur
+RC_Input : in event data port Papa_Types::Unknown;
+RC_Output : out event data port Papa_Types::Unknown;
+RC_Evt_Output : out event port;
+end Recepteur;

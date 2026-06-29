@@ -1,0 +1,14 @@
+annex agree {**
+  eq k_next : int = 
+    if prev(k) >= 20 then 
+      prev(k) - 1 
+    else if prev(k) <= 0 then 
+      prev(k) + 1 
+    else 
+      prev(k);
+  
+  guarantee "output_bounds": dataout >= 0 and dataout <= 20;
+  guarantee "output_equals_k": dataout = k;
+  assume "k_initialization": k = 10;
+  guarantee "k_update_rule": k = k_next;
+**};

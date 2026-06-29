@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level port names",
+      "minimal_edit": "Move annex to implementation scope and reference ports as visible symbols"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level subcomponent names",
+      "minimal_edit": "Move annex to implementation scope and reference ports as visible symbols"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE annex is in component type scope but references implementation-level port names",
+      "minimal_edit": "Move annex to implementation scope and reference ports as visible symbols"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the AGREE annex block from ATTITUDE_CALCULATION component type to ATTITUDE_CALCULATION.IMPL component implementation",
+    "Remove the implementation-level references (attitude_sub) from the AGREE annex",
+    "Replace the port references with direct visible symbols from the implementation scope"
+  ]
+}

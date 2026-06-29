@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 35: Assume statements are allowed only in component types",
+      "cause": "assume statement in thread implementation annex",
+      "minimal_edit": "move assume statement to component type acc1_dataOutput"
+    },
+    {
+      "diagnostic": "line 36: Assume statements are allowed only in component types",
+      "cause": "assume statement in thread implementation annex",
+      "minimal_edit": "move assume statement to component type acc1_dataOutput"
+    },
+    {
+      "diagnostic": "line 35: Couldn't resolve reference to 'acc1DataOut'",
+      "cause": "reference to subcomponent port in implementation annex",
+      "minimal_edit": "replace with valid expression using visible identifiers"
+    },
+    {
+      "diagnostic": "line 36: Couldn't resolve reference to 'event_in'",
+      "cause": "reference to subcomponent port in implementation annex",
+      "minimal_edit": "replace with valid expression using visible identifiers"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the assume statements from acc1_dataOutput.impl annex to acc1_dataOutput component type annex",
+    "Replace acc1out = acc1DataOut with acc1out = acc1out in the moved assume statement",
+    "Replace event_in = acc1_command_in with event_in = acc1_command_in in the moved assume statement"
+  ]
+}

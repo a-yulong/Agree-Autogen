@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Place AGREE contracts in component type scopes for port-level assumptions and guarantees, and in implementation scopes for subcomponent bindings.",
+    "Use annex agree {** ... **}; blocks for AGREE contract syntax and ensure all identifiers are visible in the current scope."
+  ],
+  "generic_rules": [
+    "Ensure type consistency in AGREE expressions: numeric variables must use numeric expressions, and Boolean variables must use Boolean expressions.",
+    "Do not introduce package-qualified identifiers or data types not present in the analyzed model and its dependencies.",
+    "Write guarantees that relate visible outputs to visible inputs, avoiding implementation-only subcomponent paths in type annexes.",
+    "Use only visible AADL features or helper declarations within the same annex; remove invalid clauses if references are unresolved."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts use `assume`, `guarantee`, `eq`, `const`, and `assign` syntax within `annex agree {** ... **};` blocks.",
+    "Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.",
+    "Branching logic should use nested `if ... then ... else` expressions.",
+    "Logical operators in AGREE include `and`, `or`, `not(...)`, and implication `=>`."
+  ],
+  "anti_patterns": [
+    "Do not place component implementation-level bindings in component type scopes.",
+    "Do not encode AADL timing properties as AGREE expressions unless explicit typed ports or constants are available.",
+    "Do not attempt to resolve unresolved identifiers by inventing new declarations; instead, remove or rewrite clauses using visible identifiers."
+  ],
+  "irrelevant_topics": [
+    "AADL property names as AGREE variables",
+    "AGREE validator diagnostics and repair patterns",
+    "Model unit and package dependency staging issues"
+  ]
+}

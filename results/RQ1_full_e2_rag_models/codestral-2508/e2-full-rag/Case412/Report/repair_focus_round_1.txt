@@ -1,0 +1,285 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: tempout, order
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+tempout | out | data | int | integer
+order | in | data | opaque | ordercmd
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "tempout >= 0 and tempout <= 100",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "tempout"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: sensor_temperature_thread | lines 115-119
+annex agree {**
+  annex agree {
+    guarantee "tempout_range": tempout >= 0 and tempout <= 100;
+  };
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   107:     Source_Stack_Size => 100 Kbyte;
+   108:     Period => 20 ms;
+   109:     Compute_Execution_Time => 10 ms .. 12 ms;
+   110:     Deadline => 40 ms;
+>> 111:     ARINC653::HM_Errors =>
+   112:     (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+   113:     ARINC653::HM_Process_Recovery_actions =>
+   114:     (Process_Restart, Process_Restart, Ignore, Ignore);
+   115:   annex agree {**
+
+   108:     Period => 20 ms;
+   109:     Compute_Execution_Time => 10 ms .. 12 ms;
+   110:     Deadline => 40 ms;
+   111:     ARINC653::HM_Errors =>
+>> 112:     (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+   113:     ARINC653::HM_Process_Recovery_actions =>
+   114:     (Process_Restart, Process_Restart, Ignore, Ignore);
+   115:   annex agree {**
+   116:   annex agree {
+
+   109:     Compute_Execution_Time => 10 ms .. 12 ms;
+   110:     Deadline => 40 ms;
+   111:     ARINC653::HM_Errors =>
+   112:     (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+>> 113:     ARINC653::HM_Process_Recovery_actions =>
+   114:     (Process_Restart, Process_Restart, Ignore, Ignore);
+   115:   annex agree {**
+   116:   annex agree {
+   117:     guarantee "tempout_range": tempout >= 0 and tempout <= 100;
+
+   110:     Deadline => 40 ms;
+   111:     ARINC653::HM_Errors =>
+   112:     (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+   113:     ARINC653::HM_Process_Recovery_actions =>
+>> 114:     (Process_Restart, Process_Restart, Ignore, Ignore);
+   115:   annex agree {**
+   116:   annex agree {
+   117:     guarantee "tempout_range": tempout >= 0 and tempout <= 100;
+   118:   };
+
+   112:     (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+   113:     ARINC653::HM_Process_Recovery_actions =>
+   114:     (Process_Restart, Process_Restart, Ignore, Ignore);
+   115:   annex agree {**
+>> 116:   annex agree {
+   117:     guarantee "tempout_range": tempout >= 0 and tempout <= 100;
+   118:   };
+   119:   **};
+   120:   end sensor_temperature_thread;
+
+   134:     Source_Stack_Size => 100 Kbyte;
+   135:     Period => 20 ms;
+   136:     Compute_Execution_Time => 8 ms .. 10 ms;
+   137:     Deadline => 40 ms;
+>> 138:     ARINC653::HM_Errors => (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+   139:     ARINC653::HM_Process_Recovery_Actions => (Process_Restart, Process_Restart, Process_Restart, Process_Restart);
+   140: 
+   141:   end sensor_receiveinput_thread;
+   142: 
+
+   135:     Period => 20 ms;
+   136:     Compute_Execution_Time => 8 ms .. 10 ms;
+   137:     Deadline => 40 ms;
+   138:     ARINC653::HM_Errors => (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+>> 139:     ARINC653::HM_Process_Recovery_Actions => (Process_Restart, Process_Restart, Process_Restart, Process_Restart);
+   140: 
+   141:   end sensor_receiveinput_thread;
+   142: 
+   143:   --thread implementation	sensor_receiveinput_thread.impl
+
+   157:     Source_Stack_Size => 100 Kbyte;
+   158:     Period => 20 ms;
+   159:     Compute_Execution_Time => 5 ms .. 7 ms;
+   160:     Deadline => 40 ms;
+>> 161:     ARINC653::HM_Errors => (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+   162:     ARINC653::HM_Process_Recovery_Actions => (Process_Restart, Process_Stop, Process_Stop, Process_Stop);
+   163:   end commandboard_receiveinput_thread;
+   164: 
+   165:   thread commandboard_printinfos_thread
+
+   158:     Period => 20 ms;
+   159:     Compute_Execution_Time => 5 ms .. 7 ms;
+   160:     Deadline => 40 ms;
+   161:     ARINC653::HM_Errors => (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+>> 162:     ARINC653::HM_Process_Recovery_Actions => (Process_Restart, Process_Stop, Process_Stop, Process_Stop);
+   163:   end commandboard_receiveinput_thread;
+   164: 
+   165:   thread commandboard_printinfos_thread
+   166:   features
+
+   175:     Source_Stack_Size => 100 Kbyte;
+   176:     Period => 20 ms;
+   177:     Compute_Execution_Time => 2 ms .. 6 ms;
+   178:     Deadline => 40 ms;
+>> 179:     ARINC653::HM_Errors => (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+   180:     ARINC653::HM_Process_Recovery_Actions => (Process_Restart, Process_Restart, Process_Restart, Process_Restart);
+   181:   end commandboard_printinfos_thread;
+   182: 
+   183:   -- Now, declare process that model partition address space
+
+   176:     Period => 20 ms;
+   177:     Compute_Execution_Time => 2 ms .. 6 ms;
+   178:     Deadline => 40 ms;
+   179:     ARINC653::HM_Errors => (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+>> 180:     ARINC653::HM_Process_Recovery_Actions => (Process_Restart, Process_Restart, Process_Restart, Process_Restart);
+   181:   end commandboard_printinfos_thread;
+   182: 
+   183:   -- Now, declare process that model partition address space
+   184:   process partition1_process
+
+   255:     part2:	virtual processor partition2_rt.impl;
+   256: 
+   257:   properties
+   258:     ARINC653::Module_Major_Frame => 50ms;
+>> 259:     ARINC653::Partition_Slots => (10ms, 10ms, 30ms);
+   260:     ARINC653::Slots_Allocation => (reference (part1), reference (part2), reference (part1));
+   261:     ARINC653::HM_Errors => (Power_Fail);
+   262:     ARINC653::HM_Module_Recovery_Actions => (Reset);
+   263:   end powerpc.impl;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: sensor_temperature_thread
+thread sensor_temperature_thread
+  features
+    tempout: out data port integer;
+    order: in event data port ordercmd;
+  properties
+    Initialize_Entrypoint
+       => classifier (PartitionedSystemExample::sensor_temperature_spg);
+    Priority => 42;
+    Source_Stack_Size => 100 Kbyte;
+    Period => 20 ms;
+    Compute_Execution_Time => 10 ms .. 12 ms;
+    Deadline => 40 ms;
+    ARINC653::HM_Errors =>
+    (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+    ARINC653::HM_Process_Recovery_actions =>
+    (Process_Restart, Process_Restart, Ignore, Ignore);
+  end sensor_temperature_thread;
+
+-- TARGET DECLARATION: sensor_temperature_thread.impl
+thread implementation	sensor_temperature_thread.impl
+  end sensor_temperature_thread.impl;
+
+-- RELATED MODEL LINES
+-- components representing ARINC653 processes (order and temperature).
+thread sensor_temperature_thread
+tempout: out data port integer;
+order: in event data port ordercmd;
+end sensor_temperature_thread;
+thread implementation	sensor_temperature_thread.impl
+end sensor_temperature_thread.impl;
+order: out event data port ordercmd;
+temperature : thread sensor_temperature_thread.impl;
+order	: thread sensor_receiveinput_thread;
+bufferconnectionexample: port order.order -> temperature.order;
+Po1:port queueingin -> order.commandin;
+Po2:port temperature.tempout -> samplingout;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "sensor_temperature_thread",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "sensor_temperature_thread.impl",
+      "kind": "thread",
+      "type_name": "sensor_temperature_thread"
+    }
+  ],
+  "features": [
+    {
+      "owner": "sensor_temperature_thread",
+      "name": "tempout",
+      "direction": "out",
+      "category": "data port",
+      "type": "integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "sensor_temperature_thread",
+      "name": "order",
+      "direction": "in",
+      "category": "event data port",
+      "type": "ordercmd",
+      "scalar": "opaque"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "sensor_temperature_thread",
+      "owner_kind": "thread",
+      "name": "Initialize_Entrypoint",
+      "value": "classifier (PartitionedSystemExample::sensor_temperature_spg)",
+      "applies_to": ""
+    },
+    {
+      "owner": "sensor_temperature_thread",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "42",
+      "applies_to": ""
+    },
+    {
+      "owner": "sensor_temperature_thread",
+      "owner_kind": "thread",
+      "name": "Source_Stack_Size",
+      "value": "100 Kbyte",
+      "applies_to": ""
+    },
+    {
+      "owner": "sensor_temperature_thread",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "20 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "sensor_temperature_thread",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "10 ms .. 12 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "sensor_temperature_thread",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "40 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "sensor_temperature_thread",
+      "owner_kind": "thread",
+      "name": "ARINC653::HM_Errors",
+      "value": "(Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request)",
+      "applies_to": ""
+    },
+    {
+      "owner": "sensor_temperature_thread",
+      "owner_kind": "thread",
+      "name": "ARINC653::HM_Process_Recovery_actions",
+      "value": "(Process_Restart, Process_Restart, Ignore, Ignore)",
+      "applies_to": ""
+    }
+  ]
+}

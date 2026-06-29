@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 130: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "Changing_mode_to_SM is an event port, not a boolean data port; AGREE cannot compare event ports to boolean literals",
+      "minimal_edit": "remove (true => Changing_mode_to_SM = true) and (true => Changing_mode_to_NM = true)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 189: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "watchdog_event is an event port, not a boolean data port; AGREE cannot compare event ports to boolean literals",
+      "minimal_edit": "replace (watchdog_event = true and (true or true)) with watchdog_event"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the entire guarantee \"mode_transitions\" clause because it incorrectly compares event ports to boolean literals",
+    "Replace the expression in guarantee \"anomaly_handling\" from (watchdog_event = true and (true or true)) with simply watchdog_event, since event ports are naturally boolean-valued in AGREE when used as propositions"
+  ]
+}

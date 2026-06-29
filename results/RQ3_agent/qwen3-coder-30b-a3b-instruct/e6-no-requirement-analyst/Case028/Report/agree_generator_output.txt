@@ -1,0 +1,8 @@
+annex agree {**
+  assume "initial_t_value": t = 0.0;
+  assume "step_size": delta_t = 0.1;
+  const "minHeightAllowed": minHeightAllowed = 200.0;
+  assume "recovery_time_bound": t >= recoveryTime => height > minHeightAllowed;
+  guarantee "pull_up_trend": t >= recoveryTime => height > prev(height);
+  guarantee "timeToRecovery_constant": timeToRecovery = 3.7;
+**};

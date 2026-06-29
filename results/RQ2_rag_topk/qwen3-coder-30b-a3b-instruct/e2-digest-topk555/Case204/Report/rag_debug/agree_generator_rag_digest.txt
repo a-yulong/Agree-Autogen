@@ -1,0 +1,21 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place component type assumptions and guarantees in the component type annex scope, using visible ports and features only.
+- Use `assume` and `guarantee` statements with labeled expressions for input assumptions and behavioral guarantees.
+- Generate valid AGREE syntax with proper logical operators and temporal recurrence for stateful equations.
+Generic rules:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Component implementation annexes are for output assignments and subcomponent bindings.
+- Use only visible identifiers from the current AADL scope in AGREE expressions.
+- Avoid encoding AADL properties like timing or unit tokens directly in AGREE clauses.
+Syntax or pattern reminders:
+- Use `eq name : type = expression;` for equation declarations and `assign output = expression;` for output bindings.
+- Stateful logic should use initialized recurrence like `0.0 -> pre(t) + step`.
+- Conditional logic should use nested `if ... then ... else` expressions.
+- Guarantees must reference only visible features or constants in the same scope.
+Anti-patterns:
+- Do not place implementation-level guarantees in component type annexes.
+- Do not reference unresolved or non-visible identifiers in AGREE clauses.
+- Do not encode event ports as numeric values unless explicitly defined in the model.
+- Do not assume AADL property names are automatically available as AGREE variables.
+</RAG_DIGEST>

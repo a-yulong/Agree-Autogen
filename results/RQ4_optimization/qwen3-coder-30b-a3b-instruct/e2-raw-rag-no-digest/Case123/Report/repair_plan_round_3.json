@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 84: named thing must be an expression with a type",
+      "cause": "assume statement references port names that are not visible in component type scope",
+      "minimal_edit": "remove the assume statement on line 84"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 85: named thing must be an expression with a type",
+      "cause": "assume statement references port names that are not visible in component type scope",
+      "minimal_edit": "remove the assume statement on line 85"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 86: named thing must be an expression with a type",
+      "cause": "guarantee statement references port names that are not visible in component type scope",
+      "minimal_edit": "remove the guarantee statement on line 86"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 87: named thing must be an expression with a type",
+      "cause": "guarantee statement references port names that are not visible in component type scope",
+      "minimal_edit": "remove the guarantee statement on line 87"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from the MAGNETO component type",
+    "Move the AGREE annex block to the MAGNETO.IMPL component implementation",
+    "In the implementation annex, replace the assume/guarantee statements with assign statements that reference the connection parameters",
+    "Ensure the assign statements reference only visible identifiers from the implementation scope"
+  ]
+}

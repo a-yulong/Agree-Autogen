@@ -1,0 +1,13 @@
+annex agree {**
+  const t_init = 0.0;
+  const t_step = 0.1;
+  const recovery_time = 1.7;
+  
+  assume "initial_t": t = t_init;
+  assume "t_step_size": t' = t + t_step;
+  
+  guarantee "recovery_time_bound": timeToRecovery = recovery_time;
+  
+  guarantee "distance_increasing": 
+    (t >= recovery_time) => (distanceFromFence > distanceFromFence@-1);
+**};

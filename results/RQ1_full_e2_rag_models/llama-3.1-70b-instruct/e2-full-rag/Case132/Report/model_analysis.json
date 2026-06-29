@@ -1,0 +1,100 @@
+{
+  "component_types": [
+    {
+      "name": "hello",
+      "kind": "system"
+    },
+    {
+      "name": "node_a",
+      "kind": "process"
+    },
+    {
+      "name": "cpu_rm",
+      "kind": "processor"
+    },
+    {
+      "name": "mem",
+      "kind": "memory"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "hello.impl",
+      "kind": "system implementation",
+      "type_name": "hello"
+    },
+    {
+      "name": "node_a.impl",
+      "kind": "process implementation",
+      "type_name": "node_a"
+    },
+    {
+      "name": "cpurm.impl",
+      "kind": "processor implementation",
+      "type_name": "cpu_rm"
+    },
+    {
+      "name": "myram.sdram",
+      "kind": "memory implementation",
+      "type_name": "mem"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "hello.impl",
+      "name": "node_a",
+      "category": "process",
+      "classifier": "node_a.impl"
+    },
+    {
+      "owner": "hello.impl",
+      "name": "node_b",
+      "category": "process",
+      "classifier": "node_a.impl"
+    },
+    {
+      "owner": "hello.impl",
+      "name": "cpu_rm",
+      "category": "processor",
+      "classifier": "cpurm.impl"
+    },
+    {
+      "owner": "hello.impl",
+      "name": "mem",
+      "category": "memory",
+      "classifier": "myram.sdram"
+    }
+  ],
+  "features": [],
+  "connections": [],
+  "properties": [
+    {
+      "owner": "hello.impl",
+      "owner_kind": "system implementation",
+      "name": "Actual_Processor_Binding",
+      "value": "reference (cpu_rm.p0)",
+      "applies_to": "node_a"
+    },
+    {
+      "owner": "hello.impl",
+      "owner_kind": "system implementation",
+      "name": "actual_memory_binding",
+      "value": "reference (mem.segment1)",
+      "applies_to": "Node_A"
+    },
+    {
+      "owner": "hello.impl",
+      "owner_kind": "system implementation",
+      "name": "Actual_Processor_Binding",
+      "value": "reference (cpu_rm.p1)",
+      "applies_to": "node_b"
+    },
+    {
+      "owner": "hello.impl",
+      "owner_kind": "system implementation",
+      "name": "actual_memory_binding",
+      "value": "reference (mem.segment2)",
+      "applies_to": "Node_b"
+    }
+  ]
+}

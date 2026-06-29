@@ -1,0 +1,83 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 105: left side of binary expression '/' is of type 'int' but must be of type 'real'",
+      "cause": "integer division in AGREE expression",
+      "minimal_edit": "change 'Pedal / 2.0 as real' to 'Pedal / 2.0' and 'Pedal / 4.0 as real' to 'Pedal / 4.0'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 105: no viable alternative at input 'as'",
+      "cause": "invalid AGREE syntax for type casting",
+      "minimal_edit": "remove 'as real' from expressions"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 123: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "undefined function reference in AGREE",
+      "minimal_edit": "replace 'Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX)' with 'if Panel.MAX then 2 else if Panel.MED then 1 else 0'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 138: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "undefined function reference in AGREE",
+      "minimal_edit": "replace 'Agree_Nodes::Brake_Cmd(Mode, Pedal)' with 'if Mode = 2 then Pedal else if Mode = 1 then Pedal / 2 else Pedal / 4'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 138: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "type mismatch in guarantee expression",
+      "minimal_edit": "ensure both sides of '=' are of type 'int' by removing 'as real' casts"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 255: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "undefined function reference in AGREE",
+      "minimal_edit": "replace 'Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal)' with 'if COM1.Mode = 2 then Pedal else if COM1.Mode = 1 then Pedal / 2 else Pedal / 4'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 255: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "type mismatch in lemma expression",
+      "minimal_edit": "ensure both sides of '=' are of type 'int' by removing 'as real' casts"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 256: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "undefined function reference in AGREE",
+      "minimal_edit": "replace 'Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal)' with 'if COM2.Mode = 2 then Pedal else if COM2.Mode = 1 then Pedal / 2 else Pedal / 4'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 256: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "type mismatch in lemma expression",
+      "minimal_edit": "ensure both sides of '=' are of type 'int' by removing 'as real' casts"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "undefined function reference in AGREE",
+      "minimal_edit": "replace 'Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal)' with 'if MON1.Mode = 2 then Pedal else if MON1.Mode = 1 then Pedal / 2 else Pedal / 4'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 257: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "type mismatch in lemma expression",
+      "minimal_edit": "ensure both sides of '=' are of type 'int' by removing 'as real' casts"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 258: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "undefined function reference in AGREE",
+      "minimal_edit": "replace 'Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal)' with 'if MON2.Mode = 2 then Pedal else if MON2.Mode = 1 then Pedal / 2 else Pedal / 4'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 258: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "type mismatch in lemma expression",
+      "minimal_edit": "ensure both sides of '=' are of type 'int' by removing 'as real' casts"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the COM component's AGREE annex, replace 'Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX)' with 'if Panel.MAX then 2 else if Panel.MED then 1 else 0'",
+    "In the COM component's AGREE annex, replace 'Agree_Nodes::Brake_Cmd(Mode, Pedal)' with 'if Mode = 2 then Pedal else if Mode = 1 then Pedal / 2 else Pedal / 4'",
+    "In the COM component's AGREE annex, remove all 'as real' type casts from division expressions",
+    "In the MON component's AGREE annex, replace 'Agree_Nodes::Brake_Cmd(Mode, Pedal)' with 'if Mode = 2 then Pedal else if Mode = 1 then Pedal / 2 else Pedal / 4'",
+    "In the BSCU_Impl component's AGREE annex, replace 'Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal)' with 'if COM1.Mode = 2 then Pedal else if COM1.Mode = 1 then Pedal / 2 else Pedal / 4'",
+    "In the BSCU_Impl component's AGREE annex, replace 'Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal)' with 'if COM2.Mode = 2 then Pedal else if COM2.Mode = 1 then Pedal / 2 else Pedal / 4'",
+    "In the BSCU_Impl component's AGREE annex, replace 'Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal)' with 'if MON1.Mode = 2 then Pedal else if MON1.Mode = 1 then Pedal / 2 else Pedal / 4'",
+    "In the BSCU_Impl component's AGREE annex, replace 'Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal)' with 'if MON2.Mode = 2 then Pedal else if MON2.Mode = 1 then Pedal / 2 else Pedal / 4'",
+    "In the COM component's AGREE annex, ensure all division operations use integer division without 'as real' casts",
+    "In the MON component's AGREE annex, ensure all division operations use integer division without 'as real' casts",
+    "In the BSCU_Impl component's AGREE annex, ensure all division operations use integer division without 'as real' casts"
+  ]
+}

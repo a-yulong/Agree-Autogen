@@ -1,0 +1,71 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 13: The variable 'e' on the left side of equation is of type '<error>' but must be of type 'Types::speed.speed_impl'",
+      "cause": "Target and Actual are opaque AADL types (Types::speed.speed_impl), not numeric, so subtraction is invalid",
+      "minimal_edit": "Remove line 13: 'eq e = Target - Actual;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 13: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Same as above: subtraction requires numeric types, but ports are opaque",
+      "minimal_edit": "Remove line 13: 'eq e = Target - Actual;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 13: mismatched input '=' expecting ':'",
+      "cause": "Syntax error triggered by invalid type in equation; caused by opaque port usage",
+      "minimal_edit": "Remove line 13: 'eq e = Target - Actual;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 14: left and right sides of binary expression '*' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "e, e_dot, e_int are undefined or ill-typed due to prior invalid equation",
+      "minimal_edit": "Remove line 14: 'guarantee \"actuator_output\": Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 14: named thing must be an expression with a type",
+      "cause": "e, e_dot, e_int are not valid numeric variables due to invalid derivation from opaque ports",
+      "minimal_edit": "Remove line 14: 'guarantee \"actuator_output\": Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 15: left and right sides of binary expression '=' are of type '<error>' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "e is ill-typed; cannot equal opaque port expression",
+      "minimal_edit": "Remove line 15: 'guarantee \"error_calc\": e = Target - Actual;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 15: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Same as line 13: subtraction on opaque types",
+      "minimal_edit": "Remove line 15: 'guarantee \"error_calc\": e = Target - Actual;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 15: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Same as line 13: subtraction on opaque types",
+      "minimal_edit": "Remove line 15: 'guarantee \"error_calc\": e = Target - Actual;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 16: Couldn't resolve reference to 'integral'.",
+      "cause": "integral() is not a recognized AGREE operator without proper library or type context",
+      "minimal_edit": "Remove line 16: 'eq e_int = integral(e);'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 16: mismatched input '=' expecting ':'",
+      "cause": "Syntax error from ill-typed or unrecognized operator",
+      "minimal_edit": "Remove line 16: 'eq e_int = integral(e);'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 17: Couldn't resolve reference to 'derivative'.",
+      "cause": "derivative() is not a recognized AGREE operator without proper library or type context",
+      "minimal_edit": "Remove line 17: 'eq e_dot = derivative(e);'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 17: mismatched input '=' expecting ':'",
+      "cause": "Syntax error from ill-typed or unrecognized operator",
+      "minimal_edit": "Remove line 17: 'eq e_dot = derivative(e);'"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the entire annex agree block from Speed_Control (component type) because it contains illegal operations on opaque ports and unsupported operators",
+    "Create a new annex agree block in Speed_Control.Speed_Control_Impl (implementation) that declares e, e_dot, e_int as local real variables",
+    "In the implementation annex, use assign statements to compute e = (real)Target - (real)Actual only if AADL allows type coercion — otherwise, the requirement R1 must be implemented in a subcomponent with numeric ports",
+    "If type coercion is unsupported, add a numeric conversion subcomponent and move the entire control logic there, then update the model accordingly"
+  ]
+}

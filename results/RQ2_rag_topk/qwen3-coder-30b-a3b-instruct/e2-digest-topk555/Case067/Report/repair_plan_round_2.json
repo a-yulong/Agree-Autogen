@@ -1,0 +1,46 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 75: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "sensored_attitude and sun_direction are data ports with types dataaocs::GYR_data and dataaocs::FSS_data respectively, not boolean types",
+      "minimal_edit": "Remove or rewrite the expression (sensored_attitude = sun_direction) to compare valid boolean expressions or remove the guarantee"
+    },
+    {
+      "diagnostic": "line 82: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "reference_torque and torque_command are data ports with types dataaocs::RW_data and dataaocs::RW_data respectively, not boolean types",
+      "minimal_edit": "Remove or rewrite the expression (reference_torque = torque_command) to compare valid boolean expressions or remove the guarantee"
+    },
+    {
+      "diagnostic": "line 89: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "Changing_mode_to_SM is an event port, not a boolean expression",
+      "minimal_edit": "Replace (Changing_mode_to_SM = true) with (Changing_mode_to_SM = true) or remove the guarantee if it cannot be expressed as a boolean"
+    },
+    {
+      "diagnostic": "line 96: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "Changing_mode_to_NM is an event port, not a boolean expression",
+      "minimal_edit": "Replace (Changing_mode_to_NM = true) with (Changing_mode_to_NM = true) or remove the guarantee if it cannot be expressed as a boolean"
+    },
+    {
+      "diagnostic": "line 103: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "power_status_FSS through power_status_MGT are data ports, not boolean expressions",
+      "minimal_edit": "Rewrite the expression to use valid boolean combinations or remove the assumption"
+    },
+    {
+      "diagnostic": "line 139: Couldn't resolve reference to ConnectionEnd 'attitude_window'.",
+      "cause": "Connection Cnx5 references non-existent port 'attitude_window'",
+      "minimal_edit": "Remove or correct the connection Cnx5 to reference a valid port"
+    },
+    {
+      "diagnostic": "line 140: Couldn't resolve reference to ConnectionEnd 'check_thresholds'.",
+      "cause": "Connection Cnx6 references non-existent port 'check_thresholds'",
+      "minimal_edit": "Remove or correct the connection Cnx6 to reference a valid port"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify and remove or rewrite guarantees that compare non-boolean types",
+    "Replace invalid port comparisons with valid boolean expressions or remove them",
+    "Correct or remove invalid connections Cnx5 and Cnx6",
+    "Ensure all expressions in the AGREE annex use only visible identifiers with correct types"
+  ]
+}

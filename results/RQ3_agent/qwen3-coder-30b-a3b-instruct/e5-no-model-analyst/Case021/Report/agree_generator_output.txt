@@ -1,0 +1,10 @@
+annex agree {**
+  const k_init : int = 10;
+  eq k_prev : int = k;
+  eq k_next : int = 
+    if (k_prev >= 20) then (k_prev - 1)
+    else if (k_prev <= 0) then (k_prev + 1)
+    else k_prev;
+  guarantee "dataout_in_range": (dataout >= 0) and (dataout <= 20);
+  guarantee "dataout_equals_k": dataout = k_next;
+**};

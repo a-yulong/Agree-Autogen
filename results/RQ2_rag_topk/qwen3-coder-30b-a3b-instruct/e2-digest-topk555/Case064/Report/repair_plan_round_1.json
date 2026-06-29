@@ -1,0 +1,44 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink is a port in component type Q, not visible in AGREE annex of same type",
+      "minimal_edit": "Remove the data flow assumption from component type Q's annex"
+    },
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg is a subcomponent, not directly accessible in component type AGREE annex",
+      "minimal_edit": "Remove the data flow assumption from component type Q's annex"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "Dispatch_Protocol is a property of component implementation Q.Impl, not visible in component type Q's AGREE annex",
+      "minimal_edit": "Move the dispatch protocol guarantee to component implementation Q.Impl's AGREE annex"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'Period'.",
+      "cause": "Period is a property of component implementation Q.Impl, not visible in component type Q's AGREE annex",
+      "minimal_edit": "Move the execution period guarantee to component implementation Q.Impl's AGREE annex"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'deadline'.",
+      "cause": "deadline is a property of component implementation Q.Impl, not visible in component type Q's AGREE annex",
+      "minimal_edit": "Move the deadline constraint guarantee to component implementation Q.Impl's AGREE annex"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'Priority'.",
+      "cause": "Priority is a property of component implementation Q.Impl, not visible in component type Q's AGREE annex",
+      "minimal_edit": "Move the priority level guarantee to component implementation Q.Impl's AGREE annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from component type Q",
+    "Add a new AGREE annex block to component implementation Q.Impl containing only the property guarantees",
+    "In the new implementation annex, add: assume \"data_flow_routing\": Data_Sink = Q_Spg.Data_Sink;",
+    "In the new implementation annex, add: guarantee \"dispatch_protocol\": Dispatch_Protocol = Sporadic;",
+    "In the new implementation annex, add: guarantee \"execution_period\": Period = 10;",
+    "In the new implementation annex, add: guarantee \"deadline_constraint\": deadline = 10;",
+    "In the new implementation annex, add: guarantee \"priority_level\": Priority = 1;"
+  ]
+}

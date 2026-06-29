@@ -1,0 +1,15 @@
+annex agree {**
+  assume "engine_running_condition": D1_engine_running = true;
+  assume "engine_running_condition2": D2_engine_running = true;
+  guarantee "swivel_output": D1_swivel = D1_handle_position and D1_closed;
+  guarantee "de_arrest_output": D2_de_arrest = D2_handle_position and D2_closed;
+  guarantee "lock_output": D1_lock = D1_latched and D1_closed;
+  guarantee "lock_output2": D2_lock = D2_latched and D2_closed;
+  guarantee "warning_diff_pressure": D1_warn_diff_pres = D1_dps > 100;
+  guarantee "warning_slide": D2_warn_slide = D2_dps > 100;
+  guarantee "warning_info": D1_warning_info = D1_emergency_evacuation or D1_engine_running;
+  guarantee "ecam_info": D1_ecam_info = D1_in_flight or D1_on_ground;
+  guarantee "warning_info2": D2_warning_info = D2_emergency_evacuation or D2_engine_running;
+  guarantee "ecam_info2": D2_ecam_info = D2_in_flight or D2_on_ground;
+  guarantee "mix_cll_output": Mix_cll = D1_closed and D2_closed;
+**};

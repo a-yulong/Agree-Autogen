@@ -1,0 +1,20 @@
+<RAG_DIGEST agent="model_fusion">
+Generic rules:
+- In component type contracts, ensure assumptions and guarantees reference visible ports and use concrete bounds or named constants.
+- For output guarantees, relate visible outputs to visible inputs without relying on implementation-only subcomponent paths.
+- When defining variables in AGREE, align helper declaration types with the expression types (bool, int, real).
+- Do not include AADL property names like Compute_Execution_Time or unit tokens (ms, Hz) as AGREE variables unless explicitly exposed as typed ports or constants.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Use `assume "label": expression;` and `guarantee "label": expression;` for assumptions and guarantees.
+- Use `eq name : type = expression;` for equation declarations and `const name : type = value;` for constants.
+- Use `assign output = expression;` for implementation-level bindings in valid scopes.
+Anti-patterns:
+- Do not place implementation-level bindings in component type scopes unless they are valid variables or outputs.
+- Avoid referencing AADL property names directly in AGREE expressions unless they are explicitly typed ports or constants.
+- Do not use subcomponent ports in component type annexes for assumptions or guarantees.
+Irrelevant retrieved material:
+- agree_syntax_notes
+- defensive_rules.jsonl
+- agree_code_knowledge_dataset.txt
+</RAG_DIGEST>

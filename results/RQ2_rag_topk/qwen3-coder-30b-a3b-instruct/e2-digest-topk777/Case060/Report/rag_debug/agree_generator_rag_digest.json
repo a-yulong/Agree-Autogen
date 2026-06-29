@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in component type scopes when they refer to component ports.",
+    "Use AGREE syntax for assume, guarantee, eq, and const declarations within annex agree blocks.",
+    "Generate deterministic dependency guarantees that relate visible outputs to visible inputs.",
+    "Ensure type declarations in AGREE match the actual AADL data types of features."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be placed in valid AADL scopes: component types for assumptions/guarantees, implementations for assignments.",
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic.",
+    "Do not reference implementation-only subcomponent paths in component type annexes.",
+    "Validate that all identifiers used in AGREE expressions are visible in the current component scope."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks are enclosed in `annex agree {** ... **};`.",
+    "Assumptions use `assume \"label\": expression;` and guarantees use `guarantee \"label\": expression;`.",
+    "Equations are declared with `eq name : type = expression;` and constants with `const name : type = value;`.",
+    "Logical operators in AGREE include `and`, `or`, `not(...)`, and implication `=>`."
+  ],
+  "anti_patterns": [
+    "Avoid placing implementation-level bindings in component type annexes.",
+    "Do not reference AADL properties like Deadline or Period as AGREE variables.",
+    "Do not invent new identifiers; only use visible features from the AADL model.",
+    "Do not generate guarantees that depend on subcomponent ports not visible at the type level."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing constraints",
+    "Model fusion and architecture grounding details",
+    "Validator diagnostics and repair strategies",
+    "Specific AADL package or data type definitions"
+  ]
+}

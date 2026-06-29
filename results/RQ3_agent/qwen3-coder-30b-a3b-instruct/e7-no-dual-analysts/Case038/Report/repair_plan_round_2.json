@@ -1,0 +1,68 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Target (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "Port type 'Types::speed.speed_impl' is not a scalar type",
+      "minimal_edit": "Replace 'Target' with a scalar type port or remove the reference in AGREE"
+    },
+    {
+      "diagnostic": "Actual (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "Port type 'Types::speed.speed_impl' is not a scalar type",
+      "minimal_edit": "Replace 'Actual' with a scalar type port or remove the reference in AGREE"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'D'.",
+      "cause": "Variable D is not declared in the correct scope",
+      "minimal_edit": "Move or declare 'D' in the same scope as other constants"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'I'.",
+      "cause": "Variable I is not declared in the correct scope",
+      "minimal_edit": "Move or declare 'I' in the same scope as other constants"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'P'.",
+      "cause": "Variable P is not declared in the correct scope",
+      "minimal_edit": "Move or declare 'P' in the same scope as other constants"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Type mismatch in constant assignment",
+      "minimal_edit": "Ensure all constants are assigned valid scalar types"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "Type mismatch in variable assignment",
+      "minimal_edit": "Ensure variable 'e' is assigned a scalar type"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Invalid subtraction of opaque types",
+      "minimal_edit": "Replace 'Target - Actual' with a valid scalar expression"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Invalid subtraction of opaque types",
+      "minimal_edit": "Replace 'Target - Actual' with a valid scalar expression"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in guarantee expression",
+      "minimal_edit": "Ensure all expressions in guarantee are scalar types"
+    },
+    {
+      "diagnostic": "missing EOF at 'constant'",
+      "cause": "Syntax error in AGREE annex",
+      "minimal_edit": "Fix syntax to ensure valid AGREE annex structure"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify all port references in AGREE annex that are not scalar types",
+    "Replace opaque port references with scalar equivalents or remove them from AGREE",
+    "Ensure all constants (P, D, I) are declared in the same scope",
+    "Ensure all variables (e, e_dot, e_int) are scalar types",
+    "Rewrite expressions involving opaque types to use scalar types",
+    "Fix syntax errors in AGREE annex to ensure valid structure"
+  ]
+}

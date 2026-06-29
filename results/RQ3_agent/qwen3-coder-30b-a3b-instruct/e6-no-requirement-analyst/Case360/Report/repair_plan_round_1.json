@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Papa_Types::Tableau.Generic' and 'int', but must be of the same type",
+      "cause": "AGREE cannot compare opaque data port types with integer literals directly",
+      "minimal_edit": "Replace MCU1_Data_Input.data_0 through MCU1_Data_Input.data_7 with a single variable representing the data field values, since direct field access is not supported in AGREE contracts"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Create a new constant or variable in the AGREE annex to represent the data fields",
+    "Replace all references to MCU1_Data_Input.data_0 through MCU1_Data_Input.data_7 with the new variable",
+    "Ensure the new variable is declared with a compatible type that can be compared with MCU1_Send_Output.channels"
+  ]
+}

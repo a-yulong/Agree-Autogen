@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Generate AGREE expressions only over symbols that will be visible in the annex owner's scope; express dependencies with visible inputs/outputs, not hidden implementation paths.",
+    "Use envelope or range assumptions/guarantees only when the source provides concrete bounds, thresholds, named constants, or another explicit visible relation.",
+    "For deterministic dataflow, state direct relations between visible causes and visible effects.",
+    "Keep helper declaration types aligned with expression results: comparisons are bool, integer arithmetic/literals are int, and real arithmetic/literals are real."
+  ],
+  "generic_rules": [
+    "Prefer small eq/const helpers for intermediate logic, then assert smaller readable guarantees over visible outputs."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Core forms: assume \"label\": expr; guarantee \"label\": expr; eq name : type = expr; const name : type = value; assign output = expr;",
+    "Use AGREE scalar types int, real, and bool, and logical operators and, or, not(...), and =>.",
+    "Use if ... then ... else for branching, and initialize any temporal recurrence with init_value -> pre(x)."
+  ],
+  "anti_patterns": [
+    "Do not use implementation-only subcomponent ports or paths unless they are explicitly exposed as visible symbols.",
+    "Do not reference AADL property names or unit tokens as AGREE variables unless the model exposes them as typed symbols.",
+    "Do not invent thresholds, constants, or relations that are not present in the requirement or visible model facts.",
+    "Do not use invalid type names such as integer or boolean, and do not declare a helper with a type that disagrees with its expression."
+  ],
+  "irrelevant_topics": [
+    "Exact annex insertion placement or implementation ordering details belong to downstream model-fusion work."
+  ]
+}

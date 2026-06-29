@@ -1,0 +1,7 @@
+annex agree {**
+  assume "signal_flow_r1": acc1_input = v_acc1_dataout;
+  assume "signal_flow_r2": acc2_input = v_acc2_dataout;
+  guarantee "data_consistency": acc1_input = acc2_input => v_acc1_dataout = v_acc2_dataout;
+  guarantee "error_action_propagation": acc_error_action = 1 => acc_error_out = 1;
+  guarantee "event_routing": event2acc1 = acc1_input and event2acc2 = acc2_input;
+**};

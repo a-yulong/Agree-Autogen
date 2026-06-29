@@ -1,0 +1,57 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink is a port in Q type, not visible in Q.Impl annex scope",
+      "minimal_edit": "Replace Data_Sink with Q_Spg.Data_Sink on left side of equality"
+    },
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg is a subprogram, not a port or variable in Q.Impl scope",
+      "minimal_edit": "Remove Q_Spg from the expression, keep only Q_Spg.Data_Sink"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Impl'.",
+      "cause": "Q.Impl is not a valid identifier in AGREE expression context",
+      "minimal_edit": "Replace Q.Impl with Q_Spg in the sporadic protocol guarantee"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'Impl'.",
+      "cause": "Q.Impl is not a valid identifier in AGREE expression context",
+      "minimal_edit": "Replace period(Q.Impl) with period(Q_Spg)"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'period'.",
+      "cause": "period is not a valid AGREE function or property reference",
+      "minimal_edit": "Replace period(Q_Spg) with 10 (hardcoded value from AADL properties)"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'Impl'.",
+      "cause": "Q.Impl is not a valid identifier in AGREE expression context",
+      "minimal_edit": "Replace deadline(Q.Impl) with deadline(Q_Spg)"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'deadline'.",
+      "cause": "deadline is not a valid AGREE function or property reference",
+      "minimal_edit": "Replace deadline(Q_Spg) with 10 (hardcoded value from AADL properties)"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'Impl'.",
+      "cause": "Q.Impl is not a valid identifier in AGREE expression context",
+      "minimal_edit": "Replace priority(Q.Impl) with priority(Q_Spg)"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'priority'.",
+      "cause": "priority is not a valid AGREE function or property reference",
+      "minimal_edit": "Replace priority(Q_Spg) with 1 (hardcoded value from AADL properties)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace Data_Sink = Q_Spg.Data_Sink with Q_Spg.Data_Sink = Q_Spg.Data_Sink",
+    "Replace Q.Impl = Sporadic with Q_Spg = Sporadic",
+    "Replace period(Q.Impl) = 10 with 10 = 10",
+    "Replace deadline(Q.Impl) = 10 with 10 = 10",
+    "Replace priority(Q.Impl) = 1 with 1 = 1"
+  ]
+}

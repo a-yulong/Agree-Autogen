@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 45: Couldn't resolve reference to 'Impl'.",
+      "cause": "AGREE cannot resolve 'send_data_to_autopilot_task.Impl.active' because 'active' is not a visible port or variable in the component type scope.",
+      "minimal_edit": "Replace 'send_data_to_autopilot_task.Impl.active = true' with 'MCU1_Send_Output.ppm_cpt /= 0' to express activity via a visible output port"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the reference to 'send_data_to_autopilot_task.Impl.active' as it is not a valid identifier in the component type contract scope.",
+    "Replace the guarantee expression with a valid relation using a visible output port that indicates operational activity: 'MCU1_Send_Output.ppm_cpt /= 0' as a proxy for the system being active when Radio_Ok_Input is true.",
+    "Preserve the assume clause 'Radio_Ok_Input = true' as it is valid and uses a visible input port."
+  ]
+}

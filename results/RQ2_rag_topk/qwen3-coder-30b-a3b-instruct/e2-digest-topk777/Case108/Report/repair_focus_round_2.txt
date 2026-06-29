@@ -1,0 +1,227 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: acc1out, acc1_command_in
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc1out | out | data | int | SHM_DataType::accData
+acc1_command_in | in | data | int | SHM_DataType::actionData
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "acc1_dataOutput.impl routes data from spg.acc1DataOut to acc1out through connection C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc1_dataOutput.impl.sub1",
+        "acc1out",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "acc1_dataOutput.impl routes control signal from acc1_command_in to spg.event_in through connection C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc1_command_in",
+        "acc1_dataOutput.impl.sub1",
+        "C2"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: acc1_dataOutput | lines 28-31
+annex agree {**
+      assume "data_routing": acc1out = sub1.acc1DataOut;
+      assume "control_routing": sub1.event_in = acc1_command_in;
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   25:     Period => 4000 ms;
+   26:     Compute_Execution_Time => 400 ms .. 500 ms;
+   27:     Deadline => 500 ms;
+   28:   annex agree {**
+>> 29:       assume "data_routing": acc1out = sub1.acc1DataOut;
+   30:       assume "control_routing": sub1.event_in = acc1_command_in;
+   31:     **};
+   32:   end acc1_dataOutput;
+   33: 
+
+   26:     Compute_Execution_Time => 400 ms .. 500 ms;
+   27:     Deadline => 500 ms;
+   28:   annex agree {**
+   29:       assume "data_routing": acc1out = sub1.acc1DataOut;
+>> 30:       assume "control_routing": sub1.event_in = acc1_command_in;
+   31:     **};
+   32:   end acc1_dataOutput;
+   33: 
+   34:   thread implementation acc1_dataOutput.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: acc1_dataOutput
+thread acc1_dataOutput
+  features
+    acc1out: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+    acc1_command_in: in event data port SHM_DataType::actionData;
+  properties
+    Dispatch_Protocol => Periodic;
+    Priority => 2;
+    Stack_Size => 20 KByte;
+    Code_Size => 100 KByte;
+    Data_Size => 1 KByte;
+    Period => 4000 ms;
+    Compute_Execution_Time => 400 ms .. 500 ms;
+    Deadline => 500 ms;
+  end acc1_dataOutput;
+
+-- TARGET DECLARATION: acc1_dataOutput.impl
+thread implementation acc1_dataOutput.impl
+  calls
+    sub1: { spg: subprogram subprograms::acc1_dataOutput_spg;};
+  connections
+    C1: parameter spg.acc1DataOut->acc1out;
+    C2: parameter acc1_command_in->spg.event_in;
+  end  acc1_dataOutput.impl;
+
+-- RELATED MODEL LINES
+thread acc1_dataOutput
+acc1out: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc1_command_in: in event data port SHM_DataType::actionData;
+end acc1_dataOutput;
+thread implementation acc1_dataOutput.impl
+C1: parameter spg.acc1DataOut->acc1out;
+C2: parameter acc1_command_in->spg.event_in;
+end  acc1_dataOutput.impl;
+thread acc1_dataOutput_emv2 extends acc1_dataOutput
+thread implementation acc1_dataOutput_emv2.impl extends acc1_dataOutput.impl
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "acc1_dataOutput",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "acc1_dataOutput.impl",
+      "kind": "thread implementation",
+      "type_name": "acc1_dataOutput"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "acc1_dataOutput.impl",
+      "name": "sub1",
+      "category": "call",
+      "classifier": "subprograms::acc1_dataOutput_spg"
+    }
+  ],
+  "features": [
+    {
+      "owner": "acc1_dataOutput",
+      "name": "acc1out",
+      "direction": "out",
+      "category": "data port",
+      "type": "SHM_DataType::accData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "acc1_dataOutput",
+      "name": "acc1_command_in",
+      "direction": "in",
+      "category": "event data port",
+      "type": "SHM_DataType::actionData",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "acc1_dataOutput.impl",
+      "name": "C1",
+      "kind": "parameter",
+      "source": "sub1.acc1DataOut",
+      "destination": "acc1out"
+    },
+    {
+      "owner": "acc1_dataOutput.impl",
+      "name": "C2",
+      "kind": "parameter",
+      "source": "acc1_command_in",
+      "destination": "sub1.event_in"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "acc1_dataOutput",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "acc1_dataOutput"
+    },
+    {
+      "owner": "acc1_dataOutput",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "2",
+      "applies_to": "acc1_dataOutput"
+    },
+    {
+      "owner": "acc1_dataOutput",
+      "owner_kind": "thread",
+      "name": "Stack_Size",
+      "value": "20 KByte",
+      "applies_to": "acc1_dataOutput"
+    },
+    {
+      "owner": "acc1_dataOutput",
+      "owner_kind": "thread",
+      "name": "Code_Size",
+      "value": "100 KByte",
+      "applies_to": "acc1_dataOutput"
+    },
+    {
+      "owner": "acc1_dataOutput",
+      "owner_kind": "thread",
+      "name": "Data_Size",
+      "value": "1 KByte",
+      "applies_to": "acc1_dataOutput"
+    },
+    {
+      "owner": "acc1_dataOutput",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "4000 ms",
+      "applies_to": "acc1_dataOutput"
+    },
+    {
+      "owner": "acc1_dataOutput",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "400 ms .. 500 ms",
+      "applies_to": "acc1_dataOutput"
+    },
+    {
+      "owner": "acc1_dataOutput",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "500 ms",
+      "applies_to": "acc1_dataOutput"
+    },
+    {
+      "owner": "acc1_dataOutput",
+      "owner_kind": "thread",
+      "name": "ARINC653::Sampling_Refresh_Period",
+      "value": "50 ms",
+      "applies_to": "acc1out"
+    }
+  ]
+}

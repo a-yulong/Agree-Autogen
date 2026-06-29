@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- When generating AGREE contracts, ensure all identifiers are resolved within the visible scope of the component.
+- Validate that AGREE expressions match the expected data types of referenced ports or variables.
+- Avoid introducing new data types or package references that are not part of the original AADL model.
+- Use only declared helper functions or constants that are available in the same annex or imported packages.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Component type annexes are for assumptions/guarantees; implementation annexes are for bindings.
+- Helper functions and constants must be declared before use in the same annex.
+- Property associations in AADL are not automatically available as AGREE variables.
+Anti-patterns:
+- Do not attempt to resolve missing references by adding new declarations or architecture elements.
+- Do not mix implementation-level and type-level references in incorrect annex scopes.
+- Do not assume AADL property names are directly usable as AGREE variables without explicit model exposure.
+- Do not generate expressions with mismatched types (e.g., Boolean expressions for integer variables).
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about stack size properties
+- AGREE validator diagnostics about property associations
+- Model fusion or component type annex placement
+- Requirement traceability or compact semantics
+</RAG_DIGEST>

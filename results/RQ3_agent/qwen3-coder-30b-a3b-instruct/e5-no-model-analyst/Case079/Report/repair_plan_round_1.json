@@ -1,0 +1,20 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 285: Couldn't resolve reference to 'door1'.",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent 'door1' which is not visible in that scope",
+      "minimal_edit": "Remove the assume statement referencing 'door1' from the process type annex"
+    },
+    {
+      "diagnostic": "line 286: Couldn't resolve reference to 'door1'.",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent 'door1' which is not visible in that scope",
+      "minimal_edit": "Remove the assume statement referencing 'door1' from the process type annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the entire annex agree block from doors_process",
+    "Add a new annex agree block to doors_process.imp",
+    "In the new annex block, add assume statements that reference the correct visible identifiers: D1_handle_position = door1.handle_position and D1_closed = door1.closed"
+  ]
+}

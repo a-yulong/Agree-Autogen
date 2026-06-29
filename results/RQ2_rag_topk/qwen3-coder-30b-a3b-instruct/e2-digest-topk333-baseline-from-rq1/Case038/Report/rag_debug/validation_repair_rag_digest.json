@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "When AGREE diagnostics report type mismatches, align helper declarations with the correct AADL scalar types (int, real, bool) and ensure expression operands match.",
+    "If AGREE cannot resolve references like 'integral' or 'derivative', verify that all referenced variables are declared in the same annex and visible to the current scope.",
+    "For port specification errors, confirm that target and actual port types are of adequate kinds and reachable within the AADL model.",
+    "Avoid placing guarantees or equation declarations in implementation scopes unless they reference valid output features or auxiliary variables."
+  ],
+  "generic_rules": [
+    "Use only visible identifiers and declared helpers in AGREE annexes to prevent resolution failures.",
+    "Ensure all AGREE expressions conform to expected scalar types (int, real, bool) based on operand types.",
+    "Place component type contracts in component type scopes and implementation contracts in implementation scopes.",
+    "Validate that all referenced AADL features and types exist in the model before including them in AGREE annexes."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Equation declarations in AGREE must have consistent operand types.",
+    "Assignments in implementation scopes must reference existing output features or declared auxiliary variables.",
+    "Constants and equations in AGREE should use AADL scalar type names: int, real, bool."
+  ],
+  "anti_patterns": [
+    "Do not attempt to resolve undefined references by introducing new types or features outside the model.",
+    "Do not mix component type and implementation scope constructs inappropriately.",
+    "Avoid placing equation or guarantee declarations in scopes where their referenced identifiers are not visible."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "Component type vs implementation binding locations",
+    "Assumption/guarantee placement in component types"
+  ]
+}

@@ -1,0 +1,37 @@
+annex agree {**
+  guarantee "signal_routing_others": 
+    (Forcing_Safe_Mode = true => 
+      (reference_torque = 0.0 and reference_force = 0.0))
+    and
+    (Getting_Back_To_Normal_Mode = true => 
+      (reference_torque = 0.0 and reference_force = 0.0));
+  
+  guarantee "power_status_consistency":
+    power_status_FSS = true or power_status_CSS = true or 
+    power_status_SPS = true or power_status_ES = true or 
+    power_status_MGM = true or power_status_GYR = true or 
+    power_status_STR = true or power_status_GPS = true or 
+    power_status_THU = true or power_status_RW = true or 
+    power_status_MGT = true;
+  
+  guarantee "mode_transitions":
+    (Force_mode_to_SM = true => Changing_mode_to_SM = true) and
+    (Force_mode_to_NM = true => Changing_mode_to_NM = true);
+  
+  guarantee "reconfiguration_signals":
+    FSS_reconfiguration = true or CSS_reconfiguration = true or 
+    SPS_reconfiguration = true or ES_reconfiguration = true or 
+    MGM_reconfiguration = true or GYR_reconfiguration = true or 
+    STR_reconfiguration = true or GPS_reconfiguration = true or 
+    THU_reconfiguration = true or RW_reconfiguration = true or 
+    MGT_reconfiguration = true;
+  
+  guarantee "command_signals":
+    torque_command = 0.0 => reference_torque = 0.0 and
+    force_command = 0.0 => reference_force = 0.0;
+  
+  guarantee "anomaly_handling":
+    anomaly_detected = true => 
+      (watchdog_event = true and 
+       (Force_mode_to_SM = true or Force_mode_to_NM = true));
+**};

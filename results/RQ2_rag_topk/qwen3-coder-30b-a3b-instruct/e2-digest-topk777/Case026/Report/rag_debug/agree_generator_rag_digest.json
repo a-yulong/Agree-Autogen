@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Place assume/guarantee statements in component type scopes when they describe interface behavior; use implementation scopes for subcomponent bindings and assignments.",
+    "Use exact visible identifiers from the current component scope; do not invent or copy names from examples.",
+    "Generate AGREE annex blocks within `annex agree {** ... **};` and respect the scope of the owning component declaration.",
+    "Do not encode AADL timing properties (e.g., Deadline, Period) as AGREE expressions unless explicit typed ports or constants are available."
+  ],
+  "generic_rules": [
+    "AGREE contracts must reference only identifiers visible in the current component scope.",
+    "Assignments in AGREE are valid only when the left-hand side is an output feature or declared auxiliary variable.",
+    "Component type contracts should use assumptions and guarantees for interface behavior, while implementation contracts handle subcomponent bindings.",
+    "Do not place guarantees in implementation scope; use assignments or equations instead."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE syntax uses `assume \"label\": expression;` and `guarantee \"label\": expression;` for contracts.",
+    "Use `eq name : type = expression;` for equations and `const name : type = value;` for constants.",
+    "Implementation-level `assign output = expression;` is valid only for outputs or auxiliary variables."
+  ],
+  "anti_patterns": [
+    "Avoid placing implementation-level guarantees in component type annexes; move them to implementation scope or delete.",
+    "Do not reference AADL properties like Deadline or Period directly in AGREE expressions unless they are explicitly typed in the model.",
+    "Do not invent or copy identifiers from example code; always use exact names from the current component scope."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and their mapping to AGREE variables",
+    "Model fusion and architecture redesign during repair",
+    "Validator diagnostics for unresolved references"
+  ]
+}

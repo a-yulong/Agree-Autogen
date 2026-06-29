@@ -1,0 +1,49 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 304: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "solver_in1 is an int port; acc1_dataOutput is a thread name, not a port or expression with type int",
+      "minimal_edit": "remove 'solver_in1 = acc1_dataOutput' clause"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 304: named thing must be an expression with a type",
+      "cause": "acc1_dataOutput is a thread name, not a visible port or expression in ADIRUp_solve's scope",
+      "minimal_edit": "remove 'solver_in1 = acc1_dataOutput' clause"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 305: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "solver_in2 is an int port; acc2_dataOutput is a thread name, not a port or expression with type int",
+      "minimal_edit": "remove 'solver_in2 = acc2_dataOutput' clause"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 305: named thing must be an expression with a type",
+      "cause": "acc2_dataOutput is a thread name, not a visible port or expression in ADIRUp_solve's scope",
+      "minimal_edit": "remove 'solver_in2 = acc2_dataOutput' clause"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 306: Couldn't resolve reference to 'acc1out'.",
+      "cause": "acc1out is a port of thread acc1_dataOutput, not visible in ADIRUp_solve component scope",
+      "minimal_edit": "remove 'acc1_dataOutput = acc1out' clause"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 306: named thing must be an expression with a type",
+      "cause": "acc1out is not a visible identifier in ADIRUp_solve; cannot be referenced in its annex",
+      "minimal_edit": "remove 'acc1_dataOutput = acc1out' clause"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 307: Couldn't resolve reference to 'acc2out'.",
+      "cause": "acc2out is a port of thread acc2_dataOutput, not visible in ADIRUp_solve component scope",
+      "minimal_edit": "remove 'acc2_dataOutput = acc2out' clause"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 307: named thing must be an expression with a type",
+      "cause": "acc2out is not a visible identifier in ADIRUp_solve; cannot be referenced in its annex",
+      "minimal_edit": "remove 'acc2_dataOutput = acc2out' clause"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the entire annex agree block on lines 303-308",
+    "Replace it with an empty annex agree block if required for structure, or leave absent"
+  ]
+}

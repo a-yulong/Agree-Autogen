@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'ACAS_Monitor_impl'.",
+      "cause": "AGREE annex is incorrectly scoped to implementation instead of component type",
+      "minimal_edit": "Move the annex from ACAS_Monitor.ACAS_Monitor_impl to ACAS_Monitor"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'collision_time_constant'.",
+      "cause": "Reference to non-existent implementation constant in component type annex",
+      "minimal_edit": "Remove or replace reference to 'collision_time_constant' with valid expression"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'recovery_time_constant'.",
+      "cause": "Reference to non-existent implementation constant in component type annex",
+      "minimal_edit": "Remove or replace reference to 'recovery_time_constant' with valid expression"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Invalid type comparison due to unresolved references",
+      "minimal_edit": "Remove or replace invalid equality expressions"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid reference to non-expression symbol",
+      "minimal_edit": "Remove or replace invalid reference"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the entire AGREE annex block from ACAS_Monitor.ACAS_Monitor_impl to ACAS_Monitor component type",
+    "Remove or replace the invalid references to 'collision_time_constant' and 'recovery_time_constant' with valid expressions",
+    "Ensure all expressions in the AGREE annex use only visible identifiers from the component type interface"
+  ]
+}

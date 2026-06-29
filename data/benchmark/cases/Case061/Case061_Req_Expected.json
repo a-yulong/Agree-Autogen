@@ -1,0 +1,168 @@
+{
+  "case": 39,
+  "letter": "A",
+  "target": "Q",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The Do_Ping_Spg subprogram is required to guarantee that its output parameter Data_Source produces valid test identifier or timestamp characteristic values, specified as bounded numeric values greater than or equal to 0. This ensures that the emitted Ping signal contains well-defined state information and prevents the transmission of negative values or out-of-bound illegal random memory data to downstream components.",
+  "natural_requirement": "The Q component shall define the implementation-level data routing and execution constraints for Q.Impl. In the implementation layer, Q.Impl shall route the data flow from Data_Sink to Q_Spg.Data_Sink through P1. The implementation shall use the Sporadic dispatch protocol, execute with a period of 10 Ms, meet a deadline of 10 Ms, and run at priority 1.",
+  "requirement_items": [
+    {
+      "text": "The Q.Impl implementation shall route the data flow from Data_Sink to Q_Spg.Data_Sink through connection P1.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "Q.Impl",
+        "P1",
+        "Data_Sink",
+        "Q_Spg.Data_Sink"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "Q.Impl",
+        "connection": "P1",
+        "source": "Data_Sink",
+        "destination": "Q_Spg.Data_Sink"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The Q.Impl implementation shall declare connection P1 from Data_Sink to Q_Spg.Data_Sink.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The Q.Impl implementation shall execute using the Sporadic dispatch protocol.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "Q.Impl",
+        "",
+        "Dispatch_Protocol",
+        "Sporadic"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "Q.Impl",
+        "owner_kind": "implementation",
+        "element": "",
+        "property": "Dispatch_Protocol",
+        "value": "Sporadic"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The Q.Impl implementation shall assign Dispatch_Protocol as Sporadic.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The Q.Impl implementation shall execute with a period of 10 Ms.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "Q.Impl",
+        "",
+        "Period",
+        "10 Ms"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "Q.Impl",
+        "owner_kind": "implementation",
+        "element": "",
+        "property": "Period",
+        "value": "10 Ms"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The Q.Impl implementation shall assign Period as 10 Ms.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The Q.Impl implementation shall meet a deadline of 10 Ms.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "Q.Impl",
+        "",
+        "deadline",
+        "10 Ms"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "Q.Impl",
+        "owner_kind": "implementation",
+        "element": "",
+        "property": "deadline",
+        "value": "10 Ms"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The Q.Impl implementation shall assign deadline as 10 Ms.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The Q.Impl implementation shall run at priority 1.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "Q.Impl",
+        "",
+        "Priority",
+        "1"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "Q.Impl",
+        "owner_kind": "implementation",
+        "element": "",
+        "property": "Priority",
+        "value": "1"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The Q.Impl implementation shall assign Priority as 1.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 61,
+  "original_label": "Case61_A",
+  "natural_requirement_before_behavior_style_rewrite": "The Q.Impl implementation shall declare connection P1 from Data_Sink to Q_Spg.Data_Sink. The Q.Impl implementation shall assign Dispatch_Protocol as Sporadic. The Q.Impl implementation shall assign Period as 10 Ms. The Q.Impl implementation shall assign deadline as 10 Ms. The Q.Impl implementation shall assign Priority as 1.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The Q.Impl implementation shall route the data flow from Data_Sink to Q_Spg.Data_Sink through connection P1. The Q.Impl implementation shall execute using the Sporadic dispatch protocol. The Q.Impl implementation shall execute with a period of 10 Ms. The Q.Impl implementation shall meet a deadline of 10 Ms. The Q.Impl implementation shall run at priority 1.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

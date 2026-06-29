@@ -1,0 +1,61 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 56: Couldn't resolve reference to 'tempin1'.",
+      "cause": "Reference to 'tempin1' is not visible in temp_control.i scope",
+      "minimal_edit": "Change 'voter.tempin1' to 'tempin1' in the assume statement"
+    },
+    {
+      "diagnostic": "line 57: Couldn't resolve reference to 'tempin2'.",
+      "cause": "Reference to 'tempin2' is not visible in temp_control.i scope",
+      "minimal_edit": "Change 'voter.tempin2' to 'tempin2' in the assume statement"
+    },
+    {
+      "diagnostic": "line 58: Couldn't resolve reference to 'c0'.",
+      "cause": "Reference to 'c0' is not a valid AGREE expression",
+      "minimal_edit": "Remove or rewrite the timing constraint for 'c0' using valid AGREE syntax"
+    },
+    {
+      "diagnostic": "line 59: Couldn't resolve reference to 'c1'.",
+      "cause": "Reference to 'c1' is not a valid AGREE expression",
+      "minimal_edit": "Remove or rewrite the timing constraint for 'c1' using valid AGREE syntax"
+    },
+    {
+      "diagnostic": "line 60: Couldn't resolve reference to 'c2'.",
+      "cause": "Reference to 'c2' is not a valid AGREE expression",
+      "minimal_edit": "Remove or rewrite the timing constraint for 'c2' using valid AGREE syntax"
+    },
+    {
+      "diagnostic": "line 61: Couldn't resolve reference to 'c3'.",
+      "cause": "Reference to 'c3' is not a valid AGREE expression",
+      "minimal_edit": "Remove or rewrite the timing constraint for 'c3' using valid AGREE syntax"
+    },
+    {
+      "diagnostic": "line 86: Couldn't resolve reference to 'temp1'.",
+      "cause": "Reference to 'temp1' is not visible in voter scope",
+      "minimal_edit": "Change 'temp1' to 'tempin1' in the assume statement"
+    },
+    {
+      "diagnostic": "line 87: Couldn't resolve reference to 'temp2'.",
+      "cause": "Reference to 'temp2' is not visible in voter scope",
+      "minimal_edit": "Change 'temp2' to 'tempin2' in the assume statement"
+    },
+    {
+      "diagnostic": "line 93: Assume statements are allowed only in component types",
+      "cause": "Assume statements in implementation annex are not allowed",
+      "minimal_edit": "Move the assume statements from voter.impl to voter component type"
+    },
+    {
+      "diagnostic": "line 94: Assume statements are allowed only in component types",
+      "cause": "Assume statements in implementation annex are not allowed",
+      "minimal_edit": "Move the assume statements from voter.impl to voter component type"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the assume statements from voter.impl annex",
+    "Move the assume statements from temp_control.i annex to voter component type",
+    "Remove timing constraints for c0, c1, c2, c3 from temp_control.i annex",
+    "Update the assume statements in voter component type to use correct port names"
+  ]
+}

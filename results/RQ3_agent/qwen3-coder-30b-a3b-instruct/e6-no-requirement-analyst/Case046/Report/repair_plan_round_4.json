@@ -1,0 +1,56 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 48: Assume statements are allowed only in component types",
+      "cause": "assume statement in implementation annex",
+      "minimal_edit": "Move assume \"input_bound\": Input < 10; to top_level component type annex"
+    },
+    {
+      "diagnostic": "line 50: Guarantee statements are allowed only in component types",
+      "cause": "guarantee statement in implementation annex",
+      "minimal_edit": "Move guarantee \"mode_non_negative\": mode >= 0; to top_level component type annex"
+    },
+    {
+      "diagnostic": "line 52: Guarantee statements are allowed only in component types",
+      "cause": "guarantee statement in implementation annex",
+      "minimal_edit": "Move guarantee \"output_bound\": Output < 50; to top_level component type annex"
+    },
+    {
+      "diagnostic": "line 54: Couldn't resolve reference to \"input_forward\": A_sub.Input",
+      "cause": "A_sub.Input is not a valid left-hand side in AGREE assignment",
+      "minimal_edit": "Remove assign \"input_forward\": A_sub.Input = Input;"
+    },
+    {
+      "diagnostic": "line 56: Couldn't resolve reference to \"a_to_b_c\": B_sub.Input",
+      "cause": "B_sub.Input is not a valid left-hand side in AGREE assignment",
+      "minimal_edit": "Remove assign \"a_to_b_c\": B_sub.Input = A_sub.Output;"
+    },
+    {
+      "diagnostic": "line 58: Couldn't resolve reference to \"a_to_c\": C_sub.Input_1",
+      "cause": "C_sub.Input_1 is not a valid left-hand side in AGREE assignment",
+      "minimal_edit": "Remove assign \"a_to_c\": C_sub.Input_1 = A_sub.Output;"
+    },
+    {
+      "diagnostic": "line 60: Couldn't resolve reference to \"b_to_c\": C_sub.Input_2",
+      "cause": "C_sub.Input_2 is not a valid left-hand side in AGREE assignment",
+      "minimal_edit": "Remove assign \"b_to_c\": C_sub.Input_2 = B_sub.Output;"
+    },
+    {
+      "diagnostic": "line 62: Couldn't resolve reference to \"c_to_output\": Output",
+      "cause": "Output is not a valid left-hand side in AGREE assignment",
+      "minimal_edit": "Remove assign \"c_to_output\": Output = C_sub.Output;"
+    },
+    {
+      "diagnostic": "line 64: Couldn't resolve reference to \"mode_assignment\": mode",
+      "cause": "mode is not a visible identifier in implementation annex",
+      "minimal_edit": "Remove assign \"mode_assignment\": mode = C_sub.mode;"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the assume statement on line 48 to the top_level component type annex",
+    "Move the guarantee statements on lines 50 and 52 to the top_level component type annex",
+    "Remove all assignment statements from the top_level.Impl annex that reference subcomponent ports",
+    "Remove the mode assignment from the top_level.Impl annex"
+  ]
+}

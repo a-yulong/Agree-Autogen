@@ -1,0 +1,42 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 14: left and right sides of binary expression '>=' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Comparison of opaque port type with real literal",
+      "minimal_edit": "Replace Target_Speed >= 0.0 with Target_Speed.val >= 0.0"
+    },
+    {
+      "diagnostic": "line 15: left and right sides of binary expression '<' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Comparison of opaque port type with real literal",
+      "minimal_edit": "Replace Target_Speed < 150.0 with Target_Speed.val < 150.0"
+    },
+    {
+      "diagnostic": "line 17: left and right sides of binary expression '=' are of type 'Types::state_sig.impl' and 'int', but must be of the same type",
+      "cause": "Comparison of opaque port type with integer literal",
+      "minimal_edit": "Replace State_Signal = 1 with State_Signal.val = 1"
+    },
+    {
+      "diagnostic": "line 18: left side of binary expression '<=' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Comparison of opaque port type with real literal",
+      "minimal_edit": "Replace Actual_Speed <= Target_Speed with Actual_Speed.val <= Target_Speed.val"
+    },
+    {
+      "diagnostic": "line 19: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Subtraction of opaque port types",
+      "minimal_edit": "Replace Actual_Speed - Actual_Speed' with Actual_Speed.val - Actual_Speed'.val"
+    },
+    {
+      "diagnostic": "line 19: Couldn't resolve reference to 'abs'",
+      "cause": "abs function not available in AGREE context",
+      "minimal_edit": "Replace abs(...) with if (Actual_Speed.val - Actual_Speed'.val >= 0) then (Actual_Speed.val - Actual_Speed'.val) else (Actual_Speed'.val - Actual_Speed.val)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit line 14 to change Target_Speed >= 0.0 to Target_Speed.val >= 0.0",
+    "Edit line 15 to change Target_Speed < 150.0 to Target_Speed.val < 150.0",
+    "Edit line 17 to change State_Signal = 1 to State_Signal.val = 1",
+    "Edit line 18 to change Actual_Speed <= Target_Speed to Actual_Speed.val <= Target_Speed.val",
+    "Edit line 19 to change abs(Actual_Speed - Actual_Speed') < max_accel to if (Actual_Speed.val - Actual_Speed'.val >= 0) then (Actual_Speed.val - Actual_Speed'.val) else (Actual_Speed'.val - Actual_Speed.val) < max_accel"
+  ]
+}

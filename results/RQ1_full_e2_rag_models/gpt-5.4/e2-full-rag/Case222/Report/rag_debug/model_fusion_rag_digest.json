@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Preserve the existing AADL architecture and add contract content only within the owning component or implementation scope.",
+    "Keep declarations in a scope where referenced identifiers are valid; do not move architecture elements or alter structural ownership.",
+    "If content depends on component features, prefer the component type as the contract owner; reserve implementation scope for implementation-level bindings only when valid there."
+  ],
+  "generic_rules": [
+    "Maintain owner/scope consistency between inserted annex content and the identifiers it references.",
+    "Do not introduce references to subcomponent paths or implementation-only names into a higher-level scope.",
+    "Minimize edits: add the needed annex material without changing unrelated features, connections, properties, or hierarchy."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE content is enclosed in an `annex agree {** ... **};` block.",
+    "Implementation-scoped content should appear only where that scope is valid and after any referenced structural elements are declared."
+  ],
+  "anti_patterns": [
+    "Do not insert contract content into a scope where referenced names are not visible.",
+    "Do not modify or reorganize existing AADL structural declarations as part of annex insertion.",
+    "Do not rely on numeric range patterns for Boolean-like data unless the model explicitly defines a numeric scalar representation."
+  ],
+  "irrelevant_topics": [
+    "Temporal recurrence and branching expression patterns inside AGREE clauses",
+    "Detailed requirement semantics such as environment assumptions versus output guarantees",
+    "Validator-specific scalar type repair tactics"
+  ]
+}

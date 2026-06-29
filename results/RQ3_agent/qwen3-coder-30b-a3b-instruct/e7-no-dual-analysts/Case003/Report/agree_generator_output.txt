@@ -1,0 +1,7 @@
+annex agree {**
+  assume "time_step_bound": 0.1 <= 0.1;
+  guarantee "distance_computation": distanceFromFence = circleLinearization(t);
+  guarantee "recovery_time_guard": (t > 1.7) => (distanceFromFence > distanceFromFence_previous);
+  guarantee "system_failure_time": timeToFailure = 9.5;
+  const "distanceFromFence_previous" = distanceFromFence;
+**};

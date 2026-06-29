@@ -1,0 +1,7 @@
+annex agree {**
+  assume "altitude equality check": ownAltitude_in = nearestIntruderAltitude => (ownLongitude > nearestIntruderLongitude => requiredVerticalVelocity = 50);
+  assume "longitude comparison": ownAltitude_in = nearestIntruderAltitude and ownLongitude <= nearestIntruderLongitude => requiredVerticalVelocity = -50;
+  assume "own altitude less than intruder": ownAltitude_in < nearestIntruderAltitude => requiredVerticalVelocity = 10;
+  assume "own altitude greater than intruder": ownAltitude_in > nearestIntruderAltitude => requiredVerticalVelocity = -10;
+  guarantee "tie condition boolean": ownAircraftGoesUpOnTie = (ownLongitude > nearestIntruderLongitude);
+**};

@@ -1,0 +1,10 @@
+annex agree {**
+  assume "GCAS impact time is non-negative": inpGCASImpact >= 0.0;
+  assume "ACAS impact time is non-negative": inpACASImpact >= 0.0;
+  assume "GCAS recovery time is non-negative": inpGCASRecovery >= 0.0;
+  assume "ACAS recovery time is non-negative": inpACASRecovery >= 0.0;
+  guarantee "dynamic decision ACAS case": inpGCASImpact > inpACASImpact and inpGCASRecovery + inpACASRecovery >= 0.0 => outDec = 1;
+  guarantee "dynamic decision GCAS case": (inpGCASImpact <= inpACASImpact or inpGCASRecovery + inpACASRecovery < 0.0) => outDec = 0;
+  guarantee "static priority fallback when services are less than 2": not (inpGCASM or inpSAM or inpACASM or inpGFM or inpWxM or inpFLS) or (inpGCASM and inpSAM and inpACASM and inpGFM and inpWxM and inpFLS) => outDec = 0;
+  guarantee "output is binary": outDec = 0 or outDec = 1;
+**};

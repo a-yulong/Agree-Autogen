@@ -1,0 +1,45 @@
+{
+  "problems": [
+    {
+      "diagnostic": "The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "Type mismatch in equation declaration: 'e' is declared as real but Target and Actual are of opaque type 'Types::speed.speed_impl'",
+      "minimal_edit": "Change 'eq e : real = Target - Actual;' to 'eq e : Types::speed.speed_impl = Target - Actual;' to match the port types"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types 'Types::speed.speed_impl' are opaque and cannot be used in arithmetic operations directly",
+      "minimal_edit": "Change 'eq e : real = Target - Actual;' to 'eq e : Types::speed.speed_impl = Target - Actual;' to match the port types"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types 'Types::speed.speed_impl' are opaque and cannot be used in arithmetic operations directly",
+      "minimal_edit": "Change 'eq e : real = Target - Actual;' to 'eq e : Types::speed.speed_impl = Target - Actual;' to match the port types"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'e_dot'.",
+      "cause": "e_dot is not declared in the AGREE annex",
+      "minimal_edit": "Add declaration for e_dot as derivative of e: 'eq e_dot : real = derivative(e);'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'e_int'.",
+      "cause": "e_int is not declared in the AGREE annex",
+      "minimal_edit": "Add declaration for e_int as integral of e: 'eq e_int : real = integral(e);'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '*' are of type 'real' and '<error>'",
+      "cause": "e_dot and e_int are unresolved references causing type errors in the guarantee",
+      "minimal_edit": "Add declarations for e_dot and e_int before the guarantee statement"
+    },
+    {
+      "diagnostic": "right side of binary expression '*' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "e_dot and e_int are unresolved references causing type errors in the guarantee",
+      "minimal_edit": "Add declarations for e_dot and e_int before the guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add declaration for e_dot as derivative of e: 'eq e_dot : real = derivative(e);'",
+    "Add declaration for e_int as integral of e: 'eq e_int : real = integral(e);'",
+    "Change 'eq e : real = Target - Actual;' to 'eq e : Types::speed.speed_impl = Target - Actual;' to match the port types"
+  ]
+}

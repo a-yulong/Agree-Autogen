@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 33: Couldn't resolve reference to 'Input1'.",
+      "cause": "AGREE annex in system top_level references port Input1 which is not visible in that scope",
+      "minimal_edit": "Change 'Input1' to 'Input' in the assume statement on line 33"
+    },
+    {
+      "diagnostic": "line 33: left and right sides of binary expression '<' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Invalid reference to Input1 causes type error in expression",
+      "minimal_edit": "Change 'Input1' to 'Input' in the assume statement on line 33"
+    },
+    {
+      "diagnostic": "line 33: left side of binary expression '<' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Invalid reference to Input1 causes type error in expression",
+      "minimal_edit": "Change 'Input1' to 'Input' in the assume statement on line 33"
+    },
+    {
+      "diagnostic": "line 33: named thing must be an expression with a type",
+      "cause": "Invalid reference to Input1 causes type error in expression",
+      "minimal_edit": "Change 'Input1' to 'Input' in the assume statement on line 33"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from system top_level to system C",
+    "In the AGREE annex block for system C, change 'Input1 < 10' to 'Input < 10'",
+    "In the AGREE annex block for system C, change 'Output < 55' to 'Output < 55'"
+  ]
+}

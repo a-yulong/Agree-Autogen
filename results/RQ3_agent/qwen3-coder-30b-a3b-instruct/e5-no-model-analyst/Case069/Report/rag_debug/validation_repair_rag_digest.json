@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix unresolved references and type mismatches in AGREE contracts by ensuring all identifiers are visible and types match.",
+    "Use only visible AADL features or declared helpers in AGREE expressions to avoid '<error>' type issues.",
+    "Place AGREE contracts in valid scopes: component types for assumptions/guarantees, implementations for assignments.",
+    "Validate that all AGREE declarations (const, eq) use correct scalar types: int, real, bool."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, ensure all referenced identifiers are declared or visible in the same scope.",
+    "Match expression types in binary operations: bool, int, or real must be consistent on both sides.",
+    "Avoid introducing package-qualified names or types not present in the AADL model.",
+    "Use only named constants or visible features in component type contracts for assumptions and guarantees."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Assignments in implementation scopes must reference existing output features or declared variables.",
+    "Binary expressions in AGREE require matching operand types.",
+    "Constants and equations in AGREE must declare valid scalar types: int, real, bool."
+  ],
+  "anti_patterns": [
+    "Do not reference identifiers or types that are not declared or visible in the current AADL scope.",
+    "Do not mix incompatible types in binary expressions (e.g., bool and int).",
+    "Do not place guarantee statements in implementation scopes; use only assignments.",
+    "Do not introduce package-qualified identifiers not present in the model dependencies."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics",
+    "AGREE validator diagnostics",
+    "Component type vs implementation scope distinctions",
+    "Requirement traceability and compact semantics"
+  ]
+}

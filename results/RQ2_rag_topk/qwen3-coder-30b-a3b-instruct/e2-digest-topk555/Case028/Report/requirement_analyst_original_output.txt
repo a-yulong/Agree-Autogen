@@ -1,0 +1,46 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "component shall maintain a real-valued recursive variable t with initial value 0.0 and step size 0.1",
+      "evidence": ["t"]
+    },
+    {
+      "id": "R2",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "component shall define constant minHeightAllowed as 200.0",
+      "evidence": ["minHeightAllowed"]
+    },
+    {
+      "id": "R3",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "text": "component shall invoke kinematicLinearization function from gcas_nodes library, passing t as parameter, to compute height variable",
+      "evidence": ["kinematicLinearization", "t", "height"]
+    },
+    {
+      "id": "R4",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "text": "component shall set output port timeToRecovery to constant 3.7",
+      "evidence": ["timeToRecovery"]
+    },
+    {
+      "id": "R5",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "when simulation time t reaches or exceeds recovery time, computed height value must always be greater than minHeightAllowed",
+      "evidence": ["t", "height", "minHeightAllowed"]
+    },
+    {
+      "id": "R6",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "when simulation time t reaches or exceeds recovery time, current height value must be greater than previous height value",
+      "evidence": ["height"]
+    }
+  ]
+}

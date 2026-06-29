@@ -1,0 +1,12 @@
+annex agree {**
+  eq k_init : temperature_type = 10;
+  
+  guarantee "dataout_bounds": dataout >= 0 and dataout <= 20;
+  
+  guarantee "dataout_equals_k": dataout = k;
+  
+  assume "k_update_rule": 
+    (prev(k) >= 20 => k = prev(k) - 1) and 
+    (prev(k) <= 0 => k = prev(k) + 1) and 
+    (prev(k) > 0 and prev(k) < 20 => k = prev(k));
+**};

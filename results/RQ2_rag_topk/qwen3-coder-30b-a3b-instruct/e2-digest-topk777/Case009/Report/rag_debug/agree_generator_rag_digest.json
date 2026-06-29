@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in component type scopes when they refer to ports or features, and in implementation scopes for subcomponent bindings.",
+    "Use visible identifiers from the AADL model to ensure AGREE expressions are valid in the target scope.",
+    "Generate only assumptions and guarantees that are directly supported by requirement text and visible model elements.",
+    "Do not introduce package-qualified identifiers or AADL properties as AGREE variables unless explicitly exposed in the model."
+  ],
+  "generic_rules": [
+    "Use const and eq declarations to define numeric ranges and boolean conditions in AGREE contracts.",
+    "Ensure all AGREE expressions use types compatible with the AADL model's data types.",
+    "Avoid generating bounds or constraints that are not explicitly stated in the requirement.",
+    "Only generate assign statements for output features or auxiliary variables in implementation scope."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Assumptions and guarantees should reference valid component ports or declared variables.",
+    "Boolean expressions in AGREE must use the bool type and valid comparison operators.",
+    "Constants and equations in AGREE must be declared with correct scalar types: int, real, or bool."
+  ],
+  "anti_patterns": [
+    "Do not assume that all numeric AADL ports require x >= 0 constraints unless explicitly stated.",
+    "Do not encode AADL event ports as numeric or Boolean values in AGREE expressions.",
+    "Do not introduce AADL property names (e.g., Period, Deadline) as AGREE variables.",
+    "Do not generate AGREE clauses for ports or features that are not visible in the current scope."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE annex placement in system vs component implementations",
+    "Model fusion and owner/scope preservation rules",
+    "Validator diagnostics and repair patterns"
+  ]
+}

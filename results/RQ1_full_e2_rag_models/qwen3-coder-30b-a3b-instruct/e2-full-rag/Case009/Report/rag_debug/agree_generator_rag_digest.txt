@@ -1,0 +1,20 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate `assume` statements for input envelope assumptions with concrete bounds or visible relations.
+- Place `assign` statements in implementation scope only for existing output features or declared auxiliary variables.
+- Use `eq` declarations for boolean range checks with visible numeric identifiers.
+Generic rules:
+- AGREE annex blocks must be enclosed in `annex agree {** ... **};`.
+- Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes for assignments.
+- Ensure type consistency between helper declarations and expressions (bool, int, real).
+- Do not encode AADL timing properties as AGREE variables unless explicitly exposed in scope.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements.
+- Use `eq name : type = expression;` for boolean range checks like `value_in_range : bool = x >= min and x <= max;`.
+- Use `const name : type = value;` for named constants in component type contracts.
+- Use `assign output = expression;` for output bindings in implementation scope.
+Anti-patterns:
+- Do not place `guarantee` statements in implementation scope.
+- Do not assume AADL property names (e.g., Period, Deadline) are available as AGREE variables.
+- Do not convert Boolean or opaque data into numeric comparisons unless scalar representation is confirmed.
+</RAG_DIGEST>

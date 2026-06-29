@@ -1,0 +1,156 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: Data_In, Data_Source1, Data_Source1.All_elems, Data_Source1.elem, Data_Source2, Data_Source2.All_elems, Data_Source2.elem, Pr_Index
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_In | in | data | int | Base_Types::Integer
+Data_Source1 | out | data | opaque | A_Struct.impl
+Data_Source1.All_elems | out | data_field | opaque | One_Dimension_Array
+Data_Source1.elem | out | data_field | int | Base_Types::Integer
+Data_Source2 | out | data | opaque | A_Struct.impl
+Data_Source2.All_elems | out | data_field | opaque | One_Dimension_Array
+Data_Source2.elem | out | data_field | int | Base_Types::Integer
+Pr_Index | out | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Producer_Th | lines 92-102
+annex agree {**
+  
+    assume "bounded_input": (0 <= Data_In) and (Data_In <= 100);
+  
+    guarantee "data_source1_valid": Data_Source1.All_elems /= null;
+  
+    guarantee "data_source2_valid": Data_Source2.All_elems /= null;
+  
+    guarantee "index_valid": (0 <= Pr_Index) and (Pr_Index < 100);
+  
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   92:   annex agree {**
+   93:   
+   94:     assume "bounded_input": (0 <= Data_In) and (Data_In <= 100);
+   95:   
+>> 96:     guarantee "data_source1_valid": Data_Source1.All_elems /= null;
+   97:   
+   98:     guarantee "data_source2_valid": Data_Source2.All_elems /= null;
+   99:   
+   100:     guarantee "index_valid": (0 <= Pr_Index) and (Pr_Index < 100);
+
+   94:     assume "bounded_input": (0 <= Data_In) and (Data_In <= 100);
+   95:   
+   96:     guarantee "data_source1_valid": Data_Source1.All_elems /= null;
+   97:   
+>> 98:     guarantee "data_source2_valid": Data_Source2.All_elems /= null;
+   99:   
+   100:     guarantee "index_valid": (0 <= Pr_Index) and (Pr_Index < 100);
+   101:   
+   102:   **};
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Producer_Th
+thread Producer_Th
+  features
+        Data_In      : in data port Base_Types::Integer;
+    Data_Source1 : out event data port A_Struct.impl;
+    Data_Source2 : out event data port A_Struct.impl;
+    Pr_Index     : out event data port Base_Types::Integer;
+  properties
+    Dispatch_Protocol => Periodic;
+    Compute_Execution_Time => 1 ms .. 10 ms;
+    Priority => 1;
+    Period => 500 ms;
+  
+  end Producer_Th;
+
+-- RELATED MODEL LINES
+thread Producer_Th
+Data_In      : in data port Base_Types::Integer;
+Data_Source1 : out event data port A_Struct.impl;
+Data_Source2 : out event data port A_Struct.impl;
+Pr_Index     : out event data port Base_Types::Integer;
+end Producer_Th;
+Producer    : thread Producer_Th;
+Z3:port Producer.Data_Source1 -> Alpha1;
+Z5:port Producer.Data_Source2 -> Alpha2;
+Z9:port Producer.Pr_Index -> Alpha3;
+Z12:port Computation.Data_Out -> Producer.Data_In;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Producer_Th",
+      "kind": "thread"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Producer_Th",
+      "name": "Data_In",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Producer_Th",
+      "name": "Data_Source1",
+      "direction": "out",
+      "category": "event data port",
+      "type": "A_Struct.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Producer_Th",
+      "name": "Data_Source2",
+      "direction": "out",
+      "category": "event data port",
+      "type": "A_Struct.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Producer_Th",
+      "name": "Pr_Index",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Producer_Th",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "Producer_Th"
+    },
+    {
+      "owner": "Producer_Th",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "1 ms .. 10 ms",
+      "applies_to": "Producer_Th"
+    },
+    {
+      "owner": "Producer_Th",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": "Producer_Th"
+    },
+    {
+      "owner": "Producer_Th",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "500 ms",
+      "applies_to": "Producer_Th"
+    }
+  ]
+}

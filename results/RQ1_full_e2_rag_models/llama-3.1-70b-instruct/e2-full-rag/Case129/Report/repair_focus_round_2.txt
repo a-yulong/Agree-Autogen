@@ -1,0 +1,292 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- Task
+- Task.impl_1
+- P_Spg
+- node_a
+- node_a.impl
+- Task1
+- hello
+- hello.impl
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Task.impl_1 executes with Periodic dispatch protocol",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Task.impl_1",
+        "Dispatch_Protocol=Periodic"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Task.impl_1 executes with period 100 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Task.impl_1",
+        "Period=100 ms"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Task.impl_1 completes compute execution within 0 ms.. 3 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Task.impl_1",
+        "Compute_Execution_time=0 ms.. 3 ms"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Task.impl_1 runs at priority 100",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Task.impl_1",
+        "Priority=100"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Task.impl_1 | lines 25-30
+annex agree {**
+    assume "Periodic dispatch protocol": Dispatch_Protocol = Periodic;
+    assume "Period 100 ms": Period = 100;
+    assume "Compute execution time": Compute_Execution_time >= 0 and Compute_Execution_time <= 3;
+    assume "Priority 100": Priority = 100;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   6:   -----------------
+   7:   -- Subprograms --
+   8:   -----------------
+   9: 
+>> 10:   subprogram Hello_Spg_1
+   11:   properties
+   12:     -- Source_Language => (C);
+   13:     Source_Name     => "user_Hello_Spg_1";
+   14:     Source_Text     => ("hello.c");
+
+   22:   end Task;
+   23: 
+   24:   thread implementation Task.impl_1
+   25:   annex agree {**
+>> 26:     assume "Periodic dispatch protocol": Dispatch_Protocol = Periodic;
+   27:     assume "Period 100 ms": Period = 100;
+   28:     assume "Compute execution time": Compute_Execution_time >= 0 and Compute_Execution_time <= 3;
+   29:     assume "Priority 100": Priority = 100;
+   30:   **};
+
+   23: 
+   24:   thread implementation Task.impl_1
+   25:   annex agree {**
+   26:     assume "Periodic dispatch protocol": Dispatch_Protocol = Periodic;
+>> 27:     assume "Period 100 ms": Period = 100;
+   28:     assume "Compute execution time": Compute_Execution_time >= 0 and Compute_Execution_time <= 3;
+   29:     assume "Priority 100": Priority = 100;
+   30:   **};
+   31:   calls
+
+   24:   thread implementation Task.impl_1
+   25:   annex agree {**
+   26:     assume "Periodic dispatch protocol": Dispatch_Protocol = Periodic;
+   27:     assume "Period 100 ms": Period = 100;
+>> 28:     assume "Compute execution time": Compute_Execution_time >= 0 and Compute_Execution_time <= 3;
+   29:     assume "Priority 100": Priority = 100;
+   30:   **};
+   31:   calls
+   32:     Mycalls: {
+
+   25:   annex agree {**
+   26:     assume "Periodic dispatch protocol": Dispatch_Protocol = Periodic;
+   27:     assume "Period 100 ms": Period = 100;
+   28:     assume "Compute execution time": Compute_Execution_time >= 0 and Compute_Execution_time <= 3;
+>> 29:     assume "Priority 100": Priority = 100;
+   30:   **};
+   31:   calls
+   32:     Mycalls: {
+   33:     P_Spg : subprogram Hello_Spg_1;
+
+   27:     assume "Period 100 ms": Period = 100;
+   28:     assume "Compute execution time": Compute_Execution_time >= 0 and Compute_Execution_time <= 3;
+   29:     assume "Priority 100": Priority = 100;
+   30:   **};
+>> 31:   calls
+   32:     Mycalls: {
+   33:     P_Spg : subprogram Hello_Spg_1;
+   34:     };
+   35:   properties
+
+   29:     assume "Priority 100": Priority = 100;
+   30:   **};
+   31:   calls
+   32:     Mycalls: {
+>> 33:     P_Spg : subprogram Hello_Spg_1;
+   34:     };
+   35:   properties
+   36:     Priority => 100;
+   37:     Dispatch_Protocol                  => Periodic;
+
+   32:     Mycalls: {
+   33:     P_Spg : subprogram Hello_Spg_1;
+   34:     };
+   35:   properties
+>> 36:     Priority => 100;
+   37:     Dispatch_Protocol                  => Periodic;
+   38:     Period                             => 100 ms;
+   39:     Compute_Execution_time             => 0 ms.. 3 ms;
+   40:   end Task.impl_1;
+
+   33:     P_Spg : subprogram Hello_Spg_1;
+   34:     };
+   35:   properties
+   36:     Priority => 100;
+>> 37:     Dispatch_Protocol                  => Periodic;
+   38:     Period                             => 100 ms;
+   39:     Compute_Execution_time             => 0 ms.. 3 ms;
+   40:   end Task.impl_1;
+   41: 
+
+   34:     };
+   35:   properties
+   36:     Priority => 100;
+   37:     Dispatch_Protocol                  => Periodic;
+>> 38:     Period                             => 100 ms;
+   39:     Compute_Execution_time             => 0 ms.. 3 ms;
+   40:   end Task.impl_1;
+   41: 
+   42:   -------------
+
+   35:   properties
+   36:     Priority => 100;
+   37:     Dispatch_Protocol                  => Periodic;
+   38:     Period                             => 100 ms;
+>> 39:     Compute_Execution_time             => 0 ms.. 3 ms;
+   40:   end Task.impl_1;
+   41: 
+   42:   -------------
+   43:   -- Process --
+
+   36:     Priority => 100;
+   37:     Dispatch_Protocol                  => Periodic;
+   38:     Period                             => 100 ms;
+   39:     Compute_Execution_time             => 0 ms.. 3 ms;
+>> 40:   end Task.impl_1;
+   41: 
+   42:   -------------
+   43:   -- Process --
+   44:   -------------
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Task
+thread Task
+  end Task;
+
+-- TARGET DECLARATION: Task.impl_1
+thread implementation Task.impl_1
+  calls
+    Mycalls: {
+    P_Spg : subprogram Hello_Spg_1;
+    };
+  properties
+    Priority => 100;
+    Dispatch_Protocol                  => Periodic;
+    Period                             => 100 ms;
+    Compute_Execution_time             => 0 ms .. 3 ms;
+  end Task.impl_1;
+
+-- RELATED MODEL LINES
+Source_Text     => ("hello.c");
+thread Task
+end Task;
+thread implementation Task.impl_1
+P_Spg : subprogram Hello_Spg_1;
+end Task.impl_1;
+process node_a
+end node_a;
+process implementation node_a.impl
+Task1 : thread Task.impl_1;
+end node_a.impl;
+system hello
+end hello;
+system implementation hello.impl
+node_a : process node_a.impl;
+Actual_Processor_Binding => (reference (cpu_rm.p0)) applies to node_a;
+end hello.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Task",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Task.impl_1",
+      "kind": "thread implementation",
+      "type_name": "Task"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "Task.impl_1",
+      "name": "P_Spg",
+      "category": "calls",
+      "classifier": "subprogram Hello_Spg_1"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Task.impl_1",
+      "name": "P_Spg",
+      "direction": "in",
+      "category": "calls",
+      "type": "Hello_Spg_1",
+      "scalar": "opaque"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Task.impl_1",
+      "owner_kind": "thread implementation",
+      "name": "Priority",
+      "value": "100",
+      "applies_to": "Task.impl_1"
+    },
+    {
+      "owner": "Task.impl_1",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "Task.impl_1"
+    },
+    {
+      "owner": "Task.impl_1",
+      "owner_kind": "thread implementation",
+      "name": "Period",
+      "value": "100 ms",
+      "applies_to": "Task.impl_1"
+    },
+    {
+      "owner": "Task.impl_1",
+      "owner_kind": "thread implementation",
+      "name": "Compute_Execution_time",
+      "value": "0 ms.. 3 ms",
+      "applies_to": "Task.impl_1"
+    }
+  ]
+}

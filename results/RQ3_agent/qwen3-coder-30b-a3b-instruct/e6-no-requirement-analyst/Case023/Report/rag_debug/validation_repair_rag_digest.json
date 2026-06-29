@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Fix type mismatches by aligning helper declaration types with expression types: bool for comparisons, int for integers, real for reals.",
+    "Use AGREE annex blocks for component type contracts and implementation bindings, placing assumptions and guarantees in appropriate scopes."
+  ],
+  "generic_rules": [
+    "When AGREE reports assumed vs actual type mismatches, ensure declaration types match the expression result.",
+    "Place AGREE constants and equations in component type scopes unless they are implementation-specific bindings.",
+    "Use only visible AADL features or declared helpers in AGREE expressions to avoid 'named thing has no type' errors.",
+    "In AGREE, use bool, int, and real as scalar types for declarations; avoid invalid references like 'boolean' or 'integer'."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.",
+    "Branching logic in AGREE uses nested `if ... then ... else` syntax.",
+    "Constants and equations in AGREE should be declared with correct scalar types: bool, int, real."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope; use component type scope for assumptions and guarantees.",
+    "Do not reference unresolved identifiers or invalid type names in AGREE declarations."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "implementation scope output assign",
+    "type scope range assumption and guarantee",
+    "integrated pattern chunk 1"
+  ]
+}

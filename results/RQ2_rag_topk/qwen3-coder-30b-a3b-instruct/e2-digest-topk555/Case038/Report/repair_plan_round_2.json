@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Argument of real cast is of type 'Types::speed.speed_impl' but must be of type 'int'",
+      "cause": "AGREE real() cast applied to port of opaque type",
+      "minimal_edit": "Remove real() casts from Target and Actual in equation for e"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'integral'.",
+      "cause": "integral() function not recognized in AGREE context",
+      "minimal_edit": "Replace integral(e, 1.0) with e_int = 0.0 + integral(e, 1.0) or remove the integral equation"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'derivative'.",
+      "cause": "derivative() function not recognized in AGREE context",
+      "minimal_edit": "Replace derivative(e, 1.0) with e_dot = 0.0 + derivative(e, 1.0) or remove the derivative equation"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove real() casts from Target and Actual in the equation for e",
+    "Replace integral(e, 1.0) with e_int = 0.0 + integral(e, 1.0) or remove the integral equation",
+    "Replace derivative(e, 1.0) with e_dot = 0.0 + derivative(e, 1.0) or remove the derivative equation"
+  ]
+}

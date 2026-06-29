@@ -1,0 +1,126 @@
+{
+  "component_types": [
+    {
+      "name": "partition2_process",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "partition2_process.impl",
+      "kind": "process implementation",
+      "type_name": "partition2_process"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "partition2_process.impl",
+      "name": "receiver",
+      "category": "thread",
+      "classifier": "commandboard_receiveinput_thread"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "printer",
+      "category": "thread",
+      "classifier": "commandboard_printinfos_thread"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "sem",
+      "category": "data",
+      "classifier": "protected_data"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "blackboard",
+      "category": "data",
+      "classifier": "integer"
+    }
+  ],
+  "features": [
+    {
+      "owner": "partition2_process",
+      "name": "queueingout",
+      "direction": "out",
+      "category": "event data port",
+      "type": "integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "partition2_process",
+      "name": "samplingin",
+      "direction": "in",
+      "category": "data port",
+      "type": "integer",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "partition2_process.impl",
+      "name": "blackboardconnection1",
+      "kind": "data access",
+      "source": "blackboard",
+      "destination": "printer.tempavg"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "blackboardconnection2",
+      "kind": "data access",
+      "source": "blackboard",
+      "destination": "receiver.tempavg"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "eventconnectionexample",
+      "kind": "port",
+      "source": "receiver.newavg",
+      "destination": "printer.newavg"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "Po3",
+      "kind": "port",
+      "source": "printer.ordersensor",
+      "destination": "queueingout"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "Po4",
+      "kind": "port",
+      "source": "samplingin",
+      "destination": "receiver.temp"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "Po5",
+      "kind": "data access",
+      "source": "sem",
+      "destination": "receiver.need_semaphore"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "Po6",
+      "kind": "data access",
+      "source": "sem",
+      "destination": "printer.need_semaphore"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "partition2_process",
+      "owner_kind": "process",
+      "name": "ARINC653::Timeout",
+      "value": "10ms",
+      "applies_to": "queueingout"
+    },
+    {
+      "owner": "partition2_process",
+      "owner_kind": "process",
+      "name": "ARINC653::Sampling_Refresh_Period",
+      "value": "10ms",
+      "applies_to": "samplingin"
+    }
+  ]
+}

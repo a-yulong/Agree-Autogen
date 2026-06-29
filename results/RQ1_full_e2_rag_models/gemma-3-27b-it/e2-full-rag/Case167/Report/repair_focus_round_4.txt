@@ -1,0 +1,194 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: speed
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+speed | in | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "speed >= -100 and speed <= 100",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "speed"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: thr_throttle_simulation | lines 147-167
+annex agree {**
+  
+  
+  
+  
+        const min_speed: -100;
+  
+  
+  
+  
+        const max_speed: 100;
+  
+  
+  
+  
+        assume "speed_range": speed >= -100 and speed <= 100;
+  
+  
+  
+  
+        **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   148:   
+   149:   
+   150:   
+   151:   
+>> 152:         const min_speed: -100;
+   153:   
+   154:   
+   155:   
+   156:   
+
+   153:   
+   154:   
+   155:   
+   156:   
+>> 157:         const max_speed: 100;
+   158:   
+   159:   
+   160:   
+   161:   
+
+   158:   
+   159:   
+   160:   
+   161:   
+>> 162:         assume "speed_range": speed >= -100 and speed <= 100;
+   163:   
+   164:   
+   165:   
+   166:   
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: thr_throttle_simulation
+thread thr_throttle_simulation
+  features
+    speed : in data port Base_Types::Integer;
+
+  flows 
+  	fs1 : flow sink speed;
+  	
+  properties
+    Dispatch_Protocol       => Periodic;
+    Period                  => 1000ms;
+    Deadline                => 1000ms;
+    Compute_Execution_Time  => 5ms .. 10ms;
+  
+  end thr_throttle_simulation;
+
+-- TARGET DECLARATION: thr_throttle_simulation.i
+thread implementation thr_throttle_simulation.i
+  calls 
+    call1 : { pspg : subprogram spg_throttle_simulation;};
+
+  connections
+    R5:parameter speed -> pspg.speed;
+  end thr_throttle_simulation.i;
+
+-- RELATED MODEL LINES
+speed     : out parameter Base_Types::Integer;
+fs2 : flow source speed;
+speed       : out data port Base_Types::Integer;
+R3:parameter pspg.speed -> speed;
+speed : in parameter Base_Types::Integer;
+thread thr_throttle_simulation
+speed : in data port Base_Types::Integer;
+fs1 : flow sink speed;
+end thr_throttle_simulation;
+thread implementation thr_throttle_simulation.i
+R5:parameter speed -> pspg.speed;
+end thr_throttle_simulation.i;
+prs_throttle : thread Ardupilot_Software::thr_throttle_simulation.i;
+R8:port prs_mgmt.speed    -> prs_throttle.speed;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "thr_throttle_simulation",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "thr_throttle_simulation.i",
+      "kind": "thread implementation",
+      "type_name": "thr_throttle_simulation"
+    }
+  ],
+  "features": [
+    {
+      "owner": "thr_throttle_simulation",
+      "name": "speed",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "Base_Types::Integer"
+    },
+    {
+      "owner": "thr_throttle_simulation.i",
+      "name": "psp_g",
+      "direction": "N/A",
+      "category": "subprogram",
+      "type": "spg_throttle_simulation",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "thr_throttle_simulation.i",
+      "name": "R5",
+      "kind": "parameter",
+      "source": "speed",
+      "destination": "psp_g.speed"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "thr_throttle_simulation",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": null
+    },
+    {
+      "owner": "thr_throttle_simulation",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "1000ms",
+      "applies_to": null
+    },
+    {
+      "owner": "thr_throttle_simulation",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "1000ms",
+      "applies_to": null
+    },
+    {
+      "owner": "thr_throttle_simulation",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "5ms .. 10ms",
+      "applies_to": null
+    }
+  ]
+}

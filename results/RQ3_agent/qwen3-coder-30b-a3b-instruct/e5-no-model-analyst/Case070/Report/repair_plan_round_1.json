@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Expression for assume statement is of type 'int' but must be of type 'bool'",
+      "cause": "Assume statement contains invalid expression syntax",
+      "minimal_edit": "Replace '0 us <= 100 us' with 'true'"
+    },
+    {
+      "diagnostic": "left side of binary expression '=>' is of type 'real' but must be of type 'bool'",
+      "cause": "Guarantee condition uses port reference instead of boolean expression",
+      "minimal_edit": "Replace '(telecommand -> nominal_attitude)' with 'true'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit line 54 to change 'assume \"timing_bounds\": 0 us <= 100 us;' to 'assume \"timing_bounds\": true;'",
+    "Edit line 55 to change 'guarantee \"execution_time\": (telecommand -> nominal_attitude) => (0 us <= 100 us);' to 'guarantee \"execution_time\": true => (0 us <= 100 us);'"
+  ]
+}

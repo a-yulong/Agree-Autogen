@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left side of binary expression '/' is of type 'int' but must be of type 'real'",
+      "cause": "AGREE requires real type for division operations",
+      "minimal_edit": "Cast the integer expressions to real type using 'real()' function"
+    },
+    {
+      "diagnostic": "right side of binary expression '/' is of type '<error>' but must be of type 'real'",
+      "cause": "AGREE requires real type for division operations",
+      "minimal_edit": "Cast the integer expressions to real type using 'real()' function"
+    },
+    {
+      "diagnostic": "no viable alternative at input '='",
+      "cause": "Syntax error due to type mismatch in division operation",
+      "minimal_edit": "Cast the integer expressions to real type using 'real()' function"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block, modify each guarantee statement to cast integer expressions to real type",
+    "For each guarantee, change 'accN_event_in /= 0' to 'real(accN_event_in) /= 0'",
+    "For each guarantee, change 'accN_output = accN_event_in' to 'accN_output = real(accN_event_in)'",
+    "Apply the same casting pattern to all 6 guarantee statements"
+  ]
+}

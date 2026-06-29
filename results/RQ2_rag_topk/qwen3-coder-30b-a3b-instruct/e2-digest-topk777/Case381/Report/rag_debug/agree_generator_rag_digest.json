@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Place output range guarantees in component type scopes when the output is a visible feature, using visible identifiers and valid AGREE types.",
+    "Use `assume` for input envelope constraints and `guarantee` for output range constraints in component type contracts.",
+    "Declare constants and helper equations in component type annexes for range validation using visible identifiers.",
+    "Generate `assign` statements in implementation scopes only for valid output features or declared auxiliary variables."
+  ],
+  "generic_rules": [
+    "AGREE contracts must use valid AADL identifiers and types; avoid referencing undefined or non-visible features.",
+    "Component type contracts should reference only visible features at that scope; implementation-level bindings go in implementation scopes.",
+    "Use AGREE logical operators (`and`, `or`, `not`, `=>`) for expressing conditional and relational constraints.",
+    "Ensure all AGREE expressions have consistent types; use `int`, `real`, and `bool` for scalar declarations."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks are enclosed in `annex agree {** ... **};`.",
+    "Guarantees are expressed as `guarantee \"label\": expression;`.",
+    "Constants and equations are declared with `const name : type = value;` and `eq name : type = expression;`.",
+    "Assignments are written as `assign output = expression;` in implementation scopes."
+  ],
+  "anti_patterns": [
+    "Do not place guarantees in implementation scopes unless the left-hand side is a valid output feature.",
+    "Do not reference AADL property names (e.g., Deadline, Period) directly in AGREE expressions without explicit typed ports or constants.",
+    "Do not invent new identifiers or types; only use visible AADL features and declared helpers."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing-related AADL tokens such as ms/us/Hz/Bytes",
+    "Model fusion and insertion location decisions",
+    "Validator diagnostics and repair strategies beyond AGREE syntax and scope rules"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to ConnectionEnd 'attitude_window'.",
+      "cause": "ConnectionEnd 'attitude_window' not found in subcomponent TCP",
+      "minimal_edit": "Remove or correct Cnx5 connection referencing non-existent 'attitude_window'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to ConnectionEnd 'check_thresholds'.",
+      "cause": "ConnectionEnd 'check_thresholds' not found in subcomponent TCP",
+      "minimal_edit": "Remove or correct Cnx6 connection referencing non-existent 'check_thresholds'"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Identify the subcomponent TCP in the implementation and verify its port declarations",
+    "Remove or correct the Cnx5 connection line referencing 'attitude_window'",
+    "Remove or correct the Cnx6 connection line referencing 'check_thresholds'",
+    "Ensure the AGREE annex block remains valid and does not reference removed connections"
+  ]
+}

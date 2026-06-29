@@ -1,0 +1,21 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 255: left side of binary expression '=>' is of type 'int' but must be of type 'bool'",
+      "cause": "acc_error_action is an int-typed data port, not a boolean expression",
+      "minimal_edit": "Replace acc_error_action with a boolean expression that can be derived from the data flow or add a boolean variable to represent the condition"
+    },
+    {
+      "diagnostic": "line 255: right side of binary expression '=>' is of type 'int' but must be of type 'bool'",
+      "cause": "acc_error_out is an int-typed data port, not a boolean expression",
+      "minimal_edit": "Replace acc_error_out with a boolean expression that can be derived from the data flow or add a boolean variable to represent the condition"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that acc_error_action and acc_error_out are int-typed ports and cannot be used directly in boolean implication",
+    "Add a boolean variable to represent the error action condition in the AGREE annex",
+    "Rewrite the guarantee to use the boolean variable instead of the int-typed ports",
+    "Ensure the boolean variable is properly defined and related to the actual error action data"
+  ]
+}

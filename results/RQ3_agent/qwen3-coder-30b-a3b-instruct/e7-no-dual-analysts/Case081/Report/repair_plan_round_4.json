@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Period'.",
+      "cause": "AGREE annex is in thread type scope but references implementation properties",
+      "minimal_edit": "Move annex to Consumer.impl scope"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Priority'.",
+      "cause": "AGREE annex is in thread type scope but references implementation properties",
+      "minimal_edit": "Move annex to Consumer.impl scope"
+    },
+    {
+      "diagnostic": "Expression for assume statement is of type 'int' but must be of type 'bool'",
+      "cause": "Invalid boolean expression syntax in AGREE",
+      "minimal_edit": "Rewrite 0 ms <= Compute_Execution_Time <= 3 ms as a valid boolean expression"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire annex agree block from thread Consumer to thread implementation Consumer.impl",
+    "Rewrite the execution_time assume statement to use valid AGREE boolean syntax",
+    "Remove the invalid assume statements that reference implementation properties from thread type scope"
+  ]
+}

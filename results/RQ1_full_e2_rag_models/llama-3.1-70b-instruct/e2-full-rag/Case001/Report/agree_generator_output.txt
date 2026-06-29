@@ -1,0 +1,13 @@
+annex agree {**
+  assume "ownAltitude_in equals nearestIntruderAltitude": ownAltitude_in = nearestIntruderAltitude;
+  assume "ownLongitude greater than nearestIntruderLongitude": ownLongitude > nearestIntruderLongitude;
+  guarantee "requiredVerticalVelocity when ownAltitude_in equals nearestIntruderAltitude and ownLongitude greater than nearestIntruderLongitude": 
+    ownAltitude_in = nearestIntruderAltitude and ownLongitude > nearestIntruderLongitude => requiredVerticalVelocity = 50;
+  guarantee "requiredVerticalVelocity when ownAltitude_in equals nearestIntruderAltitude and ownLongitude not greater than nearestIntruderLongitude": 
+    ownAltitude_in = nearestIntruderAltitude and not (ownLongitude > nearestIntruderLongitude) => requiredVerticalVelocity = -50;
+  guarantee "requiredVerticalVelocity when ownAltitude_in less than nearestIntruderAltitude": 
+    ownAltitude_in < nearestIntruderAltitude => requiredVerticalVelocity = 10;
+  guarantee "requiredVerticalVelocity when ownAltitude_in greater than nearestIntruderAltitude": 
+    ownAltitude_in > nearestIntruderAltitude => requiredVerticalVelocity = -10;
+  const ownAircraftGoesUpOnTie: bool := ownLongitude > nearestIntruderLongitude;
+**};

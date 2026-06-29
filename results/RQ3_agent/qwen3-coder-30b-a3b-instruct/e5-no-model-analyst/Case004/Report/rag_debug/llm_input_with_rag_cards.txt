@@ -1,0 +1,155 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `eq` for initialized recursive variables like `t : real = 0.1` and `distanceFromFence : real` for data constraints.
+- Use `assign` to link function calls like `distanceFromFence = circleLinearization(t)` for behavior relations.
+- Use `guarantee` for output constraints such as `distanceFromFence > pre(distanceFromFence)` after time exceeds 1.7.
+- Use `assume` for timing constraints like `timeToFailure = 9.5` when placed in valid component type scope.
+Generic rules:
+- Initialize temporal recurrence with `0.0 -> pre(t) + step` for stateful equations.
+- Guard previous-value comparisons using an initialized boolean flag like `initialized : bool = false -> true`.
+- Use logical operators `and`, `or`, `not(...)`, and implication `=>` for complex AGREE expressions.
+- Place component type assumptions and guarantees only in valid component type scopes with visible feature names.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for formal contracts.
+- Use `eq name : type = expression;` for initialized variables and helper declarations.
+- Use `assign output = expression;` for output assignments from function calls.
+- Use `if ... then ... else` for branching logic in AGREE.
+Anti-patterns:
+- Do not reference AADL property names like Deadline or Period as AGREE variables.
+- Do not use subcomponent ports in component type contracts unless represented through variables.
+- Do not generate guarantees with unresolved identifiers or invalid helper declarations.
+- Do not place implementation-level bindings in component type scopes.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Supervised_System
+- timeToFailure
+- timeToRecovery
+- p1
+- p2
+- p3
+- Supervised_System.impl
+- gcas
+- tcas
+- geof
+- supervisor
+- GeoFence_singleton
+- GeoFence_singleton.impl
+- TCAS_singleton
+- nearestIntruderAltitude
+- nearestIntruderGroundDistance
+- nearestIntruderLongitude
+- ownAltitude_in
+- ownHeading
+- ownVerticalVelocity
+- ownLatitude
+- ownLongitude
+- requiredVerticalVelocity
+- TCAS_singleton.impl
+- GCAS_singleton
+- altitude
+- GCAS_singleton.impl
+- Supervisor
+- gcas_timeToFailure
+- tcas_timeToFailure
+- geof_timeToFailure
+- gcas_timeToRecovery
+- tcas_timeToRecovery
+- geof_timeToRecovery
+- Supervisor.impl
+- int
+- real
+- bool
+
+Target interface:
+Exact expression symbols: timeToRecovery, timeToFailure
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+timeToRecovery | out | data | opaque | real
+timeToFailure | out | data | opaque | real
+
+Raw requirement:
+The GeoFence_singleton component shall establish a recursive variable t with an initial value of 0.1, declare the variable distanceFromFence, and calculate it by calling the circleLinearization function from the geofence_nodes library with the variable t as a parameter. The component shall ensure that after the time value exceeds the recovery time of 1.7, the value of distanceFromFence must be greater than the value of the previous time step's distanceFromFence. The system failure time shall be set to 9.5.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "GeoFence_singleton shall establish a recursive variable t with initial value 0.1",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "GeoFence_singleton",
+        "t"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "GeoFence_singleton shall declare variable distanceFromFence",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "GeoFence_singleton",
+        "distanceFromFence"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "GeoFence_singleton shall calculate distanceFromFence by calling circleLinearization function with parameter t",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "GeoFence_singleton",
+        "distanceFromFence",
+        "circleLinearization",
+        "t"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "After time value exceeds recovery time of 1.7, distanceFromFence must be greater than previous time step's distanceFromFence",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "distanceFromFence",
+        "timeToRecovery",
+        "1.7"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "System failure time shall be set to 9.5",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "timeToFailure",
+        "9.5"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,228 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+- `assume "label": expression;` - `guarantee "label": expression;` - `eq name : type = expression;` - `const name : type = value;` - `assign output = expression;`
+
+[KSYN-2]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+AGREE contracts are written inside `annex agree {** ... **};` blocks. Component type annexes are the normal location for assumptions, guarantees, constants, and equation declarations. Component implementation annexes are used for implementation-level bindings such as assignments when they are valid in that scope.
+
+[KSYN-3]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+The authoritative source for component names, ports, directions, data types, subcomponents, and connections is the input AADL model. The Model Analyst Agent extracts this structure before AGREE generation and fusion.
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Annex Scope
+Treat each annex agree block as scoped to its owning component declaration.
+
+[KDEF-2]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AADL Property Names Are Not AGREE Variables chunk 1
+If diagnostics report unresolved references to Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens such as ms/us/Hz/Bytes inside an AGREE annex, delete the generated clause. AADL property associations are not automatically in AGREE expression scope as variables. Recommended pattern: Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for the
+
+[KDEF-3]
+Source: built-in defensive rule
+Topic: Scope & Naming
+Rule: AGREE expressions may only reference identifiers visible in the current component scope. Must: use exact current-case names from the model index. Forbid: copying identifiers from examples or inventing ports/components.
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>
+
+Visible target-interface symbols:
+- ADIRU
+- ADIRU.impl
+- ADIRU.DeOS
+- ADIRU.VxWorks653
+- ADIRU.EMV2
+- main_mem
+- main_cpu
+- acc_pr
+- acc_hm_pr
+- ADIRUp_pr
+- SHM_pr
+- acc1
+- acc2
+- acc3
+- acc4
+- acc5
+- acc6
+- C1
+- C2
+- C3
+- C4
+- C5
+- C6
+- C7
+- C8
+- C9
+- C10
+- C11
+- C12
+- C13
+- C14
+- C15
+- C16
+- C17
+- C18
+- C19
+- C20
+- C21
+- C22
+- D1
+
+Target interface:
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- ADIRU
+- ADIRU.impl
+- ADIRU.DeOS
+- ADIRU.VxWorks653
+- ADIRU.EMV2
+- main_mem
+- main_cpu
+- acc_pr
+- acc_hm_pr
+- ADIRUp_pr
+- SHM_pr
+- acc1
+- acc2
+- acc3
+- acc4
+- acc5
+- acc6
+- C1
+- C2
+- C3
+- C4
+- C5
+- C6
+- C7
+- C8
+- C9
+- C10
+- C11
+- C12
+- C13
+- C14
+- C15
+- C16
+- C17
+- C18
+- C19
+- C20
+- C21
+- C22
+- D1
+
+Raw requirement:
+The ADIRU component shall define the implementation-level data routing and execution constraints for ADIRU.impl. In the implementation layer, ADIRU.impl shall route signal flow from acc_pr.acc1_output to acc_hm_pr.acc1_input through C1 and signal flow from acc_pr.acc2_output to acc_hm_pr.acc2_input through C2. The deployment mapping shall bind acc_pr to processor main_cpu.part1, bind acc_hm_pr to processor main_cpu.part2, bind ADIRUp_pr to processor main_cpu.part3, and bind SHM_pr to processor main_cpu.part4.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Signal flow from acc_pr.acc1_output to acc_hm_pr.acc1_input through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "ADIRU.impl.C1",
+        "acc_pr.acc1_output",
+        "acc_hm_pr.acc1_input"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Signal flow from acc_pr.acc2_output to acc_hm_pr.acc2_input through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "ADIRU.impl.C2",
+        "acc_pr.acc2_output",
+        "acc_hm_pr.acc2_input"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "acc_pr bound to processor main_cpu.part1",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "acc_pr",
+        "main_cpu.part1"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "acc_hm_pr bound to processor main_cpu.part2",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "acc_hm_pr",
+        "main_cpu.part2"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "ADIRUp_pr bound to processor main_cpu.part3",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_pr",
+        "main_cpu.part3"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "SHM_pr bound to processor main_cpu.part4",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "SHM_pr",
+        "main_cpu.part4"
+      ]
+    }
+  ]
+}

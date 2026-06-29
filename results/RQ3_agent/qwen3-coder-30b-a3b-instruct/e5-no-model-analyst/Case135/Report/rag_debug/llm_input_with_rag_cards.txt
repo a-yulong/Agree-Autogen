@@ -1,0 +1,100 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- AGREE contracts must be placed in component type scopes for assumptions and guarantees involving ports, and in implementation scopes for bindings.
+- AGREE annex blocks are enclosed in `annex agree {** ... **};` syntax.
+Generic rules:
+- Assumptions should be declared in component type annexes when they refer to component ports.
+- Guarantees should be declared in component type annexes when they describe behavior relative to ports.
+- Implementation-level bindings such as assignments must be placed in component implementation annexes.
+- Visible identifiers from the AADL model must be used to ensure AGREE expressions are valid.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Use `eq` for defining Boolean expressions in AGREE, e.g., `eq range_value : bool = x >= min_value and x <= max_value`.
+- Do not reference AADL properties like Compute_Execution_Time or unit tokens directly in AGREE expressions.
+Anti-patterns:
+- Do not place implementation-level bindings in component type scopes.
+- Do not use Boolean domain values as integers in AGREE expressions unless the port is explicitly typed as bool.
+- Do not reference AADL timing properties or unit tokens as AGREE variables.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- GPS_Position
+- GPS_Position.i
+- latitude
+- longitude
+- altitude
+- thr_gps_simulation
+- gps_pos
+- thr_gps_simulation.i
+- thr_mgmt
+- speed
+- angle
+- thr_mgmt.i
+- thr_throttle_simulation
+- thr_throttle_simulation.i
+- thr_yaw_simulation
+- thr_yaw_simulation.i
+- Ardupilot_Code
+- Ardupilot_Code.impl
+- prs_gps
+- prs_mgmt
+- prs_throttle
+- prs_yaw
+
+Target interface:
+Exact expression symbols: speed
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+speed | in | data | int | Base_Types::Integer
+
+Raw requirement:
+The thr_throttle_simulation component shall operate under a bounded input condition for speed. The environment shall keep speed greater than or equal to -100 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "speed >= -100 and speed <= 100",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "speed"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "thr_throttle_simulation operates with bounded input condition for speed",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "thr_throttle_simulation",
+        "speed"
+      ]
+    }
+  ]
+}

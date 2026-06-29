@@ -1,0 +1,25 @@
+set oldState [${sbpText}.text cget -state]
+${sbpText}.text configure -state normal
+${sbpText}.text fastdelete 1.0 end
+array set lines [list ]
+set lines(error) [list ]
+set lines(warning) [list ]
+set lines(information) [list ]
+${sbpText}.text fastinsert end 97 d97
+${sbpText}.text tag bind d97 <Any-Enter> "${sbpText}.text tag configure d97 -foreground white -background black"
+${sbpText}.text tag bind d97 <Any-Leave> "${sbpText}.text tag configure d97 -foreground {} -background {}"
+${sbpText}.text tag bind d97 <1> "event generate . <<selectLine>> -data 97"
+lappend lines(error) 97
+TextEditor::fastaddText $sbpText " Byte_Count (property association) does not point to anything 
+"
+${sbpText}.text fastinsert end 97 d97
+${sbpText}.text tag bind d97 <Any-Enter> "${sbpText}.text tag configure d97 -foreground white -background black"
+${sbpText}.text tag bind d97 <Any-Leave> "${sbpText}.text tag configure d97 -foreground {} -background {}"
+${sbpText}.text tag bind d97 <1> "event generate . <<selectLine>> -data 97"
+lappend lines(error) 97
+TextEditor::fastaddText $sbpText " Byte_Count (property association) points to segment1 (identifier) that is not a valid subcomponent 
+"
+TextEditor::fastaddText $sbpText " Cannot analyze AADL specifications
+"
+${sbpText}.text configure -state $oldState
+return [array get lines]

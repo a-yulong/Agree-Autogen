@@ -1,0 +1,20 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Generated AGREE expressions must preserve type consistency and avoid introducing undefined or unqualified references.
+- AGREE contracts should only reference visible identifiers from the same scope or properly imported packages.
+- When AGREE diagnostics point to invalid references, either correct the reference or remove the clause to avoid architecture changes.
+- Component type contracts must not reference implementation-specific subcomponents or ports unless properly abstracted.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks and must be placed in valid AADL scopes.
+- Helper functions and constants in AGREE must be declared with correct types matching their usage.
+- Numeric expressions in AGREE must match expected types (int, real, bool) to avoid '<error>' type issues.
+Anti-patterns:
+- Avoid referencing AADL property names like 'Period', 'Deadline', or 'Compute_Execution_Time' directly in AGREE expressions without proper model exposure.
+- Do not place implementation-level guarantees or assignments in component type annexes unless they are valid abstractions.
+- Do not introduce package-qualified identifiers in AGREE unless they are explicitly imported and available in the model.
+Irrelevant retrieved material:
+- AADL package references and with clauses
+- Model Analyst Agent's role in extracting component structure
+- Requirement traceability and compact semantics
+- AGREE validator diagnostics beyond type and reference resolution
+</RAG_DIGEST>

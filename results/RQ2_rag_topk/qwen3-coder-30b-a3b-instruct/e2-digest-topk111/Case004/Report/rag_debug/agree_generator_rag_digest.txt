@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate assume/guarantee clauses only for behavior_relations with explicit thresholds or visible relations.
+- Declare derived variables using eq or const when initializing or computing values from visible symbols.
+- Use pre() for temporal references to prior states in guarantees involving time-based conditions.
+Generic rules:
+- Anchor contracts to concrete, visible identifiers from the model context.
+- Express boolean conditions as explicit comparisons, never implicit truth values.
+- Preserve type consistency: real arithmetic yields real, integer arithmetic yields int, comparisons yield bool.
+Syntax or pattern reminders:
+- Use 'eq name : type = expression;' for derived variables, 'const name : type = value;' for literals.
+- Format guarantees as 'guarantee "label": expression;' with expression being a boolean-valued relation.
+- Use 'pre(variable)' to reference a variable's value from the previous time step.
+Anti-patterns:
+- Do not introduce new identifiers not present in the model or requirement evidence.
+- Do not use assume/guarantee for data declarations—use eq or const instead.
+- Do not mix real and integer literals in comparisons without explicit type casting or context alignment.
+</RAG_DIGEST>

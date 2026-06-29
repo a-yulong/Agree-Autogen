@@ -1,0 +1,12 @@
+annex agree {**
+  guarantee "ttf is minimum":
+    (timeToFailure <= gcas_timeToFailure) and
+    (timeToFailure <= tcas_timeToFailure) and
+    (timeToFailure <= geof_timeToFailure) and
+    ((timeToFailure = gcas_timeToFailure) or
+     (timeToFailure = tcas_timeToFailure) or
+     (timeToFailure = geof_timeToFailure));
+
+  guarantee "ttf exceeds recovery sum":
+    timeToFailure > (gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery);
+**};

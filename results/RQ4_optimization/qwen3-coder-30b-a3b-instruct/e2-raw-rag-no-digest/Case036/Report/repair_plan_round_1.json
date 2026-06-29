@@ -1,0 +1,42 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '<' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Comparison of opaque AADL type with real literal",
+      "minimal_edit": "Replace Target_Speed with Target_Speed.val in all comparisons"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'const_tar_speed'",
+      "cause": "Undeclared variable used in guarantee",
+      "minimal_edit": "Remove or declare const_tar_speed as a boolean variable"
+    },
+    {
+      "diagnostic": "left side of binary expression '<=' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Comparison of opaque AADL type with real literal",
+      "minimal_edit": "Replace Actual_Speed with Actual_Speed.val in all comparisons"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'abs'",
+      "cause": "abs function not available in AGREE context",
+      "minimal_edit": "Replace abs with if-then-else to compute absolute value"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Arithmetic operation on opaque AADL type",
+      "minimal_edit": "Replace Actual_Speed with Actual_Speed.val in all arithmetic"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Arithmetic operation on opaque AADL type",
+      "minimal_edit": "Replace Actual_Speed with Actual_Speed.val in all arithmetic"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace Target_Speed with Target_Speed.val in line 14",
+    "Replace Actual_Speed with Actual_Speed.val in line 17",
+    "Replace Actual_Speed with Actual_Speed.val in line 18",
+    "Replace abs(Actual_Speed - pre(Actual_Speed)) with if Actual_Speed - pre(Actual_Speed) >= 0 then Actual_Speed - pre(Actual_Speed) else pre(Actual_Speed) - Actual_Speed in line 18",
+    "Remove or declare const_tar_speed variable in line 17"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'nia_from_external'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level connection names",
+      "minimal_edit": "Remove guarantee statement referencing 'nia_from_external'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'nigd_from_external'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level connection names",
+      "minimal_edit": "Remove guarantee statement referencing 'nigd_from_external'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'nilo_from_external'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level connection names",
+      "minimal_edit": "Remove guarantee statement referencing 'nilo_from_external'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'oa_from_external'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level connection names",
+      "minimal_edit": "Remove guarantee statement referencing 'oa_from_external'"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from the component type TCAS",
+    "Move the AGREE annex block to the component implementation TCAS.impl",
+    "In the implementation annex, replace each guarantee statement with an assign statement that relates the component port to the corresponding subcomponent port",
+    "Ensure all referenced identifiers are visible in the implementation scope"
+  ]
+}

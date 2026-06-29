@@ -1,0 +1,37 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'horzDistance'.",
+      "cause": "horzDistance is not a visible port or variable in GCAS_Monitor component type",
+      "minimal_edit": "Replace horzDistance with a valid visible identifier or remove the reference"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'vertDistance'.",
+      "cause": "vertDistance is not a visible port or variable in GCAS_Monitor component type",
+      "minimal_edit": "Replace vertDistance with a valid visible identifier or remove the reference"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '<=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Expression contains unresolved identifiers leading to type errors",
+      "minimal_edit": "Remove or replace the invalid expression with valid AGREE syntax"
+    },
+    {
+      "diagnostic": "left side of binary expression '<=' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Expression contains unresolved identifiers leading to type errors",
+      "minimal_edit": "Remove or replace the invalid expression with valid AGREE syntax"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Expression contains unresolved identifiers leading to type errors",
+      "minimal_edit": "Remove or replace the invalid expression with valid AGREE syntax"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that vertDistance and horzDistance are not defined in the GCAS_Monitor component type",
+    "Replace the invalid references in the guarantee statement with valid visible identifiers",
+    "Since the requirement mentions vertDistance and horzDistance but they are not available in GCAS_Monitor, remove the dependency on these identifiers",
+    "Rewrite the guarantee to use only visible ports: altitude, verticalVelocity, outImpact, outRecovery, gcasRequested",
+    "Update the guarantee statement to reflect a valid AGREE expression using only visible identifiers"
+  ]
+}

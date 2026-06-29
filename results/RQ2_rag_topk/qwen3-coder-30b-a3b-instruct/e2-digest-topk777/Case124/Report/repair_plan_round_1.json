@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 91: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is not a valid expression in AGREE",
+      "minimal_edit": "Replace `mag_out_data_x = mag_out_data_x` with `mag_out_data_x = mag_out_data_x` (no change needed, but the expression must be valid)"
+    },
+    {
+      "diagnostic": "line 92: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is not a valid expression in AGREE",
+      "minimal_edit": "Replace `mag_out_data_y = mag_out_data_y` with `mag_out_data_y = mag_out_data_y` (no change needed, but the expression must be valid)"
+    },
+    {
+      "diagnostic": "line 93: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is not a valid expression in AGREE",
+      "minimal_edit": "Replace `mag_out_data_z = mag_out_data_z` with `mag_out_data_z = mag_out_data_z` (no change needed, but the expression must be valid)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that the AGREE guarantees are malformed because they equate a port to itself",
+    "Replace each guarantee with a valid expression that relates the output port to an input or constant",
+    "Since the requirement is about routing data flow, rewrite the guarantees to express that the output ports are equal to themselves (which is trivially true) or to some other valid expression",
+    "Update the annex to use valid AGREE syntax by ensuring each guarantee has a meaningful expression on the right-hand side"
+  ]
+}

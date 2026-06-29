@@ -1,0 +1,209 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: telecommand, nominal_attitude, nominal_orbit, power_status_FSS, power_status_CSS, power_status_SPS, power_status_ES, power_status_MGM, power_status_GYR, power_status_STR, power_status_GPS, power_status_TRU, power_status_RW, power_status_MGT, manoeuvre_command, attitude_window, check_thresholds, Force_mode_to_NM, Force_mode_to_SM
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+telecommand | in | data | real | dataaocs::telecommand
+nominal_attitude | out | data | real | dataaocs::attitude
+nominal_orbit | out | data | real | dataaocs::orbit
+power_status_FSS | out | data | bool | dataaocs::power_status
+power_status_CSS | out | data | bool | dataaocs::power_status
+power_status_SPS | out | data | bool | dataaocs::power_status
+power_status_ES | out | data | bool | dataaocs::power_status
+power_status_MGM | out | data | bool | dataaocs::power_status
+power_status_GYR | out | data | bool | dataaocs::power_status
+power_status_STR | out | data | bool | dataaocs::power_status
+power_status_GPS | out | data | bool | dataaocs::power_status
+power_status_TRU | out | data | bool | dataaocs::power_status
+power_status_RW | out | data | bool | dataaocs::power_status
+power_status_MGT | out | data | bool | dataaocs::power_status
+manoeuvre_command | out | data | opaque | dataaocs::manoeuvre_command
+attitude_window | out | data | real | dataaocs::attitude_window
+check_thresholds | out | data | opaque | dataaocs::check_thresholds
+Force_mode_to_NM | out | event | event | 
+Force_mode_to_SM | out | event | event | 
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Telecommand_Processing.impl shall execute with Compute_Execution_Time = 0 ms .. 100 us",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Compute_Execution_Time"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Telecommand_Processing.impl shall use Dispatch_Protocol = Aperiodic",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "Dispatch_Protocol"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Telecommand_Processing | lines 53-55
+annex agree {**
+          assume "dispatch_protocol": Dispatch_Protocol = Aperiodic;
+        **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   51:     
+   52:     -- To be continued : Command reconfigurations
+   53:   annex agree {**
+   54:           assume "dispatch_protocol": Dispatch_Protocol = Aperiodic;
+>> 55:         **};
+   56:   end Telecommand_Processing;
+   57:   
+   58:   thread Telemetry_Processing
+   59:   features
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Telecommand_Processing
+thread Telecommand_Processing
+  features
+    telecommand : in data port dataaocs::telecommand;
+    nominal_attitude : out data port dataaocs::attitude;
+    nominal_orbit : out data port dataaocs::orbit;
+    
+    -- Command to power up/down sensor/actuator --
+    power_status_FSS : out data port dataaocs::power_status; 
+    power_status_CSS : out data port dataaocs::power_status; 
+    power_status_SPS : out data port dataaocs::power_status; 
+    power_status_ES : out data port dataaocs::power_status; 
+    power_status_MGM : out data port dataaocs::power_status; 
+    power_status_GYR : out data port dataaocs::power_status; 
+    power_status_STR : out data port dataaocs::power_status;  
+    power_status_GPS : out data port dataaocs::power_status;
+    power_status_TRU : out data port dataaocs::power_status; 
+    power_status_RW : out data port dataaocs::power_status;  
+    power_status_MGT : out data port dataaocs::power_status;
+    
+    manoeuvre_command : out data port dataaocs::manoeuvre_command;
+    
+    -- Failure detection and isolation parameters --
+    attitude_window : out data port dataaocs::attitude_window;
+    check_thresholds : out data port dataaocs::check_thresholds;
+    
+    -- Ground station requests for mode switching
+    Force_mode_to_NM : out event port;
+    Force_mode_to_SM : out event port;
+    
+    -- To be continued : Command reconfigurations
+  end Telecommand_Processing;
+
+-- TARGET DECLARATION: Telecommand_Processing.impl
+thread implementation Telecommand_Processing.impl
+  properties
+    Dispatch_Protocol => Aperiodic; -- Aperiodic telecommand messages from ground station
+    Compute_Execution_Time => 0 ms .. 100 us;
+  end Telecommand_Processing.impl;
+
+-- RELATED MODEL LINES
+nominal_attitude : in data port dataaocs::attitude;
+nominal_orbit : in data port dataaocs::orbit;
+thread Telecommand_Processing
+telecommand : in data port dataaocs::telecommand;
+nominal_attitude : out data port dataaocs::attitude;
+nominal_orbit : out data port dataaocs::orbit;
+power_status_FSS : out data port dataaocs::power_status;
+power_status_CSS : out data port dataaocs::power_status;
+power_status_SPS : out data port dataaocs::power_status;
+power_status_ES : out data port dataaocs::power_status;
+power_status_MGM : out data port dataaocs::power_status;
+power_status_GYR : out data port dataaocs::power_status;
+power_status_STR : out data port dataaocs::power_status;
+power_status_GPS : out data port dataaocs::power_status;
+power_status_TRU : out data port dataaocs::power_status;
+power_status_RW : out data port dataaocs::power_status;
+power_status_MGT : out data port dataaocs::power_status;
+manoeuvre_command : out data port dataaocs::manoeuvre_command;
+attitude_window : out data port dataaocs::attitude_window;
+check_thresholds : out data port dataaocs::check_thresholds;
+Force_mode_to_NM : out event port;
+Force_mode_to_SM : out event port;
+end Telecommand_Processing;
+attitude_window : in data port dataaocs::attitude_window;
+check_thresholds : in data port dataaocs::check_thresholds;
+command : in data port dataaocs::manoeuvre_command;
+thread implementation Telecommand_Processing.impl
+Dispatch_Protocol => Aperiodic; -- Aperiodic telecommand messages from ground station
+end Telecommand_Processing.impl;
+Dispatch_Protocol => Aperiodic; -- Depends on telecommand message
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Telecommand_Processing",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Telecommand_Processing.impl",
+      "kind": "thread implementation",
+      "type_name": "Telecommand_Processing"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Telecommand_Processing",
+      "name": "telecommand",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::telecommand",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Telecommand_Processing",
+      "name": "nominal_attitude",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::attitude",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Telecommand_Processing",
+      "name": "nominal_orbit",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::orbit",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Telecommand_Processing",
+      "name": "power_status_FSS",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Telecommand_Processing",
+      "name": "power_status_CSS",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Telecommand_Processing",
+      "name": "power_status_SPS",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Telecommand_Processing",
+      "name": "power_status_
+-- [target model context truncated]

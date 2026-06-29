@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 44: Couldn't resolve reference to 'null'.",
+      "cause": "AGREE uses '/=' for null comparison but requires proper type handling for opaque data ports",
+      "minimal_edit": "Replace 'MCU1_Send_Output /= null' with 'MCU1_Send_Output /= null' and ensure proper type handling"
+    },
+    {
+      "diagnostic": "line 44: left and right sides of binary expression '=' are of type 'Papa_Types::Inter_mcu_msg.Generic' and '<error>', but must be of the same type",
+      "cause": "Invalid comparison between opaque data port and null using '/=' operator",
+      "minimal_edit": "Replace 'MCU1_Send_Output /= null' with 'MCU1_Send_Output /= null' and ensure proper type handling"
+    },
+    {
+      "diagnostic": "line 44: left side of binary expression '/' is of type 'Papa_Types::Inter_mcu_msg.Generic' but must be of type 'real'",
+      "cause": "Invalid use of '/' operator on opaque data port",
+      "minimal_edit": "Replace 'MCU1_Send_Output /= null' with 'MCU1_Send_Output /= null' and ensure proper type handling"
+    },
+    {
+      "diagnostic": "line 44: right side of binary expression '/' is of type '<error>' but must be of type 'real'",
+      "cause": "Invalid use of '/' operator on opaque data port",
+      "minimal_edit": "Replace 'MCU1_Send_Output /= null' with 'MCU1_Send_Output /= null' and ensure proper type handling"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the guarantee statement 'Radio_Ok_Input = true => MCU1_Send_Output /= null' with a valid AGREE expression that properly relates the output port to the input condition",
+    "Since MCU1_Send_Output is an opaque data port, replace the null comparison with a valid expression that reflects the intended behavior of the guarantee",
+    "The correct approach is to use a valid AGREE expression that does not involve null comparisons on opaque data ports"
+  ]
+}

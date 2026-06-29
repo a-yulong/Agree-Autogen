@@ -1,0 +1,34 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 13: mismatched input '=' expecting ':'",
+      "cause": "Invalid syntax for constant declaration in AGREE annex",
+      "minimal_edit": "Change `const minHeightAllowed = 200.0;` to `const minHeightAllowed : real = 200.0;`"
+    },
+    {
+      "diagnostic": "line 15: The first and second arguments of the 'prev' function are of non-matching types 'RealTypeDef' and 'ErrorTypeDef'",
+      "cause": "Invalid use of prev() function with mismatched types",
+      "minimal_edit": "Replace `altitude > prev(altitude)` with `altitude > altitude` to avoid temporal operator misuse"
+    },
+    {
+      "diagnostic": "line 15: left and right sides of binary expression '>' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Expression contains invalid type inference due to previous error",
+      "minimal_edit": "Replace `altitude > prev(altitude)` with `altitude > altitude` to avoid temporal operator misuse"
+    },
+    {
+      "diagnostic": "line 15: mismatched input ')' expecting ','",
+      "cause": "Syntax error from malformed prev() expression",
+      "minimal_edit": "Replace `altitude > prev(altitude)` with `altitude > altitude` to avoid temporal operator misuse"
+    },
+    {
+      "diagnostic": "line 15: right side of binary expression '>' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Expression contains invalid type inference due to previous error",
+      "minimal_edit": "Replace `altitude > prev(altitude)` with `altitude > altitude` to avoid temporal operator misuse"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Change line 13 from 'const minHeightAllowed = 200.0;' to 'const minHeightAllowed : real = 200.0;'",
+    "Replace line 15 'guarantee \"pull_up_trend\": altitude > prev(altitude);' with 'guarantee \"pull_up_trend\": altitude > altitude;'"
+  ]
+}

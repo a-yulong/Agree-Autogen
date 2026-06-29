@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 151: mismatched input '\"min_speed\"' expecting RULE_ID",
+      "cause": "Constants must be declared without quotes.",
+      "minimal_edit": "Remove quotes from min_speed constant declaration."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 155: mismatched input '\"max_speed\"' expecting RULE_ID",
+      "cause": "Constants must be declared without quotes.",
+      "minimal_edit": "Remove quotes from max_speed constant declaration."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 159: Couldn't resolve reference to 'max_speed'.",
+      "cause": "max_speed is not visible in the current scope.",
+      "minimal_edit": "Use the value 100 directly in the assumption."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 159: Couldn't resolve reference to 'min_speed'.",
+      "cause": "min_speed is not visible in the current scope.",
+      "minimal_edit": "Use the value -100 directly in the assumption."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove quotes from the 'min_speed' constant declaration on line 151.",
+    "Remove quotes from the 'max_speed' constant declaration on line 155.",
+    "Replace 'speed >= min_speed and speed <= max_speed' with 'speed >= -100 and speed <= 100' on line 159."
+  ]
+}

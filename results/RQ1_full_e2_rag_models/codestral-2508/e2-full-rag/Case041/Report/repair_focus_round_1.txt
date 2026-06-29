@@ -1,0 +1,91 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: cooking_mode, heating_element_on
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+cooking_mode | in | data | int | Base_Types::Integer
+heating_element_on | out | data | bool | Base_Types::Boolean
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "heating_element_on is true if cooking_mode is 2",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "heating_element_on",
+        "cooking_mode"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Output_Processing | lines 47-51
+annex agree {**
+	annex agree {
+	  guarantee "heating_element_on_when_cooking": heating_element_on = (cooking_mode = 2);
+	};
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   44: 		features
+   45: 			cooking_mode: in data port Base_Types::Integer;
+   46: 			heating_element_on: out data port Base_Types::Boolean;
+   47: 	annex agree {**
+>> 48: 	annex agree {
+   49: 	  guarantee "heating_element_on_when_cooking": heating_element_on = (cooking_mode = 2);
+   50: 	};
+   51: 	**};
+   52: 	end Output_Processing;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Output_Processing
+system Output_Processing
+		features
+			cooking_mode: in data port Base_Types::Integer;
+			heating_element_on: out data port Base_Types::Boolean;
+	end Output_Processing;
+
+-- RELATED MODEL LINES
+cooking_mode: out data port Base_Types::Integer;
+cooking_mode: in data port Base_Types::Integer;
+system Output_Processing
+heating_element_on: out data port Base_Types::Boolean;
+end Output_Processing;
+OP: system Output_Processing;
+MC_cooking_mode_TO_OP_cooking_mode: port MC.cooking_mode -> OP.cooking_mode {
+MC_enable_TO_DC_enable: port MC.cooking_mode -> DC.cooking_mode {
+OP_heating_element_on_TO_heating_element_on: port OP.heating_element_on -> heating_element_on {
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Output_Processing",
+      "kind": "system"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Output_Processing",
+      "name": "cooking_mode",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Output_Processing",
+      "name": "heating_element_on",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Boolean",
+      "scalar": "opaque"
+    }
+  ]
+}

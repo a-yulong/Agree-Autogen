@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by using only visible identifiers from the current component scope; do not introduce new architecture.",
+    "Resolve type mismatches by ensuring expressions match the expected types of variables or ports.",
+    "Delete invalid AGREE clauses that reference undefined or inaccessible features instead of adding missing architecture.",
+    "Ensure AGREE expressions use only declared helpers or visible AADL features within the same annex."
+  ],
+  "generic_rules": [
+    "AGREE contracts must reference only identifiers visible in the current scope to avoid resolution errors.",
+    "Type consistency is required in AGREE expressions; mismatched types should be corrected by aligning declarations or expressions.",
+    "Implementation-level bindings should be placed in implementation scopes, not component type scopes.",
+    "Avoid introducing package-qualified identifiers unless they are explicitly imported or defined in the model."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assign` only for output features or declared auxiliary variables in implementation scope.",
+    "Use `assume` and `guarantee` in component type scopes; use `eq` and `const` for helper declarations.",
+    "AGREE scalar types are int, real, and bool; avoid referencing AADL property names as variables."
+  ],
+  "anti_patterns": [
+    "Do not attempt to resolve missing identifiers by adding new architecture or imports; instead, delete or rewrite invalid clauses.",
+    "Do not mix implementation-level references in component type annexes; move valid bindings to implementation scope."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE annex placement in component types vs. implementations",
+    "Model Analyst's role in extracting AADL structure",
+    "Requirement traceability and compact semantics"
+  ]
+}

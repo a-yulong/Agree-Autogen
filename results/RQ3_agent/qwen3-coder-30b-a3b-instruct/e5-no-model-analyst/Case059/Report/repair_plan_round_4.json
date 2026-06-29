@@ -1,0 +1,77 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 29: Couldn't resolve reference to 'COM1'.",
+      "cause": "COM1 is a subcomponent, not a port; its ports are not visible in BSCU's type-level annex",
+      "minimal_edit": "Remove the entire guarantee G_COM_1 from BSCU's annex since it references non-visible subcomponent ports"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 29: Couldn't resolve reference to 'CMD'.",
+      "cause": "CMD is a port of subcomponent COM, not visible in BSCU type context",
+      "minimal_edit": "Remove the entire guarantee G_COM_1 from BSCU's annex since it references non-visible subcomponent ports"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 29: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Left side COM1.CMD is invalid identifier; right side Pedal is valid but type mismatch due to unresolved LHS",
+      "minimal_edit": "Remove the entire guarantee G_COM_1 from BSCU's annex since it references non-visible subcomponent ports"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 29: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "not COM1.Fail is invalid because COM1.Fail is not a visible identifier in BSCU type scope",
+      "minimal_edit": "Remove the entire guarantee G_COM_1 from BSCU's annex since it references non-visible subcomponent ports"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 29: right side of unary expression 'not' is of type 'ErrorTypeDef' but must be of type 'bool'",
+      "cause": "COM1.Fail is not a valid identifier in BSCU's type annex, so its type cannot be resolved",
+      "minimal_edit": "Remove the entire guarantee G_COM_1 from BSCU's annex since it references non-visible subcomponent ports"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 41: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes::Brake_Mode is referenced but not defined in the model or its visible with clauses",
+      "minimal_edit": "Remove the eq Mode definition in COM's annex since it depends on an undefined function"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 44: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is referenced but not defined in the model or its visible with clauses",
+      "minimal_edit": "Remove the guarantee G_COM_1 in COM's annex since it depends on an undefined function"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 62: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes::Brake_Mode is referenced but not defined in the model or its visible with clauses",
+      "minimal_edit": "Remove the eq Mode definition in MON's annex since it depends on an undefined function"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 77: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is referenced but not defined in the model or its visible with clauses",
+      "minimal_edit": "Remove the guarantee G_MON_1 in MON's annex since it depends on an undefined function"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 179: Couldn't resolve reference to 'COM1.Panel'.",
+      "cause": "COM1.Panel is a subcomponent port, not a visible identifier in BSCU_Impl's scope",
+      "minimal_edit": "Remove assign COM1.Panel = Panel; since COM1.Panel is not a valid LHS in this context"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 179: LHS of assignment must be an AGREE 'eq' variable or an output port of this component",
+      "cause": "COM1.Panel is not an output port of BSCU.BSCU_Impl; it is a subcomponent port",
+      "minimal_edit": "Remove assign COM1.Panel = Panel; since COM1.Panel is not a valid LHS in this context"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 180: Couldn't resolve reference to 'MON1.CMD_From_COM'.",
+      "cause": "MON1.CMD_From_COM is a subcomponent port, not a visible identifier in BSCU_Impl's scope",
+      "minimal_edit": "Remove assign MON1.CMD_From_COM = COM1.CMD; since MON1.CMD_From_COM is not a valid LHS in this context"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 180: LHS of assignment must be an AGREE 'eq' variable or an output port of this component",
+      "cause": "MON1.CMD_From_COM is not an output port of BSCU.BSCU_Impl; it is a subcomponent port",
+      "minimal_edit": "Remove assign MON1.CMD_From_COM = COM1.CMD; since MON1.CMD_From_COM is not a valid LHS in this context"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the annex agree block from BSCU that contains guarantee G_COM_1 (lines 25-30)",
+    "Remove the eq Mode definition and guarantee G_COM_1 from the COM system annex (lines 39-45)",
+    "Remove the eq Mode definition and guarantee G_MON_1 from the MON system annex (lines 59-84)",
+    "Remove the assign statements in BSCU.BSCU_Impl's annex (lines 179-180)",
+    "Add connection declarations in BSCU's connection section: connect Panel -> COM1.Panel; connect COM1.CMD -> MON1.CMD_From_COM;"
+  ]
+}

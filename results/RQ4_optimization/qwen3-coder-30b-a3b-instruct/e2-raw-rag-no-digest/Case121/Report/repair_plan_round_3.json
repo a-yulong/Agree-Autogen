@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assignment statements are allowed only in component implementations",
+      "cause": "AGREE annex is placed in component type instead of implementation",
+      "minimal_edit": "Move the AGREE annex block from ACCELERO to ACCELERO.IMPL"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_out_data_x'",
+      "cause": "acc_out_data_x is not visible in the component type scope",
+      "minimal_edit": "Remove the AGREE annex from ACCELERO and place it in ACCELERO.IMPL"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'accelero_sub'",
+      "cause": "accelero_sub is a subcomponent only visible in implementation scope",
+      "minimal_edit": "Move the AGREE annex to implementation scope where accelero_sub is visible"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from the ACCELERO component type",
+    "Add a new AGREE annex block to the ACCELERO.IMPL component implementation",
+    "Place the assign statements inside the new implementation annex",
+    "Ensure the assign statements reference only visible identifiers in the implementation scope"
+  ]
+}

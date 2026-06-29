@@ -1,0 +1,252 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: solver_in1, solver_in2, solver_in3, solver_in4, solver_in5, solver_in6
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+solver_in1 | in | data | int | SHM_DataType::accData
+solver_in2 | in | data | int | SHM_DataType::accData
+solver_in3 | in | data | int | SHM_DataType::accData
+solver_in4 | in | data | int | SHM_DataType::accData
+solver_in5 | in | data | int | SHM_DataType::accData
+solver_in6 | in | data | int | SHM_DataType::accData
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "solver_in1 is routed to ADIRUp_solve.inData_para1 through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "solver_in1",
+        "ADIRUp_solve.inData_para1",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "solver_in2 is routed to ADIRUp_solve.inData_para2 through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "solver_in2",
+        "ADIRUp_solve.inData_para2",
+        "C2"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: ADIRUp_solve | lines 303-306
+annex agree {**
+    guarantee "signal_flow_R1": solver_in1 = ADIRUp_solve.inData_para1;
+    guarantee "signal_flow_R2": solver_in2 = ADIRUp_solve.inData_para2;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   300:     Period => 4000 ms;
+   301:     Compute_Execution_Time => 400 ms .. 500 ms;
+   302:     Deadline => 500 ms;
+   303:   annex agree {**
+>> 304:     guarantee "signal_flow_R1": solver_in1 = ADIRUp_solve.inData_para1;
+   305:     guarantee "signal_flow_R2": solver_in2 = ADIRUp_solve.inData_para2;
+   306:   **};
+   307:   end ADIRUp_solve;
+   308: 
+
+   301:     Compute_Execution_Time => 400 ms .. 500 ms;
+   302:     Deadline => 500 ms;
+   303:   annex agree {**
+   304:     guarantee "signal_flow_R1": solver_in1 = ADIRUp_solve.inData_para1;
+>> 305:     guarantee "signal_flow_R2": solver_in2 = ADIRUp_solve.inData_para2;
+   306:   **};
+   307:   end ADIRUp_solve;
+   308: 
+   309:   thread implementation ADIRUp_solve.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: ADIRUp_solve
+thread ADIRUp_solve
+  features
+    solver_in1:  in data port SHM_DataType::accData;
+    solver_in2:  in data port SHM_DataType::accData;
+    solver_in3:  in data port SHM_DataType::accData;
+    solver_in4:  in data port SHM_DataType::accData;
+    solver_in5:  in data port SHM_DataType::accData;
+    solver_in6:  in data port SHM_DataType::accData;
+    --ADIRUpout: out data port SHM_DataType::accData;
+  properties
+    Priority => 4;
+    Stack_Size => 20 KByte;
+    Code_Size => 100 KByte;
+    Data_Size => 1 KByte;
+    Dispatch_Protocol => Periodic;
+    Period => 4000 ms;
+    Compute_Execution_Time => 400 ms .. 500 ms;
+    Deadline => 500 ms;
+  end ADIRUp_solve;
+
+-- TARGET DECLARATION: ADIRUp_solve.impl
+thread implementation ADIRUp_solve.impl
+  calls
+    sub1: { ADIRUp_solve: subprogram subprograms::ADIRUp_solve_spg; };
+  connections
+    C1: parameter solver_in1->ADIRUp_solve.inData_para1;
+    C2: parameter solver_in2->ADIRUp_solve.inData_para2;
+    C3: parameter solver_in3->ADIRUp_solve.inData_para3;
+    C4: parameter solver_in4->ADIRUp_solve.inData_para4;
+    C5: parameter solver_in5->ADIRUp_solve.inData_para5;
+    C6: parameter solver_in6->ADIRUp_solve.inData_para6;
+
+    --parameter ADIRUp_solve.outdata_para-> ADIRUpout;
+  end ADIRUp_solve.impl;
+
+-- RELATED MODEL LINES
+thread ADIRUp_solve
+solver_in1:  in data port SHM_DataType::accData;
+solver_in2:  in data port SHM_DataType::accData;
+solver_in3:  in data port SHM_DataType::accData;
+solver_in4:  in data port SHM_DataType::accData;
+solver_in5:  in data port SHM_DataType::accData;
+solver_in6:  in data port SHM_DataType::accData;
+end ADIRUp_solve;
+thread implementation ADIRUp_solve.impl
+sub1: { ADIRUp_solve: subprogram subprograms::ADIRUp_solve_spg; };
+C1: parameter solver_in1->ADIRUp_solve.inData_para1;
+C2: parameter solver_in2->ADIRUp_solve.inData_para2;
+C3: parameter solver_in3->ADIRUp_solve.inData_para3;
+C4: parameter solver_in4->ADIRUp_solve.inData_para4;
+C5: parameter solver_in5->ADIRUp_solve.inData_para5;
+C6: parameter solver_in6->ADIRUp_solve.inData_para6;
+--parameter ADIRUp_solve.outdata_para-> ADIRUpout;
+end ADIRUp_solve.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "ADIRUp_solve",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "ADIRUp_solve.impl",
+      "kind": "thread implementation",
+      "type_name": "ADIRUp_solve"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "ADIRUp_solve.impl",
+      "name": "sub1",
+      "category": "call",
+      "classifier": "subprograms::ADIRUp_solve_spg"
+    }
+  ],
+  "features": [
+    {
+      "owner": "ADIRUp_solve",
+      "name": "solver_in1",
+      "direction": "in",
+      "category": "data port",
+      "type": "SHM_DataType::accData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ADIRUp_solve",
+      "name": "solver_in2",
+      "direction": "in",
+      "category": "data port",
+      "type": "SHM_DataType::accData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ADIRUp_solve",
+      "name": "solver_in3",
+      "direction": "in",
+      "category": "data port",
+      "type": "SHM_DataType::accData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ADIRUp_solve",
+      "name": "solver_in4",
+      "direction": "in",
+      "category": "data port",
+      "type": "SHM_DataType::accData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ADIRUp_solve",
+      "name": "solver_in5",
+      "direction": "in",
+      "category": "data port",
+      "type": "SHM_DataType::accData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ADIRUp_solve",
+      "name": "solver_in6",
+      "direction": "in",
+      "category": "data port",
+      "type": "SHM_DataType::accData",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "ADIRUp_solve.impl",
+      "name": "C1",
+      "kind": "parameter",
+      "source": "solver_in1",
+      "destination": "ADIRUp_solve.inData_para1"
+    },
+    {
+      "owner": "ADIRUp_solve.impl",
+      "name": "C2",
+      "kind": "parameter",
+      "source": "solver_in2",
+      "destination": "ADIRUp_solve.inData_para2"
+    },
+    {
+      "owner": "ADIRUp_solve.impl",
+      "name": "C3",
+      "kind": "parameter",
+      "source": "solver_in3",
+      "destination": "ADIRUp_solve.inData_para3"
+    },
+    {
+      "owner": "ADIRUp_solve.impl",
+      "name": "C4",
+      "kind": "parameter",
+      "source": "solver_in4",
+      "destination": "ADIRUp_solve.inData_para4"
+    },
+    {
+      "owner": "ADIRUp_solve.impl",
+      "name": "C5",
+      "kind": "parameter",
+      "source": "solver_in5",
+      "destination": "ADIRUp_solve.inData_para5"
+    },
+    {
+      "owner": "ADIRUp_solve.impl",
+      "name": "C6",
+      "kind": "parameter",
+      "source": "solver_in6",
+      "destination": "ADIRUp_solve.inData_para6"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "ADIRUp_solve",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "4",
+      "applies
+-- [target model context truncated]

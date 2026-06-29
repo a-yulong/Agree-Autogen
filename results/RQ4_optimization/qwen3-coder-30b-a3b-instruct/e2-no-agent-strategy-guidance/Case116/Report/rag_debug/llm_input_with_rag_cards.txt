@@ -1,0 +1,194 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE clauses only for visible features or explicitly declared constants; avoid AADL properties as direct variables.
+- Use annex agree {** ... **} in component type scope for assumptions and guarantees; use implementation scope only for assign statements with valid outputs.
+Generic rules:
+- Express constraints using named constants or visible port references, not implicit AADL property names.
+- Declare helper equations with explicit type annotations to prevent type mismatches.
+Syntax or pattern reminders:
+- Use 'assume' and 'guarantee' for type-scoped contracts; use 'assign' only in implementation scope with an output feature or auxiliary variable on the left.
+- Equality and range comparisons must return bool; use eq name: bool = ... for helper predicates.
+Anti-patterns:
+- Do not map AADL properties like Period, Deadline, or Priority directly into AGREE expressions as if they are variables.
+- Do not convert Boolean or opaque data ports into numeric range comparisons without explicit scalar typing.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- accData_in1
+- accData_in2
+- accData_in3
+- accData_in4
+- accData_in5
+- accData_in6
+- accData_out1
+- accData_out2
+- accData_out3
+- accData_out4
+- accData_out5
+- accData_out6
+- adirup_error_action
+- adirup_error_out
+
+Target interface:
+Exact expression symbols: accData_in1, accData_in2, accData_in3, accData_in4, accData_in5, accData_in6, accData_out1, accData_out2, accData_out3, accData_out4, accData_out5, accData_out6, adirup_error_action, adirup_error_out
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+accData_in1 | in | data | int | SHM_DataType::accData
+accData_in2 | in | data | int | SHM_DataType::accData
+accData_in3 | in | data | int | SHM_DataType::accData
+accData_in4 | in | data | int | SHM_DataType::accData
+accData_in5 | in | data | int | SHM_DataType::accData
+accData_in6 | in | data | int | SHM_DataType::accData
+accData_out1 | out | data | int | SHM_DataType::accData
+accData_out2 | out | data | int | SHM_DataType::accData
+accData_out3 | out | data | int | SHM_DataType::accData
+accData_out4 | out | data | int | SHM_DataType::accData
+accData_out5 | out | data | int | SHM_DataType::accData
+accData_out6 | out | data | int | SHM_DataType::accData
+adirup_error_action | in | data | int | SHM_DataType::actionData
+adirup_error_out | out | data | int | SHM_DataType::errorData
+
+Raw requirement:
+The ADIRUp_HM component shall define the implementation-level signal routing for ADIRUp_HM.impl. In the implementation layer, ADIRUp_HM.impl shall route data flow from accData_in1 to ADIRUp_HM.inData_para1 through C1 and data flow from accData_in2 to ADIRUp_HM.inData_para2 through C2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data flow from accData_in1 to ADIRUp_HM.inData_para1 through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "accData_in1",
+        "ADIRUp_HM.inData_para1",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Data flow from accData_in2 to ADIRUp_HM.inData_para2 through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "accData_in2",
+        "ADIRUp_HM.inData_para2",
+        "C2"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "ADIRUp_HM.impl subcomponent uses classifier subprograms::ADIRUp_HM_spg",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_HM.impl",
+        "subprograms::ADIRUp_HM_spg"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "ADIRUp_HM Period=4000 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_HM",
+        "Period=4000 ms"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "ADIRUp_HM Compute_Execution_Time=400 ms .. 500 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_HM",
+        "Compute_Execution_Time=400 ms .. 500 ms"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "ADIRUp_HM Deadline=500 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_HM",
+        "Deadline=500 ms"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "ADIRUp_HM Priority=5",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_HM",
+        "Priority=5"
+      ]
+    },
+    {
+      "id": "R8",
+      "text": "ADIRUp_HM Stack_Size=20 KByte",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_HM",
+        "Stack_Size=20 KByte"
+      ]
+    },
+    {
+      "id": "R9",
+      "text": "ADIRUp_HM Code_Size=100 KByte",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_HM",
+        "Code_Size=100 KByte"
+      ]
+    },
+    {
+      "id": "R10",
+      "text": "ADIRUp_HM Data_Size=1 KByte",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_HM",
+        "Data_Size=1 KByte"
+      ]
+    },
+    {
+      "id": "R11",
+      "text": "ADIRUp_HM Dispatch_Protocol=Periodic",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_HM",
+        "Dispatch_Protocol=Periodic"
+      ]
+    }
+  ]
+}

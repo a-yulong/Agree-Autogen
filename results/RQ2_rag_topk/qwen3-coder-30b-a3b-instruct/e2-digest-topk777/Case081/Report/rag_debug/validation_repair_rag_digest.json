@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by using only visible identifiers from the current component scope; do not invent new declarations.",
+    "Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants.",
+    "Move implementation-level bindings to the implementation annex; do not place subcomponent paths in component type contracts.",
+    "Ensure type consistency in AGREE expressions: numeric variables must receive numeric expressions, Boolean variables must receive Boolean expressions."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, always reference only identifiers that are explicitly visible in the current scope.",
+    "Validate that all referenced types and expressions match the expected scalar types (int, real, bool) in AGREE syntax.",
+    "Avoid introducing package-qualified identifiers unless they are properly imported and available in the model.",
+    "If a guarantee or assumption references an invalid or unresolved identifier, remove the clause rather than attempting to fix it with new declarations."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are for assumptions, guarantees, constants, and equation declarations.",
+    "Implementation annexes are for implementation-level bindings such as assignments.",
+    "Helper functions and variables must be declared in the same annex where they are used."
+  ],
+  "anti_patterns": [
+    "Do not attempt to resolve missing identifiers by adding new declarations or imports in the AGREE annex.",
+    "Do not assume that AADL property names like 'Period' or 'Deadline' are automatically available as AGREE variables.",
+    "Do not mix component type and implementation scope references in a single contract without proper scoping.",
+    "Do not use numeric comparisons or type conversions on opaque Boolean or enumeration data without explicit scalar representation."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and matching 'with' clauses",
+    "AGREE annex placement in component types vs. implementations",
+    "Model Analyst Agent's role in extracting AADL structure",
+    "Requirement Analyst Agent's focus on compact semantics and traceability"
+  ]
+}

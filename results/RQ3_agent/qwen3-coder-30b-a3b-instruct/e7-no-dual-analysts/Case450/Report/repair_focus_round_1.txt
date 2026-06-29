@@ -1,0 +1,76 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: Data_Elev_Input, Data_AilL_Input, Data_AilR_Input, Data_MotorL_Input, Data_MotorR_Input, Data_Rudder_Input, Data_Elev_Output, Data_AilL_Output, Data_AilR_Output, Data_MotorL_Output, Data_MotorR_Output, Data_Rudder_Output, Dev_Bus
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_Elev_Input | in | data | opaque | Base_Types::Integer_16
+Data_AilL_Input | in | data | opaque | Base_Types::Integer_16
+Data_AilR_Input | in | data | opaque | Base_Types::Integer_16
+Data_MotorL_Input | in | data | opaque | Base_Types::Integer_16
+Data_MotorR_Input | in | data | opaque | Base_Types::Integer_16
+Data_Rudder_Input | in | data | opaque | Base_Types::Integer_16
+Data_Elev_Output | out | data | opaque | Base_Types::Integer_16
+Data_AilL_Output | out | data | opaque | Base_Types::Integer_16
+Data_AilR_Output | out | data | opaque | Base_Types::Integer_16
+Data_MotorL_Output | out | data | opaque | Base_Types::Integer_16
+Data_MotorR_Output | out | data | opaque | Base_Types::Integer_16
+Data_Rudder_Output | out | data | opaque | Base_Types::Integer_16
+Dev_Bus | requires | access | opaque | 
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Compteur | lines 38-41
+annex agree {**
+    assume "input_valid": Data_AilL_Input >= 0 and Data_AilL_Input <= 32767;
+    guarantee "ail_l_output_logic": Data_AilL_Input > 0 => Data_AilL_Output = 1 and Data_AilL_Input <= 0 => Data_AilL_Output = 0;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+No validator line numbers were available.
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Compteur
+device Compteur
+  features
+    Data_Elev_Input : in data port Base_Types::Integer_16;
+    Data_AilL_Input : in data port Base_Types::Integer_16;
+    Data_AilR_Input : in data port Base_Types::Integer_16;
+    Data_MotorL_Input : in data port Base_Types::Integer_16;
+    Data_MotorR_Input : in data port Base_Types::Integer_16;
+    Data_Rudder_Input : in data port Base_Types::Integer_16;
+    Data_Elev_Output : out data port Base_Types::Integer_16;
+    Data_AilL_Output : out data port Base_Types::Integer_16;
+    Data_AilR_Output : out data port Base_Types::Integer_16;
+    Data_MotorL_Output : out data port Base_Types::Integer_16;
+    Data_MotorR_Output : out data port Base_Types::Integer_16;
+    Data_Rudder_Output : out data port Base_Types::Integer_16;
+    Dev_Bus : requires bus access Device_Bus.MCU1;
+  end Compteur;
+
+-- RELATED MODEL LINES
+device Compteur
+Data_Elev_Input : in data port Base_Types::Integer_16;
+Data_AilL_Input : in data port Base_Types::Integer_16;
+Data_AilR_Input : in data port Base_Types::Integer_16;
+Data_MotorL_Input : in data port Base_Types::Integer_16;
+Data_MotorR_Input : in data port Base_Types::Integer_16;
+Data_Rudder_Input : in data port Base_Types::Integer_16;
+Data_Elev_Output : out data port Base_Types::Integer_16;
+Data_AilL_Output : out data port Base_Types::Integer_16;
+Data_AilR_Output : out data port Base_Types::Integer_16;
+Data_MotorL_Output : out data port Base_Types::Integer_16;
+Data_MotorR_Output : out data port Base_Types::Integer_16;
+Data_Rudder_Output : out data port Base_Types::Integer_16;
+end Compteur;
+device Servo
+Data_Input : in data port Base_Types::Integer_16;
+end Servo;
+device Recepteur
+RC_Input : in event data port Papa_Types::Unknown;
+RC_Output : out event data port Papa_Types::Unknown;
+RC_Evt_Output : out event port;
+end Recepteur;

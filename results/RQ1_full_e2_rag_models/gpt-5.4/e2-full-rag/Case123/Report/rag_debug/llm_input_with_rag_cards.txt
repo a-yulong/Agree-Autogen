@@ -1,0 +1,93 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Write AGREE only inside an `annex agree {** ... **};` block scoped to its owning component.
+- Use type scope for assumptions, guarantees, constants, and equations; use implementation scope only for valid implementation-level bindings such as assignments.
+- In implementation scope, use `assign` only when the left-hand side is an existing output feature or a declared auxiliary variable.
+- When expressing dependencies, relate visible outputs to visible inputs; avoid implementation-only paths in type-level contracts.
+Generic rules:
+- Use only identifiers that are valid and visible in the current owning scope.
+- Prefer concise contracts that encode explicit, case-supported relations rather than inferred behavior.
+- If no explicit visible-symbol whitelist is available, be conservative and avoid deep references that may be out of scope.
+Syntax or pattern reminders:
+- Core AGREE forms include `assume`, `guarantee`, `eq`, `const`, and `assign`.
+- Do not place `guarantee` statements in implementation scope; reserve implementation annex content for valid bindings such as `assign`.
+Anti-patterns:
+- Do not use subcomponent port paths inside a component type annex.
+- Do not treat AADL property names or unit tokens as AGREE variables unless explicitly exposed in scope.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- mag_in_data_x
+- mag_in_data_y
+- mag_in_data_z
+- mag_out_data_x
+- mag_out_data_y
+- mag_out_data_z
+
+Target interface:
+Exact expression symbols: mag_in_data_x, mag_in_data_y, mag_in_data_z, mag_out_data_x, mag_out_data_y, mag_out_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+mag_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_x | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_y | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_z | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+Raw requirement:
+The MAGNETO component shall define the implementation-level signal routing for MAGNETO.IMPL. In the implementation layer, MAGNETO.IMPL shall route data flow from magneto_sub.mag_out_data_x to mag_out_data_x through MAG_PC1 and data flow from magneto_sub.mag_out_data_y to mag_out_data_y through MAG_PC2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "MAGNETO.IMPL routes data flow from magneto_sub.mag_out_data_x to mag_out_data_x through MAG_PC1.",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO.IMPL",
+        "MAG_PC1",
+        "magneto_sub.mag_out_data_x",
+        "mag_out_data_x"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "MAGNETO.IMPL routes data flow from magneto_sub.mag_out_data_y to mag_out_data_y through MAG_PC2.",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO.IMPL",
+        "MAG_PC2",
+        "magneto_sub.mag_out_data_y",
+        "mag_out_data_y"
+      ]
+    }
+  ]
+}

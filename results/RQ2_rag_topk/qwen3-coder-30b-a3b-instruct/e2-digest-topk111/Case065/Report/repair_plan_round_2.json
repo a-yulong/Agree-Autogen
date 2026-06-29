@@ -1,0 +1,21 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 103: Couldn't resolve reference to ConnectionEnd 'attitude_window'.",
+      "cause": "Connection references non-existent port 'attitude_window' on component 'TCP'",
+      "minimal_edit": "Remove or correct the connection Cnx5 referencing 'attitude_window'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 104: Couldn't resolve reference to ConnectionEnd 'check_thresholds'.",
+      "cause": "Connection references non-existent port 'check_thresholds' on component 'TCP'",
+      "minimal_edit": "Remove or correct the connection Cnx6 referencing 'check_thresholds'"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Identify the connection declarations Cnx5 and Cnx6 in the AOCSprocessing.others implementation",
+    "Remove the connection Cnx5: port TCP.attitude_window -> FDR.attitude_window;",
+    "Remove the connection Cnx6: port TCP.check_thresholds -> FDR.check_thresholds;",
+    "Verify that the AGREE annex remains valid and does not reference any removed ports"
+  ]
+}

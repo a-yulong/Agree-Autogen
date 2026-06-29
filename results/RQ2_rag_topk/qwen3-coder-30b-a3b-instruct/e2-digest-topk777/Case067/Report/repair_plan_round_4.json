@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 72: missing EOF at 'var'",
+      "cause": "AGREE annex syntax error due to incomplete statement or missing terminator",
+      "minimal_edit": "Add a semicolon after the var declarations to properly terminate the statement"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 118: Couldn't resolve reference to ConnectionEnd 'attitude_window'",
+      "cause": "Connection references a non-existent port in the component model",
+      "minimal_edit": "Remove or correct the connection Cnx5 referencing 'attitude_window' which does not exist in the component"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 119: Couldn't resolve reference to ConnectionEnd 'check_thresholds'",
+      "cause": "Connection references a non-existent port in the component model",
+      "minimal_edit": "Remove or correct the connection Cnx6 referencing 'check_thresholds' which does not exist in the component"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Add a semicolon after 'var mode_SM : bool;' on line 72",
+    "Add a semicolon after 'var mode_NM : bool;' on line 74",
+    "Remove the connection Cnx5 : port TCP.attitude_window -> FDR.attitude_window; from line 118",
+    "Remove the connection Cnx6 : port TCP.check_thresholds -> FDR.check_thresholds; from line 119"
+  ]
+}

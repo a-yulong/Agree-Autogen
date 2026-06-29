@@ -1,0 +1,114 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Wrap AGREE content in an `annex agree {** ... **};` block.
+- Treat each AGREE annex as scoped to its owning component; reference only identifiers visible in that scope.
+- Use the model facts as the authority for exact names, ports, directions, and types; do not invent identifiers.
+Generic rules:
+- Generate only clauses whose identifiers and types are supported by the available model-visible symbols.
+- Prefer standard AGREE contract forms for declarative logic, and use assignment forms only when valid for the chosen owner scope.
+Syntax or pattern reminders:
+- Common clause forms are `assume`, `guarantee`, `eq`, `const`, and `assign`, each ending with a semicolon.
+- Use exact AGREE syntax tokens and quoted labels where the clause form requires them.
+Anti-patterns:
+- Do not reference AADL property names or unit tokens as if they were AGREE variables unless the model exposes them explicitly.
+- Do not copy example names, subcomponents, or ports from other contexts; unresolved references should be avoided rather than guessed.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- SBC_32F411EDISCOVERY
+- SBC_32F411EDISCOVERY.impl
+- SBC_32F411EDISCOVERY.RTOS
+- SBC_32F411EDISCOVERY.v2
+- RAM
+- LSM303DLHC
+- L3GD20
+- i2c_bus
+- spi_bus
+- I2C_ACC_MAG_BA
+- I2C_ARM_BA
+- SPI_GYRO_BA
+- SPI_ARM_BA
+- Software
+- acc_out_data_x
+- acc_out_data_y
+- acc_out_data_z
+- mag_out_data_x
+- mag_out_data_y
+- mag_out_data_z
+- gyro_out_data_x
+- gyro_out_data_y
+- gyro_out_data_z
+
+Target interface:
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- SBC_32F411EDISCOVERY
+- SBC_32F411EDISCOVERY.impl
+- SBC_32F411EDISCOVERY.RTOS
+- SBC_32F411EDISCOVERY.v2
+- RAM
+- LSM303DLHC
+- L3GD20
+- i2c_bus
+- spi_bus
+- I2C_ACC_MAG_BA
+- I2C_ARM_BA
+- SPI_GYRO_BA
+- SPI_ARM_BA
+- Software
+- acc_out_data_x
+- acc_out_data_y
+- acc_out_data_z
+- mag_out_data_x
+- mag_out_data_y
+- mag_out_data_z
+- gyro_out_data_x
+- gyro_out_data_y
+- gyro_out_data_z
+
+Raw requirement:
+The SBC_32F411EDISCOVERY component shall use the deployment bindings defined for SBC_32F411EDISCOVERY.RTOS. The deployment mapping shall bind Software to processor cpu.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "SBC_32F411EDISCOVERY uses the deployment bindings defined for SBC_32F411EDISCOVERY.RTOS",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R2",
+      "text": "Deployment mapping binds Software to processor cpu",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": []
+    }
+  ]
+}

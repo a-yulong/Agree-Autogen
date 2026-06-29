@@ -1,0 +1,32 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 74: Couldn't resolve reference to 'acc1'.",
+      "cause": "AGREE annex in component type refers to implementation subcomponent names",
+      "minimal_edit": "Remove assumption 'signal_flow_acc1' from component type annex"
+    },
+    {
+      "diagnostic": "line 74: Couldn't resolve reference to 'acc1_input'.",
+      "cause": "AGREE annex in component type refers to implementation port names",
+      "minimal_edit": "Remove assumption 'signal_flow_acc1' from component type annex"
+    },
+    {
+      "diagnostic": "line 75: Couldn't resolve reference to 'acc2'.",
+      "cause": "AGREE annex in component type refers to implementation subcomponent names",
+      "minimal_edit": "Remove assumption 'signal_flow_acc2' from component type annex"
+    },
+    {
+      "diagnostic": "line 75: Couldn't resolve reference to 'acc2_input'.",
+      "cause": "AGREE annex in component type refers to implementation port names",
+      "minimal_edit": "Remove assumption 'signal_flow_acc2' from component type annex"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire annex agree block from acc_process_emv2 component type",
+    "Add a new annex agree block to acc_process_emv2.impl component implementation",
+    "In the new implementation annex, declare the signal flow assumptions using visible identifiers only",
+    "Use the exact port names as provided: acc1_input, acc2_input, etc.",
+    "Reference the ports directly through the connection declarations already present in the implementation"
+  ]
+}

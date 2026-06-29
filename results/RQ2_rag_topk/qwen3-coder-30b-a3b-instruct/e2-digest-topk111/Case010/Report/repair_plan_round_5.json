@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 26: Expression for assume statement is of type 'real' but must be of type 'bool'",
+      "cause": "Assume statements in AGREE require boolean expressions, but numeric literals like 100.0 are real-typed and not boolean",
+      "minimal_edit": "Remove assume statements for numeric properties; they are not valid AGREE assumptions"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 27: Expression for assume statement is of type 'real' but must be of type 'bool'",
+      "cause": "Assume statements in AGREE require boolean expressions, but numeric literals like 15.0 are real-typed and not boolean",
+      "minimal_edit": "Remove assume statements for numeric properties; they are not valid AGREE assumptions"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 28: Expression for assume statement is of type 'real' but must be of type 'bool'",
+      "cause": "Assume statements in AGREE require boolean expressions, but numeric literals like 5.0 are real-typed and not boolean",
+      "minimal_edit": "Remove assume statements for numeric properties; they are not valid AGREE assumptions"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 30: Couldn't resolve reference to 'altitudeFromGround'.",
+      "cause": "altitudeFromGround is used as a variable but is not declared as a visible identifier or output port",
+      "minimal_edit": "Remove the assignment to altitudeFromGround; it is not a declared symbol in the interface"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 32: Couldn't resolve reference to 'altitudeFromGround'.",
+      "cause": "altitudeFromGround is referenced in a guarantee condition but is not a declared symbol",
+      "minimal_edit": "Rewrite the guarantee condition to use only visible identifiers; remove altitudeFromGround reference"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove all assume statements for 'vertical_acceleration', 'expected_impact_time', and 'recovery_time' because AGREE assume statements require boolean expressions, not numeric literals",
+    "Remove the entire guarantee statement for 'altitude_from_ground_calculation' because altitudeFromGround is not a declared symbol in the interface and cannot be assigned",
+    "Rewrite the guarantee 'gcas_request_condition' to use only visible symbols: replace altitudeFromGround with its intended definition using Agree_Nodes::height, but since altitudeFromGround is not declared, this guarantee cannot be expressed as written — remove it",
+    "Leave no assume or guarantee statements in the annex, as none of the current clauses are valid under AGREE semantics with the given interface"
+  ]
+}

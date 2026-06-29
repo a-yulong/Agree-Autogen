@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "Type mismatch in equation declaration: 'e' declared as 'real' but used in port arithmetic",
+      "minimal_edit": "Change 'eq e : real = Target - Actual;' to 'eq e : Types::speed.speed_impl = Target - Actual;'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'real' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "Type mismatch in guarantee: 'e' is declared as 'real' but used in port arithmetic",
+      "minimal_edit": "Change 'guarantee \"actuator input follows PID control law\": Actuator_Input = 1.0 * e + 0.0 * e + 0.0 * e;' to 'guarantee \"actuator input follows PID control law\": Actuator_Input = 1.0 * e + 0.0 * e + 0.0 * e_int;'"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port types 'Types::speed.speed_impl' cannot be used in arithmetic expressions directly",
+      "minimal_edit": "Introduce a real-valued error variable that represents the difference between Target and Actual"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Modify the equation declaration to use 'Types::speed.speed_impl' for variable 'e'",
+    "Update the guarantee to reference 'e_int' instead of 'e' in the third term",
+    "Ensure all arithmetic expressions use compatible types"
+  ]
+}

@@ -1,0 +1,156 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: Beta1, Beta1.All_elems, Beta1.elem, Beta2, Beta2.All_elems, Beta2.elem, Beta3
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Beta1 | in | data | opaque | A_Struct.impl
+Beta1.All_elems | in | data_field | opaque | One_Dimension_Array
+Beta1.elem | in | data_field | int | Base_Types::Integer
+Beta2 | in | data | opaque | A_Struct.impl
+Beta2.All_elems | in | data_field | opaque | One_Dimension_Array
+Beta2.elem | in | data_field | int | Base_Types::Integer
+Beta3 | in | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Beta3 >= 0 and Beta3 <= 100",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "Beta3"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: B | lines 142-145
+annex agree {**
+        Beta3_range : Beta3 >= 0 and Beta3 <= 100;
+        assume "Beta3 bounded": Beta3 >= 0 and Beta3 <= 100;
+      **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   139:     Beta1  : in data port A_Struct.impl;
+   140:     Beta2  : in data port A_Struct.impl;
+   141:     Beta3  : in data port Base_Types::Integer;
+   142:   annex agree {**
+>> 143:         Beta3_range : Beta3 >= 0 and Beta3 <= 100;
+   144:         assume "Beta3 bounded": Beta3 >= 0 and Beta3 <= 100;
+   145:       **};
+   146:   end B;
+   147: 
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: B
+process B
+  features
+    Beta1  : in data port A_Struct.impl;
+    Beta2  : in data port A_Struct.impl;
+    Beta3  : in data port Base_Types::Integer;
+  end B;
+
+-- TARGET DECLARATION: B.Impl
+process implementation B.Impl
+  subcomponents
+    Consumer  : thread Consumer_Th;
+  connections
+    Z4 : port Beta1 -> Consumer.Data_Sink1;
+    Z7 : port Beta2 -> Consumer.Data_Sink2;
+    Z10: port Beta3 -> Consumer.Cr_Index;
+  end B.Impl;
+
+-- RELATED MODEL LINES
+process B
+Beta1  : in data port A_Struct.impl;
+Beta2  : in data port A_Struct.impl;
+Beta3  : in data port Base_Types::Integer;
+end B;
+process implementation B.Impl
+Z4 : port Beta1 -> Consumer.Data_Sink1;
+Z7 : port Beta2 -> Consumer.Data_Sink2;
+Z10: port Beta3 -> Consumer.Cr_Index;
+end B.Impl;
+pr_B : process B.Impl {Deployment::port_number => 4002;};
+Z6 : port pr_A.Alpha1 -> pr_B.Beta1;
+Z8 : port pr_A.Alpha2 -> pr_B.Beta2;
+Z11: port pr_A.Alpha3 -> pr_B.Beta3;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "B",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "B.Impl",
+      "kind": "process implementation",
+      "type_name": "B"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "B.Impl",
+      "name": "Consumer",
+      "category": "thread",
+      "classifier": "Consumer_Th"
+    }
+  ],
+  "features": [
+    {
+      "owner": "B",
+      "name": "Beta1",
+      "direction": "in",
+      "category": "data port",
+      "type": "A_Struct.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "B",
+      "name": "Beta2",
+      "direction": "in",
+      "category": "data port",
+      "type": "A_Struct.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "B",
+      "name": "Beta3",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "B.Impl",
+      "name": "Z4",
+      "kind": "port",
+      "source": "Beta1",
+      "destination": "Consumer.Data_Sink1"
+    },
+    {
+      "owner": "B.Impl",
+      "name": "Z7",
+      "kind": "port",
+      "source": "Beta2",
+      "destination": "Consumer.Data_Sink2"
+    },
+    {
+      "owner": "B.Impl",
+      "name": "Z10",
+      "kind": "port",
+      "source": "Beta3",
+      "destination": "Consumer.Cr_Index"
+    }
+  ]
+}

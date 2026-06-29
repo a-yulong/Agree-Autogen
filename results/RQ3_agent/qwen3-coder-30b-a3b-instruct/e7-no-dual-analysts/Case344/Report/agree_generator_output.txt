@@ -1,0 +1,8 @@
+annex agree {**
+  assume "radio_ok_condition": Radio_Ok_Input = true;
+  guarantee "data_output_validity": MCU1_Send_Output.satus = 1 => MCU1_Send_Output.nb_err = 0;
+  guarantee "ppm_counter_increments": MCU1_Send_Output.ppm_cpt > 0 => MCU1_Send_Output.ppm_cpt = MCU1_Send_Output.ppm_cpt + 1;
+  guarantee "voltage_level_normal": MCU1_Send_Output.vsupply >= 0 and MCU1_Send_Output.vsupply <= 100;
+  guarantee "channel_data_valid": MCU1_Send_Output.channels.data_0 >= -32768 and MCU1_Send_Output.channels.data_0 <= 32767;
+  guarantee "status_consistency": MCU1_Send_Output.satus = 0 or MCU1_Send_Output.satus = 1;
+**};

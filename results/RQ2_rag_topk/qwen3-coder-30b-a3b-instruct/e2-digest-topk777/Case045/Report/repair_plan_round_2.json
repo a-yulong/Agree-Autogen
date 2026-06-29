@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "The first and second arguments of the 'prev' function are of non-matching types 'IntTypeDef' and 'ErrorTypeDef'",
+      "cause": "Invalid use of prev() function with mismatched types due to incorrect mode declaration",
+      "minimal_edit": "Replace 'mode >= prev(mode) and mode != prev(mode)' with 'mode > prev(mode)' and add proper initialization for mode variable"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the guarantee statement on line 25 with 'guarantee \"monotonic_mode\": mode > prev(mode);'",
+    "Add initialization for mode variable to ensure proper temporal recurrence: 'eq mode : int = 0 -> if reset_mode then 0 else pre(mode) + 1;'",
+    "Ensure the mode variable is properly declared with initialization to avoid type errors"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 27: Couldn't resolve reference to 'RTOS'.",
+      "cause": "Reference to 'RTOS' is not a valid AGREE expression; 'RTOS' is a system implementation name, not a component instance or type that can be directly compared in AGREE.",
+      "minimal_edit": "Replace 'SBC_32F411EDISCOVERY.RTOS' with 'SBC_32F411EDISCOVERY' in the assumption expression."
+    },
+    {
+      "diagnostic": "line 28: Couldn't resolve reference to 'Software'.",
+      "cause": "Reference to 'Software' is not a valid AGREE expression; 'Software' is a process instance, not a component type or variable that can be directly compared in AGREE.",
+      "minimal_edit": "Remove the assumption 'software_to_cpu_binding' as it cannot be expressed in AGREE in this context."
+    },
+    {
+      "diagnostic": "line 28: Couldn't resolve reference to 'cpu'.",
+      "cause": "Reference to 'cpu' is not a valid AGREE expression; 'cpu' is a processor instance, not a component type or variable that can be directly compared in AGREE.",
+      "minimal_edit": "Remove the assumption 'software_to_cpu_binding' as it cannot be expressed in AGREE in this context."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the annex block at lines 26-29 to correct the invalid references in the assume statements.",
+    "Replace 'SBC_32F411EDISCOVERY.RTOS = SBC_32F411EDISCOVERY.RTOS' with 'SBC_32F411EDISCOVERY = SBC_32F411EDISCOVERY' on line 27.",
+    "Remove the entire line 28 'assume \"software_to_cpu_binding\": Software = cpu;' as it references invalid identifiers in AGREE."
+  ]
+}

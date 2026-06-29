@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Place input envelope assumptions in component type annexes when they refer to visible component ports.",
+    "Use valid AGREE syntax for assumptions and guarantees, ensuring type compatibility with AADL data types.",
+    "Generate constants and equations in AGREE annex blocks only when the requirement specifies concrete bounds or relations."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be placed in valid AADL scopes: component types for assumptions/guarantees, implementations for assignments.",
+    "Avoid introducing package-qualified identifiers or types not present in the analyzed AADL model.",
+    "Ensure all AGREE expressions reference only visible symbols and declared constants from the model.",
+    "Do not invent numeric bounds or types unless explicitly stated in the requirement and compatible with AADL types."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks are enclosed in `annex agree {** ... **};` and must follow valid AGREE syntax for assumptions, guarantees, constants, and equations.",
+    "Use `eq` for boolean expressions and `const` for numeric limits; ensure types match AADL port declarations.",
+    "Assignments in implementation scopes must reference existing output features or declared auxiliary variables."
+  ],
+  "anti_patterns": [
+    "Do not place assumptions or guarantees in implementation scopes unless they bind to subcomponent ports or outputs.",
+    "Do not assume numeric types for Boolean or event ports; only use explicit data values from the model.",
+    "Do not introduce invented bounds or types that are not directly stated in the requirement or visible in the AADL model."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations such as Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens like ms/us/Hz/Bytes",
+    "Event port activation clauses unless the model provides an explicit data value for the event",
+    "Boolean domain values converted into integers or 0/1 equality over opaque data ports"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 101: Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "latched is declared as an output port but used in a guarantee as if it were an input",
+      "minimal_edit": "Remove the latched_logic guarantee since latched is an output port and cannot be constrained in this manner in a component type"
+    },
+    {
+      "diagnostic": "line 101: Latched expressions can appear only in component implementations",
+      "cause": "guarantee is placed in component type annex but references output port latched",
+      "minimal_edit": "Move the latched_logic guarantee to the implementation annex"
+    },
+    {
+      "diagnostic": "line 102: Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "swivel is declared as an input port but used in a guarantee as if it were an output",
+      "minimal_edit": "Remove the swivel_logic guarantee since it incorrectly treats swivel as an output"
+    },
+    {
+      "diagnostic": "line 102: Latched expressions can appear only in component implementations",
+      "cause": "guarantee is placed in component type annex but references input port swivel",
+      "minimal_edit": "Move the swivel_logic guarantee to the implementation annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the latched_logic guarantee from the component type annex",
+    "Remove the swivel_logic guarantee from the component type annex",
+    "Add both guarantees to the implementation annex"
+  ]
+}

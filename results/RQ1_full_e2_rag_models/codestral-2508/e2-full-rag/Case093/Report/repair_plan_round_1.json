@@ -1,0 +1,37 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assume statements are allowed only in component types",
+      "cause": "assume statements are in an implementation annex",
+      "minimal_edit": "move assume statements to a component type annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc1_output'",
+      "cause": "acc1_output is not visible in the current annex scope",
+      "minimal_edit": "remove or rewrite the expression using visible symbols"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_pr'",
+      "cause": "acc_pr is not visible in the current annex scope",
+      "minimal_edit": "remove or rewrite the expression using visible symbols"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "type mismatch due to unresolved references",
+      "minimal_edit": "remove or rewrite the expression using visible symbols"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "expression is not well-formed due to unresolved references",
+      "minimal_edit": "remove or rewrite the expression using visible symbols"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "identify the component type annex for ADIRU.EMV2",
+    "move the assume statements from the implementation annex to the component type annex",
+    "remove or rewrite the expressions in the assume statements using visible symbols",
+    "update the references in the guarantee statements to use the new visible symbols",
+    "ensure all references in the guarantee statements are resolved and well-formed"
+  ]
+}

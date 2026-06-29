@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by ensuring all identifiers used in guarantees are declared or visible in the same annex scope.",
+    "Resolve type mismatches by aligning expression types with declared variable types, especially for real and integer arithmetic.",
+    "Avoid placing implementation-level guarantees in component type scopes; move valid assignments to implementation annexes.",
+    "Do not reference AADL property names like 'Deadline' or 'Period' as AGREE variables; remove such clauses."
+  ],
+  "generic_rules": [
+    "Use only visible identifiers in AGREE annexes to prevent 'Couldn't resolve reference' errors.",
+    "Ensure type consistency in AGREE expressions: real literals must produce real results, integers for int, booleans for bool.",
+    "Place implementation-level bindings (assign) only in implementation scopes with valid output features.",
+    "Validate that all helper declarations and constants are properly typed and visible before use in guarantees."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `eq` for stateful equations with initialized recurrence like `0.0 -> pre(t) + step`.",
+    "Guarantees must reference valid expressions with known types; avoid `<error>` types.",
+    "Assignments in implementation scope must target existing output features or declared auxiliary variables."
+  ],
+  "anti_patterns": [
+    "Do not place guarantees in component type scopes that reference implementation-level features or subcomponents.",
+    "Do not mix AADL property names (e.g., 'Deadline') with AGREE expressions without explicit model exposure.",
+    "Do not reference undeclared or unresolved identifiers in guarantee expressions.",
+    "Do not use invalid scalar types like 'integer' or 'boolean' in AGREE declarations; use 'int', 'real', 'bool'."
+  ],
+  "irrelevant_topics": [
+    "AADL structural extraction",
+    "Requirement semantics and traceability",
+    "Model fusion owner/scope rules",
+    "AGREE annex placement in component types"
+  ]
+}

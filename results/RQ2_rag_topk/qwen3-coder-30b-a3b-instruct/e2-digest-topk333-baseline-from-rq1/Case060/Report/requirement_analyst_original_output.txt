@@ -1,0 +1,39 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "text": "COM component defines internal state variable Mode",
+      "evidence": ["Mode"]
+    },
+    {
+      "id": "R2",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "text": "Mode value is calculated based on Panel input port signals",
+      "evidence": ["Panel.LO", "Panel.MED", "Panel.MAX"]
+    },
+    {
+      "id": "R3",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "text": "Fail = False",
+      "evidence": ["Fail"]
+    },
+    {
+      "id": "R4",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "text": "CMD = Agree_Nodes::Brake_Cmd(Mode, Pedal) when not Fail",
+      "evidence": ["CMD", "Mode", "Pedal", "Fail"]
+    },
+    {
+      "id": "R5",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "Mode = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX)",
+      "evidence": ["Mode", "Panel.LO", "Panel.MED", "Panel.MAX"]
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level port names",
+      "minimal_edit": "Move annex to implementation scope and reference ports directly"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level subcomponent",
+      "minimal_edit": "Move annex to implementation scope and reference ports directly"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE annex is in component type scope but references implementation-level identifiers",
+      "minimal_edit": "Move annex to implementation scope and reference ports directly"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_in_data_y'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level port names",
+      "minimal_edit": "Move annex to implementation scope and reference ports directly"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level subcomponent",
+      "minimal_edit": "Move annex to implementation scope and reference ports directly"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE annex is in component type scope but references implementation-level identifiers",
+      "minimal_edit": "Move annex to implementation scope and reference ports directly"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex from ATTITUDE_CALCULATION component type",
+    "Add a new AGREE annex to ATTITUDE_CALCULATION.IMPL component implementation",
+    "In the new implementation annex, define the routing assumptions using only visible identifiers",
+    "Replace references to attitude_sub.acc_in_data_x with acc_in_data_x",
+    "Replace references to attitude_sub.acc_in_data_y with acc_in_data_y",
+    "Remove the old annex from the component type"
+  ]
+}

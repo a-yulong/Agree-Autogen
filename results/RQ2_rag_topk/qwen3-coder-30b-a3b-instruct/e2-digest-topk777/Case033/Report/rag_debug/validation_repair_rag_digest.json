@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix type mismatches by ensuring expressions match expected types (real, int, bool) and resolve all references to visible identifiers.",
+    "Resolve diagnostics by correcting invalid references or removing clauses that reference unresolved identifiers.",
+    "Ensure AGREE expressions are type-consistent and do not introduce package-qualified identifiers not present in the model.",
+    "Avoid placing implementation-level guarantees in component type scopes; move valid bindings to implementation annexes."
+  ],
+  "generic_rules": [
+    "Use initialized temporal recurrence for stateful equations with pre() and step().",
+    "Place component type contracts in type scopes and implementation bindings in implementation scopes.",
+    "Generate AGREE expressions that preserve type consistency and use only visible identifiers.",
+    "Do not assume AADL property names are automatically available as AGREE variables."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `eq` for equations, `const` for constants, `assume`/`guarantee` for assertions, and `assign` for output bindings.",
+    "Binary expressions must have matching left and right types; use `pre()` for temporal references.",
+    "Helper functions and variables must be declared in the same annex and visible in scope."
+  ],
+  "anti_patterns": [
+    "Do not reference unresolved identifiers or use invalid scalar types like 'integer' or 'boolean' in AGREE declarations.",
+    "Do not place implementation-level guarantees in component type annexes; only use visible features or outputs.",
+    "Do not assume AADL properties like Period or Deadline are available as AGREE variables without explicit model exposure.",
+    "Do not attempt to convert Boolean or opaque data into numeric types for comparisons."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics",
+    "AGREE validator diagnostics",
+    "Component type vs implementation scope boundaries",
+    "Model traceability and requirement semantics"
+  ]
+}

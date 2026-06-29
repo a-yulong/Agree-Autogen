@@ -1,0 +1,24 @@
+{
+  "rag_rules": [
+    "Fix AGREE validator diagnostics by correcting syntax errors such as missing EOF at 'annex' before generating or repairing contracts.",
+    "Ensure that AGREE expressions preserve type consistency and avoid introducing package-qualified identifiers not present in the model."
+  ],
+  "generic_rules": [
+    "Only reference visible AADL features or helper declarations within the same annex scope to avoid unresolved references.",
+    "Place assumptions and guarantees in valid component type scopes, avoiding implementation-level subcomponent paths in type annexes.",
+    "Use only AGREE scalar types (int, real, bool) for constants and equations; avoid invalid or ambiguous type names.",
+    "When repairing contracts, ensure that generated clauses align with the actual data types of referenced features."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks within component type or implementation scopes.",
+    "Helper functions and constants should be declared in the same annex where they are used, and must match the expected types."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level bindings or subcomponent references in component type annexes unless they are valid variables or outputs.",
+    "Avoid introducing package-qualified identifiers or types that are not declared in the model or its dependencies."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes"
+  ]
+}

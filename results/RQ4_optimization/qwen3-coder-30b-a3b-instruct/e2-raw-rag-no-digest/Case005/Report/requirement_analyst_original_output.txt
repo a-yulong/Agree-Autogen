@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "text": "The GCAS_singleton component shall declare a height variable and invoke the kinematicLinearization function from the gcas_nodes library to compute its value.",
+      "evidence": ["gcas.gcas", "kinematicLinearization", "height"]
+    },
+    {
+      "id": "R2",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "text": "The component shall set the recovery time to 8.7 and the failure time to 16.0.",
+      "evidence": ["timeToRecovery", "timeToFailure"]
+    },
+    {
+      "id": "R3",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "Once the simulation time exceeds the recovery time of 8.7, the height value must always remain greater than the minimum allowed height of 200.0.",
+      "evidence": ["timeToRecovery", "altitude", "200.0"]
+    },
+    {
+      "id": "R4",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "Once the simulation time exceeds the recovery time of 8.7, the current height must be strictly greater than the height value from the previous time step.",
+      "evidence": ["altitude", "timeToRecovery"]
+    }
+  ]
+}

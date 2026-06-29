@@ -1,0 +1,91 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `assume` and `guarantee` statements in component type annexes when describing signal flow relationships with visible input/output features.
+- Place `assign` statements in implementation annexes only for existing output features or declared auxiliary variables.
+- Generate AGREE contracts inside `annex agree {** ... **};` blocks scoped to the owning component.
+Generic rules:
+- AGREE annex blocks must reference only identifiers visible in the current component scope.
+- Component type contracts should express assumptions about input envelopes and guarantees about output ranges using visible feature names.
+- Do not encode AADL timing properties as AGREE expressions unless explicitly exposed as typed ports or constants.
+- Avoid copying identifiers from examples; always use exact names from the AADL model index.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for logical constraints.
+- Use `assign output = expression;` for implementation-level bindings to output features.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope; use type scope for output dependency guarantees.
+- Do not reference AADL properties like Compute_Execution_Time or unit tokens (ms/us/Hz/Bytes) as AGREE variables.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- solver_in1
+- solver_in2
+- solver_in3
+- solver_in4
+- solver_in5
+- solver_in6
+
+Target interface:
+Exact expression symbols: solver_in1, solver_in2, solver_in3, solver_in4, solver_in5, solver_in6
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+solver_in1 | in | data | int | SHM_DataType::accData
+solver_in2 | in | data | int | SHM_DataType::accData
+solver_in3 | in | data | int | SHM_DataType::accData
+solver_in4 | in | data | int | SHM_DataType::accData
+solver_in5 | in | data | int | SHM_DataType::accData
+solver_in6 | in | data | int | SHM_DataType::accData
+
+Raw requirement:
+The ADIRUp_solve component shall define the implementation-level signal routing for ADIRUp_solve.impl. In the implementation layer, ADIRUp_solve.impl shall route data flow from solver_in1 to ADIRUp_solve.inData_para1 through C1 and data flow from solver_in2 to ADIRUp_solve.inData_para2 through C2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data flow from solver_in1 to ADIRUp_solve.inData_para1 through connection C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "solver_in1",
+        "ADIRUp_solve.inData_para1",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Data flow from solver_in2 to ADIRUp_solve.inData_para2 through connection C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "solver_in2",
+        "ADIRUp_solve.inData_para2",
+        "C2"
+      ]
+    }
+  ]
+}

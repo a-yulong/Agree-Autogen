@@ -1,0 +1,234 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: mitigation_in, mitigation_command
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+mitigation_in | in | data | int | SHM_DataType::errorData
+mitigation_command | out | data | int | SHM_DataType::actionData
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "mitigationActor_th.impl routes data from mitigation_in to mitigationActor.inData_para through connection C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "mitigation_in",
+        "mitigationActor.inData_para",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "mitigationActor_th.impl routes control signal from mitigationActor.outData_para to mitigation_command through connection C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "mitigationActor.outData_para",
+        "mitigation_command",
+        "C2"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: mitigationActor_th | lines 467-470
+annex agree {**
+      assume "data_routing": mitigation_in = mitigationActor.inData_para;
+      assume "control_routing": mitigationActor.outData_para = mitigation_command;
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   464:     Period => 3000 ms;
+   465:     Compute_Execution_Time => 400 ms .. 500 ms;
+   466:     Deadline => 500 ms;
+   467:   annex agree {**
+>> 468:       assume "data_routing": mitigation_in = mitigationActor.inData_para;
+   469:       assume "control_routing": mitigationActor.outData_para = mitigation_command;
+   470:     **};
+   471:   end mitigationActor_th;
+   472: 
+
+   465:     Compute_Execution_Time => 400 ms .. 500 ms;
+   466:     Deadline => 500 ms;
+   467:   annex agree {**
+   468:       assume "data_routing": mitigation_in = mitigationActor.inData_para;
+>> 469:       assume "control_routing": mitigationActor.outData_para = mitigation_command;
+   470:     **};
+   471:   end mitigationActor_th;
+   472: 
+   473:   thread implementation mitigationActor_th.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: mitigationActor_th
+thread mitigationActor_th
+  features
+    mitigation_in: in event data port SHM_DataType::errorData;
+
+    mitigation_command: out event data  port SHM_DataType::actionData;
+    -- acc2_action: out event data  port SHM_DataType::actionData;
+    -- acc3_action: out event data  port SHM_DataType::actionData;
+    -- acc4_action: out event data  port SHM_DataType::actionData;
+    -- acc5_action: out event data  port SHM_DataType::actionData;
+    -- acc6_action: out event data  port SHM_DataType::actionData;
+    --
+    -- ADIRUp1_action: out event data  port SHM_DataType::actionData;
+    -- ADIRUp2_action: out event data  port SHM_DataType::actionData;
+    -- ADIRUp3_action: out event data  port SHM_DataType::actionData;
+    -- ADIRUp4_action: out event data  port SHM_DataType::actionData;
+    --
+    -- VDl_action: out event data  port SHM_DataType::actionData;
+    -- VDc_action: out event data  port SHM_DataType::actionData;
+    -- VDr_action: out event data  port SHM_DataType::actionData;
+  properties
+    Priority => 8;
+    Stack_Size => 20 KByte;
+    Code_Size => 100 KByte;
+    Data_Size => 1 KByte;
+    Dispatch_Protocol => Periodic;
+    Period => 3000 ms;
+    Compute_Execution_Time => 400 ms .. 500 ms;
+    Deadline => 500 ms;
+  end mitigationActor_th;
+
+-- TARGET DECLARATION: mitigationActor_th.impl
+thread implementation mitigationActor_th.impl
+  calls
+    sub1: { mitigationActor: subprogram subprograms::mitigationActor_spg; };
+
+  connections
+    C1: parameter mitigation_in->mitigationActor.inData_para;
+    C2: parameter mitigationActor.outData_para->mitigation_command;
+  end mitigationActor_th.impl;
+
+-- RELATED MODEL LINES
+thread mitigationActor_th
+mitigation_in: in event data port SHM_DataType::errorData;
+mitigation_command: out event data  port SHM_DataType::actionData;
+end mitigationActor_th;
+thread implementation mitigationActor_th.impl
+C1: parameter mitigation_in->mitigationActor.inData_para;
+C2: parameter mitigationActor.outData_para->mitigation_command;
+end mitigationActor_th.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "mitigationActor_th",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "mitigationActor_th.impl",
+      "kind": "thread implementation",
+      "type_name": "mitigationActor_th"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "mitigationActor_th.impl",
+      "name": "sub1",
+      "category": "call",
+      "classifier": "subprogram subprograms::mitigationActor_spg"
+    }
+  ],
+  "features": [
+    {
+      "owner": "mitigationActor_th",
+      "name": "mitigation_in",
+      "direction": "in",
+      "category": "event data port",
+      "type": "SHM_DataType::errorData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "mitigationActor_th",
+      "name": "mitigation_command",
+      "direction": "out",
+      "category": "event data port",
+      "type": "SHM_DataType::actionData",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "mitigationActor_th.impl",
+      "name": "C1",
+      "kind": "parameter",
+      "source": "mitigation_in",
+      "destination": "mitigationActor.inData_para"
+    },
+    {
+      "owner": "mitigationActor_th.impl",
+      "name": "C2",
+      "kind": "parameter",
+      "source": "mitigationActor.outData_para",
+      "destination": "mitigation_command"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "mitigationActor_th",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "8",
+      "applies_to": "mitigationActor_th"
+    },
+    {
+      "owner": "mitigationActor_th",
+      "owner_kind": "thread",
+      "name": "Stack_Size",
+      "value": "20 KByte",
+      "applies_to": "mitigationActor_th"
+    },
+    {
+      "owner": "mitigationActor_th",
+      "owner_kind": "thread",
+      "name": "Code_Size",
+      "value": "100 KByte",
+      "applies_to": "mitigationActor_th"
+    },
+    {
+      "owner": "mitigationActor_th",
+      "owner_kind": "thread",
+      "name": "Data_Size",
+      "value": "1 KByte",
+      "applies_to": "mitigationActor_th"
+    },
+    {
+      "owner": "mitigationActor_th",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "mitigationActor_th"
+    },
+    {
+      "owner": "mitigationActor_th",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "3000 ms",
+      "applies_to": "mitigationActor_th"
+    },
+    {
+      "owner": "mitigationActor_th",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "400 ms .. 500 ms",
+      "applies_to": "mitigationActor_th"
+    },
+    {
+      "owner": "mitigationActor_th",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "500 ms",
+      "applies_to": "mitigationActor_th"
+    }
+  ]
+}

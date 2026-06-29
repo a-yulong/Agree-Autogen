@@ -1,0 +1,284 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- ADIRU
+- ADIRU.impl
+- ADIRU.DeOS
+- ADIRU.VxWorks653
+- ADIRU.EMV2
+- main_mem
+- main_cpu
+- acc_pr
+- acc_hm_pr
+- ADIRUp_pr
+- SHM_pr
+- acc1
+- acc2
+- acc3
+- acc4
+- acc5
+- acc6
+- C1
+- C2
+- C3
+- C4
+- C5
+- C6
+- C7
+- C8
+- C9
+- C10
+- C11
+- C12
+- C13
+- C14
+- C15
+- C16
+- C17
+- C18
+- C19
+- C20
+- C21
+- C22
+- D1
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: ADIRU.EMV2 | lines 180-217
+annex agree {**
+
+
+  assume "impl_binding": ADIRU = ADIRU.DeOS or ADIRU = ADIRU.VxWorks653 or ADIRU = ADIRU.EMV2;
+  
+
+
+
+  guarantee "signal_flow_c1": acc_pr.acc1_output = acc_hm_pr.acc1_input and C1 = acc_pr.acc1_output;
+  
+
+
+
+  guarantee "signal_flow_c2": acc_pr.acc2_output = acc_hm_pr.acc2_input and C2 = acc_pr.acc2_output;
+  
+
+
+
+  assume "processor_binding_acc_pr": acc_pr -> main_cpu.part1;
+  
+
+
+
+  assume "processor_binding_acc_hm_pr": acc_hm_pr -> main_cpu.part2;
+  
+
+
+
+  assume "processor_binding_ADIRUp_pr": ADIRUp_pr -> main_cpu.part3;
+  
+
+
+
+  assume "processor_binding_SHM_pr": SHM_pr -> main_cpu.part4;
+
+
+
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   179: 
+   180: annex agree {**
+   181: 
+   182: 
+>> 183:   assume "impl_binding": ADIRU = ADIRU.DeOS or ADIRU = ADIRU.VxWorks653 or ADIRU = ADIRU.EMV2;
+   184:   
+   185: 
+   186: 
+   187: 
+
+   184:   
+   185: 
+   186: 
+   187: 
+>> 188:   guarantee "signal_flow_c1": acc_pr.acc1_output = acc_hm_pr.acc1_input and C1 = acc_pr.acc1_output;
+   189:   
+   190: 
+   191: 
+   192: 
+
+   189:   
+   190: 
+   191: 
+   192: 
+>> 193:   guarantee "signal_flow_c2": acc_pr.acc2_output = acc_hm_pr.acc2_input and C2 = acc_pr.acc2_output;
+   194:   
+   195: 
+   196: 
+   197: 
+
+   194:   
+   195: 
+   196: 
+   197: 
+>> 198:   assume "processor_binding_acc_pr": acc_pr -> main_cpu.part1;
+   199:   
+   200: 
+   201: 
+   202: 
+
+   199:   
+   200: 
+   201: 
+   202: 
+>> 203:   assume "processor_binding_acc_hm_pr": acc_hm_pr -> main_cpu.part2;
+   204:   
+   205: 
+   206: 
+   207: 
+
+   204:   
+   205: 
+   206: 
+   207: 
+>> 208:   assume "processor_binding_ADIRUp_pr": ADIRUp_pr -> main_cpu.part3;
+   209:   
+   210: 
+   211: 
+   212: 
+
+   209:   
+   210: 
+   211: 
+   212: 
+>> 213:   assume "processor_binding_SHM_pr": SHM_pr -> main_cpu.part4;
+   214: 
+   215: 
+   216: 
+   217: **};
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: ADIRU
+system ADIRU  end ADIRU;
+
+  system implementation ADIRU.impl
+    -- Root system implementation, with all first order subcomponents
+    -- from other packages. In this version, the ADIRU is a
+    -- software-oriented system, we disregard the hardware elements,
+    -- and the environment.
+
+  subcomponents
+    --  Hardware elements
+    --  * main_mem: main memory
+    --  * main_cpu: main CPU unit
+
+    main_mem  : memory ADIRU_memory::main_memory.impl;
+    main_cpu  : processor ADIRU_processor::powerpc.impl;
+
+    --  Software elements:
+    --  * acc_pr emulates the values from the accelerometers
+    --  * acc_hm_pr performs health monitoring on accelerometers data
+    --  * ADIRU_pr performs ADIRU computation
+    --  * SHM_pr performs system-level health-monitoring
+
+    acc_pr    : process partitions::acc_process.impl;
+    acc_hm_pr : process partitions::acc_hm_process.impl;
+    ADIRUp_pr : process partitions::ADIRUp_process.impl;
+    SHM_pr    : process partitions::systemHM_process.impl;
+    --acc4_pr  : process partitions::acc_process.impl;
+
+    --acc_bus  :bus ADIRU_BUS::acc_bus;
+  connections
+    C1: port acc_pr.acc1_output -> acc_hm_pr.acc1_input;
+    C2: port acc_pr.acc2_output -> acc_hm_pr.acc2_input;
+    C3: port acc_pr.acc3_output -> acc_hm_pr.acc3_input;
+    C4: port acc_pr.acc4_output -> acc_hm_pr.acc4_input;
+    C5: port acc_pr.acc5_output -> acc_hm_pr.acc5_input;
+    C6: port acc_pr.acc6_output -> acc_hm_pr.acc6_input;
+
+    C7: port acc_hm_pr.event2acc1 -> acc_pr.acc1_event_in;
+    C8: port acc_hm_pr.event2acc2 -> acc_pr.acc2_event_in;
+    C9: port acc_hm_pr.event2acc3 -> acc_pr.acc3_event_in;
+    C10: port acc_hm_pr.event2acc4 -> acc_pr.acc4_event_in;
+    C11: port acc_hm_pr.event2acc5 -> acc_pr.acc5_event_in;
+    C12: port acc_hm_pr.event2acc6 -> acc_pr.acc6_event_in;
+
+    C13: port acc_hm_pr.v_acc1_dataout -> ADIRUp_pr.acc1_input;
+    C14: port acc_hm_pr.v_acc2_dataout -> ADIRUp_pr.acc2_input;
+    C15: port acc_hm_pr.v_acc3_dataout -> ADIRUp_pr.acc3_input;
+    C16: port acc_hm_pr.v_acc4_dataout -> ADIRUp_pr.acc4_input;
+    C17: port acc_hm_pr.v_acc5_dataout -> ADIRUp_pr.acc5_input;
+    C18: port acc_hm_pr.v_acc6_dataout -> ADIRUp_pr.acc6_input;
+
+    C19: port acc_hm_pr.acc_error_out -> SHM_pr.arlarm_acc_in;
+    C20: port SHM_pr.systemHM_action_acc_hm -> acc_hm_pr.acc_error_action;
+
+    C21: port ADIRUp_pr.ADIRUp_error_out -> SHM_pr.arlarm_adirup_in;
+    C22: port SHM_pr.systemHM_action_adirup -> ADIRUp_pr.ADIRUp_error_action;
+
+  properties
+    --  Bind partition process to their associated runtime (virtual processor)
+
+    Actual_Processor_Binding => (reference (main_cpu.part1)) applies to acc_pr;
+    Actual_Processor_Binding => (reference (main_cpu.part2)) applies to acc_hm_pr;
+    Actual_Processor_Binding => (reference (main_cpu.part3)) applies to ADIRUp_pr;
+    Actual_Processor_Binding => (reference (main_cpu.part4)) applies to SHM_pr;
+    --Actual_Processor_Binding =>
+    --(reference (main_cpu.part4)) applies to acc4_pr;
+
+    --  Bind partition process to their address spaces  (memory components)
+
+    Actual_Memory_Binding => (reference (main_mem.accMem)) applies to acc_pr;
+    Actual_Memory_Binding => (reference (main_mem.acc_hmMem)) applies to acc_hm_pr;
+    Actual_Memory_Binding => (reference (main_mem.ADIRUpMem)) applies to ADIRUp_pr;
+    Actual_Memory_Binding => (reference (main_mem.SHMMem)) applies to SHM_pr;
+    --Actual_Memory_Binding =>
+    --(reference (main_mem.acc4Mem)) applies to acc4_pr;
+
+    --  annex real_specification {**
+    --  theorem check_model
+    --    foreach e in system_set do
+    --    requires (check_arinc653_restrictions
+    --              and check_processor_hm_validity
+    --              and check_error_coverage);
+    --    check (1=1);
+    --  end check_model;
+
+    --  **};
+
+    --annex resolute {**
+    --	prove (check_arinc653_compliance(this))
+    --**};
+  end ADIRU.impl;
+
+  -------------------------------------------------------------------------
+  --  ADIRU.DEOS extends the previous system and adds OS configuration
+  --  parameters to target the DeOS ARINC653 APEX by DDC-I.
+
+  system implementation ADIRU.DeOS extends adiru.impl
+  properties
+    Period => 25 ms applies to main_cpu.part1;
+    Period => 25 ms applies to main_cpu.part2;
+    Period => 25 ms applies to main_cpu.part3;
+    Period => 25 ms applies to main_cpu.part4;
+    Execution_Time => 1 ms applies to main_cpu.part1;
+    Execution_Time => 1 ms applies to main_cpu.part2;
+    Execution_Time => 1 ms applies to main_cpu.part3;
+    Execution_Time => 1 ms applies to main_cpu.part4;
+
+    Source_Name => "adiru-acc.exe" applies to main_cpu.part1;
+    Source_Name => "adiru-acc-hm.exe" applies to main_cpu.part2;
+    Source_Name => "adiru-p.exe" applies to main_cpu.part3;
+    Source_Name => "adiru-shm.exe" applies to main_cpu.part4;
+
+    Clock_Period => 150 ms applies to main_cpu;
+--  annex resolute {**
+--     prove (check_deos_compliance(this))
+--  **};
+  end ADIRU.DeOS;
+
+  -
+-- [target model context truncated]

@@ -1,0 +1,71 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 14: left and right sides of binary expression '<=' are of type 'real' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "Comparison between real and opaque type 'Types::speed.speed_impl'",
+      "minimal_edit": "Replace Actual_Speed with a real-valued expression or remove the assumption"
+    },
+    {
+      "diagnostic": "line 14: right side of binary expression '<=' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Opaque type used in arithmetic comparison",
+      "minimal_edit": "Replace Actual_Speed with a real-valued expression or remove the assumption"
+    },
+    {
+      "diagnostic": "line 15: left and right sides of binary expression '<' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Comparison between opaque type and real",
+      "minimal_edit": "Replace Actual_Speed with a real-valued expression or remove the assumption"
+    },
+    {
+      "diagnostic": "line 15: left side of binary expression '<' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Opaque type used in arithmetic comparison",
+      "minimal_edit": "Replace Actual_Speed with a real-valued expression or remove the assumption"
+    },
+    {
+      "diagnostic": "line 18: left side of binary expression '<=' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Opaque type used in arithmetic comparison",
+      "minimal_edit": "Replace Actual_Speed with a real-valued expression or remove the guarantee"
+    },
+    {
+      "diagnostic": "line 18: right side of binary expression '<=' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Opaque type used in arithmetic comparison",
+      "minimal_edit": "Replace Target_Speed with a real-valued expression or remove the guarantee"
+    },
+    {
+      "diagnostic": "line 19: Couldn't resolve reference to 'abs'.",
+      "cause": "abs function not available in current scope",
+      "minimal_edit": "Remove or replace abs function usage"
+    },
+    {
+      "diagnostic": "line 19: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Opaque type used in arithmetic operation",
+      "minimal_edit": "Replace Actual_Speed with a real-valued expression or remove the guarantee"
+    },
+    {
+      "diagnostic": "line 19: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Opaque type used in arithmetic operation",
+      "minimal_edit": "Replace Actual_Speed with a real-valued expression or remove the guarantee"
+    },
+    {
+      "diagnostic": "line 33: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "Incompatible port types in connection",
+      "minimal_edit": "Ensure port types match or remove the connection"
+    },
+    {
+      "diagnostic": "line 35: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "Incompatible port types in connection",
+      "minimal_edit": "Ensure port types match or remove the connection"
+    },
+    {
+      "diagnostic": "line 40: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "Incompatible port types in connection",
+      "minimal_edit": "Ensure port types match or remove the connection"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove or replace all assumptions and guarantees that reference opaque types in comparisons",
+    "Remove or replace the abs function usage",
+    "Ensure all port connections have matching types",
+    "Move any implementation-specific contracts to the implementation annex"
+  ]
+}

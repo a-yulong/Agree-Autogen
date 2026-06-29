@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 86: Assume statements are allowed only in component types",
+      "cause": "AGREE assume/guarantee statements are not permitted in thread implementations; they must be in component types.",
+      "minimal_edit": "Move the entire annex agree block from Consumer.impl to Consumer"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 86: Couldn't resolve reference to 'Period'.",
+      "cause": "Period, Deadline, Compute_Execution_Time, Priority, and Dispatch_Protocol are AADL properties of the implementation, not visible as expressions in AGREE unless referenced from the component type.",
+      "minimal_edit": "Move the annex agree block to Consumer, where AADL properties are accessible as AGREE expressions"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 90: no viable alternative at input '\"periodic\"'",
+      "cause": "AGREE cannot compare a property to a string literal; Dispatch_Protocol is an AADL enumeration, but AGREE requires enum values to be referenced via valid type context.",
+      "minimal_edit": "Remove the guarantee clause for Dispatch_Protocol since AGREE cannot express AADL enumeration literals without type context, and no visible enum type is defined"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the annex agree block from Consumer.impl",
+    "Add an annex agree block to the component type Consumer",
+    "In the new annex in Consumer, retain only the assume clauses for Period, Deadline, Compute_Execution_Time, and Priority with their original numeric values",
+    "Remove the guarantee clause for Dispatch_Protocol = \"periodic\" because AGREE cannot resolve AADL enumeration literals without a declared enum type"
+  ]
+}

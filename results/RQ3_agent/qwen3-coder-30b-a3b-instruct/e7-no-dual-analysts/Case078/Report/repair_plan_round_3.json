@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 285: Couldn't resolve reference to 'door1'.",
+      "cause": "AGREE annex in component type 'doors_process' references subcomponent port 'door1.handle_position', which is not visible in component type scope.",
+      "minimal_edit": "Remove the assume clauses referencing subcomponent ports 'door1.handle_position' and 'door1.closed'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 286: Couldn't resolve reference to 'door1'.",
+      "cause": "AGREE annex in component type 'doors_process' references subcomponent port 'door1.closed', which is not visible in component type scope.",
+      "minimal_edit": "Remove the assume clauses referencing subcomponent ports 'door1.handle_position' and 'door1.closed'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the entire annex agree block starting at line 284, as it contains invalid references to subcomponent ports not visible in the component type scope.",
+    "No replacement clauses are needed, as the referenced bindings are implementation-level and belong in the implementation annex, not the component type contract."
+  ]
+}

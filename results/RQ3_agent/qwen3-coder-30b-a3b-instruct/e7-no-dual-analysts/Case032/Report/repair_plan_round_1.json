@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'intruderVerticalVelocity'.",
+      "cause": "intruderVerticalVelocity is not declared as a variable or port in the component scope",
+      "minimal_edit": "Declare intruderVerticalVelocity as a local variable using 'eq' syntax"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'nearestIntruderAltitude_in'.",
+      "cause": "nearestIntruderAltitude_in is not visible in the component type scope",
+      "minimal_edit": "Replace nearestIntruderAltitude_in with nearestIntruderAltitude since it's the correct port name in this context"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '-' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "nearestIntruderAltitude_in is unresolved, causing type mismatch",
+      "minimal_edit": "Replace nearestIntruderAltitude_in with nearestIntruderAltitude"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "nearestIntruderAltitude_in is unresolved, causing type mismatch",
+      "minimal_edit": "Replace nearestIntruderAltitude_in with nearestIntruderAltitude"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '+' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "intruderVerticalVelocity is unresolved, causing type mismatch",
+      "minimal_edit": "Ensure intruderVerticalVelocity is properly declared before use"
+    },
+    {
+      "diagnostic": "right side of binary expression '+' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "intruderVerticalVelocity is unresolved, causing type mismatch",
+      "minimal_edit": "Ensure intruderVerticalVelocity is properly declared before use"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add declaration for intruderVerticalVelocity using 'eq' syntax before the guarantee statements",
+    "Replace nearestIntruderAltitude_in with nearestIntruderAltitude in both guarantee expressions",
+    "Ensure the variable declarations are placed at the beginning of the annex block"
+  ]
+}

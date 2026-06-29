@@ -1,0 +1,117 @@
+package Microwave_SEng5861
+public
+	with Base_Types;
+	with defs;
+	with Communication_Properties;
+
+	-- This system managed    
+	system Mode_Control
+		features
+			start: in data port Base_Types::Boolean;
+			clear: in data port Base_Types::Boolean;
+			seconds_to_cook: in data port Base_Types::Integer;
+			door_closed: in data port Base_Types::Boolean;
+			cooking_mode: out data port Base_Types::Integer;
+	end Mode_Control;
+
+	system implementation Mode_Control.Impl
+	end Mode_Control.Impl;
+
+	system Display_Control
+		features
+			clear: in data port Base_Types::Boolean;
+			kp_0: in data port Base_Types::Boolean;
+			kp_1: in data port Base_Types::Boolean;
+			kp_2: in data port Base_Types::Boolean;
+			kp_3: in data port Base_Types::Boolean;
+			kp_4: in data port Base_Types::Boolean;
+			kp_5: in data port Base_Types::Boolean;
+			kp_6: in data port Base_Types::Boolean;
+			kp_7: in data port Base_Types::Boolean;
+			kp_8: in data port Base_Types::Boolean;
+			kp_9: in data port Base_Types::Boolean;
+			cooking_mode: in data port Base_Types::Integer;
+			left_digit: out data port Base_Types::Integer;
+			middle_digit: out data port Base_Types::Integer;
+			right_digit: out data port Base_Types::Integer;
+			seconds_to_cook: out data port Base_Types::Integer;
+	end Display_Control;
+
+	system implementation Display_Control.Impl
+	end Display_Control.Impl;
+
+	system Output_Processing
+		features
+			cooking_mode: in data port Base_Types::Integer;
+			heating_element_on: out data port Base_Types::Boolean;
+	end Output_Processing;
+
+	system Microwave_Control
+		features
+			clear: in data port Base_Types::Boolean;
+			start: in data port Base_Types::Boolean;
+			kp_0: in data port Base_Types::Boolean;
+			kp_1: in data port Base_Types::Boolean;
+			kp_2: in data port Base_Types::Boolean;
+			kp_3: in data port Base_Types::Boolean;
+			kp_4: in data port Base_Types::Boolean;
+			kp_5: in data port Base_Types::Boolean;
+			kp_6: in data port Base_Types::Boolean;
+			kp_7: in data port Base_Types::Boolean;
+			kp_8: in data port Base_Types::Boolean;
+			kp_9: in data port Base_Types::Boolean;
+			door_closed: in data port Base_Types::Boolean;
+
+			heating_element_on: out data port Base_Types::Boolean;
+			left_digit: out data port Base_Types::Integer;
+			middle_digit: out data port Base_Types::Integer;
+			right_digit: out data port Base_Types::Integer;
+	annex agree {**
+		  assume "clear_to_MC_clear_flow": clear => MC.clear;
+		  assume "clear_to_DC_clear_flow": clear => DC.clear;
+		  assume "clear_TO_MC_clear_immediate": true;
+		  assume "clear_TO_DC_clear_immediate": true;
+		  assume "start_TO_MC_start_immediate": true;
+		  assume "kp_0_TO_DC_kp_0_immediate": true;
+		**};
+	end Microwave_Control;
+
+	system implementation Microwave_Control.Impl
+		subcomponents
+			MC: system Mode_Control;
+			DC: system Display_Control;
+			OP: system Output_Processing;
+		connections
+			clear_TO_MC_clear: port clear -> MC.clear {Communication_Properties::Timing => immediate;};
+			clear_TO_DC_clear: port clear -> DC.clear {Communication_Properties::Timing => immediate;};
+			start_TO_MC_start: port start -> MC.start {Communication_Properties::Timing => immediate;};
+			kp_0_TO_DC_kp_0: port kp_0 -> DC.kp_0 {Communication_Properties::Timing => immediate;};
+			kp_1_TO_DC_kp_1: port kp_1 -> DC.kp_1 {Communication_Properties::Timing => immediate;};
+			kp_2_TO_DC_kp_2: port kp_2 -> DC.kp_2 {Communication_Properties::Timing => immediate;};
+			kp_3_TO_DC_kp_3: port kp_3 -> DC.kp_3 {Communication_Properties::Timing => immediate;};
+			kp_4_TO_DC_kp_4: port kp_4 -> DC.kp_4 {Communication_Properties::Timing => immediate;};
+			kp_5_TO_DC_kp_5: port kp_5 -> DC.kp_5 {Communication_Properties::Timing => immediate;};
+			kp_6_TO_DC_kp_6: port kp_6 -> DC.kp_6 {Communication_Properties::Timing => immediate;};
+			kp_7_TO_DC_kp_7: port kp_7 -> DC.kp_7 {Communication_Properties::Timing => immediate;};
+			kp_8_TO_DC_kp_8: port kp_8 -> DC.kp_8 {Communication_Properties::Timing => immediate;};
+			kp_9_TO_DC_kp_9: port kp_9 -> DC.kp_9 {Communication_Properties::Timing => immediate;};
+			door_closed_TO_MC_door_closed: port door_closed -> MC.door_closed {
+				Communication_Properties::Timing => immediate;};
+
+			DC_steps_to_cook_TO_MC_steps_to_cook: port DC.seconds_to_cook -> MC.seconds_to_cook {
+				Communication_Properties::Timing => immediate;};
+			MC_cooking_mode_TO_OP_cooking_mode: port MC.cooking_mode -> OP.cooking_mode {
+				Communication_Properties::Timing => immediate;};
+
+			-- Note: this communication path is *delayed*
+			MC_enable_TO_DC_enable: port MC.cooking_mode -> DC.cooking_mode {
+				Communication_Properties::Timing => delayed;};
+
+			OP_heating_element_on_TO_heating_element_on: port OP.heating_element_on -> heating_element_on {
+				Communication_Properties::Timing => immediate;};
+			DC_left_digit_TO_left_digit: port DC.left_digit -> left_digit;
+			DC_middle_digit_TO_middle_digit: port DC.middle_digit -> middle_digit;
+			DC_right_digit_TO_right_digit: port DC.right_digit -> right_digit;
+	end Microwave_Control.Impl;
+
+end Microwave_SEng5861;

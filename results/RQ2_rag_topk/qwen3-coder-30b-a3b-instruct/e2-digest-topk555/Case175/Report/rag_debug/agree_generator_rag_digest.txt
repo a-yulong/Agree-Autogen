@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE assumptions and guarantees in component type scopes when they refer to component ports, and in implementation scopes for subcomponent bindings.
+- Use visible identifiers from the AADL model for all expressions in AGREE annex blocks.
+Generic rules:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for assignments.
+- Ensure type consistency: use int, real, bool for declarations; match types in expressions.
+- Do not reference AADL properties like Period or Deadline directly in AGREE expressions.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` for assumptions and `guarantee "label": expression;` for guarantees.
+- Declare helpers with `eq name : type = expression;` and constants with `const name : type = value;`.
+Anti-patterns:
+- Avoid placing implementation-level bindings in component type annexes unless they are valid variables or outputs.
+- Do not reference AADL property names directly in AGREE expressions without explicit typed ports or constants.
+</RAG_DIGEST>

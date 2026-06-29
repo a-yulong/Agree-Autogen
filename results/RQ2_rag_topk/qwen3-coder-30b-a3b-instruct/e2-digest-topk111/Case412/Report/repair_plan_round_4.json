@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 116: Couldn't resolve reference to 'temperature'.",
+      "cause": "AGREE guarantee references subcomponent 'temperature' which is not directly accessible from component type scope",
+      "minimal_edit": "Remove 'temperature.' prefix from 'temperature.tempout' to reference the port directly"
+    },
+    {
+      "diagnostic": "line 116: Couldn't resolve reference to 'tempout'.",
+      "cause": "AGREE guarantee references 'tempout' as a subcomponent port, but it is a direct feature of the component type",
+      "minimal_edit": "Replace 'temperature.tempout' with just 'tempout' to reference the port directly"
+    },
+    {
+      "diagnostic": "line 116: left and right sides of binary expression '<=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Expression operands have unresolved types due to previous reference errors",
+      "minimal_edit": "Ensure expression operands are properly typed by correcting the port reference"
+    },
+    {
+      "diagnostic": "line 116: left and right sides of binary expression '>=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Expression operands have unresolved types due to previous reference errors",
+      "minimal_edit": "Ensure expression operands are properly typed by correcting the port reference"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block for sensor_temperature_thread, replace 'temperature.tempout' with 'tempout' in the guarantee statement",
+    "Ensure the guarantee statement reads: guarantee \"tempout_bounds\": tempout >= 0 and tempout <= 100;"
+  ]
+}

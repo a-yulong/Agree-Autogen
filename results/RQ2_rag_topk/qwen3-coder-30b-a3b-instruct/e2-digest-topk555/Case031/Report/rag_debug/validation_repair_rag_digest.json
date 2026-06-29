@@ -1,0 +1,33 @@
+{
+  "rag_rules": [
+    "When AGREE diagnostics report unresolved references or type errors, trace the root cause to visible identifiers in the current component scope and avoid introducing new architecture.",
+    "Fix type mismatches by ensuring expressions match the expected scalar types (int, real, bool) and that all identifiers are properly declared or visible.",
+    "If diagnostics point to implementation-level features in a component type annex, move valid bindings to the implementation scope or remove invalid clauses.",
+    "Do not add new package-qualified identifiers or data types that are not present in the model's configured dependencies."
+  ],
+  "generic_rules": [
+    "AGREE expressions must maintain type consistency; numeric, Boolean, and package-qualified references must align with declared types and available model units.",
+    "Only use visible AADL features or declared helpers in AGREE annexes; avoid referencing subcomponent paths or implementation-only elements in type-level contracts.",
+    "When fixing AGREE diagnostics, prioritize removing or rewriting clauses that reference invalid identifiers rather than adding new architecture.",
+    "Ensure that all AGREE scalar type declarations use correct names (int, real, bool) and that expressions match the expected types."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks and should be placed in appropriate scopes (type or implementation).",
+    "Assignments in implementation scope must reference valid output features or declared auxiliary variables.",
+    "Guarantees in component type annexes should relate visible inputs and outputs, not subcomponent paths.",
+    "Helper functions and constants should only be used when defined in the same annex or imported from a configured package."
+  ],
+  "anti_patterns": [
+    "Do not introduce new package-qualified identifiers or data types that are not present in the model's configured dependencies.",
+    "Avoid placing implementation-level bindings in component type annexes; move them to implementation scope instead.",
+    "Do not attempt to resolve missing identifiers by inventing new declarations; instead, remove or rewrite clauses using only visible identifiers.",
+    "Do not mix scalar types inconsistently in expressions; ensure all operands and results match expected types (int, real, bool)."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "implementation scope output assign",
+    "type scope deterministic dependency guarantee",
+    "type scope range assumption and guarantee"
+  ]
+}

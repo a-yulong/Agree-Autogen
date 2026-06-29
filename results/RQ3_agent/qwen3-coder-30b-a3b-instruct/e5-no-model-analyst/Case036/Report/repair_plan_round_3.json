@@ -1,0 +1,53 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 19: Couldn't resolve reference to 'val'.",
+      "cause": "AGREE cannot resolve 'val' on AADL opaque data types",
+      "minimal_edit": "Replace Target_Speed.val and Actual_Speed.val with Target_Speed and Actual_Speed respectively"
+    },
+    {
+      "diagnostic": "line 19: Expression for guarantee statement is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression due to unresolved 'val' references",
+      "minimal_edit": "Replace Target_Speed.val and Actual_Speed.val with Target_Speed and Actual_Speed respectively"
+    },
+    {
+      "diagnostic": "line 19: The condition of the if statement is of type 'ErrorTypeDef' but must be of type 'bool'",
+      "cause": "Invalid expression due to unresolved 'val' references",
+      "minimal_edit": "Replace Target_Speed.val and Actual_Speed.val with Target_Speed and Actual_Speed respectively"
+    },
+    {
+      "diagnostic": "line 19: left and right sides of binary expression '-' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Invalid expression due to unresolved 'val' references",
+      "minimal_edit": "Replace Target_Speed.val and Actual_Speed.val with Target_Speed and Actual_Speed respectively"
+    },
+    {
+      "diagnostic": "line 19: left side of binary expression '-' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Invalid expression due to unresolved 'val' references",
+      "minimal_edit": "Replace Target_Speed.val and Actual_Speed.val with Target_Speed and Actual_Speed respectively"
+    },
+    {
+      "diagnostic": "line 33: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "Port name mismatch in connection declaration",
+      "minimal_edit": "Change 'THROT.Actual' to 'THROT.Actual_Speed' in connection AcSpeedToTop"
+    },
+    {
+      "diagnostic": "line 35: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "Port name mismatch in connection declaration",
+      "minimal_edit": "Change 'CNTRL.Target' to 'CNTRL.Target_Speed' in connection TgSpeedToCntrl"
+    },
+    {
+      "diagnostic": "line 40: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "Port name mismatch in connection declaration",
+      "minimal_edit": "Change 'SM.State_Out' to 'SM.State_Signal' in connection SSToSM"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex, replace Target_Speed.val with Target_Speed in both assumptions and guarantees",
+    "In the AGREE annex, replace Actual_Speed.val with Actual_Speed in both assumptions and guarantees",
+    "In the AGREE annex, fix the acceleration limit guarantee expression to use valid AGREE syntax with proper variable references",
+    "In the Car.Car_Impl connections, change 'THROT.Actual' to 'THROT.Actual_Speed' in AcSpeedToTop",
+    "In the Car.Car_Impl connections, change 'CNTRL.Target' to 'CNTRL.Target_Speed' in TgSpeedToCntrl",
+    "In the Car.Car_Impl connections, change 'SM.State_Out' to 'SM.State_Signal' in SSToSM"
+  ]
+}

@@ -1,0 +1,23 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE contracts must use only identifiers visible in the current scope to avoid resolution errors.
+- Type mismatches in AGREE expressions should be resolved by aligning helper declarations with their assigned expressions.
+- Assignments in AGREE should only reference existing output features or declared auxiliary variables.
+- Validator diagnostics pointing to invalid references should be addressed by removing or rewriting clauses that use unavailable identifiers.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks and must follow strict scoping rules for component types vs. implementations.
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct syntax and type matching.
+- Helper functions and variables must be declared in the same annex and match the types of their expressions.
+- Package-qualified identifiers in AGREE must be imported or defined in the model to avoid resolution errors.
+Anti-patterns:
+- Avoid introducing new identifiers or types in AGREE contracts that are not present in the AADL model.
+- Do not attempt to fix unresolved references by adding missing declarations; instead, correct or remove the clause.
+- Do not mix implementation-level references in component type contracts; move valid bindings to implementation scope.
+- Do not assume that AGREE scalar types like 'integer' or 'boolean' are valid; use 'int', 'real', and 'bool' instead.
+Irrelevant retrieved material:
+- aadl_scope_notes
+- agree_syntax_notes
+- implementation scope output assign
+- integrated pattern chunk 1
+- input validity chunk 1
+</RAG_DIGEST>

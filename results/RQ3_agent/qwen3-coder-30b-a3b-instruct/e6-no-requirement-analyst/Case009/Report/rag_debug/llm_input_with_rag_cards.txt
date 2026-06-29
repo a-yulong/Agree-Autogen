@@ -1,0 +1,74 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- AGREE contracts must be placed inside annex agree blocks scoped to their owning component declaration
+- Use assign statements only for implementation-level output bindings with existing features or declared auxiliary variables
+Generic rules:
+- Assumptions and guarantees should reference only visible identifiers from the current component scope
+- Component type contracts should relate inputs to outputs using visible features and constants
+- Only include concrete bounds or named constants in assumptions and guarantees
+Syntax or pattern reminders:
+- AGREE syntax uses assume/guarantee labels with expressions, eq for equations, const for constants, and assign for output bindings
+- Component type annexes are for structural assumptions and guarantees, implementation annexes for assignments
+Anti-patterns:
+- Do not reference AADL properties like Deadline or Period as AGREE variables without explicit model exposure
+- Do not place guarantee statements in implementation scope
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- nearestIntruderAltitude
+- nearestIntruderGroundDistance
+- nearestIntruderLongitude
+- ownAltitude_in
+- ownHeading
+- ownVerticalVelocity
+- ownLatitude
+- ownLongitude
+- requiredVerticalVelocity
+- timeToRecovery
+- timeToFailure
+
+Target interface:
+Exact expression symbols: nearestIntruderAltitude, nearestIntruderGroundDistance, nearestIntruderLongitude, ownAltitude_in, ownHeading, ownVerticalVelocity, ownLatitude, ownLongitude, requiredVerticalVelocity, timeToRecovery, timeToFailure
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+nearestIntruderAltitude | in | data | opaque | int
+nearestIntruderGroundDistance | in | data | opaque | int
+nearestIntruderLongitude | in | data | opaque | int
+ownAltitude_in | in | data | opaque | int
+ownHeading | in | data | opaque | int
+ownVerticalVelocity | in | data | opaque | int
+ownLatitude | in | data | opaque | int
+ownLongitude | in | data | opaque | int
+requiredVerticalVelocity | out | data | opaque | int
+timeToRecovery | out | data | opaque | real
+timeToFailure | out | data | opaque | real
+
+Raw requirement:
+The environmental hypothesis specification for the TCAS_singleton component requires that the nearestIntruderAltitude parameter remains constant throughout the simulation. It further assumes that the following variables are greater than zero: nearestIntruderAltitude, ownAltitude_in, and nearestIntruderGroundDistance. Additionally, the geographical coordinate ranges for the own ship are constrained as follows: ownHeading must be between 0 and 360 degrees, ownLatitude must be between 0 and 90 degrees, and ownLongitude must be between -180 and +180 degrees.
+
+Requirement items:
+DISABLED

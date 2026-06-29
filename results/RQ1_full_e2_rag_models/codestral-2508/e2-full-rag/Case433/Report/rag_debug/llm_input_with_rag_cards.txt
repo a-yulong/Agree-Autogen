@@ -1,0 +1,73 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks inside component type annexes for assumptions, guarantees, constants, and equations
+- Use implementation annexes only for implementation-level bindings like assignments
+- Place input assumptions and output guarantees in component type contracts when concrete bounds or visible relations are available
+- Use valid AGREE syntax: assume/guarantee/eq/const/assign statements inside annex agree blocks
+- Ensure all referenced identifiers are visible in the current scope
+Generic rules:
+- Use named constants for concrete bounds in assumptions and guarantees
+- Place interface-related contracts in component types, implementation-specific bindings in implementations
+- Avoid encoding AADL properties as AGREE expressions unless explicitly exposed as ports or constants
+Syntax or pattern reminders:
+- AGREE annex blocks use `annex agree {** ... **};` syntax
+- Boolean logic expressions use `and`, `or`, and parentheses for grouping
+- Equations use `eq name : type = expression;` syntax
+Anti-patterns:
+- Do not place subcomponent port references in component type contracts
+- Avoid mixing component type and implementation contracts without valid scope
+- Do not encode AADL timing properties directly in AGREE expressions
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- info_door1
+- info_door2
+
+Target interface:
+Exact expression symbols: info_door1, info_door2
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+info_door1 | in | data | bool | Base_Types::boolean
+info_door2 | in | data | bool | Base_Types::boolean
+
+Raw requirement:
+The ECAM component shall operate under a Boolean input condition on info_door1. The environment shall provide info_door1 as true whenever this contract is evaluated.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "info_door1 is true",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "info_door1"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 102: Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "swivel is an input port but used in a latched expression context",
+      "minimal_edit": "Remove or rewrite the latched expression on line 102"
+    },
+    {
+      "diagnostic": "line 102: Latched expressions can appear only in component implementations",
+      "cause": "guarantee statement in component type annex references latched expression",
+      "minimal_edit": "Move the guarantee to component implementation annex"
+    },
+    {
+      "diagnostic": "line 102: left side of binary expression 'and' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression syntax with port name 'swivel' on left side",
+      "minimal_edit": "Replace 'swivel' with a valid boolean expression"
+    },
+    {
+      "diagnostic": "line 102: mismatched input 'and' expecting '('",
+      "cause": "Invalid syntax in guarantee expression",
+      "minimal_edit": "Fix the expression syntax to be valid AGREE"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from the component type 'door' to the component implementation 'door.imp'",
+    "Remove or rewrite the invalid guarantee statement on line 102 that references 'swivel' in a latched context",
+    "Ensure all expressions in the AGREE annex use only visible identifiers and valid boolean operations"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "AGREE contracts must be scoped to their owning component and use only visible identifiers from the AADL model.",
+    "Use `assume` and `guarantee` statements in component type annexes with concrete bounds or visible relations.",
+    "Use `assign` statements in implementation annexes only for output features or declared auxiliary variables."
+  ],
+  "generic_rules": [
+    "AGREE annex blocks must be syntactically valid and follow the structure: annex agree {** ... **};",
+    "Component type contracts should express input assumptions and output guarantees using visible model features.",
+    "Implementation contracts may include assignments but must not reference implementation-only subcomponents.",
+    "AGREE expressions must only reference identifiers visible in the current component scope."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for logical constraints.",
+    "Use `eq name : type = expression;` for equation declarations in AGREE.",
+    "Use `const name : type = value;` for constant declarations in AGREE.",
+    "Use `assign output = expression;` for output assignments in implementation scope."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL property names like Compute_Execution_Time or Deadline as AGREE variables.",
+    "Do not place guarantee statements in implementation scope.",
+    "Do not use identifiers not present in the current component's visible scope.",
+    "Do not encode AADL timing properties as AGREE expressions unless explicitly exposed as typed ports or constants."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing properties not automatically in AGREE scope",
+    "Model fusion and component merging patterns",
+    "Validator diagnostics and repair strategies"
+  ]
+}

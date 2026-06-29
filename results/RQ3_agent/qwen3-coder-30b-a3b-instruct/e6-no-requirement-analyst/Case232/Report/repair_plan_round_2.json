@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 102: Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "swivel is an input port, not an output port",
+      "minimal_edit": "Replace 'swivel = (swivel and not de_arrest)' with 'swivel = true' or remove the guarantee if it's redundant"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that swivel is an input port and cannot be used in a guarantee expression for output behavior",
+    "Replace the invalid guarantee 'guarantee \"swivel_output\": swivel = (swivel and not de_arrest);' with a valid expression or remove it",
+    "Ensure all guarantees reference only output ports or valid expressions involving input ports"
+  ]
+}

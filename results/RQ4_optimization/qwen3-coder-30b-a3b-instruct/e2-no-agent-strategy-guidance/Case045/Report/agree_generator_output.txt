@@ -1,0 +1,11 @@
+annex agree {**
+  const init_mode : int = 0;
+  
+  eq mode : int = if (time = 0) then init_mode else (prev(mode) + 1);
+  
+  guarantee "initial_mode_gteq_zero": mode >= 0;
+  
+  guarantee "monotonic_mode": mode > prev(mode);
+  
+  guarantee "output_logic": (mode = 3) => (Output = Input1 + Input2) and (mode != 3) => (Output = 0);
+**};

@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 98: Couldn't resolve reference to 'accDataOut'.",
+      "cause": "accDataOut is a subcomponent port (sub1.accDataOut), not visible in the component type scope where the annex is placed.",
+      "minimal_edit": "Remove the line 'guarantee \"accout_routed_from_accDataOut\": accout = accDataOut;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 99: Couldn't resolve reference to 'event_in'.",
+      "cause": "event_in is a subcomponent port (sub1.event_in), not visible in the component type scope where the annex is placed.",
+      "minimal_edit": "Remove the line 'guarantee \"event_in_routed_from_acc_command_in\": event_in = acc_command_in;'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the entire annex agree block from acc3_dataOutput (lines 97-100) because it incorrectly references subcomponent ports (accDataOut, event_in) that are not visible in the component type scope.",
+    "Do not replace with new guarantees — the signal flows are already structurally verified by AADL connections C1 and C2, and no additional contract is needed per requirement intent."
+  ]
+}

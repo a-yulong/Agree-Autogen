@@ -1,0 +1,12 @@
+annex agree {**
+  assume "GCAS impact assumption": inpGCASImpact >= 0.0;
+  assume "ACAS impact assumption": inpACASImpact >= 0.0;
+  assume "GCAS recovery assumption": inpGCASRecovery >= 0.0;
+  assume "ACAS recovery assumption": inpACASRecovery >= 0.0;
+  guarantee "dynamic decide ACAS": 
+    (inpGCASImpact > inpACASImpact and 
+     inpGCASRecovery + inpACASRecovery >= 0.0) => (outDec = 1);
+  guarantee "dynamic decide GCAS": 
+    not (inpGCASImpact > inpACASImpact and 
+         inpGCASRecovery + inpACASRecovery >= 0.0) => (outDec = 0);
+**};

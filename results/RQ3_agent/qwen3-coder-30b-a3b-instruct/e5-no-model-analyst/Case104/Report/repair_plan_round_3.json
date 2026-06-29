@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assume statements are allowed only in component types",
+      "cause": "Assume statements in implementation annex block",
+      "minimal_edit": "Move annex block from implementation to component type"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'sink'",
+      "cause": "Invalid use of port member access in assume",
+      "minimal_edit": "Remove invalid port member access expressions"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'source'",
+      "cause": "Invalid use of port member access in assume",
+      "minimal_edit": "Remove invalid port member access expressions"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid port member access expressions in assume",
+      "minimal_edit": "Remove invalid port member access expressions"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the entire annex agree block from acc_process_emv2.impl to acc_process_emv2 component type",
+    "Remove all assume statements that reference port members (source/sink) from the moved annex block"
+  ]
+}

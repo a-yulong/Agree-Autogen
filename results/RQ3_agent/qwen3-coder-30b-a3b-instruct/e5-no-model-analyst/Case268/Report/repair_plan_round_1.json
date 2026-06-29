@@ -1,0 +1,14 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Identifier 'door' is not a visible expression; it is a component name, not a port or boolean variable",
+      "minimal_edit": "replace 'door' with 'closed' to relate door state to de_arrest as implied by requirement R2"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the annex agree block in door component type (not implementation) to replace the invalid expression 'door => de_arrest' with 'closed => de_arrest' to satisfy requirement R2 using only visible port symbols",
+    "Preserve the assume clause 'de_arrest = true' as it is valid and matches requirement R1"
+  ]
+}

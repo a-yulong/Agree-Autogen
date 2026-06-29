@@ -1,0 +1,32 @@
+package threads
+public
+
+  with ARINC653;
+  with SHM_DataType;
+  with subprograms;
+
+  thread diagnosisEngine
+  features
+    diagnosis_in: in event data port SHM_DataType::errorData;
+    diagnosis_out: out event data port SHM_DataType::errorData;
+  properties
+    Priority => 7;
+    Stack_Size => 20 KByte;
+    Code_Size => 100 KByte;
+    Data_Size => 1 KByte;
+    Dispatch_Protocol => Periodic;
+    Period => 3000 ms;
+    Compute_Execution_Time => 400 ms .. 500 ms;
+    Deadline => 500 ms;
+  end diagnosisEngine;
+
+  thread implementation diagnosisEngine.impl
+  calls
+    diagnosisEngine: { spg: subprogram subprograms::diagnosisEngine_spg; };
+
+  connections
+    C1: parameter  diagnosis_in->spg.inData_para;
+    C2: parameter  spg.outdata_para->diagnosis_out;
+  end diagnosisEngine.impl;
+
+end threads;

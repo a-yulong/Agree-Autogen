@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc1'.",
+      "cause": "AGREE annex in component type references subcomponent names directly",
+      "minimal_edit": "Remove subcomponent references from AGREE annex in component type"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc1_input'.",
+      "cause": "AGREE annex in component type references port names directly",
+      "minimal_edit": "Remove port references from AGREE annex in component type"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Invalid type comparison in AGREE expression",
+      "minimal_edit": "Remove invalid AGREE expressions"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE expression references invalid identifiers",
+      "minimal_edit": "Remove invalid AGREE expressions"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from acc_process_emv2 component type to acc_process_emv2.impl component implementation",
+    "Remove all assume statements referencing subcomponents and ports from the AGREE annex in acc_process_emv2"
+  ]
+}

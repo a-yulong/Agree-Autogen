@@ -1,0 +1,19 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place output range guarantees in component type scopes when the output feature is visible and the bounds are concrete.
+- Use `assume` for input assumptions and `guarantee` for output constraints in component type contracts.
+- Declare helper equations with explicit types like `eq name : bool = ...` for logical expressions.
+Generic rules:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for assignments.
+- Use valid AADL identifiers and types in AGREE expressions; avoid AADL property names as variables.
+- Ensure all identifiers in AGREE expressions are visible in the current component scope.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for logical statements.
+- Use `eq name : type = expression;` for helper declarations with explicit typing.
+- Use `assign output = expression;` only for valid output features in implementation scope.
+Anti-patterns:
+- Do not place guarantees in implementation scope unless the left-hand side is a valid output feature.
+- Do not reference AADL property names like Period or Deadline as AGREE variables.
+- Do not invent new identifiers; only use visible features from the AADL model.
+</RAG_DIGEST>

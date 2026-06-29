@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 16: no viable alternative at input '500'",
+      "cause": "AGREE does not recognize '500' as a valid time unit without a preceding variable.",
+      "minimal_edit": "Remove '500 us' and replace with a variable representing the period."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 17: Couldn't resolve reference to 'deadline'.",
+      "cause": "The 'deadline' identifier is not visible in the AGREE context.",
+      "minimal_edit": "Remove the guarantee clause referencing 'deadline'."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 18: Couldn't resolve reference to 'compute_execution_time'.",
+      "cause": "The 'compute_execution_time' identifier is not visible in the AGREE context.",
+      "minimal_edit": "Remove the guarantee clause referencing 'compute_execution_time'."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee clause 'guarantee \"deadline\": deadline <= 500 us;' from the AGREE annex.",
+    "Remove the guarantee clause 'guarantee \"execution_time\": 0 <= compute_execution_time and compute_execution_time <= 250 us;' from the AGREE annex.",
+    "Rewrite the guarantee clause 'guarantee \"period\": every 500 us;' to 'guarantee \"period\": every P;' where P is a declared constant representing the period."
+  ]
+}

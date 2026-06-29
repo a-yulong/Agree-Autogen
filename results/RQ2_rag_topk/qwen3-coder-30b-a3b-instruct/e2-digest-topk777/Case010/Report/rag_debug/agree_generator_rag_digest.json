@@ -1,0 +1,31 @@
+{
+  "rag_rules": [
+    "Place AGREE contracts in component type scopes for assumptions and guarantees involving visible ports.",
+    "Use `assume`, `guarantee`, `eq`, `const`, and `assign` syntax as defined in AGREE annex blocks.",
+    "Generate temporal equations with initialized recurrence and nested `if-then-else` for branching logic.",
+    "Define constants and equations in component type annexes when they relate to visible features."
+  ],
+  "generic_rules": [
+    "Use only visible identifiers from the AADL component scope in AGREE contracts.",
+    "Ensure type consistency between AGREE declarations and AADL feature types.",
+    "Write guarantees that relate visible inputs to visible outputs without referencing implementation-only paths.",
+    "Place implementation-level bindings in implementation scopes after subcomponents and connections."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks are enclosed in `annex agree {** ... **};`.",
+    "Use `eq` for helper declarations, `const` for named constants, and `assign` for output bindings.",
+    "Logical operators in AGREE include `and`, `or`, `not(...)`, and implication `=>`.",
+    "Branching logic should use nested `if ... then ... else` expressions."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent ports or implementation-only paths in component type contracts.",
+    "Do not encode AADL timing properties as AGREE expressions unless explicit typed ports or constants are available.",
+    "Do not invent new identifiers; only use visible AADL features in AGREE expressions.",
+    "Do not place implementation-level guarantees in component type annexes."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing properties such as Deadline, Period, Priority",
+    "Model dependency staging issues unrelated to current component scope",
+    "Validator diagnostics or repair actions not directly related to AGREE syntax or scope"
+  ]
+}

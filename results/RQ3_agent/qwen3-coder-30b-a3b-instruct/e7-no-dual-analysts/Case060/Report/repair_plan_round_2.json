@@ -1,0 +1,57 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 103: missing EOF at 'with'",
+      "cause": "Invalid AGREE syntax with incomplete 'with' clause",
+      "minimal_edit": "Remove the incomplete 'with Agree_Nodes;' line"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 124: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the equation that references 'Agree_Nodes::Brake_Mode'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 139: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the guarantee that references 'Agree_Nodes::Brake_Cmd'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 256: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the lemma that references 'Agree_Nodes::Brake_Cmd'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the lemma that references 'Agree_Nodes::Brake_Cmd'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 258: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the lemma that references 'Agree_Nodes::Brake_Cmd'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 259: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the lemma that references 'Agree_Nodes::Brake_Cmd'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 261: Couldn't resolve reference to 'Mode'.",
+      "cause": "Reference to undefined variable in context",
+      "minimal_edit": "Remove the lemma that references 'Mode' in an invalid context"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 262: Couldn't resolve reference to 'Mode'.",
+      "cause": "Reference to undefined variable in context",
+      "minimal_edit": "Remove the lemma that references 'Mode' in an invalid context"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the incomplete 'with Agree_Nodes;' line from the COM annex",
+    "Remove the equation 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' from the MON annex",
+    "Remove the guarantee 'not Fail => (Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal));' from the MON annex",
+    "Remove the lemmas referencing 'Agree_Nodes::Brake_Cmd' from the BSCU_Impl annex",
+    "Remove the lemmas referencing 'Mode' in invalid contexts from the BSCU_Impl annex"
+  ]
+}

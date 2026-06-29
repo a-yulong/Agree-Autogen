@@ -1,0 +1,50 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 74: Couldn't resolve reference to 'acc1'.",
+      "cause": "AGREE annex is in component type scope but references implementation subcomponent ports",
+      "minimal_edit": "Remove the assume statement referencing acc1"
+    },
+    {
+      "diagnostic": "line 74: Couldn't resolve reference to 'acc1_input'.",
+      "cause": "AGREE annex is in component type scope but references implementation port",
+      "minimal_edit": "Remove the assume statement referencing acc1_input"
+    },
+    {
+      "diagnostic": "line 74: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "AGREE expression references invalid identifiers from implementation scope",
+      "minimal_edit": "Remove the assume statement referencing acc1_input = acc1.acc1_input"
+    },
+    {
+      "diagnostic": "line 74: named thing must be an expression with a type",
+      "cause": "AGREE expression references invalid identifiers from implementation scope",
+      "minimal_edit": "Remove the assume statement referencing acc1_input = acc1.acc1_input"
+    },
+    {
+      "diagnostic": "line 75: Couldn't resolve reference to 'acc2'.",
+      "cause": "AGREE annex is in component type scope but references implementation subcomponent ports",
+      "minimal_edit": "Remove the assume statement referencing acc2"
+    },
+    {
+      "diagnostic": "line 75: Couldn't resolve reference to 'acc2_input'.",
+      "cause": "AGREE annex is in component type scope but references implementation port",
+      "minimal_edit": "Remove the assume statement referencing acc2_input"
+    },
+    {
+      "diagnostic": "line 75: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "AGREE expression references invalid identifiers from implementation scope",
+      "minimal_edit": "Remove the assume statement referencing acc2_input = acc2.acc2_input"
+    },
+    {
+      "diagnostic": "line 75: named thing must be an expression with a type",
+      "cause": "AGREE expression references invalid identifiers from implementation scope",
+      "minimal_edit": "Remove the assume statement referencing acc2_input = acc2.acc2_input"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire annex agree block from acc_process_emv2 component type",
+    "Move the signal flow requirements to the implementation annex",
+    "Add a new annex agree block to acc_process_emv2.impl with proper implementation-level references"
+  ]
+}

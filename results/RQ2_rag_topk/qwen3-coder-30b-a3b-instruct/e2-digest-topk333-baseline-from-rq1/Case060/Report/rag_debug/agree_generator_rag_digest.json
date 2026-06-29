@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Generate AGREE annex clauses using only visible identifiers from the component's interface, not implementation subcomponents.",
+    "Convert requirement intents into AGREE syntax: assume for input assumptions, guarantee for output guarantees, eq for stateful equations, and const for named literals.",
+    "Use AGREE logical operators (and, or, not, =>) and nested if-then-else for branching in expressions."
+  ],
+  "generic_rules": [
+    "Relate outputs to visible inputs in guarantees; avoid hidden or subcomponent paths.",
+    "Declare helper variables with explicit AGREE types: int, real, bool — never AADL property names or generic terms like integer/boolean."
+  ],
+  "syntax_or_pattern_reminders": [
+    "eq name : type = expression; for stateful or computed values.",
+    "guarantee \"label\": expression; for output claims, assume \"label\": expression; for input constraints.",
+    "Use boolean expressions for conditions: x >= min and x <= max, not range(x, min, max)."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL properties (e.g., Period, Deadline) as if they are AGREE variables.",
+    "Do not use subcomponent port paths (e.g., Panel.LO) directly in type-level contracts unless bound as visible features.",
+    "Never use 'integer' or 'boolean' as type names — use 'int' or 'bool'."
+  ],
+  "irrelevant_topics": [
+    "validator diagnostics",
+    "repair patterns",
+    "annex placement strategy",
+    "fuse or merge component scopes",
+    "AGREE annex validation workflow"
+  ]
+}

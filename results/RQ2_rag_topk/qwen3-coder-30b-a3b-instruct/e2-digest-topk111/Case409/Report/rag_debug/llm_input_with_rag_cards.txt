@@ -1,0 +1,69 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place input envelope assumptions in component type annexes using only visible feature names and concrete bounds from the requirement.
+Generic rules:
+- Use boolean helper declarations to encapsulate range conditions for clarity and type consistency.
+- Ensure assumptions and guarantees reference only features exposed at the component type level.
+Syntax or pattern reminders:
+- Declare helper booleans as eq range_expr : bool = feature >= min and feature <= max;
+- Use literal values or named constants directly in range comparisons; avoid unbound variables.
+Anti-patterns:
+- Do not reference subcomponent ports or implementation-level bindings in component type annexes.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- temp
+- tempavg
+- newavg
+- need_semaphore
+
+Target interface:
+Exact expression symbols: temp, tempavg, newavg, need_semaphore
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+temp | in | data | int | integer
+tempavg | requires | access | opaque | 
+newavg | out | event | event | 
+need_semaphore | requires | access | opaque | 
+
+Raw requirement:
+The commandboard_receiveinput_thread component shall operate under a bounded input condition for temp. The environment shall keep temp greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "temp >= 0 and temp <= 100",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "temp"
+      ]
+    }
+  ]
+}

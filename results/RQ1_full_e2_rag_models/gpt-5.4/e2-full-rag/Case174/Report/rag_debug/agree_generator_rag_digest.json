@@ -1,0 +1,23 @@
+{
+  "rag_rules": [
+    "Generate AGREE content inside `annex agree {** ... **};` and keep every reference within a scope where that symbol is visible.",
+    "Write interface contracts using visible inputs, outputs, and locally declared helpers only; avoid implementation-only subcomponent paths in type-level clauses.",
+    "Add helper constants, equations, or range-style constraints only when the requirement or model provides a concrete visible relation, threshold, or bound."
+  ],
+  "generic_rules": [
+    "Prefer direct Boolean expressions for Boolean requirements instead of numeric encodings.",
+    "If a relation cannot be expressed with visible symbols in the chosen scope, reformulate it or omit it rather than guessing hidden names."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use AGREE declarations and operators such as `assume`, `guarantee`, `const`, `eq`, `and`, `or`, `not(...)`, and `=>`, with semicolon-terminated declarations inside the annex block.",
+    "Valid AGREE scalar types are `bool`, `int`, and `real`; each helper declaration type must match its expression.",
+    "For control flow or state, use nested `if ... then ... else` and initialized recurrence like `init -> pre(expr)`."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent ports or implementation-only paths from an interface contract.",
+    "Do not invent numeric bounds, thresholds, or type conversions, and do not compare Boolean or opaque values as if they were numeric."
+  ],
+  "irrelevant_topics": [
+    "Example package and `Base_Types` scaffolding from integrated pattern examples."
+  ]
+}

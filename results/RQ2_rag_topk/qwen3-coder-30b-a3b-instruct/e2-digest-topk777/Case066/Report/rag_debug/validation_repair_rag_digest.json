@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix AGREE diagnostics by resolving undefined references and ensuring type consistency in generated expressions.",
+    "Do not introduce new identifiers or types not present in the AADL model's visible scope.",
+    "Move implementation-level bindings to the correct implementation scope and avoid placing guarantees in type-level annexes.",
+    "Delete invalid AGREE clauses that reference non-existent ports, data types, or properties instead of inventing new architecture."
+  ],
+  "generic_rules": [
+    "AGREE expressions must use only visible identifiers and declared helpers from the same annex scope.",
+    "Type mismatches in AGREE declarations should align helper types with their expressions (int, real, bool).",
+    "Component type contracts should reference only features visible at that scope; implementation bindings go in implementation annexes.",
+    "Validator diagnostics pointing to unresolved identifiers should be addressed by removing or rewriting clauses to use existing visible identifiers."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Use `assign output = expression;` only for valid output features or declared auxiliary variables.",
+    "Constants and equations in AGREE must declare types explicitly (int, real, bool).",
+    "Ensure all references in AGREE code match identifiers present in the AADL model's current scope."
+  ],
+  "anti_patterns": [
+    "Do not add new package-qualified identifiers or data types that are not imported or defined in the model.",
+    "Do not place implementation-level guarantees in component type annexes.",
+    "Do not attempt to resolve missing references by introducing new architecture elements.",
+    "Do not encode AADL properties like Period or Deadline as AGREE variables unless explicitly exposed in the model."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE annex placement in component types vs implementations",
+    "Model Analyst's extraction of component structure",
+    "Requirement traceability and compact semantics"
+  ]
+}

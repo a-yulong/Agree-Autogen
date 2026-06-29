@@ -1,0 +1,15 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assumptions and guarantees in the component type annex; assignments in the implementation annex.
+- Use concrete bounds, named constants, or visible relations when defining input envelope assumptions and output range guarantees.
+Generic rules:
+- AGREE contracts are defined within `annex agree { ... };` blocks.
+- Ensure AGREE expressions use types consistent with the AADL model (bool, int, real).
+- Reference only visible identifiers from the AADL model when constructing AGREE expressions.
+Syntax or pattern reminders:
+- Use `eq` to define helper variables for range checks: `eq range_value : bool = x >= min_value and x <= max_value;`
+- Define boolean expressions only when the port is an AGREE bool in scope.
+Anti-patterns:
+- Do not include AADL properties (e.g., Compute_Execution_Time) directly in AGREE expressions unless they are exposed as ports or constants.
+- Avoid range comparisons or equality checks on Boolean, enumeration-like, or opaque data ports without a numeric scalar representation.
+</RAG_DIGEST>

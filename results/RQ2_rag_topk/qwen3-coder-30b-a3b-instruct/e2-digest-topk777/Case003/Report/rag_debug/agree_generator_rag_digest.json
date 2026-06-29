@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.",
+    "Place component type assumptions and guarantees in component type scopes with visible feature names or constants.",
+    "Generate AGREE contracts inside annex agree blocks with valid logical operators and expression types."
+  ],
+  "generic_rules": [
+    "Use only visible identifiers from the current component scope in AGREE annexes.",
+    "Declare helper variables with correct AGREE scalar types (int, real, bool) to avoid type resolution errors.",
+    "Avoid encoding AADL timing properties as AGREE expressions unless explicit typed ports or constants are available.",
+    "Do not place guarantee statements in implementation scope; use assign only for output features or declared auxiliary variables."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `assume` and `guarantee` labels with valid expressions and logical operators like `and`, `or`, `not`, and `=>`.",
+    "Equation declarations use `eq name : type = expression;` syntax with initialized temporal recurrence for stateful logic.",
+    "Implementation contracts should use `assign output = expression;` only for existing output features or declared variables."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL property names like Deadline or Period as AGREE variables without explicit typed ports or constants.",
+    "Do not generate clauses that reference unresolved identifiers or use invalid AGREE scalar type names.",
+    "Do not place guarantee statements in implementation scope; only use assign for output features or auxiliary variables.",
+    "Do not encode Boolean domain values into integers; use exact Boolean expressions when the port is an AGREE bool."
+  ],
+  "irrelevant_topics": [
+    "AADL_AS5506C.local_source",
+    "AADL property associations and timing properties in AGREE",
+    "ModelUnit and package resolution issues"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 23: Duplicate Element 'mode'",
+      "cause": "Duplicate declaration of 'mode'",
+      "minimal_edit": "Remove the duplicate declaration of 'mode'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 24: Duplicate Element 'mode'",
+      "cause": "Duplicate declaration of 'mode'",
+      "minimal_edit": "Remove the duplicate declaration of 'mode'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 24: mismatched input '' = mode + 1;\\r\\n  guarantee \"mode init\": mode >= 0;\\r\\n  guarantee \"mode increasing\": mode'' expecting ':'",
+      "cause": "Invalid syntax for equation declaration",
+      "minimal_edit": "Replace 'eq mode' = mode + 1' with 'eq mode' : int = mode + 1'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 27: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in binary expression",
+      "minimal_edit": "Replace 'mode = 3 -> Output = Input1 + Input2' with 'mode = 3 -> Output = Input1 + Input2' (no change needed, but check the type of 'mode')"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 27: named thing must be an expression with a type",
+      "cause": "Invalid expression",
+      "minimal_edit": "Replace 'mode = 3 -> Output = Input1 + Input2' with 'mode = 3 -> Output = Input1 + Input2' (no change needed, but check the type of 'mode')"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 28: left and right sides of binary expression '!=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in binary expression",
+      "minimal_edit": "Replace 'mode!= 3 -> Output = 0' with 'mode!= 3 -> Output = 0' (no change needed, but check the type of 'mode')"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 28: named thing must be an expression with a type",
+      "cause": "Invalid expression",
+      "minimal_edit": "Replace 'mode!= 3 -> Output = 0' with 'mode!= 3 -> Output = 0' (no change needed, but check the type of 'mode')"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the duplicate declaration of 'mode'",
+    "Replace 'eq mode' = mode + 1' with 'eq mode' : int = mode + 1'",
+    "Check the type of 'mode' in the binary expressions"
+  ]
+}

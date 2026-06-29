@@ -1,0 +1,38 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level port",
+      "minimal_edit": "Move the data flow routing assumption to the implementation annex"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "AGREE annex is in component type scope but references implementation property",
+      "minimal_edit": "Move the dispatch protocol assumption to the implementation annex"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'Period'.",
+      "cause": "AGREE annex is in component type scope but references implementation property",
+      "minimal_edit": "Move the period constraint assumption to the implementation annex"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'deadline'.",
+      "cause": "AGREE annex is in component type scope but references implementation property",
+      "minimal_edit": "Move the deadline constraint assumption to the implementation annex"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'Priority'.",
+      "cause": "AGREE annex is in component type scope but references implementation property",
+      "minimal_edit": "Move the priority constraint assumption to the implementation annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire AGREE annex block from component type Q to component implementation Q.Impl",
+    "In the implementation annex, replace Q.Impl.Dispatch_Protocol with Dispatch_Protocol",
+    "In the implementation annex, replace Q.Impl.Period with Period",
+    "In the implementation annex, replace Q.Impl.deadline with deadline",
+    "In the implementation annex, replace Q.Impl.Priority with Priority",
+    "In the implementation annex, replace Data_Sink = Q_Spg.Data_Sink with Data_Sink = Q_Spg.Data_Sink"
+  ]
+}

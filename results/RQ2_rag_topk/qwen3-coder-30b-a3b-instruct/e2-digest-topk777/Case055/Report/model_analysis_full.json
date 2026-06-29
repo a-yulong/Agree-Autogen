@@ -1,0 +1,93 @@
+{
+  "component_types": [
+    {
+      "name": "above_top",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "above_top.Impl",
+      "kind": "system implementation",
+      "type_name": "above_top"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "above_top.Impl",
+      "name": "A_sub",
+      "category": "system",
+      "classifier": "A"
+    },
+    {
+      "owner": "above_top.Impl",
+      "name": "top_sub",
+      "category": "system",
+      "classifier": "top_level.Impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "above_top",
+      "name": "Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "above_top",
+      "name": "Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "above_top.Impl",
+      "name": "IN_TO_TOP",
+      "kind": "port",
+      "source": "Input",
+      "destination": "top_sub.Input"
+    },
+    {
+      "owner": "above_top.Impl",
+      "name": "TOP_TO_A",
+      "kind": "port",
+      "source": "top_sub.Output",
+      "destination": "A_sub.Input"
+    },
+    {
+      "owner": "above_top.Impl",
+      "name": "A_TO_OUT",
+      "kind": "port",
+      "source": "A_sub.Output",
+      "destination": "Output"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "above_top.Impl.IN_TO_TOP",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": "IN_TO_TOP"
+    },
+    {
+      "owner": "above_top.Impl.TOP_TO_A",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": "TOP_TO_A"
+    },
+    {
+      "owner": "above_top.Impl.A_TO_OUT",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": "A_TO_OUT"
+    }
+  ]
+}

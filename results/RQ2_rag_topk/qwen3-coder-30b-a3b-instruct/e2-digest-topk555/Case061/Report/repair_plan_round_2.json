@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink is a port of component type Q, not visible in the implementation annex scope",
+      "minimal_edit": "Remove the data_flow_routing assumption from the component type annex"
+    },
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg is a subcomponent, not visible in the component type annex scope",
+      "minimal_edit": "Remove the data_flow_routing assumption from the component type annex"
+    },
+    {
+      "diagnostic": "line 65: named thing must be an expression with a type",
+      "cause": "Invalid expression using unresolved identifiers",
+      "minimal_edit": "Remove the data_flow_routing assumption from the component type annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the assume statement 'assume \"data_flow_routing\": Data_Sink = Q_Spg.Data_Sink;' from the AGREE annex of component type Q",
+    "Move the data flow routing constraint to the implementation annex if needed, or remove it if it's not expressible in AGREE"
+  ]
+}

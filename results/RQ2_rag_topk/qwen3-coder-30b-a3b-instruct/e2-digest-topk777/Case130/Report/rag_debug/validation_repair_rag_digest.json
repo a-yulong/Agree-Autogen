@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by using only visible identifiers from the current component scope",
+    "Ensure AGREE expressions match the expected types (bool, int, real) and avoid <error> type issues",
+    "Move implementation-level bindings to implementation annexes and avoid type scope mismatches",
+    "Delete invalid AGREE clauses that reference undefined or inaccessible identifiers"
+  ],
+  "generic_rules": [
+    "Validate all AGREE references against the visible AADL model structure before repair",
+    "Preserve type consistency in AGREE expressions to prevent diagnostics about mismatched types",
+    "Use only declared helpers or visible features in AGREE contracts to avoid resolution errors",
+    "Avoid introducing new identifiers or types not present in the original AADL model"
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be placed in valid annex scopes (component type or implementation)",
+    "Helper functions and constants must be declared with correct scalar types (int, real, bool)",
+    "Property associations and references must resolve to valid AADL identifiers in scope",
+    "Assume/guarantee expressions must evaluate to boolean types"
+  ],
+  "anti_patterns": [
+    "Do not add new package-qualified identifiers or data types not present in the model",
+    "Do not attempt to fix unresolved references by inventing new declarations",
+    "Do not mix component type and implementation scope references in the same contract",
+    "Do not convert Boolean ports to numeric comparisons unless explicitly supported by AADL"
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about property associations",
+    "AGREE validator diagnostics about annex placement",
+    "Model Analyst Agent's role in extracting component structure",
+    "Requirement Analyst Agent's role in traceability"
+  ]
+}

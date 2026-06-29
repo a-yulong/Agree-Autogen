@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "latched is used as a boolean expression in a guarantee clause in component type",
+      "minimal_edit": "Replace 'latched' with 'true' in the guarantee expression"
+    },
+    {
+      "diagnostic": "Latched expressions can appear only in component implementations",
+      "cause": "latched is used in component type annex instead of implementation",
+      "minimal_edit": "Replace 'latched' with 'true' in the guarantee expression"
+    },
+    {
+      "diagnostic": "mismatched input 'and' expecting '('",
+      "cause": "syntax error due to invalid latched expression in boolean context",
+      "minimal_edit": "Replace 'latched' with 'true' in the guarantee expression"
+    },
+    {
+      "diagnostic": "right side of binary expression 'and' is of type '<error>' but must be of type 'bool'",
+      "cause": "latched is not a valid boolean expression in this context",
+      "minimal_edit": "Replace 'latched' with 'true' in the guarantee expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block, replace 'latched' with 'true' in the guarantee statement",
+    "Ensure the guarantee statement reads: guarantee \"door_handler_operates_on_engine_running\": lock = (engine_running and closed and true and locked);"
+  ]
+}

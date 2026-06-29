@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use initialized temporal recurrence for stateful equations, e.g., `0.0 -> pre(t) + step`
+- Place assume/guarantee statements in valid component type or implementation scopes based on feature visibility and binding context
+Generic rules:
+- Use AGREE logical operators (`and`, `or`, `not`, `=>`) for contract expressions
+- Ensure type consistency between helper declarations and expressions; e.g., bool for comparisons, int for arithmetic
+- Avoid referencing AADL properties (e.g., Deadline, Period) directly in AGREE expressions unless explicitly exposed as typed features or constants
+- In implementation contracts, use `assign` only for existing output features or declared auxiliary variables; do not place guarantees in implementation scope
+Syntax or pattern reminders:
+- Branching logic in AGREE uses nested `if ... then ... else` syntax
+- AGREE annex elements include: `assume`, `guarantee`, `eq`, `const`, `assign`
+Anti-patterns:
+- Do not reference AADL property names (e.g., Compute_Execution_Time) as AGREE variables
+- Do not place guarantee statements in implementation scope unless the output feature is explicitly declared or visible
+</RAG_DIGEST>

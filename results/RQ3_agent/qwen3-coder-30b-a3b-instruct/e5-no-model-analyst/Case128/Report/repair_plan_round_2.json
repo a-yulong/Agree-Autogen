@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 210: Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "acc_in_data_x is not visible in the component type scope",
+      "minimal_edit": "Remove acc_in_data_x from the assume statement"
+    },
+    {
+      "diagnostic": "line 210: Couldn't resolve reference to 'accelero_thread'.",
+      "cause": "accelero_thread is not visible in the component type scope",
+      "minimal_edit": "Remove accelero_thread from the assume statement"
+    },
+    {
+      "diagnostic": "line 211: Couldn't resolve reference to 'acc_in_data_y'.",
+      "cause": "acc_in_data_y is not visible in the component type scope",
+      "minimal_edit": "Remove acc_in_data_y from the assume statement"
+    },
+    {
+      "diagnostic": "line 211: Couldn't resolve reference to 'accelero_thread'.",
+      "cause": "accelero_thread is not visible in the component type scope",
+      "minimal_edit": "Remove accelero_thread from the assume statement"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from process ATTITUDE to process implementation ATTITUDE.IMPL",
+    "Remove the assume statements that reference acc_in_data_x and accelero_thread from the AGREE annex in ATTITUDE",
+    "Add a new AGREE annex block to ATTITUDE.IMPL with appropriate implementation-level bindings if needed"
+  ]
+}

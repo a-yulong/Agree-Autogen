@@ -1,0 +1,50 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'altitude'.",
+      "cause": "gps_pos.altitude is not a valid expression in AGREE context",
+      "minimal_edit": "Remove gps_pos.altitude from the guarantee"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'gps_pos'.",
+      "cause": "gps_pos is not visible in the AGREE annex context",
+      "minimal_edit": "Replace gps_pos with pspg.gps_pos in the guarantee"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'latitude'.",
+      "cause": "gps_pos.latitude is not a valid expression in AGREE context",
+      "minimal_edit": "Remove gps_pos.latitude from the guarantee"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'longitude'.",
+      "cause": "gps_pos.longitude is not a valid expression in AGREE context",
+      "minimal_edit": "Remove gps_pos.longitude from the guarantee"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is not visible in the AGREE annex context",
+      "minimal_edit": "Remove pspg from the guarantee"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved references",
+      "minimal_edit": "Remove the entire guarantee statement"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch due to unresolved references",
+      "minimal_edit": "Remove the entire guarantee statement"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Unresolved identifiers in expression",
+      "minimal_edit": "Remove the entire guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee statement on line 107 that references gps_pos.latitude, gps_pos.longitude, gps_pos.altitude, and pspg",
+    "Remove the guarantee statement on line 108 that references pspg and speed",
+    "Replace the entire annex agree block with an empty block to avoid validation errors"
+  ]
+}

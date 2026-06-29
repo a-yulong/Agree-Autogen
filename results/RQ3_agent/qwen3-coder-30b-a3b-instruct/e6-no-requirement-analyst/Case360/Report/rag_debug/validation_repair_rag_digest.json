@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Fix AGREE syntax errors like missing EOF by ensuring proper block termination and valid identifier usage within annex scopes.",
+    "When generating AGREE contracts, ensure all identifiers are visible in the current AADL scope and avoid introducing undefined references."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or declared helpers in AGREE annexes to prevent type resolution errors.",
+    "Validate that AGREE scalar type names match expected int, real, and bool types to avoid resolution failures.",
+    "Place implementation-specific assignments in implementation annexes, not component type annexes.",
+    "Ensure all AGREE guarantees reference only visible inputs and outputs at the appropriate scope level."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks within component type or implementation annexes.",
+    "AGREE constants and equations must use valid AADL data types (int, real, bool) and visible identifiers."
+  ],
+  "anti_patterns": [
+    "Do not reference implementation-only subcomponents or features in component type annexes.",
+    "Do not introduce package-qualified identifiers that are not present in the input model or its dependencies."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics",
+    "AGREE validator diagnostics",
+    "Component type annexes for assumptions and guarantees",
+    "Implementation-level bindings and assignments"
+  ]
+}

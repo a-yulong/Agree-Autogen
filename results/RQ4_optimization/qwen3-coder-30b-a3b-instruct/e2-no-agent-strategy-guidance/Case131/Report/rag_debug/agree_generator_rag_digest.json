@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Use `assume` and `guarantee` keywords for requirement intent, with `eq` for derived expressions and `const` for typed constants.",
+    "Place AGREE annex blocks within `annex agree {** ... **};` and use component type annexes for assumptions/guarantees, implementation annexes for assignments."
+  ],
+  "generic_rules": [
+    "Align helper declaration types with expression types; use bool for comparisons, int for integers, real for reals.",
+    "Do not encode AADL property names directly as AGREE variables unless explicitly typed in scope.",
+    "Avoid unsafe Boolean comparisons or conversions unless the data is explicitly typed as AGREE bool.",
+    "Generate only syntactically valid AGREE clauses that match visible symbol types and scopes."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `assume \"label\": expression;` for input assumptions and `guarantee \"label\": expression;` for output guarantees.",
+    "Declare equations with `eq name : type = expression;` and constants with `const name : type = value;`.",
+    "Assignments use `assign output = expression;` in implementation annexes."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL property names like Period or Compute_Execution_Time directly in AGREE expressions unless they are typed ports or constants.",
+    "Do not attempt to convert Boolean or opaque data types into numeric values for range comparisons.",
+    "Do not generate clauses that reference undefined or mismatched types in the current scope.",
+    "Do not assume that AADL timing properties are automatically available as AGREE variables."
+  ],
+  "irrelevant_topics": [
+    "AADL_AS5506C.local_source",
+    "Assumed Type vs Actual Type",
+    "AADL Property Names Are Not AGREE Variables",
+    "Opaque Boolean Data Range Comparison"
+  ]
+}

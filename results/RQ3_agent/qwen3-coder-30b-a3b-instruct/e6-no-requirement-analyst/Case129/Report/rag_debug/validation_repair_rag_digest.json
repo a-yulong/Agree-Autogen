@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Validator diagnostics pointing to unresolved identifiers or invalid types should be resolved by checking visible AADL features or declared helpers in the same annex, or removing the invalid clause.",
+    "AGREE contracts must use only visible identifiers and types from the current AADL scope; avoid introducing package-qualified or undefined references.",
+    "When AGREE reports type mismatches, align helper declarations with the actual expression types (bool, int, real) and avoid unsafe conversions."
+  ],
+  "generic_rules": [
+    "Repair actions should target only the specific diagnostic issue without altering unrelated architecture elements.",
+    "AGREE clauses must be syntactically valid and semantically consistent with the AADL model's visible features and types.",
+    "If a clause references an undefined or mismatched type, either correct the reference or remove the clause to maintain model integrity.",
+    "Avoid introducing new identifiers or types that are not present in the current AADL scope or its configured dependencies."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks and must be placed in valid component type or implementation scopes.",
+    "Helper declarations in AGREE must match the type of the expressions they define (e.g., bool, int, real).",
+    "Boolean comparisons should only be used with actual Boolean ports or valid AGREE bool variables."
+  ],
+  "anti_patterns": [
+    "Do not attempt to fix diagnostics by introducing undefined or package-qualified identifiers not present in the AADL model.",
+    "Do not convert Boolean or opaque data types into integers or numeric comparisons unless the AADL model explicitly supports such representations.",
+    "Do not add new clauses or modify architecture beyond the scope of the reported diagnostic."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about property associations not pointing to anything",
+    "AGREE validator diagnostics (none present)",
+    "Component type annexes vs implementation annexes (not relevant to repair scope)"
+  ]
+}

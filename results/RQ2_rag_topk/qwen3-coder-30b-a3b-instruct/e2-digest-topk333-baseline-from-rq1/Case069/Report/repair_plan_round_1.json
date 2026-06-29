@@ -1,0 +1,46 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 55: Expression for assume statement is of type 'int' but must be of type 'bool'",
+      "cause": "Invalid boolean expression in assume statement",
+      "minimal_edit": "Replace 'Compute_Execution_Time <= 100 us' with 'Compute_Execution_Time <= 100 us'"
+    },
+    {
+      "diagnostic": "line 55: no viable alternative at input 'ms'",
+      "cause": "Invalid time unit syntax in timing constraint",
+      "minimal_edit": "Replace '0 ms .. 100 us' with '0 us .. 100 us'"
+    },
+    {
+      "diagnostic": "line 56: Couldn't resolve reference to 'Aperiodic'",
+      "cause": "Undeclared property value reference",
+      "minimal_edit": "Remove 'Dispatch_Protocol = Aperiodic' from assume statement"
+    },
+    {
+      "diagnostic": "line 56: Couldn't resolve reference to 'Dispatch_Protocol'",
+      "cause": "Undeclared property reference",
+      "minimal_edit": "Remove 'Dispatch_Protocol' from assume statement"
+    },
+    {
+      "diagnostic": "line 56: named thing must be an expression with a type",
+      "cause": "Invalid property usage in assume",
+      "minimal_edit": "Remove 'Dispatch_Protocol = Aperiodic' from assume statement"
+    },
+    {
+      "diagnostic": "line 57: Expression for guarantee statement is of type 'real' but must be of type 'bool'",
+      "cause": "Invalid guarantee expression type",
+      "minimal_edit": "Rewrite guarantee to use proper boolean expression"
+    },
+    {
+      "diagnostic": "line 57: mismatched input ',' expecting ')'",
+      "cause": "Syntax error in guarantee expression",
+      "minimal_edit": "Fix guarantee expression syntax by removing invalid comma-separated list"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove 'Dispatch_Protocol = Aperiodic' from the assume statement on line 55",
+    "Correct the timing constraint syntax from '0 ms .. 100 us' to '0 us .. 100 us'",
+    "Rewrite the guarantee statement to express a valid boolean relationship between telecommand and outputs",
+    "Ensure all referenced identifiers are visible and properly typed in the AGREE context"
+  ]
+}

@@ -1,0 +1,12 @@
+annex agree {**
+  const collision_time_constant : real = 8.0;
+  const recovery_time_constant : real = 5.0;
+
+  guarantee "acas_requested_on_close_distance": distance <= 10.0 => acasRequested;
+
+  eq impact_transition : real = if initial then 0.0 else collision_time_constant;
+  eq recovery_transition : real = if initial then 0.0 else recovery_time_constant;
+
+  guarantee "outImpact_matches_collision_constant": outImpact = impact_transition;
+  guarantee "outRecovery_matches_recovery_constant": outRecovery = recovery_transition;
+**};

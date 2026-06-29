@@ -1,0 +1,143 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: WaterAlarm
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+WaterAlarm | out | data | int | Int
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "0 <= WaterAlarm <= 100",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "WaterAlarm"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: WaterLevelMonitoring | lines 29-33
+annex agree {**
+  annex agree {
+    guarantee "WaterAlarm_Range": 0 <= WaterAlarm and WaterAlarm <= 100;
+  };
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   26:     -- Source_Language => (C);                --  Link to code source
+   27:     Compute_Entrypoint_Source_Text => "waterlevelmonitoring_body";
+   28:     Source_Text => ("minepump.c");
+   29:   annex agree {**
+>> 30:   annex agree {
+   31:     guarantee "WaterAlarm_Range": 0 <= WaterAlarm and WaterAlarm <= 100;
+   32:   };
+   33:   **};
+   34:   end WaterLevelMonitoring;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: WaterLevelMonitoring
+thread WaterLevelMonitoring
+  features
+    WaterAlarm : out data port Int;
+  properties
+    Dispatch_Protocol => Periodic;         --  Concurrency configuration
+    Period => 250 ms;
+    Compute_Execution_Time => 1 ms .. 2 ms;
+    Priority => 2;
+
+    -- Source_Language => (C);                --  Link to code source
+    Compute_Entrypoint_Source_Text => "waterlevelmonitoring_body";
+    Source_Text => ("minepump.c");
+  end WaterLevelMonitoring;
+
+-- RELATED MODEL LINES
+thread WaterLevelMonitoring
+WaterAlarm : out data port Int;
+end WaterLevelMonitoring;
+WaterAlarm   : out data port Int;
+thread WaterAlarm
+WaterAlarm : in event data port Int;
+end WaterAlarm;
+WaterLevelMonitoring_Thread : thread WaterLevelMonitoring;
+WaterAlarm_Thread           : thread WaterAlarm;
+C2 : port WaterLevelMonitoring_Thread.WaterAlarm
+C3 : port PumpCtrl_Thread.WaterAlarm
+-> WaterAlarm_Thread.WaterAlarm;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "WaterLevelMonitoring",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "WaterLevelMonitoring_Thread",
+      "kind": "thread_implementation",
+      "type_name": "WaterLevelMonitoring"
+    }
+  ],
+  "features": [
+    {
+      "owner": "WaterLevelMonitoring",
+      "name": "WaterAlarm",
+      "direction": "out",
+      "category": "data port",
+      "type": "Int",
+      "scalar": "opaque"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "WaterLevelMonitoring",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": null
+    },
+    {
+      "owner": "WaterLevelMonitoring",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "250 ms",
+      "applies_to": null
+    },
+    {
+      "owner": "WaterLevelMonitoring",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "1 ms .. 2 ms",
+      "applies_to": null
+    },
+    {
+      "owner": "WaterLevelMonitoring",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "2",
+      "applies_to": null
+    },
+    {
+      "owner": "WaterLevelMonitoring",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "waterlevelmonitoring_body",
+      "applies_to": null
+    },
+    {
+      "owner": "WaterLevelMonitoring",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "minepump.c",
+      "applies_to": null
+    }
+  ]
+}

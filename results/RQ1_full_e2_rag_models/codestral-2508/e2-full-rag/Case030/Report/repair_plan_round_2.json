@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assignment statements are allowed only in component implementations",
+      "cause": "assign statement in component type annex",
+      "minimal_edit": "move assign statement to GeoFence_singleton.impl annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'distanceFromFence'",
+      "cause": "distanceFromFence is not a visible identifier",
+      "minimal_edit": "remove distanceFromFence from guarantee statement"
+    },
+    {
+      "diagnostic": "left side of binary expression '>' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "distanceFromFence is not a visible identifier",
+      "minimal_edit": "remove distanceFromFence from guarantee statement"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "distanceFromFence is not a visible identifier",
+      "minimal_edit": "remove distanceFromFence from guarantee statement"
+    },
+    {
+      "diagnostic": "right side of binary expression '>' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "distanceFromFence is not a visible identifier",
+      "minimal_edit": "remove distanceFromFence from guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "create GeoFence_singleton.impl annex if it does not exist",
+    "move assign timeToRecovery = recovery_time; to GeoFence_singleton.impl annex",
+    "remove guarantee \"recovery_action\": t >= recovery_time => distanceFromFence > pre(distanceFromFence); from GeoFence_singleton annex"
+  ]
+}

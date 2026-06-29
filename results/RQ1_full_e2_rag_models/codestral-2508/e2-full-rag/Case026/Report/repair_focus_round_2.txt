@@ -1,0 +1,205 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: tempin1, tempin2, tempout
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+tempin1 | in | data | opaque | temperature_type
+tempin2 | in | data | opaque | temperature_type
+tempout | out | data | opaque | temperature_type
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "route temp1 to voter.tempin1 through c0",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "temp1",
+        "voter.tempin1",
+        "c0"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "route temp2 to voter.tempin2 through c1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "temp2",
+        "voter.tempin2",
+        "c1"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "use immediate communication timing on c0",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "c0"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "use immediate communication timing on c1",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "c1"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "use immediate communication timing on c2",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "c2"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "use immediate communication timing on c3",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "c3"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: temp_control | lines 55-59
+annex agree {**
+  assume "tempin1_routing": tempin1 = temp1;
+  assume "tempin2_routing": tempin2 = temp2;
+  guarantee "tempout_routing": tempout = voter.tempout;
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   52:     temp1           : in data port temperature_type;
+   53:     temp2           : in data port temperature_type;
+   54:     user_request    : in data port command.impl;
+   55: annex agree {**
+>> 56:   assume "tempin1_routing": tempin1 = temp1;
+   57:   assume "tempin2_routing": tempin2 = temp2;
+   58:   guarantee "tempout_routing": tempout = voter.tempout;
+   59: **};
+   60: end temp_control;
+
+   53:     temp2           : in data port temperature_type;
+   54:     user_request    : in data port command.impl;
+   55: annex agree {**
+   56:   assume "tempin1_routing": tempin1 = temp1;
+>> 57:   assume "tempin2_routing": tempin2 = temp2;
+   58:   guarantee "tempout_routing": tempout = voter.tempout;
+   59: **};
+   60: end temp_control;
+   61: 
+
+   54:     user_request    : in data port command.impl;
+   55: annex agree {**
+   56:   assume "tempin1_routing": tempin1 = temp1;
+   57:   assume "tempin2_routing": tempin2 = temp2;
+>> 58:   guarantee "tempout_routing": tempout = voter.tempout;
+   59: **};
+   60: end temp_control;
+   61: 
+   62: system implementation temp_control.i
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: voter
+system voter
+features
+    tempin1         : in data port temperature_type;
+    tempin2         : in data port temperature_type;
+    tempout         : out data port temperature_type;
+end voter;
+
+-- TARGET DECLARATION: voter.impl
+system implementation voter.impl
+end voter.impl;
+
+-- RELATED MODEL LINES
+voter       : system voter.impl;
+c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+c1 : port temp2 -> voter.tempin2 {communication_properties::timing => immediate;};
+c5 : port voter.tempout -> controller.tempin {communication_properties::timing => immediate;};
+system voter
+tempin1         : in data port temperature_type;
+tempin2         : in data port temperature_type;
+tempout         : out data port temperature_type;
+end voter;
+system implementation voter.impl
+end voter.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "voter",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "voter.impl",
+      "kind": "system",
+      "type_name": "voter"
+    }
+  ],
+  "features": [
+    {
+      "owner": "voter",
+      "name": "tempin1",
+      "direction": "in",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "voter",
+      "name": "tempin2",
+      "direction": "in",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "voter",
+      "name": "tempout",
+      "direction": "out",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "voter",
+      "name": "c0",
+      "kind": "port",
+      "source": "temp1",
+      "destination": "voter.tempin1"
+    },
+    {
+      "owner": "voter",
+      "name": "c1",
+      "kind": "port",
+      "source": "temp2",
+      "destination": "voter.tempin2"
+    },
+    {
+      "owner": "voter",
+      "name": "c5",
+      "kind": "port",
+      "source": "voter.tempout",
+      "destination": "controller.tempin"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 89: missing EOF at 'var'",
+      "cause": "AGREE annex syntax error: 'var' keyword is not allowed in component type annex; only 'eq', 'assume', and 'guarantee' are permitted at top level in type-level annexes.",
+      "minimal_edit": "Remove 'var heating_request : bool;' and 'var cooling_request : bool;' lines; inline the expressions directly in the guarantee clauses."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove line 89: 'var heating_request : bool;'",
+    "Remove line 90: 'var cooling_request : bool;'",
+    "Rewrite line 91 as: 'eq heating_request = (user_request.heater_on and not user_request.cooler_on);' → delete this line entirely and inline the expression into the guarantee on line 93",
+    "Rewrite line 92 as: 'eq cooling_request = (user_request.cooler_on and not user_request.heater_on);' → delete this line entirely and inline the expression into the guarantee on line 94",
+    "Replace guarantee on line 93 with: 'guarantee \"heater_on_condition\": heater_on => ((user_request.heater_on and not user_request.cooler_on) and tempin <= 20);'",
+    "Replace guarantee on line 94 with: 'guarantee \"cooler_on_condition\": cooler_on => ((user_request.cooler_on and not user_request.heater_on) and tempin > 0);'"
+  ]
+}

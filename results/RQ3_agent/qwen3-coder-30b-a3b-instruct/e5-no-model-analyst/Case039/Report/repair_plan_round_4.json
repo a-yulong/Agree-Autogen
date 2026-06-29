@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'actual_prev'.",
+      "cause": "AGREE 'let' declarations are not allowed in guarantee statements; they must be at the top level of the annex block",
+      "minimal_edit": "Move 'actual_prev' declaration outside of the guarantee statement and place it at the top level of the annex block"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '+' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "The 'Actual' port is of type 'Types::speed.speed_impl' which is not compatible with 'real' type operations",
+      "minimal_edit": "Change the expression to use a real-valued variable instead of 'Actual' port in the guarantee"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::speed.speed_impl' and '<error>', but must be of the same type",
+      "cause": "The 'Actual' port is of type 'Types::speed.speed_impl' which is not compatible with 'real' type operations",
+      "minimal_edit": "Change the expression to use a real-valued variable instead of 'Actual' port in the guarantee"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "The 'actual_prev' variable is not properly declared in the AGREE annex block",
+      "minimal_edit": "Declare 'actual_prev' as a constant or variable at the top level of the annex block"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the 'let actual_prev : real = 0.0;' declaration from inside the guarantee statement",
+    "Move the 'let actual_prev : real = 0.0;' declaration to the top level of the AGREE annex block",
+    "Replace 'Actual' with a real-valued variable in the guarantee expression",
+    "Ensure all expressions in the guarantee use compatible types"
+  ]
+}

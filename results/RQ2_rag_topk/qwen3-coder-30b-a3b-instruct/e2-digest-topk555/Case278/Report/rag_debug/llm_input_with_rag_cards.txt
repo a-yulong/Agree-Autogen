@@ -1,0 +1,69 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place output range guarantees in component type scopes using visible feature names and concrete bounds.
+- Use `assume` and `guarantee` syntax with valid AGREE expressions and visible identifiers.
+Generic rules:
+- Component type contracts should reference only visible ports and features, not implementation-specific subcomponents.
+- AGREE annexes must use valid scalar types (int, real, bool) and properly declared helpers.
+- Generated contracts should use logical operators and temporal recurrence for stateful equations.
+- Avoid referencing AADL properties as AGREE variables unless explicitly exposed as typed features.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Use `eq` for helper declarations and `const` for named constants in type scopes.
+- Guarantees must reference visible identifiers or previously declared helpers.
+- Ensure type consistency between declarations and expressions in AGREE contracts.
+Anti-patterns:
+- Do not reference implementation-only subcomponent ports in component type annexes.
+- Do not encode AADL timing properties as AGREE expressions without visible typed features.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- MethaneLevel
+
+Target interface:
+Exact expression symbols: MethaneLevel
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+MethaneLevel | out | data | int | int
+
+Raw requirement:
+The MethaneMonitoring component shall bound the MethaneLevel output at every evaluation step. The MethaneLevel value shall be greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "MethaneLevel >= 0 and MethaneLevel <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "MethaneLevel"
+      ]
+    }
+  ]
+}

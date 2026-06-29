@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Place AGREE annex blocks in component type scopes for assumptions and guarantees involving ports, and in implementation scopes for bindings.",
+    "Use visible identifiers from the AADL model for all AGREE expressions and declarations."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for assignments and bindings.",
+    "Ensure all AGREE declarations use valid scalar types: int, real, bool.",
+    "Do not reference AADL property names directly in AGREE expressions unless they are explicitly exposed as typed features or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract statements.",
+    "Use `eq name : type = expression;` for equation declarations and `const name : type = value;` for constants.",
+    "Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level bindings in component type scopes unless they are valid in that context.",
+    "Avoid referencing AADL properties like Period, Deadline, or unit tokens directly in AGREE expressions."
+  ],
+  "irrelevant_topics": [
+    "assume/guarantee syntax and validation diagnostics",
+    "requirement traceability and compact semantics",
+    "model repair and validator-driven minimal repair patterns"
+  ]
+}

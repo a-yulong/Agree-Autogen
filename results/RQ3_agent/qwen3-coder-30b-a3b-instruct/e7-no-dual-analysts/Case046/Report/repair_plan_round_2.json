@@ -1,0 +1,43 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'mode'.",
+      "cause": "mode is not declared as a visible variable in the component type scope",
+      "minimal_edit": "Remove the guarantee statement referencing 'mode' from the top_level annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'A_sub.Input'.",
+      "cause": "A_sub.Input is a subcomponent port, not directly accessible in component type contract",
+      "minimal_edit": "Remove assignment to A_sub.Input from the implementation annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'B_sub.Input1'.",
+      "cause": "B_sub.Input1 is a subcomponent port, not directly accessible in component type contract",
+      "minimal_edit": "Remove assignment to B_sub.Input1 from the implementation annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'C_sub.Input1'.",
+      "cause": "C_sub.Input1 is a subcomponent port, not directly accessible in component type contract",
+      "minimal_edit": "Remove assignment to C_sub.Input1 from the implementation annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'C_sub.Input2'.",
+      "cause": "C_sub.Input2 is a subcomponent port, not directly accessible in component type contract",
+      "minimal_edit": "Remove assignment to C_sub.Input2 from the implementation annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'mode'.",
+      "cause": "mode is not declared as a visible variable in the component type scope",
+      "minimal_edit": "Remove assignment to mode from the implementation annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove guarantee statement 'mode >= 0' from the top_level annex",
+    "Remove assignment 'A_sub.Input = Input;' from the top_level.Impl annex",
+    "Remove assignment 'B_sub.Input1 = A_sub.Output;' from the top_level.Impl annex",
+    "Remove assignment 'C_sub.Input1 = A_sub.Output;' from the top_level.Impl annex",
+    "Remove assignment 'C_sub.Input2 = B_sub.Output;' from the top_level.Impl annex",
+    "Remove assignment 'mode = C_sub.mode;' from the top_level.Impl annex"
+  ]
+}

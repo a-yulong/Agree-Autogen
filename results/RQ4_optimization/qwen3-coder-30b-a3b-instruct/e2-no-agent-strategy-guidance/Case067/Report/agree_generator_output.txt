@@ -1,0 +1,19 @@
+annex agree {**
+  assume "TCP_to_ACF_signal_flow": sensored_attitude = reference_torque;
+  assume "TCP_to_OCF_signal_flow": sun_direction = reference_force;
+  guarantee "ACF_output_consistency": reference_torque = torque_command;
+  guarantee "OCF_output_consistency": reference_force = force_command;
+  assume "mode_transition_SM": Forcing_Safe_Mode => Changing_mode_to_SM;
+  assume "mode_transition_NM": Getting_Back_To_Normal_Mode => Changing_mode_to_NM;
+  guarantee "power_status_consistency_FSS": power_status_FSS = FSS_reconfiguration;
+  guarantee "power_status_consistency_CSS": power_status_CSS = CSS_reconfiguration;
+  guarantee "power_status_consistency_SPS": power_status_SPS = SPS_reconfiguration;
+  guarantee "power_status_consistency_ES": power_status_ES = ES_reconfiguration;
+  guarantee "power_status_consistency_MGM": power_status_MGM = MGM_reconfiguration;
+  guarantee "power_status_consistency_GYR": power_status_GYR = GYR_reconfiguration;
+  guarantee "power_status_consistency_STR": power_status_STR = STR_reconfiguration;
+  guarantee "power_status_consistency_GPS": power_status_GPS = GPS_reconfiguration;
+  guarantee "power_status_consistency_THU": power_status_THU = THU_reconfiguration;
+  guarantee "power_status_consistency_RW": power_status_RW = RW_reconfiguration;
+  guarantee "power_status_consistency_MGT": power_status_MGT = MGT_reconfiguration;
+**};

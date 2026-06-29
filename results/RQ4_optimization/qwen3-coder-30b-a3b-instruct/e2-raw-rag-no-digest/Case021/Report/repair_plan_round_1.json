@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 25: Couldn't resolve reference to 'k'.",
+      "cause": "Variable 'k' is not declared in the AGREE annex",
+      "minimal_edit": "Add declaration for 'k' as a state variable using initialized temporal recurrence"
+    },
+    {
+      "diagnostic": "line 25: The variable 'prev_k' on the left side of equation is of type 'int' but must be of type '<error>'",
+      "cause": "Expression 'pre(k)' is invalid without 'k' being declared as a state variable",
+      "minimal_edit": "Replace 'eq prev_k : int = pre(k);' with 'eq prev_k : int = if initialized then pre(k) else k_init;'"
+    },
+    {
+      "diagnostic": "line 28: Couldn't resolve reference to 'k'.",
+      "cause": "Variable 'k' is not declared in the AGREE annex",
+      "minimal_edit": "Add declaration for 'k' as a state variable using initialized temporal recurrence"
+    },
+    {
+      "diagnostic": "line 28: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Expression 'dataout = k' is invalid because 'k' is not declared as a state variable",
+      "minimal_edit": "Replace 'guarantee \"dataout equals internal variable k\": dataout = k;' with 'guarantee \"dataout equals internal variable k\": dataout = k;' after declaring 'k' properly"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add 'eq k : int = if initialized then pre(k) else k_init;' after the existing equations",
+    "Replace 'eq prev_k : int = pre(k);' with 'eq prev_k : int = if initialized then pre(k) else k_init;'",
+    "Add 'const initialized : bool = false -> true;' before the first equation to enable temporal recurrence",
+    "Update the guarantee statement to reference the properly declared 'k' variable"
+  ]
+}

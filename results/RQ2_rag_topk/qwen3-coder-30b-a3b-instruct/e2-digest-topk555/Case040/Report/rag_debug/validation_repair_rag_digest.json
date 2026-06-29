@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "When fixing AGREE diagnostics, ensure that all identifiers resolve to visible features or declared helpers in the current scope.",
+    "For implementation-level contracts, use assign only for valid output features or declared auxiliary variables; avoid placing guarantees in implementation scope.",
+    "If AGREE reports type mismatches or unresolved references, trace the root cause and either fix the reference or remove the invalid clause."
+  ],
+  "generic_rules": [
+    "AGREE expressions must maintain type consistency; numeric, boolean, and package-qualified references must align with available model units.",
+    "Component type annexes should only reference features visible at that scope; implementation-level bindings belong in implementation annexes.",
+    "Generated AGREE code should not introduce package-qualified identifiers or data types not present in the analyzed model.",
+    "When resolving diagnostics, prefer removing invalid clauses over adding new architecture elements."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks with valid syntax: assume, guarantee, eq, const, assign.",
+    "Helper functions and variables must be declared within the same annex and match the types of their expressions.",
+    "Use only visible AADL features or declared helpers in AGREE expressions; avoid referencing undefined or inaccessible identifiers."
+  ],
+  "anti_patterns": [
+    "Do not introduce new package-qualified identifiers or data types that are not part of the current model's dependencies.",
+    "Do not place implementation-level guarantees in component type annexes; move them to implementation scope or remove them.",
+    "Do not attempt to resolve missing identifiers by inventing new architecture; instead, rewrite or delete clauses using only visible identifiers."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about unreachable or inadequate port types",
+    "AGREE validator diagnostics about annex placement or assume/guarantee syntax",
+    "Requirement traceability or compact semantics",
+    "Model fusion or owner/scope preservation rules"
+  ]
+}

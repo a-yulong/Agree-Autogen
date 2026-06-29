@@ -1,0 +1,145 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE contracts in component type scopes for assumptions and guarantees involving ports, and in implementation scopes for subcomponent bindings and assignments.
+- Use `assume` and `guarantee` statements for input/output relationships and timing constraints, and `assign` for implementation-level output bindings.
+- Generate `eq` helpers for range checks and boolean conditions, and `const` for fixed values like limits or thresholds.
+- Avoid encoding AADL properties (e.g., Period, Compute_Execution_Time) as AGREE expressions unless they are explicitly typed ports or constants.
+Generic rules:
+- AGREE annex blocks must be enclosed in `annex agree {** ... **};`.
+- Use `if ... then ... else` for branching logic and `and`, `or`, `not`, `=>` for logical expressions.
+- Ensure all identifiers in AGREE expressions are visible in the current component scope.
+- Do not place guarantees in implementation scope unless they refer to valid output features or auxiliary variables.
+Syntax or pattern reminders:
+- Use `eq name : type = expression;` for helper declarations and `const name : type = value;` for constants.
+- Use `assign output = expression;` only for valid output features or declared auxiliary variables.
+- Use initialized recurrence for stateful equations: `0.0 -> pre(t) + step`.
+- Place assumptions and guarantees in component type scopes unless they involve implementation-specific bindings.
+Anti-patterns:
+- Do not reference AADL properties like Period or Compute_Execution_Time directly in AGREE expressions.
+- Do not place implementation-level guarantees in component type annexes.
+- Do not invent new identifiers or types not visible in the current AADL scope.
+- Do not use `assign` for input features or undefined variables.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- acc_in_data_x
+- acc_in_data_y
+- acc_in_data_z
+- acc_out_data_x
+- acc_out_data_y
+- acc_out_data_z
+
+Target interface:
+Exact expression symbols: acc_in_data_x, acc_in_data_y, acc_in_data_z, acc_out_data_x, acc_out_data_y, acc_out_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_out_data_x | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_out_data_y | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_out_data_z | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+Raw requirement:
+The ACCELERO component shall define the implementation-level signal routing for ACCELERO.IMPL. In the implementation layer, ACCELERO.IMPL shall route data flow from accelero_sub.acc_out_data_x to acc_out_data_x through ACC_PC1 and data flow from accelero_sub.acc_out_data_y to acc_out_data_y through ACC_PC2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "ACCELERO.IMPL routes data flow from accelero_sub.acc_out_data_x to acc_out_data_x through ACC_PC1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "accelero_sub.acc_out_data_x",
+        "acc_out_data_x",
+        "ACC_PC1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "ACCELERO.IMPL routes data flow from accelero_sub.acc_out_data_y to acc_out_data_y through ACC_PC2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "accelero_sub.acc_out_data_y",
+        "acc_out_data_y",
+        "ACC_PC2"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "ACCELERO.IMPL routes data flow from accelero_sub.acc_out_data_z to acc_out_data_z through ACC_PC3",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "accelero_sub.acc_out_data_z",
+        "acc_out_data_z",
+        "ACC_PC3"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "ACCELERO.IMPL uses subcomponent ACCELERO.IMPL.accelero_sub classifier ACCELERO_SUB_wrapper.i",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "ACCELERO.IMPL.accelero_sub",
+        "ACCELERO_SUB_wrapper.i"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "ACCELERO.IMPL has Dispatch_Protocol=Periodic with Period=80 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "ACCELERO.IMPL Dispatch_Protocol",
+        "ACCELERO.IMPL Period"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "ACCELERO.IMPL Compute_Execution_Time is between 0 ms and 4 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "ACCELERO.IMPL Compute_Execution_Time"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "ACCELERO.IMPL has Source_Stack_Size=512 Bytes",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "ACCELERO.IMPL Source_Stack_Size"
+      ]
+    }
+  ]
+}

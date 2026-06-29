@@ -1,0 +1,141 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE assumptions and guarantees in component type scopes for port-level contracts, and in implementation scopes for subcomponent bindings.
+- Use assign statements only for implementation-level output feature bindings.
+- Do not encode AADL properties like Compute_Execution_Time or Period as AGREE variables unless typed ports or constants are explicitly exposed.
+- Generate range assumptions and guarantees only when concrete bounds or visible relations are provided.
+Generic rules:
+- AGREE annex blocks must be syntactically valid and use only visible identifiers from the AADL model.
+- Ensure type consistency between AGREE expressions and AADL data types.
+- Avoid invented numeric constraints unless explicitly stated in the requirement.
+- Do not assume Boolean ports can be treated as numeric unless the AADL model exposes a scalar representation.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Constants and equations in AGREE must be declared with explicit types.
+- Guarantees must be placed in valid component type or implementation scopes based on the target feature.
+- Assignments in AGREE are only valid for output features or declared auxiliary variables.
+Anti-patterns:
+- Do not create assumptions or guarantees for AADL properties that are not exposed as typed ports or constants.
+- Do not assume numeric bounds for Boolean or opaque data ports without explicit scalar representation.
+- Do not place guarantee statements in implementation scope unless they refer to output features.
+- Do not invent non-negative constraints for numeric ports unless explicitly required by the requirement.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- solver_in1
+- solver_in2
+- solver_in3
+- solver_in4
+- solver_in5
+- solver_in6
+
+Target interface:
+Exact expression symbols: solver_in1, solver_in2, solver_in3, solver_in4, solver_in5, solver_in6
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+solver_in1 | in | data | int | SHM_DataType::accData
+solver_in2 | in | data | int | SHM_DataType::accData
+solver_in3 | in | data | int | SHM_DataType::accData
+solver_in4 | in | data | int | SHM_DataType::accData
+solver_in5 | in | data | int | SHM_DataType::accData
+solver_in6 | in | data | int | SHM_DataType::accData
+
+Raw requirement:
+The ADIRUp_solve component shall define the implementation-level signal routing for ADIRUp_solve.impl. In the implementation layer, ADIRUp_solve.impl shall route data flow from solver_in1 to ADIRUp_solve.inData_para1 through C1 and data flow from solver_in2 to ADIRUp_solve.inData_para2 through C2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data flow from solver_in1 to ADIRUp_solve.inData_para1 through connection C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "solver_in1",
+        "ADIRUp_solve.inData_para1",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Data flow from solver_in2 to ADIRUp_solve.inData_para2 through connection C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "solver_in2",
+        "ADIRUp_solve.inData_para2",
+        "C2"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "ADIRUp_solve.impl subcomponent uses classifier subprograms::ADIRUp_solve_spg",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_solve.impl",
+        "subprograms::ADIRUp_solve_spg"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "ADIRUp_solve has Dispatch_Protocol=Periodic with Period=4000 ms and Deadline=500 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_solve",
+        "Dispatch_Protocol",
+        "Period",
+        "Deadline"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "ADIRUp_solve Compute_Execution_Time is between 400 ms and 500 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_solve",
+        "Compute_Execution_Time"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "ADIRUp_solve has Priority=4, Stack_Size=20 KByte, Code_Size=100 KByte, Data_Size=1 KByte",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_solve",
+        "Priority",
+        "Stack_Size",
+        "Code_Size",
+        "Data_Size"
+      ]
+    }
+  ]
+}

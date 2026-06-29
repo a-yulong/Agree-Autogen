@@ -1,0 +1,7 @@
+annex agree {**
+  assume "user_req_valid": user_request.heater_on or user_request.cooler_on => not (user_request.heater_on and user_request.cooler_on);
+  guarantee "heat_req_def": heating_request <=> (user_request.heater_on and not user_request.cooler_on);
+  guarantee "cool_req_def": cooling_request <=> (user_request.cooler_on and not user_request.heater_on);
+  guarantee "heater_on_cond": heater_on => (heating_request and tempin <= 20);
+  guarantee "cooler_on_cond": cooler_on => (cooling_request and tempin > 0);
+**};

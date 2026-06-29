@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "When repairing AGREE diagnostics, ensure that implementation-level bindings are placed in implementation scopes and type-level contracts are kept in type scopes.",
+    "If a guarantee references implementation-specific features, move it to the implementation annex or remove it if not valid in the type scope."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or declared helpers in AGREE annexes to avoid unresolved references.",
+    "Place AGREE contracts in the appropriate scope: type annexes for component type contracts, implementation annexes for implementation-level bindings.",
+    "Avoid introducing package-qualified identifiers that are not present in the model's configured dependencies."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Assignments in implementation scope must reference existing output features or declared auxiliary variables.",
+    "Boolean logic in AGREE should use valid scalar types: int, real, bool."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level guarantees in component type annexes; they must reference only visible ports.",
+    "Do not introduce undefined or package-qualified identifiers that are not part of the model's dependencies."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE validator diagnostics",
+    "Component type vs. implementation scope boundaries"
+  ]
+}

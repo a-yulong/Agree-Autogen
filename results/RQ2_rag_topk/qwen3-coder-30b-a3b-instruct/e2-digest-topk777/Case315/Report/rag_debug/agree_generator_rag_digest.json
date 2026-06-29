@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Place input envelope assumptions in component type annexes when they refer to component ports and use visible feature names or concrete bounds.",
+    "Use valid AGREE syntax for assumptions and guarantees, ensuring type compatibility and scope alignment with AADL component structures.",
+    "Generate AGREE annex blocks inside `annex agree {** ... **};` and place them in appropriate component type or implementation scopes based on the requirement and model structure."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, ensure all identifiers and types are present in the AADL model and avoid introducing undefined or package-qualified references.",
+    "Use constants and equations to express numeric ranges and boolean conditions, aligning with the types and features visible in the AADL model.",
+    "Avoid assumptions or guarantees that reference non-numeric or non-visible data unless explicitly supported by the AADL model structure.",
+    "Do not invent bounds or constraints that are not directly stated in the requirement or implied by the AADL data types and ports."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks and placed in valid AADL component type or implementation scopes.",
+    "Assumptions and guarantees should use valid AGREE expressions with matching types (int, real, bool) and visible identifiers from the AADL model.",
+    "Constants and equations in AGREE should be declared with correct scalar types and must not reference undefined or non-existent AADL properties."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level bindings in component type scopes unless they are represented through valid variables or outputs.",
+    "Do not assume that event ports or opaque data types can be directly compared as numeric or Boolean values in AGREE.",
+    "Do not introduce package-qualified identifiers or AADL property names as AGREE variables unless they are explicitly exposed in the model."
+  ],
+  "irrelevant_topics": [
+    "Annex placement in AADL models",
+    "Assume/guarantee syntax in AGREE",
+    "Validator diagnostics and repair actions",
+    "Fusion of multiple models or annexes"
+  ]
+}

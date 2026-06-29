@@ -1,0 +1,213 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: outGCASR, outGCASR.VV, outGCASR.DeltaHeading, outGCASR.Airspeed, outImpact, outRecovery, outAltitude, outTime
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+outGCASR | out | data | opaque | autopilot.autopilot_impl
+outGCASR.VV | out | data_field | real | Base_Types::float
+outGCASR.DeltaHeading | out | data_field | real | Base_Types::float
+outGCASR.Airspeed | out | data_field | real | Base_Types::float
+outImpact | out | data | real | Base_Types::float
+outRecovery | out | data | real | Base_Types::float
+outAltitude | out | data | real | Base_Types::float
+outTime | out | data | real | Base_Types::float
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "timeRangeInitial >= 0.0 and timeRangeInitial <= 10.0 and timeRangeFinal >= 0.0 and timeRangeFinal <= 10.0",
+      "kind": "behavior_relation",
+      "intent": "assume",
+      "evidence": [
+        "timeRangeInitial",
+        "timeRangeFinal"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "initialFlightSpeed = 150.0",
+      "kind": "behavior_relation",
+      "intent": "assume",
+      "evidence": [
+        "initialFlightSpeed"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "recoveryTime > 8.9",
+      "kind": "behavior_relation",
+      "intent": "assume",
+      "evidence": [
+        "recoveryTime"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "outAltitude > 0.0",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "outAltitude"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "altitude is defined as a variable in GCAS_Recovery component",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "altitude"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "gcasDynamics3 function is invoked for recursive computation",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "gcasDynamics3"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GCAS_Recovery | lines 114-119
+annex agree {**
+	  assume "time bounds": timeRangeInitial >= 0.0 and timeRangeInitial <= 10.0 and timeRangeFinal >= 0.0 and timeRangeFinal <= 10.0;
+	  assume "initial speed": initialFlightSpeed = 150.0;
+	  assume "recovery time threshold": recoveryTime > 8.9;
+	  guarantee "non-negative altitude": outAltitude > 0.0;
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   111: 			outRecovery: out data port Base_Types::float;
+   112: 			outAltitude: out data port Base_Types::float;
+   113: 			outTime: out data port Base_Types::float;
+   114: 	annex agree {**
+>> 115: 	  assume "time bounds": timeRangeInitial >= 0.0 and timeRangeInitial <= 10.0 and timeRangeFinal >= 0.0 and timeRangeFinal <= 10.0;
+   116: 	  assume "initial speed": initialFlightSpeed = 150.0;
+   117: 	  assume "recovery time threshold": recoveryTime > 8.9;
+   118: 	  guarantee "non-negative altitude": outAltitude > 0.0;
+   119: 	**};
+
+   112: 			outAltitude: out data port Base_Types::float;
+   113: 			outTime: out data port Base_Types::float;
+   114: 	annex agree {**
+   115: 	  assume "time bounds": timeRangeInitial >= 0.0 and timeRangeInitial <= 10.0 and timeRangeFinal >= 0.0 and timeRangeFinal <= 10.0;
+>> 116: 	  assume "initial speed": initialFlightSpeed = 150.0;
+   117: 	  assume "recovery time threshold": recoveryTime > 8.9;
+   118: 	  guarantee "non-negative altitude": outAltitude > 0.0;
+   119: 	**};
+   120: 	end GCAS_Recovery;
+
+   113: 			outTime: out data port Base_Types::float;
+   114: 	annex agree {**
+   115: 	  assume "time bounds": timeRangeInitial >= 0.0 and timeRangeInitial <= 10.0 and timeRangeFinal >= 0.0 and timeRangeFinal <= 10.0;
+   116: 	  assume "initial speed": initialFlightSpeed = 150.0;
+>> 117: 	  assume "recovery time threshold": recoveryTime > 8.9;
+   118: 	  guarantee "non-negative altitude": outAltitude > 0.0;
+   119: 	**};
+   120: 	end GCAS_Recovery;
+   121: 			
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: GCAS_Recovery
+Process GCAS_Recovery
+		features
+			outGCASR: out data port autopilot.autopilot_impl;
+			outImpact: out data port Base_Types::float;
+			outRecovery: out data port Base_Types::float;
+			outAltitude: out data port Base_Types::float;
+			outTime: out data port Base_Types::float;
+	end GCAS_Recovery;
+
+-- TARGET DECLARATION: GCAS_Recovery.GCAS_Recovery_impl
+Process implementation GCAS_Recovery.GCAS_Recovery_impl
+	end GCAS_Recovery.GCAS_Recovery_impl;
+
+-- RELATED MODEL LINES
+data autopilot
+end autopilot;
+data implementation autopilot.autopilot_impl
+VV: data  Base_Types::float;
+DeltaHeading:  data  Base_Types::float;
+Airspeed:  data  Base_Types::float;
+end autopilot.autopilot_impl;
+process GCAS_Monitor
+altitude: in data port Base_Types::float;
+verticalVelocity: in data port Base_Types::float;
+outImpact: out data port Base_Types::float;
+outRecovery: out data port Base_Types::float;
+gcasRequested: out data port Base_Types::boolean;
+end GCAS_Monitor;
+Process implementation GCAS_Monitor.GCAS_Monitor_impl
+end GCAS_Monitor.GCAS_Monitor_impl;
+Process ACAS_Monitor
+latitude: in data port Base_Types::float;
+longitude: in data port Base_Types::float;
+distance: in data port Base_types::float;
+acasRequested: out data port Base_Types::Boolean;
+end ACAS_Monitor;
+Process implementation ACAS_Monitor.ACAS_Monitor_impl
+end ACAS_Monitor.ACAS_Monitor_impl;
+Process SA_Monitor
+horzDistance: in data port Base_types::float;
+vertDistance: in data port Base_types::float;
+saRequested: out data port Base_Types::Boolean;
+end SA_Monitor;
+Process implementation SA_Monitor.SA_Monitor_impl
+end SA_Monitor.SA_Monitor_impl;
+Process GF_Monitor
+gfRequested: out data port Base_Types::Boolean;
+end GF_Monitor;
+Process implementation GF_Monitor.GF_Monitor_impl
+end GF_Monitor.GF_Monitor_impl;
+Process Wx_Monitor
+wxRequested: out data port Base_Types::Boolean;
+end Wx_Monitor;
+Process implementation Wx_Monitor.Wx_Monitor_impl
+end Wx_Monitor.Wx_Monitor_impl;
+Process FLS_Monitor
+linkConnection: in data port Base_Types::boolean;
+landingRequested: out data port Base_Types::boolean;
+end FLS_Monitor;
+Process Aviate_Decider
+inpGCASM : in data port Base_Types::boolean;
+inpGCASImpact: in data port Base_Types::float;
+inpGCASRecovery: in data port Base_Types::float;
+inpSAM : in data port Base_Types::boolean;
+inpACASM : in data port Base_Types::boolean;
+inpACASImpact: in data port Base_Types::float;
+inpACASRecovery: in data port Base_Types::float;
+inpGFM : in data port Base_Types::boolean;
+inpWxM : in data port Base_Types::boolean;
+inpFLS: in data port Base_Types::boolean;
+outDec: out data port Base_Types::integer;
+end Aviate_Decider;
+Process Implementation Aviate_Decider.Aviate_Decider_impl
+end Aviate_Decider.Aviate_Decider_impl;
+Process Pilot_Command
+inpPC: in data port Base_Types::float;
+outPC: out data port Autopilot.Autopilot_Impl;
+end Pilot_Command;
+Process GCAS_Recovery
+outGCASR: out data port autopilot.autopilot_impl;
+outAltitude: out data port Base_Types::float;
+outTime: out data port Base_Types::float;
+end GCAS_Recovery;
+Process implementation GCAS_Recovery.GCAS_Recovery_impl
+end GCAS_Recovery.GCAS_Recovery_impl;
+Process ACAS_recovery
+outACASRecovery: out data port Base_Types::float;
+outACASImpact:out data port Base_Types::float;
+end ACAS_recovery;
+Process Switch
+inpDecider : in data port Base_Types::integer;
+inpPC: in data port autopilot.autopilot_impl;
+outSwitchVV: out data port Base_Types::float;
+outSwitchDeltaHeading: out data port Base_Types::float;

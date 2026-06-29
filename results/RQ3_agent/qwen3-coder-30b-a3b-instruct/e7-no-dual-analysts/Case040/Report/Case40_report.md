@@ -1,0 +1,81 @@
+# Case40 Refactored Experiment Report
+
+## Summary
+
+- Setting: E7 (No Dual Analysts)
+- Final status: Fail
+- Repair rounds: 5
+- Runtime seconds: 325.57
+- Initial validation errors: 8
+- Final validation errors: 11
+
+## Validation
+
+- AADL Inspector executed: True
+- AGREE validator executed: True
+- AADL errors: 11
+- AGREE errors: 0
+- Warnings: 4
+
+## Modules
+
+- rag: True
+- repair: True
+- requirement_analyst: False
+- model_analyst: False
+- agree_generator: True
+- model_fusion: True
+
+## Token Usage
+
+- prompt_tokens: 29466
+- completion_tokens: 3955
+- total_tokens: 33421
+
+## Output Recovery
+
+1. [rag_digest_agree_generator] extracted_json_object - Recovered first balanced JSON object.
+2. [rag_digest_model_fusion] extracted_json_object - Recovered first balanced JSON object.
+3. [model_fusion_target] extracted_json_object - Recovered first balanced JSON object.
+4. [model_fusion_plan] extracted_json_object - Recovered first balanced JSON object.
+5. [rag_digest_validation_repair] extracted_json_object - Recovered first balanced JSON object.
+6. [validation_repair_plan] extracted_json_object - Recovered first balanced JSON object.
+7. [validation_repair] missing_repaired_aadl_tag - Recovered AADL artifact without the requested section tag.
+8. [validation_repair] normalized_text_or_annex_delimiters - Normalized code fence or annex delimiter formatting.
+9. [validation_repair] recovered_package_block - Recovered complete AADL package block.
+10. [validation_repair] complete_aadl_repair_used - Repair plan requested complete-model repair; accepted the returned AADL artifact for validation.
+11. [rag_digest_validation_repair] extracted_json_object - Recovered first balanced JSON object.
+12. [validation_repair_plan] extracted_json_object - Recovered first balanced JSON object.
+13. [validation_repair] missing_repaired_aadl_tag - Recovered AADL artifact without the requested section tag.
+14. [validation_repair] recovered_package_block - Recovered complete AADL package block.
+15. [validation_repair] complete_aadl_repair_used - Repair plan requested complete-model repair; accepted the returned AADL artifact for validation.
+16. [rag_digest_validation_repair] extracted_json_object - Recovered first balanced JSON object.
+17. [validation_repair_plan] extracted_json_object - Recovered first balanced JSON object.
+18. [validation_repair] missing_repaired_aadl_tag - Recovered AADL artifact without the requested section tag.
+19. [validation_repair] recovered_annex_blocks - Recovered AGREE annex block(s) without full package.
+20. [validation_repair] repair_annexes_merged_locally - Repair returned AGREE annex block(s); preserved the full AADL architecture and replaced target annex block(s) locally.
+21. [rag_digest_validation_repair] extracted_json_object - Recovered first balanced JSON object.
+22. [validation_repair_plan] extracted_json_object - Recovered first balanced JSON object.
+23. [validation_repair] missing_repaired_aadl_tag - Recovered AADL artifact without the requested section tag.
+24. [validation_repair] normalized_text_or_annex_delimiters - Normalized code fence or annex delimiter formatting.
+25. [validation_repair] recovered_annex_blocks - Recovered AGREE annex block(s) without full package.
+26. [validation_repair] repair_annexes_merged_locally - Repair returned AGREE annex block(s); preserved the full AADL architecture and replaced target annex block(s) locally.
+27. [rag_digest_validation_repair] extracted_json_object - Recovered first balanced JSON object.
+28. [validation_repair_plan] extracted_json_object - Recovered first balanced JSON object.
+29. [validation_repair] missing_repaired_aadl_tag - Recovered AADL artifact without the requested section tag.
+30. [validation_repair] recovered_annex_blocks - Recovered AGREE annex block(s) without full package.
+31. [validation_repair] repair_annexes_merged_locally - Repair returned AGREE annex block(s); preserved the full AADL architecture and replaced target annex block(s) locally.
+
+## Final Diagnostics
+
+1. Target (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind
+2. Target (port spec) does not point to anything or to something unreachable
+3. Actual (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind
+4. Actual (port spec) does not point to anything or to something unreachable
+5. Actual (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind
+6. Actual (port spec) does not point to anything or to something unreachable
+7. State_Out (port spec) points to Types  state_sig.impl (entity reference), which is not of an adequate kind
+8. State_Out (port spec) does not point to anything or to something unreachable
+9. State_Out (port spec) points to Types  state_sig.impl (entity reference), which is not of an adequate kind
+10. State_Out (port spec) does not point to anything or to something unreachable
+11. Cannot analyze AADL specifications

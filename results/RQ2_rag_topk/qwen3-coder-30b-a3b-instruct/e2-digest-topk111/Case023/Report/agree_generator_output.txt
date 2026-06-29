@@ -1,0 +1,6 @@
+annex agree {**
+  assume "heating_request definition": heating_request <=> (user_request.heater_on and not user_request.cooler_on);
+  assume "cooling_request definition": cooling_request <=> (user_request.cooler_on and not user_request.heater_on);
+  guarantee "heater_on condition": heater_on => (heating_request and (tempin <= 20));
+  guarantee "cooler_on condition": cooler_on => (cooling_request and (tempin > 0));
+**};

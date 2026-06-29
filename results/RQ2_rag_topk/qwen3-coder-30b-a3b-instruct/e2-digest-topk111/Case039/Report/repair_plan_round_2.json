@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Target (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "AGREE annex is in system type scope but references system implementation port type",
+      "minimal_edit": "Change the AGREE annex from system type to system implementation scope"
+    },
+    {
+      "diagnostic": "Actual (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "AGREE annex is in system type scope but references system implementation port type",
+      "minimal_edit": "Change the AGREE annex from system type to system implementation scope"
+    },
+    {
+      "diagnostic": "State_Out (port spec) points to Types  state_sig.impl (entity reference), which is not of an adequate kind",
+      "cause": "AGREE annex is in system type scope but references system implementation port type",
+      "minimal_edit": "Change the AGREE annex from system type to system implementation scope"
+    },
+    {
+      "diagnostic": "Cannot analyze AADL specifications",
+      "cause": "AGREE annex references invalid port types from implementation scope",
+      "minimal_edit": "Move AGREE annex to system implementation scope"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire AGREE annex block from the system type Throttle to the system implementation Throttle.Throttle_Impl",
+    "Ensure that all port references in the AGREE annex are valid within the new implementation scope",
+    "Verify that the AGREE annex no longer references system implementation types directly"
+  ]
+}

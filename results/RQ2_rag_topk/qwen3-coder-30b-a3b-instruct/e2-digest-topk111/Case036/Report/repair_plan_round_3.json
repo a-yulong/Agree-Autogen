@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 34: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "AGREE annex references port 'Actual' which is not visible in component type scope",
+      "minimal_edit": "Replace 'Actual' with 'THROT.Actual' in the AGREE guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "AGREE annex references port 'Target' which is not visible in component type scope",
+      "minimal_edit": "Replace 'Target' with 'CNTRL.Target' in the AGREE guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 41: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "AGREE annex references port 'State_Out' which is not visible in component type scope",
+      "minimal_edit": "Replace 'State_Out' with 'SM.State_Out' in the AGREE guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block, replace 'Actual' with 'THROT.Actual' in the speed_limit guarantee",
+    "In the AGREE annex block, replace 'Target' with 'CNTRL.Target' in the speed_limit guarantee",
+    "In the AGREE annex block, replace 'State_Out' with 'SM.State_Out' in the acceleration_bound guarantee"
+  ]
+}

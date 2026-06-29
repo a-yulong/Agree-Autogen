@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Generate AGREE annex blocks within `annex agree {** ... **};` and place type-level assumptions/guarantees in component type annexes, implementation-level assignments in component implementation annexes.",
+    "Use `assume` for input constraints and `guarantee` for output behavior, ensuring expressions reference only visible identifiers from the current component scope."
+  ],
+  "generic_rules": [
+    "Place AGREE contracts inside annex blocks scoped to their owning component; avoid referencing identifiers not present in the AADL model.",
+    "Formulate guarantees as dependencies between visible inputs and outputs; avoid implementation-specific subcomponent paths in type annexes.",
+    "Use `assign` only for output features or auxiliary variables in implementation scope; do not place guarantees in implementation annexes.",
+    "Do not encode AADL timing properties (e.g., Period, Deadline) as AGREE variables unless explicitly exposed as typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for logical constraints; use `eq name : type = expression;` for equations.",
+    "AGREE expressions must reference only identifiers visible in the current component scope; do not invent or copy names from examples."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL properties like Period or Deadline as AGREE variables unless they are explicitly typed and visible in the component.",
+    "Do not place guarantee statements in implementation scope; use type scope for behavioral contracts."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and their mapping to AGREE variables",
+    "Model fusion and component insertion locations",
+    "Validator diagnostics and repair strategies"
+  ]
+}

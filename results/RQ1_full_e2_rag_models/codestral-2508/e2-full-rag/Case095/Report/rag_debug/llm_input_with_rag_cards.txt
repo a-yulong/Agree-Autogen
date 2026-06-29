@@ -1,0 +1,124 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks inside `annex agree {** ... **};` blocks
+- Place assumptions and guarantees in component type annexes when they reference component type ports
+- Use implementation annexes for implementation-level bindings such as assignments
+- Do not use subcomponent ports in component type contracts unless represented through valid variables or outputs
+- Use assign only when the left-hand side is an existing output feature or declared auxiliary variable in implementation scope
+- Place input envelope assumptions and output range guarantees in component type annexes when concrete bounds are available
+- Write output dependency guarantees that relate visible outputs to visible inputs in component type annexes
+Generic rules:
+- Treat each annex agree block as scoped to its owning component declaration
+- Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for them
+- Use implementation-level assignments to bind subcomponent outputs when needed
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` syntax for assumptions and guarantees
+- Use `eq name : type = expression;` for equations and `const name : type = value;` for constants
+- Use `assign output = expression;` for implementation-level bindings
+Anti-patterns:
+- Do not place guarantee statements in implementation scope
+- Do not use implementation-only subcomponent paths in a component type annex
+- Do not generate clauses for unresolved AADL property references inside AGREE annexes
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- acc1_input
+- acc2_input
+- acc3_input
+- acc4_input
+- acc5_input
+- acc6_input
+- v_acc1_dataout
+- v_acc2_dataout
+- v_acc3_dataout
+- v_acc4_dataout
+- v_acc5_dataout
+- v_acc6_dataout
+- acc_error_out
+- acc_error_action
+- event2acc1
+- event2acc2
+- event2acc3
+- event2acc4
+- event2acc5
+- event2acc6
+
+Target interface:
+Exact expression symbols: acc1_input, acc2_input, acc3_input, acc4_input, acc5_input, acc6_input, v_acc1_dataout, v_acc2_dataout, v_acc3_dataout, v_acc4_dataout, v_acc5_dataout, v_acc6_dataout, acc_error_out, acc_error_action, event2acc1, event2acc2, event2acc3, event2acc4, event2acc5, event2acc6
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc1_input | in | data | int | SHM_DataType::accData
+acc2_input | in | data | int | SHM_DataType::accData
+acc3_input | in | data | int | SHM_DataType::accData
+acc4_input | in | data | int | SHM_DataType::accData
+acc5_input | in | data | int | SHM_DataType::accData
+acc6_input | in | data | int | SHM_DataType::accData
+v_acc1_dataout | out | data | int | SHM_DataType::accData
+v_acc2_dataout | out | data | int | SHM_DataType::accData
+v_acc3_dataout | out | data | int | SHM_DataType::accData
+v_acc4_dataout | out | data | int | SHM_DataType::accData
+v_acc5_dataout | out | data | int | SHM_DataType::accData
+v_acc6_dataout | out | data | int | SHM_DataType::accData
+acc_error_out | out | data | int | SHM_DataType::errorData
+acc_error_action | in | data | int | SHM_DataType::actionData
+event2acc1 | out | data | int | SHM_DataType::actionData
+event2acc2 | out | data | int | SHM_DataType::actionData
+event2acc3 | out | data | int | SHM_DataType::actionData
+event2acc4 | out | data | int | SHM_DataType::actionData
+event2acc5 | out | data | int | SHM_DataType::actionData
+event2acc6 | out | data | int | SHM_DataType::actionData
+
+Raw requirement:
+The acc_hm_process component shall define the implementation-level signal routing for acc_hm_process.impl. In the implementation layer, acc_hm_process.impl shall route data flow from acc_HM.acc1_validated_dataout to v_acc1_dataout through C1 and data flow from acc_HM.acc2_validated_dataout to v_acc2_dataout through C2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "acc_HM.acc1_validated_dataout is routed to v_acc1_dataout through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc_HM.acc1_validated_dataout",
+        "v_acc1_dataout",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "acc_HM.acc2_validated_dataout is routed to v_acc2_dataout through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc_HM.acc2_validated_dataout",
+        "v_acc2_dataout",
+        "C2"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+annex agree {
+  guarantee "altitude_tie_longitude_greater": (ownAltitude_in = nearestIntruderAltitude) and (ownLongitude > nearestIntruderLongitude) => requiredVerticalVelocity = 50;
+  guarantee "altitude_tie_longitude_less": (ownAltitude_in = nearestIntruderAltitude) and not (ownLongitude > nearestIntruderLongitude) => requiredVerticalVelocity = -50;
+  guarantee "altitude_less": ownAltitude_in < nearestIntruderAltitude => requiredVerticalVelocity = 10;
+  guarantee "altitude_greater": ownAltitude_in > nearestIntruderAltitude => requiredVerticalVelocity = -10;
+};

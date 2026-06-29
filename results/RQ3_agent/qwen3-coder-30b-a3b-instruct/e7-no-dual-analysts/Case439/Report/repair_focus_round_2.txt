@@ -1,0 +1,76 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: T_Output, Dev_Bus
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+T_Output | out | data | opaque | Base_Types::Integer_8
+Dev_Bus | requires | access | opaque | 
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Tension | lines 38-40
+annex agree {**
+    guarantee "tension_output_bound": (0 <= T_Output) and (T_Output <= 100);
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   2: public
+   3: 
+   4:   with Papa_Types;
+   5:   with Base_Types;
+>> 6:   with Device_Bus;
+   7: 
+   8:   --buses
+   9:   -- relie le systeme MCU0 a la station sol
+   10:   --ce qui permet la transmission de donnes
+
+   90:   processor Proc_MCU0
+   91:   features
+   92:     Mem_Bus : requires bus access Mem_Bus_MCU0;
+   93:     Dev_Bus : requires bus access Device_Bus.MCU0;
+>> 94:     SPI : requires bus access paparazzi_hard::SPI;
+   95:   end Proc_MCU0;
+   96: 
+   97:   processor implementation Proc_MCU0.Impl
+   98:   end Proc_MCU0.Impl;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Tension
+device Tension -- Alimentation
+  features
+    T_Output : out data port Base_Types::Integer_8;
+    Dev_Bus : requires bus access Device_Bus.MCU0;
+  end Tension;
+
+-- RELATED MODEL LINES
+device Pression
+P_Output : out data port Base_Types::Float_32;
+end Pression;
+device Tension -- Alimentation
+T_Output : out data port Base_Types::Integer_8;
+end Tension;
+device Compas
+Compas_Output : out data port Base_Types::Float_32;
+device Vitesse_Air
+V_Air_Output : out data port Base_Types::Integer_8;
+end Vitesse_Air;
+device Camera_Video
+Video_Output : out data port Papa_Types::Unknown; -- new data type
+end Camera_Video;
+device Emetteur
+Video_Input : in data port Papa_Types::Unknown;--data type
+Trans_Data_Input : in event data port Papa_Types::Inter_mcu_msg.Generic;
+Trans_Data_Output : out data port Papa_Types::Unknown;
+Video_Output : out data port Papa_Types::Unknown;
+end Emetteur;
+device GPS
+Error_Output : out event port;
+GPS_Output : out event data port Papa_Types::Stream_Element.Generic;
+end GPS;
+device InfraRed
+IR_Output : out data port Papa_Types::Stream_Element.Generic;
+end InfraRed;

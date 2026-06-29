@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Period'.",
+      "cause": "AGREE references component properties using the component instance name, not the implementation name",
+      "minimal_edit": "Change 'Task.impl_1.Period' to 'Task1.Period'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Compute_Execution_time'.",
+      "cause": "AGREE references component properties using the component instance name, not the implementation name",
+      "minimal_edit": "Change 'Task.impl_1.Compute_Execution_time' to 'Task1.Compute_Execution_time'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Priority'.",
+      "cause": "AGREE references component properties using the component instance name, not the implementation name",
+      "minimal_edit": "Change 'Task.impl_1.Priority' to 'Task1.Priority'"
+    },
+    {
+      "diagnostic": "extraneous input 'ms' expecting ';'",
+      "cause": "AGREE does not support AADL time unit syntax in property expressions",
+      "minimal_edit": "Remove 'ms' from all property expressions"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch due to unresolved references and incorrect unit syntax",
+      "minimal_edit": "Remove 'ms' from all property expressions"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Unresolved references and incorrect syntax prevent type resolution",
+      "minimal_edit": "Remove 'ms' from all property expressions"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'Task.impl_1.Period' with 'Task1.Period' in the period_constraint guarantee",
+    "Replace 'Task.impl_1.Compute_Execution_time' with 'Task1.Compute_Execution_time' in the compute_time guarantee",
+    "Replace 'Task.impl_1.Priority' with 'Task1.Priority' in the priority_constraint guarantee",
+    "Remove 'ms' from all property expressions in the guarantee statements"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Focus repairs on AGREE syntax errors (missing EOF, unresolved identifiers) before attempting semantic fixes.",
+    "Address 'named thing must be an expression with a type' errors by fixing unresolved references or removing the clause.",
+    "If AGREE reports type mismatches, align helper declaration types with expression types (bool, int, real)."
+  ],
+  "generic_rules": [
+    "Repairs should not introduce identifiers absent from the AADL model or its dependencies.",
+    "Prioritize repairs that use visible AADL features or locally declared AGREE helpers.",
+    "Avoid using AADL properties (e.g., Compute_Execution_Time) directly in AGREE expressions unless they are exposed as ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Use `eq` to define helper expressions for clarity and reusability."
+  ],
+  "anti_patterns": [
+    "Do not attempt to repair clauses referencing AADL properties without corresponding visible ports or constants.",
+    "Avoid introducing package-qualified identifiers not present in the AADL model."
+  ],
+  "irrelevant_topics": [
+    "AADL structural extraction (component types, implementations, features, connections, properties, owners)",
+    "AADL scope rules for component types vs. implementations",
+    "Requirement semantics and model traceability"
+  ]
+}

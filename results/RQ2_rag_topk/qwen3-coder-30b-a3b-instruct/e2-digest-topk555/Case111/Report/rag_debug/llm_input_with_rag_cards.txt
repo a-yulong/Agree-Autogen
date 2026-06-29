@@ -1,0 +1,188 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE contracts in annex agree blocks within valid AADL component type or implementation scopes.
+- Use assume/guarantee syntax for component type contracts and assign for implementation-level output bindings.
+- Generate equation helpers and constants in component type scopes when describing signal flows or ranges.
+- Avoid encoding AADL timing properties (Period, Deadline, etc.) as AGREE expressions unless model exposes typed ports or constants.
+Generic rules:
+- AGREE annex blocks must be syntactically valid with properly scoped variables and types.
+- Assumptions and guarantees should reference visible AADL features or declared helpers.
+- Use only valid AGREE scalar types (int, real, bool) in declarations and expressions.
+- Do not reference AADL property names directly in AGREE expressions without model exposure.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements.
+- Use `eq name : type = expression;` for helper declarations and `const name : type = value;` for constants.
+- Use `assign output = expression;` for implementation-level output bindings only.
+- Component type contracts go in component type annexes; implementation contracts in implementation annexes.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope; use assign for output bindings only.
+- Do not encode AADL timing properties as AGREE expressions unless model exposes typed ports or constants.
+- Do not reference AADL property names directly in AGREE expressions without model exposure.
+- Do not use invalid AGREE scalar types like 'integer' or 'boolean' in declarations.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- accout
+- acc_command_in
+
+Target interface:
+Exact expression symbols: accout, acc_command_in
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+accout | out | data | int | SHM_DataType::accData
+acc_command_in | in | data | int | SHM_DataType::actionData
+
+Raw requirement:
+The acc4_dataOutput component shall define the implementation-level signal routing for acc4_dataOutput.impl. In the implementation layer, acc4_dataOutput.impl shall route data flow from spg.accDataOut to accout through C1 and control signal from acc_command_in to spg.event_in through C2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data flow from spg.accDataOut to accout through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput.impl.sub1",
+        "accout",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Control signal from acc_command_in to spg.event_in through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc_command_in",
+        "acc4_dataOutput.impl.sub1",
+        "C2"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "acc4_dataOutput.impl subcomponent uses subprograms::acc4_dataOutput_spg classifier",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput.impl",
+        "subprograms::acc4_dataOutput_spg"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "acc4_dataOutput Period=4000 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput",
+        "Period=4000 ms"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "acc4_dataOutput Deadline=500 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput",
+        "Deadline=500 ms"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "acc4_dataOutput Compute_Execution_Time=400 ms .. 500 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput",
+        "Compute_Execution_Time=400 ms .. 500 ms"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "acc4_dataOutput.impl ARINC653::Sampling_Refresh_Period=50 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput.impl",
+        "ARINC653::Sampling_Refresh_Period=50 ms"
+      ]
+    },
+    {
+      "id": "R8",
+      "text": "acc4_dataOutput Dispatch_Protocol=Periodic",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput",
+        "Dispatch_Protocol=Periodic"
+      ]
+    },
+    {
+      "id": "R9",
+      "text": "acc4_dataOutput Priority=1",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput",
+        "Priority=1"
+      ]
+    },
+    {
+      "id": "R10",
+      "text": "acc4_dataOutput Stack_Size=20 KByte",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput",
+        "Stack_Size=20 KByte"
+      ]
+    },
+    {
+      "id": "R11",
+      "text": "acc4_dataOutput Code_Size=100 KByte",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput",
+        "Code_Size=100 KByte"
+      ]
+    },
+    {
+      "id": "R12",
+      "text": "acc4_dataOutput Data_Size=1 KByte",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput",
+        "Data_Size=1 KByte"
+      ]
+    }
+  ]
+}

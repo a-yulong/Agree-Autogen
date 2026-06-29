@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 13: Couldn't resolve reference to 'value'.",
+      "cause": "AGREE attempts to access 'value' attribute on AADL ports which do not support it",
+      "minimal_edit": "Remove '.value' from Target and Actual in the guarantee statement"
+    },
+    {
+      "diagnostic": "line 14: Couldn't resolve reference to 'e'.",
+      "cause": "Variable 'e' is not declared in the AGREE annex before use",
+      "minimal_edit": "Move the assumption 'e = (Target - Actual)' to be an equation declaration"
+    },
+    {
+      "diagnostic": "line 15: Couldn't resolve reference to 'integral'.",
+      "cause": "AGREE integral function not properly declared or referenced",
+      "minimal_edit": "Replace 'integral(e)' with 'eq e_int : real = integral(e);' to properly declare the integral"
+    },
+    {
+      "diagnostic": "line 16: Couldn't resolve reference to 'derivative'.",
+      "cause": "AGREE derivative function not properly declared or referenced",
+      "minimal_edit": "Replace 'derivative(e)' with 'eq e_dot : real = derivative(e);' to properly declare the derivative"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove '.value' from Target and Actual in the guarantee statement on line 13",
+    "Move the assumption 'e = (Target - Actual)' to be an equation declaration on line 15",
+    "Replace 'integral(e)' with 'eq e_int : real = integral(e);' on line 15",
+    "Replace 'derivative(e)' with 'eq e_dot : real = derivative(e);' on line 16"
+  ]
+}

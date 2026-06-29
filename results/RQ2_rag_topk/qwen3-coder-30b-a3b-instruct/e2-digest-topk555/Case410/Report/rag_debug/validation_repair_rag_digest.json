@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Fix unresolved property references by removing invalid AGREE clauses that reference AADL properties like HM_Errors or Partition_Slots.",
+    "Resolve type errors by ensuring AGREE expressions use valid types (int, real, bool) and visible identifiers.",
+    "Avoid placing implementation-level guarantees in component type annexes; move valid assigns to implementation scopes."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, ensure all identifiers are visible in the current scope and properly typed.",
+    "Use only declared constants, variables, or helper equations in AGREE expressions to prevent '<error>' type issues.",
+    "Place component type contracts in type scopes and implementation bindings in implementation scopes to avoid scoping errors."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks with proper `assume`, `guarantee`, `eq`, and `const` syntax.",
+    "Helper equations and constants must be declared before use and match expected types (int, real, bool).",
+    "Assignments in implementation scope must reference valid output features or declared auxiliary variables."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL property names like Stack_Size or HM_Errors directly in AGREE expressions; these are not automatically available as variables.",
+    "Do not place implementation-level guarantees in component type annexes; this causes scoping conflicts."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and their resolution in model scope",
+    "Component implementation bindings and subcomponent path references",
+    "ARINC653-specific property definitions and recovery actions"
+  ]
+}

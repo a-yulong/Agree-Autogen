@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Place AGREE contracts in component type scopes for port-level assumptions and guarantees, and in implementation scopes for subcomponent bindings.",
+    "Use `annex agree {** ... **};` blocks to contain AGREE syntax, with type scope rules applied to visible identifiers."
+  ],
+  "generic_rules": [
+    "Ensure AGREE expressions use only visible identifiers and declared helpers from the same scope.",
+    "Use valid AGREE scalar types (int, real, bool) for constants and equation declarations.",
+    "Generate type-consistent expressions, matching variable types with their assigned values.",
+    "Avoid referencing AADL properties as AGREE variables unless explicitly exposed as typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts use `assume`, `guarantee`, `eq`, `const`, and `assign` syntax within `annex agree` blocks.",
+    "Stateful equations should use initialized recurrence like `0.0 -> pre(t) + step`.",
+    "Branching logic should use nested `if ... then ... else` expressions.",
+    "Use logical operators `and`, `or`, `not(...)`, and implication `=>` for complex conditions."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level bindings in component type scopes.",
+    "Do not reference package-qualified identifiers not present in the model or its dependencies.",
+    "Do not encode AADL timing properties as AGREE expressions unless the model exposes typed ports or constants.",
+    "Do not attempt to convert Boolean domain values into integers unless the data type is numeric."
+  ],
+  "irrelevant_topics": [
+    "AGREE validator diagnostics and repair patterns",
+    "Requirement semantics and model traceability",
+    "Model analyst component type and implementation extraction",
+    "AGREE syntax for assume/guarantee clauses and equation declarations"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 78: missing EOF at '}'",
+      "cause": "Unclosed AGREE annex block",
+      "minimal_edit": "Add a closing '}' to the AGREE annex block."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 100: Couldn't resolve reference to ConnectionEnd 'attitude_window'.",
+      "cause": "Connection end 'attitude_window' is not visible in the current scope.",
+      "minimal_edit": "Remove the connection 'Cnx5 : port TCP.attitude_window -> FDR.attitude_window;' from the implementation."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: Couldn't resolve reference to ConnectionEnd 'check_thresholds'.",
+      "cause": "Connection end 'check_thresholds' is not visible in the current scope.",
+      "minimal_edit": "Remove the connection 'Cnx6 : port TCP.check_thresholds -> FDR.check_thresholds;' from the implementation."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add '}' to the end of the AGREE annex block in AOCSprocessing.others.",
+    "Remove the line 'Cnx5 : port TCP.attitude_window -> FDR.attitude_window;' from AOCSprocessing.others.",
+    "Remove the line 'Cnx6 : port TCP.check_thresholds -> FDR.check_thresholds;' from AOCSprocessing.others."
+  ]
+}

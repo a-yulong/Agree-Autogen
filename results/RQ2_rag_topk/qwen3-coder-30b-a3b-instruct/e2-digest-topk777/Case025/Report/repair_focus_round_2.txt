@@ -1,0 +1,200 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: tempin1, tempin2, tempout
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+tempin1 | in | data | opaque | temperature_type
+tempin2 | in | data | opaque | temperature_type
+tempout | out | data | opaque | temperature_type
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Signal flow from temp1 to voter.tempin1 through c0",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "temp1",
+        "voter.tempin1",
+        "c0"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Signal flow from temp2 to voter.tempin2 through c1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "temp2",
+        "voter.tempin2",
+        "c1"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: voter | lines 77-81
+annex agree {**
+  assume "signal_flow_temp1": tempin1 = temp1;
+  assume "signal_flow_temp2": tempin2 = temp2;
+  guarantee "output_assignment": tempout = tempin1 or tempin2;
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   74:     tempin1         : in data port temperature_type;
+   75:     tempin2         : in data port temperature_type;
+   76:     tempout         : out data port temperature_type;
+   77: annex agree {**
+>> 78:   assume "signal_flow_temp1": tempin1 = temp1;
+   79:   assume "signal_flow_temp2": tempin2 = temp2;
+   80:   guarantee "output_assignment": tempout = tempin1 or tempin2;
+   81: **};
+   82: end voter;
+
+   75:     tempin2         : in data port temperature_type;
+   76:     tempout         : out data port temperature_type;
+   77: annex agree {**
+   78:   assume "signal_flow_temp1": tempin1 = temp1;
+>> 79:   assume "signal_flow_temp2": tempin2 = temp2;
+   80:   guarantee "output_assignment": tempout = tempin1 or tempin2;
+   81: **};
+   82: end voter;
+   83: 
+
+   76:     tempout         : out data port temperature_type;
+   77: annex agree {**
+   78:   assume "signal_flow_temp1": tempin1 = temp1;
+   79:   assume "signal_flow_temp2": tempin2 = temp2;
+>> 80:   guarantee "output_assignment": tempout = tempin1 or tempin2;
+   81: **};
+   82: end voter;
+   83: 
+   84: system implementation voter.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: voter
+system voter
+features
+    tempin1         : in data port temperature_type;
+    tempin2         : in data port temperature_type;
+    tempout         : out data port temperature_type;
+end voter;
+
+-- TARGET DECLARATION: voter.impl
+system implementation voter.impl
+end voter.impl;
+
+-- RELATED MODEL LINES
+voter       : system voter.impl;
+c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+c1 : port temp2 -> voter.tempin2 {communication_properties::timing => immediate;};
+c5 : port voter.tempout -> controller.tempin {communication_properties::timing => immediate;};
+system voter
+tempin1         : in data port temperature_type;
+tempin2         : in data port temperature_type;
+tempout         : out data port temperature_type;
+end voter;
+system implementation voter.impl
+end voter.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "voter",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "voter.impl",
+      "kind": "system implementation",
+      "type_name": "voter"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "voter",
+      "name": "voter",
+      "category": "system",
+      "classifier": "voter.impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "voter",
+      "name": "tempin1",
+      "direction": "in",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "voter",
+      "name": "tempin2",
+      "direction": "in",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "voter",
+      "name": "tempout",
+      "direction": "out",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "voter",
+      "name": "c0",
+      "kind": "port",
+      "source": "temp1",
+      "destination": "voter.tempin1"
+    },
+    {
+      "owner": "voter",
+      "name": "c1",
+      "kind": "port",
+      "source": "temp2",
+      "destination": "voter.tempin2"
+    },
+    {
+      "owner": "voter",
+      "name": "c5",
+      "kind": "port",
+      "source": "voter.tempout",
+      "destination": "controller.tempin"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "voter",
+      "owner_kind": "system",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": "c0"
+    },
+    {
+      "owner": "voter",
+      "owner_kind": "system",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": "c1"
+    },
+    {
+      "owner": "voter",
+      "owner_kind": "system",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": "c5"
+    }
+  ]
+}

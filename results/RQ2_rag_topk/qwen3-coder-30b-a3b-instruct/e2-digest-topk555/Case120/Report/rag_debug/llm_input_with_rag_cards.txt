@@ -1,0 +1,120 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place deployment binding assumptions in component type scopes using exact AADL names from the model.
+- Use implementation-level assign clauses for subcomponent output bindings when required.
+Generic rules:
+- AGREE annex blocks must be scoped to their owning component declaration.
+- Assumptions and guarantees referencing ports must be in valid component type scopes.
+- Assignments for subcomponent bindings belong in implementation annexes.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Use `assume "label": expression;` and `guarantee "label": expression;` for behavioral contracts.
+Anti-patterns:
+- Do not place implementation-level bindings in component type annexes.
+- Do not reference identifiers not visible in the current component scope.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- SBC_32F411EDISCOVERY
+- SBC_32F411EDISCOVERY.impl
+- SBC_32F411EDISCOVERY.RTOS
+- SBC_32F411EDISCOVERY.v2
+- RAM
+- LSM303DLHC
+- L3GD20
+- i2c_bus
+- spi_bus
+- I2C_ACC_MAG_BA
+- I2C_ARM_BA
+- SPI_GYRO_BA
+- SPI_ARM_BA
+- Software
+- acc_out_data_x
+- acc_out_data_y
+- acc_out_data_z
+- mag_out_data_x
+- mag_out_data_y
+- mag_out_data_z
+- gyro_out_data_x
+- gyro_out_data_y
+- gyro_out_data_z
+
+Target interface:
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- SBC_32F411EDISCOVERY
+- SBC_32F411EDISCOVERY.impl
+- SBC_32F411EDISCOVERY.RTOS
+- SBC_32F411EDISCOVERY.v2
+- RAM
+- LSM303DLHC
+- L3GD20
+- i2c_bus
+- spi_bus
+- I2C_ACC_MAG_BA
+- I2C_ARM_BA
+- SPI_GYRO_BA
+- SPI_ARM_BA
+- Software
+- acc_out_data_x
+- acc_out_data_y
+- acc_out_data_z
+- mag_out_data_x
+- mag_out_data_y
+- mag_out_data_z
+- gyro_out_data_x
+- gyro_out_data_y
+- gyro_out_data_z
+
+Raw requirement:
+The SBC_32F411EDISCOVERY component shall use the deployment bindings defined for SBC_32F411EDISCOVERY.RTOS. The deployment mapping shall bind Software to processor cpu.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "SBC_32F411EDISCOVERY component shall use deployment bindings defined for SBC_32F411EDISCOVERY.RTOS",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "SBC_32F411EDISCOVERY",
+        "SBC_32F411EDISCOVERY.RTOS"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Software shall be bound to processor cpu",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "Software",
+        "cpu"
+      ]
+    }
+  ]
+}

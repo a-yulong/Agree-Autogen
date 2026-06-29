@@ -1,0 +1,90 @@
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+- `assume "label": expression;` - `guarantee "label": expression;` - `eq name : type = expression;` - `const name : type = value;` - `assign output = expression;`
+
+[KSYN-2]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes. Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections. Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs.
+
+[KSYN-3]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+AGREE contracts are written inside `annex agree {** ... **};` blocks. Component type annexes are the normal location for assumptions, guarantees, constants, and equation declarations. Component implementation annexes are used for implementation-level bindings such as assignments when they are valid in that scope.
+
+[KSYN-4]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+The authoritative source for component names, ports, directions, data types, subcomponents, and connections is the input AADL model. The Model Analyst Agent extracts this structure before AGREE generation and fusion.
+
+[KSYN-5]
+Source: raw\ksyn\AADL_AS5506C.local_source.md
+Topic: AADL_AS5506C.local_source
+```yaml sources: aadl_as5506c_pdf: "<LOCAL_AADL_STANDARD>/AADL-2759780542AS5506C.pdf" ```
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+[KEXP-1]
+Source: distilled pattern library
+Topic: type scope range assumption and guarantee
+For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation. Use case-provided thresholds and legal visible feature names.
+
+[KEXP-2]
+Source: distilled pattern library
+Topic: implementation scope output assign
+For implementation contracts, use assign only when the left-hand side is an existing output feature or declared auxiliary variable. Do not place guarantee statements in implementation scope.
+
+[KEXP-3]
+Source: processed\kexp\agree_code_knowledge_dataset.txt
+Topic: output envelope chunk 2
+tput : real = if raw_input < min_output then min_output else if raw_input > max_output then max_output else raw_input; eq limit_applied : bool = raw_input < min_output or raw_input > max_output; guarantee "bounded output remains within the envelope": bounded_output >= min_output and bounded_output <= max_output; guarantee "bounded output equals the clamped value": bounded_output = clamped_output; guarantee "limit flag records whether clamping was required": was
+
+[KEXP-4]
+Source: processed\kexp\agree_code_knowledge_dataset.txt
+Topic: integrated pattern chunk 2
+value_in_range : bool = value_in >= lower_limit and value_in <= upper_limit; guarantee "safe flag follows the declared numeric range": safe_flag = value_in_range; **}; end RangeMonitorExample; system implementation RangeMonitorExample.impl end RangeMonitorExample.impl; system ConditionalSelectionExample features select_first : in data port bool; input_a : in data port int; input_b : in data port int; selected_value : out data port int; annex agree {** eq chosen
+
+[KEXP-5]
+Source: processed\kexp\agree_code_knowledge_dataset.txt
+Topic: range monitor chunk 1
+package agree_kexp_range_monitor public with Base_Types; data real extends Base_Types::Float end real; data bool extends Base_Types::Boolean end bool; system RangeMonitorExample features value_in : in data port real; safe_flag : out data port bool; annex agree {** const lower_limit : real = 0.0; const upper_limit : real = 100.0; eq value_in_range : bool = value_in >= lower_limit and value_in <= upper_limit; assume "input value is finite within broad engineering
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Assumed Type vs Actual Type
+If AGREE reports "The assumed type ... is ... but the actual type is ...", align the helper declaration type with the expression. Comparison expressions are bool; integer literals and integer arithmetic are int; real literals and real arithmetic are real. Recommended pattern: eq range_value : bool = x >= min_value and x <= max_value;
+
+[KDEF-2]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AADL Property Names Are Not AGREE Variables chunk 1
+If diagnostics report unresolved references to Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens such as ms/us/Hz/Bytes inside an AGREE annex, delete the generated clause. AADL property associations are not automatically in AGREE expression scope as variables. Recommended pattern: Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for the
+
+[KDEF-3]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AGREE Scalar Type Names
+If AGREE reports "Couldn't resolve reference to 'integer'" or "Couldn't resolve reference to 'boolean'" in a const or eq declaration, the generated AGREE type name is invalid. AGREE scalar declaration types are int, real, and bool. Recommended pattern: const lower_limit : int = 0; eq ok : bool = x >= lower_limit;
+
+[KDEF-4]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Named Thing Has No Type
+If AGREE reports "named thing must be an expression with a type" or a guarantee expression has type <error>, trace the first unresolved identifier or invalid helper declaration on the same line. Fix the root unresolved reference, or delete the invalid clause instead of adding architecture. Recommended pattern: Use only visible AADL features or eq helpers declared in the same annex; otherwise remove the guarantee.
+
+[KDEF-5]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Subcomponent Binding
+Use implementation-level assignments to bind subcomponent outputs when needed.
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>

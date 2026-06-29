@@ -1,0 +1,68 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 125: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Reference to undefined package or function 'Agree_Nodes::Brake_Mode'",
+      "minimal_edit": "eq Mode: int = Pedal + 1;"
+    },
+    {
+      "diagnostic": "line 140: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package or function 'Agree_Nodes::Brake_Cmd'",
+      "minimal_edit": "guarantee G_COM_1 \"Valve Command\" : not Fail => CMD = Pedal * 2;"
+    },
+    {
+      "diagnostic": "line 140: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "guarantee G_COM_1 \"Valve Command\" : not Fail => CMD = Pedal * 2;"
+    },
+    {
+      "diagnostic": "line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package or function 'Agree_Nodes::Brake_Cmd'",
+      "minimal_edit": "lemma L1 \"COM1 Consistency\" : COM1._CLK and not FailCOM1 => (COM1.CMD = Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 257: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "lemma L1 \"COM1 Consistency\" : COM1._CLK and not FailCOM1 => (COM1.CMD = Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 258: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package or function 'Agree_Nodes::Brake_Cmd'",
+      "minimal_edit": "lemma L2 \"COM2 Consistency\" : COM2._CLK and not FailCOM2 => (COM2.CMD = Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 258: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "lemma L2 \"COM2 Consistency\" : COM2._CLK and not FailCOM2 => (COM2.CMD = Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 259: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package or function 'Agree_Nodes::Brake_Cmd'",
+      "minimal_edit": "lemma L3 \"MON1 Consistency\" : MON1._CLK and not FailMON1 => (MON1.Status.Cmd = Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 259: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "lemma L3 \"MON1 Consistency\" : MON1._CLK and not FailMON1 => (MON1.Status.Cmd = Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 260: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package or function 'Agree_Nodes::Brake_Cmd'",
+      "minimal_edit": "lemma L4 \"MON2 Consistency\" : MON2._CLK and not FailMON2 => (MON2.Status.Cmd = Pedal * 2);"
+    },
+    {
+      "diagnostic": "line 260: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "lemma L4 \"MON2 Consistency\" : MON2._CLK and not FailMON2 => (MON2.Status.Cmd = Pedal * 2);"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX)' with 'Pedal + 1' in the Mode equation",
+    "Replace 'Agree_Nodes::Brake_Cmd(Mode, Pedal)' with 'Pedal * 2' in the guarantee G_COM_1",
+    "Replace 'Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal)' with 'Pedal * 2' in lemma L1",
+    "Replace 'Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal)' with 'Pedal * 2' in lemma L2",
+    "Replace 'Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal)' with 'Pedal * 2' in lemma L3",
+    "Replace 'Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal)' with 'Pedal * 2' in lemma L4"
+  ]
+}

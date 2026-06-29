@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "When generating AGREE contracts, ensure that all identifiers and types are visible within the current AADL scope and match the model's configured dependencies.",
+    "Place component type contracts in the appropriate annex agree block, ensuring that assumptions and guarantees refer to visible features and use valid AADL identifiers."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or helper declarations within the same annex to avoid unresolved references.",
+    "Ensure type consistency between helper declarations and their usage in AGREE contracts.",
+    "Write guarantees that relate visible outputs to visible inputs, avoiding implementation-specific subcomponent paths in type-level contracts.",
+    "Validate that all referenced identifiers are properly declared or visible in the current scope before generating AGREE code."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for bindings and assignments."
+  ],
+  "anti_patterns": [
+    "Do not introduce package-qualified identifiers or types that are not present in the analyzed model and its dependencies.",
+    "Avoid referencing subcomponent ports or implementation-specific elements in component type contracts."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about package or property set visibility",
+    "AGREE validator diagnostics (none present)",
+    "Implementation-level bindings and assignments in component type scopes"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "rag_rules": [
+    "Insert AGREE annex blocks into the target component or implementation scope while preserving AADL architecture",
+    "Use implementation scope only for assignments to existing output features or declared auxiliary variables",
+    "Place type scope contracts in component type annexes and implementation-level bindings in implementation annexes",
+    "Do not use subcomponent ports in component type contracts unless represented through valid variables or outputs"
+  ],
+  "generic_rules": [
+    "Preserve existing AADL architecture when inserting AGREE annex blocks",
+    "Use exact visible identifiers from the current component scope",
+    "Do not invent declarations for unresolved references; address model dependencies first",
+    "Avoid encoding AADL property associations as AGREE expressions without explicit typed ports or constants"
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `annex agree {** ... **};` for AGREE contract blocks",
+    "Use `assign output = expression;` for implementation-level bindings",
+    "Use `guarantee \"label\": expression;` for output dependency contracts in type scope"
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope",
+    "Do not use implementation-only subcomponent paths in component type annexes",
+    "Do not encode AADL timing properties as AGREE expressions without explicit typed ports or constants",
+    "Do not invent declarations for unresolved references; address model dependencies first"
+  ],
+  "irrelevant_topics": [
+    "AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes",
+    "Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections",
+    "Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs",
+    "For output dependency contracts, write a guarantee that relates visible outputs to visible inputs",
+    "For implementation contracts, use assign only when the left-hand side is an existing output feature or declared auxiliary variable",
+    "Do not place guarantee statements in implementation scope",
+    "If diagnostics report unresolved references to Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens such as ms/us/Hz/Bytes inside an AGREE annex, delete the generated clause",
+    "If AGREE reports \"Couldn't resolve reference to\" a port, data type, package, or ModelUnit, do not invent a declaration in repair"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'ACC_INPUT_PC1'.",
+      "cause": "ACC_INPUT_PC1 is a port, not an expression; AGREE cannot directly reference ports in assumptions/guarantees",
+      "minimal_edit": "Remove ACC_INPUT_PC1 from all references in the AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'ACC_INPUT_PC2'.",
+      "cause": "ACC_INPUT_PC2 is a port, not an expression; AGREE cannot directly reference ports in assumptions/guarantees",
+      "minimal_edit": "Remove ACC_INPUT_PC2 from all references in the AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "acc_in_data_x is a port, not an expression; AGREE cannot directly reference ports in assumptions/guarantees",
+      "minimal_edit": "Remove acc_in_data_x from all references in the AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_in_data_y'.",
+      "cause": "acc_in_data_y is a port, not an expression; AGREE cannot directly reference ports in assumptions/guarantees",
+      "minimal_edit": "Remove acc_in_data_y from all references in the AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'accelero_thread'.",
+      "cause": "accelero_thread is a subcomponent, not an expression; AGREE cannot directly reference subcomponents in assumptions/guarantees",
+      "minimal_edit": "Remove accelero_thread from all references in the AGREE annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the entire assume statement on line 210: 'assume \"acc_input_pc1_mapping\": ACC_INPUT_PC1 = acc_in_data_x;'",
+    "Remove the entire assume statement on line 211: 'assume \"acc_input_pc2_mapping\": ACC_INPUT_PC2 = acc_in_data_y;'",
+    "Remove the entire guarantee statement on line 212: 'guarantee \"accelero_thread_input_x_assignment\": accelero_thread.acc_in_data_x = ACC_INPUT_PC1;'",
+    "Remove the entire guarantee statement on line 213: 'guarantee \"accelero_thread_input_y_assignment\": accelero_thread.acc_in_data_y = ACC_INPUT_PC2;'"
+  ]
+}

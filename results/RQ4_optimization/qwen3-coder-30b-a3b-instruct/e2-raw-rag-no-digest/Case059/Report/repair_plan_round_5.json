@@ -1,0 +1,82 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 27: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes::Brake_Mode is not a valid AGREE function or is not imported; AGREE does not recognize AADL package-qualified function references without explicit support.",
+      "minimal_edit": "remove the line 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 30: Couldn't resolve reference to 'CMD'.",
+      "cause": "CMD is not a visible identifier in BSCU; it is a subcomponent port not accessible in component type scope.",
+      "minimal_edit": "remove the guarantee 'guarantee G_COM_1 \"Valve Command\" : not FailCOM1 => COM1.CMD = Pedal;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 30: Couldn't resolve reference to 'COM1'.",
+      "cause": "COM1 is a subcomponent, not a visible port in the BSCU component type; subcomponents are not accessible in component type annexes.",
+      "minimal_edit": "remove the guarantee 'guarantee G_COM_1 \"Valve Command\" : not FailCOM1 => COM1.CMD = Pedal;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 30: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Invalid reference to COM1.CMD causes type inference failure; the expression cannot be typed.",
+      "minimal_edit": "remove the guarantee 'guarantee G_COM_1 \"Valve Command\" : not FailCOM1 => COM1.CMD = Pedal;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 30: named thing must be an expression with a type",
+      "cause": "COM1.CMD is not a valid expression in component type scope, so it fails type checking.",
+      "minimal_edit": "remove the guarantee 'guarantee G_COM_1 \"Valve Command\" : not FailCOM1 => COM1.CMD = Pedal;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 42: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes::Brake_Mode is not a valid AGREE function; unresolved package-qualified reference.",
+      "minimal_edit": "remove the line 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 45: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not a valid AGREE function; unresolved package-qualified reference.",
+      "minimal_edit": "remove the guarantee 'guarantee G_COM_1 \"Valve Command\" : not Fail => CMD = Agree_Nodes::Brake_Cmd(Mode, Pedal);'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 45: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Agree_Nodes::Brake_Cmd is invalid, causing type mismatch; right-hand side has no type.",
+      "minimal_edit": "remove the guarantee 'guarantee G_COM_1 \"Valve Command\" : not Fail => CMD = Agree_Nodes::Brake_Cmd(Mode, Pedal);'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 63: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes::Brake_Mode is not a valid AGREE function; unresolved package-qualified reference.",
+      "minimal_edit": "remove the line 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 78: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not a valid AGREE function; unresolved package-qualified reference.",
+      "minimal_edit": "remove the guarantee 'guarantee G_MON_1 \"MON Brake Command\" : not Fail => (Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal));'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 78: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Agree_Nodes::Brake_Cmd is invalid, causing right-hand side to have no type, leading to mismatch.",
+      "minimal_edit": "remove the guarantee 'guarantee G_MON_1 \"MON Brake Command\" : not Fail => (Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal));'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 181: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes::Brake_Mode is not a valid AGREE function; unresolved package-qualified reference.",
+      "minimal_edit": "remove the line 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 181: Mode already defined in component type contract",
+      "cause": "Mode is already declared in BSCU component type annex; duplicate definition in implementation annex.",
+      "minimal_edit": "remove the line 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 183: Guarantee statements are allowed only in component types",
+      "cause": "Guarantee is placed in implementation annex (BSCU_Impl), which is invalid; guarantees must be in component type annexes only.",
+      "minimal_edit": "remove the guarantee 'guarantee G_COM_1 \"Valve Command\" : not FailCOM1 => COM1.CMD = Pedal;'"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove all instances of 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' from all annexes (lines 27, 42, 63, 181)",
+    "Remove all guarantees referencing 'Agree_Nodes::Brake_Cmd' (lines 45, 78)",
+    "Remove all guarantees referencing subcomponent ports (COM1.CMD, Status.Cmd) in component type and implementation annexes (lines 30, 45, 78, 183)",
+    "Remove the guarantee in BSCU.BSCU_Impl annex (line 183) because guarantees are not permitted in implementation annexes",
+    "Ensure all remaining guarantees and equations in BSCU component type annex use only visible identifiers (Panel, CH1, CH2, Pedal, FailCOM1, FailMON1, FailCOM2, FailMON2) and no package-qualified functions"
+  ]
+}

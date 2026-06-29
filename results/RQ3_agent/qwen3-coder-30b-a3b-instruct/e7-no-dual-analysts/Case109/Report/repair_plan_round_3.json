@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 63: named thing must be an expression with a type",
+      "cause": "acc2_dataOutput_emv2 is not a valid expression; it's a component type",
+      "minimal_edit": "Replace acc2_dataOutput_emv2 with acc2_dataOutput_emv2.impl in the assume statement"
+    },
+    {
+      "diagnostic": "line 64: Couldn't resolve reference to 'acc2_input'",
+      "cause": "acc2_input is not visible in the scope of acc2_dataOutput",
+      "minimal_edit": "Replace acc2_input with acc2out in the guarantee statement"
+    },
+    {
+      "diagnostic": "line 64: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "acc2_input is unresolved, causing type error",
+      "minimal_edit": "Replace acc2_input with acc2out in the guarantee statement"
+    },
+    {
+      "diagnostic": "line 64: named thing must be an expression with a type",
+      "cause": "acc2_input is not a valid expression; it's a port not visible in this context",
+      "minimal_edit": "Replace acc2_input with acc2out in the guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace acc2_dataOutput_emv2 with acc2_dataOutput_emv2.impl in the assume statement on line 63",
+    "Replace acc2_input with acc2out in the guarantee statement on line 64"
+  ]
+}

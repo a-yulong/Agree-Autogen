@@ -1,0 +1,65 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 124: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Mode with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "line 139: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "line 256: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "line 256: Couldn't resolve reference to 'Mode'.",
+      "cause": "Reference to undefined identifier",
+      "minimal_edit": "Remove or replace Mode with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "line 257: Couldn't resolve reference to 'Mode'.",
+      "cause": "Reference to undefined identifier",
+      "minimal_edit": "Remove or replace Mode with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "line 258: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "line 259: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "line 261: Couldn't resolve reference to 'Mode'.",
+      "cause": "Reference to undefined identifier",
+      "minimal_edit": "Remove or replace Mode with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "line 262: Couldn't resolve reference to 'Mode'.",
+      "cause": "Reference to undefined identifier",
+      "minimal_edit": "Remove or replace Mode with a valid expression using only visible symbols"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the COM component type annex, remove or replace the equation 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);'",
+    "In the COM component type annex, replace or remove the guarantee 'not Fail => CMD = Agree_Nodes::Brake_Cmd(Mode, Pedal);'",
+    "In the BSCU implementation annex, replace or remove the lemma 'COM1._CLK and not FailCOM1 => (COM1.CMD = Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal));'",
+    "In the BSCU implementation annex, replace or remove the lemma 'COM2._CLK and not FailCOM2 => (COM2.CMD = Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal));'",
+    "In the BSCU implementation annex, replace or remove the lemma 'MON1._CLK and not FailMON1 => (MON1.Status.Cmd = Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal));'",
+    "In the BSCU implementation annex, replace or remove the lemma 'MON2._CLK and not FailMON2 => (MON2.Status.Cmd = Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal));'",
+    "In the BSCU implementation annex, replace or remove the lemma '(MON1_Running and COM1_Running) => Agree_Nodes::Duration(MON1.Mode != COM1.Mode) < 7;'",
+    "In the BSCU implementation annex, replace or remove the lemma '(MON2_Running and COM2_Running) => Agree_Nodes::Duration(MON2.Mode != COM2.Mode) < 7;'"
+  ]
+}

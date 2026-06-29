@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 48: Couldn't resolve reference to 'Mix_1'.",
+      "cause": "Mix_1 and Mix_2 are subcomponents of Mixin.impl, not visible in Mixin component type scope where annex is placed",
+      "minimal_edit": "Move the AGREE annex block from Mixin to Mixin.impl"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 48: Couldn't resolve reference to 'Port_1'.",
+      "cause": "Port_1 is a feature of Mixin, but the annex is incorrectly placed in Mixin (type) while referencing implementation subcomponents",
+      "minimal_edit": "Move the AGREE annex block from Mixin to Mixin.impl"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 48: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "AGREE cannot resolve mixed-type expressions due to unresolved references to subcomponent ports",
+      "minimal_edit": "Move the AGREE annex block from Mixin to Mixin.impl"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 49: Couldn't resolve reference to 'Mix_2'.",
+      "cause": "Mix_2 is not visible in Mixin component type scope",
+      "minimal_edit": "Move the AGREE annex block from Mixin to Mixin.impl"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the annex agree block from the Mixin component type (lines 47-50)",
+    "Insert a new annex agree block inside Mixin.impl, immediately before the end of the implementation block",
+    "Rewrite the assume statements to use only visible identifiers: Port_1 and Port_2 as inputs, and Mix_1.Port_1 and Mix_2.Port_2 as outputs, now legally accessible in implementation scope"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "outDec = ACAS when inpGCASImpact > inpACASImpact and inpGCASRecovery + inpACASRecovery ensures no secondary collision",
+      "evidence": ["inpGCASImpact", "inpACASImpact", "inpGCASRecovery", "inpACASRecovery", "outDec"]
+    },
+    {
+      "id": "R2",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "outDec = GCAS when not (inpGCASImpact > inpACASImpact and inpGCASRecovery + inpACASRecovery ensures no secondary collision)",
+      "evidence": ["inpGCASImpact", "inpACASImpact", "inpGCASRecovery", "inpACASRecovery", "outDec"]
+    },
+    {
+      "id": "R3",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "outDec = static priority-based decision when numberServicesTrue < 2",
+      "evidence": ["numberServicesTrue", "outDec"]
+    },
+    {
+      "id": "R4",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "numberServicesTrue counts the total number of currently active service requests",
+      "evidence": ["numberServicesTrue"]
+    },
+    {
+      "id": "R5",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "text": "inpGCASImpact is the GCAS estimated time of impact",
+      "evidence": ["inpGCASImpact"]
+    },
+    {
+      "id": "R6",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "text": "inpACASImpact is the ACAS estimated time of impact",
+      "evidence": ["inpACASImpact"]
+    },
+    {
+      "id": "R7",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "text": "inpGCASRecovery is the GCAS recovery time",
+      "evidence": ["inpGCASRecovery"]
+    },
+    {
+      "id": "R8",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "text": "inpACASRecovery is the ACAS recovery time",
+      "evidence": ["inpACASRecovery"]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 32: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "THROT.Actual is an internal subcomponent port with type incompatible with Actual_Speed (Types::speed.speed_impl); AGREE annex references Actual_Speed.val which is valid, but AADL connection type mismatch breaks model validity.",
+      "minimal_edit": "Remove the AGREE annex from Car (component type) and move it to Car.Car_Impl (implementation) to allow use of implementation-level port bindings as context."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 34: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "Target_Speed (Types::speed.speed_impl) is connected to CNTRL.Target, whose type is not declared as compatible; AGREE assumes Target_Speed.val is valid, but AADL type mismatch invalidates the connection.",
+      "minimal_edit": "Remove the AGREE annex from Car (component type) and move it to Car.Car_Impl (implementation) to allow use of implementation-level port bindings as context."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 39: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "SM.State_Out type is incompatible with State_Signal (Types::state_sig.impl); AGREE annex does not reference State_Out but the model is invalid, requiring annex relocation to implementation context where the connection is resolved.",
+      "minimal_edit": "Remove the AGREE annex from Car (component type) and move it to Car.Car_Impl (implementation) to allow use of implementation-level port bindings as context."
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the current annex agree block from the Car component type (lines 13-19).",
+    "Add a new annex agree block to the Car.Car_Impl implementation scope, immediately after the connections block.",
+    "In the new implementation-level annex, retain all original assume/guarantee clauses but ensure all port references (Target_Speed.val, Actual_Speed.val) are valid under implementation context.",
+    "Do not modify any AADL port types or connections — the repair is purely relocating the annex to a context where the connections are already declared and validated."
+  ]
+}

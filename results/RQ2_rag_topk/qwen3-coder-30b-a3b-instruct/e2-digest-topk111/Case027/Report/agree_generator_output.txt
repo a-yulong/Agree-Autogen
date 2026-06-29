@@ -1,0 +1,10 @@
+annex agree {**
+  assume "initial_t_value": t = 0.0;
+  assume "t_step_size": t' = t + 0.1;
+  const "minHeightAllowed": real = 200.0;
+  guarantee "timeToRecovery_constant": timeToRecovery = 3.7;
+  guarantee "height_above_min_when_t_ge_3_7": 
+    (t >= 3.7) => (height > minHeightAllowed);
+  guarantee "pull_up_trend_when_t_ge_3_7": 
+    (t >= 3.7) => (height > pre(height));
+**};

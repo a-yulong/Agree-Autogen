@@ -1,0 +1,23 @@
+{
+  "rag_rules": [
+    "Insert generated annex content only in the owner scope it was generated for, preserving the surrounding component or implementation structure unchanged.",
+    "For implementation-owned content, place it in implementation scope after the relevant structural declarations so existing subcomponents and connections remain intact.",
+    "Do not move implementation-specific content into a type scope or rely on type-level visibility rules when fusing implementation content."
+  ],
+  "generic_rules": [
+    "Preserve all existing AADL declarations, formatting, and architecture elements outside the inserted annex block.",
+    "Use the input model as the authority for owner, scope, declared identifiers, and structural context during insertion."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Annex blocks use the AADL form `annex agree {** ... **};`.",
+    "Implementation-level content belongs under the component implementation that owns the referenced structure, not under the component type."
+  ],
+  "anti_patterns": [
+    "Do not insert content at a scope where referenced identifiers are not structurally visible.",
+    "Do not modify connections, features, subcomponents, or properties as part of annex fusion unless explicitly required by the generated content."
+  ],
+  "irrelevant_topics": [
+    "Boolean expression examples unrelated to owner/scope fusion",
+    "Validator-driven datatype repairs for booleans, properties, or event ports when no diagnostics are active"
+  ]
+}

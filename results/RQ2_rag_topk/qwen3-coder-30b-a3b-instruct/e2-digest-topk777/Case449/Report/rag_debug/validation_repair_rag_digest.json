@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Repair AGREE diagnostics by ensuring visible identifiers match the component scope and avoid unresolved references.",
+    "Place assumptions and guarantees in valid component type scopes, not implementation scopes, when referring to component ports.",
+    "Use only AADL-visible features or declared helpers in AGREE expressions; avoid introducing undefined identifiers.",
+    "Ensure type consistency in AGREE expressions: numeric variables must have numeric expressions, Boolean variables must have Boolean expressions."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be placed in appropriate annex scopes based on whether they refer to component types or implementations.",
+    "Generated AGREE code should not introduce package-qualified identifiers or types not present in the model.",
+    "Helper functions and constants in AGREE must be declared within the same annex and match the expected types.",
+    "When fixing AGREE diagnostics, prioritize using existing visible identifiers over inventing new ones."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Assumptions use `assume \"label\": expression;`, guarantees use `guarantee \"label\": expression;`.",
+    "Equations and constants are declared with `eq name : type = expression;` and `const name : type = value;`.",
+    "Assignments in implementation scopes use `assign output = expression;`."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level bindings in component type annexes unless they are valid outputs.",
+    "Do not introduce package-qualified identifiers or types that are not declared in the model.",
+    "Do not assume that AADL property names (e.g., Deadline, Period) are automatically available in AGREE expressions.",
+    "Do not generate AGREE expressions with invalid scalar type names like 'integer' or 'boolean'."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about package or property set visibility",
+    "AGREE validator diagnostics",
+    "Model Analyst's extraction of component structure",
+    "Requirement Analyst's handling of compact semantics and traceability"
+  ]
+}

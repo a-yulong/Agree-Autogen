@@ -1,0 +1,209 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: tempin, user_request, user_request.heater_on, user_request.cooler_on, heater_on, cooler_on
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+tempin | in | data | opaque | temperature_type
+user_request | in | data | opaque | command.impl
+user_request.heater_on | in | data_field | bool | base_types::boolean
+user_request.cooler_on | in | data_field | bool | base_types::boolean
+heater_on | out | data | bool | base_types::boolean
+cooler_on | out | data | bool | base_types::boolean
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: controller | lines 88-95
+annex agree {**
+  assume "heating_cmd_only": user_request.heater_on = true and user_request.cooler_on = false => heating_request = true;
+  assume "cooling_cmd_only": user_request.cooler_on = true and user_request.heater_on = false => cooling_request = true;
+  assume "heating_and_cooling": user_request.heater_on = true and user_request.cooler_on = true => heating_request = false and cooling_request = false;
+  assume "no_commands": user_request.heater_on = false and user_request.cooler_on = false => heating_request = false and cooling_request = false;
+  guarantee "heater_on_condition": heater_on = true => (heating_request = true and tempin <= 20);
+  guarantee "cooler_on_condition": cooler_on = true => (cooling_request = true and tempin > 0);
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   85:     user_request    : in data port command.impl;
+   86:     heater_on       : out data port base_types::boolean;
+   87:     cooler_on       : out data port base_types::boolean;
+   88: annex agree {**
+>> 89:   assume "heating_cmd_only": user_request.heater_on = true and user_request.cooler_on = false => heating_request = true;
+   90:   assume "cooling_cmd_only": user_request.cooler_on = true and user_request.heater_on = false => cooling_request = true;
+   91:   assume "heating_and_cooling": user_request.heater_on = true and user_request.cooler_on = true => heating_request = false and cooling_request = false;
+   92:   assume "no_commands": user_request.heater_on = false and user_request.cooler_on = false => heating_request = false and cooling_request = false;
+   93:   guarantee "heater_on_condition": heater_on = true => (heating_request = true and tempin <= 20);
+
+   86:     heater_on       : out data port base_types::boolean;
+   87:     cooler_on       : out data port base_types::boolean;
+   88: annex agree {**
+   89:   assume "heating_cmd_only": user_request.heater_on = true and user_request.cooler_on = false => heating_request = true;
+>> 90:   assume "cooling_cmd_only": user_request.cooler_on = true and user_request.heater_on = false => cooling_request = true;
+   91:   assume "heating_and_cooling": user_request.heater_on = true and user_request.cooler_on = true => heating_request = false and cooling_request = false;
+   92:   assume "no_commands": user_request.heater_on = false and user_request.cooler_on = false => heating_request = false and cooling_request = false;
+   93:   guarantee "heater_on_condition": heater_on = true => (heating_request = true and tempin <= 20);
+   94:   guarantee "cooler_on_condition": cooler_on = true => (cooling_request = true and tempin > 0);
+
+   87:     cooler_on       : out data port base_types::boolean;
+   88: annex agree {**
+   89:   assume "heating_cmd_only": user_request.heater_on = true and user_request.cooler_on = false => heating_request = true;
+   90:   assume "cooling_cmd_only": user_request.cooler_on = true and user_request.heater_on = false => cooling_request = true;
+>> 91:   assume "heating_and_cooling": user_request.heater_on = true and user_request.cooler_on = true => heating_request = false and cooling_request = false;
+   92:   assume "no_commands": user_request.heater_on = false and user_request.cooler_on = false => heating_request = false and cooling_request = false;
+   93:   guarantee "heater_on_condition": heater_on = true => (heating_request = true and tempin <= 20);
+   94:   guarantee "cooler_on_condition": cooler_on = true => (cooling_request = true and tempin > 0);
+   95: **};
+
+   88: annex agree {**
+   89:   assume "heating_cmd_only": user_request.heater_on = true and user_request.cooler_on = false => heating_request = true;
+   90:   assume "cooling_cmd_only": user_request.cooler_on = true and user_request.heater_on = false => cooling_request = true;
+   91:   assume "heating_and_cooling": user_request.heater_on = true and user_request.cooler_on = true => heating_request = false and cooling_request = false;
+>> 92:   assume "no_commands": user_request.heater_on = false and user_request.cooler_on = false => heating_request = false and cooling_request = false;
+   93:   guarantee "heater_on_condition": heater_on = true => (heating_request = true and tempin <= 20);
+   94:   guarantee "cooler_on_condition": cooler_on = true => (cooling_request = true and tempin > 0);
+   95: **};
+   96: end controller;
+
+   89:   assume "heating_cmd_only": user_request.heater_on = true and user_request.cooler_on = false => heating_request = true;
+   90:   assume "cooling_cmd_only": user_request.cooler_on = true and user_request.heater_on = false => cooling_request = true;
+   91:   assume "heating_and_cooling": user_request.heater_on = true and user_request.cooler_on = true => heating_request = false and cooling_request = false;
+   92:   assume "no_commands": user_request.heater_on = false and user_request.cooler_on = false => heating_request = false and cooling_request = false;
+>> 93:   guarantee "heater_on_condition": heater_on = true => (heating_request = true and tempin <= 20);
+   94:   guarantee "cooler_on_condition": cooler_on = true => (cooling_request = true and tempin > 0);
+   95: **};
+   96: end controller;
+   97: 
+
+   90:   assume "cooling_cmd_only": user_request.cooler_on = true and user_request.heater_on = false => cooling_request = true;
+   91:   assume "heating_and_cooling": user_request.heater_on = true and user_request.cooler_on = true => heating_request = false and cooling_request = false;
+   92:   assume "no_commands": user_request.heater_on = false and user_request.cooler_on = false => heating_request = false and cooling_request = false;
+   93:   guarantee "heater_on_condition": heater_on = true => (heating_request = true and tempin <= 20);
+>> 94:   guarantee "cooler_on_condition": cooler_on = true => (cooling_request = true and tempin > 0);
+   95: **};
+   96: end controller;
+   97: 
+   98: system implementation controller.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: controller
+system controller
+features
+    tempin          : in data port temperature_type;
+    user_request    : in data port command.impl;
+    heater_on       : out data port base_types::boolean;
+    cooler_on       : out data port base_types::boolean;
+end controller;
+
+-- TARGET DECLARATION: controller.impl
+system implementation controller.impl
+end controller.impl;
+
+-- RELATED MODEL LINES
+heater_on : data base_types::boolean;
+cooler_on : data base_types::boolean;
+user_request    : in data port command.impl;
+controller  : system controller.impl;
+c2 : port user_request -> controller.user_request {communication_properties::timing => immediate;};
+c3 : port controller.heater_on -> heater.enabled {communication_properties::timing => immediate;};
+c4 : port controller.cooler_on -> cooler.enabled {communication_properties::timing => immediate;};
+c5 : port voter.tempout -> controller.tempin {communication_properties::timing => immediate;};
+system controller
+tempin          : in data port temperature_type;
+heater_on       : out data port base_types::boolean;
+cooler_on       : out data port base_types::boolean;
+end controller;
+system implementation controller.impl
+end controller.impl;
+up_to_tc   : port user_panel.cmd -> temp_control.user_request {communication_properties::timing => immediate;};
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "controller",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "controller.impl",
+      "kind": "system implementation",
+      "type_name": "controller"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "controller",
+      "name": "controller",
+      "category": "system",
+      "classifier": "controller.impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "controller",
+      "name": "tempin",
+      "direction": "in",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "controller",
+      "name": "user_request",
+      "direction": "in",
+      "category": "data port",
+      "type": "command.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "controller",
+      "name": "heater_on",
+      "direction": "out",
+      "category": "data port",
+      "type": "base_types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "controller",
+      "name": "cooler_on",
+      "direction": "out",
+      "category": "data port",
+      "type": "base_types::boolean",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "controller",
+      "name": "c2",
+      "kind": "port",
+      "source": "user_request",
+      "destination": "controller.user_request"
+    },
+    {
+      "owner": "controller",
+      "name": "c3",
+      "kind": "port",
+      "source": "controller.heater_on",
+      "destination": "heater.enabled"
+    },
+    {
+      "owner": "controller",
+      "name": "c4",
+      "kind": "port",
+      "source": "controller.cooler_on",
+      "destination": "cooler.enabled"
+    },
+    {
+      "owner": "controller",
+      "name": "c5",
+      "kind": "port",
+      "source": "voter.tempout",
+      "destination": "controller.tempin"
+    }
+  ]
+}

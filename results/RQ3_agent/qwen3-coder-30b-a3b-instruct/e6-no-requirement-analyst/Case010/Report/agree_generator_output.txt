@@ -1,0 +1,18 @@
+annex agree {**
+  const verticalAcceleration = 100.0;
+  const expectedImpactTime = 15.0;
+  const recoveryTime = 5.0;
+  
+  guarantee "vertical_acceleration_defined": verticalAcceleration = 100.0;
+  guarantee "expected_impact_time_defined": expectedImpactTime = 15.0;
+  guarantee "recovery_time_defined": recoveryTime = 5.0;
+  
+  assume "altitude_valid_range": altitude >= 0.0;
+  assume "vertical_velocity_valid_range": verticalVelocity >= 0.0;
+  
+  guarantee "altitude_from_ground_calculation": 
+    altitudeFromGround = Agree_Nodes::height(altitude, verticalVelocity, 0.5);
+  
+  assume "gcas_request_condition": 
+    (altitude <= 30.0 or altitudeFromGround <= 500.0) => gcasRequested = true;
+**};

@@ -1,0 +1,24 @@
+{
+  "rag_rules": [
+    "Generate only syntactically valid AGREE clauses using visible symbols and case-provided relations, bounds, or constants.",
+    "Write contracts as visible input/output relationships in the current component scope; do not reference implementation-only subcomponent paths unless they are explicitly exposed."
+  ],
+  "generic_rules": [
+    "Prefer direct deterministic guarantees that relate outputs or helper equations to visible inputs and helper variables.",
+    "Introduce helper eq or const declarations only when they make an expression clearer, and ensure each helper has a type consistent with its expression.",
+    "Add range or envelope assumptions/guarantees only when concrete limits or named visible values are provided."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use AGREE forms exactly: assume/guarantee with labels, eq name : type = expression;, const name : type = value;, and assign output = expression; when appropriate.",
+    "Use nested if ... then ... else for branching, and use initialized temporal recurrence only as init -> pre(x) patterns when state is truly required.",
+    "Use AGREE operators and scalar types: and, or, not(...), =>, and types int, real, bool."
+  ],
+  "anti_patterns": [
+    "Do not invent hidden variables, thresholds, bounds, or domain facts that are not supplied by the case or visible model symbols.",
+    "Do not use AADL property names, unit tokens, or unresolved model metadata as AGREE expression variables.",
+    "Do not mismatch helper types with expression types; comparisons produce bool, integer arithmetic produces int, and real arithmetic produces real."
+  ],
+  "irrelevant_topics": [
+    "Example-specific clamping/envelope implementation snippets that assume min/max variables not present in the current visible symbols."
+  ]
+}

@@ -1,0 +1,214 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: accData_in1, accData_in2, accData_in3, accData_in4, accData_in5, accData_in6, accData_out1, accData_out2, accData_out3, accData_out4, accData_out5, accData_out6, adirup_error_action, adirup_error_out
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+accData_in1 | in | data | int | SHM_DataType::accData
+accData_in2 | in | data | int | SHM_DataType::accData
+accData_in3 | in | data | int | SHM_DataType::accData
+accData_in4 | in | data | int | SHM_DataType::accData
+accData_in5 | in | data | int | SHM_DataType::accData
+accData_in6 | in | data | int | SHM_DataType::accData
+accData_out1 | out | data | int | SHM_DataType::accData
+accData_out2 | out | data | int | SHM_DataType::accData
+accData_out3 | out | data | int | SHM_DataType::accData
+accData_out4 | out | data | int | SHM_DataType::accData
+accData_out5 | out | data | int | SHM_DataType::accData
+accData_out6 | out | data | int | SHM_DataType::accData
+adirup_error_action | in | data | int | SHM_DataType::actionData
+adirup_error_out | out | data | int | SHM_DataType::errorData
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Route accData_in1 to ADIRUp_HM.inData_para1 via connection C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "C1",
+        "accData_in1",
+        "ADIRUp_HM.inData_para1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Route accData_in2 to ADIRUp_HM.inData_para2 via connection C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "C2",
+        "accData_in2",
+        "ADIRUp_HM.inData_para2"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: ADIRUp_HM | lines 345-350
+annex agree {**
+  annex agree {
+    guarantee "in1_to_out1": accData_out1 = accData_in1;
+    guarantee "in2_to_out2": accData_out2 = accData_in2;
+  };
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   342:     Period => 4000 ms;
+   343:     Compute_Execution_Time => 400 ms .. 500 ms;
+   344:     Deadline => 500 ms;
+   345:   annex agree {**
+>> 346:   annex agree {
+   347:     guarantee "in1_to_out1": accData_out1 = accData_in1;
+   348:     guarantee "in2_to_out2": accData_out2 = accData_in2;
+   349:   };
+   350:   **};
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: ADIRUp_HM
+thread  ADIRUp_HM
+  features
+    accData_in1:  in data port SHM_DataType::accData;
+    accData_in2:  in data port SHM_DataType::accData;
+    accData_in3:  in data port SHM_DataType::accData;
+    accData_in4:  in data port SHM_DataType::accData;
+    accData_in5:  in data port SHM_DataType::accData;
+    accData_in6:  in data port SHM_DataType::accData;
+    accData_out1:  out data port SHM_DataType::accData;
+    accData_out2:  out data port SHM_DataType::accData;
+    accData_out3:  out data port SHM_DataType::accData;
+    accData_out4:  out data port SHM_DataType::accData;
+    accData_out5:  out data port SHM_DataType::accData;
+    accData_out6:  out data port SHM_DataType::accData;
+    adirup_error_action: in event data port SHM_DataType::actionData;
+    adirup_error_out: out event data port SHM_DataType::errorData;
+  properties
+    Priority => 5;
+    Stack_Size => 20 KByte;
+    Code_Size => 100 KByte;
+    Data_Size => 1 KByte;
+    Dispatch_Protocol => Periodic;
+    Period => 4000 ms;
+    Compute_Execution_Time => 400 ms .. 500 ms;
+    Deadline => 500 ms;
+  end ADIRUp_HM;
+
+-- TARGET DECLARATION: ADIRUp_HM.impl
+thread implementation ADIRUp_HM.impl
+  calls
+    sub1: { ADIRUp_HM: subprogram subprograms::ADIRUp_HM_spg; };
+
+  connections
+    C1: parameter accData_in1->ADIRUp_HM.inData_para1;
+    C2: parameter accData_in2->ADIRUp_HM.inData_para2;
+    C3: parameter accData_in3->ADIRUp_HM.inData_para3;
+    C4: parameter accData_in4->ADIRUp_HM.inData_para4;
+    C5: parameter accData_in5->ADIRUp_HM.inData_para5;
+    C6: parameter accData_in6->ADIRUp_HM.inData_para6;
+
+    C7: parameter ADIRUp_HM.outdata_para1->accData_out1;
+    C8: parameter ADIRUp_HM.outdata_para2->accData_out2;
+    C9: parameter ADIRUp_HM.outdata_para3->accData_out3;
+    C10: parameter ADIRUp_HM.outdata_para4->accData_out4;
+    C11: parameter ADIRUp_HM.outdata_para5->accData_out5;
+    C12: parameter ADIRUp_HM.outdata_para6->accData_out6;
+
+    C13: parameter adirup_error_action->ADIRUp_HM.error_action_in;
+    C14:parameter  ADIRUp_HM.error_data_out->adirup_error_out;
+  end ADIRUp_HM.impl;
+
+-- RELATED MODEL LINES
+thread  ADIRUp_HM
+accData_in1:  in data port SHM_DataType::accData;
+accData_in2:  in data port SHM_DataType::accData;
+accData_in3:  in data port SHM_DataType::accData;
+accData_in4:  in data port SHM_DataType::accData;
+accData_in5:  in data port SHM_DataType::accData;
+accData_in6:  in data port SHM_DataType::accData;
+accData_out1:  out data port SHM_DataType::accData;
+accData_out2:  out data port SHM_DataType::accData;
+accData_out3:  out data port SHM_DataType::accData;
+accData_out4:  out data port SHM_DataType::accData;
+accData_out5:  out data port SHM_DataType::accData;
+accData_out6:  out data port SHM_DataType::accData;
+adirup_error_action: in event data port SHM_DataType::actionData;
+adirup_error_out: out event data port SHM_DataType::errorData;
+end ADIRUp_HM;
+thread implementation ADIRUp_HM.impl
+sub1: { ADIRUp_HM: subprogram subprograms::ADIRUp_HM_spg; };
+C1: parameter accData_in1->ADIRUp_HM.inData_para1;
+C2: parameter accData_in2->ADIRUp_HM.inData_para2;
+C3: parameter accData_in3->ADIRUp_HM.inData_para3;
+C4: parameter accData_in4->ADIRUp_HM.inData_para4;
+C5: parameter accData_in5->ADIRUp_HM.inData_para5;
+C6: parameter accData_in6->ADIRUp_HM.inData_para6;
+C7: parameter ADIRUp_HM.outdata_para1->accData_out1;
+C8: parameter ADIRUp_HM.outdata_para2->accData_out2;
+C9: parameter ADIRUp_HM.outdata_para3->accData_out3;
+C10: parameter ADIRUp_HM.outdata_para4->accData_out4;
+C11: parameter ADIRUp_HM.outdata_para5->accData_out5;
+C12: parameter ADIRUp_HM.outdata_para6->accData_out6;
+C13: parameter adirup_error_action->ADIRUp_HM.error_action_in;
+C14:parameter  ADIRUp_HM.error_data_out->adirup_error_out;
+end ADIRUp_HM.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "ADIRUp_HM",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "ADIRUp_HM.impl",
+      "kind": "thread implementation",
+      "type_name": "ADIRUp_HM"
+    }
+  ],
+  "features": [
+    {
+      "owner": "ADIRUp_HM",
+      "name": "accData_in1",
+      "direction": "in",
+      "category": "data port",
+      "type": "SHM_DataType::accData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ADIRUp_HM",
+      "name": "accData_in2",
+      "direction": "in",
+      "category": "data port",
+      "type": "SHM_DataType::accData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ADIRUp_HM",
+      "name": "accData_in3",
+      "direction": "in",
+      "category": "data port",
+      "type": "SHM_DataType::accData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ADIRUp_HM",
+      "name": "accData_in4",
+      "direction": "in",
+      "category": "data port",
+      "type": "SHM_DataType::accData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ADIRUp_HM",
+      "name": "accData_in5",
+      "direction": "in",
+      "category": "data port",
+      "type": "SHM_DataType::accData",
+      "scalar": "
+-- [target model context truncated]

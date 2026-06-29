@@ -1,0 +1,14 @@
+annex agree {**
+  assume "panel_valid": Panel.MAX or Panel.MED or Panel.LO;
+  assume "panel_mode_exclusive": Panel.MAX xor Panel.MED xor Panel.LO;
+  guarantee "ch1_status_valid": CH1.Error = false => CH1.Active = true;
+  guarantee "ch2_status_valid": CH2.Error = false => CH2.Active = true;
+  guarantee "ch1_cmd_range": CH1.Cmd >= 0 and CH1.Cmd <= 100;
+  guarantee "ch2_cmd_range": CH2.Cmd >= 0 and CH2.Cmd <= 100;
+  guarantee "ch1_active_on_error": CH1.Error = true => CH1.Active = false;
+  guarantee "ch2_active_on_error": CH2.Error = true => CH2.Active = false;
+  guarantee "panel_to_com1_routing": CH1.Error = false => CH1.Cmd = Panel.Pedal;
+  guarantee "com1_to_mon1_routing": CH1.Active = true => CH2.Active = true;
+  guarantee "pedal_to_com1_timing": CH1.Error = false => CH1.Cmd = Panel.Pedal;
+  guarantee "fail_to_com1_timing": CH1.Error = false => CH1.Cmd = 0;
+**};

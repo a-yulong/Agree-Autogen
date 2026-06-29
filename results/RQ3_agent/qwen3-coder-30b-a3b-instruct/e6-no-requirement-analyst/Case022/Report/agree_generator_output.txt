@@ -1,0 +1,8 @@
+annex agree {**
+  assume "heating_cmd_only": user_request.heater_on = true and user_request.cooler_on = false => heating_request = true;
+  assume "cooling_cmd_only": user_request.cooler_on = true and user_request.heater_on = false => cooling_request = true;
+  assume "heating_and_cooling": user_request.heater_on = true and user_request.cooler_on = true => heating_request = false and cooling_request = false;
+  assume "no_commands": user_request.heater_on = false and user_request.cooler_on = false => heating_request = false and cooling_request = false;
+  guarantee "heater_on_condition": heater_on = true => (heating_request = true and tempin <= 20);
+  guarantee "cooler_on_condition": cooler_on = true => (cooling_request = true and tempin > 0);
+**};

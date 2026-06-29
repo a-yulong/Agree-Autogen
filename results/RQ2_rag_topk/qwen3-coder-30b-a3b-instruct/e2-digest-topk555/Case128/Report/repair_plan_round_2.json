@@ -1,0 +1,37 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'ACC_INPUT_PC1'.",
+      "cause": "ACC_INPUT_PC1 is a port, not an expression; AGREE cannot reference ports directly in assumptions/guarantees",
+      "minimal_edit": "Replace ACC_INPUT_PC1 with acc_in_data_x in the assumption and guarantee statements"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'ACC_INPUT_PC2'.",
+      "cause": "ACC_INPUT_PC2 is a port, not an expression; AGREE cannot reference ports directly in assumptions/guarantees",
+      "minimal_edit": "Replace ACC_INPUT_PC2 with acc_in_data_y in the assumption and guarantee statements"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "acc_in_data_x is a port, not an expression; AGREE cannot reference ports directly in assumptions/guarantees",
+      "minimal_edit": "Replace acc_in_data_x with ACC_INPUT_PC1 in the guarantee statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_in_data_y'.",
+      "cause": "acc_in_data_y is a port, not an expression; AGREE cannot reference ports directly in assumptions/guarantees",
+      "minimal_edit": "Replace acc_in_data_y with ACC_INPUT_PC2 in the guarantee statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'accelero_thread'.",
+      "cause": "accelero_thread is a subcomponent, not an expression; AGREE cannot reference subcomponents directly in assumptions/guarantees",
+      "minimal_edit": "Remove accelero_thread from guarantee statements"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace ACC_INPUT_PC1 with acc_in_data_x in assume \"acc_input_pc1_mapping\"",
+    "Replace ACC_INPUT_PC2 with acc_in_data_y in assume \"acc_input_pc2_mapping\"",
+    "Replace ACC_INPUT_PC1 with acc_in_data_x in guarantee \"accelero_thread_input_x_assignment\"",
+    "Replace ACC_INPUT_PC2 with acc_in_data_y in guarantee \"accelero_thread_input_y_assignment\"",
+    "Remove accelero_thread from guarantee statements"
+  ]
+}

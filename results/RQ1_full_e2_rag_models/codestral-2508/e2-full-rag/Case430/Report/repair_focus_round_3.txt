@@ -1,0 +1,193 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: door1, door2, cll
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+door1 | in | data | bool | Base_Types::boolean
+door2 | in | data | bool | Base_Types::boolean
+cll | out | data | bool | Base_Types::boolean
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "cll is true when door2 is true",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "door2",
+        "cll"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: doors_int | lines 301-304
+annex agree {**
+    annex agree {
+      guarantee "R1": door2 => cll;
+    };**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   298:       door1: in data port Base_Types::boolean;
+   299:       door2: in data port Base_Types::boolean;
+   300:       cll: out data port Base_Types::boolean;
+   301:   annex agree {**
+>> 302:     annex agree {
+   303:       guarantee "R1": door2 => cll;
+   304:     };**};
+   305:   end doors_int;
+   306: 
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: doors_int
+thread doors_int
+    features
+      door1: in data port Base_Types::boolean;
+      door2: in data port Base_Types::boolean;
+      cll: out data port Base_Types::boolean;
+  end doors_int;
+
+-- TARGET DECLARATION: doors_int.imp
+thread implementation doors_int.imp
+    properties
+      Dispatch_Protocol => Periodic;
+      Compute_Execution_Time => 0 ms .. 5 ms;
+      Period => 50 Ms;
+  end doors_int.imp;
+
+-- RELATED MODEL LINES
+door1: device door.imp;
+door2: device door.imp;
+connPD11: port door1.handle_position -> process_door.D1_handle_position;
+connPD12: port door1.closed -> process_door.D1_closed;
+connPD102: port door1.latched -> process_door.D1_latched;
+connPD13: port door1.locked  -> process_door.D1_locked;
+connPD14: port process_door.D1_swivel -> door1.swivel;
+connPD15: port process_door.D1_de_arrest -> door1.de_arrest;
+connPD16: port process_door.D1_lock -> door1.lock;
+connPD17: port process_door.D1_warn_diff_pres -> door1.warn_diff_pres;
+connPD18: port process_door.D1_warn_slide -> door1.warn_slide;
+connPD21: port door2.handle_position -> process_door.D2_handle_position;
+connPD22: port door2.closed -> process_door.D2_closed;
+connPD202: port door2.latched -> process_door.D2_latched;
+connPD23: port door2.locked  -> process_door.D2_locked;
+connPD24: port process_door.D2_swivel -> door2.swivel;
+connPD25: port process_door.D2_de_arrest -> door2.de_arrest;
+connPD26: port process_door.D2_lock -> door2.lock;
+connPD27: port process_door.D2_warn_diff_pres -> door2.warn_diff_pres;
+connPD28: port process_door.D2_warn_slide -> door2.warn_slide;
+connMix: port process_door.Mix_cll -> ocu.cll;
+cll: in data port Base_Types::boolean;
+door1: thread door_handler.imp;
+door2: thread door_handler.imp;
+doors_mix: thread doors_int.imp;
+connD11: port D1_handle_position -> door1.handle_position;
+connD12: port D1_closed -> door1.closed;
+connD102: port D1_latched -> door1.latched;
+connD13: port D1_locked -> door1.locked;
+connD14: port door1.swivel -> D1_swivel;
+connD15: port door1.de_arrest -> D1_de_arrest;
+connD16: port door1.lock -> D1_lock;
+connD17: port door1.warn_diff_pres -> D1_warn_diff_pres;
+connD18: port door1.warn_slide -> D1_warn_slide;
+connD19: port D1_in_flight -> door1.in_flight;
+connD110: port D1_on_ground -> door1.on_ground;
+connD111: port D1_engine_running -> door1.engine_running;
+connD112: port D1_emergency_evacuation -> door1.emergency_evacuation;
+connD113: port door1.warning_info -> D1_warning_info;
+connD114: port door1.ecam_info -> D1_ecam_info;
+connD116: port D1_dps -> door1.dps;
+connD21: port D2_handle_position -> door2.handle_position;
+connD22: port D2_closed -> door2.closed;
+connD202: port D2_latched -> door2.latched;
+connD23: port D2_locked -> door2.locked;
+connD24: port door2.swivel -> D2_swivel;
+connD25: port door2.de_arrest -> D2_de_arrest;
+connD26: port door2.lock -> D2_lock;
+connD27: port door2.warn_diff_pres -> D2_warn_diff_pres;
+connD28: port door2.warn_slide -> D2_warn_slide;
+connD29: port D2_in_flight -> door2.in_flight;
+connD210: port D2_on_ground -> door2.on_ground;
+connD211: port D2_engine_running -> door2.engine_running;
+connD212: port D2_emergency_evacuation -> door2.emergency_evacuation;
+connD213: port door2.warning_info -> D2_warning_info;
+connD214: port door2.ecam_info -> D2_ecam_info;
+connD216: port D2_dps -> door2.dps;
+connMix: port doors_mix.cll -> Mix_cll;
+connD218: port door2.door_locked -> doors_mix.door2;
+connD118: port door1.door_locked -> doors_mix.door1;
+thread doors_int
+door1: in data port Base_Types::boolean;
+door2: in data port Base_Types::boolean;
+cll: out data port Base_Types::boolean;
+end doors_int;
+thread implementation doors_int.imp
+end doors_int.imp;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "doors_int",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "doors_int.imp",
+      "kind": "thread",
+      "type_name": "doors_int"
+    }
+  ],
+  "features": [
+    {
+      "owner": "doors_int",
+      "name": "door1",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "doors_int",
+      "name": "door2",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "doors_int",
+      "name": "cll",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "doors_int.imp",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": ""
+    },
+    {
+      "owner": "doors_int.imp",
+      "owner_kind": "thread implementation",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 5 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "doors_int.imp",
+      "owner_kind": "thread implementation",
+      "name": "Period",
+      "val
+-- [target model context truncated]

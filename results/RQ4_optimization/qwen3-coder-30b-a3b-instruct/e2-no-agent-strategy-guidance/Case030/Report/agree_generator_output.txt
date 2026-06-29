@@ -1,0 +1,13 @@
+annex agree {**
+  eq t : real = 0.0 -> pre(t) + 0.1;
+  
+  guarantee "initial_t": t = 0.0;
+  
+  guarantee "step_size": t >= pre(t) and t <= pre(t) + 0.1;
+  
+  guarantee "output_timeToRecovery": timeToRecovery = 1.7;
+  
+  assume "recovery_time_bound": t >= 0.0;
+  
+  guarantee "recovery_behavior": (t >= 0.0) => (distanceFromFence > pre(distanceFromFence));
+**};

@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "mismatched input '>=' expecting ';'",
+      "cause": "AGREE syntax error in equation declaration",
+      "minimal_edit": "Replace 'eq Beta3_range : Beta3 >= 0 and Beta3 <= 100;' with 'Beta3_range : Beta3 >= 0 and Beta3 <= 100;'"
+    },
+    {
+      "diagnostic": "types must be record definition, array definition, data implementation, enumeration, or datatype",
+      "cause": "AGREE equation declaration syntax error",
+      "minimal_edit": "Replace 'eq Beta3_range : Beta3 >= 0 and Beta3 <= 100;' with 'Beta3_range : Beta3 >= 0 and Beta3 <= 100;'"
+    },
+    {
+      "diagnostic": "Expression for assume statement is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid equation reference in assume statement",
+      "minimal_edit": "Replace 'assume \"Beta3 bounded\": Beta3_range;' with 'assume \"Beta3 bounded\": Beta3 >= 0 and Beta3 <= 100;'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the 'eq' keyword from line 143",
+    "Replace the assume statement on line 144 with direct boolean expression"
+  ]
+}

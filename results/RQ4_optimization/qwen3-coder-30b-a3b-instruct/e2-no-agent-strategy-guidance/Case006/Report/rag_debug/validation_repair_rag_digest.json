@@ -1,0 +1,34 @@
+{
+  "rag_rules": [
+    "Resolve 'min' reference by using visible AADL features or declared AGREE helpers; avoid undefined identifiers in binary expressions.",
+    "Ensure type consistency in AGREE expressions: left and right sides of '=' must be of the same type (e.g., real = real).",
+    "Do not introduce package-qualified identifiers or types not present in the model's configured dependencies."
+  ],
+  "generic_rules": [
+    "Place AGREE contracts in component type scopes for assumptions/guarantees, and implementation scopes for assignments.",
+    "Use only visible AADL features or declared AGREE helpers in expressions to avoid 'named thing must be an expression with a type' errors.",
+    "Align helper declaration types with actual expression types: int, real, bool.",
+    "Avoid placing guarantee statements in implementation scope; use assign for output bindings."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Use `eq` for equations and `gua` for guarantees; ensure all identifiers are resolved.",
+    "Constants and equations in AGREE must use valid scalar types: int, real, bool.",
+    "Assignments in implementation scope must reference existing output features or declared auxiliary variables."
+  ],
+  "anti_patterns": [
+    "Do not reference undefined identifiers like 'min' or 'integer' in AGREE expressions.",
+    "Do not mix incompatible types in binary expressions (e.g., real = <error>).",
+    "Do not place guarantee statements in implementation scope; use assign for output bindings."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "type scope range assumption and guarantee",
+    "implementation scope output assign",
+    "integrated pattern chunk 1",
+    "Assumed Type vs Actual Type",
+    "AGREE Scalar Type Names",
+    "Named Thing Has No Type"
+  ]
+}

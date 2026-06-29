@@ -1,0 +1,70 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: P_Output, Dev_Bus
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+P_Output | out | data | opaque | Base_Types::Float_32
+Dev_Bus | requires | access | opaque | 
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "P_Output >= 0.0 and P_Output <= 100.0",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "P_Output"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Pression | lines 32-34
+annex agree {**
+    guarantee "pressure_output_bounds": 0.0 <= P_Output and P_Output <= 100.0;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+No validator line numbers were available.
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Pression
+device Pression
+  features
+    P_Output : out data port Base_Types::Float_32;
+    Dev_Bus : requires bus access Device_Bus.MCU0;
+  end Pression;
+
+-- RELATED MODEL LINES
+device Pression
+P_Output : out data port Base_Types::Float_32;
+end Pression;
+device Tension -- Alimentation
+T_Output : out data port Base_Types::Integer_8;
+end Tension;
+device Compas
+Compas_Output : out data port Base_Types::Float_32;
+device Vitesse_Air
+V_Air_Output : out data port Base_Types::Integer_8;
+end Vitesse_Air;
+device Camera_Video
+Video_Output : out data port Papa_Types::Unknown; -- new data type
+end Camera_Video;
+device Emetteur
+Video_Input : in data port Papa_Types::Unknown;--data type
+Trans_Data_Input : in event data port Papa_Types::Inter_mcu_msg.Generic;
+Trans_Data_Output : out data port Papa_Types::Unknown;
+Video_Output : out data port Papa_Types::Unknown;
+end Emetteur;
+device GPS
+Error_Output : out event port;
+GPS_Output : out event data port Papa_Types::Stream_Element.Generic;
+end GPS;
+device InfraRed
+IR_Output : out data port Papa_Types::Stream_Element.Generic;
+end InfraRed;

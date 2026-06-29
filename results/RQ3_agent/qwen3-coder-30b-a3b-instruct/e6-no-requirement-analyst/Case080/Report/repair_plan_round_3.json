@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assume statements are allowed only in component types",
+      "cause": "Assume statements in implementation annex block",
+      "minimal_edit": "Move assume statements to component type Task"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'sched_constraint'",
+      "cause": "Reference to undefined property in implementation context",
+      "minimal_edit": "Remove sched_constraint reference from implementation annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'timing_constraint'",
+      "cause": "Reference to undefined property in implementation context",
+      "minimal_edit": "Remove timing_constraint reference from implementation annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Background'",
+      "cause": "Reference to undefined property in implementation context",
+      "minimal_edit": "Remove Background reference from implementation annex"
+    },
+    {
+      "diagnostic": "Guarantee statements are allowed only in component types",
+      "cause": "Guarantee statement in implementation annex block",
+      "minimal_edit": "Move guarantee statement to component type Task"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'dispatch_protocol'",
+      "cause": "Reference to undefined property in implementation context",
+      "minimal_edit": "Remove dispatch_protocol reference from implementation annex"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from Task.impl_1",
+    "Add a new AGREE annex block to the Task component type with the assume and guarantee statements",
+    "Ensure the new annex block contains only valid references available in the component type context"
+  ]
+}

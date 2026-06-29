@@ -1,0 +1,47 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'door1'.",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent 'door1'",
+      "minimal_edit": "Remove the 'door1' reference and rewrite the assumption to use only visible port names"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'handle_position'.",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent port 'handle_position'",
+      "minimal_edit": "Replace 'door1.handle_position' with the corresponding port name 'D1_handle_position' from the process type"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid reference to non-existent or unresolved identifier in AGREE expression",
+      "minimal_edit": "Remove invalid references and rewrite expression using only valid port names"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Expression on right side of implication evaluates to invalid type",
+      "minimal_edit": "Replace invalid right-hand side with valid port name from process type"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'closed'.",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent port 'closed'",
+      "minimal_edit": "Replace 'door1.closed' with the corresponding port name 'D1_closed' from the process type"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid reference to non-existent or unresolved identifier in AGREE expression",
+      "minimal_edit": "Remove invalid references and rewrite expression using only valid port names"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Expression on right side of implication evaluates to invalid type",
+      "minimal_edit": "Replace invalid right-hand side with valid port name from process type"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from doors_process",
+    "Move the signal flow assumptions to the implementation scope",
+    "Replace 'door1.handle_position' with 'D1_handle_position' in the assumption",
+    "Replace 'door1.closed' with 'D1_closed' in the assumption",
+    "Place the corrected annex block in the doors_process.imp component"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'mode'.",
+      "cause": "mode is not declared as a variable or constant in the AGREE annex",
+      "minimal_edit": "declare mode as a constant int = 0 -> if mode_pre = 3 then 0 else pre(mode)"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'mode_pre'.",
+      "cause": "mode_pre is not declared as a variable or constant in the AGREE annex",
+      "minimal_edit": "declare mode_pre as a constant int = 0 -> if mode_pre = 3 then 0 else pre(mode)"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '>=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "mode is not declared as a variable or constant in the AGREE annex",
+      "minimal_edit": "declare mode as a constant int = 0 -> if mode_pre = 3 then 0 else pre(mode)"
+    },
+    {
+      "diagnostic": "left side of binary expression '>' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "mode is not declared as a variable or constant in the AGREE annex",
+      "minimal_edit": "declare mode as a constant int = 0 -> if mode_pre = 3 then 0 else pre(mode)"
+    },
+    {
+      "diagnostic": "right side of binary expression '>' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "mode_pre is not declared as a variable or constant in the AGREE annex",
+      "minimal_edit": "declare mode_pre as a constant int = 0 -> if mode_pre = 3 then 0 else pre(mode)"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "mode and mode_pre are not declared as variables or constants in the AGREE annex",
+      "minimal_edit": "declare mode as a constant int = 0 -> if mode_pre = 3 then 0 else pre(mode)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add declaration for mode as a constant int = 0 -> if mode_pre = 3 then 0 else pre(mode)",
+    "Add declaration for mode_pre as a constant int = 0 -> if mode_pre = 3 then 0 else pre(mode)",
+    "Update the assume statement to use the declared mode variable",
+    "Update the guarantee statement to use the declared mode variable"
+  ]
+}

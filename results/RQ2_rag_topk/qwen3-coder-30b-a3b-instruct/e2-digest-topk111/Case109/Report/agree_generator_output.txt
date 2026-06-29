@@ -1,0 +1,12 @@
+annex agree {**
+  assume "signal_flow_data": acc2out = spg.acc2DataOut;
+  assume "signal_flow_control": spg.event_in = acc2_command_in;
+  guarantee "periodic_dispatch": acc2_dataOutput.Dispatch_Protocol = "Periodic";
+  guarantee "timing_period": acc2_dataOutput.Period = 4000 ms;
+  guarantee "timing_deadline": acc2_dataOutput.Deadline = 500 ms;
+  guarantee "timing_execution": acc2_dataOutput.Compute_Execution_Time >= 400 ms and acc2_dataOutput.Compute_Execution_Time <= 500 ms;
+  guarantee "priority": acc2_dataOutput.Priority = 1;
+  guarantee "stack_size": acc2_dataOutput.Stack_Size = 20 KByte;
+  guarantee "code_size": acc2_dataOutput.Code_Size = 100 KByte;
+  guarantee "data_size": acc2_dataOutput.Data_Size = 1 KByte;
+**};

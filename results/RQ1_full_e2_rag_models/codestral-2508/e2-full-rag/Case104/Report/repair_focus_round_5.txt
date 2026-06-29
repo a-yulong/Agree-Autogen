@@ -1,0 +1,195 @@
+round=5
+
+[TARGET INTERFACE]
+Exact expression symbols: acc1_input, acc2_input, acc3_input, acc4_input, acc5_input, acc6_input
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc1_input | in | data | int | SHM_DataType::accData
+acc2_input | in | data | int | SHM_DataType::accData
+acc3_input | in | data | int | SHM_DataType::accData
+acc4_input | in | data | int | SHM_DataType::accData
+acc5_input | in | data | int | SHM_DataType::accData
+acc6_input | in | data | int | SHM_DataType::accData
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "acc1_input is routed to acc1.acc1_input through C21",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc1_input",
+        "acc1.acc1_input",
+        "C21"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "acc2_input is routed to acc2.acc2_input through C22",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc2_input",
+        "acc2.acc2_input",
+        "C22"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: acc_process_emv2.impl | lines 100-106
+annex agree {**
+
+   assign acc1.acc1_input = acc1_input;
+
+   assign acc2.acc2_input = acc2_input;
+
+ **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   98:     C26 : port acc6_input -> acc6.acc6_input;
+   99: 
+   100:  annex agree {**
+   101: 
+>> 102:    assign acc1.acc1_input = acc1_input;
+   103: 
+   104:    assign acc2.acc2_input = acc2_input;
+   105: 
+   106:  **};
+
+   100:  annex agree {**
+   101: 
+   102:    assign acc1.acc1_input = acc1_input;
+   103: 
+>> 104:    assign acc2.acc2_input = acc2_input;
+   105: 
+   106:  **};
+   107: 
+   108:  end acc_process_emv2.impl;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: acc_process_emv2
+process acc_process_emv2 extends acc_process
+    --  In this variant, we add incoming ports from actual accelerometer devices
+
+  features
+    acc1_input: in data port SHM_DataType::accData;
+    acc2_input: in data port SHM_DataType::accData;
+    acc3_input: in data port SHM_DataType::accData;
+    acc4_input: in data port SHM_DataType::accData;
+    acc5_input: in data port SHM_DataType::accData;
+    acc6_input: in data port SHM_DataType::accData;
+  end acc_process_emv2;
+
+-- TARGET DECLARATION: acc_process_emv2.impl
+process implementation acc_process_emv2.impl extends acc_process.impl
+  subcomponents
+    --  We extend the initial implementation, and add error modeling elements.
+
+    acc1: refined to thread threads::acc1_dataOutput_emv2.impl
+      { Classifier_Substitution_Rule => Type_Extension; };
+    acc2: refined to thread threads::acc2_dataOutput_emv2.impl
+      { Classifier_Substitution_Rule => Type_Extension; };
+    acc3: refined to thread threads::acc3_dataOutput_emv2.impl
+      { Classifier_Substitution_Rule => Type_Extension; };
+    acc4: refined to thread threads::acc4_dataOutput_emv2.impl
+      { Classifier_Substitution_Rule => Type_Extension; };
+    acc5: refined to thread threads::acc5_dataOutput_emv2.impl
+      { Classifier_Substitution_Rule => Type_Extension; };
+    acc6: refined to thread threads::acc6_dataOutput_emv2.impl
+      { Classifier_Substitution_Rule => Type_Extension; };
+
+  connections
+    C21 : port acc1_input -> acc1.acc1_input;
+    C22 : port acc2_input -> acc2.acc2_input;
+    C23 : port acc3_input -> acc3.acc3_input;
+    C24 : port acc4_input -> acc4.acc4_input;
+    C25 : port acc5_input -> acc5.acc5_input;
+    C26 : port acc6_input -> acc6.acc6_input;
+
+ end acc_process_emv2.impl;
+
+-- RELATED MODEL LINES
+process acc_process_emv2 extends acc_process
+acc1_input: in data port SHM_DataType::accData;
+acc2_input: in data port SHM_DataType::accData;
+acc3_input: in data port SHM_DataType::accData;
+acc4_input: in data port SHM_DataType::accData;
+acc5_input: in data port SHM_DataType::accData;
+acc6_input: in data port SHM_DataType::accData;
+end acc_process_emv2;
+process implementation acc_process_emv2.impl extends acc_process.impl
+C21 : port acc1_input -> acc1.acc1_input;
+C22 : port acc2_input -> acc2.acc2_input;
+C23 : port acc3_input -> acc3.acc3_input;
+C24 : port acc4_input -> acc4.acc4_input;
+C25 : port acc5_input -> acc5.acc5_input;
+C26 : port acc6_input -> acc6.acc6_input;
+end acc_process_emv2.impl;
+acc1_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc2_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc3_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc4_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc5_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc6_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+C13: port acc1_input->acc_HM.acc1_data_monitor;
+C14: port acc2_input->acc_HM.acc2_data_monitor;
+C15: port acc3_input->acc_HM.acc3_data_monitor;
+C16: port acc4_input->acc_HM.acc4_data_monitor;
+C17: port acc5_input->acc_HM.acc5_data_monitor;
+C18: port acc6_input->acc_HM.acc6_data_monitor;
+acc1_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 1 ms;};
+acc2_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 1 ms;};
+acc3_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 1 ms;};
+acc4_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 1 ms;};
+acc5_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 1 ms;};
+acc6_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 1 ms;};
+C1: port acc1_input->HM_th.accData_in1;
+C2: port acc2_input->HM_th.accData_in2;
+C3: port acc3_input->HM_th.accData_in3;
+C4: port acc4_input->HM_th.accData_in4;
+C5: port acc5_input->HM_th.accData_in5;
+C6: port acc6_input->HM_th.accData_in6;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "acc_process_emv2",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "acc_process_emv2.impl",
+      "kind": "process",
+      "type_name": "acc_process_emv2"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "acc_process_emv2.impl",
+      "name": "acc1",
+      "category": "thread",
+      "classifier": "threads::acc1_dataOutput_emv2.impl"
+    },
+    {
+      "owner": "acc_process_emv2.impl",
+      "name": "acc2",
+      "category": "thread",
+      "classifier": "threads::acc2_dataOutput_emv2.impl"
+    },
+    {
+      "owner": "acc_process_emv2.impl",
+      "name": "acc3",
+      "category": "thread",
+      "classifier": "threads::acc3_dataOutput_emv2.impl"
+    },
+    {
+      "owner": "acc_process_emv2.impl",
+      "name": "acc
+-- [target model context truncated]

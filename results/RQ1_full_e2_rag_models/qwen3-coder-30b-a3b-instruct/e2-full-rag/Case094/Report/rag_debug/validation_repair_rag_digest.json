@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Fix unresolved references in AGREE contracts by ensuring all identifiers are valid AADL features or declared helpers in the same annex.",
+    "Resolve type mismatches by aligning helper declarations with the types of their expressions, e.g., bool for comparisons, int for integers.",
+    "Avoid introducing package-qualified identifiers in AGREE code that are not present in the model's configured dependencies."
+  ],
+  "generic_rules": [
+    "When AGREE diagnostics report type errors, trace back to the first unresolved identifier or invalid helper on the same line and correct the root cause.",
+    "AGREE contracts must be placed in valid scopes: component types for assumptions/guarantees, implementations for bindings.",
+    "Use only visible AADL features or helpers declared within the same annex to avoid reference resolution failures."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Constants and equations in AGREE must use valid scalar types: int, real, bool.",
+    "Component implementation annexes are for implementation-level bindings like assignments."
+  ],
+  "anti_patterns": [
+    "Do not introduce new package references or qualified names not present in the model's dependencies.",
+    "Do not add architecture elements to fix AGREE type errors; instead, resolve the root cause of the reference or type mismatch."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes"
+  ]
+}

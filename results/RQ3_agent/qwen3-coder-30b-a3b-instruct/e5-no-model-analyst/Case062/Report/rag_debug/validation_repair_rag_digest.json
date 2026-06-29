@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Fix unresolved references in AGREE contracts by ensuring all identifiers are visible in the current scope or declared as helpers.",
+    "Move implementation-level bindings from component type annexes to implementation annexes to avoid scope errors.",
+    "Avoid generating AGREE clauses that reference opaque Boolean or enumerated data types in numeric comparisons."
+  ],
+  "generic_rules": [
+    "Validate that all AGREE identifiers are defined within the visible scope of the annex where they are used.",
+    "Ensure AGREE assumptions and guarantees are placed in the correct component scope (type vs. implementation).",
+    "Remove AGREE clauses that reference invalid or unsupported data types, such as opaque Booleans in range comparisons.",
+    "When diagnostics point to missing references, trace and resolve the root cause rather than adding new architecture."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must reside in `annex agree {** ... **};` blocks within valid AADL component scopes.",
+    "Use only visible AADL features or declared helpers in AGREE expressions to prevent type errors.",
+    "Implementation-level assignments and bindings must be in the component implementation annex, not the type annex."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level references in component type annexes; move them to the correct scope.",
+    "Do not attempt to convert Boolean or opaque data types into numeric forms in AGREE expressions.",
+    "Do not add new architecture to resolve AGREE diagnostics; instead, fix or remove invalid clauses."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and `with` clauses",
+    "AGREE annex placement in component types vs. implementations",
+    "Assume/guarantee syntax and validator-driven repair patterns"
+  ]
+}

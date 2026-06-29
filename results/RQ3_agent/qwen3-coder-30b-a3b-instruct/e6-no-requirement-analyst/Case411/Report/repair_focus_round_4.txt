@@ -1,0 +1,311 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: queueingout, samplingin
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+queueingout | out | data | int | integer
+samplingin | in | data | int | integer
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: partition2_process | lines 219-222
+annex agree {**
+    assume "bounded_input": (samplingin >= 0) and (samplingin <= 100);
+    guarantee "output_condition": queueingout >= 0;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   107:     Source_Stack_Size => 100 Kbyte;
+   108:     Period => 20 ms;
+   109:     Compute_Execution_Time => 10 ms .. 12 ms;
+   110:     Deadline => 40 ms;
+>> 111:     ARINC653::HM_Errors =>
+   112:     (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+   113:     ARINC653::HM_Process_Recovery_actions =>
+   114:     (Process_Restart, Process_Restart, Ignore, Ignore);
+   115:   end sensor_temperature_thread;
+
+   108:     Period => 20 ms;
+   109:     Compute_Execution_Time => 10 ms .. 12 ms;
+   110:     Deadline => 40 ms;
+   111:     ARINC653::HM_Errors =>
+>> 112:     (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+   113:     ARINC653::HM_Process_Recovery_actions =>
+   114:     (Process_Restart, Process_Restart, Ignore, Ignore);
+   115:   end sensor_temperature_thread;
+   116: 
+
+   109:     Compute_Execution_Time => 10 ms .. 12 ms;
+   110:     Deadline => 40 ms;
+   111:     ARINC653::HM_Errors =>
+   112:     (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+>> 113:     ARINC653::HM_Process_Recovery_actions =>
+   114:     (Process_Restart, Process_Restart, Ignore, Ignore);
+   115:   end sensor_temperature_thread;
+   116: 
+   117:   thread implementation	sensor_temperature_thread.impl
+
+   110:     Deadline => 40 ms;
+   111:     ARINC653::HM_Errors =>
+   112:     (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+   113:     ARINC653::HM_Process_Recovery_actions =>
+>> 114:     (Process_Restart, Process_Restart, Ignore, Ignore);
+   115:   end sensor_temperature_thread;
+   116: 
+   117:   thread implementation	sensor_temperature_thread.impl
+   118:   end sensor_temperature_thread.impl;
+
+   129:     Source_Stack_Size => 100 Kbyte;
+   130:     Period => 20 ms;
+   131:     Compute_Execution_Time => 8 ms .. 10 ms;
+   132:     Deadline => 40 ms;
+>> 133:     ARINC653::HM_Errors => (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+   134:     ARINC653::HM_Process_Recovery_Actions => (Process_Restart, Process_Restart, Process_Restart, Process_Restart);
+   135: 
+   136:   end sensor_receiveinput_thread;
+   137: 
+
+   130:     Period => 20 ms;
+   131:     Compute_Execution_Time => 8 ms .. 10 ms;
+   132:     Deadline => 40 ms;
+   133:     ARINC653::HM_Errors => (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+>> 134:     ARINC653::HM_Process_Recovery_Actions => (Process_Restart, Process_Restart, Process_Restart, Process_Restart);
+   135: 
+   136:   end sensor_receiveinput_thread;
+   137: 
+   138:   --thread implementation	sensor_receiveinput_thread.impl
+
+   152:     Source_Stack_Size => 100 Kbyte;
+   153:     Period => 20 ms;
+   154:     Compute_Execution_Time => 5 ms .. 7 ms;
+   155:     Deadline => 40 ms;
+>> 156:     ARINC653::HM_Errors => (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+   157:     ARINC653::HM_Process_Recovery_Actions => (Process_Restart, Process_Stop, Process_Stop, Process_Stop);
+   158:   end commandboard_receiveinput_thread;
+   159: 
+   160:   thread commandboard_printinfos_thread
+
+   153:     Period => 20 ms;
+   154:     Compute_Execution_Time => 5 ms .. 7 ms;
+   155:     Deadline => 40 ms;
+   156:     ARINC653::HM_Errors => (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+>> 157:     ARINC653::HM_Process_Recovery_Actions => (Process_Restart, Process_Stop, Process_Stop, Process_Stop);
+   158:   end commandboard_receiveinput_thread;
+   159: 
+   160:   thread commandboard_printinfos_thread
+   161:   features
+
+   170:     Source_Stack_Size => 100 Kbyte;
+   171:     Period => 20 ms;
+   172:     Compute_Execution_Time => 2 ms .. 6 ms;
+   173:     Deadline => 40 ms;
+>> 174:     ARINC653::HM_Errors => (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+   175:     ARINC653::HM_Process_Recovery_Actions => (Process_Restart, Process_Restart, Process_Restart, Process_Restart);
+   176:   end commandboard_printinfos_thread;
+   177: 
+   178:   -- Now, declare process that model partition address space
+
+   171:     Period => 20 ms;
+   172:     Compute_Execution_Time => 2 ms .. 6 ms;
+   173:     Deadline => 40 ms;
+   174:     ARINC653::HM_Errors => (Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request);
+>> 175:     ARINC653::HM_Process_Recovery_Actions => (Process_Restart, Process_Restart, Process_Restart, Process_Restart);
+   176:   end commandboard_printinfos_thread;
+   177: 
+   178:   -- Now, declare process that model partition address space
+   179:   process partition1_process
+
+   218:     -- refresh period for sampling ports.
+   219:   annex agree {**
+   220:     assume "bounded_input": (samplingin >= 0) and (samplingin <= 100);
+   221:     guarantee "output_condition": queueingout >= 0;
+>> 222:   **};
+   223:   end partition2_process;
+   224: 
+   225:   process implementation partition2_process.impl
+   226:   subcomponents
+
+   219:   annex agree {**
+   220:     assume "bounded_input": (samplingin >= 0) and (samplingin <= 100);
+   221:     guarantee "output_condition": queueingout >= 0;
+   222:   **};
+>> 223:   end partition2_process;
+   224: 
+   225:   process implementation partition2_process.impl
+   226:   subcomponents
+   227:     receiver: thread commandboard_receiveinput_thread;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: partition2_process
+process partition2_process
+  features
+    queueingout: out event data port integer {ARINC653::Timeout => 10ms;};
+    -- In the context of a event data port, the ARINC653::Timeout
+    -- property is the timeout we used in the APEX functions.
+
+    samplingin: in data port integer
+    {ARINC653::Sampling_Refresh_Period => 10ms;};
+    -- The ARINC653::Timeout apply only to in data port. It is the
+    -- refresh period for sampling ports.
+  end partition2_process;
+
+-- TARGET DECLARATION: partition2_process.impl
+process implementation partition2_process.impl
+  subcomponents
+    receiver: thread commandboard_receiveinput_thread;
+    printer  : thread commandboard_printinfos_thread;
+    sem  : data protected_data;
+    blackboard  : data integer;
+
+  connections
+    -- example of intra-partition communication with data ports (blackboards)
+
+    blackboardconnection1: data access blackboard -> printer.tempavg;
+    blackboardconnection2: data access blackboard -> receiver.tempavg;
+
+    -- example of intra-partition communication with event port (events)
+
+    eventconnectionexample: port receiver.newavg -> printer.newavg;
+    Po3:port printer.ordersensor -> queueingout;
+    Po4:port samplingin -> receiver.temp;
+    Po5:data access sem -> receiver.need_semaphore; --{ARINC653::Timeout => 20 ms;};
+    Po6:data access sem -> printer.need_semaphore;  --{ARINC653::Timeout => 10 ms;};
+  end partition2_process.impl;
+
+-- RELATED MODEL LINES
+-- process partition2_process and the virtual processor part2.
+-- and partition2_process) is bound to a memory component.
+-- g. In the second partition (partition2_process), an intra-partition
+-- h. In the second partition (partition2_process), a communication
+process partition2_process
+queueingout: out event data port integer {ARINC653::Timeout => 10ms;};
+samplingin: in data port integer
+end partition2_process;
+process implementation partition2_process.impl
+Po3:port printer.ordersensor -> queueingout;
+Po4:port samplingin -> receiver.temp;
+end partition2_process.impl;
+partition2_pr : process partition2_process.impl;
+samplingconnection: port partition1_pr.samplingout -> partition2_pr.samplingin;
+queueingconnection: port partition2_pr.queueingout -> partition1_pr.queueingin;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "partition2_process",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "partition2_process.impl",
+      "kind": "process implementation",
+      "type_name": "partition2_process"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "partition2_process.impl",
+      "name": "receiver",
+      "category": "thread",
+      "classifier": "commandboard_receiveinput_thread"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "printer",
+      "category": "thread",
+      "classifier": "commandboard_printinfos_thread"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "sem",
+      "category": "data",
+      "classifier": "protected_data"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "blackboard",
+      "category": "data",
+      "classifier": "integer"
+    }
+  ],
+  "features": [
+    {
+      "owner": "partition2_process",
+      "name": "queueingout",
+      "direction": "out",
+      "category": "event data port",
+      "type": "integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "partition2_process",
+      "name": "samplingin",
+      "direction": "in",
+      "category": "data port",
+      "type": "integer",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "partition2_process.impl",
+      "name": "blackboardconnection1",
+      "kind": "data access",
+      "source": "blackboard",
+      "destination": "printer.tempavg"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "blackboardconnection2",
+      "kind": "data access",
+      "source": "blackboard",
+      "destination": "receiver.tempavg"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "eventconnectionexample",
+      "kind": "port",
+      "source": "receiver.newavg",
+      "destination": "printer.newavg"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "Po3",
+      "kind": "port",
+      "source": "printer.ordersensor",
+      "destination": "queueingout"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "Po4",
+      "kind": "port",
+      "source": "samplingin",
+      "destination": "receiver.temp"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "Po5",
+      "kind": "data access",
+      "source": "sem",
+      "destination": "receiver.need_semaphore"
+    },
+    {
+      "owner": "partition2_process.impl",
+      "name": "Po6",
+      "kind": "data access",
+      "source": "sem",
+      "destination": "printer.need_semaphore"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "partition2_process",
+      "owner_kind": "process",
+      "name": "ARINC653::Timeout
+-- [target model context truncated]

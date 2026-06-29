@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink is a port in Q type, not visible in Q.Impl annex scope",
+      "minimal_edit": "Remove the signal_flow guarantee as it references a port not visible in implementation scope"
+    },
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg is a subprogram reference, not a visible AGREE expression",
+      "minimal_edit": "Remove the signal_flow guarantee as it references a subprogram not visible in implementation scope"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'period'.",
+      "cause": "period is an AADL property, not a visible AGREE expression",
+      "minimal_edit": "Remove the period guarantee as it references an AADL property not visible in AGREE"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'deadline'.",
+      "cause": "deadline is an AADL property, not a visible AGREE expression",
+      "minimal_edit": "Remove the deadline guarantee as it references an AADL property not visible in AGREE"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'priority'.",
+      "cause": "priority is an AADL property, not a visible AGREE expression",
+      "minimal_edit": "Remove the priority guarantee as it references an AADL property not visible in AGREE"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from Q type",
+    "Move the AGREE annex block to Q.Impl with only valid implementation-level expressions",
+    "Replace all references to AADL properties (period, deadline, priority) with valid AGREE expressions or remove them",
+    "Remove the signal_flow guarantee that references non-visible ports and subprograms"
+  ]
+}

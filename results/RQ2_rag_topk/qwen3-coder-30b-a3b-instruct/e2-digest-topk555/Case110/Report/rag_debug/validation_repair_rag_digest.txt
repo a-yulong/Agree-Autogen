@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE expressions must preserve type consistency: numeric variables take numeric expressions, Boolean variables take Boolean expressions.
+- Assume and guarantee statements should reference only identifiers visible in their current scope.
+- Assignments in implementation scope must target existing output features or declared auxiliary variables.
+- Generated AGREE code should not introduce package-qualified identifiers unless they are present in the model's configured dependencies.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct syntax and type alignment.
+- Helper functions and variables must be declared in the same annex or imported from valid packages.
+- Component type annexes should not contain implementation-level bindings or references to subcomponents not visible at that scope.
+Anti-patterns:
+- Avoid introducing new package references or data types that are not already present in the model.
+- Do not attempt to fix unresolved references by adding new model elements or dependencies.
+- Do not place implementation-level guarantees in component type annexes; move them to implementation scope instead.
+- Do not generate AGREE clauses that reference identifiers not visible in the current component's scope.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics
+- AGREE validator diagnostics
+- Component type vs implementation scope boundaries
+- Model traceability and requirement mapping
+</RAG_DIGEST>

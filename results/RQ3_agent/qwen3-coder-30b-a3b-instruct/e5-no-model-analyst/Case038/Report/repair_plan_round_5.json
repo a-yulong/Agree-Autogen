@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Target (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "AGREE cannot reference AADL type names directly in expressions; port references must be to visible feature names",
+      "minimal_edit": "Replace Target.val with Target in the AGREE guarantee"
+    },
+    {
+      "diagnostic": "Actual (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "AGREE cannot reference AADL type names directly in expressions; port references must be to visible feature names",
+      "minimal_edit": "Replace Actual.val with Actual in the AGREE guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the AGREE annex block for Speed_Control to remove .val from Target and Actual",
+    "Change the guarantee expression from Actuator_Input = 1.0 * (Target.val - Actual.val) to Actuator_Input = 1.0 * (Target - Actual)"
+  ]
+}

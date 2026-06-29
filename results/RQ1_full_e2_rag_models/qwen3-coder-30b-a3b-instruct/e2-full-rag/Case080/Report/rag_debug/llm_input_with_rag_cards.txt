@@ -1,0 +1,91 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- AGREE annex blocks must be enclosed in `annex agree {** ... **};` syntax and placed in component type annexes for assumptions/guarantees.
+- Timing constraints from requirements should be mapped to AGREE guarantees when they refer to component implementations.
+- Implementation-level bindings like dispatch protocol usage should be placed in implementation annexes when valid in scope.
+- AGREE contracts must reference only visible symbols from the AADL model, avoiding unresolved AADL property names as variables.
+Generic rules:
+- AGREE assumptions and guarantees must be scoped to valid component type or implementation contexts based on the referenced elements.
+- AGREE expressions should avoid encoding AADL properties directly as variables unless explicitly exposed as typed ports or constants.
+- Boolean or event port comparisons in AGREE should only use values explicitly provided in the model scope.
+- Generated AGREE clauses must be syntactically valid and avoid diagnostics related to unresolved references or unsafe type conversions.
+Syntax or pattern reminders:
+- Use `annex agree {** ... **};` to wrap all AGREE contract content.
+- Place component type contracts in component type annexes; implementation contracts in implementation annexes.
+- Ensure all AGREE variable references are visible in the current scope or explicitly declared.
+- Avoid direct numeric or Boolean encoding of AADL event ports or opaque data types.
+Anti-patterns:
+- Do not reference AADL property names like Deadline or Period directly as AGREE variables without model exposure.
+- Do not encode Boolean or event port values as 0/1 or true/false unless explicitly provided in the model.
+- Do not place implementation-level bindings in component type scopes unless the model supports it.
+- Do not generate AGREE clauses that reference unresolved or non-visible identifiers.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Task
+- Task.impl_1
+- Task1
+- node_a
+- node_a.impl
+
+Target interface:
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- Task
+- Task.impl_1
+- Task1
+- node_a
+- node_a.impl
+
+Raw requirement:
+The Task component shall execute according to the scheduling and timing constraints defined for Task.impl_1. The implementation shall use the Background dispatch protocol.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Task shall execute according to scheduling and timing constraints defined for Task.impl_1",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Task",
+        "Task.impl_1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Implementation shall use Background dispatch protocol",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Task.impl_1",
+        "Background"
+      ]
+    }
+  ]
+}

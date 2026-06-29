@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Element of the same name ('nearestIntruderAltitude') in AGREE Annex in 'TrajectoryExtrapolation'",
+      "cause": "AGREE annex redeclares a feature from the component type",
+      "minimal_edit": "Remove the redundant declaration of nearestIntruderAltitude in the AGREE annex"
+    },
+    {
+      "diagnostic": "The variable 'nearestIntruderAltitude' on the left side of equation is of type '<error>' but must be of type 'real'",
+      "cause": "AGREE cannot resolve nearestIntruderAltitude as a valid variable due to name collision",
+      "minimal_edit": "Replace the erroneous equation with a correct AGREE expression using only visible symbols"
+    },
+    {
+      "diagnostic": "mismatched input '-' expecting ':'",
+      "cause": "Invalid syntax in AGREE equation due to incorrect variable usage",
+      "minimal_edit": "Rewrite the equation to use valid AGREE syntax with proper temporal operators"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the erroneous equation 'eq nearestIntruderAltitude - pre(nearestIntruderAltitude) = nearestIntruderAltitude - pre(nearestIntruderAltitude);' from the AGREE annex",
+    "Replace it with a correct AGREE expression that computes intruderVerticalVelocity as the difference between current and previous nearestIntruderAltitude values",
+    "Ensure the guarantee statement correctly expresses projectedIntruderAltitude = nearestIntruderAltitude + intruderVerticalVelocity using only visible identifiers"
+  ]
+}

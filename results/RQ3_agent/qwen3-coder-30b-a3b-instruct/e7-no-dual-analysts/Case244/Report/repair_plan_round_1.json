@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "Use of latched in a guarantee expression in component type scope",
+      "minimal_edit": "Remove 'latched' from the expression on line 101"
+    },
+    {
+      "diagnostic": "Latched expressions can appear only in component implementations",
+      "cause": "Use of latched in a guarantee expression in component type scope",
+      "minimal_edit": "Remove 'latched' from the expression on line 101"
+    },
+    {
+      "diagnostic": "mismatched input 'and' expecting '('",
+      "cause": "Invalid expression syntax due to latched usage",
+      "minimal_edit": "Remove 'latched' from the expression on line 101"
+    },
+    {
+      "diagnostic": "right side of binary expression 'and' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression syntax due to latched usage",
+      "minimal_edit": "Remove 'latched' from the expression on line 101"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the guarantee statement on line 101 to remove 'latched' from the expression",
+    "Change guarantee \"door_operation\": handle_position = (closed and latched and locked) or swivel; to guarantee \"door_operation\": handle_position = (closed and locked) or swivel;"
+  ]
+}

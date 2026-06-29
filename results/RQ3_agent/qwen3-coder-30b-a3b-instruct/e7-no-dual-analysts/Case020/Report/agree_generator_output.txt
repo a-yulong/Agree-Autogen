@@ -1,0 +1,14 @@
+annex agree {**
+  assume "dataout_bounds": 
+    (0 <= dataout) and (dataout <= 20);
+  
+  eq k : int = 10;
+  
+  guarantee "k_update_rule": 
+    (k >= 20) => (k' = k - 1) and 
+    (k <= 0) => (k' = k + 1) and 
+    (k > 0 and k < 20) => (k' = k);
+  
+  guarantee "dataout_equals_k": 
+    dataout = k;
+**};

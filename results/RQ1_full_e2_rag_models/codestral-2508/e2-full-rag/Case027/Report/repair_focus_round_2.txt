@@ -1,0 +1,161 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: altitude, timeToRecovery
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+altitude | in | data | opaque | real
+timeToRecovery | out | data | opaque | real
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "t is a real-valued recursive variable with initial value 0.0 and step size 0.1",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "t"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "minHeightAllowed is a constant with value 200.0",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "minHeightAllowed"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "kinematicLinearization function is invoked with t as a parameter to compute height",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "kinematicLinearization",
+        "t",
+        "height"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "timeToRecovery is set to 3.7",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "timeToRecovery"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "when simulation time t reaches or exceeds 3.7, computed height is always greater than minHeightAllowed",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "t",
+        "height",
+        "minHeightAllowed"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "when simulation time t reaches or exceeds 3.7, current height is greater than previous height",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "t",
+        "height"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GCAS_singleton | lines 10-17
+annex agree {**
+	  const minHeightAllowed : real = 200.0;
+	  eq t : real = 0.0 -> pre(t) + 0.1;
+	  eq height : real = kinematicLinearization(t);
+	  assign timeToRecovery = 3.7;
+	  guarantee "height_above_min": t >= 3.7 => height > minHeightAllowed;
+	  guarantee "pull_up_trend": t >= 3.7 => height > pre(height);
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   9: 			timeToRecovery: out data port real;
+   10: 	annex agree {**
+   11: 	  const minHeightAllowed : real = 200.0;
+   12: 	  eq t : real = 0.0 -> pre(t) + 0.1;
+>> 13: 	  eq height : real = kinematicLinearization(t);
+   14: 	  assign timeToRecovery = 3.7;
+   15: 	  guarantee "height_above_min": t >= 3.7 => height > minHeightAllowed;
+   16: 	  guarantee "pull_up_trend": t >= 3.7 => height > pre(height);
+   17: 	**};
+
+   10: 	annex agree {**
+   11: 	  const minHeightAllowed : real = 200.0;
+   12: 	  eq t : real = 0.0 -> pre(t) + 0.1;
+   13: 	  eq height : real = kinematicLinearization(t);
+>> 14: 	  assign timeToRecovery = 3.7;
+   15: 	  guarantee "height_above_min": t >= 3.7 => height > minHeightAllowed;
+   16: 	  guarantee "pull_up_trend": t >= 3.7 => height > pre(height);
+   17: 	**};
+   18: 	end GCAS_singleton;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: GCAS_singleton
+system GCAS_singleton
+		features
+			altitude: in data port real;
+			timeToRecovery: out data port real;
+	end GCAS_singleton;
+
+-- TARGET DECLARATION: GCAS_singleton.impl
+system implementation GCAS_singleton.impl
+	end GCAS_singleton.impl;
+
+-- RELATED MODEL LINES
+system GCAS_singleton
+altitude: in data port real;
+timeToRecovery: out data port real;
+end GCAS_singleton;
+system implementation GCAS_singleton.impl
+end GCAS_singleton.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "GCAS_singleton",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "GCAS_singleton.impl",
+      "kind": "system",
+      "type_name": "GCAS_singleton"
+    }
+  ],
+  "features": [
+    {
+      "owner": "GCAS_singleton",
+      "name": "altitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GCAS_singleton",
+      "name": "timeToRecovery",
+      "direction": "out",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    }
+  ]
+}

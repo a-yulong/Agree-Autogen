@@ -1,0 +1,7 @@
+annex agree {**
+  assume "radio_ok_condition": Radio_Ok_Input = true;
+  guarantee "data_output_validity": MCU1_Send_Output.satus = 0 => MCU1_Send_Output.channels = MCU1_Data_Input.data_0 or MCU1_Send_Output.channels = MCU1_Data_Input.data_1 or MCU1_Send_Output.channels = MCU1_Data_Input.data_2 or MCU1_Send_Output.channels = MCU1_Data_Input.data_3 or MCU1_Send_Output.channels = MCU1_Data_Input.data_4 or MCU1_Send_Output.channels = MCU1_Data_Input.data_5 or MCU1_Send_Output.channels = MCU1_Data_Input.data_6 or MCU1_Send_Output.channels = MCU1_Data_Input.data_7;
+  guarantee "error_count_non_negative": MCU1_Send_Output.nb_err >= 0;
+  guarantee "voltage_supply_range": MCU1_Send_Output.vsupply >= 0 and MCU1_Send_Output.vsupply <= 255;
+  guarantee "ppm_counter_valid": MCU1_Send_Output.ppm_cpt >= 0 and MCU1_Send_Output.ppm_cpt <= 255;
+**};

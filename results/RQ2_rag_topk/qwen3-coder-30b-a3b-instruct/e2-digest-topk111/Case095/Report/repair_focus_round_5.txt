@@ -1,0 +1,196 @@
+round=5
+
+[TARGET INTERFACE]
+Exact expression symbols: acc1_input, acc2_input, acc3_input, acc4_input, acc5_input, acc6_input, v_acc1_dataout, v_acc2_dataout, v_acc3_dataout, v_acc4_dataout, v_acc5_dataout, v_acc6_dataout, acc_error_out, acc_error_action, event2acc1, event2acc2, event2acc3, event2acc4, event2acc5, event2acc6
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc1_input | in | data | int | SHM_DataType::accData
+acc2_input | in | data | int | SHM_DataType::accData
+acc3_input | in | data | int | SHM_DataType::accData
+acc4_input | in | data | int | SHM_DataType::accData
+acc5_input | in | data | int | SHM_DataType::accData
+acc6_input | in | data | int | SHM_DataType::accData
+v_acc1_dataout | out | data | int | SHM_DataType::accData
+v_acc2_dataout | out | data | int | SHM_DataType::accData
+v_acc3_dataout | out | data | int | SHM_DataType::accData
+v_acc4_dataout | out | data | int | SHM_DataType::accData
+v_acc5_dataout | out | data | int | SHM_DataType::accData
+v_acc6_dataout | out | data | int | SHM_DataType::accData
+acc_error_out | out | data | int | SHM_DataType::errorData
+acc_error_action | in | data | int | SHM_DataType::actionData
+event2acc1 | out | data | int | SHM_DataType::actionData
+event2acc2 | out | data | int | SHM_DataType::actionData
+event2acc3 | out | data | int | SHM_DataType::actionData
+event2acc4 | out | data | int | SHM_DataType::actionData
+event2acc5 | out | data | int | SHM_DataType::actionData
+event2acc6 | out | data | int | SHM_DataType::actionData
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "acc_hm_process.impl routes data from acc_HM.acc1_validated_dataout to v_acc1_dataout through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc_hm_process.impl.C1",
+        "acc_HM.acc1_validated_dataout",
+        "v_acc1_dataout"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "acc_hm_process.impl routes data from acc_HM.acc2_validated_dataout to v_acc2_dataout through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc_hm_process.impl.C2",
+        "acc_HM.acc2_validated_dataout",
+        "v_acc2_dataout"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: acc_hm_process | lines 162-189
+annex agree {**
+      assume "input_validity": 
+        acc1_input >= 0 and acc2_input >= 0 and acc3_input >= 0 and acc4_input >= 0 and acc5_input >= 0 and acc6_input >= 0;
+  
+      guarantee "route_acc1_data": 
+        v_acc1_dataout = acc1_input;
+  
+      guarantee "route_acc2_data": 
+        v_acc2_dataout = acc2_input;
+  
+      guarantee "route_acc3_data": 
+        v_acc3_dataout = acc3_input;
+  
+      guarantee "route_acc4_data": 
+        v_acc4_dataout = acc4_input;
+  
+      guarantee "route_acc5_data": 
+        v_acc5_dataout = acc5_input;
+  
+      guarantee "route_acc6_data": 
+        v_acc6_dataout = acc6_input;
+  
+      guarantee "error_handling": 
+        acc_error_out = 0;
+  
+      guarantee "event_routing": 
+        event2acc1 = 0 and event2acc2 = 0 and event2acc3 = 0 and event2acc4 = 0 and event2acc5 = 0 and event2acc6 = 0;
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+No validator line numbers were available.
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: acc_hm_process
+process acc_hm_process
+  features
+    acc1_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+    acc2_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+    acc3_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+    acc4_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+    acc5_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+    acc6_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+
+    v_acc1_dataout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+    v_acc2_dataout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+    v_acc3_dataout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+    v_acc4_dataout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+    v_acc5_dataout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+    v_acc6_dataout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+
+    acc_error_out: out event data port SHM_DataType::errorData;
+    acc_error_action: in event data port SHM_DataType::actionData;
+
+    event2acc1: out event data port SHM_DataType::actionData;
+    event2acc2: out event data port SHM_DataType::actionData;
+    event2acc3: out event data port SHM_DataType::actionData;
+    event2acc4: out event data port SHM_DataType::actionData;
+    event2acc5: out event data port SHM_DataType::actionData;
+    event2acc6: out event data port SHM_DataType::actionData;
+  end acc_hm_process;
+
+-- TARGET DECLARATION: acc_hm_process.impl
+process implementation acc_hm_process.impl
+  subcomponents
+    acc_HM: thread threads::acc_HM.impl;
+
+  connections
+    C1: port acc_HM.acc1_validated_dataout->v_acc1_dataout;
+    C2: port acc_HM.acc2_validated_dataout->v_acc2_dataout;
+    C3: port acc_HM.acc3_validated_dataout->v_acc3_dataout;
+    C4: port acc_HM.acc4_validated_dataout->v_acc4_dataout;
+    C5: port acc_HM.acc5_validated_dataout->v_acc5_dataout;
+    C6: port acc_HM.acc6_validated_dataout->v_acc6_dataout;
+
+    C7: port acc_HM.event_to_acc1->event2acc1;
+    C8: port acc_HM.event_to_acc2->event2acc2;
+    C9: port acc_HM.event_to_acc3->event2acc3;
+    C10: port acc_HM.event_to_acc4->event2acc4;
+    C11: port acc_HM.event_to_acc5->event2acc5;
+    C12: port acc_HM.event_to_acc6->event2acc6;
+
+    C13: port acc1_input->acc_HM.acc1_data_monitor;
+    C14: port acc2_input->acc_HM.acc2_data_monitor;
+    C15: port acc3_input->acc_HM.acc3_data_monitor;
+    C16: port acc4_input->acc_HM.acc4_data_monitor;
+    C17: port acc5_input->acc_HM.acc5_data_monitor;
+    C18: port acc6_input->acc_HM.acc6_data_monitor;
+
+    C19: port acc_HM.acc_error_out->acc_error_out;
+    C20: port acc_error_action->acc_HM.acc_error_action;
+
+   annex EMV2{**
+    use types ADIRU_errLibrary;
+    use behavior ADIRU_errLibrary::simple;
+
+    error propagations
+      acc1_input : in propagation{ValueErroneous};
+      acc2_input : in propagation{ValueErroneous};
+      acc3_input : in propagation{ValueErroneous};
+      acc4_input : in propagation{ValueErroneous};
+      acc5_input : in propagation{ValueErroneous};
+      acc6_input : in propagation{ValueErroneous};
+    flows
+      f1 : error sink acc1_input{ValueErroneous};
+      f2 : error sink acc2_input{ValueErroneous};
+      f3 : error sink acc3_input{ValueErroneous};
+      f4 : error sink acc4_input{ValueErroneous};
+      f5 : error sink acc5_input{ValueErroneous};
+      f6 : error sink acc6_input{ValueErroneous};
+    end propagations;
+
+    component error behavior
+    transitions
+    	t1 : operational -[acc1_input{ValueErroneous}]-> failed;
+    	t2 : operational -[acc2_input{ValueErroneous}]-> failed;
+    	t3 : operational -[acc3_input{ValueErroneous}]-> failed;
+    	t4 : operational -[acc4_input{ValueErroneous}]-> failed;
+    	t5 : operational -[acc5_input{ValueErroneous}]-> failed;
+    	t6 : operational -[acc6_input{ValueErroneous}]-> failed;
+    detections
+       operational -[1 ormore(acc1_input{ValueErroneous})]-> acc_error_out!;
+       operational -[1 ormore(acc2_input{ValueErroneous})]-> acc_error_out!;
+       operational -[1 ormore(acc3_input{ValueErroneous})]-> acc_error_out!;
+       operational -[1 ormore(acc4_input{ValueErroneous})]-> acc_error_out!;
+       operational -[1 ormore(acc5_input{ValueErroneous})]-> acc_error_out!;
+       operational -[1 ormore(acc6_input{ValueErroneous})]-> acc_error_out!;
+    end component;
+  **};
+  end acc_hm_process.impl;
+
+-- RELATED MODEL LINES
+acc1_input: in data port SHM_DataType::accData;
+acc2_input: in data port SHM_DataType::accData;
+acc3_input: in data port SHM_DataType::accData;
+acc4_input: in data port SHM_DataType::accData;
+acc5_input: in data port SHM_DataType::accData;
+
+-- [target model context truncated]

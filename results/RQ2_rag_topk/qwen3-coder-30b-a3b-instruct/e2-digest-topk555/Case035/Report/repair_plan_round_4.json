@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 33: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "Type mismatch between THROT.Actual and Actual_Speed port",
+      "minimal_edit": "Remove the connection AcSpeedToTop as it references implementation port 'THROT.Actual' in a component type contract"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 35: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "Type mismatch between Target_Speed port and CNTRL.Target port",
+      "minimal_edit": "Remove the connection TgSpeedToCntrl as it references implementation port 'CNTRL.Target' in a component type contract"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 40: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "Type mismatch between SM.State_Out and State_Signal port",
+      "minimal_edit": "Remove the connection SSToSM as it references implementation port 'SM.State_Out' in a component type contract"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the AcSpeedToTop connection from the Car.Car_Impl connections block",
+    "Remove the TgSpeedToCntrl connection from the Car.Car_Impl connections block",
+    "Remove the SSToSM connection from the Car.Car_Impl connections block",
+    "Update the AGREE annex to remove references to the removed connections and their associated assumptions/guarantees"
+  ]
+}

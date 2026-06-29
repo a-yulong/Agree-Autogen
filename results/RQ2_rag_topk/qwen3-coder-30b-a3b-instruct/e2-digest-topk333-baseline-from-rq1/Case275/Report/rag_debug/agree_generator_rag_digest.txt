@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE assumptions and guarantees in component type scopes when they refer to visible ports or features.
+- Use `assume` and `guarantee` statements with descriptive labels for contract elements.
+- Write `eq` declarations for boolean range checks using `and` to combine lower and upper bounds.
+Generic rules:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Component type annexes are for assumptions, guarantees, constants, and equations.
+- Implementation-level bindings go in implementation scopes after subcomponents and connections.
+- Do not reference AADL property names like Period, Priority, or Compute_Execution_Time directly in AGREE expressions.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements.
+- Declare boolean range checks with `eq name : bool = lower_bound <= value and value <= upper_bound;`
+- Constants and equations are declared with `const name : type = value;` and `eq name : type = expression;`
+Anti-patterns:
+- Do not place implementation-specific bindings in component type contracts.
+- Avoid referencing AADL timing properties directly in AGREE expressions without explicit typed variables.
+</RAG_DIGEST>

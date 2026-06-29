@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 101: Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "latched is used as an output port in a guarantee expression in component type scope",
+      "minimal_edit": "Remove 'latched' from the door_operation guarantee expression"
+    },
+    {
+      "diagnostic": "line 101: Latched expressions can appear only in component implementations",
+      "cause": "latched is referenced in component type annex instead of implementation",
+      "minimal_edit": "Remove 'latched' from the door_operation guarantee expression"
+    },
+    {
+      "diagnostic": "line 101: mismatched input 'and' expecting '('",
+      "cause": "Invalid syntax due to malformed boolean expression with latched",
+      "minimal_edit": "Remove 'latched' from the door_operation guarantee expression"
+    },
+    {
+      "diagnostic": "line 101: right side of binary expression 'and' is of type '<error>' but must be of type 'bool'",
+      "cause": "Expression evaluation fails due to invalid use of latched in output context",
+      "minimal_edit": "Remove 'latched' from the door_operation guarantee expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the door_operation guarantee in the agree annex to remove latched from the conjunction",
+    "Change guarantee \"door_operation\": handle_position => (closed and latched and locked); to guarantee \"door_operation\": handle_position => (closed and locked);"
+  ]
+}

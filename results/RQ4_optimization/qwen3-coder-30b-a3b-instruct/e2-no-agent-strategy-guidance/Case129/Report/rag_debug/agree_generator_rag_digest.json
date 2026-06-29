@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "AGREE annex blocks must be enclosed in `annex agree {** ... **};` and placed in component type or implementation scopes based on the scope of referenced elements.",
+    "Assumptions and guarantees referring to component ports must be placed in valid component type scopes; implementation-level bindings belong in implementation scopes."
+  ],
+  "generic_rules": [
+    "AGREE contracts should only reference visible symbols that are explicitly declared or scoped in the AADL model.",
+    "Do not encode AADL property names directly as AGREE variables; use typed ports or constants for expression scope.",
+    "Ensure type consistency between helper declarations and expressions, especially for boolean, integer, and real types.",
+    "Avoid unsafe Boolean comparisons over opaque data types unless the port is explicitly a bool in AGREE scope."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `eq range_value : bool = x >= min_value and x <= max_value;` for safe range comparisons in AGREE.",
+    "AGREE expressions must resolve to valid AADL types; do not assume AADL properties are automatically available as variables."
+  ],
+  "anti_patterns": [
+    "Do not generate AGREE clauses that reference AADL property names like Period, Priority, or Compute_Execution_time directly as variables.",
+    "Do not attempt to convert Boolean domain values into integers unless the AADL model exposes a numeric scalar representation."
+  ],
+  "irrelevant_topics": [
+    "AADL model structure extraction",
+    "Requirement semantics and traceability",
+    "Model fusion and owner/scope preservation",
+    "Validator diagnostics and repair patterns"
+  ]
+}

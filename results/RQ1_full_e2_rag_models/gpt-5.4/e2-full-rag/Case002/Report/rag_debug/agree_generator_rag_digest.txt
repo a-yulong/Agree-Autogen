@@ -1,0 +1,17 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use component type annexes for assumptions and guarantees over component ports; use implementation annexes for assignments and auxiliary equations only.
+- In implementation scope, use assign only for an existing output feature or a declared auxiliary variable; do not emit guarantees there.
+- Prefer helper equations for reusable boolean conditions when the requirement defines a named internal condition.
+- Use only visible model symbols and case-provided relations or constants; avoid inventing unsupported thresholds or names.
+Generic rules:
+- Translate branching behavior with if-then-else expressions or logically equivalent guarded clauses.
+- Keep each clause tightly tied to the requirement evidence and maintain clear traceability from helper definitions to output relations.
+Syntax or pattern reminders:
+- Valid AGREE forms include assume/guarantee, eq name : type = expression;, const name : type = value;, and assign target = expression;.
+- Use AGREE scalar types int, real, and bool; comparisons produce bool; use logical operators and, or, not(...), and implication =>.
+Anti-patterns:
+- Do not reference subcomponent ports or other out-of-scope names unless they are exposed as visible symbols in the current contract scope.
+- Do not use invalid scalar names like integer or boolean, and do not mix helper declaration types with the actual expression type.
+- Do not encode AADL property names or unit tokens as AGREE variables unless explicitly exposed through typed symbols.
+</RAG_DIGEST>

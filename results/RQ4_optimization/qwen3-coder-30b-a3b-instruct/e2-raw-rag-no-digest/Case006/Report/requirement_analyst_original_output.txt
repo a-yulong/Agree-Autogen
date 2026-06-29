@@ -1,0 +1,106 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "timeToFailure = min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure)",
+      "evidence": ["timeToFailure", "gcas_timeToFailure", "tcas_timeToFailure", "geof_timeToFailure"]
+    },
+    {
+      "id": "R2",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "p1, p2, p3 are assigned concurrency factors calculated by concurrencyFactor(gcas_timeToRecovery, timeToFailure), concurrencyFactor(tcas_timeToRecovery, timeToFailure), concurrencyFactor(geof_timeToRecovery, timeToFailure) respectively",
+      "evidence": ["p1", "p2", "p3", "gcas_timeToRecovery", "tcas_timeToRecovery", "geof_timeToRecovery", "timeToFailure"]
+    },
+    {
+      "id": "R3",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "text": "timeToFailure > gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery",
+      "evidence": ["timeToFailure", "gcas_timeToRecovery", "tcas_timeToRecovery", "geof_timeToRecovery"]
+    },
+    {
+      "id": "R4",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "text": "Supervisor.impl.gcas_ttr connects gcas.timeToRecovery to Supervisor.gcas_timeToRecovery",
+      "evidence": ["Supervisor.impl.gcas_ttr", "gcas.timeToRecovery", "Supervisor.gcas_timeToRecovery"]
+    },
+    {
+      "id": "R5",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "text": "Supervisor.impl.tcas_ttr connects tcas.timeToRecovery to Supervisor.tcas_timeToRecovery",
+      "evidence": ["Supervisor.impl.tcas_ttr", "tcas.timeToRecovery", "Supervisor.tcas_timeToRecovery"]
+    },
+    {
+      "id": "R6",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "text": "Supervisor.impl.geof_ttr connects geof.timeToRecovery to Supervisor.geof_timeToRecovery",
+      "evidence": ["Supervisor.impl.geof_ttr", "geof.timeToRecovery", "Supervisor.geof_timeToRecovery"]
+    },
+    {
+      "id": "R7",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "text": "Supervisor.impl.gcas_ttf connects gcas.timeToFailure to Supervisor.gcas_timeToFailure",
+      "evidence": ["Supervisor.impl.gcas_ttf", "gcas.timeToFailure", "Supervisor.gcas_timeToFailure"]
+    },
+    {
+      "id": "R8",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "text": "Supervisor.impl.tcas_ttf connects tcas.timeToFailure to Supervisor.tcas_timeToFailure",
+      "evidence": ["Supervisor.impl.tcas_ttf", "tcas.timeToFailure", "Supervisor.tcas_timeToFailure"]
+    },
+    {
+      "id": "R9",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "text": "Supervisor.impl.geof_ttf connects geof.timeToFailure to Supervisor.geof_timeToFailure",
+      "evidence": ["Supervisor.impl.geof_ttf", "geof.timeToFailure", "Supervisor.geof_timeToFailure"]
+    },
+    {
+      "id": "R10",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "text": "Supervisor.impl.gcas_ttr Communication_Properties::Timing=immediate",
+      "evidence": ["Supervisor.impl.gcas_ttr"]
+    },
+    {
+      "id": "R11",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "text": "Supervisor.impl.tcas_ttr Communication_Properties::Timing=immediate",
+      "evidence": ["Supervisor.impl.tcas_ttr"]
+    },
+    {
+      "id": "R12",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "text": "Supervisor.impl.geof_ttr Communication_Properties::Timing=immediate",
+      "evidence": ["Supervisor.impl.geof_ttr"]
+    },
+    {
+      "id": "R13",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "text": "Supervisor.impl.gcas_ttf Communication_Properties::Timing=immediate",
+      "evidence": ["Supervisor.impl.gcas_ttf"]
+    },
+    {
+      "id": "R14",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "text": "Supervisor.impl.tcas_ttf Communication_Properties::Timing=immediate",
+      "evidence": ["Supervisor.impl.tcas_ttf"]
+    },
+    {
+      "id": "R15",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "text": "Supervisor.impl.geof_ttf Communication_Properties::Timing=immediate",
+      "evidence":

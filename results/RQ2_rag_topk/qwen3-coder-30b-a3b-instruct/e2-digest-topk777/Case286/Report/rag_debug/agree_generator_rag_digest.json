@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Place input envelope assumptions in component type annexes using visible feature names and concrete bounds from the requirement.",
+    "Use AGREE 'assume' for input constraints and 'guarantee' for output behavior, ensuring type alignment with AADL data types.",
+    "Generate AGREE constants for numeric limits and boolean expressions for range checks using valid AADL identifiers."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be placed in valid AADL scopes: component types for assumptions/guarantees, implementations for assignments.",
+    "Only reference identifiers and types present in the AADL model; avoid introducing package-qualified or undefined names.",
+    "Ensure AGREE expressions match the actual data types of AADL ports and properties.",
+    "Do not invent numeric bounds or convert event ports into numeric values unless explicitly supported by the model."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks are enclosed in `annex agree {** ... **};` and use `const`, `eq`, `assume`, and `guarantee` keywords.",
+    "Use `eq` to define boolean expressions like `value_in_range : bool = value_in >= lower_limit and value_in <= upper_limit;`.",
+    "Constants in AGREE must be typed as `int`, `real`, or `bool` and match AADL scalar types."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level bindings in component type scopes or use subcomponent ports in type contracts.",
+    "Avoid generating assumptions or guarantees for event ports or AADL properties that are not exposed as typed variables."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "Model fusion and owner/scope preservation rules",
+    "Validator diagnostics and repair strategies",
+    "Requirement traceability and compact semantics"
+  ]
+}

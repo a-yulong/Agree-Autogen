@@ -1,0 +1,23 @@
+{
+  "rag_rules": [
+    "Attach each generated annex block to the AADL owner whose scope makes all referenced identifiers visible.",
+    "Keep type-scope contract content on component types, and keep implementation-only bindings or path-based references on component implementations."
+  ],
+  "generic_rules": [
+    "Preserve the existing architecture verbatim: do not change subcomponents, connections, features, properties, or declaration names while inserting an annex.",
+    "Make the smallest possible structural edit: add the annex to the correct owner without moving unrelated declarations.",
+    "If generated content depends on implementation-local paths or bindings, fuse it into the implementation owner rather than the type owner."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Insert a complete `annex agree {** ... **};` block inside the chosen owner; when implementation content depends on local declarations, place the block after those relevant declarations in that owner."
+  ],
+  "anti_patterns": [
+    "Do not place subcomponent-port references or other implementation-only paths inside a type-scope annex.",
+    "Do not duplicate the same generated block across both type and implementation scopes."
+  ],
+  "irrelevant_topics": [
+    "AGREE Scalar Type Names",
+    "Assumed Type vs Actual Type",
+    "Expression-level contract examples such as selector or clamping patterns"
+  ]
+}

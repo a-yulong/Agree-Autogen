@@ -1,0 +1,177 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: Target, Actuator_Input, Actual
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Target | in | data | opaque | Types::speed.speed_impl
+Actuator_Input | out | data | real | Base_Types::Float
+Actual | in | data | opaque | Types::speed.speed_impl
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Actuator_Input equals P * e + D * e_dot + I * e_int where P = 1.0, D = 0.0, I = 0.0",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Actuator_Input",
+        "P",
+        "D",
+        "I",
+        "e",
+        "e_dot",
+        "e_int"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "error e equals Target minus Actual",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "e",
+        "Target",
+        "Actual"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "error integration term e_int equals integral of error e over time",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "e_int",
+        "e"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "error derivative term e_dot equals derivative of error e",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "e_dot",
+        "e"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Target is in Types::speed.speed_impl",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Target"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "Actual is in Types::speed.speed_impl",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Actual"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "Actuator_Input is Base_Types::Float",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Actuator_Input"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Speed_Control | lines 12-18
+annex agree {**
+		const P : real = 1.0;
+		const D : real = 0.0;
+		const I : real = 0.0;
+
+		guarantee "actuator_input_relation": Actuator_Input = P * (Target - Actual) + D * e_dot + I * e_int;
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   13: 		const P : real = 1.0;
+   14: 		const D : real = 0.0;
+   15: 		const I : real = 0.0;
+   16: 
+>> 17: 		guarantee "actuator_input_relation": Actuator_Input = P * (Target - Actual) + D * e_dot + I * e_int;
+   18: 	**};
+   19: 	end Speed_Control;
+   20: 
+   21: 	system implementation Speed_Control.Speed_Control_Impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Speed_Control
+system Speed_Control
+		features
+			Target: in data port Types::speed.speed_impl;
+			Actuator_Input: out data port Base_Types::Float;
+			Actual: in data port Types::speed.speed_impl;
+	end Speed_Control;
+
+-- TARGET DECLARATION: Speed_Control.Speed_Control_Impl
+system implementation Speed_Control.Speed_Control_Impl
+	end Speed_Control.Speed_Control_Impl;
+
+-- RELATED MODEL LINES
+system Speed_Control
+Target: in data port Types::speed.speed_impl;
+Actuator_Input: out data port Base_Types::Float;
+Actual: in data port Types::speed.speed_impl;
+end Speed_Control;
+system implementation Speed_Control.Speed_Control_Impl
+end Speed_Control.Speed_Control_Impl;
+Actuator_Input: in data port Base_Types::Float;
+Actual: out data port Types::speed.speed_impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Speed_Control",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Speed_Control.Speed_Control_Impl",
+      "kind": "system implementation",
+      "type_name": "Speed_Control"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Speed_Control",
+      "name": "Target",
+      "direction": "in",
+      "category": "data port",
+      "type": "Types::speed.speed_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Speed_Control",
+      "name": "Actuator_Input",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Speed_Control",
+      "name": "Actual",
+      "direction": "in",
+      "category": "data port",
+      "type": "Types::speed.speed_impl",
+      "scalar": "opaque"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 41: left side of binary expression '=>' is of type 'int' but must be of type 'bool'",
+      "cause": "AGREE '=>' operator requires a boolean condition, but acc1_event_in is an int port",
+      "minimal_edit": "rewrite acc1_event_in => acc1_output = acc1_event_in as acc1_event_in /= 0 => acc1_output = acc1_event_in"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 44: left side of binary expression '=>' is of type 'int' but must be of type 'bool'",
+      "cause": "AGREE '=>' operator requires a boolean condition, but acc2_event_in is an int port",
+      "minimal_edit": "rewrite acc2_event_in => acc2_output = acc2_event_in as acc2_event_in /= 0 => acc2_output = acc2_event_in"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 47: left side of binary expression '=>' is of type 'int' but must be of type 'bool'",
+      "cause": "AGREE '=>' operator requires a boolean condition, but acc3_event_in is an int port",
+      "minimal_edit": "rewrite acc3_event_in => acc3_output = acc3_event_in as acc3_event_in /= 0 => acc3_output = acc3_event_in"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 50: left side of binary expression '=>' is of type 'int' but must be of type 'bool'",
+      "cause": "AGREE '=>' operator requires a boolean condition, but acc4_event_in is an int port",
+      "minimal_edit": "rewrite acc4_event_in => acc4_output = acc4_event_in as acc4_event_in /= 0 => acc4_output = acc4_event_in"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 53: left side of binary expression '=>' is of type 'int' but must be of type 'bool'",
+      "cause": "AGREE '=>' operator requires a boolean condition, but acc5_event_in is an int port",
+      "minimal_edit": "rewrite acc5_event_in => acc5_output = acc5_event_in as acc5_event_in /= 0 => acc5_output = acc5_event_in"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 56: left side of binary expression '=>' is of type 'int' but must be of type 'bool'",
+      "cause": "AGREE '=>' operator requires a boolean condition, but acc6_event_in is an int port",
+      "minimal_edit": "rewrite acc6_event_in => acc6_output = acc6_event_in as acc6_event_in /= 0 => acc6_output = acc6_event_in"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace each 'accN_event_in => accN_output = accN_event_in' with 'accN_event_in /= 0 => accN_output = accN_event_in' for N = 1 to 6",
+    "Preserve the assume clause unchanged as it is valid (int >= 0 is legal)",
+    "Ensure all changes remain within the acc_process annex block (component type scope)"
+  ]
+}

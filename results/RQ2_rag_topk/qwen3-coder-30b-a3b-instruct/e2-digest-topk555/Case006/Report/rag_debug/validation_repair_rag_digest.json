@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Resolve all AGREE references to visible AADL features and declared helpers; avoid undefined identifiers like 'min' or 'concurrencyFactor'.",
+    "Place implementation-level assignments in the component implementation scope, not in component type contracts.",
+    "Ensure type consistency in AGREE expressions: 'real' types must match on both sides of binary operators."
+  ],
+  "generic_rules": [
+    "Use only visible identifiers from the AADL model in AGREE annexes to prevent resolution errors.",
+    "Validate that all AGREE expressions reference valid types and helpers before generating contracts.",
+    "Avoid placing implementation-specific guarantees in component type annexes; use implementation annexes instead.",
+    "Do not include AADL property names (e.g., Compute_Execution_Time) as AGREE variables unless explicitly exposed."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct syntax and type matching.",
+    "Component type contracts should reference only visible ports and declared variables, not subcomponent paths."
+  ],
+  "anti_patterns": [
+    "Do not reference undefined functions like 'min' or 'concurrencyFactor' in AGREE expressions.",
+    "Do not mix implementation-level bindings with component type contracts unless properly scoped.",
+    "Do not assume AADL property names are automatically available in AGREE scope."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE validator diagnostics and repair strategies",
+    "Model Analyst Agent's role in extracting AADL structure",
+    "Requirement Analyst Agent's role in compact requirement semantics",
+    "Model Fusion Agent's role in owner/scope preservation"
+  ]
+}

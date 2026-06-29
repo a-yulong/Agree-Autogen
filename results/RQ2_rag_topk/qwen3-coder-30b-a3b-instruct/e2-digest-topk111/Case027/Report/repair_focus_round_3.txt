@@ -1,0 +1,151 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: altitude, timeToRecovery
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+altitude | in | data | opaque | real
+timeToRecovery | out | data | opaque | real
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "t starts at 0.0 and increments by 0.1",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "t"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "minHeightAllowed = 200.0",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "minHeightAllowed"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "timeToRecovery = 3.7",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "timeToRecovery"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "when t >= 3.7, height > minHeightAllowed",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "t",
+        "minHeightAllowed"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "when t >= 3.7, current height > previous height",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "t"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GCAS_singleton | lines 10-20
+annex agree {**
+		var t: real;
+		assume "initial_t_value": t = 0.0;
+		assume "t_step_size": t' = t + 0.1;
+		const "minHeightAllowed": real = 200.0;
+		guarantee "timeToRecovery_constant": timeToRecovery = 3.7;
+		guarantee "height_above_min_when_t_ge_3_7": 
+		  (t >= 3.7) => (altitude > minHeightAllowed);
+		guarantee "pull_up_trend_when_t_ge_3_7": 
+		  (t >= 3.7) => (altitude > pre(altitude));
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   7: 		features
+   8: 			altitude: in data port real;
+   9: 			timeToRecovery: out data port real;
+   10: 	annex agree {**
+>> 11: 		var t: real;
+   12: 		assume "initial_t_value": t = 0.0;
+   13: 		assume "t_step_size": t' = t + 0.1;
+   14: 		const "minHeightAllowed": real = 200.0;
+   15: 		guarantee "timeToRecovery_constant": timeToRecovery = 3.7;
+
+   9: 			timeToRecovery: out data port real;
+   10: 	annex agree {**
+   11: 		var t: real;
+   12: 		assume "initial_t_value": t = 0.0;
+>> 13: 		assume "t_step_size": t' = t + 0.1;
+   14: 		const "minHeightAllowed": real = 200.0;
+   15: 		guarantee "timeToRecovery_constant": timeToRecovery = 3.7;
+   16: 		guarantee "height_above_min_when_t_ge_3_7": 
+   17: 		  (t >= 3.7) => (altitude > minHeightAllowed);
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: GCAS_singleton
+system GCAS_singleton
+		features
+			altitude: in data port real;
+			timeToRecovery: out data port real;
+	end GCAS_singleton;
+
+-- TARGET DECLARATION: GCAS_singleton.impl
+system implementation GCAS_singleton.impl
+	end GCAS_singleton.impl;
+
+-- RELATED MODEL LINES
+system GCAS_singleton
+altitude: in data port real;
+timeToRecovery: out data port real;
+end GCAS_singleton;
+system implementation GCAS_singleton.impl
+end GCAS_singleton.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "GCAS_singleton",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "GCAS_singleton.impl",
+      "kind": "system implementation",
+      "type_name": "GCAS_singleton"
+    }
+  ],
+  "features": [
+    {
+      "owner": "GCAS_singleton",
+      "name": "altitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GCAS_singleton",
+      "name": "timeToRecovery",
+      "direction": "out",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    }
+  ]
+}

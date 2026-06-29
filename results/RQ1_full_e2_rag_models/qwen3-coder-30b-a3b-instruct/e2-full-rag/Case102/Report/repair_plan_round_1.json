@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 182: Assume statements are allowed only in component types",
+      "cause": "AGREE annex is placed in component implementation instead of component type",
+      "minimal_edit": "Move the entire AGREE annex block from ADIRU.impl to ADIRU"
+    },
+    {
+      "diagnostic": "line 182: Couldn't resolve reference to 'C1'",
+      "cause": "Connection names are not valid AGREE expressions in component type scope",
+      "minimal_edit": "Remove all connection-based assume/guarantee statements"
+    },
+    {
+      "diagnostic": "line 182: Couldn't resolve reference to 'acc_pr'",
+      "cause": "Component names are not valid AGREE expressions in component type scope",
+      "minimal_edit": "Remove all component-based assume/guarantee statements"
+    },
+    {
+      "diagnostic": "line 186: Guarantee statements are allowed only in component types",
+      "cause": "AGREE annex is placed in component implementation instead of component type",
+      "minimal_edit": "Move the entire AGREE annex block from ADIRU.impl to ADIRU"
+    },
+    {
+      "diagnostic": "line 190: Assume statements are allowed only in component types",
+      "cause": "AGREE annex is placed in component implementation instead of component type",
+      "minimal_edit": "Move the entire AGREE annex block from ADIRU.impl to ADIRU"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire annex agree block from ADIRU.impl to ADIRU",
+    "Remove all assume/guarantee statements that reference connections (C1, C2, etc.)",
+    "Remove all assume/guarantee statements that reference component instances (acc_pr, acc_hm_pr, etc.)"
+  ]
+}

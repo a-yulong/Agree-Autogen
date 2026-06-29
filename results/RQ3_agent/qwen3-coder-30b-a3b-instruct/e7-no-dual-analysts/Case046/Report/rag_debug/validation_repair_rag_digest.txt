@@ -1,0 +1,19 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE contracts must be placed inside `annex agree {** ... **};` blocks within appropriate component scopes.
+- Ensure all AGREE expressions reference only visible identifiers or previously declared helpers.
+- Align AGREE type declarations with actual AADL data types (int, real, bool) to prevent resolution errors.
+- When generating AGREE contracts, prefer concrete bounds or named constants for assumptions and guarantees.
+Syntax or pattern reminders:
+- Use `const` for named constants and `eq` for helper declarations in AGREE annexes.
+- Guarantees should relate visible outputs to visible inputs; avoid implementation-specific subcomponent paths.
+- Do not reference identifiers or types that are not declared or visible in the current AADL scope.
+Anti-patterns:
+- Do not place implementation-level bindings in component type annexes; use implementation scopes instead.
+- Do not introduce package-qualified names unless they are explicitly imported via `with` clauses.
+- Do not write guarantees that depend on subcomponent ports not declared in the component type.
+Irrelevant retrieved material:
+- AADL package references and with clause matching
+- AGREE validator diagnostics and repair strategies
+- Implementation-level component bindings and assignments
+</RAG_DIGEST>

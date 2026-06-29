@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 285: Couldn't resolve reference to 'door1'.",
+      "cause": "AGREE annex in component type scope cannot reference subcomponent ports (door1.handle_position) because they are not visible in the component type contract scope.",
+      "minimal_edit": "Remove the assume clauses for D1_handle_position and D1_closed routing since they reference subcomponent ports not visible in component type scope."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 286: Couldn't resolve reference to 'door1'.",
+      "cause": "AGREE annex in component type scope cannot reference subcomponent ports (door1.closed) because they are not visible in the component type contract scope.",
+      "minimal_edit": "Remove the assume clauses for D1_handle_position and D1_closed routing since they reference subcomponent ports not visible in component type scope."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the assume clause 'assume \"D1_handle_position routing\": D1_handle_position => door1.handle_position;' from the AGREE annex block.",
+    "Delete the assume clause 'assume \"D1_closed routing\": D1_closed => door1.closed;' from the AGREE annex block."
+  ]
+}

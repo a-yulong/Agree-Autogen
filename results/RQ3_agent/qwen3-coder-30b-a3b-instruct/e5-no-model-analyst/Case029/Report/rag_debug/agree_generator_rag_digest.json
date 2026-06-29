@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful variables like `t = 0.0 -> pre(t) + 0.1`",
+    "Place output assignments in implementation scope only when the left-hand side is an existing output feature or declared auxiliary variable",
+    "Generate guarantees for component behavior and output values in the appropriate scope (type or implementation)"
+  ],
+  "generic_rules": [
+    "Use AGREE logical operators (`and`, `or`, `not`, `=>`) for expressing complex conditions",
+    "Ensure type consistency between helper declarations and expressions (e.g., bool for comparisons, real for real arithmetic)",
+    "Avoid encoding AADL timing properties as AGREE expressions unless explicit typed ports or constants are available",
+    "Place input envelope assumptions and output range guarantees in annex agree only when concrete bounds or named constants are provided"
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for formal statements",
+    "Use `eq name : type = expression;` for defining helper variables",
+    "Use `assign output = expression;` for output assignments in implementation scope"
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope unless they refer to output features or auxiliary variables",
+    "Do not reference AADL timing properties (e.g., Deadline, Period) as AGREE variables without explicit model exposure"
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and their automatic scope in AGREE",
+    "Component type vs implementation scope binding rules",
+    "Mode transition patterns unrelated to current requirement items"
+  ]
+}

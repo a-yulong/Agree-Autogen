@@ -38,4 +38,4 @@ python experiments/run_experiment.py `
 python scripts/aggregate_experiment_results.py --result-root outputs/e2_cases_1_10
 ```
 
-Released aggregate files are committed under `results/`. Full per-case results are distributed as an external archive artifact because the complete result tree is too large for Git history.
+Released aggregate files and per-case result trees are stored under `results/`.

@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 25: Assignment statements are allowed only in component implementations",
+      "cause": "assign statement in system type annex",
+      "minimal_edit": "Move assign dataout = k; from temperature_sensor to temperature_sensor.i2"
+    },
+    {
+      "diagnostic": "line 25: Couldn't resolve reference to 'k'",
+      "cause": "k not visible in system type scope",
+      "minimal_edit": "Remove assign dataout = k; from temperature_sensor"
+    },
+    {
+      "diagnostic": "line 34: Duplicate Element 'k'",
+      "cause": "k declared twice in same scope",
+      "minimal_edit": "Remove eq k : int = 10; from temperature_sensor.i2"
+    },
+    {
+      "diagnostic": "line 35: Duplicate Element 'k'",
+      "cause": "k referenced in duplicate declaration",
+      "minimal_edit": "Remove eq k' = ... from temperature_sensor.i2"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove assign dataout = k; from temperature_sensor annex",
+    "Move assign dataout = k; from temperature_sensor to temperature_sensor.i2 annex",
+    "Remove eq k : int = 10; from temperature_sensor.i2 annex",
+    "Remove eq k' = ... from temperature_sensor.i2 annex"
+  ]
+}

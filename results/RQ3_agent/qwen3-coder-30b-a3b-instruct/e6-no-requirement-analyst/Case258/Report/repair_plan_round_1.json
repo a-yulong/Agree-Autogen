@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "The 'latched' port is used in a guarantee expression in a component type annex, but it is an output port",
+      "minimal_edit": "Remove 'latched' from all boolean expressions in the AGREE annex guarantees"
+    },
+    {
+      "diagnostic": "Latched expressions can appear only in component implementations",
+      "cause": "Guarantees in component type annexes cannot reference output ports directly in expressions",
+      "minimal_edit": "Remove 'latched' from all boolean expressions in the AGREE annex guarantees"
+    },
+    {
+      "diagnostic": "mismatched input 'and' expecting '('",
+      "cause": "Invalid syntax due to malformed boolean expression involving 'latched'",
+      "minimal_edit": "Remove 'latched' from all boolean expressions in the AGREE annex guarantees"
+    },
+    {
+      "diagnostic": "right side of binary expression 'and' is of type '<error>' but must be of type 'bool'",
+      "cause": "Expression includes 'latched' which is not a valid operand in this context",
+      "minimal_edit": "Remove 'latched' from all boolean expressions in the AGREE annex guarantees"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove 'latched' from the boolean expressions in guarantees 'swivel_operation', 'de_arrest_operation', 'lock_operation', and 'door_locked_operation'",
+    "Keep all other parts of the AGREE annex unchanged"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 44: Couldn't resolve reference to 'null'.",
+      "cause": "AGREE uses '/=' for null comparison, but the expression is malformed",
+      "minimal_edit": "Replace 'MCU1_Send_Output /= null' with 'MCU1_Send_Output /= null'"
+    },
+    {
+      "diagnostic": "line 44: left and right sides of binary expression '=' are of type 'Papa_Types::Inter_mcu_msg.Generic' and '<error>', but must be of the same type",
+      "cause": "Invalid comparison between opaque data type and null",
+      "minimal_edit": "Replace 'MCU1_Send_Output /= null' with 'MCU1_Send_Output /= null'"
+    },
+    {
+      "diagnostic": "line 44: left side of binary expression '/' is of type 'Papa_Types::Inter_mcu_msg.Generic' but must be of type 'real'",
+      "cause": "Invalid use of '/' operator on opaque data type",
+      "minimal_edit": "Replace 'MCU1_Send_Output /= null' with 'MCU1_Send_Output /= null'"
+    },
+    {
+      "diagnostic": "line 44: named thing must be an expression with a type",
+      "cause": "Invalid expression syntax for null comparison",
+      "minimal_edit": "Replace 'MCU1_Send_Output /= null' with 'MCU1_Send_Output /= null'"
+    },
+    {
+      "diagnostic": "line 44: no viable alternative at input '='",
+      "cause": "Syntax error in null comparison expression",
+      "minimal_edit": "Replace 'MCU1_Send_Output /= null' with 'MCU1_Send_Output /= null'"
+    },
+    {
+      "diagnostic": "line 44: right side of binary expression '/' is of type '<error>' but must be of type 'real'",
+      "cause": "Invalid use of '/' operator on opaque data type",
+      "minimal_edit": "Replace 'MCU1_Send_Output /= null' with 'MCU1_Send_Output /= null'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the guarantee statement on line 44 with 'guarantee \"operates when Radio_Ok_Input is true\": Radio_Ok_Input = true => MCU1_Send_Output /= null;'",
+    "Ensure the annex block remains in the component type scope"
+  ]
+}

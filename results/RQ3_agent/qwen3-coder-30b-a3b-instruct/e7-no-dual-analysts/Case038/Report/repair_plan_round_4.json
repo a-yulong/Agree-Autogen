@@ -1,0 +1,87 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Target (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "Port type 'Types::speed.speed_impl' is not a scalar type",
+      "minimal_edit": "Replace 'Target' with a scalar type port or remove the reference in AGREE"
+    },
+    {
+      "diagnostic": "Actual (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "Port type 'Types::speed.speed_impl' is not a scalar type",
+      "minimal_edit": "Replace 'Actual' with a scalar type port or remove the reference in AGREE"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'D'.",
+      "cause": "Variable D is not declared in the correct scope",
+      "minimal_edit": "Move or declare D in the same scope as P, I, and e"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'I'.",
+      "cause": "Variable I is not declared in the correct scope",
+      "minimal_edit": "Move or declare I in the same scope as P, D, and e"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'P'.",
+      "cause": "Variable P is not declared in the correct scope",
+      "minimal_edit": "Move or declare P in the same scope as D, I, and e"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Type mismatch in assignment due to unresolved references",
+      "minimal_edit": "Ensure all variables are properly declared with correct types"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port type mismatch in subtraction operation",
+      "minimal_edit": "Replace 'Target' and 'Actual' with scalar types or remove from expression"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port type mismatch in subtraction operation",
+      "minimal_edit": "Replace 'Target' and 'Actual' with scalar types or remove from expression"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'e'.",
+      "cause": "Variable e is not declared in the correct scope",
+      "minimal_edit": "Move or declare e in the same scope as P, D, I"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'e_dot'.",
+      "cause": "Variable e_dot is not declared in the correct scope",
+      "minimal_edit": "Move or declare e_dot in the same scope as e"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'e_int'.",
+      "cause": "Variable e_int is not declared in the correct scope",
+      "minimal_edit": "Move or declare e_int in the same scope as e"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in assignment due to unresolved references",
+      "minimal_edit": "Ensure all variables are properly declared with correct types"
+    },
+    {
+      "diagnostic": "left side of binary expression '*' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Type mismatch in multiplication due to unresolved references",
+      "minimal_edit": "Ensure all variables are properly declared with correct types"
+    },
+    {
+      "diagnostic": "right side of binary expression '*' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Type mismatch in multiplication due to unresolved references",
+      "minimal_edit": "Ensure all variables are properly declared with correct types"
+    },
+    {
+      "diagnostic": "missing EOF at 'constant'",
+      "cause": "Syntax error in AGREE annex due to incorrect declaration placement",
+      "minimal_edit": "Reorganize AGREE annex to ensure proper declaration order"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove or replace 'Target' and 'Actual' from AGREE expressions since they are not scalar types",
+    "Move all variable declarations (P, D, I, e, e_dot, e_int) to the same scope",
+    "Ensure all variables are declared with correct types",
+    "Reorganize the AGREE annex to fix syntax errors and declaration order",
+    "Verify that all referenced identifiers are visible in the current scope"
+  ]
+}

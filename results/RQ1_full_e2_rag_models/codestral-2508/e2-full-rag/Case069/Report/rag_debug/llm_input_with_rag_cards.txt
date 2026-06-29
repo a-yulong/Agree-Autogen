@@ -1,0 +1,120 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks inside `annex agree {** ... **};` for component types or implementations as appropriate
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` only when they are valid in the current scope
+- For implementation contracts, use `assign` only for existing output features or auxiliary variables
+- For type contracts, place input assumptions and output guarantees only when concrete bounds or visible relations are available
+- Do not use implementation-only subcomponent paths in component type annexes
+- Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants
+Generic rules:
+- Use exact current-case names from the model index for all identifiers
+- Treat each annex agree block as scoped to its owning component declaration
+- Do not copy identifiers from examples or invent ports/components
+- Use case-provided thresholds and legal visible feature names for bounds
+Syntax or pattern reminders:
+- AGREE contracts use `assume`, `guarantee`, `eq`, `const`, and `assign`
+- Implementation contracts use `assign` for outputs or auxiliary variables
+- Type contracts use assumptions for inputs and guarantees for outputs
+Anti-patterns:
+- Do not use implementation-only subcomponent paths in component type annexes
+- Do not encode AADL timing properties as AGREE expressions without explicit ports or constants
+- Do not invent identifiers or copy from examples
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- telecommand
+- nominal_attitude
+- nominal_orbit
+- power_status_FSS
+- power_status_CSS
+- power_status_SPS
+- power_status_ES
+- power_status_MGM
+- power_status_GYR
+- power_status_STR
+- power_status_GPS
+- power_status_TRU
+- power_status_RW
+- power_status_MGT
+- manoeuvre_command
+- attitude_window
+- check_thresholds
+- Force_mode_to_NM
+- Force_mode_to_SM
+
+Target interface:
+Exact expression symbols: telecommand, nominal_attitude, nominal_orbit, power_status_FSS, power_status_CSS, power_status_SPS, power_status_ES, power_status_MGM, power_status_GYR, power_status_STR, power_status_GPS, power_status_TRU, power_status_RW, power_status_MGT, manoeuvre_command, attitude_window, check_thresholds, Force_mode_to_NM, Force_mode_to_SM
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+telecommand | in | data | real | dataaocs::telecommand
+nominal_attitude | out | data | real | dataaocs::attitude
+nominal_orbit | out | data | real | dataaocs::orbit
+power_status_FSS | out | data | bool | dataaocs::power_status
+power_status_CSS | out | data | bool | dataaocs::power_status
+power_status_SPS | out | data | bool | dataaocs::power_status
+power_status_ES | out | data | bool | dataaocs::power_status
+power_status_MGM | out | data | bool | dataaocs::power_status
+power_status_GYR | out | data | bool | dataaocs::power_status
+power_status_STR | out | data | bool | dataaocs::power_status
+power_status_GPS | out | data | bool | dataaocs::power_status
+power_status_TRU | out | data | bool | dataaocs::power_status
+power_status_RW | out | data | bool | dataaocs::power_status
+power_status_MGT | out | data | bool | dataaocs::power_status
+manoeuvre_command | out | data | opaque | dataaocs::manoeuvre_command
+attitude_window | out | data | real | dataaocs::attitude_window
+check_thresholds | out | data | opaque | dataaocs::check_thresholds
+Force_mode_to_NM | out | event | event | 
+Force_mode_to_SM | out | event | event | 
+
+Raw requirement:
+The Telecommand_Processing component shall execute according to the scheduling and timing constraints defined for Telecommand_Processing.impl. The implementation shall use the Aperiodic dispatch protocol and complete compute execution within 0 ms .. 100 us.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Telecommand_Processing.impl uses Aperiodic dispatch protocol",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Telecommand_Processing.impl",
+        "Dispatch_Protocol"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Telecommand_Processing.impl compute execution time is 0 ms .. 100 us",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Telecommand_Processing.impl",
+        "Compute_Execution_Time"
+      ]
+    }
+  ]
+}

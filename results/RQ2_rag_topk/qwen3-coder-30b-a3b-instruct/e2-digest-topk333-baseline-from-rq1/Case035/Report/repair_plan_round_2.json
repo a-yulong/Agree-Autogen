@@ -1,0 +1,55 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 14: left and right sides of binary expression '<' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Target_Speed is an opaque AADL port of type Types::speed.speed_impl, but compared directly to real literals 0.0 and 150.0",
+      "minimal_edit": "replace Target_Speed with a real-valued variable Target_Speed_real, and add an assignment to convert it from the port via a subcomponent connection in the implementation annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 14: left side of binary expression '<' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Opaque AADL port type cannot be used directly in AGREE arithmetic expressions",
+      "minimal_edit": "replace Target_Speed with Target_Speed_real in the assume clause"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 22: guarantee \"speed_limit\": const_tar_speed => Actual_Speed_real <= Target_Speed",
+      "cause": "Actual_Speed_real is declared as a real variable but Target_Speed remains an opaque port type, creating type mismatch",
+      "minimal_edit": "replace Target_Speed with Target_Speed_real in the guarantee clause"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 23: guarantee \"acceleration_bound\": const_tar_speed => abs(Actual_Speed_real - Actual_Speed_real) < max_accel",
+      "cause": "Expression uses Actual_Speed_real minus itself, which is always 0; violates R4 intent which references Actual_Speed.val_delayed",
+      "minimal_edit": "replace second Actual_Speed_real with Actual_Speed_real_delayed and declare it as a new var"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 18: missing EOF at 'var'",
+      "cause": "Validator parser failed to parse due to malformed annex structure; likely caused by prior type errors and missing semicolons",
+      "minimal_edit": "Ensure all variable declarations end with semicolons and fix preceding type errors to restore parser context"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 38: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "THROT.Actual is a subcomponent port of unknown type, but Actual_Speed is Types::speed.speed_impl; no direct type match",
+      "minimal_edit": "Do not modify this connection in component type annex; instead, move all AGREE logic to implementation annex and use Actual_Speed directly"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 40: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "Target_Speed (Types::speed.speed_impl) connected to CNTRL.Target (unknown type); type mismatch prevents direct use in component contract",
+      "minimal_edit": "Do not use Target_Speed in component type annex; move all contracts to implementation annex and use CNTRL.Target after connection"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 45: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "SM.State_Out port type does not match State_Signal type; connection invalid at implementation level",
+      "minimal_edit": "Do not fix in component annex; issue is implementation-level and irrelevant to AGREE contract logic"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the existing annex agree block from component type Car",
+    "Add a new annex agree block to component implementation Car.Car_Impl",
+    "In the new implementation annex, declare: var Target_Speed_real: real; var Actual_Speed_real: real; var Actual_Speed_real_delayed: real; const max_accel: real = 40.0; var const_tar_speed: bool;",
+    "In the new implementation annex, add: assign Target_Speed_real = Target_Speed; assign Actual_Speed_real = Actual_Speed;",
+    "In the new implementation annex, add temporal recurrence: Actual_Speed_real_delayed = 0.0 -> pre(Actual_Speed_real);",
+    "In the new implementation annex, add: assume \"input_bounds\": Target_Speed_real >= 0.0 and Target_Speed_real < 150.0;",
+    "In the new implementation annex, add: guarantee \"speed_limit\": const_tar_speed => Actual_Speed_real <= Target_Speed_real;",
+    "In the new implementation annex, add: guarantee \"acceleration_bound\": const_tar_speed => abs(Actual_Speed_real - Actual_Speed_real_delayed) < max_accel;"
+  ]
+}

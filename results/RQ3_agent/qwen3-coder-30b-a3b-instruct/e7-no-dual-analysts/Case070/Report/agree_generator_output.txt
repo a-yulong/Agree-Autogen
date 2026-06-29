@@ -1,0 +1,39 @@
+annex agree {**
+  assume "scheduling_constraint": 
+    forall t: time.
+      (telecommand(t) => 
+        (exists dt: time. 
+          (dt >= 0 us and dt <= 100 us and 
+           telecommand(t) = telecommand(t - dt))));
+
+  guarantee "compute_execution_time": 
+    forall t: time.
+      (telecommand(t) => 
+        (exists dt: time. 
+          (dt >= 0 us and dt <= 100 us and 
+           nominal_attitude(t) = nominal_attitude(t - dt) and
+           nominal_orbit(t) = nominal_orbit(t - dt) and
+           power_status_FSS(t) = power_status_FSS(t - dt) and
+           power_status_CSS(t) = power_status_CSS(t - dt) and
+           power_status_SPS(t) = power_status_SPS(t - dt) and
+           power_status_ES(t) = power_status_ES(t - dt) and
+           power_status_MGM(t) = power_status_MGM(t - dt) and
+           power_status_GYR(t) = power_status_GYR(t - dt) and
+           power_status_STR(t) = power_status_STR(t - dt) and
+           power_status_GPS(t) = power_status_GPS(t - dt) and
+           power_status_TRU(t) = power_status_TRU(t - dt) and
+           power_status_RW(t) = power_status_RW(t - dt) and
+           power_status_MGT(t) = power_status_MGT(t - dt) and
+           manoeuvre_command(t) = manoeuvre_command(t - dt) and
+           attitude_window(t) = attitude_window(t - dt) and
+           check_thresholds(t) = check_thresholds(t - dt) and
+           Force_mode_to_NM(t) = Force_mode_to_NM(t - dt) and
+           Force_mode_to_SM(t) = Force_mode_to_SM(t - dt))));
+
+  guarantee "aperiodic_dispatch": 
+    forall t: time.
+      (telecommand(t) => 
+        (exists dt: time. 
+          (dt >= 0 us and dt <= 100 us and 
+           telecommand(t) = telecommand(t - dt))));
+**};

@@ -1,0 +1,23 @@
+annex agree {**
+  assume "input_validity": 
+    (threatDetected = true => 
+      (threatAltitude >= 0.0 and ownAltitude >= 0.0 and 
+       ownLongitude >= 0 and threatLongitude >= 0)) and
+    (threatDetected = false => 
+      (threatAltitude = 0.0 and ownAltitude = 0.0 and 
+       ownLongitude = 0 and threatLongitude = 0));
+
+  guarantee "priority_longitudinal": 
+    threatDetected = true and ownAltitude = threatAltitude =>
+      (ownLongitude > threatLongitude => requiredVerticalVelocity = 50) and
+      (ownLongitude <= threatLongitude => requiredVerticalVelocity = -50);
+
+  guarantee "altitude_higher": 
+    threatDetected = true and ownAltitude > threatAltitude => requiredVerticalVelocity = 10;
+
+  guarantee "altitude_lower": 
+    threatDetected = true and ownAltitude < threatAltitude => requiredVerticalVelocity = -10;
+
+  guarantee "no_threat": 
+    threatDetected = false => requiredVerticalVelocity = 0;
+**};

@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'min'.",
+      "cause": "AGREE does not support the 'min' function; it must be replaced with explicit conditional logic or removed",
+      "minimal_edit": "Replace 'min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure)' with a valid AGREE expression using only visible symbols"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "The 'min' function is unresolved, causing type mismatch in the assignment",
+      "minimal_edit": "Replace 'min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure)' with a valid AGREE expression using only visible symbols"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'concurrencyFactor'.",
+      "cause": "AGREE does not support the 'concurrencyFactor' function; it must be replaced with explicit logic or removed",
+      "minimal_edit": "Replace 'concurrencyFactor(gcas_timeToRecovery, timeToFailure)' with a valid AGREE expression using only visible symbols"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'bool' and '<error>', but must be of the same type",
+      "cause": "The 'concurrencyFactor' function is unresolved, causing type mismatch in the assignment",
+      "minimal_edit": "Replace 'concurrencyFactor(gcas_timeToRecovery, timeToFailure)' with a valid AGREE expression using only visible symbols"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the 'min' function call in the assume statement with explicit conditional logic that compares the three input ports and returns the minimum value using only visible symbols",
+    "Replace the 'concurrencyFactor' function calls in the guarantee statement with explicit logical expressions that use only visible symbols",
+    "Ensure all expressions in the annex use only the exact symbol names provided in the requirement analyst summary"
+  ]
+}

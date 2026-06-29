@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 84: named thing must be an expression with a type",
+      "cause": "mag_out_data_x is an event data port (out) and mag_in_data_x is a data port (in); AGREE cannot directly equate ports of different kinds in a type-level contract",
+      "minimal_edit": "change assume \"signal_flow_x\": mag_out_data_x = mag_in_data_x; to guarantee \"signal_flow_x\": mag_out_data_x = mag_in_data_x;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 85: named thing must be an expression with a type",
+      "cause": "mag_out_data_y is an event data port (out) and mag_in_data_y is a data port (in); AGREE cannot directly equate ports of different kinds in a type-level contract",
+      "minimal_edit": "change assume \"signal_flow_y\": mag_out_data_y = mag_in_data_y; to guarantee \"signal_flow_y\": mag_out_data_y = mag_in_data_y;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 86: named thing must be an expression with a type",
+      "cause": "mag_out_data_z is an event data port (out) and mag_in_data_z is a data port (in); AGREE cannot directly equate ports of different kinds in a type-level contract",
+      "minimal_edit": "change assume \"signal_flow_z\": mag_out_data_z = mag_in_data_z; to guarantee \"signal_flow_z\": mag_out_data_z = mag_in_data_z;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace all three 'assume' statements in the MAGNETO annex with 'guarantee' statements",
+    "Preserve exact port names: mag_out_data_x, mag_in_data_x, mag_out_data_y, mag_in_data_y, mag_out_data_z, mag_in_data_z",
+    "Do not modify any other lines or add new identifiers"
+  ]
+}

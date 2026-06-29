@@ -1,0 +1,125 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- Task
+- Task.impl_1
+- Task1
+- node_a
+- node_a.impl
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Task shall execute according to scheduling and timing constraints defined for Task.impl_1",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Task",
+        "Task.impl_1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Implementation shall use Background dispatch protocol",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Task.impl_1",
+        "Background"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Task.impl_1 | lines 29-32
+annex agree {**
+      guarantee "timing_constraint": Task1.execute => Task.execute;
+      assume "dispatch_protocol": Task1.dispatch = Background;
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   26:     };
+   27:   properties
+   28:     Dispatch_Protocol => Background;
+   29:   annex agree {**
+>> 30:       guarantee "timing_constraint": Task1.execute => Task.execute;
+   31:       assume "dispatch_protocol": Task1.dispatch = Background;
+   32:     **};
+   33:   end Task.impl_1;
+   34: 
+
+   27:   properties
+   28:     Dispatch_Protocol => Background;
+   29:   annex agree {**
+   30:       guarantee "timing_constraint": Task1.execute => Task.execute;
+>> 31:       assume "dispatch_protocol": Task1.dispatch = Background;
+   32:     **};
+   33:   end Task.impl_1;
+   34: 
+   35:   ---------------
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Task
+thread Task
+  end Task;
+
+-- TARGET DECLARATION: Task.impl_1
+thread implementation Task.impl_1
+  calls 
+    Mycalls: {
+    P_Spg : subprogram Main_Loop;
+    };
+  properties
+    Dispatch_Protocol => Background;
+  end Task.impl_1;
+
+-- RELATED MODEL LINES
+thread Task
+end Task;
+thread implementation Task.impl_1
+end Task.impl_1;
+process node_a
+end node_a;
+process implementation node_a.impl
+Task1 : thread Task.impl_1;
+end node_a.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Task",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Task.impl_1",
+      "kind": "thread implementation",
+      "type_name": "Task"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "Task.impl_1",
+      "name": "Task1",
+      "category": "thread",
+      "classifier": "Task.impl_1"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Task.impl_1",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Background",
+      "applies_to": null
+    }
+  ]
+}

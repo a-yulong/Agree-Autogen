@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assume statements are allowed only in component types",
+      "cause": "Assume statements placed in implementation annex",
+      "minimal_edit": "Move assume statements to component type Task"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'schedulable'",
+      "cause": "Undefined identifier in assume statement",
+      "minimal_edit": "Remove schedulable assumption or define in component type"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'timed'",
+      "cause": "Undefined identifier in assume statement",
+      "minimal_edit": "Remove timed assumption or define in component type"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'dispatch_protocol'",
+      "cause": "Undefined identifier in guarantee statement",
+      "minimal_edit": "Remove dispatch_protocol guarantee or define in component type"
+    },
+    {
+      "diagnostic": "Guarantee statements are allowed only in component types",
+      "cause": "Guarantee statement in implementation annex",
+      "minimal_edit": "Move guarantee statement to component type Task"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire AGREE annex block from Task.impl_1 to the Task component type",
+    "Remove the assume and guarantee statements from the implementation annex",
+    "Verify that all referenced identifiers are properly defined in the component type"
+  ]
+}

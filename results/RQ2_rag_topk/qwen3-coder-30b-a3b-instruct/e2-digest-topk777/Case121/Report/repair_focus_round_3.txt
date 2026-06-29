@@ -1,0 +1,233 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: acc_in_data_x, acc_in_data_y, acc_in_data_z, acc_out_data_x, acc_out_data_y, acc_out_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_out_data_x | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_out_data_y | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_out_data_z | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "accelero_sub.acc_out_data_x is routed to acc_out_data_x through ACC_PC1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "accelero_sub.acc_out_data_x",
+        "acc_out_data_x",
+        "ACC_PC1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "accelero_sub.acc_out_data_y is routed to acc_out_data_y through ACC_PC2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "accelero_sub.acc_out_data_y",
+        "acc_out_data_y",
+        "ACC_PC2"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: ACCELERO | lines 35-40
+annex agree {**
+      assume "signal_flow_x": acc_out_data_x = acc_in_data_x;
+      assume "signal_flow_y": acc_out_data_y = acc_in_data_y;
+      guarantee "data_consistency_x": acc_out_data_x = acc_in_data_x;
+      guarantee "data_consistency_y": acc_out_data_y = acc_in_data_y;
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   32:     Period                 => 80 ms;
+   33:     Compute_Execution_Time => 0 ms .. 4 ms;
+   34:     Source_Stack_Size      => 512 Bytes;
+   35:   annex agree {**
+>> 36:       assume "signal_flow_x": acc_out_data_x = acc_in_data_x;
+   37:       assume "signal_flow_y": acc_out_data_y = acc_in_data_y;
+   38:       guarantee "data_consistency_x": acc_out_data_x = acc_in_data_x;
+   39:       guarantee "data_consistency_y": acc_out_data_y = acc_in_data_y;
+   40:     **};
+
+   33:     Compute_Execution_Time => 0 ms .. 4 ms;
+   34:     Source_Stack_Size      => 512 Bytes;
+   35:   annex agree {**
+   36:       assume "signal_flow_x": acc_out_data_x = acc_in_data_x;
+>> 37:       assume "signal_flow_y": acc_out_data_y = acc_in_data_y;
+   38:       guarantee "data_consistency_x": acc_out_data_x = acc_in_data_x;
+   39:       guarantee "data_consistency_y": acc_out_data_y = acc_in_data_y;
+   40:     **};
+   41:   end ACCELERO;
+
+   34:     Source_Stack_Size      => 512 Bytes;
+   35:   annex agree {**
+   36:       assume "signal_flow_x": acc_out_data_x = acc_in_data_x;
+   37:       assume "signal_flow_y": acc_out_data_y = acc_in_data_y;
+>> 38:       guarantee "data_consistency_x": acc_out_data_x = acc_in_data_x;
+   39:       guarantee "data_consistency_y": acc_out_data_y = acc_in_data_y;
+   40:     **};
+   41:   end ACCELERO;
+   42: 
+
+   35:   annex agree {**
+   36:       assume "signal_flow_x": acc_out_data_x = acc_in_data_x;
+   37:       assume "signal_flow_y": acc_out_data_y = acc_in_data_y;
+   38:       guarantee "data_consistency_x": acc_out_data_x = acc_in_data_x;
+>> 39:       guarantee "data_consistency_y": acc_out_data_y = acc_in_data_y;
+   40:     **};
+   41:   end ACCELERO;
+   42: 
+   43:   subprogram ACCELERO_SUB_wrapper
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: ACCELERO
+thread ACCELERO
+  features
+    --  Connections from the accelerometer device
+
+    acc_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    acc_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    acc_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+
+    --  Connections to the other software elements
+
+    acc_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    acc_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    acc_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+  flows
+    f1 : flow sink acc_in_data_x { latency => 10 ms .. 20 ms;};
+    -- XXX: consolidate to all ports
+
+  properties
+    Priority               => 5;
+    Dispatch_Protocol      => Periodic;
+    Period                 => 80 ms;
+    Compute_Execution_Time => 0 ms .. 4 ms;
+    Source_Stack_Size      => 512 Bytes;
+  end ACCELERO;
+
+-- TARGET DECLARATION: ACCELERO.IMPL
+thread implementation ACCELERO.IMPL
+  calls
+    ACCELERO_CALL: { accelero_sub : subprogram ACCELERO_SUB_wrapper.i; };
+  connections
+    ACC_PC1 : parameter accelero_sub.acc_out_data_x -> acc_out_data_x;
+    ACC_PC2 : parameter accelero_sub.acc_out_data_y -> acc_out_data_y;
+    ACC_PC3 : parameter accelero_sub.acc_out_data_z -> acc_out_data_z;
+
+  end ACCELERO.IMPL;
+
+-- RELATED MODEL LINES
+thread ACCELERO
+acc_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+f1 : flow sink acc_in_data_x { latency => 10 ms .. 20 ms;};
+end ACCELERO;
+acc_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+P1: parameter Spg.acc_out_data_x -> Acc_Out_Data_X;
+thread implementation ACCELERO.IMPL
+ACC_PC1 : parameter accelero_sub.acc_out_data_x -> acc_out_data_x;
+ACC_PC2 : parameter accelero_sub.acc_out_data_y -> acc_out_data_y;
+ACC_PC3 : parameter accelero_sub.acc_out_data_z -> acc_out_data_z;
+end ACCELERO.IMPL;
+acc_in_data_x : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_in_data_y : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_in_data_z : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+ACC_PC1 : parameter acc_in_data_x	-> attitude_sub.acc_in_data_x;
+ACC_PC2 : parameter acc_in_data_y	-> attitude_sub.acc_in_data_y;
+ACC_PC3 : parameter acc_in_data_z	-> attitude_sub.acc_in_data_z;
+accelero_thread : thread ACCELERO.IMPL;
+ACC_INPUT_PC1   : port acc_in_data_x	-> accelero_thread.acc_in_data_x;
+ACC_INPUT_PC2   : port acc_in_data_y	-> accelero_thread.acc_in_data_y;
+ACC_INPUT_PC3   : port acc_in_data_z	-> accelero_thread.acc_in_data_z;
+ACC_SUBMIT_PC1  : port accelero_thread.acc_out_data_x -> attitude_calculation_thread.acc_in_data_x;
+ACC_SUBMIT_PC2  : port accelero_thread.acc_out_data_y -> attitude_calculation_thread.acc_in_data_y;
+ACC_SUBMIT_PC3  : port accelero_thread.acc_out_data_z -> attitude_calculation_thread.acc_in_data_z;
+f1 : flow sink acc_in_data_x -> ACC_INPUT_PC1 -> accelero_thread.f1;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "ACCELERO",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "ACCELERO.IMPL",
+      "kind": "thread implementation",
+      "type_name": "ACCELERO"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "ACCELERO.IMPL",
+      "name": "accelero_sub",
+      "category": "subprogram",
+      "classifier": "ACCELERO_SUB_wrapper.i"
+    }
+  ],
+  "features": [
+    {
+      "owner": "ACCELERO",
+      "name": "acc_in_data_x",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACCELERO",
+      "name": "acc_in_data_y",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACCELERO",
+      "name": "acc_in_data_z",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACCELERO",
+      "name": "acc_out_data_x",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACCELERO",
+      "name": "acc_out_data_y",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACCELERO",
+      "name": "acc_out_data_z",
+      "d
+-- [target model context truncated]

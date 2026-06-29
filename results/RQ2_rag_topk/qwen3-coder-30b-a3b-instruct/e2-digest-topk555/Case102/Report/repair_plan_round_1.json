@@ -1,0 +1,83 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 182: Assume statements are allowed only in component types",
+      "cause": "AGREE annex is placed in implementation scope instead of type scope",
+      "minimal_edit": "Move the entire AGREE annex block from ADIRU.EMV2 implementation to the ADIRU system type"
+    },
+    {
+      "diagnostic": "line 182: Couldn't resolve reference to 'C1'",
+      "cause": "Connection names are not valid AGREE expressions in component type contracts",
+      "minimal_edit": "Remove or rewrite connection-based assumptions to use only visible component ports and variables"
+    },
+    {
+      "diagnostic": "line 182: Couldn't resolve reference to 'acc1_output'",
+      "cause": "Port references are not valid in component type contracts without proper variable declarations",
+      "minimal_edit": "Remove or rewrite port-based assumptions to use only valid AGREE expressions"
+    },
+    {
+      "diagnostic": "line 182: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression types in AGREE assume/guarantee statements",
+      "minimal_edit": "Replace invalid expressions with valid boolean AGREE expressions"
+    },
+    {
+      "diagnostic": "line 186: Guarantee statements are allowed only in component types",
+      "cause": "AGREE annex is placed in implementation scope instead of type scope",
+      "minimal_edit": "Move the entire AGREE annex block from ADIRU.EMV2 implementation to the ADIRU system type"
+    },
+    {
+      "diagnostic": "line 186: Couldn't resolve reference to 'acc1_input'",
+      "cause": "Port references are not valid in component type contracts without proper variable declarations",
+      "minimal_edit": "Remove or rewrite port-based guarantees to use only valid AGREE expressions"
+    },
+    {
+      "diagnostic": "line 190: Assume statements are allowed only in component types",
+      "cause": "AGREE annex is placed in implementation scope instead of type scope",
+      "minimal_edit": "Move the entire AGREE annex block from ADIRU.EMV2 implementation to the ADIRU system type"
+    },
+    {
+      "diagnostic": "line 190: Couldn't resolve reference to 'main_cpu'",
+      "cause": "Processor references are not valid in component type contracts",
+      "minimal_edit": "Remove or rewrite processor binding assumptions to use only visible component identifiers"
+    },
+    {
+      "diagnostic": "line 192: Assume statements are allowed only in component types",
+      "cause": "AGREE annex is placed in implementation scope instead of type scope",
+      "minimal_edit": "Move the entire AGREE annex block from ADIRU.EMV2 implementation to the ADIRU system type"
+    },
+    {
+      "diagnostic": "line 192: Couldn't resolve reference to 'main_cpu'",
+      "cause": "Processor references are not valid in component type contracts",
+      "minimal_edit": "Remove or rewrite processor binding assumptions to use only visible component identifiers"
+    },
+    {
+      "diagnostic": "line 194: Assume statements are allowed only in component types",
+      "cause": "AGREE annex is placed in implementation scope instead of type scope",
+      "minimal_edit": "Move the entire AGREE annex block from ADIRU.EMV2 implementation to the ADIRU system type"
+    },
+    {
+      "diagnostic": "line 194: Couldn't resolve reference to 'main_cpu'",
+      "cause": "Processor references are not valid in component type contracts",
+      "minimal_edit": "Remove or rewrite processor binding assumptions to use only visible component identifiers"
+    },
+    {
+      "diagnostic": "line 196: Assume statements are allowed only in component types",
+      "cause": "AGREE annex is placed in implementation scope instead of type scope",
+      "minimal_edit": "Move the entire AGREE annex block from ADIRU.EMV2 implementation to the ADIRU system type"
+    },
+    {
+      "diagnostic": "line 196: Couldn't resolve reference to 'main_cpu'",
+      "cause": "Processor references are not valid in component type contracts",
+      "minimal_edit": "Remove or rewrite processor binding assumptions to use only visible component identifiers"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from ADIRU.EMV2 implementation",
+    "Add a new AGREE annex block to the ADIRU system type",
+    "Move all assume/guarantee statements to the new AGREE annex in the system type",
+    "Replace all connection references with valid AGREE expressions or remove them",
+    "Replace all processor binding expressions with valid AGREE expressions or remove them",
+    "Ensure all remaining expressions are valid boolean AGREE expressions"
+  ]
+}

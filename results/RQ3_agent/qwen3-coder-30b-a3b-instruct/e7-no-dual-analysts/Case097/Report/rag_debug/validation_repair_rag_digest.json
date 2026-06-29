@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "When AGREE diagnostics report unresolved references or type errors, trace the root cause to invalid feature or helper declarations and either fix or remove the problematic clauses.",
+    "For implementation-level signal routing, use assign statements only for existing output features or declared auxiliary variables, and avoid placing guarantees in implementation scope."
+  ],
+  "generic_rules": [
+    "AGREE contracts must reference only visible identifiers and declared helpers within the same annex scope.",
+    "Type mismatches in AGREE expressions must be resolved by aligning helper declarations with the actual expression types.",
+    "Package-qualified identifiers in AGREE code must match configured AADL dependencies to avoid resolution errors.",
+    "When AGREE reports '<error>' types, remove or correct the invalid clause rather than introducing new architecture."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks and must be placed in valid component type or implementation scopes.",
+    "Assignments in implementation scope should reference existing output features or declared auxiliary variables.",
+    "Helper declarations like `eq` and `const` must use valid AGREE scalar types: int, real, bool."
+  ],
+  "anti_patterns": [
+    "Do not introduce package-qualified identifiers in AGREE code unless they are explicitly configured in the AADL model.",
+    "Do not place guarantee statements in implementation scope; use assign for output bindings only.",
+    "Do not attempt to resolve type errors by adding new architecture; instead, correct or remove the invalid AGREE clause."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about empty packages or parsing errors",
+    "AGREE validator diagnostics about annex placement or assume/guarantee syntax",
+    "Requirement traceability or compact semantics"
+  ]
+}

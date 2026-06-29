@@ -1,0 +1,31 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by using only visible identifiers from the current component scope; do not invent new declarations.",
+    "Do not introduce package-qualified identifiers or property references not present in the model.",
+    "Ensure type consistency in AGREE expressions: numeric variables must have numeric expressions, Booleans must have Boolean expressions.",
+    "Move implementation-level bindings to the correct implementation annex and avoid placing them in component type contracts."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, always validate that referenced identifiers exist in the current scope.",
+    "AGREE expressions must preserve type correctness and avoid unsafe conversions between data types.",
+    "Component type contracts should only reference features visible at that scope; implementation-level details belong in the implementation annex.",
+    "Avoid encoding AADL property associations (e.g., Stack_Size) as AGREE variables unless explicitly exposed in the model."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Use only declared constants, equations, or visible ports in AGREE expressions.",
+    "Helper functions must be defined within the same annex or imported from a package.",
+    "Ensure that all references in AGREE clauses are resolvable within the AADL model."
+  ],
+  "anti_patterns": [
+    "Do not add new architecture elements or declarations when fixing AGREE diagnostics.",
+    "Avoid referencing subcomponent ports or implementation-level paths in component type annexes.",
+    "Do not attempt to resolve AADL property names (e.g., Stack_Size) as AGREE variables.",
+    "Do not convert Boolean or opaque data types into numeric expressions without explicit scalar representation."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about property associations",
+    "AGREE validator diagnostics about annex placement",
+    "Model Analyst Agent tasks related to AADL structure extraction"
+  ]
+}

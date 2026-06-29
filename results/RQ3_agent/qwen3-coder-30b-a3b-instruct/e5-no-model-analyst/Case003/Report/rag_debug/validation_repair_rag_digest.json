@@ -1,0 +1,31 @@
+{
+  "rag_rules": [
+    "Fix type mismatches by aligning helper declaration types with expression types; use int, real, or bool for AGREE scalar declarations.",
+    "Resolve undefined references by ensuring all identifiers are visible or declared within the same annex; remove invalid clauses if unresolved.",
+    "Use assign only for output features or declared auxiliary variables in implementation scope; avoid placing guarantees in implementation scope.",
+    "Place component type contracts (assumptions, guarantees) in component type scopes with valid visible feature names or constants."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be placed in valid scopes: component types for assumptions/guarantees, implementations for bindings.",
+    "Ensure all expressions in AGREE have consistent types; resolve type errors by aligning declarations with usage.",
+    "Only reference visible identifiers or declared helpers in AGREE annexes to avoid <error> type issues.",
+    "Use eq for helper declarations, const for constants, and assign for output bindings in appropriate scopes."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE syntax uses `assume`, `guarantee`, `eq`, `const`, and `assign` within `annex agree {** ... **};` blocks.",
+    "Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for assignments.",
+    "Type consistency is required: real arithmetic produces real, integer arithmetic produces int, comparisons produce bool.",
+    "Helper declarations must be visible in the same annex; use only named features or declared helpers in expressions."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope; use only assign for output bindings there.",
+    "Do not reference undefined identifiers or use invalid scalar types like 'integer' or 'boolean' in AGREE declarations.",
+    "Do not mix incompatible types in binary expressions; ensure left and right sides match in type."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics",
+    "Model traceability",
+    "Requirement semantics",
+    "Component type structural extraction"
+  ]
+}

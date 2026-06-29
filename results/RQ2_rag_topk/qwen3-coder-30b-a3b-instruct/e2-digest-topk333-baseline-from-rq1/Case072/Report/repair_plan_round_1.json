@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 107: Couldn't resolve reference to 'gps_pos'.",
+      "cause": "gps_pos is a port of the component type thr_mgmt, but pspg.gps_pos is a subcomponent port not visible in the component type annex",
+      "minimal_edit": "Remove the entire annex block from thr_mgmt and move it to thr_mgmt.i"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 107: Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent of thr_mgmt.i, not visible in thr_mgmt type scope",
+      "minimal_edit": "Remove the entire annex block from thr_mgmt and move it to thr_mgmt.i"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 107: left and right sides of binary expression '=' are of type 'Ardupilot_Software::GPS_Position.i' and '<error>'",
+      "cause": "gps_pos (type GPS_Position.i) cannot be compared to pspg.gps_pos (subcomponent port) in type scope; invalid cross-scope type comparison",
+      "minimal_edit": "Remove the entire annex block from thr_mgmt and move it to thr_mgmt.i"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 108: Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is not a visible identifier in thr_mgmt type scope",
+      "minimal_edit": "Remove the entire annex block from thr_mgmt and move it to thr_mgmt.i"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 108: Couldn't resolve reference to 'speed'.",
+      "cause": "speed is a port of thr_mgmt, but pspg.speed is a subcomponent port; the expression pspg.speed = speed is syntactically invalid in type scope",
+      "minimal_edit": "Remove the entire annex block from thr_mgmt and move it to thr_mgmt.i"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the annex agree block from thr_mgmt (lines 106-109)",
+    "Add an annex agree block to thr_mgmt.i immediately after the connections section",
+    "In the new thr_mgmt.i annex, write: assume \"signal_flow_R2\": gps_pos = pspg.gps_pos; assume \"signal_flow_R3\": pspg.speed = speed; assume \"signal_flow_R4\": pspg.angle = angle;"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'e_dot'.",
+      "cause": "e_dot is not declared as a variable or constant in the AGREE annex",
+      "minimal_edit": "Declare e_dot as a real-valued variable in the AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'e_int'.",
+      "cause": "e_int is not declared as a variable or constant in the AGREE annex",
+      "minimal_edit": "Declare e_int as a real-valued variable in the AGREE annex"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '*' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "e_dot is not properly typed or declared",
+      "minimal_edit": "Ensure e_dot is declared as a real-valued variable"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '*' are of type 'real' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "Target and Actual are AADL port types, not real-valued expressions",
+      "minimal_edit": "Replace Target and Actual with valid real-valued expressions or declare error variable"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Target is of AADL type, not a real-valued expression",
+      "minimal_edit": "Introduce error variable e = Target - Actual and use e in the expression"
+    },
+    {
+      "diagnostic": "right side of binary expression '*' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "e_dot is not properly declared",
+      "minimal_edit": "Ensure e_dot is declared as a real-valued variable"
+    },
+    {
+      "diagnostic": "right side of binary expression '*' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Actual is of AADL type, not a real-valued expression",
+      "minimal_edit": "Use error variable e = Target - Actual and replace Target and Actual in expression"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Target and Actual are AADL port types, not real-valued expressions",
+      "minimal_edit": "Introduce error variable e = Target - Actual and use e in the expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add declaration of error variable e = Target - Actual",
+    "Add declaration of e_dot as a real-valued variable",
+    "Add declaration of e_int as a real-valued variable",
+    "Replace Target and Actual in the guarantee expression with e",
+    "Update the guarantee to use e, e_dot, and e_int properly typed variables"
+  ]
+}

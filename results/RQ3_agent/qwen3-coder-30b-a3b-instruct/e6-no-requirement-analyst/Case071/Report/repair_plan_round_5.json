@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 118: Couldn't resolve reference to '\"signal_routing_gps_pos\": gps_pos'.",
+      "cause": "AGREE assignment LHS references component port 'gps_pos' as if it were an output port",
+      "minimal_edit": "Change 'gps_pos = pspg.gps_pos' to 'pspg.gps_pos = gps_pos' to match the correct data flow direction"
+    },
+    {
+      "diagnostic": "line 119: LHS of assignment must be an AGREE 'eq' variable or an output port of this component",
+      "cause": "AGREE assignment LHS references subcomponent port 'pspg.speed' as if it were an output port of this component",
+      "minimal_edit": "Change 'pspg.speed = speed' to 'speed = pspg.speed' to match the correct data flow direction"
+    },
+    {
+      "diagnostic": "line 120: LHS of assignment must be an AGREE 'eq' variable or an output port of this component",
+      "cause": "AGREE assignment LHS references subcomponent port 'pspg.angle' as if it were an output port of this component",
+      "minimal_edit": "Change 'pspg.angle = angle' to 'angle = pspg.angle' to match the correct data flow direction"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block, swap the left and right sides of each assignment expression to reflect correct data flow direction",
+    "Change 'assign \"signal_routing_gps_pos\": gps_pos = pspg.gps_pos;' to 'assign \"signal_routing_gps_pos\": pspg.gps_pos = gps_pos;'",
+    "Change 'assign \"signal_routing_speed\": pspg.speed = speed;' to 'assign \"signal_routing_speed\": speed = pspg.speed;'",
+    "Change 'assign \"signal_routing_angle\": pspg.angle = angle;' to 'assign \"signal_routing_angle\": angle = pspg.angle;'"
+  ]
+}

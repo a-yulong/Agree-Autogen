@@ -1,0 +1,190 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: mag_out_data_x, mag_out_data_y, mag_out_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+mag_out_data_x | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_y | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_z | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "MAGNETO_SUB_wrapper.i routes data flow from Spg.mag_out_data_x to Mag_Out_Data_X through P1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO_SUB_wrapper.i.P1",
+        "Spg.mag_out_data_x",
+        "Mag_Out_Data_X"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "MAGNETO_SUB_wrapper.i routes data flow from Spg.mag_out_data_Y to Mag_Out_Data_Y through P2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO_SUB_wrapper.i.P2",
+        "Spg.mag_out_data_Y",
+        "Mag_Out_Data_Y"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: MAGNETO_SUB_wrapper | lines 90-94
+annex agree {**
+        assume "signal_flow_x": mag_out_data_x = mag_out_data_x;
+        assume "signal_flow_y": mag_out_data_y = mag_out_data_y;
+        assume "signal_flow_z": mag_out_data_z = mag_out_data_z;
+      **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   87:     mag_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   88:     mag_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   89:     mag_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   90:   annex agree {**
+>> 91:         assume "signal_flow_x": mag_out_data_x = mag_out_data_x;
+   92:         assume "signal_flow_y": mag_out_data_y = mag_out_data_y;
+   93:         assume "signal_flow_z": mag_out_data_z = mag_out_data_z;
+   94:       **};
+   95:   end MAGNETO_SUB_wrapper;
+
+   88:     mag_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   89:     mag_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   90:   annex agree {**
+   91:         assume "signal_flow_x": mag_out_data_x = mag_out_data_x;
+>> 92:         assume "signal_flow_y": mag_out_data_y = mag_out_data_y;
+   93:         assume "signal_flow_z": mag_out_data_z = mag_out_data_z;
+   94:       **};
+   95:   end MAGNETO_SUB_wrapper;
+   96: 
+
+   89:     mag_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   90:   annex agree {**
+   91:         assume "signal_flow_x": mag_out_data_x = mag_out_data_x;
+   92:         assume "signal_flow_y": mag_out_data_y = mag_out_data_y;
+>> 93:         assume "signal_flow_z": mag_out_data_z = mag_out_data_z;
+   94:       **};
+   95:   end MAGNETO_SUB_wrapper;
+   96: 
+   97:   subprogram implementation MAGNETO_SUB_wrapper.i
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: MAGNETO_SUB_wrapper
+subprogram MAGNETO_SUB_wrapper
+  features
+    mag_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    mag_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    mag_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+  end MAGNETO_SUB_wrapper;
+
+-- TARGET DECLARATION: MAGNETO_SUB_wrapper.i
+subprogram implementation MAGNETO_SUB_wrapper.i
+  calls
+    Mycalls: { Spg : subprogram AHRS::Subprograms::MAGNETO_SUB; };
+  connections
+    P1: parameter Spg.mag_out_data_x -> Mag_Out_Data_X;
+    P2: parameter Spg.mag_out_data_Y -> Mag_Out_Data_Y;
+    P3: parameter Spg.mag_out_data_Z -> Mag_Out_Data_Z;
+  end MAGNETO_SUB_wrapper.i;
+
+-- RELATED MODEL LINES
+mag_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+subprogram MAGNETO_SUB_wrapper
+mag_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+end MAGNETO_SUB_wrapper;
+subprogram implementation MAGNETO_SUB_wrapper.i
+P1: parameter Spg.mag_out_data_x -> Mag_Out_Data_X;
+end MAGNETO_SUB_wrapper.i;
+MAGNETO_CALL: { magneto_sub : subprogram MAGNETO_SUB_wrapper.i; };
+MAG_PC1 : parameter magneto_sub.mag_out_data_x -> mag_out_data_x;
+MAG_PC2 : parameter magneto_sub.mag_out_data_y -> mag_out_data_y;
+MAG_PC3 : parameter magneto_sub.mag_out_data_z -> mag_out_data_z;
+MAG_SUBMIT_PC1  : port magneto_thread.mag_out_data_x  -> attitude_calculation_thread.mag_in_data_x;
+MAG_SUBMIT_PC2  : port magneto_thread.mag_out_data_y  -> attitude_calculation_thread.mag_in_data_y;
+MAG_SUBMIT_PC3  : port magneto_thread.mag_out_data_z  -> attitude_calculation_thread.mag_in_data_z;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "MAGNETO_SUB_wrapper",
+      "kind": "subprogram"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "MAGNETO_SUB_wrapper.i",
+      "kind": "subprogram implementation",
+      "type_name": "MAGNETO_SUB_wrapper"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "MAGNETO_SUB_wrapper.i",
+      "name": "magneto_sub",
+      "category": "subprogram",
+      "classifier": "MAGNETO_SUB_wrapper.i"
+    }
+  ],
+  "features": [
+    {
+      "owner": "MAGNETO_SUB_wrapper",
+      "name": "mag_out_data_x",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MAGNETO_SUB_wrapper",
+      "name": "mag_out_data_y",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MAGNETO_SUB_wrapper",
+      "name": "mag_out_data_z",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "MAGNETO_SUB_wrapper.i",
+      "name": "P1",
+      "kind": "parameter",
+      "source": "Spg.mag_out_data_x",
+      "destination": "Mag_Out_Data_X"
+    },
+    {
+      "owner": "MAGNETO_SUB_wrapper.i",
+      "name": "P2",
+      "kind": "parameter",
+      "source": "Spg.mag_out_data_Y",
+      "destination": "Mag_Out_Data_Y"
+    },
+    {
+      "owner": "MAGNETO_SUB_wrapper.i",
+      "name": "P3",
+      "kind": "parameter",
+      "source": "Spg.mag_out_data_Z",
+      "destination": "Mag_Out_Data_Z"
+    }
+  ]
+}

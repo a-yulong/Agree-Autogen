@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 205: left and right sides of binary expression '=' are of type 'bool' and 'int', but must be of the same type",
+      "cause": "Comparing boolean port D1_warn_diff_pres with integer comparison result D1_dps > 100",
+      "minimal_edit": "Rewrite as D1_warn_diff_pres = (D1_dps > 100)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 205: mismatched input '>' expecting ';'",
+      "cause": "AGREE parser expects parenthetical grouping for boolean expression in equality",
+      "minimal_edit": "Rewrite as D1_warn_diff_pres = (D1_dps > 100)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 206: left and right sides of binary expression '=' are of type 'bool' and 'int', but must be of the same type",
+      "cause": "Comparing boolean port D2_warn_slide with integer comparison result D2_dps > 100",
+      "minimal_edit": "Rewrite as D2_warn_slide = (D2_dps > 100)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 206: mismatched input '>' expecting ';'",
+      "cause": "AGREE parser expects parenthetical grouping for boolean expression in equality",
+      "minimal_edit": "Rewrite as D2_warn_slide = (D2_dps > 100)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Wrap the integer comparison expressions in parentheses to form proper boolean values in the equality constraints",
+    "Change line 205 from 'D1_warn_diff_pres = D1_dps > 100' to 'D1_warn_diff_pres = (D1_dps > 100)'",
+    "Change line 206 from 'D2_warn_slide = D2_dps > 100' to 'D2_warn_slide = (D2_dps > 100)'"
+  ]
+}

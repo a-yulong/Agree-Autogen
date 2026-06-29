@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in component type annexes when they describe interface behavior, not implementation details.",
+    "Use visible identifiers from the AADL model; do not introduce package-qualified names or undefined types.",
+    "Generate syntactically valid AGREE annex blocks with proper assume/guarantee structure inside `annex agree {** ... **};`.",
+    "Ensure that data constraints like range limits are expressed using visible variables or constants from the model."
+  ],
+  "generic_rules": [
+    "In component type contracts, place input assumptions and output guarantees only when concrete bounds or named constants are provided.",
+    "Do not encode AADL properties such as timing or resource usage directly into AGREE expressions unless explicitly exposed as typed ports or constants.",
+    "Avoid introducing invented constraints or bounds that are not explicitly stated in the requirement.",
+    "Use exact Boolean expressions only when the port is an AGREE bool in scope; otherwise omit unsafe clauses."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Assumptions and guarantees should reference visible identifiers from the AADL model.",
+    "Constants and equations in AGREE should be declared with appropriate types matching the AADL model.",
+    "Do not mix implementation-level bindings with component type contracts."
+  ],
+  "anti_patterns": [
+    "Do not assume or guarantee numeric ranges without explicit requirement support or visible model types.",
+    "Do not reference AADL property names (e.g., Period, Deadline) as AGREE variables unless they are explicitly typed in the model.",
+    "Do not convert Boolean or event ports into numeric values unless the model provides a data representation.",
+    "Do not place implementation-specific assignments or assertions in component type annexes."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "Model Analyst Agent's role in extracting AADL structure",
+    "Validator diagnostics and repair actions",
+    "Fusion and insertion location decisions"
+  ]
+}

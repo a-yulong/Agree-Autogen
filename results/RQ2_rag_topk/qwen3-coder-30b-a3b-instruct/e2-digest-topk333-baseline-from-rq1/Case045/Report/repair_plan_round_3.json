@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 25: missing EOF at 'mode'",
+      "cause": "Invalid AGREE syntax in mode equation; incorrect use of '->' with invalid temporal recurrence",
+      "minimal_edit": "Replace `mode : int = mode_initial -> if pre(mode) < mode then pre(mode) + 1 else pre(mode);` with `mode : int = mode_initial -> if pre(mode) < mode_initial then pre(mode) + 1 else pre(mode);`"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify the invalid AGREE mode equation on line 25",
+    "Replace the incorrect temporal recurrence expression with a valid one using pre(mode) only",
+    "Ensure the mode equation correctly reflects the intended behavior of incrementing mode when pre(mode) < mode_initial"
+  ]
+}

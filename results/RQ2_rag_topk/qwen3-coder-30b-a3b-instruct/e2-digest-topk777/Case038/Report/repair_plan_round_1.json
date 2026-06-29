@@ -1,0 +1,96 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 17: The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "Variable 'e' declared as 'real' but used in expression with 'Types::speed.speed_impl' operands",
+      "minimal_edit": "Change 'eq e : real = Target - Actual;' to 'eq e : Types::speed.speed_impl = Target - Actual;'"
+    },
+    {
+      "diagnostic": "line 17: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Incompatible types in subtraction operation",
+      "minimal_edit": "Change 'eq e : real = Target - Actual;' to 'eq e : Types::speed.speed_impl = Target - Actual;'"
+    },
+    {
+      "diagnostic": "line 17: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Incompatible types in subtraction operation",
+      "minimal_edit": "Change 'eq e : real = Target - Actual;' to 'eq e : Types::speed.speed_impl = Target - Actual;'"
+    },
+    {
+      "diagnostic": "line 19: Couldn't resolve reference to 'e_dot'",
+      "cause": "Undeclared variable 'e_dot' used in expression",
+      "minimal_edit": "Add declaration 'eq e_dot : real = derivative(e);' before the guarantee statement"
+    },
+    {
+      "diagnostic": "line 19: Couldn't resolve reference to 'e_int'",
+      "cause": "Undeclared variable 'e_int' used in expression",
+      "minimal_edit": "Add declaration 'eq e_int : real = integral(e);' before the guarantee statement"
+    },
+    {
+      "diagnostic": "line 19: left and right sides of binary expression '*' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in multiplication due to unresolved 'e_dot' and 'e_int'",
+      "minimal_edit": "Add declarations for 'e_dot' and 'e_int' before the guarantee statement"
+    },
+    {
+      "diagnostic": "line 19: named thing must be an expression with a type",
+      "cause": "Unresolved identifiers in expression",
+      "minimal_edit": "Add declarations for 'e_dot' and 'e_int' before the guarantee statement"
+    },
+    {
+      "diagnostic": "line 19: right side of binary expression '*' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "Unresolved identifiers in expression",
+      "minimal_edit": "Add declarations for 'e_dot' and 'e_int' before the guarantee statement"
+    },
+    {
+      "diagnostic": "line 21: left and right sides of binary expression '=' are of type 'real' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "Type mismatch in equality assignment",
+      "minimal_edit": "Remove redundant guarantee 'e = Target - Actual;' since it's already defined as an equation"
+    },
+    {
+      "diagnostic": "line 21: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Incompatible types in subtraction operation",
+      "minimal_edit": "Remove redundant guarantee 'e = Target - Actual;' since it's already defined as an equation"
+    },
+    {
+      "diagnostic": "line 21: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Incompatible types in subtraction operation",
+      "minimal_edit": "Remove redundant guarantee 'e = Target - Actual;' since it's already defined as an equation"
+    },
+    {
+      "diagnostic": "line 23: Couldn't resolve reference to 'e_int'",
+      "cause": "Undeclared variable 'e_int' used in expression",
+      "minimal_edit": "Add declaration 'eq e_int : real = integral(e);' before the guarantee statement"
+    },
+    {
+      "diagnostic": "line 23: Couldn't resolve reference to 'integral'",
+      "cause": "Undeclared integral function used in expression",
+      "minimal_edit": "Add declaration 'eq e_int : real = integral(e);' before the guarantee statement"
+    },
+    {
+      "diagnostic": "line 23: named thing must be an expression with a type",
+      "cause": "Unresolved identifiers in expression",
+      "minimal_edit": "Add declaration 'eq e_int : real = integral(e);' before the guarantee statement"
+    },
+    {
+      "diagnostic": "line 25: Couldn't resolve reference to 'derivative'",
+      "cause": "Undeclared derivative function used in expression",
+      "minimal_edit": "Add declaration 'eq e_dot : real = derivative(e);' before the guarantee statement"
+    },
+    {
+      "diagnostic": "line 25: Couldn't resolve reference to 'e_dot'",
+      "cause": "Undeclared variable 'e_dot' used in expression",
+      "minimal_edit": "Add declaration 'eq e_dot : real = derivative(e);' before the guarantee statement"
+    },
+    {
+      "diagnostic": "line 25: named thing must be an expression with a type",
+      "cause": "Unresolved identifiers in expression",
+      "minimal_edit": "Add declaration 'eq e_dot : real = derivative(e);' before the guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the redundant guarantee statement 'guarantee \"error_definition\": e = Target - Actual;'",
+    "Add declaration 'eq e_dot : real = derivative(e);' before the guarantee statement on line 19",
+    "Add declaration 'eq e_int : real = integral(e);' before the guarantee statement on line 19",
+    "Change the type of variable 'e' from 'real' to 'Types::speed.speed_impl' in the equation declaration"
+  ]
+}

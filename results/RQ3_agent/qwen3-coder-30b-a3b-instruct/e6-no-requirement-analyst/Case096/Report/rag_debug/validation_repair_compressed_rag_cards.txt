@@ -1,0 +1,60 @@
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+AGREE contracts are written inside `annex agree {** ... **};` blocks. Component type annexes are the normal location for assumptions, guarantees, constants, and equation declarations. Component implementation annexes are used for implementation-level bindings such as assignments when they are valid in that scope.
+
+[KSYN-2]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+AADL package references require matching `with` clauses. Generated AGREE code should not introduce package-qualified identifiers, data types, or property references that are absent from the analyzed model and its configured dependencies.
+
+[KSYN-3]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+The authoritative source for component names, ports, directions, data types, subcomponents, and connections is the input AADL model. The Model Analyst Agent extracts this structure before AGREE generation and fusion.
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+[KEXP-1]
+Source: distilled pattern library
+Topic: implementation scope output assign
+For implementation contracts, use assign only when the left-hand side is an existing output feature or declared auxiliary variable. Do not place guarantee statements in implementation scope.
+
+[KEXP-2]
+Source: distilled pattern library
+Topic: type scope deterministic dependency guarantee
+For output dependency contracts, write a guarantee that relates visible outputs to visible inputs. Do not use implementation-only subcomponent paths in a component type annex.
+
+[KEXP-3]
+Source: processed\kexp\agree_code_knowledge_dataset.txt
+Topic: boolean logic chunk 1
+package agree_kexp_boolean_logic public with Base_Types; data bool extends Base_Types::Boolean end bool; system BooleanLogicExample features condition_a : in data port bool; condition_b : in data port bool; condition_c : in data port bool; decision : out data port bool; annex agree {** eq two_conditions_hold : bool = (condition_a and condition_b) or (condition_a and condition_c) or (condition_b and condition_c); guarantee "decision requires at least two active
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Named Thing Has No Type
+If AGREE reports "named thing must be an expression with a type" or a guarantee expression has type <error>, trace the first unresolved identifier or invalid helper declaration on the same line. Fix the root unresolved reference, or delete the invalid clause instead of adding architecture. Recommended pattern: Use only visible AADL features or eq helpers declared in the same annex; otherwise remove the guarantee.
+
+[KDEF-2]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Implementation Scope Guarantee Error
+If diagnostics point to implementation-level references or subcomponent paths in a component type annex, move only valid implementation bindings to the implementation annex or delete the invalid guarantee. Component type contracts may reference only features visible at that type scope. Recommended pattern: Use a type-level guarantee over visible ports, or an implementation-level assign when the left-hand side is a valid output.
+
+[KDEF-3]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AADL Property Names Are Not AGREE Variables chunk 1
+If diagnostics report unresolved references to Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens such as ms/us/Hz/Bytes inside an AGREE annex, delete the generated clause. AADL property associations are not automatically in AGREE expression scope as variables. Recommended pattern: Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for the
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>

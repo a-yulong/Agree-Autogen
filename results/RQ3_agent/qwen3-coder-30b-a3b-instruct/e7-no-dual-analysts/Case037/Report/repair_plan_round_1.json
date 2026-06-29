@@ -1,0 +1,61 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 15: left and right sides of binary expression '=' are of type '<error>' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "Type mismatch in equation declaration for 'e'",
+      "minimal_edit": "Change 'e' declaration to use 'real' type instead of 'Types::speed::speed_impl'"
+    },
+    {
+      "diagnostic": "line 15: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Invalid arithmetic operation on opaque types",
+      "minimal_edit": "Remove the error calculation guarantee and equation since Target and Actual are opaque types"
+    },
+    {
+      "diagnostic": "line 15: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Invalid arithmetic operation on opaque types",
+      "minimal_edit": "Remove the error calculation guarantee and equation since Target and Actual are opaque types"
+    },
+    {
+      "diagnostic": "line 16: left and right sides of binary expression '*' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Reference to undefined variable 'e' in control law",
+      "minimal_edit": "Remove the control law guarantee since 'e' is not properly defined"
+    },
+    {
+      "diagnostic": "line 16: right side of binary expression '*' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Reference to undefined variable 'e' in control law",
+      "minimal_edit": "Remove the control law guarantee since 'e' is not properly defined"
+    },
+    {
+      "diagnostic": "line 17: Couldn't resolve reference to 'Types::speed::speed_impl'.",
+      "cause": "Invalid type reference in equation declaration",
+      "minimal_edit": "Change 'e' declaration to use 'real' type instead of 'Types::speed::speed_impl'"
+    },
+    {
+      "diagnostic": "line 17: The variable 'e' on the left side of equation is of type '<error>' but must be of type 'Types::speed.speed_impl'",
+      "cause": "Invalid type in equation declaration",
+      "minimal_edit": "Change 'e' declaration to use 'real' type instead of 'Types::speed::speed_impl'"
+    },
+    {
+      "diagnostic": "line 17: types must be record definition, array definition, data implementation, enumeration, or datatype",
+      "cause": "Invalid type reference in equation declaration",
+      "minimal_edit": "Change 'e' declaration to use 'real' type instead of 'Types::speed::speed_impl'"
+    },
+    {
+      "diagnostic": "line 18: Couldn't resolve reference to 'derivative'.",
+      "cause": "Invalid function reference in AGREE",
+      "minimal_edit": "Remove derivative equation since it's not supported in this context"
+    },
+    {
+      "diagnostic": "line 19: Couldn't resolve reference to 'integral'.",
+      "cause": "Invalid function reference in AGREE",
+      "minimal_edit": "Remove integral equation since it's not supported in this context"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the error calculation guarantee and equation on line 15-17",
+    "Remove the control law guarantee on line 16",
+    "Remove the derivative and integral equations on lines 18-19",
+    "Replace the type declaration of 'e' from 'Types::speed::speed_impl' to 'real' in the equation declaration"
+  ]
+}

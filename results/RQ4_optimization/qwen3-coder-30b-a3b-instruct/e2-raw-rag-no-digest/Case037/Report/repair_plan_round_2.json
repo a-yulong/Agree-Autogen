@@ -1,0 +1,34 @@
+{
+  "problems": [
+    {
+      "diagnostic": "eq e : Types::speed.speed_impl = Target - Actual;",
+      "cause": "Type mismatch: Types::speed.speed_impl cannot be used in arithmetic expressions",
+      "minimal_edit": "eq e : real = Target - Actual;"
+    },
+    {
+      "diagnostic": "eq e_dot : real = derivative(e, time);",
+      "cause": "derivative function not recognized due to type resolution errors",
+      "minimal_edit": "eq e_dot : real = derivative(e, time);"
+    },
+    {
+      "diagnostic": "eq e_int : real = integral(e, time);",
+      "cause": "integral function not recognized due to type resolution errors",
+      "minimal_edit": "eq e_int : real = integral(e, time);"
+    },
+    {
+      "diagnostic": "guarantee \"actuator input follows PID control law\": Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int;",
+      "cause": "Expression contains invalid types due to previous errors",
+      "minimal_edit": "guarantee \"actuator input follows PID control law\": Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int;"
+    },
+    {
+      "diagnostic": "guarantee \"error definition\": e = Target - Actual;",
+      "cause": "Expression contains invalid types due to previous errors",
+      "minimal_edit": "guarantee \"error definition\": e = Target - Actual;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Change the type of variable 'e' from 'Types::speed.speed_impl' to 'real' in the equation declaration",
+    "Verify that all other equations and guarantees remain syntactically valid after the type change"
+  ]
+}

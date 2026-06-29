@@ -1,0 +1,45 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'gps_pos'.",
+      "cause": "Reference to 'gps_pos' is not visible in the AGREE annex scope of component type 'thr_mgmt'",
+      "minimal_edit": "Replace 'gps_pos' with 'gps_pos' (no change needed, but ensure correct scoping)"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "Reference to 'pspg' is not visible in the AGREE annex scope of component type 'thr_mgmt'",
+      "minimal_edit": "Remove or rewrite expression involving 'pspg' to use only visible symbols"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Ardupilot_Software::GPS_Position.i' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in equality expression due to unresolved 'pspg' reference",
+      "minimal_edit": "Remove or rewrite expression involving 'pspg' to use only visible symbols"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Expression involving 'pspg' is not a valid AGREE expression",
+      "minimal_edit": "Remove or rewrite expression involving 'pspg' to use only visible symbols"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'speed'.",
+      "cause": "Reference to 'speed' is not visible in the AGREE annex scope of component type 'thr_mgmt'",
+      "minimal_edit": "Remove or rewrite expression involving 'speed' to use only visible symbols"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in equality expression due to unresolved 'pspg' reference",
+      "minimal_edit": "Remove or rewrite expression involving 'pspg' to use only visible symbols"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Expression involving 'speed' is not a valid AGREE expression",
+      "minimal_edit": "Remove or rewrite expression involving 'speed' to use only visible symbols"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from component type 'thr_mgmt' to component implementation 'thr_mgmt.i'",
+    "Remove or rewrite the assume statements that reference 'pspg' and 'speed' to use only visible symbols",
+    "Ensure that any remaining expressions in the AGREE annex use only identifiers that are visible in the implementation scope"
+  ]
+}

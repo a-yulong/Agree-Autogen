@@ -1,0 +1,46 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'gps_pos'.",
+      "cause": "AGREE guarantee in implementation scope references port not visible in that scope",
+      "minimal_edit": "Replace 'gps_pos' with 'pspg.gps_pos' in guarantee statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "AGREE guarantee in implementation scope references subcomponent not visible in that scope",
+      "minimal_edit": "Remove 'pspg' from guarantee statement"
+    },
+    {
+      "diagnostic": "Guarantee statements are allowed only in component types",
+      "cause": "AGREE guarantee placed in thread implementation annex",
+      "minimal_edit": "Move guarantee block to thread type annex"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Ardupilot_Software::GPS_Position.i' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in guarantee expression",
+      "minimal_edit": "Ensure both sides reference same type using visible identifiers"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in guarantee",
+      "minimal_edit": "Use valid expression with matching types"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'speed'.",
+      "cause": "AGREE guarantee in implementation scope references port not visible in that scope",
+      "minimal_edit": "Replace 'speed' with 'pspg.speed' in guarantee statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'angle'.",
+      "cause": "AGREE guarantee in implementation scope references port not visible in that scope",
+      "minimal_edit": "Replace 'angle' with 'pspg.angle' in guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the annex agree block from thr_mgmt.i",
+    "Add a new annex agree block to thr_mgmt (the component type)",
+    "In the new annex agree block, define guarantees using only visible identifiers from the component type",
+    "Ensure all expressions reference valid component ports or declared variables"
+  ]
+}

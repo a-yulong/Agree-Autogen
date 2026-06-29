@@ -1,0 +1,73 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: timeToRecovery
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+timeToRecovery | out | data | opaque | real
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GeoFence_singleton | lines 10-15
+annex agree {**
+	  assume "initial_t_value": t = 0.0;
+	  assume "step_size": delta_t = 0.1;
+	  guarantee "recovery_time_guarantee": (t >= recovery_time) => (distanceFromFence_current > distanceFromFence_previous);
+	  guarantee "output_assignment": timeToRecovery = 1.7;
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   7: 	system GeoFence_singleton
+   8: 		features
+   9: 			timeToRecovery: out data port real;
+   10: 	annex agree {**
+>> 11: 	  assume "initial_t_value": t = 0.0;
+   12: 	  assume "step_size": delta_t = 0.1;
+   13: 	  guarantee "recovery_time_guarantee": (t >= recovery_time) => (distanceFromFence_current > distanceFromFence_previous);
+   14: 	  guarantee "output_assignment": timeToRecovery = 1.7;
+   15: 	**};
+
+   8: 		features
+   9: 			timeToRecovery: out data port real;
+   10: 	annex agree {**
+   11: 	  assume "initial_t_value": t = 0.0;
+>> 12: 	  assume "step_size": delta_t = 0.1;
+   13: 	  guarantee "recovery_time_guarantee": (t >= recovery_time) => (distanceFromFence_current > distanceFromFence_previous);
+   14: 	  guarantee "output_assignment": timeToRecovery = 1.7;
+   15: 	**};
+   16: 	end GeoFence_singleton;
+
+   9: 			timeToRecovery: out data port real;
+   10: 	annex agree {**
+   11: 	  assume "initial_t_value": t = 0.0;
+   12: 	  assume "step_size": delta_t = 0.1;
+>> 13: 	  guarantee "recovery_time_guarantee": (t >= recovery_time) => (distanceFromFence_current > distanceFromFence_previous);
+   14: 	  guarantee "output_assignment": timeToRecovery = 1.7;
+   15: 	**};
+   16: 	end GeoFence_singleton;
+   17: 	
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: GeoFence_singleton
+system GeoFence_singleton
+		features
+			timeToRecovery: out data port real;
+	end GeoFence_singleton;
+
+-- TARGET DECLARATION: GeoFence_singleton.impl
+system implementation GeoFence_singleton.impl
+	end GeoFence_singleton.impl;
+
+-- RELATED MODEL LINES
+system GeoFence_singleton
+timeToRecovery: out data port real;
+end GeoFence_singleton;
+system implementation GeoFence_singleton.impl
+end GeoFence_singleton.impl;
+data int extends base_types::Integer
+end int;
+data real extends base_types::Float
+end real;

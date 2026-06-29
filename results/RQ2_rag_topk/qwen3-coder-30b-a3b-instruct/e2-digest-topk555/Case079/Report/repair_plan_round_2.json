@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'door1'.",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent 'door1'",
+      "minimal_edit": "Move the annex to the implementation scope"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'handle_position'.",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent port 'handle_position'",
+      "minimal_edit": "Move the annex to the implementation scope"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent ports",
+      "minimal_edit": "Move the annex to the implementation scope"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent ports",
+      "minimal_edit": "Move the annex to the implementation scope"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'closed'.",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent port 'closed'",
+      "minimal_edit": "Move the annex to the implementation scope"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from the process type scope",
+    "Add a new AGREE annex block to the process implementation scope",
+    "Move the assume statements into the implementation annex",
+    "Ensure the assume statements reference only visible identifiers from the component interface"
+  ]
+}

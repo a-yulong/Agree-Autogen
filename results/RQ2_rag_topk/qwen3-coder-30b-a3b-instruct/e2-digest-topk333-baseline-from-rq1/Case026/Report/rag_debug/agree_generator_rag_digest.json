@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Use `assume` and `guarantee` statements to encode signal flow and timing constraints from requirements within the component type annex scope.",
+    "Place `assign` statements in implementation annexes only for output features or declared auxiliary variables.",
+    "Generate `const` declarations for timing constraints when concrete values or named constants are provided."
+  ],
+  "generic_rules": [
+    "AGREE annex blocks must be scoped to their owning component declaration.",
+    "Only reference identifiers that are visible in the current component scope.",
+    "Use `annex agree {** ... **};` syntax to encapsulate all AGREE contract elements.",
+    "Avoid encoding AADL timing properties as AGREE expressions unless typed ports or constants are explicitly exposed."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` for system assumptions and `guarantee \"label\": expression;` for system guarantees.",
+    "Use `assign output = expression;` for implementation-level output bindings.",
+    "Use `const name : type = value;` for declaring constants in component type annexes."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope.",
+    "Do not reference identifiers not present in the current component's visible scope.",
+    "Do not encode AADL timing properties like Period or Deadline as AGREE variables without explicit model exposure."
+  ],
+  "irrelevant_topics": [
+    "AADL property names as AGREE variables",
+    "Model fusion and insertion location",
+    "Validator diagnostics and repair patterns"
+  ]
+}

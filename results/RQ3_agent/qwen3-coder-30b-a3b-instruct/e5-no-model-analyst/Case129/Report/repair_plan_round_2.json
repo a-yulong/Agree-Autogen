@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'execute'.",
+      "cause": "AGREE cannot reference component ports directly from component type annex",
+      "minimal_edit": "Remove the scheduling_timing guarantee or rewrite it to use valid AGREE expressions"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Period'.",
+      "cause": "AGREE cannot reference implementation properties directly from component type annex",
+      "minimal_edit": "Remove the period_constraint guarantee or move it to implementation annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Compute_Execution_time'.",
+      "cause": "AGREE cannot reference implementation properties directly from component type annex",
+      "minimal_edit": "Remove the compute_time guarantee or move it to implementation annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Priority'.",
+      "cause": "AGREE cannot reference implementation properties directly from component type annex",
+      "minimal_edit": "Remove the priority_constraint guarantee or move it to implementation annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from the Task component type",
+    "Create a new AGREE annex block in the Task.impl_1 component implementation",
+    "Move the period_constraint, compute_time, and priority_constraint guarantees to the implementation annex",
+    "Remove the scheduling_timing guarantee from the implementation annex"
+  ]
+}

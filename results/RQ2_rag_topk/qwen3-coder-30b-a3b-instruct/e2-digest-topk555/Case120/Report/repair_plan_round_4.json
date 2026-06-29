@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 27: Couldn't resolve reference to 'RTOS'.",
+      "cause": "Reference to 'RTOS' is not a valid AGREE expression; 'RTOS' is a system implementation name, not a component instance or type",
+      "minimal_edit": "Replace 'SBC_32F411EDISCOVERY.RTOS' with 'SBC_32F411EDISCOVERY' to refer to the component type"
+    },
+    {
+      "diagnostic": "line 28: Couldn't resolve reference to 'Software'.",
+      "cause": "Reference to 'Software' is not a valid AGREE expression; 'Software' is a process subcomponent, not a component instance or type",
+      "minimal_edit": "Remove or rewrite the assumption about 'Software = cpu' to use only visible component identifiers"
+    },
+    {
+      "diagnostic": "line 28: Couldn't resolve reference to 'cpu'.",
+      "cause": "Reference to 'cpu' is not a valid AGREE expression; 'cpu' is not defined in the current scope",
+      "minimal_edit": "Remove or rewrite the assumption about 'Software = cpu' to use only visible component identifiers"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'SBC_32F411EDISCOVERY = SBC_32F411EDISCOVERY.RTOS' with 'SBC_32F411EDISCOVERY = SBC_32F411EDISCOVERY' in the assume statement",
+    "Remove the assumption 'Software = cpu' from the annex"
+  ]
+}

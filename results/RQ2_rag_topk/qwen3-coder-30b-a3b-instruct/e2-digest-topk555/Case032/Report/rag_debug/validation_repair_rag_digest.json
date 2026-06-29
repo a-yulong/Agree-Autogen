@@ -1,0 +1,31 @@
+{
+  "rag_rules": [
+    "Fix type mismatches by ensuring AGREE variables match the types of visible AADL features or declared helpers.",
+    "Avoid placing implementation-level guarantees in component type annexes; use assigns in implementation scopes instead.",
+    "Do not reference AADL property names like Period or Deadline as AGREE variables; remove such clauses."
+  ],
+  "generic_rules": [
+    "Use only visible identifiers or declared helpers in AGREE expressions to prevent <error> type issues.",
+    "Place implementation-level bindings such as assigns in implementation scopes, not component type scopes.",
+    "Ensure type consistency in AGREE equations and guarantees by matching declared types with expressions.",
+    "Remove invalid AGREE clauses that reference unresolved or non-visible identifiers."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `assign output = expression;` for output port assignments in implementation scope.",
+    "Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.",
+    "Component type contracts should reference only visible features or declared variables."
+  ],
+  "anti_patterns": [
+    "Do not place guarantees in component type annexes that reference implementation-level features or subcomponents.",
+    "Do not assume AADL property names (e.g., Period, Priority) are automatically available in AGREE scope.",
+    "Do not mix component type and implementation scope constructs in the same annex block without proper scoping."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics",
+    "AGREE validator diagnostics",
+    "Component type annexes for implementation-level bindings",
+    "AGREE annex placement in system implementations",
+    "Model traceability and requirement semantics"
+  ]
+}

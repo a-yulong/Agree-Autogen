@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="model_fusion">
+Generic rules:
+- Maintain component type contracts in type scopes and implementation contracts in implementation scopes
+- Use exact visible identifiers from the current component scope; do not invent declarations
+- Do not encode AADL property associations as AGREE expressions unless explicitly exposed as ports or constants
+Syntax or pattern reminders:
+- AGREE contracts are written inside `annex agree {** ... **};` blocks
+- Use `assign output = expression;` for implementation-level bindings
+- Use `guarantee "label": expression;` for output dependency contracts in type scope
+Anti-patterns:
+- Do not place assumptions or guarantees that refer to component ports in implementation scopes
+- Do not use subcomponent ports in a component type contract unless represented through valid variables or outputs
+- Do not encode AADL timing properties as AGREE expressions without explicit typed ports or constants
+Irrelevant retrieved material:
+- AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes
+- AGREE contracts are written inside `annex agree {** ... **};` blocks
+- Component type annexes are the normal location for assumptions, guarantees, constants, and equation declarations
+- Component implementation annexes are used for implementation-level bindings such as assignments when they are valid in that scope
+- For output dependency contracts, write a guarantee that relates visible outputs to visible inputs
+- If diagnostics report unresolved references to Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens such as ms/us/Hz/Bytes inside an AGREE annex, delete the generated clause
+- If AGREE reports "Couldn't resolve reference to" a port, data type, package, or ModelUnit, do not invent a declaration in repair
+</RAG_DIGEST>

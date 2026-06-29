@@ -1,0 +1,48 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 104: The variable 'Mode' on the left side of equation is of type 'int' but must be of type 'bool'",
+      "cause": "Panel.LO, Panel.MED, Panel.MAX are bool; summing bools yields invalid int assignment",
+      "minimal_edit": "replace 'eq Mode: int = Panel.LO + Panel.MED + Panel.MAX;' with 'eq Mode: int = 0;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 125: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes::Brake_Mode is not defined or visible; cannot use undefined function",
+      "minimal_edit": "remove 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 140: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not defined or visible; cannot use undefined function",
+      "minimal_edit": "replace 'not Fail => (Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal));' with 'not Fail => (Status.Cmd = Pedal);'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not defined or visible; lemma uses undefined function",
+      "minimal_edit": "replace 'COM1.CMD = Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal)' with 'COM1.CMD = Pedal'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 258: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not defined or visible; lemma uses undefined function",
+      "minimal_edit": "replace 'COM2.CMD = Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal)' with 'COM2.CMD = Pedal'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 259: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not defined or visible; lemma uses undefined function",
+      "minimal_edit": "replace 'MON1.Status.Cmd = Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal)' with 'MON1.Status.Cmd = Pedal'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 260: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not defined or visible; lemma uses undefined function",
+      "minimal_edit": "replace 'MON2.Status.Cmd = Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal)' with 'MON2.Status.Cmd = Pedal'"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove all occurrences of 'Agree_Nodes::Brake_Mode' and 'Agree_Nodes::Brake_Cmd' from all annexes",
+    "In COM annex, replace 'eq Mode: int = Panel.LO + Panel.MED + Panel.MAX;' with 'eq Mode: int = 0;'",
+    "In MON annex, replace 'not Fail => (Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal));' with 'not Fail => (Status.Cmd = Pedal);'",
+    "In BSCU_Impl annex, replace all lemma right-hand sides using 'Agree_Nodes::Brake_Cmd(...)' with 'Pedal'",
+    "In COM annex, replace 'not Fail => CMD = Pedal;' with 'not Fail => CMD = Pedal;' (no change needed, but confirm type consistency)",
+    "Verify all remaining expressions use only visible identifiers: Panel, Panel.LO, Panel.MED, Panel.MAX, CMD, Pedal, Fail"
+  ]
+}

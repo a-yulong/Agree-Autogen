@@ -1,0 +1,54 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to DataSubcomponentType 'Types::speed.speed_impl'.",
+      "cause": "AADL type reference not resolvable in current context",
+      "minimal_edit": "Change 'Types::speed.speed_impl' to 'real' for e, e_dot, e_int declarations"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "Invalid type for arithmetic operation due to unresolved type reference",
+      "minimal_edit": "Change 'Types::speed.speed_impl' to 'real' in equation for e"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "Invalid type for arithmetic operation due to unresolved type reference",
+      "minimal_edit": "Change 'Types::speed.speed_impl' to 'real' in equation for e"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'derivative'.",
+      "cause": "AGREE derivative function not recognized due to type issues",
+      "minimal_edit": "Remove derivative function call and use placeholder 'real' type"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'integral'.",
+      "cause": "AGREE integral function not recognized due to type issues",
+      "minimal_edit": "Remove integral function call and use placeholder 'real' type"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '*' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in expression due to unresolved type reference",
+      "minimal_edit": "Change 'e' to 'real' in guarantee expression"
+    },
+    {
+      "diagnostic": "right side of binary expression '*' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "Type mismatch in expression due to unresolved type reference",
+      "minimal_edit": "Change 'e_dot' to 'real' in guarantee expression"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Unresolved type reference prevents expression type resolution",
+      "minimal_edit": "Change 'e' to 'real' in guarantee expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'Types::speed.speed_impl' with 'real' in the declaration of 'e'",
+    "Replace 'Types::speed.speed_impl' with 'real' in the declaration of 'e_dot'",
+    "Replace 'Types::speed.speed_impl' with 'real' in the declaration of 'e_int'",
+    "Replace 'derivative(e)' with '0.0' in the declaration of 'e_dot'",
+    "Replace 'integral(e)' with '0.0' in the declaration of 'e_int'",
+    "Replace 'e' with 'real' in the guarantee expression",
+    "Replace 'e_dot' with 'real' in the guarantee expression"
+  ]
+}

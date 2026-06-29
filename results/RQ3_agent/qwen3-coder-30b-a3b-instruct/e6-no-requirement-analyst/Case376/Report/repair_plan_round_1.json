@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 44: left and right sides of binary expression '=' are of type 'Papa_Types::Inter_mcu_msg.Generic' and 'Papa_Types::Tableau.Generic', but must be of the same type",
+      "cause": "type mismatch in data assignment between output and input ports",
+      "minimal_edit": "remove guarantee \"data_routing\": MCU1_Send_Output = MCU1_Data_Input;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 49: left and right sides of binary expression '=' are of type 'Papa_Types::Tableau.Generic' and 'int', but must be of the same type",
+      "cause": "type mismatch in data assignment between output field and input field",
+      "minimal_edit": "remove guarantee \"channel_data\": MCU1_Send_Output.channels = MCU1_Data_Input.data_4;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee statement on line 44 that attempts to assign incompatible types between MCU1_Send_Output and MCU1_Data_Input",
+    "Remove the guarantee statement on line 49 that attempts to assign incompatible types between MCU1_Send_Output.channels and MCU1_Data_Input.data_4"
+  ]
+}

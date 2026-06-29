@@ -1,0 +1,86 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place output range guarantees in component type scopes using visible feature names and concrete bounds.
+- Use AGREE logical operators and temporal recurrence for stateful equations.
+- Generate guarantees that relate visible outputs to visible inputs without implementation-specific subcomponent paths.
+Generic rules:
+- Assumptions and guarantees should reference only visible identifiers or named constants.
+- Use `eq` for defining helper boolean expressions in AGREE.
+- Ensure type consistency between helper declarations and their expressions.
+- Avoid encoding AADL timing properties as AGREE variables unless explicitly exposed.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contracts.
+- Use `eq name : type = expression;` for helper definitions.
+- Use `if ... then ... else` for branching logic in AGREE.
+Anti-patterns:
+- Do not reference implementation-only subcomponent ports in component type contracts.
+- Do not encode AADL properties like Deadline or Period as AGREE variables without explicit model exposure.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Signal_Input
+- Data_Output
+
+Target interface:
+Exact expression symbols: Signal_Input, Signal_Input.MotorL, Signal_Input.MotorR, Signal_Input.AileronL, Signal_Input.AileronR, Signal_Input.Rudder, Signal_Input.Elevator, Data_Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Signal_Input | in | data | opaque | Papa_Types::TabServos.Impl
+Signal_Input.MotorL | in | data_field | opaque | Base_Types::Integer_16
+Signal_Input.MotorR | in | data_field | opaque | Base_Types::Integer_16
+Signal_Input.AileronL | in | data_field | opaque | Base_Types::Integer_16
+Signal_Input.AileronR | in | data_field | opaque | Base_Types::Integer_16
+Signal_Input.Rudder | in | data_field | opaque | Base_Types::Integer_16
+Signal_Input.Elevator | in | data_field | opaque | Base_Types::Integer_16
+Data_Output | out | data | opaque | Base_Types::Integer_16
+
+Raw requirement:
+The Interruption_Envoi_Servo component shall bound the Data_Output output at every evaluation step. The Data_Output value shall be greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data_Output >= 0 and Data_Output <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Data_Output"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Data_Output is bounded at every evaluation step",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Data_Output"
+      ]
+    }
+  ]
+}

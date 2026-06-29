@@ -1,0 +1,16 @@
+{
+  "problems": [
+    {
+      "diagnostic": "guarantee \"route_C1\": v_acc1_dataout = acc1_input;",
+      "cause": "Signal flow guarantee incorrectly equates output to input; should relate output to source subcomponent port, but subcomponent ports are not visible in component type contract.",
+      "minimal_edit": "Remove guarantee \"route_C1\" and \"route_C2\"; no valid AGREE expression can relate v_acc1_dataout to acc1_input without referencing subcomponent ports, which are forbidden in component type annexes."
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the entire annex agree {** ... **}; block from acc_hm_process (component type) since it incorrectly references input ports as direct sources of output ports.",
+    "Add an implementation-level annex agree block to acc_hm_process.impl with assign statements that bind v_acc1_dataout to acc_HM.acc1_validated_dataout and v_acc2_dataout to acc_HM.acc2_validated_dataout, assuming those subcomponent ports are visible in the implementation scope.",
+    "Verify that acc_HM.acc1_validated_dataout and acc_HM.acc2_validated_dataout are declared as out ports in acc_HM.impl, and that the connections C1 and C2 exist (they do per AADL context).",
+    "Do not reintroduce any component type-level guarantees referencing subcomponent ports, as AGREE forbids such references in component type contracts."
+  ]
+}

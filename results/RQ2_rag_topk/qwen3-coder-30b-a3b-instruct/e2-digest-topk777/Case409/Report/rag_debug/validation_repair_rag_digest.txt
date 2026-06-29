@@ -1,0 +1,19 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Only generate AGREE expressions that reference visible identifiers or properly declared helpers with matching types.
+- Ensure all AGREE variable declarations and expressions conform to scalar types int, real, or bool.
+- Avoid encoding AADL property associations as AGREE variables unless the model exposes typed ports or constants.
+- Remove generated clauses that reference undefined or unreachable identifiers to prevent AGREE validation errors.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks within valid component scopes.
+- Use only visible AADL features or helpers declared in the same annex for AGREE expressions.
+- Type consistency is required: numeric expressions for int/real variables, Boolean expressions for bool variables.
+Anti-patterns:
+- Do not assume AADL property names like 'Stack_Size' or 'ms' are automatically available as AGREE variables.
+- Do not create bounds assumptions like x >= 0 unless explicitly required by the requirement and compatible with the data type.
+- Do not reference implementation-level subcomponents or ports in a component type annex.
+Irrelevant retrieved material:
+- AADL package references and matching 'with' clauses
+- ARINC653 property associations and their resolution
+- Component implementation bindings and subcomponent paths in type scopes
+</RAG_DIGEST>

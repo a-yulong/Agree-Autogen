@@ -1,0 +1,102 @@
+{
+  "component_types": [
+    {
+      "name": "thr_mgmt",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "thr_mgmt.i",
+      "kind": "thread",
+      "type_name": "thr_mgmt"
+    }
+  ],
+  "subcomponents": [],
+  "features": [
+    {
+      "owner": "thr_mgmt",
+      "name": "gps_pos",
+      "direction": "in",
+      "category": "data port",
+      "type": "GPS_Position.i",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "thr_mgmt",
+      "name": "speed",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "thr_mgmt",
+      "name": "angle",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "thr_mgmt.i",
+      "name": "R2",
+      "kind": "parameter",
+      "source": "gps_pos",
+      "destination": "pspg.gps_pos"
+    },
+    {
+      "owner": "thr_mgmt.i",
+      "name": "R3",
+      "kind": "parameter",
+      "source": "pspg.speed",
+      "destination": "speed"
+    },
+    {
+      "owner": "thr_mgmt.i",
+      "name": "R4",
+      "kind": "parameter",
+      "source": "pspg.angle",
+      "destination": "angle"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "thr_mgmt",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": null
+    },
+    {
+      "owner": "thr_mgmt",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "1000ms",
+      "applies_to": null
+    },
+    {
+      "owner": "thr_mgmt",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "1000ms",
+      "applies_to": null
+    },
+    {
+      "owner": "thr_mgmt",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "5ms .. 10ms",
+      "applies_to": null
+    },
+    {
+      "owner": "thr_mgmt",
+      "owner_kind": "thread",
+      "name": "Initialize_Entrypoint",
+      "value": "classifier (Ardupilot_Software::spg_flt_mgmt_init)",
+      "applies_to": null
+    }
+  ]
+}

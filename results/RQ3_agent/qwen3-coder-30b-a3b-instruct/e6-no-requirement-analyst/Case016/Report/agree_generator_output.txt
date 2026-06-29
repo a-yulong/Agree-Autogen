@@ -1,0 +1,26 @@
+annex agree {**
+  guarantee "dynamic_decision_logic": 
+    (inpGCASImpact > inpACASImpact and 
+     inpGCASRecovery + inpACASRecovery >= 0.0) => 
+    outDec = 1;
+  
+  guarantee "fallback_static_priority": 
+    not (inpGCASImpact > inpACASImpact and 
+         inpGCASRecovery + inpACASRecovery >= 0.0) => 
+    outDec = 0;
+  
+  assume "input_consistency": 
+    inpGCASM = true => inpGCASImpact >= 0.0 and inpGCASRecovery >= 0.0;
+  
+  assume "input_consistency_acas": 
+    inpACASM = true => inpACASImpact >= 0.0 and inpACASRecovery >= 0.0;
+  
+  assume "valid_impact_values": 
+    inpGCASImpact >= 0.0 and inpACASImpact >= 0.0;
+  
+  assume "valid_recovery_values": 
+    inpGCASRecovery >= 0.0 and inpACASRecovery >= 0.0;
+  
+  guarantee "output_bounds": 
+    outDec >= 0 and outDec <= 1;
+**};

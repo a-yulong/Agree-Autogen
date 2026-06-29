@@ -1,0 +1,198 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+- `assume "label": expression;` - `guarantee "label": expression;` - `eq name : type = expression;` - `const name : type = value;` - `assign output = expression;`
+
+[KSYN-2]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes. Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections. Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs.
+
+[KSYN-3]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+AGREE contracts are written inside `annex agree {** ... **};` blocks. Component type annexes are the normal location for assumptions, guarantees, constants, and equation declarations. Component implementation annexes are used for implementation-level bindings such as assignments when they are valid in that scope.
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+[KEXP-1]
+Source: distilled pattern library
+Topic: type scope range assumption and guarantee
+For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation. Use case-provided thresholds and legal visible feature names.
+
+[KEXP-2]
+Source: processed\kexp\agree_code_knowledge_dataset.txt
+Topic: integrated pattern chunk 1
+package agree_kexp_integrated_pattern public with Base_Types; data int extends Base_Types::Integer end int; data real extends Base_Types::Float end real; data bool extends Base_Types::Boolean end bool; system RangeMonitorExample features value_in : in data port real; safe_flag : out data port bool; annex agree {** const lower_limit : real = 0.0; const upper_limit : real = 100.0; eq value_in_range : bool = value_in >= lower_limit and value_in <= upper_limit; gua
+
+[KEXP-3]
+Source: processed\kexp\agree_code_knowledge_dataset.txt
+Topic: boolean logic chunk 1
+package agree_kexp_boolean_logic public with Base_Types; data bool extends Base_Types::Boolean end bool; system BooleanLogicExample features condition_a : in data port bool; condition_b : in data port bool; condition_c : in data port bool; decision : out data port bool; annex agree {** eq two_conditions_hold : bool = (condition_a and condition_b) or (condition_a and condition_c) or (condition_b and condition_c); guarantee "decision requires at least two active
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: built-in defensive rule
+Topic: Structural Binding
+Rule: component types and implementations have different legal scopes. Must: place assume/guarantee/eq/const in the component type when they describe interface behavior, and implementation-oriented assign/assert clauses in the matching implementation. Forbid: redesigning architecture during fusion/repair.
+
+[KDEF-2]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Annex Scope
+Treat each annex agree block as scoped to its owning component declaration.
+
+[KDEF-3]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AADL Property Names Are Not AGREE Variables chunk 1
+If diagnostics report unresolved references to Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens such as ms/us/Hz/Bytes inside an AGREE annex, delete the generated clause. AADL property associations are not automatically in AGREE expression scope as variables. Recommended pattern: Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for the
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>
+
+Visible target-interface symbols:
+- Forcing_Safe_Mode
+- Getting_Back_To_Normal_Mode
+- sensored_attitude
+- sun_direction
+- reference_torque
+- reference_force
+- telecommand
+- power_status_FSS
+- power_status_CSS
+- power_status_SPS
+- power_status_ES
+- power_status_MGM
+- power_status_GYR
+- power_status_STR
+- power_status_GPS
+- power_status_THU
+- power_status_RW
+- power_status_MGT
+- Force_mode_to_SM
+- Force_mode_to_NM
+- telemetry
+- watchdog_event
+- anomaly_detected
+- Changing_mode_to_SM
+- Changing_mode_to_NM
+- FSS_reconfiguration
+- CSS_reconfiguration
+- SPS_reconfiguration
+- ES_reconfiguration
+- MGM_reconfiguration
+- GYR_reconfiguration
+- STR_reconfiguration
+- GPS_reconfiguration
+- THU_reconfiguration
+- RW_reconfiguration
+- MGT_reconfiguration
+- torque_command
+- force_command
+
+Target interface:
+Exact expression symbols: Forcing_Safe_Mode, Getting_Back_To_Normal_Mode, sensored_attitude, sun_direction, reference_torque, reference_force, telecommand, power_status_FSS, power_status_CSS, power_status_SPS, power_status_ES, power_status_MGM, power_status_GYR, power_status_STR, power_status_GPS, power_status_THU, power_status_RW, power_status_MGT, Force_mode_to_SM, Force_mode_to_NM, telemetry, watchdog_event, anomaly_detected, Changing_mode_to_SM, Changing_mode_to_NM, FSS_reconfiguration, CSS_reconfiguration, SPS_reconfiguration, ES_reconfiguration, MGM_reconfiguration, GYR_reconfiguration, STR_reconfiguration, GPS_reconfiguration, THU_reconfiguration, RW_reconfiguration, MGT_reconfiguration, torque_command, force_command
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Forcing_Safe_Mode | in | event | event | 
+Getting_Back_To_Normal_Mode | in | event | event | 
+sensored_attitude | in | data | real | dataaocs::GYR_data
+sun_direction | in | data | real | dataaocs::FSS_data
+reference_torque | out | data | real | dataaocs::RW_data
+reference_force | out | data | real | dataaocs::THU_data
+telecommand | in | data | real | dataaocs::telecommand
+power_status_FSS | out | data | bool | dataaocs::power_status
+power_status_CSS | out | data | bool | dataaocs::power_status
+power_status_SPS | out | data | bool | dataaocs::power_status
+power_status_ES | out | data | bool | dataaocs::power_status
+power_status_MGM | out | data | bool | dataaocs::power_status
+power_status_GYR | out | data | bool | dataaocs::power_status
+power_status_STR | out | data | bool | dataaocs::power_status
+power_status_GPS | out | data | bool | dataaocs::power_status
+power_status_THU | out | data | bool | dataaocs::power_status
+power_status_RW | out | data | bool | dataaocs::power_status
+power_status_MGT | out | data | bool | dataaocs::power_status
+Force_mode_to_SM | out | event | event | 
+Force_mode_to_NM | out | event | event | 
+telemetry | out | data | real | dataaocs::telemetry
+watchdog_event | out | event | event | 
+anomaly_detected | in | event | event | 
+Changing_mode_to_SM | out | event | event | 
+Changing_mode_to_NM | out | event | event | 
+FSS_reconfiguration | out | data | bool | dataaocs::reconfigure_sensor
+CSS_reconfiguration | out | data | bool | dataaocs::reconfigure_sensor
+SPS_reconfiguration | out | data | bool | dataaocs::reconfigure_sensor
+ES_reconfiguration | out | data | bool | dataaocs::reconfigure_sensor
+MGM_reconfiguration | out | data | bool | dataaocs::reconfigure_sensor
+GYR_reconfiguration | out | data | bool | dataaocs::reconfigure_sensor
+STR_reconfiguration | out | data | bool | dataaocs::reconfigure_sensor
+GPS_reconfiguration | out | data | bool | dataaocs::reconfigure_sensor
+THU_reconfiguration | out | data | bool | dataaocs::reconfigure_actuator
+RW_reconfiguration | out | data | bool | dataaocs::reconfigure_actuator
+MGT_reconfiguration | out | data | bool | dataaocs::reconfigure_actuator
+torque_command | out | data | real | dataaocs::RW_data
+force_command | out | data | real | dataaocs::THU_data
+
+Raw requirement:
+The AOCSprocessing component shall define the implementation-level signal routing for AOCSprocessing.others. In the implementation layer, AOCSprocessing.others shall route signal flow from TCP.nominal_attitude to ACF.nominal_attitude through Cnx1 and signal flow from TCP.nominal_orbit to OCF.nominal_orbit through Cnx2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Signal flow from TCP.nominal_attitude to ACF.nominal_attitude through Cnx1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "TCP.nominal_attitude",
+        "ACF.nominal_attitude",
+        "Cnx1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Signal flow from TCP.nominal_orbit to OCF.nominal_orbit through Cnx2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "TCP.nominal_orbit",
+        "OCF.nominal_orbit",
+        "Cnx2"
+      ]
+    }
+  ]
+}

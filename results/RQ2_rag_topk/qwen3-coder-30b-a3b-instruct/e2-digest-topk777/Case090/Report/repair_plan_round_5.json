@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_out_data_x'.",
+      "cause": "Reference to port 'acc_out_data_x' is invalid in this context; it's an output port of the component type, not a variable in the implementation.",
+      "minimal_edit": "Replace 'acc_out_data_x' with 'accelero_sub.acc_out_data_x' on the right-hand side of the equality."
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'accelero_sub'.",
+      "cause": "The subcomponent 'accelero_sub' is not directly accessible in the component type's AGREE annex.",
+      "minimal_edit": "Remove the reference to 'accelero_sub' from the assumption/guarantee expressions."
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Expression contains invalid references that cannot be resolved to valid AGREE expressions.",
+      "minimal_edit": "Rewrite each assumption/guarantee to use only visible identifiers from the component type."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block for ACCELERO, replace each occurrence of 'acc_out_data_x', 'acc_out_data_y', and 'acc_out_data_z' with 'accelero_sub.acc_out_data_x', 'accelero_sub.acc_out_data_y', and 'accelero_sub.acc_out_data_z' respectively.",
+    "Ensure that the subcomponent 'accelero_sub' is referenced correctly within the context of the component type's AGREE annex by removing any direct references to the subcomponent's ports.",
+    "Update the assumptions and guarantees to reflect valid AGREE expressions using only identifiers available in the component type scope."
+  ]
+}

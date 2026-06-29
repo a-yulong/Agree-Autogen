@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "Reference to port 'acc_in_data_x' is not visible in AGREE annex context",
+      "minimal_edit": "Remove or rewrite expression using only visible symbols"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "Reference to subcomponent 'attitude_sub' is not visible in AGREE annex context",
+      "minimal_edit": "Remove or rewrite expression using only visible symbols"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression syntax in AGREE contract",
+      "minimal_edit": "Remove or rewrite expression using only visible symbols"
+    },
+    {
+      "diagnostic": "Expression for guarantee statement is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression in guarantee statement",
+      "minimal_edit": "Remove or rewrite expression using only visible symbols"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify all references to 'attitude_sub' and component ports in the AGREE annex",
+    "Remove all assume/guarantee statements that reference 'attitude_sub' or component ports not visible in the component type context",
+    "Replace any invalid expressions with valid AGREE expressions using only visible identifiers",
+    "Ensure all remaining expressions are syntactically valid AGREE expressions"
+  ]
+}

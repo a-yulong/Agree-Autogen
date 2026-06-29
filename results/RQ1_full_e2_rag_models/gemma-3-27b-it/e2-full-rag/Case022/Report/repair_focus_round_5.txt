@@ -1,0 +1,200 @@
+round=5
+
+[TARGET INTERFACE]
+Exact expression symbols: tempin, user_request, user_request.heater_on, user_request.cooler_on, heater_on, cooler_on
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+tempin | in | data | opaque | temperature_type
+user_request | in | data | opaque | command.impl
+user_request.heater_on | in | data_field | bool | base_types::boolean
+user_request.cooler_on | in | data_field | bool | base_types::boolean
+heater_on | out | data | bool | base_types::boolean
+cooler_on | out | data | bool | base_types::boolean
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "heating_request is true if and only if user_request.heater_on is true and user_request.cooler_on is false.",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "user_request.heater_on",
+        "user_request.cooler_on"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "cooling_request is true if and only if user_request.cooler_on is true and user_request.heater_on is false.",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "user_request.cooler_on",
+        "user_request.heater_on"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "heater_on is true only if heating_request is true and tempin <= 20.",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "heater_on",
+        "tempin",
+        "heating_request"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "cooler_on is true only if cooling_request is true and tempin > 0.",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "cooler_on",
+        "tempin",
+        "cooling_request"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: controller | lines 88-99
+annex agree {**
+  component type ControllerType {
+
+    bool heating_request;
+    bool cooling_request;
+
+    eq "heating_request_def": heating_request = (user_request.heater_on and not user_request.cooler_on);
+    eq "cooling_request_def": cooling_request = (user_request.cooler_on and not user_request.heater_on);
+
+    guarantee "heater_on_condition": heater_on => (heating_request and tempin <= 20.0);
+    guarantee "cooler_on_condition": cooler_on => (cooling_request and tempin > 0.0);
+  }**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   85:     user_request    : in data port command.impl;
+   86:     heater_on       : out data port base_types::boolean;
+   87:     cooler_on       : out data port base_types::boolean;
+   88: annex agree {**
+>> 89:   component type ControllerType {
+   90: 
+   91:     bool heating_request;
+   92:     bool cooling_request;
+   93: 
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: controller
+system controller
+features
+    tempin          : in data port temperature_type;
+    user_request    : in data port command.impl;
+    heater_on       : out data port base_types::boolean;
+    cooler_on       : out data port base_types::boolean;
+end controller;
+
+-- TARGET DECLARATION: controller.impl
+system implementation controller.impl
+end controller.impl;
+
+-- RELATED MODEL LINES
+heater_on : data base_types::boolean;
+cooler_on : data base_types::boolean;
+user_request    : in data port command.impl;
+controller  : system controller.impl;
+c2 : port user_request -> controller.user_request {communication_properties::timing => immediate;};
+c3 : port controller.heater_on -> heater.enabled {communication_properties::timing => immediate;};
+c4 : port controller.cooler_on -> cooler.enabled {communication_properties::timing => immediate;};
+c5 : port voter.tempout -> controller.tempin {communication_properties::timing => immediate;};
+system controller
+tempin          : in data port temperature_type;
+heater_on       : out data port base_types::boolean;
+cooler_on       : out data port base_types::boolean;
+end controller;
+system implementation controller.impl
+end controller.impl;
+up_to_tc   : port user_panel.cmd -> temp_control.user_request {communication_properties::timing => immediate;};
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "controller",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "controller.impl",
+      "kind": "system",
+      "type_name": "controller"
+    }
+  ],
+  "features": [
+    {
+      "owner": "controller",
+      "name": "tempin",
+      "direction": "in",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "controller",
+      "name": "user_request",
+      "direction": "in",
+      "category": "data port",
+      "type": "command.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "controller",
+      "name": "heater_on",
+      "direction": "out",
+      "category": "data port",
+      "type": "base_types::boolean",
+      "scalar": "base_types::boolean"
+    },
+    {
+      "owner": "controller",
+      "name": "cooler_on",
+      "direction": "out",
+      "category": "data port",
+      "type": "base_types::boolean",
+      "scalar": "base_types::boolean"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "controller",
+      "name": "c2",
+      "kind": "port",
+      "source": "user_request",
+      "destination": "controller.user_request"
+    },
+    {
+      "owner": "controller",
+      "name": "c3",
+      "kind": "port",
+      "source": "controller.heater_on",
+      "destination": "heater.enabled"
+    },
+    {
+      "owner": "controller",
+      "name": "c4",
+      "kind": "port",
+      "source": "controller.cooler_on",
+      "destination": "cooler.enabled"
+    },
+    {
+      "owner": "controller",
+      "name": "c5",
+      "kind": "port",
+      "source": "voter.tempout",
+      "destination": "controller.tempin"
+    }
+  ]
+}

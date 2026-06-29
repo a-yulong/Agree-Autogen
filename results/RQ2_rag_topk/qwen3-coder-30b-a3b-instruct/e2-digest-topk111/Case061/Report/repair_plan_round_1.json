@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "AGREE cannot reference component features directly from a thread type annex",
+      "minimal_edit": "Replace 'Data_Sink' with 'Q.Impl.Data_Sink' to reference the implementation feature"
+    },
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "AGREE cannot reference subcomponents directly from a thread type annex",
+      "minimal_edit": "Replace 'Q_Spg.Data_Sink' with 'Q.Impl.Q_Spg.Data_Sink' to reference the implementation subcomponent feature"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block, replace 'Data_Sink = Q_Spg.Data_Sink' with 'Q.Impl.Data_Sink = Q.Impl.Q_Spg.Data_Sink'",
+    "Ensure the updated expression uses only visible symbols from the implementation context"
+  ]
+}

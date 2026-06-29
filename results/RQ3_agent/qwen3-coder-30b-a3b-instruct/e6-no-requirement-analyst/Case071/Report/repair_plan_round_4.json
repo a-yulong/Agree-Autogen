@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 118: Couldn't resolve reference to 'gps_pos'.",
+      "cause": "AGREE cannot resolve 'gps_pos' as it's not declared in the implementation scope",
+      "minimal_edit": "Remove the assignment 'assign \"signal_routing_gps_pos\": gps_pos = pspg.gps_pos;' from the AGREE annex"
+    },
+    {
+      "diagnostic": "line 119: LHS of assignment must be an AGREE 'eq' variable or an output port of this component",
+      "cause": "AGREE cannot assign to 'pspg.speed' as it's a subcomponent port, not an output port of this component",
+      "minimal_edit": "Remove the assignment 'assign \"signal_routing_speed\": pspg.speed = speed;' from the AGREE annex"
+    },
+    {
+      "diagnostic": "line 120: LHS of assignment must be an AGREE 'eq' variable or an output port of this component",
+      "cause": "AGREE cannot assign to 'pspg.angle' as it's a subcomponent port, not an output port of this component",
+      "minimal_edit": "Remove the assignment 'assign \"signal_routing_angle\": pspg.angle = angle;' from the AGREE annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the assignment 'assign \"signal_routing_gps_pos\": gps_pos = pspg.gps_pos;' from the AGREE annex",
+    "Remove the assignment 'assign \"signal_routing_speed\": pspg.speed = speed;' from the AGREE annex",
+    "Remove the assignment 'assign \"signal_routing_angle\": pspg.angle = angle;' from the AGREE annex"
+  ]
+}

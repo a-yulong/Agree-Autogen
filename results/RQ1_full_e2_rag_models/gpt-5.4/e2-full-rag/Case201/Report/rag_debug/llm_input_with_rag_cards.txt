@@ -1,0 +1,136 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use AGREE guarantees to relate visible outputs to visible inputs with valid logical expressions.
+- Keep contracts limited to symbols that are visible in the current component scope.
+- Exclude AADL property associations from AGREE expressions unless exposed as explicit typed model symbols.
+Generic rules:
+- Translate one-way behavioral requirements into implication-style guarantees when only one condition direction is stated.
+- Prefer concise guarantees over helper definitions unless a helper improves clarity or typing.
+- Use only case-provided relations, bounds, or constants; do not invent thresholds or hidden state.
+Syntax or pattern reminders:
+- AGREE clause forms include guarantee "label": expression; assume "label": expression; eq name : type = expression; const name : type = value;
+- Use AGREE types bool, int, and real; comparison and logical expressions evaluate to bool.
+- For stateful logic, use initialized recurrence with -> and pre(...); for branching, use if ... then ... else.
+Anti-patterns:
+- Do not reference implementation-only paths or subcomponent ports in a type-level contract.
+- Do not encode Period, Compute_Execution_Time, Dispatch_Protocol, or unit tokens as AGREE variables.
+- Do not use invalid scalar type names such as boolean or integer in AGREE declarations.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- handle_position
+- closed
+- latched
+- locked
+- swivel
+- de_arrest
+- lock
+- warn_diff_pres
+- warn_slide
+- in_flight
+- on_ground
+- engine_running
+- emergency_evacuation
+- dps
+- door_locked
+- warning_info
+- ecam_info
+
+Target interface:
+Exact expression symbols: handle_position, closed, latched, locked, swivel, de_arrest, lock, warn_diff_pres, warn_slide, in_flight, on_ground, engine_running, emergency_evacuation, dps, door_locked, warning_info, ecam_info
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+handle_position | in | data | bool | Base_Types::boolean
+closed | in | data | bool | Base_Types::boolean
+latched | in | data | bool | Base_Types::boolean
+locked | in | data | bool | Base_Types::boolean
+swivel | out | data | bool | Base_Types::boolean
+de_arrest | out | data | bool | Base_Types::boolean
+lock | out | data | bool | Base_Types::boolean
+warn_diff_pres | out | data | bool | Base_Types::boolean
+warn_slide | out | data | bool | Base_Types::boolean
+in_flight | in | data | bool | Base_Types::boolean
+on_ground | in | data | bool | Base_Types::boolean
+engine_running | in | data | bool | Base_Types::boolean
+emergency_evacuation | in | data | bool | Base_Types::boolean
+dps | in | data | int | Base_Types::integer
+door_locked | out | data | bool | Base_Types::boolean
+warning_info | out | data | bool | Base_Types::boolean
+ecam_info | out | data | bool | Base_Types::boolean
+
+Raw requirement:
+The door_handler component shall assert ecam_info whenever in_flight is true. If in_flight is false, this requirement imposes no additional condition on ecam_info.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "ecam_info shall be true whenever in_flight is true; no additional condition on ecam_info when in_flight is false",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "door_handler",
+        "ecam_info",
+        "in_flight"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "door_handler.imp Dispatch_Protocol = Periodic",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "door_handler.imp",
+        "Dispatch_Protocol",
+        "Periodic"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "door_handler.imp Compute_Execution_Time = 0 ms .. 20 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "door_handler.imp",
+        "Compute_Execution_Time",
+        "0 ms .. 20 ms"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "door_handler.imp Period = 50 Ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "door_handler.imp",
+        "Period",
+        "50 Ms"
+      ]
+    }
+  ]
+}

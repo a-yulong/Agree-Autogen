@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 13: The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "AGREE equation variable 'e' declared as 'real' but assigned expression involves opaque types",
+      "minimal_edit": "Change 'eq e : real' to 'eq e : Types::speed.speed_impl'"
+    },
+    {
+      "diagnostic": "line 13: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Binary operation between opaque types not supported in AGREE",
+      "minimal_edit": "Introduce a real-valued intermediate variable for the difference"
+    },
+    {
+      "diagnostic": "line 13: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Binary operation between opaque types not supported in AGREE",
+      "minimal_edit": "Introduce a real-valued intermediate variable for the difference"
+    },
+    {
+      "diagnostic": "line 14: Couldn't resolve reference to 'integral'.",
+      "cause": "AGREE integral function not recognized due to type mismatch",
+      "minimal_edit": "Replace 'integral(e)' with 'integral(real_e)' where real_e is a real-valued variable"
+    },
+    {
+      "diagnostic": "line 15: Couldn't resolve reference to 'derivative'.",
+      "cause": "AGREE derivative function not recognized due to type mismatch",
+      "minimal_edit": "Replace 'derivative(e)' with 'derivative(real_e)' where real_e is a real-valued variable"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'eq e : real = Target - Actual;' with 'eq real_e : real = real(Target - Actual); eq e : Types::speed.speed_impl = real_e;' on line 13",
+    "Replace 'eq e_int : real = integral(e);' with 'eq e_int : real = integral(real_e);' on line 14",
+    "Replace 'eq e_dot : real = derivative(e);' with 'eq e_dot : real = derivative(real_e);' on line 15"
+  ]
+}

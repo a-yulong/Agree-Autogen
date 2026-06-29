@@ -1,0 +1,10 @@
+annex agree {**
+  assume "signal_flow_attitude": Forcing_Safe_Mode => sensored_attitude = sun_direction;
+  assume "signal_flow_orbit": Getting_Back_To_Normal_Mode => reference_torque = torque_command;
+  guarantee "route_attitude": sensored_attitude = sun_direction => reference_torque = torque_command;
+  guarantee "route_orbit": reference_force = force_command => telemetry = 0.0;
+  eq "attitude_valid": bool = (sensored_attitude >= -1.0 and sensored_attitude <= 1.0);
+  eq "force_valid": bool = (reference_force >= 0.0 and reference_force <= 100.0);
+  const "max_torque": real = 1000.0;
+  const "min_force": real = 0.0;
+**};

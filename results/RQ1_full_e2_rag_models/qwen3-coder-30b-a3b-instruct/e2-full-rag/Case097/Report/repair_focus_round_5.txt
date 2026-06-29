@@ -1,0 +1,185 @@
+round=5
+
+[TARGET INTERFACE]
+Exact expression symbols: arlarm_acc_in, arlarm_adirup_in, systemHM_action_acc_hm, systemHM_action_adirup
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+arlarm_acc_in | in | data | int | SHM_DataType::errorData
+arlarm_adirup_in | in | data | int | SHM_DataType::errorData
+systemHM_action_acc_hm | out | data | int | SHM_DataType::actionData
+systemHM_action_adirup | out | data | int | SHM_DataType::actionData
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "signal flow from arlarm_acc_in to alarmAggregator.arlarm_acc_in through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "arlarm_acc_in",
+        "alarmAggregator.arlarm_acc_in",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "signal flow from arlarm_adirup_in to alarmAggregator.arlarm_adirup_in through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "arlarm_adirup_in",
+        "alarmAggregator.arlarm_adirup_in",
+        "C2"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+No AGREE annex block is present.
+
+[DIAGNOSTIC LINE CONTEXT]
+   398: 
+   399:     C4: port alarmAggregator.alarmAggregator_out->diagnosisEngine.diagnosis_in;
+   400:     C5: port diagnosisEngine.diagnosis_out-> mitigationActor.mitigation_in;
+   401: 
+>> 402:   annex agree {
+   403:     -- R1: signal flow from arlarm_acc_in to alarmAggregator.arlarm_acc_in through C1
+   404:     assume R1_1: arlarm_acc_in = alarmAggregator.arlarm_acc_in;
+   405:     guarantee R1_2: alarmAggregator.arlarm_acc_in = arlarm_acc_in;
+   406: 
+
+   400:     C5: port diagnosisEngine.diagnosis_out-> mitigationActor.mitigation_in;
+   401: 
+   402:   annex agree {
+   403:     -- R1: signal flow from arlarm_acc_in to alarmAggregator.arlarm_acc_in through C1
+>> 404:     assume R1_1: arlarm_acc_in = alarmAggregator.arlarm_acc_in;
+   405:     guarantee R1_2: alarmAggregator.arlarm_acc_in = arlarm_acc_in;
+   406: 
+   407:     -- R2: signal flow from arlarm_adirup_in to alarmAggregator.arlarm_adirup_in through C2
+   408:     assume R2_1: arlarm_adirup_in = alarmAggregator.arlarm_adirup_in;
+
+   401: 
+   402:   annex agree {
+   403:     -- R1: signal flow from arlarm_acc_in to alarmAggregator.arlarm_acc_in through C1
+   404:     assume R1_1: arlarm_acc_in = alarmAggregator.arlarm_acc_in;
+>> 405:     guarantee R1_2: alarmAggregator.arlarm_acc_in = arlarm_acc_in;
+   406: 
+   407:     -- R2: signal flow from arlarm_adirup_in to alarmAggregator.arlarm_adirup_in through C2
+   408:     assume R2_1: arlarm_adirup_in = alarmAggregator.arlarm_adirup_in;
+   409:     guarantee R2_2: alarmAggregator.arlarm_adirup_in = arlarm_adirup_in;
+
+   404:     assume R1_1: arlarm_acc_in = alarmAggregator.arlarm_acc_in;
+   405:     guarantee R1_2: alarmAggregator.arlarm_acc_in = arlarm_acc_in;
+   406: 
+   407:     -- R2: signal flow from arlarm_adirup_in to alarmAggregator.arlarm_adirup_in through C2
+>> 408:     assume R2_1: arlarm_adirup_in = alarmAggregator.arlarm_adirup_in;
+   409:     guarantee R2_2: alarmAggregator.arlarm_adirup_in = arlarm_adirup_in;
+   410:   };
+   411:   end systemHM_process.impl;
+   412: 
+
+   405:     guarantee R1_2: alarmAggregator.arlarm_acc_in = arlarm_acc_in;
+   406: 
+   407:     -- R2: signal flow from arlarm_adirup_in to alarmAggregator.arlarm_adirup_in through C2
+   408:     assume R2_1: arlarm_adirup_in = alarmAggregator.arlarm_adirup_in;
+>> 409:     guarantee R2_2: alarmAggregator.arlarm_adirup_in = arlarm_adirup_in;
+   410:   };
+   411:   end systemHM_process.impl;
+   412: 
+   413: end partitions;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: systemHM_process
+process systemHM_process
+  features
+    arlarm_acc_in: in event data  port SHM_DataType::errorData
+    	{Compute_Deadline => 0 ms;};
+    arlarm_adirup_in: in event data  port SHM_DataType::errorData
+    	{Compute_Deadline => 0 ms;};
+    -- systemHM_acc1_error: in event data  port SHM_DataType::errorData;
+    -- --systemHM_acc1_action: out event data  port SHM_DataType::actionData;
+    -- systemHM_acc2_error: in event data  port SHM_DataType::errorData;
+    -- --systemHM_acc2_action: out event data  port SHM_DataType::actionData;
+    -- systemHM_acc3_error: in event data  port SHM_DataType::errorData;
+    -- --systemHM_acc3_action: out event data  port SHM_DataType::actionData;
+    -- systemHM_acc4_error: in event data  port SHM_DataType::errorData;
+    -- --systemHM_acc4_action: out event data  port SHM_DataType::actionData;
+    -- systemHM_acc5_error: in event data  port SHM_DataType::errorData;
+    -- --systemHM_acc5_action: out event data  port SHM_DataType::actionData;
+    -- systemHM_acc6_error: in event data  port SHM_DataType::errorData;
+    -- --systemHM_acc6_action: out event data  port SHM_DataType::actionData;
+    --
+    -- systemHM_ADIRUp1_error: in event data  port SHM_DataType::errorData;
+    -- --systemHM_ADIRUp1_action: out event data  port SHM_DataType::actionData;
+    -- systemHM_ADIRUp2_error: in event data  port SHM_DataType::errorData;
+    -- --systemHM_ADIRUp2_action: out event data  port SHM_DataType::actionData;
+    -- systemHM_ADIRUp3_error: in event data  port SHM_DataType::errorData;
+    -- --systemHM_ADIRUp3_action: out event data  port SHM_DataType::actionData;
+    -- systemHM_ADIRUp4_error: in event data  port SHM_DataType::errorData;
+    -- --systemHM_ADIRUp4_action: out event data  port SHM_DataType::actionData;
+    --
+    -- systemHM_VDl_error: in event data  port SHM_DataType::errorData;
+    -- --systemHM_VDl_action: out event data  port SHM_DataType::actionData;
+    -- systemHM_VDc_error: in event data  port SHM_DataType::errorData;
+    -- --systemHM_VDc_action: out event data  port SHM_DataType::actionData;
+    -- systemHM_VDr_error: in event data  port SHM_DataType::errorData;
+
+    systemHM_action_acc_hm: out event data  port SHM_DataType::actionData;
+    systemHM_action_adirup: out event data  port SHM_DataType::actionData;
+  end systemHM_process;
+
+-- TARGET DECLARATION: systemHM_process.impl
+process implementation systemHM_process.impl
+  subcomponents
+    alarmAggregator: thread threads::alarmAggregator.impl;
+    diagnosisEngine: thread threads::diagnosisEngine.impl;
+    mitigationActor: thread threads::mitigationActor_th.impl;
+  connections
+    C1: port arlarm_acc_in<->alarmAggregator.arlarm_acc_in;
+    C2: port arlarm_adirup_in<->alarmAggregator.arlarm_adirup_in;
+    --   port systemHM_acc1_error->alarmAggregator.acc1_error;
+    --   port systemHM_acc2_error->alarmAggregator.acc2_error;
+    --   port systemHM_acc3_error->alarmAggregator.acc3_error;
+    --   port systemHM_acc4_error->alarmAggregator.acc4_error;
+    --   port systemHM_acc5_error->alarmAggregator.acc5_error;
+    --   port systemHM_acc6_error->alarmAggregator.acc6_error;
+    --
+    --   port systemHM_ADIRUp1_error->alarmAggregator.ADIRUp1_error;
+    --   port systemHM_ADIRUp2_error->alarmAggregator.ADIRUp2_error;
+    --   port systemHM_ADIRUp3_error->alarmAggregator.ADIRUp3_error;
+    --   port systemHM_ADIRUp4_error->alarmAggregator.ADIRUp4_error;
+    --
+    --   port systemHM_VDl_error->alarmAggregator.VDl_error;
+    --   port systemHM_VDc_error->alarmAggregator.VDc_error;
+    --   port systemHM_VDr_error->alarmAggregator.VDr_error;
+
+    C31: port  mitigationActor.mitigation_command-> systemHM_action_acc_hm;
+    C32: port  mitigationActor.mitigation_command-> systemHM_action_adirup;
+    --   port systemHMEngine.acc2_action-> systemHM_acc2_action;
+    --   port systemHMEngine.acc3_action-> systemHM_acc3_action;
+    --   port systemHMEngine.acc4_action-> systemHM_acc4_action;
+    --   port systemHMEngine.acc5_action-> systemHM_acc5_action;
+    --   port systemHMEngine.acc6_action-> systemHM_acc6_action;
+    --   port systemHMEngine.ADIRUp1_action-> systemHM_ADIRUp1_action;
+    --   port systemHMEngine.ADIRUp2_action-> systemHM_ADIRUp2_action;
+    --   port systemHMEngine.ADIRUp3_action-> systemHM_ADIRUp3_action;
+    --   port systemHMEngine.ADIRUp4_action-> systemHM_ADIRUp4_action;
+    --   port systemHMEngine.VDl_action-> systemHM_VDl_action;
+    --   port systemHMEngine.VDc_action-> systemHM_VDc_action;
+    --   port systemHMEngine.VDr_action-> systemHM_VDr_action;
+
+    C4: port alarmAggregator.alarmAggregator_out->diagnosisEngine.diagnosis_in;
+    C5: port diagnosisEngine.diagnosis_out-> mitigationActor.mitigation_in;
+
+  end systemHM_process.impl;
+
+-- RELATED MODEL LINES
+process systemHM_process
+arlarm_acc_in: in event data  port SHM_DataType::errorData
+arlarm_adirup_in: in event data  port SHM_DataType::errorData
+systemHM_action_acc_hm: out event data  port SHM
+-- [target model context truncated]

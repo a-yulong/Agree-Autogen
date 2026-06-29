@@ -41,17 +41,21 @@ def _should_stop_for_provider_error(report: dict) -> bool:
 
 
 def _case_layout(source_root: Path, case_num: int, case_letter: str):
-    case_str = f"Case{case_num:02d}"
+    case_str = f"Case{case_num:03d}"
+    legacy_case_str = f"Case{case_num:02d}"
     candidates = []
     if case_letter:
         candidates.append(source_root / f"{case_str}_{case_letter}")
+        candidates.append(source_root / f"{legacy_case_str}_{case_letter}")
     candidates.append(source_root / case_str)
+    candidates.append(source_root / legacy_case_str)
     for case_dir in candidates:
-        base_txt = case_dir / f"{case_str}_Base.txt"
-        req_txt = case_dir / f"{case_str}_Req.txt"
-        base_aadl = case_dir / f"{case_str}_Base.aadl"
-        if base_txt.exists() and req_txt.exists():
-            return case_str, case_dir, base_txt, req_txt, base_aadl
+        for label in (case_str, legacy_case_str):
+            base_txt = case_dir / f"{label}_Base.txt"
+            req_txt = case_dir / f"{label}_Req.txt"
+            base_aadl = case_dir / f"{label}_Base.aadl"
+            if base_txt.exists() and req_txt.exists():
+                return label, case_dir, base_txt, req_txt, base_aadl
     case_labels = ", ".join(str(path) for path in candidates)
     raise FileNotFoundError(f"No source case with Base/Req files found for {case_str}: {case_labels}")
 

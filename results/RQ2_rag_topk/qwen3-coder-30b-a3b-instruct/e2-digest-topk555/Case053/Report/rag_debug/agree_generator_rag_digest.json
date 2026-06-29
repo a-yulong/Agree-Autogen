@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "Place input assumptions and output guarantees in component type scopes when they reference visible ports with concrete bounds or relations.",
+    "Use assign statements in implementation scopes only for existing output features or declared auxiliary variables.",
+    "Generate syntactically valid AGREE annex blocks with proper assume/guarantee syntax and visible symbol usage."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be enclosed in annex agree {** ... **}; blocks.",
+    "Component type annexes are for assumptions, guarantees, constants, and equation declarations.",
+    "Implementation annexes are for implementation-level bindings such as assignments.",
+    "Ensure all referenced identifiers are visible in the current scope or declared locally."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract statements.",
+    "Declare helpers with `eq name : type = expression;` and constants with `const name : type = value;`.",
+    "Assign outputs with `assign output = expression;` in valid implementation scope."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope; use only assumptions and assignments there.",
+    "Do not reference AADL properties like Period or Deadline as AGREE variables without explicit typed ports."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing parameters not directly tied to visible features",
+    "Model fusion and insertion location decisions",
+    "Validator diagnostics and repair strategies"
+  ]
+}

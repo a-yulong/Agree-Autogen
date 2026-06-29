@@ -1,0 +1,18 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 100: Couldn't resolve reference to 'min'.",
+      "cause": "The 'min' function is not a standard AGREE function and is not visible in the current context.",
+      "minimal_edit": "Rewrite the expression to use explicit comparisons to find the minimum value."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 100: left and right sides of binary expression '=' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "The AGREE validator could not determine the type of the right-hand side of the equation due to the unresolved 'min' function.",
+      "minimal_edit": "Remove the equation as it cannot be validated with the current context."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee clause 'timeToFailure_min' from the agree annex."
+  ]
+}

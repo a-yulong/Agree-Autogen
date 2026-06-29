@@ -1,0 +1,153 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE assumptions and guarantees in component type scopes when they refer to component ports; use implementation scopes for assignments and bindings.
+- Use `assume` for input constraints and `guarantee` for output constraints, ensuring visible identifiers are properly declared or referenced.
+- Generate `eq` declarations for helper variables and `const` for named thresholds, ensuring type alignment with AADL feature types.
+- Insert AGREE annex blocks within `annex agree {** ... **};` and place them in appropriate component type or implementation scopes.
+Generic rules:
+- Use `assume "label": expression;` for preconditions and `guarantee "label": expression;` for postconditions in AGREE contracts.
+- Declare auxiliary variables with `eq name : type = expression;` and constants with `const name : type = value;`.
+- Assign output values using `assign output = expression;` only in implementation scopes with valid output features.
+- Ensure all identifiers in AGREE expressions are visible in the current scope or declared as helpers.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Component type contracts are for assumptions and guarantees; implementation contracts are for assignments.
+- Use `eq` for helper declarations and `const` for named constants in AGREE.
+- Assumptions and guarantees must reference valid AADL features or declared variables.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope; use only `assign` for output bindings.
+- Do not reference AADL property names (e.g., Deadline, Period) as AGREE variables unless explicitly exposed.
+- Do not use invalid scalar type names like 'integer' or 'boolean' in AGREE declarations; use 'int', 'real', or 'bool'.
+- Do not generate AGREE clauses with unresolved identifiers or invalid helper declarations.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Input
+- Output
+
+Target interface:
+Exact expression symbols: Input, Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Input | in | data | int | Base_Types::Integer
+Output | out | data | int | Base_Types::Integer
+
+Raw requirement:
+The top_level system must define an internal state variable mode. The environment assumes that the input signal Input is strictly less than 10. The system must guarantee that the state variable mode is always greater than or equal to 0, and that the output signal Output is strictly less than 50. In the implementation layer top_level.Impl, the input Input must be forwarded to the subsystem A_sub. The output of A_sub must be connected to both B_sub and C_sub as inputs. The output of B_sub must be connected to the second input of C_sub. The output of C_sub must drive the output Output of top_level. Additionally, the internal state variable mode of C_sub must be assigned to the state variable mode of top_level.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Input < 10",
+      "kind": "data_constraint",
+      "intent": "assume",
+      "evidence": [
+        "Input"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "mode >= 0",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "mode"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Output < 50",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Output"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Input -> A_sub.Input",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "Input",
+        "A_sub.Input"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "A_sub.Output -> B_sub.Input",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "A_sub.Output",
+        "B_sub.Input"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "A_sub.Output -> C_sub.Input1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "A_sub.Output",
+        "C_sub.Input1"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "B_sub.Output -> C_sub.Input2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "B_sub.Output",
+        "C_sub.Input2"
+      ]
+    },
+    {
+      "id": "R8",
+      "text": "C_sub.Output -> Output",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "C_sub.Output",
+        "Output"
+      ]
+    },
+    {
+      "id": "R9",
+      "text": "mode of C_sub = mode of top_level",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "mode of C_sub",
+        "mode of top_level"
+      ]
+    }
+  ]
+}

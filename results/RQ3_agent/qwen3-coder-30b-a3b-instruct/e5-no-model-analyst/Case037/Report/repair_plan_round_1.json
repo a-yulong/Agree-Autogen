@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 13: The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "Type mismatch in equation declaration",
+      "minimal_edit": "Change 'eq e : real' to 'eq e : Types::speed.speed_impl'"
+    },
+    {
+      "diagnostic": "line 13: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Invalid binary operation on incompatible types",
+      "minimal_edit": "Cast Target to real before subtraction"
+    },
+    {
+      "diagnostic": "line 13: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Invalid binary operation on incompatible types",
+      "minimal_edit": "Cast Actual to real before subtraction"
+    },
+    {
+      "diagnostic": "line 15: Couldn't resolve reference to 'integral'.",
+      "cause": "Integral function not recognized in AGREE context",
+      "minimal_edit": "Replace 'integral(e, time)' with 'integral(e, time)' using valid AGREE syntax"
+    },
+    {
+      "diagnostic": "line 16: Couldn't resolve reference to 'derivative'.",
+      "cause": "Derivative function not recognized in AGREE context",
+      "minimal_edit": "Replace 'derivative(e, time)' with 'derivative(e, time)' using valid AGREE syntax"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Modify line 13 to cast Target and Actual to real type before subtraction",
+    "Update line 13 to declare e with correct type matching the result of subtraction",
+    "Replace line 15's integral function call with valid AGREE syntax",
+    "Replace line 16's derivative function call with valid AGREE syntax"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'accDataOut'.",
+      "cause": "AGREE annex is in component type scope but references subcomponent port 'accDataOut' which is not visible in that scope",
+      "minimal_edit": "Change 'accout = sub1.accDataOut' to 'accout = sub1.accDataOut' and move the annex to implementation scope"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'sub1'.",
+      "cause": "AGREE annex is in component type scope but references subcomponent 'sub1' which is not visible in that scope",
+      "minimal_edit": "Move the annex to implementation scope to make subcomponent 'sub1' visible"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved references in AGREE expression",
+      "minimal_edit": "Remove the guarantee statement and move it to implementation scope with proper visibility"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE expression references unresolved identifiers",
+      "minimal_edit": "Remove the guarantee statement and move it to implementation scope with proper visibility"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'event_in'.",
+      "cause": "AGREE annex is in component type scope but references subcomponent port 'event_in' which is not visible in that scope",
+      "minimal_edit": "Change 'sub1.event_in = acc_command_in' to 'sub1.event_in = acc_command_in' and move the annex to implementation scope"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'sub1'.",
+      "cause": "AGREE annex is in component type scope but references subcomponent 'sub1' which is not visible in that scope",
+      "minimal_edit": "Move the annex to implementation scope to make subcomponent 'sub1' visible"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch due to unresolved references in AGREE expression",
+      "minimal_edit": "Remove the guarantee statement and move it to implementation scope with proper visibility"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE expression references unresolved identifiers",
+      "minimal_edit": "Remove the guarantee statement and move it to implementation scope with proper visibility"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from acc3_dataOutput component type",
+    "Add a new AGREE annex block to acc3_dataOutput.impl component implementation",
+    "Move the guarantee statements into the implementation annex",
+    "Ensure the guarantee statements reference only visible identifiers in the implementation scope"
+  ]
+}

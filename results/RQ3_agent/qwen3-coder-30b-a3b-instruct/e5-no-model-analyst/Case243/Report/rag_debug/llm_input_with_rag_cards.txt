@@ -1,0 +1,138 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `assume` and `guarantee` statements with descriptive labels for component-level contracts.
+- Place assumptions and guarantees in valid component type or implementation scopes based on the target component.
+Generic rules:
+- Use `eq` for stateful equations with initialized recurrence and `assign` for output assignments.
+- Employ logical operators (`and`, `or`, `not`, `=>`) for complex contract expressions.
+- Ensure all identifiers in AGREE clauses are visible in the current component scope.
+Syntax or pattern reminders:
+- Use `if ... then ... else` for branching logic in equations.
+- Declare constants with `const name : type = value;` and equations with `eq name : type = expression;`.
+Anti-patterns:
+- Do not reference AADL properties like Period or Priority as AGREE variables.
+- Avoid using invalid scalar types such as 'integer' or 'boolean' in AGREE declarations.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- door_management
+- door_management.imp
+- door1
+- door2
+- lgs
+- dps
+- ocu
+- fws
+- ecam
+- process_door
+- door
+- handle_position
+- closed
+- latched
+- locked
+- swivel
+- de_arrest
+- lock
+- warn_diff_pres
+- warn_slide
+- door.imp
+- LGS
+- in_flight1
+- on_ground1
+- engine_running1
+- emergency_evacuation1
+- in_flight2
+- on_ground2
+- engine_running2
+- emergency_evacuation2
+- LGS.imp
+- DPS
+- dps1
+- dps2
+- DPS.imp
+- OCU
+- cll
+- OCU.imp
+- FWS
+- wrn_door1
+
+Target interface:
+Exact expression symbols: D1_handle_position, D1_closed, D1_latched, D1_locked, D1_swivel, D1_de_arrest, D1_lock, D1_warn_diff_pres, D1_warn_slide, D1_in_flight, D1_on_ground, D1_engine_running, D1_emergency_evacuation, D1_dps, D1_warning_info, D1_ecam_info, D2_handle_position, D2_closed, D2_latched, D2_locked, D2_swivel, D2_de_arrest, D2_lock, D2_warn_diff_pres, D2_warn_slide, D2_in_flight, D2_on_ground, D2_engine_running, D2_emergency_evacuation, D2_warning_info, D2_ecam_info, D2_dps, Mix_cll
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+D1_handle_position | in | data | bool | Base_Types::boolean
+D1_closed | in | data | bool | Base_Types::boolean
+D1_latched | in | data | bool | Base_Types::boolean
+D1_locked | in | data | bool | Base_Types::boolean
+D1_swivel | out | data | bool | Base_Types::boolean
+D1_de_arrest | out | data | bool | Base_Types::boolean
+D1_lock | out | data | bool | Base_Types::boolean
+D1_warn_diff_pres | out | data | bool | Base_Types::boolean
+D1_warn_slide | out | data | bool | Base_Types::boolean
+D1_in_flight | in | data | bool | Base_Types::boolean
+D1_on_ground | in | data | bool | Base_Types::boolean
+D1_engine_running | in | data | bool | Base_Types::boolean
+D1_emergency_evacuation | in | data | bool | Base_Types::boolean
+D1_dps | in | data | int | Base_Types::integer
+D1_warning_info | out | data | bool | Base_Types::boolean
+D1_ecam_info | out | data | bool | Base_Types::boolean
+D2_handle_position | in | data | bool | Base_Types::boolean
+D2_closed | in | data | bool | Base_Types::boolean
+D2_latched | in | data | bool | Base_Types::boolean
+D2_locked | in | data | bool | Base_Types::boolean
+D2_swivel | out | data | bool | Base_Types::boolean
+D2_de_arrest | out | data | bool | Base_Types::boolean
+D2_lock | out | data | bool | Base_Types::boolean
+D2_warn_diff_pres | out | data | bool | Base_Types::boolean
+D2_warn_slide | out | data | bool | Base_Types::boolean
+D2_in_flight | in | data | bool | Base_Types::boolean
+D2_on_ground | in | data | bool | Base_Types::boolean
+D2_engine_running | in | data | bool | Base_Types::boolean
+D2_emergency_evacuation | in | data | bool | Base_Types::boolean
+D2_warning_info | out | data | bool | Base_Types::boolean
+D2_ecam_info | out | data | bool | Base_Types::boolean
+D2_dps | in | data | int | Base_Types::integer
+Mix_cll | out | data | bool | Base_Types::boolean
+
+Raw requirement:
+The doors_process component shall assert D1_ecam_info whenever D1_in_flight is true. If D1_in_flight is false, this requirement imposes no additional condition on D1_ecam_info.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "D1_ecam_info is true when D1_in_flight is true",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "D1_ecam_info",
+        "D1_in_flight"
+      ]
+    }
+  ]
+}

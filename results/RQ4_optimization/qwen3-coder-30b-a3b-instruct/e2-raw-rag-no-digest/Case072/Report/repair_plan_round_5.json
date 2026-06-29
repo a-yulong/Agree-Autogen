@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent, not directly visible in component type scope",
+      "minimal_edit": "Remove reference to pspg from the guarantee statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'speed'.",
+      "cause": "speed is a port, not directly visible in component type scope",
+      "minimal_edit": "Remove reference to speed from the guarantee statement"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Expression contains unresolved identifiers, making type inference impossible",
+      "minimal_edit": "Replace the entire guarantee statement with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression due to unresolved references",
+      "minimal_edit": "Remove the invalid guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire annex agree block from thr_mgmt component type",
+    "Add a new annex agree block to thr_mgmt.i component implementation",
+    "In the new annex block, declare a constant or variable representing the signal flow relationship if needed, or remove the guarantee if it cannot be expressed with visible symbols"
+  ]
+}

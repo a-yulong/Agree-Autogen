@@ -1,0 +1,34 @@
+```json
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "heating_request is true if and only if user_request.heater_on is true and user_request.cooler_on is false.",
+      "evidence": ["user_request.heater_on", "user_request.cooler_on"]
+    },
+    {
+      "id": "R2",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "cooling_request is true if and only if user_request.cooler_on is true and user_request.heater_on is false.",
+      "evidence": ["user_request.cooler_on", "user_request.heater_on"]
+    },
+    {
+      "id": "R3",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "text": "heater_on is true only if heating_request is true and tempin <= 20.",
+      "evidence": ["heater_on", "tempin", "heating_request"]
+    },
+    {
+      "id": "R4",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "text": "cooler_on is true only if cooling_request is true and tempin > 0.",
+      "evidence": ["cooler_on", "tempin", "cooling_request"]
+    }
+  ]
+}
+```

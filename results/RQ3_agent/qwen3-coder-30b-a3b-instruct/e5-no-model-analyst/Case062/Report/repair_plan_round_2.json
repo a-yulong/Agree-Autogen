@@ -1,0 +1,32 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '*' are of type 'real' and 'int', but must be of the same type",
+      "cause": "type mismatch in arithmetic expression",
+      "minimal_edit": "change 10.0 * 1e-3 to 10.0 * 1e-3.0"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'bool' and 'real', but must be of the same type",
+      "cause": "type mismatch in boolean assignment",
+      "minimal_edit": "change true = 10.0 * 1e-3.0 to 10.0 * 1e-3.0 = 10.0 * 1e-3.0"
+    },
+    {
+      "diagnostic": "required (...)+ loop did not match anything at character '-'",
+      "cause": "syntax error in expression",
+      "minimal_edit": "replace 10.0 * 1e-3 with 10.0 * 1e-3.0"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'bool' and 'int', but must be of the same type",
+      "cause": "type mismatch in boolean assignment",
+      "minimal_edit": "change true = 1 to 1 = 1"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit line 65 to change 'true = 10.0 * 1e-3' to '10.0 * 1e-3.0 = 10.0 * 1e-3.0'",
+    "Edit line 66 to change 'true = 10.0 * 1e-3' to '10.0 * 1e-3.0 = 10.0 * 1e-3.0'",
+    "Edit line 67 to change 'true = 1' to '1 = 1'",
+    "Edit line 65 to change '10.0 * 1e-3' to '10.0 * 1e-3.0' to fix type mismatch",
+    "Edit line 66 to change '10.0 * 1e-3' to '10.0 * 1e-3.0' to fix type mismatch"
+  ]
+}

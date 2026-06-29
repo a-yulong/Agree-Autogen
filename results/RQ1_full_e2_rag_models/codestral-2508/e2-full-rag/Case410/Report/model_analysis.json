@@ -1,0 +1,93 @@
+{
+  "component_types": [
+    {
+      "name": "partition1_process",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "partition1_process.impl",
+      "kind": "process",
+      "type_name": "partition1_process"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "partition1_process.impl",
+      "name": "temperature",
+      "category": "thread",
+      "classifier": "sensor_temperature_thread.impl"
+    },
+    {
+      "owner": "partition1_process.impl",
+      "name": "order",
+      "category": "thread",
+      "classifier": "sensor_receiveinput_thread"
+    }
+  ],
+  "features": [
+    {
+      "owner": "partition1_process",
+      "name": "queueingin",
+      "direction": "in",
+      "category": "event data port",
+      "type": "integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "partition1_process",
+      "name": "samplingout",
+      "direction": "out",
+      "category": "data port",
+      "type": "integer",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "partition1_process.impl",
+      "name": "bufferconnectionexample",
+      "kind": "port",
+      "source": "order.order",
+      "destination": "temperature.order"
+    },
+    {
+      "owner": "partition1_process.impl",
+      "name": "Po1",
+      "kind": "port",
+      "source": "queueingin",
+      "destination": "order.commandin"
+    },
+    {
+      "owner": "partition1_process.impl",
+      "name": "Po2",
+      "kind": "port",
+      "source": "temperature.tempout",
+      "destination": "samplingout"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "partition1_process.queueingin",
+      "owner_kind": "feature",
+      "name": "Queue_Size",
+      "value": "4",
+      "applies_to": null
+    },
+    {
+      "owner": "partition1_process.queueingin",
+      "owner_kind": "feature",
+      "name": "ARINC653::Timeout",
+      "value": "5ms",
+      "applies_to": null
+    },
+    {
+      "owner": "partition1_process.queueingin",
+      "owner_kind": "feature",
+      "name": "Queue_Processing_Protocol",
+      "value": "FIFO",
+      "applies_to": null
+    }
+  ]
+}

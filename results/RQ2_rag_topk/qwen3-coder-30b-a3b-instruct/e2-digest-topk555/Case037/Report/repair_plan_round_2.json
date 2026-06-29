@@ -1,0 +1,46 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to DataSubcomponentType 'Types::speed.speed_impl'.",
+      "cause": "AADL type reference not resolvable due to missing with clause or incorrect package reference",
+      "minimal_edit": "Replace 'Types::speed.speed_impl' with 'Base_Types::Float' to match the actual AADL type of the ports"
+    },
+    {
+      "diagnostic": "Argument of real cast is of type '<error>' but must be of type 'int'",
+      "cause": "Invalid type in real() cast due to unresolved port type",
+      "minimal_edit": "Remove the real() cast and directly use the port expressions as they are already of compatible type"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Port type resolution failure causing expression type error",
+      "minimal_edit": "Ensure port expressions are used directly without type casting"
+    },
+    {
+      "diagnostic": "The variable 'e' on the left side of equation is of type '<error>' but must be of type 'real'",
+      "cause": "Type mismatch in equation assignment due to unresolved type reference",
+      "minimal_edit": "Change type of 'e' from 'Types::speed.speed_impl' to 'real'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'integral'.",
+      "cause": "Integral function not recognized due to type resolution issues",
+      "minimal_edit": "Ensure integral function is used with valid real-type expressions"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'derivative'.",
+      "cause": "Derivative function not recognized due to type resolution issues",
+      "minimal_edit": "Ensure derivative function is used with valid real-type expressions"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '*' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Expression type mismatch in guarantee due to unresolved port types",
+      "minimal_edit": "Ensure all operands in guarantee are of compatible real type"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'Types::speed.speed_impl' with 'Base_Types::Float' in all type declarations",
+    "Remove real() casts from the expression Target - Actual",
+    "Change type of variable 'e' from 'Types::speed.speed_impl' to 'real'",
+    "Ensure all expressions in guarantee use valid real-type operands"
+  ]
+}

@@ -1,0 +1,145 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: altitude, verticalVelocity, outImpact, outRecovery, gcasRequested
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+altitude | in | data | real | Base_Types::float
+verticalVelocity | in | data | real | Base_Types::float
+outImpact | out | data | real | Base_Types::float
+outRecovery | out | data | real | Base_Types::float
+gcasRequested | out | data | bool | Base_Types::boolean
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GCAS_Monitor | lines 25-32
+annex agree {**
+	  assume "roll_rate_bounds": 10.0 <= 15.0;
+	  guarantee " tcb_logic ": (horzDistance <= 30.0 or vertDistance <= 30.0) => gcasRequested = true;
+	  guarantee " impact_init ": outImpact = 0.0;
+	  guarantee " recovery_init ": outRecovery = 0.0;
+	  guarantee " impact_constant ": always (outImpact = 0.0);
+	  guarantee " recovery_constant ": always (outRecovery = 0.0);
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   23: 			outRecovery: out data port Base_Types::float;
+   24: 			gcasRequested: out data port Base_Types::boolean;
+   25: 	annex agree {**
+   26: 	  assume "roll_rate_bounds": 10.0 <= 15.0;
+>> 27: 	  guarantee " tcb_logic ": (horzDistance <= 30.0 or vertDistance <= 30.0) => gcasRequested = true;
+   28: 	  guarantee " impact_init ": outImpact = 0.0;
+   29: 	  guarantee " recovery_init ": outRecovery = 0.0;
+   30: 	  guarantee " impact_constant ": always (outImpact = 0.0);
+   31: 	  guarantee " recovery_constant ": always (outRecovery = 0.0);
+
+   27: 	  guarantee " tcb_logic ": (horzDistance <= 30.0 or vertDistance <= 30.0) => gcasRequested = true;
+   28: 	  guarantee " impact_init ": outImpact = 0.0;
+   29: 	  guarantee " recovery_init ": outRecovery = 0.0;
+   30: 	  guarantee " impact_constant ": always (outImpact = 0.0);
+>> 31: 	  guarantee " recovery_constant ": always (outRecovery = 0.0);
+   32: 	**};
+   33: 	end GCAS_Monitor;
+   34: 	
+   35: 	Process implementation GCAS_Monitor.GCAS_Monitor_impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: GCAS_Monitor
+process GCAS_Monitor
+		features
+			altitude: in data port Base_Types::float;
+			verticalVelocity: in data port Base_Types::float;
+			--Output from the GCAS monitor
+			outImpact: out data port Base_Types::float;
+			outRecovery: out data port Base_Types::float;
+			gcasRequested: out data port Base_Types::boolean;
+	end GCAS_Monitor;
+
+-- TARGET DECLARATION: GCAS_Monitor.GCAS_Monitor_impl
+Process implementation GCAS_Monitor.GCAS_Monitor_impl
+	end GCAS_Monitor.GCAS_Monitor_impl;
+
+-- RELATED MODEL LINES
+data autopilot
+end autopilot;
+data implementation autopilot.autopilot_impl
+VV: data  Base_Types::float;
+DeltaHeading:  data  Base_Types::float;
+Airspeed:  data  Base_Types::float;
+end autopilot.autopilot_impl;
+process GCAS_Monitor
+altitude: in data port Base_Types::float;
+verticalVelocity: in data port Base_Types::float;
+outImpact: out data port Base_Types::float;
+outRecovery: out data port Base_Types::float;
+gcasRequested: out data port Base_Types::boolean;
+end GCAS_Monitor;
+Process implementation GCAS_Monitor.GCAS_Monitor_impl
+end GCAS_Monitor.GCAS_Monitor_impl;
+Process ACAS_Monitor
+latitude: in data port Base_Types::float;
+longitude: in data port Base_Types::float;
+distance: in data port Base_types::float;
+acasRequested: out data port Base_Types::Boolean;
+end ACAS_Monitor;
+Process implementation ACAS_Monitor.ACAS_Monitor_impl
+end ACAS_Monitor.ACAS_Monitor_impl;
+Process SA_Monitor
+horzDistance: in data port Base_types::float;
+vertDistance: in data port Base_types::float;
+saRequested: out data port Base_Types::Boolean;
+end SA_Monitor;
+Process implementation SA_Monitor.SA_Monitor_impl
+end SA_Monitor.SA_Monitor_impl;
+Process GF_Monitor
+gfRequested: out data port Base_Types::Boolean;
+end GF_Monitor;
+Process implementation GF_Monitor.GF_Monitor_impl
+end GF_Monitor.GF_Monitor_impl;
+Process Wx_Monitor
+wxRequested: out data port Base_Types::Boolean;
+end Wx_Monitor;
+Process implementation Wx_Monitor.Wx_Monitor_impl
+end Wx_Monitor.Wx_Monitor_impl;
+Process FLS_Monitor
+linkConnection: in data port Base_Types::boolean;
+landingRequested: out data port Base_Types::boolean;
+end FLS_Monitor;
+Process Aviate_Decider
+inpGCASM : in data port Base_Types::boolean;
+inpGCASImpact: in data port Base_Types::float;
+inpGCASRecovery: in data port Base_Types::float;
+inpSAM : in data port Base_Types::boolean;
+inpACASM : in data port Base_Types::boolean;
+inpACASImpact: in data port Base_Types::float;
+inpACASRecovery: in data port Base_Types::float;
+inpGFM : in data port Base_Types::boolean;
+inpWxM : in data port Base_Types::boolean;
+inpFLS: in data port Base_Types::boolean;
+outDec: out data port Base_Types::integer;
+end Aviate_Decider;
+Process Implementation Aviate_Decider.Aviate_Decider_impl
+end Aviate_Decider.Aviate_Decider_impl;
+Process Pilot_Command
+inpPC: in data port Base_Types::float;
+outPC: out data port Autopilot.Autopilot_Impl;
+end Pilot_Command;
+Process GCAS_Recovery
+outGCASR: out data port autopilot.autopilot_impl;
+outAltitude: out data port Base_Types::float;
+outTime: out data port Base_Types::float;
+end GCAS_Recovery;
+Process implementation GCAS_Recovery.GCAS_Recovery_impl
+end GCAS_Recovery.GCAS_Recovery_impl;
+Process ACAS_recovery
+outACASRecovery: out data port Base_Types::float;
+outACASImpact:out data port Base_Types::float;
+end ACAS_recovery;
+Process Switch
+inpDecider : in data port Base_Types::integer;
+inpPC: in data port autopilot.autopilot_impl;
+outSwitchVV: out data port Base_Types::float;
+outSwitchDeltaHeading: out data port Base_Types::float;

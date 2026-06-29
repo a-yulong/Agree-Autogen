@@ -1,0 +1,45 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'SSM'.",
+      "cause": "SSM is a subcomponent, not a visible AGREE identifier in the component type scope",
+      "minimal_edit": "Remove SSM from the assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'State_Out'.",
+      "cause": "State_Out is a port, not a visible AGREE identifier in the component type scope",
+      "minimal_edit": "Remove State_Out from the assume statement"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::state_sig.impl' and '<error>'",
+      "cause": "Invalid comparison between port and subcomponent reference",
+      "minimal_edit": "Remove the invalid equality expression"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression syntax in assume statement",
+      "minimal_edit": "Remove the invalid assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'SMToSSM'.",
+      "cause": "SMToSSM is a connection, not a visible AGREE identifier in the component type scope",
+      "minimal_edit": "Remove SMToSSM from the assume statement"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'Types::state_sig.impl'",
+      "cause": "Invalid comparison between connection and port",
+      "minimal_edit": "Remove the invalid equality expression"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression syntax in assume statement",
+      "minimal_edit": "Remove the invalid assume statement"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the entire assume statement on line 30 that references SSM and State_Out",
+    "Remove the entire assume statement on line 31 that references SMToSSM and State_Out",
+    "Keep only valid AGREE expressions that reference visible identifiers in the component type scope"
+  ]
+}

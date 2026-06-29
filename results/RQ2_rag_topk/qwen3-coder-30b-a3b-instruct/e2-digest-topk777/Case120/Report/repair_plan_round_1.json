@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 27: Couldn't resolve reference to 'RTOS'.",
+      "cause": "Reference to RTOS component type not visible in current scope",
+      "minimal_edit": "Replace SBC_32F411EDISCOVERY.RTOS with SBC_32F411EDISCOVERY.impl"
+    },
+    {
+      "diagnostic": "line 28: Couldn't resolve reference to 'Software'.",
+      "cause": "Reference to Software process not visible in current scope",
+      "minimal_edit": "Remove or rewrite assumption about Software binding"
+    },
+    {
+      "diagnostic": "line 28: Couldn't resolve reference to 'cpu'.",
+      "cause": "Reference to cpu not visible in current scope",
+      "minimal_edit": "Remove or rewrite assumption about cpu binding"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace SBC_32F411EDISCOVERY.RTOS with SBC_32F411EDISCOVERY.impl in the first assume statement",
+    "Remove the second assume statement about Software = cpu since Software is not directly visible in this scope",
+    "Remove the third assume statement about Software = cpu since cpu is not directly visible in this scope"
+  ]
+}

@@ -1,0 +1,21 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- In AGREE contracts, use only visible AADL features or locally declared helpers; avoid referencing implementation-only subcomponents in type-level annexes.
+- Place component type assumptions and guarantees in the component type scope, and implementation bindings in the implementation scope.
+- When generating AGREE contracts, ensure all expressions have consistent types and that binary comparisons are between compatible types (int, real, bool).
+- Avoid introducing package-qualified identifiers or types that are not present in the model's configured dependencies.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Use `const name : type = value;` for constants, `eq name : type = expression;` for equations, and `assign output = expression;` for assignments.
+- Binary comparisons in AGREE must have operands of the same type (int, real, or bool).
+- Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.
+Anti-patterns:
+- Do not place implementation-level bindings or subcomponent references in component type annexes.
+- Do not use AADL property names (e.g., Compute_Execution_Time) as AGREE variables without explicit typed ports or constants.
+- Do not mix invalid or unresolved identifiers in expressions that must evaluate to a known type.
+Irrelevant retrieved material:
+- AADL package references and with clauses
+- AGREE annex placement in system implementations
+- Assume/guarantee syntax for component types
+- Validator-driven repair strategies for model fusion
+</RAG_DIGEST>

@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- In AGREE contracts, ensure all identifiers are declared or visible in the same annex scope to prevent 'Couldn't resolve reference' errors.
+- When using binary expressions, verify that both operands are of the same type to avoid type mismatch errors.
+- Place assumptions and guarantees in appropriate scopes: component type for envelopes, implementation for bindings.
+- Use only valid AGREE scalar types (int, real, bool) in const and eq declarations to prevent unresolved type errors.
+Syntax or pattern reminders:
+- Use initialized temporal recurrence for stateful equations: `0.0 -> pre(t) + step`.
+- Use nested `if ... then ... else` for branching logic in AGREE.
+- Use `assign output = expression;` only for existing output features or declared auxiliary variables.
+- Ensure all expressions in guarantees and assumptions have valid types and are not marked as `<error>`.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope; they must be in component type scope.
+- Do not reference identifiers that are not declared or visible in the current annex scope.
+- Do not mix incompatible types in binary expressions without explicit conversion.
+- Do not declare helpers with invalid AGREE scalar types like 'integer' or 'boolean'.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics
+- AGREE validator diagnostics
+- Component type contracts
+- Implementation-level bindings
+</RAG_DIGEST>

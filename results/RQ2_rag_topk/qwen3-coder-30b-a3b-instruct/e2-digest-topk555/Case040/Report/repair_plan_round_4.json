@@ -1,0 +1,45 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'SSM'.",
+      "cause": "SSM is a subcomponent, not a visible identifier in the component type scope",
+      "minimal_edit": "Remove SSM from the expression"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'State_Out'.",
+      "cause": "State_Out is a port, not a visible identifier in the component type scope",
+      "minimal_edit": "Remove State_Out from the expression"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::state_sig.impl' and '<error>', but must be of the same type",
+      "cause": "Expression contains unresolved identifiers leading to type mismatch",
+      "minimal_edit": "Remove the entire expression"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression due to unresolved identifiers",
+      "minimal_edit": "Remove the entire expression"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'SMToSSM'.",
+      "cause": "SMToSSM is a connection, not a visible identifier in the component type scope",
+      "minimal_edit": "Remove SMToSSM from the expression"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'Types::state_sig.impl', but must be of the same type",
+      "cause": "Expression contains unresolved identifiers leading to type mismatch",
+      "minimal_edit": "Remove the entire expression"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression due to unresolved identifiers",
+      "minimal_edit": "Remove the entire expression"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from State_Machine to State_Machine.Impl",
+    "Remove the invalid expressions from the AGREE annex in State_Machine.Impl",
+    "Ensure only valid identifiers (State_Out) are used in the AGREE annex"
+  ]
+}

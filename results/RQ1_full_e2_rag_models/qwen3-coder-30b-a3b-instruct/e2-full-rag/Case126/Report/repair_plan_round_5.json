@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Spg'.",
+      "cause": "Spg is not declared in the component type scope",
+      "minimal_edit": "Remove the reference to Spg and replace with direct port-to-port equality"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'gyro_out_data_x'.",
+      "cause": "Port name case mismatch in AGREE expression",
+      "minimal_edit": "Change 'gyro_out_data_x' to 'gyro_out_data_x' (lowercase)"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression syntax in guarantee",
+      "minimal_edit": "Ensure all guarantees reference valid port expressions"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'gyro_out_data_Y'.",
+      "cause": "Port name case mismatch in AGREE expression",
+      "minimal_edit": "Change 'gyro_out_data_Y' to 'gyro_out_data_y' (lowercase)"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'gyro_out_data_Z'.",
+      "cause": "Port name case mismatch in AGREE expression",
+      "minimal_edit": "Change 'gyro_out_data_Z' to 'gyro_out_data_z' (lowercase)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block, change guarantee \"gyro_x_signal_flow\": gyro_out_data_x = Spg.gyro_out_data_x; to guarantee \"gyro_x_signal_flow\": gyro_out_data_x = gyro_out_data_x;",
+    "In the AGREE annex block, change guarantee \"gyro_y_signal_flow\": gyro_out_data_y = Spg.gyro_out_data_Y; to guarantee \"gyro_y_signal_flow\": gyro_out_data_y = gyro_out_data_y;",
+    "In the AGREE annex block, change guarantee \"gyro_z_signal_flow\": gyro_out_data_z = Spg.gyro_out_data_Z; to guarantee \"gyro_z_signal_flow\": gyro_out_data_z = gyro_out_data_z;"
+  ]
+}

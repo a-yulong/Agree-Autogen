@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 107: named thing must be an expression with a type",
+      "cause": "AGREE assumes require valid expressions, not self-equality",
+      "minimal_edit": "replace 'node_a = node_a' with 'true'"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'cpu_rm'.",
+      "cause": "AGREE cannot reference subcomponents directly in component type annex",
+      "minimal_edit": "remove 'assume \"processor_binding\": node_a = cpu_rm;'"
+    },
+    {
+      "diagnostic": "line 109: Couldn't resolve reference to 'mem'.",
+      "cause": "AGREE cannot reference subcomponents directly in component type annex",
+      "minimal_edit": "remove 'assume \"memory_binding\": node_a = mem;'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'node_a = node_a' with 'true' on line 107",
+    "Remove line 108: 'assume \"processor_binding\": node_a = cpu_rm;'",
+    "Remove line 109: 'assume \"memory_binding\": node_a = mem;'"
+  ]
+}

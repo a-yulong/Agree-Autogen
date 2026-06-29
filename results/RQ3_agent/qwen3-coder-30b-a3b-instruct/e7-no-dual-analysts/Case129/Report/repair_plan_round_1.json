@@ -1,0 +1,44 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 23: Couldn't resolve reference to 'impl_1'.",
+      "cause": "AGREE cannot resolve component instance references (like Task.impl_1) in a component type annex; only component type names are visible, not instance names.",
+      "minimal_edit": "Replace all occurrences of 'Task.impl_1' with 'Task' to reference the component type, not the instance."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 23: Couldn't resolve reference to 'period'.",
+      "cause": "AGREE does not recognize AADL property names like 'period' as direct field accesses; must use the correct property name 'Period' as defined in AADL.",
+      "minimal_edit": "Replace 'period' with 'Period' to match the exact AADL property name."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 24: no viable alternative at input '\"Periodic\"'",
+      "cause": "AGREE does not accept string literals for enumeration properties like Dispatch_Protocol; must use the AADL enumeration literal name without quotes.",
+      "minimal_edit": "Replace '\"Periodic\"' with 'Periodic' (without quotes)."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 25: mismatched input 'ms' expecting ';'",
+      "cause": "AGREE does not parse AADL units (e.g., 'ms') in expressions; units must be removed and values treated as dimensionless.",
+      "minimal_edit": "Remove all unit literals ('ms') from all numeric comparisons."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 26: Couldn't resolve reference to 'priority'.",
+      "cause": "AADL property is named 'Priority', not 'priority'; case mismatch causes unresolved reference.",
+      "minimal_edit": "Replace 'priority' with 'Priority' to match the exact AADL property name."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 27: mismatched input 'ms' expecting ';'",
+      "cause": "AGREE does not parse AADL units (e.g., 'ms') in expressions; units must be removed and values treated as dimensionless.",
+      "minimal_edit": "Remove all unit literals ('ms') from all numeric comparisons."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace all instances of 'Task.impl_1' with 'Task' in the annex.",
+    "Replace 'period' with 'Period' in all property references.",
+    "Replace 'dispatch_protocol' with 'Dispatch_Protocol' in the property reference.",
+    "Replace 'compute_time' with 'Compute_Execution_time' in the property reference.",
+    "Replace 'priority' with 'Priority' in the property reference.",
+    "Remove all unit literals ('ms') from numeric expressions.",
+    "Replace '\"Periodic\"' with 'Periodic' (without quotes)."
+  ]
+}

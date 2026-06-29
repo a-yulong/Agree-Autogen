@@ -1,0 +1,230 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: accout, acc_command_in
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+accout | out | data | int | SHM_DataType::accData
+acc_command_in | in | data | int | SHM_DataType::actionData
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "acc3_dataOutput.impl shall route data flow from spg.accDataOut to accout through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc3_dataOutput.impl.C1",
+        "spg.accDataOut",
+        "accout"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "acc3_dataOutput.impl shall route control signal from acc_command_in to spg.event_in through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc3_dataOutput.impl.C2",
+        "acc_command_in",
+        "spg.event_in"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: acc3_dataOutput | lines 97-100
+annex agree {**
+    guarantee "data_flow": accout = spg.accDataOut;
+    guarantee "control_flow": spg.event_in = acc_command_in;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   94:     Period => 4000 ms;
+   95:     Compute_Execution_Time => 400 ms .. 500 ms;
+   96:     Deadline => 500 ms;
+   97:   annex agree {**
+>> 98:     guarantee "data_flow": accout = spg.accDataOut;
+   99:     guarantee "control_flow": spg.event_in = acc_command_in;
+   100:   **};
+   101:   end acc3_dataOutput;
+   102: 
+
+   95:     Compute_Execution_Time => 400 ms .. 500 ms;
+   96:     Deadline => 500 ms;
+   97:   annex agree {**
+   98:     guarantee "data_flow": accout = spg.accDataOut;
+>> 99:     guarantee "control_flow": spg.event_in = acc_command_in;
+   100:   **};
+   101:   end acc3_dataOutput;
+   102: 
+   103:   thread implementation acc3_dataOutput.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: acc3_dataOutput
+thread acc3_dataOutput
+  features
+    accout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+    acc_command_in: in event data port SHM_DataType::actionData;
+  properties
+    --Reference_Processor=>classifier(ACC_Module::powerpc_acc);
+    --Initialize_Entrypoint => classifier (ACC_Module::acc_dataOutput_spg);
+    Dispatch_Protocol => Periodic;
+    Priority => 1;
+    Stack_Size => 20 KByte;
+    Code_Size => 100 KByte;
+    Data_Size => 1 KByte;
+    Period => 4000 ms;
+    Compute_Execution_Time => 400 ms .. 500 ms;
+    Deadline => 500 ms;
+  end acc3_dataOutput;
+
+-- TARGET DECLARATION: acc3_dataOutput.impl
+thread implementation acc3_dataOutput.impl
+  calls
+    sub1: { spg: subprogram subprograms::acc3_dataOutput_spg;};
+
+  connections
+    C1: parameter spg.accDataOut->accout;
+    C2: parameter acc_command_in->spg.event_in;
+  end  acc3_dataOutput.impl;
+
+-- RELATED MODEL LINES
+thread acc3_dataOutput
+accout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc_command_in: in event data port SHM_DataType::actionData;
+end acc3_dataOutput;
+thread implementation acc3_dataOutput.impl
+C1: parameter spg.accDataOut->accout;
+C2: parameter acc_command_in->spg.event_in;
+end  acc3_dataOutput.impl;
+thread acc3_dataOutput_emv2 extends acc3_dataOutput
+thread implementation acc3_dataOutput_emv2.impl extends acc3_dataOutput.impl
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "acc3_dataOutput",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "acc3_dataOutput.impl",
+      "kind": "thread",
+      "type_name": "acc3_dataOutput"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "acc3_dataOutput.impl",
+      "name": "sub1",
+      "category": "subprogram",
+      "classifier": "subprograms::acc3_dataOutput_spg"
+    }
+  ],
+  "features": [
+    {
+      "owner": "acc3_dataOutput",
+      "name": "accout",
+      "direction": "out",
+      "category": "data port",
+      "type": "SHM_DataType::accData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "acc3_dataOutput",
+      "name": "acc_command_in",
+      "direction": "in",
+      "category": "event data port",
+      "type": "SHM_DataType::actionData",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "acc3_dataOutput.impl",
+      "name": "C1",
+      "kind": "parameter",
+      "source": "spg.accDataOut",
+      "destination": "accout"
+    },
+    {
+      "owner": "acc3_dataOutput.impl",
+      "name": "C2",
+      "kind": "parameter",
+      "source": "acc_command_in",
+      "destination": "spg.event_in"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "acc3_dataOutput",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": null
+    },
+    {
+      "owner": "acc3_dataOutput",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": null
+    },
+    {
+      "owner": "acc3_dataOutput",
+      "owner_kind": "thread",
+      "name": "Stack_Size",
+      "value": "20 KByte",
+      "applies_to": null
+    },
+    {
+      "owner": "acc3_dataOutput",
+      "owner_kind": "thread",
+      "name": "Code_Size",
+      "value": "100 KByte",
+      "applies_to": null
+    },
+    {
+      "owner": "acc3_dataOutput",
+      "owner_kind": "thread",
+      "name": "Data_Size",
+      "value": "1 KByte",
+      "applies_to": null
+    },
+    {
+      "owner": "acc3_dataOutput",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "4000 ms",
+      "applies_to": null
+    },
+    {
+      "owner": "acc3_dataOutput",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "400 ms .. 500 ms",
+      "applies_to": null
+    },
+    {
+      "owner": "acc3_dataOutput",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "500 ms",
+      "applies_to": null
+    },
+    {
+      "owner": "acc3_dataOutput",
+      "owner_kind": "thread",
+      "name": "ARINC653::Sampling_Refresh_Period",
+      "value": "50 ms",
+      "applies_to": "accout"
+    }
+  ]
+}

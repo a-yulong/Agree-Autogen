@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "AGREE contracts for component ports must be placed in component type scopes, not implementation scopes.",
+    "Implementation-level bindings like assignments should be placed in implementation annexes after relevant subcomponents and connections.",
+    "Do not reference subcomponent ports in component type contracts unless represented through valid variables or outputs."
+  ],
+  "generic_rules": [
+    "AGREE annex blocks are enclosed in `annex agree {** ... **};` and should be placed in appropriate AADL scopes.",
+    "Component type annexes are for assumptions, guarantees, constants, and equation declarations; implementation annexes are for bindings.",
+    "Generated AGREE code must use only identifiers and types present in the input AADL model and its dependencies.",
+    "Guarantees in component types should relate visible outputs to visible inputs, avoiding implementation-only paths."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct AGREE syntax and logical operators.",
+    "Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.",
+    "Branching logic should use nested `if ... then ... else` expressions.",
+    "Avoid package-qualified identifiers in generated AGREE code unless explicitly present in the model."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level guarantees in component type annexes; move them to implementation scope instead.",
+    "Do not reference AADL properties like Period or Deadline as AGREE variables unless they are explicitly typed ports or constants.",
+    "Do not invent new identifiers or types in AGREE annexes; use only those visible in the current AADL scope."
+  ],
+  "irrelevant_topics": [
+    "AGREE validator diagnostics and repair patterns",
+    "Annex placement rules for assume/guarantee syntax",
+    "Model traceability and requirement semantics",
+    "AGREE contract generation and fusion"
+  ]
+}

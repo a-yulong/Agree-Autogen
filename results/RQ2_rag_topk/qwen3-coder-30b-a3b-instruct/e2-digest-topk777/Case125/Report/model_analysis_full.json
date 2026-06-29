@@ -1,0 +1,133 @@
+{
+  "component_types": [
+    {
+      "name": "GYRO",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "GYRO.IMPL",
+      "kind": "thread implementation",
+      "type_name": "GYRO"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "GYRO.IMPL",
+      "name": "gyro_thread",
+      "category": "thread",
+      "classifier": "GYRO.IMPL"
+    }
+  ],
+  "features": [
+    {
+      "owner": "GYRO",
+      "name": "gyro_in_data_x",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO",
+      "name": "gyro_in_data_y",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO",
+      "name": "gyro_in_data_z",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO",
+      "name": "gyro_out_data_x",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO",
+      "name": "gyro_out_data_y",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO",
+      "name": "gyro_out_data_z",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "GYRO.IMPL",
+      "name": "GYRO_PC1",
+      "kind": "parameter",
+      "source": "gyro_sub.gyro_out_data_x",
+      "destination": "gyro_out_data_x"
+    },
+    {
+      "owner": "GYRO.IMPL",
+      "name": "GYRO_PC2",
+      "kind": "parameter",
+      "source": "gyro_sub.gyro_out_data_y",
+      "destination": "gyro_out_data_y"
+    },
+    {
+      "owner": "GYRO.IMPL",
+      "name": "GYRO_PC3",
+      "kind": "parameter",
+      "source": "gyro_sub.gyro_out_data_z",
+      "destination": "gyro_out_data_z"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "GYRO",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "3",
+      "applies_to": "GYRO"
+    },
+    {
+      "owner": "GYRO",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "GYRO"
+    },
+    {
+      "owner": "GYRO",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "80 ms",
+      "applies_to": "GYRO"
+    },
+    {
+      "owner": "GYRO",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 4 ms",
+      "applies_to": "GYRO"
+    },
+    {
+      "owner": "GYRO",
+      "owner_kind": "thread",
+      "name": "Source_Stack_Size",
+      "value": "512 Bytes",
+      "applies_to": "GYRO"
+    }
+  ]
+}

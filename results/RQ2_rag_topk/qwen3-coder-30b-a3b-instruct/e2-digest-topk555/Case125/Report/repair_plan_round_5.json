@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assignment statements are allowed only in component implementations",
+      "cause": "AGREE annex is placed in component type instead of implementation",
+      "minimal_edit": "Move the annex block from GYRO to GYRO.IMPL"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'gyro_sub'",
+      "cause": "Reference to subcomponent not visible in component type scope",
+      "minimal_edit": "Remove or rewrite references to gyro_sub in the annex"
+    },
+    {
+      "diagnostic": "mismatched input '\"signal_flow_x\"' expecting RULE_ID",
+      "cause": "Invalid AGREE syntax with quoted identifiers",
+      "minimal_edit": "Remove quotes from signal flow identifiers"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire AGREE annex block from GYRO component type to GYRO.IMPL component implementation",
+    "Remove or rewrite the gyro_sub references in the moved annex to use only visible identifiers",
+    "Remove quotes from the signal flow identifier names in the moved annex"
+  ]
+}

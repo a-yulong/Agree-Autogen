@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 101: Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "latched is an output port but used in a guarantee expression in component type",
+      "minimal_edit": "Remove or rewrite guarantee \"closed_logic\" to not reference latched as an output port"
+    },
+    {
+      "diagnostic": "line 101: Latched expressions can appear only in component implementations",
+      "cause": "guarantee in component type instead of implementation",
+      "minimal_edit": "Move guarantee \"closed_logic\" to implementation annex"
+    },
+    {
+      "diagnostic": "line 103: Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "locked is an output port but used in a guarantee expression in component type",
+      "minimal_edit": "Remove or rewrite guarantee \"locked_logic\" to not reference locked as an output port"
+    },
+    {
+      "diagnostic": "line 103: Latched expressions can appear only in component implementations",
+      "cause": "guarantee in component type instead of implementation",
+      "minimal_edit": "Move guarantee \"locked_logic\" to implementation annex"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the annex agree block from device door to device implementation door.imp",
+    "Remove guarantees 'closed_logic' and 'locked_logic' from the moved annex",
+    "Add new annex agree block to device implementation door.imp with only valid guarantees",
+    "Ensure all referenced identifiers are visible in the implementation context"
+  ]
+}

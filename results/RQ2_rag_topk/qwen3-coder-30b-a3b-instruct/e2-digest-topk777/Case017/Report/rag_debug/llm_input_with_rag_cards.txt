@@ -1,0 +1,128 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.
+- Place component type assumptions and guarantees in valid component type scopes using visible port names and data types.
+- Generate AGREE contracts inside annex agree {** ... **}; blocks with proper logical operators and expression syntax.
+Generic rules:
+- Ensure all AGREE expressions reference only visible identifiers from the current component scope.
+- Use eq declarations for helper variables and const declarations for named constants in component type contracts.
+- Relate visible outputs to visible inputs in output dependency guarantees without using implementation-only paths.
+- Align helper declaration types with the actual types of the expressions they represent.
+Syntax or pattern reminders:
+- AGREE logical operators include and, or, not(...), and implication =>.
+- Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes for assignments.
+- Use proper AGREE scalar types: int, real, bool for declarations.
+Anti-patterns:
+- Do not reference subcomponent ports or implementation-only paths in component type contracts.
+- Do not encode AADL timing properties as AGREE expressions unless explicit typed ports or constants are available.
+- Do not invent declarations for unresolved identifiers; use only visible identifiers from the current scope.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- inpGCASM
+- inpGCASImpact
+- inpGCASRecovery
+- inpSAM
+- inpACASM
+- inpACASImpact
+- inpACASRecovery
+- inpGFM
+- inpWxM
+- inpFLS
+- outDec
+
+Target interface:
+Exact expression symbols: inpGCASM, inpGCASImpact, inpGCASRecovery, inpSAM, inpACASM, inpACASImpact, inpACASRecovery, inpGFM, inpWxM, inpFLS, outDec
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+inpGCASM | in | data | bool | Base_Types::boolean
+inpGCASImpact | in | data | real | Base_Types::float
+inpGCASRecovery | in | data | real | Base_Types::float
+inpSAM | in | data | bool | Base_Types::boolean
+inpACASM | in | data | bool | Base_Types::boolean
+inpACASImpact | in | data | real | Base_Types::float
+inpACASRecovery | in | data | real | Base_Types::float
+inpGFM | in | data | bool | Base_Types::boolean
+inpWxM | in | data | bool | Base_Types::boolean
+inpFLS | in | data | bool | Base_Types::boolean
+outDec | out | data | int | Base_Types::integer
+
+Raw requirement:
+The Aviate_Decider component shall maintain an internal variable numberServicesTrue that counts the total number of currently active service requests, where an active request is defined as a true value among the following inputs: inpGCASM, inpSAM, inpACASM, inpGFM, inpWxM, and inpFLS. The component shall implement dynamicDecide logic such that when inpGCASImpact is greater than inpACASImpact and the sum of inpGCASRecovery and inpACASRecovery is sufficient to prevent a secondary collision, the decision shall be ACAS; otherwise, the decision shall be GCAS. The final output outDec shall be set to the dynamic decision result when numberServicesTrue is greater than or equal to 2; otherwise, outDec shall default to a static priority-based value.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "numberServicesTrue counts the number of true values among inpGCASM, inpSAM, inpACASM, inpGFM, inpWxM, and inpFLS",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "inpGCASM",
+        "inpSAM",
+        "inpACASM",
+        "inpGFM",
+        "inpWxM",
+        "inpFLS"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "when inpGCASImpact > inpACASImpact and (inpGCASRecovery + inpACASRecovery) >= 1.0, then outDec = ACAS; otherwise outDec = GCAS",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "inpGCASImpact",
+        "inpACASImpact",
+        "inpGCASRecovery",
+        "inpACASRecovery",
+        "outDec"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "outDec = dynamic decision result when numberServicesTrue >= 2",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "outDec",
+        "numberServicesTrue"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "outDec = static priority-based value when numberServicesTrue < 2",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "outDec",
+        "numberServicesTrue"
+      ]
+    }
+  ]
+}

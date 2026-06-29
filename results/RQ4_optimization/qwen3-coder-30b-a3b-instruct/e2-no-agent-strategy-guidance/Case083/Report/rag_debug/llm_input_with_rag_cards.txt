@@ -1,0 +1,83 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- AGREE annex blocks must be scoped to their owning component and use only visible identifiers from the AADL model.
+- Assumptions and guarantees must be expressed as labeled boolean expressions within the annex block.
+Generic rules:
+- AGREE contracts are syntactically valid within annex agree {** ... **} blocks.
+- Component implementations may contain assign statements for signal flow bindings.
+- Constants and equations in AGREE are declared with explicit types and initial values.
+- AGREE expressions must reference only identifiers visible in the current component scope.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements.
+- Use `assign output = expression;` for signal flow assignments in implementations.
+- Use `eq name : type = expression;` for equation declarations in component types.
+Anti-patterns:
+- Do not reference identifiers not present in the current component's scope.
+- Do not encode AADL timing properties as AGREE variables unless explicitly exposed.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Port_1
+- Port_2
+
+Target interface:
+Exact expression symbols: Port_1, Port_2
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Port_1 | in | event | event | 
+Port_2 | in | event | event | 
+
+Raw requirement:
+The Mixin component shall define the implementation-level signal routing for Mixin.impl. In the implementation layer, Mixin.impl shall route signal flow from Port_1 to Mix_1.Port_1 through Y1 and signal flow from Port_2 to Mix_2.Port_2 through Y2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Signal flow from Port_1 to Mix_1.Port_1 through Y1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "Port_1",
+        "Mix_1.Port_1",
+        "Y1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Signal flow from Port_2 to Mix_2.Port_2 through Y2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "Port_2",
+        "Mix_2.Port_2",
+        "Y2"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "rag_rules": [
+    "Fix type mismatches in AGREE expressions by ensuring left and right sides of '=' have matching types, and resolve '<error>' types by tracing unresolved identifiers.",
+    "Avoid latched expressions in component type scopes; they are only valid in implementation scopes.",
+    "Do not reference implementation-only subcomponent ports in component type annexes."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be placed in valid scopes: component types for assumptions/guarantees, implementations for bindings.",
+    "Use only visible AADL features or declared helpers in AGREE annexes to prevent '<error>' type issues.",
+    "Ensure type consistency in AGREE declarations: int, real, bool are the valid scalar types.",
+    "When a guarantee or equation references an identifier, ensure it is either a visible port or a declared helper in the same annex."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Use initialized temporal recurrence for stateful equations: `0.0 -> pre(t) + step`.",
+    "Binary expressions in AGREE must have operands of matching types.",
+    "Use `if ... then ... else` for branching logic in AGREE."
+  ],
+  "anti_patterns": [
+    "Do not place latched expressions in component type scopes; they are only valid in implementations.",
+    "Do not reference subcomponent ports in component type annexes unless represented through variables or outputs.",
+    "Do not mix invalid scalar type names like 'integer' or 'boolean' in AGREE declarations; use 'int', 'real', 'bool'."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "type scope deterministic dependency guarantee",
+    "integrated pattern chunk 3",
+    "output envelope chunk 2"
+  ]
+}

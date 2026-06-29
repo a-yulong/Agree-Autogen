@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Preserve owner/scope boundaries: place type-level contracts in component type scopes and implementation-level bindings only in implementation scopes.",
+    "When merging annex content, keep references limited to names visible in the chosen owner scope; do not introduce subcomponent paths into a type-owned contract.",
+    "Preserve surrounding AADL architecture by adding annex content without changing existing subcomponents, connections, features, properties, or ownership structure."
+  ],
+  "generic_rules": [
+    "Insert new contract content into the correct owning declaration and keep existing declarations intact.",
+    "If a construct depends on implementation details, keep it with the implementation owner rather than moving it to the type.",
+    "Use only concrete, model-visible identifiers and bounds supplied by upstream artifacts; avoid inventing architecture elements during fusion."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE content is enclosed in an `annex agree {** ... **};` block.",
+    "Component types normally own assumptions, guarantees, constants, and equations; implementations normally own implementation-level bindings such as assignments when valid in that scope."
+  ],
+  "anti_patterns": [
+    "Do not relocate implementation-specific content into a component type scope.",
+    "Do not alter AADL architecture or ownership just to accommodate annex insertion.",
+    "Do not treat AADL property names or unit tokens as in-scope AGREE variables unless explicitly exposed."
+  ],
+  "irrelevant_topics": [
+    "Validator-specific type-repair tactics are not needed when performing owner/scope-preserving fusion.",
+    "Detailed requirement semantics are upstream concerns unless they affect owner scope or visible-name preservation."
+  ]
+}

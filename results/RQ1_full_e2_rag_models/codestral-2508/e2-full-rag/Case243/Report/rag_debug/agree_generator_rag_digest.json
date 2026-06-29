@@ -1,0 +1,33 @@
+{
+  "rag_rules": [
+    "Generate AGREE annex blocks with valid syntax: assume, guarantee, eq, const, and assign statements",
+    "Place assumptions and guarantees in the correct component scope: type for ports, implementation for subcomponents and connections",
+    "Use initialized temporal recurrence for stateful equations, for example `0.0 -> pre(t) + step`",
+    "Use AGREE logical operators: and, or, not(...), and implication =>",
+    "Use case-provided bounds, named constants, or visible relations for input assumptions and output guarantees",
+    "Use exact visible identifiers from the current component scope; do not invent declarations"
+  ],
+  "generic_rules": [
+    "Use nested if ... then ... else for branching logic",
+    "Use AGREE scalar types: int, real, and bool",
+    "Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants",
+    "Delete or rewrite AGREE clauses that reference unresolved identifiers"
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `eq name : type = expression;` for stateful equations",
+    "Use `const name : type = value;` for named constants",
+    "Use `assign output = expression;` for direct assignments"
+  ],
+  "anti_patterns": [
+    "Do not use AADL property names as AGREE variables",
+    "Do not use subcomponent ports in component type contracts unless represented through variables or outputs",
+    "Do not invent declarations for unresolved identifiers"
+  ],
+  "irrelevant_topics": [
+    "AADL structural extraction",
+    "compact requirement semantics",
+    "model traceability",
+    "generic owner/scope and preservation rules",
+    "validator-driven minimal repair patterns"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '+' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "type mismatch in arithmetic expression involving Actual_previous",
+      "minimal_edit": "Change Actual_previous to a real type variable and define it properly using pre() and initialized state"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::speed.speed_impl' and '<error>', but must be of the same type",
+      "cause": "type mismatch in equality assignment",
+      "minimal_edit": "Replace Actual_previous = Actual with a proper temporal recurrence using pre() and initialized state"
+    },
+    {
+      "diagnostic": "mismatched input '=' expecting ':'",
+      "cause": "incorrect syntax in equation declaration",
+      "minimal_edit": "Rewrite the equation using correct AGREE syntax with proper temporal recurrence"
+    },
+    {
+      "diagnostic": "no viable alternative at input 'when'",
+      "cause": "invalid use of 'when' in equation",
+      "minimal_edit": "Replace 'when' clause with proper AGREE temporal logic using pre() and initialized state"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace Actual_previous = Actual when time = previous_time with initialized state and pre() expression",
+    "Add initialized boolean variable to track first-time state",
+    "Rewrite the temporal recurrence using pre() and initialized state",
+    "Ensure all variables are declared with proper types",
+    "Replace the invalid equation syntax with valid AGREE temporal recurrence"
+  ]
+}

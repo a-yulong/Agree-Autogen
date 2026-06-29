@@ -1,0 +1,27 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "acc_in_data_x is a port in the component type, not accessible in the implementation annex",
+      "minimal_edit": "Remove acc_in_data_x from the AGREE contract and replace with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "attitude_sub is a subcomponent in the implementation, not accessible in the component type annex",
+      "minimal_edit": "Remove attitude_sub from the AGREE contract and replace with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid reference to non-existent identifiers in AGREE contract",
+      "minimal_edit": "Replace invalid references with valid expressions using only visible symbols"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the AGREE annex from the component type ATTITUDE_CALCULATION",
+    "Add a new AGREE annex to the implementation ATTITUDE_CALCULATION.IMPL",
+    "In the new implementation annex, define the required assumptions and guarantees using only visible identifiers",
+    "Replace all references to attitude_sub with the corresponding connection targets",
+    "Ensure all expressions use only visible symbols from the component type"
+  ]
+}

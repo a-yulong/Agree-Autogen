@@ -1,0 +1,43 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 46: Couldn't resolve reference to 'impl'.",
+      "cause": "AGREE expression references component implementation with invalid syntax",
+      "minimal_edit": "Change 'Consumer = Consumer.impl' to 'Consumer = Consumer1'"
+    },
+    {
+      "diagnostic": "line 47: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "AGREE expression references property with invalid syntax",
+      "minimal_edit": "Change 'Consumer.impl.Dispatch_Protocol = periodic' to 'Consumer1.Dispatch_Protocol = periodic'"
+    },
+    {
+      "diagnostic": "line 48: Couldn't resolve reference to 'Period'.",
+      "cause": "AGREE expression references property with invalid syntax",
+      "minimal_edit": "Change 'Consumer.impl.Period = 1000' to 'Consumer1.Period = 1000 ms'"
+    },
+    {
+      "diagnostic": "line 49: Couldn't resolve reference to 'Deadline'.",
+      "cause": "AGREE expression references property with invalid syntax",
+      "minimal_edit": "Change 'Consumer.impl.Deadline = 1000' to 'Consumer1.Deadline = 1000 ms'"
+    },
+    {
+      "diagnostic": "line 50: Couldn't resolve reference to 'Compute_Execution_Time'.",
+      "cause": "AGREE expression references property with invalid syntax",
+      "minimal_edit": "Change 'Consumer.impl.Compute_Execution_Time >= 0 and Consumer.impl.Compute_Execution_Time <= 3' to 'Consumer1.Compute_Execution_Time >= 0 ms and Consumer1.Compute_Execution_Time <= 3 ms'"
+    },
+    {
+      "diagnostic": "line 51: Couldn't resolve reference to 'Priority'.",
+      "cause": "AGREE expression references property with invalid syntax",
+      "minimal_edit": "Change 'Consumer.impl.Priority = 101' to 'Consumer1.Priority = 101'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'Consumer = Consumer.impl' with 'Consumer = Consumer1' in guarantee statement",
+    "Replace 'Consumer.impl.Dispatch_Protocol = periodic' with 'Consumer1.Dispatch_Protocol = periodic' in assume statement",
+    "Replace 'Consumer.impl.Period = 1000' with 'Consumer1.Period = 1000 ms' in assume statement",
+    "Replace 'Consumer.impl.Deadline = 1000' with 'Consumer1.Deadline = 1000 ms' in assume statement",
+    "Replace 'Consumer.impl.Compute_Execution_Time >= 0 and Consumer.impl.Compute_Execution_Time <= 3' with 'Consumer1.Compute_Execution_Time >= 0 ms and Consumer1.Compute_Execution_Time <= 3 ms' in assume statement",
+    "Replace 'Consumer.impl.Priority = 101' with 'Consumer1.Priority = 101' in assume statement"
+  ]
+}

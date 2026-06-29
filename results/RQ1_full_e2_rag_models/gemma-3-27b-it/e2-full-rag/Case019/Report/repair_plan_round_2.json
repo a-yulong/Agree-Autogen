@@ -1,0 +1,18 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 116: left and right sides of binary expression '=' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Comparison of a real-valued port to a literal value using '==' is invalid in AGREE.",
+      "minimal_edit": "Replace '==' with a range expression for outGCASR.Airspeed."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 116: no viable alternative at input '='",
+      "cause": "AGREE does not support equality comparisons with real numbers.",
+      "minimal_edit": "Replace '==' with a range expression for outGCASR.Airspeed."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'outGCASR.Airspeed == 150.0' with '149.9 <= outGCASR.Airspeed <= 150.1' in the 'initial_airspeed_and_recovery_time' assumption."
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 15: missing EOF at 'const_tar_speed'",
+      "cause": "AGREE const declaration missing semicolon termination",
+      "minimal_edit": "Add semicolon after const_tar_speed declaration"
+    },
+    {
+      "diagnostic": "line 35: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "Port connection references subcomponent port 'Actual' instead of visible port 'Actual_Speed'",
+      "minimal_edit": "Change 'THROT.Actual' to 'Actual_Speed' in connection AcSpeedToTop"
+    },
+    {
+      "diagnostic": "line 37: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "Port connection references subcomponent port 'Target' instead of visible port 'Target_Speed'",
+      "minimal_edit": "Change 'Target_Speed' to 'Target' in connection TgSpeedToCntrl"
+    },
+    {
+      "diagnostic": "line 42: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "Port connection references subcomponent port 'State_Out' instead of visible port 'State_Signal'",
+      "minimal_edit": "Change 'SM.State_Out' to 'State_Signal' in connection SSToSM"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add semicolon to line 15 after const_tar_speed declaration",
+    "Change 'THROT.Actual' to 'Actual_Speed' in connection AcSpeedToTop on line 35",
+    "Change 'Target_Speed' to 'Target' in connection TgSpeedToCntrl on line 37",
+    "Change 'SM.State_Out' to 'State_Signal' in connection SSToSM on line 42"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "rag_rules": [
+    "Generate assume/guarantee clauses only when AADL properties are explicitly exposed as typed AGREE-accessible symbols (e.g., ports or constants), not as direct property names.",
+    "Do not infer AGREE variables from AADL property associations like Period, Deadline, or Dispatch_Protocol unless bound via eq/const declarations."
+  ],
+  "generic_rules": [
+    "Map requirement intents (assume/guarantee) to AGREE clauses only if the underlying model provides traceable, typed symbols in scope.",
+    "Use eq or const to explicitly introduce numeric or boolean variables from AADL properties before using them in expressions."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annexes use `assume \"label\": expression;` and `guarantee \"label\": expression;` syntax within `annex agree {** ... **};`.",
+    "Expression types must match: boolean comparisons require bool-typed operands, arithmetic requires real or int."
+  ],
+  "anti_patterns": [
+    "Never directly reference AADL property names (e.g., Compute_Execution_Time) as AGREE variables without prior declaration via eq or const.",
+    "Avoid range or comparison expressions over opaque, Boolean, or enumeration-typed AADL ports unless their scalar numeric representation is confirmed."
+  ],
+  "irrelevant_topics": [
+    "AADL structural extraction",
+    "model fusion scope",
+    "requirement traceability without AGREE binding",
+    "validator repair patterns"
+  ]
+}

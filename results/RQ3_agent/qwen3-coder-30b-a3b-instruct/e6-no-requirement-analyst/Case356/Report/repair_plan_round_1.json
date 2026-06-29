@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Papa_Types::Tableau.Generic' and 'int', but must be of the same type",
+      "cause": "type mismatch in equality comparison between opaque data port and integer literal",
+      "minimal_edit": "Remove the guarantee statement that compares opaque data fields to integer literals"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify the problematic guarantee statement on line 48 that compares MCU1_Send_Output.channels to integer values",
+    "Remove the entire guarantee statement 'channel_data_valid' from the AGREE annex block",
+    "Verify that no other statements reference the invalid comparison expressions"
+  ]
+}

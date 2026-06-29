@@ -1,0 +1,94 @@
+{
+  "component_types": [
+    {
+      "name": "A",
+      "kind": "process"
+    },
+    {
+      "name": "Computation_Th",
+      "kind": "thread"
+    },
+    {
+      "name": "Producer_Th",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "A.Impl",
+      "kind": "process implementation",
+      "type_name": "A"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "A.Impl",
+      "name": "Computation",
+      "category": "subcomponent",
+      "classifier": "Computation_Th"
+    },
+    {
+      "owner": "A.Impl",
+      "name": "Producer",
+      "category": "subcomponent",
+      "classifier": "Producer_Th"
+    }
+  ],
+  "features": [
+    {
+      "owner": "A",
+      "name": "Alpha1",
+      "direction": "out",
+      "category": "data port",
+      "type": "A_Struct.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "A",
+      "name": "Alpha2",
+      "direction": "out",
+      "category": "data port",
+      "type": "A_Struct.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "A",
+      "name": "Alpha3",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "A.Impl",
+      "name": "Z3",
+      "kind": "port",
+      "source": "Producer.Data_Source1",
+      "destination": "Alpha1"
+    },
+    {
+      "owner": "A.Impl",
+      "name": "Z5",
+      "kind": "port",
+      "source": "Producer.Data_Source2",
+      "destination": "Alpha2"
+    },
+    {
+      "owner": "A.Impl",
+      "name": "Z9",
+      "kind": "port",
+      "source": "Producer.Pr_Index",
+      "destination": "Alpha3"
+    },
+    {
+      "owner": "A.Impl",
+      "name": "Z12",
+      "kind": "port",
+      "source": "Computation.Data_Out",
+      "destination": "Producer.Data_In"
+    }
+  ],
+  "properties": []
+}

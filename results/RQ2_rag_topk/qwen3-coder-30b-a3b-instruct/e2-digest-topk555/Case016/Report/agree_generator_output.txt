@@ -1,0 +1,20 @@
+annex agree {**
+  eq numberServicesTrue : int = 0;
+  
+  guarantee "dynamic_decision_ACAS": 
+    (inpGCASImpact > inpACASImpact and inpGCASRecovery + inpACASRecovery >= 0) => (outDec = 1);
+  
+  guarantee "dynamic_decision_GCAS": 
+    not (inpGCASImpact > inpACASImpact and inpGCASRecovery + inpACASRecovery >= 0) => (outDec = 0);
+  
+  guarantee "static_priority_decision": 
+    numberServicesTrue < 2 => (outDec = 0 or outDec = 1);
+  
+  assume "inpGCASImpact_assumption": inpGCASImpact = inpGCASImpact;
+  
+  assume "inpACASImpact_assumption": inpACASImpact = inpACASImpact;
+  
+  assume "inpGCASRecovery_assumption": inpGCASRecovery = inpGCASRecovery;
+  
+  assume "inpACASRecovery_assumption": inpACASRecovery = inpACASRecovery;
+**};

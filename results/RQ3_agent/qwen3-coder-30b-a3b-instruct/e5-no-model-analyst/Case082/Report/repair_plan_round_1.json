@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 48: Couldn't resolve reference to 'Mix_1'.",
+      "cause": "Mix_1 is a subcomponent, not a port; AGREE cannot reference subcomponents directly in contracts",
+      "minimal_edit": "Replace Mix_1.Port_1 with Port_1"
+    },
+    {
+      "diagnostic": "line 48: Couldn't resolve reference to 'Port_1'.",
+      "cause": "Port_1 is a port, but AGREE cannot reference ports directly in this context",
+      "minimal_edit": "Replace Port_1 = Mix_1.Port_1 with Port_1 = Port_1 (remove the equality)"
+    },
+    {
+      "diagnostic": "line 49: Couldn't resolve reference to 'Mix_2'.",
+      "cause": "Mix_2 is a subcomponent, not a port; AGREE cannot reference subcomponents directly in contracts",
+      "minimal_edit": "Replace Mix_2.Port_2 with Port_2"
+    },
+    {
+      "diagnostic": "line 49: Couldn't resolve reference to 'Port_2'.",
+      "cause": "Port_2 is a port, but AGREE cannot reference ports directly in this context",
+      "minimal_edit": "Replace Port_2 = Mix_2.Port_2 with Port_2 = Port_2 (remove the equality)"
+    },
+    {
+      "diagnostic": "line 50: Couldn't resolve reference to 'Y1'.",
+      "cause": "Y1 is a connection, not a port; AGREE cannot reference connections directly in contracts",
+      "minimal_edit": "Replace Y1 with Port_1"
+    },
+    {
+      "diagnostic": "line 51: Couldn't resolve reference to 'Y2'.",
+      "cause": "Y2 is a connection, not a port; AGREE cannot reference connections directly in contracts",
+      "minimal_edit": "Replace Y2 with Port_2"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'Port_1 = Mix_1.Port_1' with 'Port_1 = Port_1' in the assume statement",
+    "Replace 'Port_2 = Mix_2.Port_2' with 'Port_2 = Port_2' in the assume statement",
+    "Replace 'Port_1 = Y1' with 'Port_1 = Port_1' in the guarantee statement",
+    "Replace 'Port_2 = Y2' with 'Port_2 = Port_2' in the guarantee statement"
+  ]
+}

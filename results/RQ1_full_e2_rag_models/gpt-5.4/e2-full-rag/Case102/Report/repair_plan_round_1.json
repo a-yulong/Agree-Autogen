@@ -1,0 +1,21 @@
+{
+  "problems": [
+    {
+      "diagnostic": "parsing Package_Specification, Empty packages are not allowed",
+      "cause": "the package is syntactically invalid at the AADL level; the empty AGREE annex is not implicated and there are no AGREE validator diagnostics",
+      "minimal_edit": "do not change the AGREE annex; repair the surrounding AADL package structure outside the annex so the package is not empty and can be parsed"
+    },
+    {
+      "diagnostic": "Cannot parse AADL specifications",
+      "cause": "model parsing fails before AGREE validation, so annex content cannot be meaningfully validated from the given diagnostics",
+      "minimal_edit": "leave the existing empty annex agree block unchanged and fix the package-level AADL parse error in the full model"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Do not modify the existing `annex agree {** **};` block on `ADIRU.impl`.",
+    "Inspect the full AADL package declaration surrounding the provided excerpt and locate the package-level syntax issue causing the package to be treated as empty.",
+    "Repair the package/header/footer or other surrounding AADL syntax necessary to make the package parse, without adding new AGREE claims.",
+    "Re-run the AADL parser first; only after the model parses should AGREE validation be re-run."
+  ]
+}

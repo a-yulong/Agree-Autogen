@@ -1,0 +1,142 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.
+- Place assumptions and guarantees in valid component type scopes when referring to ports, and in implementation scopes for bindings.
+- Generate AGREE contracts using logical operators (and, or, not, =>) and follow the syntax: assume "label": expr; guarantee "label": expr; eq name : type = expr; const name : type = value; assign output = expr;
+Generic rules:
+- For component type contracts, only include assumptions and guarantees that reference visible variables or named constants with concrete bounds.
+- Write output dependency guarantees that relate visible outputs to visible inputs, avoiding implementation-only subcomponent paths.
+- Ensure AGREE type declarations use correct scalar types: int, real, bool, and align helper declaration types with actual expression types.
+- Avoid encoding AADL timing properties (e.g., Deadline, Period) as AGREE variables unless explicitly exposed as typed ports or constants.
+Syntax or pattern reminders:
+- Use `0.0 -> pre(t) + step` for stateful equations and nested `if ... then ... else` for conditional logic.
+- Use `eq name : type = expression;` for defining equations and `const name : type = value;` for constants.
+- Use `assign output = expression;` for output assignments and `assume/guarantee` for contract statements.
+Anti-patterns:
+- Do not reference subcomponent ports in component type contracts unless represented through visible variables or outputs.
+- Do not encode AADL properties like Period or Deadline as AGREE expressions unless they are explicitly typed and visible.
+- Do not use invalid AGREE scalar types such as 'integer' or 'boolean'; use 'int', 'real', or 'bool' instead.
+- Avoid placing implementation-level bindings in component type scopes; use implementation scopes for such constructs.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- autopilot
+- autopilot.autopilot_impl
+- VV
+- DeltaHeading
+- Airspeed
+- GCAS_Monitor
+- altitude
+- verticalVelocity
+- outImpact
+- outRecovery
+- gcasRequested
+- GCAS_Monitor.GCAS_Monitor_impl
+- ACAS_Monitor
+- latitude
+- longitude
+- distance
+- acasRequested
+- ACAS_Monitor.ACAS_Monitor_impl
+- SA_Monitor
+- horzDistance
+- vertDistance
+- saRequested
+- SA_Monitor.SA_Monitor_impl
+- GF_Monitor
+- gfRequested
+- GF_Monitor.GF_Monitor_impl
+- Wx_Monitor
+- wxRequested
+- Wx_Monitor.Wx_Monitor_impl
+- FLS_Monitor
+- linkConnection
+- landingRequested
+- Aviate_Decider
+- inpGCASM
+- inpGCASImpact
+- inpGCASRecovery
+- inpSAM
+- inpACASM
+- inpACASImpact
+- inpACASRecovery
+
+Target interface:
+Exact expression symbols: inpGCASM, inpGCASImpact, inpGCASRecovery, inpSAM, inpACASM, inpACASImpact, inpACASRecovery, inpGFM, inpWxM, inpFLS, outDec
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+inpGCASM | in | data | bool | Base_Types::boolean
+inpGCASImpact | in | data | real | Base_Types::float
+inpGCASRecovery | in | data | real | Base_Types::float
+inpSAM | in | data | bool | Base_Types::boolean
+inpACASM | in | data | bool | Base_Types::boolean
+inpACASImpact | in | data | real | Base_Types::float
+inpACASRecovery | in | data | real | Base_Types::float
+inpGFM | in | data | bool | Base_Types::boolean
+inpWxM | in | data | bool | Base_Types::boolean
+inpFLS | in | data | bool | Base_Types::boolean
+outDec | out | data | int | Base_Types::integer
+
+Raw requirement:
+The Aviate_Decider component shall maintain an internal variable numberServicesTrue that counts the total number of currently active service requests. The component shall implement dynamicDecide logic such that when the GCAS estimated time of impact (inpGCASImpact) is greater than the ACAS estimated time of impact (inpACASImpact) and the sum of their recovery times (inpGCASRecovery + inpACASRecovery) ensures no secondary collision occurs, the decision shall be ACAS; otherwise, the decision shall be GCAS. The final output outDec shall use the dynamic decision result when the value of numberServicesTrue is greater than or equal to 2; otherwise, outDec shall fall back to a static priority-based decision.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Aviate_Decider maintains internal variable numberServicesTrue that counts total number of currently active service requests",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "numberServicesTrue"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Aviate_Decider implements dynamicDecide logic where if inpGCASImpact > inpACASImpact and (inpGCASRecovery + inpACASRecovery) ensures no secondary collision, then decision is ACAS, else decision is GCAS",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "inpGCASImpact",
+        "inpACASImpact",
+        "inpGCASRecovery",
+        "inpACASRecovery"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Aviate_Decider output outDec uses dynamic decision result when numberServicesTrue >= 2, otherwise falls back to static priority-based decision",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "outDec",
+        "numberServicesTrue"
+      ]
+    }
+  ]
+}

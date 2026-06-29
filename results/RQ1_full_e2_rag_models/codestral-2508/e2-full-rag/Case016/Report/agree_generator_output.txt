@@ -1,0 +1,6 @@
+annex agree {
+  eq numberServicesTrue : int = inpGCASM + inpSAM + inpACASM + inpGFM + inpWxM + inpFLS;
+  guarantee "dynamic_decision_ACAS": (inpGCASImpact > inpACASImpact) and ((inpGCASRecovery + inpACASRecovery) > 0.0) => (outDec = 1);
+  guarantee "dynamic_decision_GCAS": not((inpGCASImpact > inpACASImpact) and ((inpGCASRecovery + inpACASRecovery) > 0.0)) => (outDec = 2);
+  guarantee "fallback_decision": numberServicesTrue < 2 => (outDec = 3);
+};

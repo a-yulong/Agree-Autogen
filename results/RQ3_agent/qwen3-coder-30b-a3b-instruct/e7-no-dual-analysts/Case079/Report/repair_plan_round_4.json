@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'door1'.",
+      "cause": "door1 is a subcomponent in implementation scope, not accessible in component type annex",
+      "minimal_edit": "Remove the reference to door1 and related port references from the AGREE annex in doors_process"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'handle_position'.",
+      "cause": "handle_position is a subcomponent port, not directly accessible in component type annex",
+      "minimal_edit": "Remove the reference to handle_position from the AGREE annex in doors_process"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'closed'.",
+      "cause": "closed is a subcomponent port, not directly accessible in component type annex",
+      "minimal_edit": "Remove the reference to closed from the AGREE annex in doors_process"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from doors_process",
+    "Move the assumptions about door1 ports to the implementation annex of doors_process.imp",
+    "In the implementation annex, replace references to door1 ports with corresponding interface ports"
+  ]
+}

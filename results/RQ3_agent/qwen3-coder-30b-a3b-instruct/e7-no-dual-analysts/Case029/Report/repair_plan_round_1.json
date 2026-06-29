@@ -1,0 +1,43 @@
+{
+  "problems": [
+    {
+      "diagnostic": "mismatched input '=' expecting ':'",
+      "cause": "Invalid AGREE syntax for constant declaration",
+      "minimal_edit": "Change `const t_init = 0.0;` to `const t_init : real = 0.0;`"
+    },
+    {
+      "diagnostic": "mismatched input '=' expecting ':'",
+      "cause": "Invalid AGREE syntax for constant declaration",
+      "minimal_edit": "Change `const t_step = 0.1;` to `const t_step : real = 0.1;`"
+    },
+    {
+      "diagnostic": "mismatched input '=' expecting ':'",
+      "cause": "Invalid AGREE syntax for constant declaration",
+      "minimal_edit": "Change `const recovery_time = 1.7;` to `const recovery_time : real = 1.7;`"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 't'",
+      "cause": "Undeclared variable 't' used in assume statements",
+      "minimal_edit": "Add `const t : real;` declaration before assume statements"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in assume statement",
+      "minimal_edit": "Replace `t = t_init` with `t' = t_init`"
+    },
+    {
+      "diagnostic": "Expression for assume statement is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression in assume statement",
+      "minimal_edit": "Replace `t' = t + t_step` with `t' = t + t_step` (correct syntax)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add 'const t : real;' declaration before the assume statements",
+    "Change 'const t_init = 0.0;' to 'const t_init : real = 0.0;'",
+    "Change 'const t_step = 0.1;' to 'const t_step : real = 0.1;'",
+    "Change 'const recovery_time = 1.7;' to 'const recovery_time : real = 1.7;'",
+    "Replace 'assume \"initial_t\": t = t_init;' with 'assume \"initial_t\": t' = t_init;'",
+    "Replace 'assume \"t_step_size\": t' = t + t_step;' with 'assume \"t_step_size\": t' = t + t_step;'"
+  ]
+}

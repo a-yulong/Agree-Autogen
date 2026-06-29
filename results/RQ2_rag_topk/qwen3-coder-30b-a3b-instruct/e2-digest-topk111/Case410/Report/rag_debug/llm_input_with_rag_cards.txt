@@ -1,0 +1,76 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place output range guarantees in component type scopes when concrete bounds or visible feature names are provided.
+- Use visible identifiers to define range assumptions and guarantees in AGREE contracts.
+Generic rules:
+- Formulate guarantees as boolean expressions linking visible variables to bounds or conditions.
+- Ensure AGREE annex blocks use valid AADL component scopes for assumptions and guarantees.
+Syntax or pattern reminders:
+- Declare range checks as boolean variables using 'eq' for clarity and reuse.
+- Use valid AADL component type scopes for output range guarantees.
+Anti-patterns:
+- Avoid placing implementation-level bindings in component type contracts.
+- Do not reference subcomponent ports directly in type-level AGREE contracts.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- queueingin
+- samplingout
+
+Target interface:
+Exact expression symbols: queueingin, samplingout
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+queueingin | in | data | int | integer
+samplingout | out | data | int | integer
+
+Raw requirement:
+The partition1_process component shall bound the samplingout output at every evaluation step. The samplingout value shall be greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "samplingout >= 0 and samplingout <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "samplingout"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "samplingout is bounded at every evaluation step",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "samplingout"
+      ]
+    }
+  ]
+}

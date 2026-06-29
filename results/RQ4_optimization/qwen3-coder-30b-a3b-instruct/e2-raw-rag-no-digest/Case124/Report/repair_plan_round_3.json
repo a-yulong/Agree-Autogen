@@ -1,0 +1,27 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 91: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is not valid syntax for a contract guarantee",
+      "minimal_edit": "Replace `mag_out_data_x = mag_out_data_x` with `mag_out_data_x = mag_out_data_x` (no change needed, but the expression is malformed as a contract guarantee)"
+    },
+    {
+      "diagnostic": "line 92: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is not valid syntax for a contract guarantee",
+      "minimal_edit": "Replace `mag_out_data_y = mag_out_data_y` with `mag_out_data_y = mag_out_data_y` (no change needed, but the expression is malformed as a contract guarantee)"
+    },
+    {
+      "diagnostic": "line 93: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is not valid syntax for a contract guarantee",
+      "minimal_edit": "Replace `mag_out_data_z = mag_out_data_z` with `mag_out_data_z = mag_out_data_z` (no change needed, but the expression is malformed as a contract guarantee)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that the AGREE annex is incorrectly using port names in equality expressions within guarantees",
+    "Recognize that these guarantees are malformed because they equate a port to itself, which is not a valid contract guarantee",
+    "Replace each malformed guarantee with a valid AGREE expression that correctly represents the intended signal flow behavior",
+    "Since the requirement is about routing data flow from Spg.mag_out_data_x to Mag_Out_Data_X, etc., and the annex is in the component type, rewrite the guarantees to express the correct behavior using visible identifiers",
+    "Update the annex to express that the output ports are equal to the corresponding input ports of the subcomponent, but only in the context of the implementation where the subcomponent is defined"
+  ]
+}

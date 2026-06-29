@@ -1,0 +1,58 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 94: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Forcing_Safe_Mode is not recognized as a boolean expression in AGREE context",
+      "minimal_edit": "Replace 'Forcing_Safe_Mode' with 'Forcing_Safe_Mode = true'"
+    },
+    {
+      "diagnostic": "line 94: right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Changing_mode_to_SM is not recognized as a boolean expression in AGREE context",
+      "minimal_edit": "Replace 'Changing_mode_to_SM' with 'Changing_mode_to_SM = true'"
+    },
+    {
+      "diagnostic": "line 96: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Getting_Back_To_Normal_Mode is not recognized as a boolean expression in AGREE context",
+      "minimal_edit": "Replace 'Getting_Back_To_Normal_Mode' with 'Getting_Back_To_Normal_Mode = true'"
+    },
+    {
+      "diagnostic": "line 96: right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Changing_mode_to_NM is not recognized as a boolean expression in AGREE context",
+      "minimal_edit": "Replace 'Changing_mode_to_NM' with 'Changing_mode_to_NM = true'"
+    },
+    {
+      "diagnostic": "line 106: mismatched input '=' expecting ';'",
+      "cause": "Multiple equality chain not supported in AGREE",
+      "minimal_edit": "Break down the chain into individual equality statements"
+    },
+    {
+      "diagnostic": "line 117: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "anomaly_detected is not recognized as a boolean expression in AGREE context",
+      "minimal_edit": "Replace 'anomaly_detected' with 'anomaly_detected = true'"
+    },
+    {
+      "diagnostic": "line 117: right side of binary expression 'or' is of type 'real' but must be of type 'bool'",
+      "cause": "telemetry is of type 'real', not 'bool'",
+      "minimal_edit": "Replace 'telemetry' with 'telemetry = true' or remove it from the expression"
+    },
+    {
+      "diagnostic": "line 138: Couldn't resolve reference to ConnectionEnd 'attitude_window'",
+      "cause": "ConnectionEnd 'attitude_window' does not exist in the referenced component",
+      "minimal_edit": "Remove or correct the connection reference"
+    },
+    {
+      "diagnostic": "line 139: Couldn't resolve reference to ConnectionEnd 'check_thresholds'",
+      "cause": "ConnectionEnd 'check_thresholds' does not exist in the referenced component",
+      "minimal_edit": "Remove or correct the connection reference"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block, replace 'Forcing_Safe_Mode => Changing_mode_to_SM' with '(Forcing_Safe_Mode = true) => (Changing_mode_to_SM = true)'",
+    "In the AGREE annex block, replace 'Getting_Back_To_Normal_Mode => Changing_mode_to_NM' with '(Getting_Back_To_Normal_Mode = true) => (Changing_mode_to_NM = true)'",
+    "In the AGREE annex block, break down the equality chain 'FSS_reconfiguration = CSS_reconfiguration = ...' into individual equality statements",
+    "In the AGREE annex block, replace 'anomaly_detected => (watchdog_event or telemetry)' with 'anomaly_detected = true => (watchdog_event = true or telemetry = true)'",
+    "In the implementation, remove or correct the connection 'Cnx5 : port TCP.attitude_window -> FDR.attitude_window;' if 'attitude_window' does not exist",
+    "In the implementation, remove or correct the connection 'Cnx6 : port TCP.check_thresholds -> FDR.check_thresholds;' if 'check_thresholds' does not exist"
+  ]
+}

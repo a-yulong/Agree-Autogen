@@ -1,0 +1,183 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE contracts in annex agree blocks within valid component type or implementation scopes based on the scope of the declared elements
+- Use assume/guarantee syntax for component type contracts and assign for implementation-level output bindings
+Generic rules:
+- Only reference visible identifiers in AGREE expressions; avoid AADL property names as direct variables
+- Declare constants and equations with correct AGREE scalar types (int, real, bool)
+- Use value_in_range patterns for numeric bounds in assumptions and guarantees
+- Avoid placing guarantee statements in implementation scope; use assign for output bindings
+Syntax or pattern reminders:
+- AGREE annex blocks must be enclosed in `annex agree {** ... **};`
+- Assumptions and guarantees must be labeled with quoted strings
+- Assignments must reference existing output features or declared auxiliary variables
+Anti-patterns:
+- Do not reference AADL property names like Period or Deadline directly in AGREE expressions
+- Do not place guarantee statements in implementation scope; use assign for output bindings
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- accout
+- acc_command_in
+
+Target interface:
+Exact expression symbols: accout, acc_command_in
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+accout | out | data | int | SHM_DataType::accData
+acc_command_in | in | data | int | SHM_DataType::actionData
+
+Raw requirement:
+The acc3_dataOutput component shall define the implementation-level signal routing for acc3_dataOutput.impl. In the implementation layer, acc3_dataOutput.impl shall route data flow from spg.accDataOut to accout through C1 and control signal from acc_command_in to spg.event_in through C2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "acc3_dataOutput.impl routes data from spg.accDataOut to accout through connection C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc3_dataOutput.impl.C1",
+        "spg.accDataOut",
+        "accout"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "acc3_dataOutput.impl routes control signal from acc_command_in to spg.event_in through connection C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc3_dataOutput.impl.C2",
+        "acc_command_in",
+        "spg.event_in"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "acc3_dataOutput.impl is bound to subcomponent acc3_dataOutput_spg",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "acc3_dataOutput.impl.sub1",
+        "acc3_dataOutput_spg"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "acc3_dataOutput.impl.C1 has Sampling_Refresh_Period of 50 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "acc3_dataOutput.impl.C1",
+        "Sampling_Refresh_Period"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "acc3_dataOutput has Dispatch_Protocol=Periodic",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc3_dataOutput",
+        "Dispatch_Protocol"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "acc3_dataOutput has Priority=1",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc3_dataOutput",
+        "Priority"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "acc3_dataOutput has Stack_Size=20 KByte",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc3_dataOutput",
+        "Stack_Size"
+      ]
+    },
+    {
+      "id": "R8",
+      "text": "acc3_dataOutput has Code_Size=100 KByte",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc3_dataOutput",
+        "Code_Size"
+      ]
+    },
+    {
+      "id": "R9",
+      "text": "acc3_dataOutput has Data_Size=1 KByte",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc3_dataOutput",
+        "Data_Size"
+      ]
+    },
+    {
+      "id": "R10",
+      "text": "acc3_dataOutput has Period=4000 ms",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc3_dataOutput",
+        "Period"
+      ]
+    },
+    {
+      "id": "R11",
+      "text": "acc3_dataOutput has Compute_Execution_Time=400 ms .. 500 ms",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc3_dataOutput",
+        "Compute_Execution_Time"
+      ]
+    },
+    {
+      "id": "R12",
+      "text": "acc3_dataOutput has Deadline=500 ms",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc3_dataOutput",
+        "Deadline"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 43: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes::Brake_Mode is not defined or imported in the model",
+      "minimal_edit": "Remove the line 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' from both COM and MON annexes"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 46: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not defined or imported in the model",
+      "minimal_edit": "Remove the line 'not Fail => CMD = Agree_Nodes::Brake_Cmd(Mode, Pedal);' from COM annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 64: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes::Brake_Mode is not defined or imported in the model",
+      "minimal_edit": "Remove the line 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' from MON annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 79: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not defined or imported in the model",
+      "minimal_edit": "Remove the line 'not Fail => (Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal));' from MON annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 189: Couldn't resolve reference to 'Initializing'.",
+      "cause": "Initializing is declared in BSCU annex but referenced in BSCU_Impl annex without being visible",
+      "minimal_edit": "Move the 'assign Initializing = ...' statement from BSCU_Impl to BSCU annex, and remove it from BSCU_Impl"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 196: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not defined or imported in the model",
+      "minimal_edit": "Remove the lemma 'L1 \"COM1 Consistency\" : COM1._CLK and not FailCOM1 => (COM1.CMD = Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal));'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 197: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not defined or imported in the model",
+      "minimal_edit": "Remove the lemma 'L2 \"COM2 Consistency\" : COM2._CLK and not FailCOM2 => (COM2.CMD = Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal));'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 198: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not defined or imported in the model",
+      "minimal_edit": "Remove the lemma 'L3 \"MON1 Consistency\" : MON1._CLK and not FailMON1 => (MON1.Status.Cmd = Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal));'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 199: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not defined or imported in the model",
+      "minimal_edit": "Remove the lemma 'L4 \"MON2 Consistency\" : MON2._CLK and not FailMON2 => (MON2.Status.Cmd = Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal));'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 207: Couldn't resolve reference to 'COM1Failed'.",
+      "cause": "COM1Failed is declared in BSCU annex but referenced in BSCU_Impl annex without being visible",
+      "minimal_edit": "Replace 'CH1.Error => COM1Failed or MON1Failed' with 'CH1.Error => (FailCOM1 or FailMON1)'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 208: Couldn't resolve reference to 'COM2Failed'.",
+      "cause": "COM2Failed is declared in BSCU annex but referenced in BSCU_Impl annex without being visible",
+      "minimal_edit": "Replace 'CH2.Error => COM2Failed or MON2Failed' with 'CH2.Error => (FailCOM2 or FailMON2)'"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove all occurrences of 'Agree_Nodes::Brake_Mode' and 'Agree_Nodes::Brake_Cmd' from COM and MON annexes, including their associated equations and guarantees",
+    "Move the 'assign Initializing = not (COM1_Running and COM2_Running and MON1_Running and MON2_Running);' from BSCU_Impl annex to BSCU annex, and delete it from BSCU_Impl",
+    "Replace 'CH1.Error => COM1Failed or MON1Failed' in BSCU_Impl with 'CH1.Error => (FailCOM1 or FailMON1)'",
+    "Replace 'CH2.Error => COM2Failed or MON2Failed' in BSCU_Impl with 'CH2.Error => (FailCOM2 or FailMON2)'",
+    "Remove all lemmas L1 through L4 from BSCU_Impl annex that reference 'Agree_Nodes::Brake_Cmd'"
+  ]
+}

@@ -1,0 +1,189 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: Signal_Input, Signal_Input.MotorL, Signal_Input.MotorR, Signal_Input.AileronL, Signal_Input.AileronR, Signal_Input.Rudder, Signal_Input.Elevator, Data_Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Signal_Input | in | data | opaque | Papa_Types::TabServos.Impl
+Signal_Input.MotorL | in | data_field | opaque | Base_Types::Integer_16
+Signal_Input.MotorR | in | data_field | opaque | Base_Types::Integer_16
+Signal_Input.AileronL | in | data_field | opaque | Base_Types::Integer_16
+Signal_Input.AileronR | in | data_field | opaque | Base_Types::Integer_16
+Signal_Input.Rudder | in | data_field | opaque | Base_Types::Integer_16
+Signal_Input.Elevator | in | data_field | opaque | Base_Types::Integer_16
+Data_Output | out | data | opaque | Base_Types::Integer_16
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "0 <= Data_Output <= 100",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Data_Output"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Interruption_Envoi_Servo | lines 96-100
+annex agree {**
+  annex agree {
+    guarantee "output_range": 0 <= Data_Output and Data_Output <= 100;
+  };
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   93:   features
+   94:     Signal_Input: in event data port Papa_Types::TabServos.Impl;
+   95:     Data_Output : out data port Base_Types::Integer_16;
+   96:   annex agree {**
+>> 97:   annex agree {
+   98:     guarantee "output_range": 0 <= Data_Output and Data_Output <= 100;
+   99:   };
+   100:   **};
+   101:   end Interruption_Envoi_Servo;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Interruption_Envoi_Servo
+thread Interruption_Envoi_Servo
+  features
+    Signal_Input: in event data port Papa_Types::TabServos.Impl;
+    Data_Output : out data port Base_Types::Integer_16;
+  end Interruption_Envoi_Servo;
+
+-- TARGET DECLARATION: Interruption_Envoi_Servo.Elevator
+thread implementation Interruption_Envoi_Servo.Elevator
+    --calls
+    --	sub1: {Elevator_Value: subprogram Papa_Types::TabServos.Get_Elevator;};
+    --connections
+    --	c1: parameter Elevator_Value.Result->Data_Output;
+  properties
+    Source_Text => ("fly_by_wire/servo.c/SIGNAL");
+    Compute_Entrypoint_Source_Text => "__vector_6";
+  end Interruption_Envoi_Servo.Elevator;
+
+-- RELATED MODEL LINES
+thread Interruption_Envoi_Servo
+Signal_Input: in event data port Papa_Types::TabServos.Impl;
+Data_Output : out data port Base_Types::Integer_16;
+end Interruption_Envoi_Servo;
+thread implementation Interruption_Envoi_Servo.Elevator
+--	c1: parameter Elevator_Value.Result->Data_Output;
+end Interruption_Envoi_Servo.Elevator;
+thread implementation Interruption_Envoi_Servo.MotorL
+--	c1: parameter MotorL_Value.Result->Data_Output;
+end Interruption_Envoi_Servo.MotorL;
+thread implementation Interruption_Envoi_Servo.MotorR
+--	c1: parameter MotorR_Value.Result->Data_Output;
+end Interruption_Envoi_Servo.MotorR;
+thread implementation Interruption_Envoi_Servo.AileronL
+--	c1: parameter AileronL_Value.Result->Data_Output;
+end Interruption_Envoi_Servo.AileronL;
+thread implementation Interruption_Envoi_Servo.AileronR
+--	c1: parameter AileronR_Value.Result->Data_Output;
+end Interruption_Envoi_Servo.AileronR;
+thread implementation Interruption_Envoi_Servo.Rudder
+--	c1: parameter Rudder_Value.Result->Data_Output;
+end Interruption_Envoi_Servo.Rudder;
+Interrupt_Elevator_Th:thread Interruption_Envoi_Servo.Elevator;
+Interrupt_MotorL_Th:thread Interruption_Envoi_Servo.MotorL;
+Interrupt_MotorR_Th:thread Interruption_Envoi_Servo.MotorR;
+Interrupt_AileronL_Th:thread Interruption_Envoi_Servo.AileronL;
+Interrupt_AileronR_Th:thread Interruption_Envoi_Servo.AileronR;
+Interrupt_Rudder_Th:thread Interruption_Envoi_Servo.Rudder;
+c5: port Interrupt_Elevator_Th.Data_Output->Cde_Elevator_Output;
+c6: port Interrupt_MotorL_Th.Data_Output->Cde_MotorL_Output;
+c7: port Interrupt_MotorR_Th.Data_Output->Cde_MotorR_Output;
+c8: port Interrupt_AileronL_Th.Data_Output->Cde_AileronL_Output;
+c9: port Interrupt_AileronR_Th.Data_Output->Cde_AileronR_Output;
+c10: port Interrupt_Rudder_Th.Data_Output->Cde_Rudder_Output;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Interruption_Envoi_Servo",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Interruption_Envoi_Servo.Elevator",
+      "kind": "thread implementation",
+      "type_name": "Interruption_Envoi_Servo"
+    },
+    {
+      "name": "Interruption_Envoi_Servo.MotorL",
+      "kind": "thread implementation",
+      "type_name": "Interruption_Envoi_Servo"
+    },
+    {
+      "name": "Interruption_Envoi_Servo.MotorR",
+      "kind": "thread implementation",
+      "type_name": "Interruption_Envoi_Servo"
+    },
+    {
+      "name": "Interruption_Envoi_Servo.AileronL",
+      "kind": "thread implementation",
+      "type_name": "Interruption_Envoi_Servo"
+    },
+    {
+      "name": "Interruption_Envoi_Servo.AileronR",
+      "kind": "thread implementation",
+      "type_name": "Interruption_Envoi_Servo"
+    },
+    {
+      "name": "Interruption_Envoi_Servo.Rudder",
+      "kind": "thread implementation",
+      "type_name": "Interruption_Envoi_Servo"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Interruption_Envoi_Servo",
+      "name": "Signal_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Papa_Types::TabServos.Impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Interruption_Envoi_Servo",
+      "name": "Data_Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer_16",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "Interruption_Envoi_Servo.Elevator",
+      "name": "c1",
+      "kind": "parameter",
+      "source": "Elevator_Value.Result",
+      "destination": "Data_Output"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Interruption_Envoi_Servo.Elevator",
+      "owner_kind": "thread implementation",
+      "name": "Source_Text",
+      "value": "\"fly_by_wire/servo.c/SIGNAL\"",
+      "applies_to": null
+    },
+    {
+      "owner": "Interruption_Envoi_Servo.Elevator",
+      "owner_kind": "thread implementation",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "\"__vector_6\"",
+      "applies_to": null
+    }
+  ]
+}

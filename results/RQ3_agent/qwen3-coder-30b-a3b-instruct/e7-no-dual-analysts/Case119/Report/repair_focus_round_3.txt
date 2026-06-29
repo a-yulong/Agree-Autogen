@@ -1,0 +1,168 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: mitigation_in, mitigation_command
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+mitigation_in | in | data | int | SHM_DataType::errorData
+mitigation_command | out | data | int | SHM_DataType::actionData
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: mitigationActor_th | lines 467-471
+annex agree {**
+    guarantee "control_signal_routing": acc1_data_monitor = acc1out => mitigation_command = acc1_command_in;
+    guarantee "control_signal_routing": acc2_data_monitor = acc2out => mitigation_command = acc2_command_in;
+    guarantee "control_signal_routing": acc3_data_monitor = accout => mitigation_command = acc_command_in;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   464:     Period => 3000 ms;
+   465:     Compute_Execution_Time => 400 ms .. 500 ms;
+   466:     Deadline => 500 ms;
+   467:   annex agree {**
+>> 468:     guarantee "control_signal_routing": acc1_data_monitor = acc1out => mitigation_command = acc1_command_in;
+   469:     guarantee "control_signal_routing": acc2_data_monitor = acc2out => mitigation_command = acc2_command_in;
+   470:     guarantee "control_signal_routing": acc3_data_monitor = accout => mitigation_command = acc_command_in;
+   471:   **};
+   472:   end mitigationActor_th;
+
+   465:     Compute_Execution_Time => 400 ms .. 500 ms;
+   466:     Deadline => 500 ms;
+   467:   annex agree {**
+   468:     guarantee "control_signal_routing": acc1_data_monitor = acc1out => mitigation_command = acc1_command_in;
+>> 469:     guarantee "control_signal_routing": acc2_data_monitor = acc2out => mitigation_command = acc2_command_in;
+   470:     guarantee "control_signal_routing": acc3_data_monitor = accout => mitigation_command = acc_command_in;
+   471:   **};
+   472:   end mitigationActor_th;
+   473: 
+
+   466:     Deadline => 500 ms;
+   467:   annex agree {**
+   468:     guarantee "control_signal_routing": acc1_data_monitor = acc1out => mitigation_command = acc1_command_in;
+   469:     guarantee "control_signal_routing": acc2_data_monitor = acc2out => mitigation_command = acc2_command_in;
+>> 470:     guarantee "control_signal_routing": acc3_data_monitor = accout => mitigation_command = acc_command_in;
+   471:   **};
+   472:   end mitigationActor_th;
+   473: 
+   474:   thread implementation mitigationActor_th.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: mitigationActor_th
+thread mitigationActor_th
+  features
+    mitigation_in: in event data port SHM_DataType::errorData;
+
+    mitigation_command: out event data  port SHM_DataType::actionData;
+    -- acc2_action: out event data  port SHM_DataType::actionData;
+    -- acc3_action: out event data  port SHM_DataType::actionData;
+    -- acc4_action: out event data  port SHM_DataType::actionData;
+    -- acc5_action: out event data  port SHM_DataType::actionData;
+    -- acc6_action: out event data  port SHM_DataType::actionData;
+    --
+    -- ADIRUp1_action: out event data  port SHM_DataType::actionData;
+    -- ADIRUp2_action: out event data  port SHM_DataType::actionData;
+    -- ADIRUp3_action: out event data  port SHM_DataType::actionData;
+    -- ADIRUp4_action: out event data  port SHM_DataType::actionData;
+    --
+    -- VDl_action: out event data  port SHM_DataType::actionData;
+    -- VDc_action: out event data  port SHM_DataType::actionData;
+    -- VDr_action: out event data  port SHM_DataType::actionData;
+  properties
+    Priority => 8;
+    Stack_Size => 20 KByte;
+    Code_Size => 100 KByte;
+    Data_Size => 1 KByte;
+    Dispatch_Protocol => Periodic;
+    Period => 3000 ms;
+    Compute_Execution_Time => 400 ms .. 500 ms;
+    Deadline => 500 ms;
+  end mitigationActor_th;
+
+-- TARGET DECLARATION: mitigationActor_th.impl
+thread implementation mitigationActor_th.impl
+  calls
+    sub1: { mitigationActor: subprogram subprograms::mitigationActor_spg; };
+
+  connections
+    C1: parameter mitigation_in->mitigationActor.inData_para;
+    C2: parameter mitigationActor.outData_para->mitigation_command;
+  end mitigationActor_th.impl;
+
+-- RELATED MODEL LINES
+thread acc1_dataOutput
+acc1out: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc1_command_in: in event data port SHM_DataType::actionData;
+end acc1_dataOutput;
+thread implementation acc1_dataOutput.impl
+C1: parameter spg.acc1DataOut->acc1out;
+C2: parameter acc1_command_in->spg.event_in;
+end  acc1_dataOutput.impl;
+thread acc1_dataOutput_emv2 extends acc1_dataOutput
+acc1_input: in data port SHM_DataType::accData;
+end acc1_dataOutput_emv2;
+thread implementation acc1_dataOutput_emv2.impl extends acc1_dataOutput.impl
+end acc1_dataOutput_emv2.impl;
+thread  acc2_dataOutput
+acc2out: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc2_command_in: in event data port SHM_DataType::actionData;
+end acc2_dataOutput;
+thread implementation  acc2_dataOutput.impl
+C1: parameter spg.acc2DataOut->acc2out;
+C2: parameter acc2_command_in->spg.event_in;
+end  acc2_dataOutput.impl;
+thread acc2_dataOutput_emv2 extends acc2_dataOutput
+acc2_input: in data port SHM_DataType::accData;
+end acc2_dataOutput_emv2;
+thread implementation acc2_dataOutput_emv2.impl extends acc2_dataOutput.impl
+end acc2_dataOutput_emv2.impl;
+thread acc3_dataOutput
+accout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc_command_in: in event data port SHM_DataType::actionData;
+end acc3_dataOutput;
+thread implementation acc3_dataOutput.impl
+C1: parameter spg.accDataOut->accout;
+C2: parameter acc_command_in->spg.event_in;
+end  acc3_dataOutput.impl;
+thread acc3_dataOutput_emv2 extends acc3_dataOutput
+acc3_input: in data port SHM_DataType::accData;
+end acc3_dataOutput_emv2;
+thread implementation acc3_dataOutput_emv2.impl extends acc3_dataOutput.impl
+end acc3_dataOutput_emv2.impl;
+thread acc4_dataOutput
+end acc4_dataOutput;
+thread implementation acc4_dataOutput.impl
+end  acc4_dataOutput.impl;
+thread acc4_dataOutput_emv2 extends acc4_dataOutput
+acc4_input: in data port SHM_DataType::accData;
+end acc4_dataOutput_emv2;
+thread implementation acc4_dataOutput_emv2.impl extends acc4_dataOutput.impl
+end acc4_dataOutput_emv2.impl;
+thread acc5_dataOutput
+end acc5_dataOutput;
+thread implementation acc5_dataOutput.impl
+end acc5_dataOutput.impl;
+thread acc5_dataOutput_emv2 extends acc5_dataOutput
+acc5_input: in data port SHM_DataType::accData;
+end acc5_dataOutput_emv2;
+thread implementation acc5_dataOutput_emv2.impl extends acc5_dataOutput.impl
+end acc5_dataOutput_emv2.impl;
+thread acc6_dataOutput
+end acc6_dataOutput;
+thread implementation acc6_dataOutput.impl
+end acc6_dataOutput.impl;
+thread acc6_dataOutput_emv2 extends acc6_dataOutput
+acc6_input: in data port SHM_DataType::accData;
+end acc6_dataOutput_emv2;
+thread implementation acc6_dataOutput_emv2.impl extends acc6_dataOutput.impl
+end acc6_dataOutput_emv2.impl;
+thread acc_HM
+acc1_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc2_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc3_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc4_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc5_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 
+-- [target model context truncated]

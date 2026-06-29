@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix AGREE diagnostics by resolving undefined references or removing invalid clauses instead of adding new architecture.",
+    "Do not introduce AADL property names like 'Period', 'Deadline', 'Priority' as AGREE variables; delete such clauses.",
+    "Ensure type consistency in AGREE expressions: numeric types must match expected scalar types (int, real, bool).",
+    "Validate that all identifiers used in AGREE clauses are visible in the current component scope."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, ensure all referenced identifiers are declared or visible in the same annex scope.",
+    "Avoid encoding AADL property associations directly into AGREE expressions unless they are explicitly typed and available.",
+    "Use only valid AADL feature names and types when constructing AGREE guarantees or assumptions.",
+    "If a reference cannot be resolved, remove the clause rather than attempt to define a new symbol."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE expressions must maintain type consistency; e.g., int literals should not be assigned to bool variables.",
+    "AGREE annexes must be placed in appropriate AADL scopes: component types for assumptions/guarantees, implementations for bindings.",
+    "Helper functions and constants must be declared before use and match the expected scalar types (int, real, bool).",
+    "Do not assume that AADL property names like 'ms', 'Hz' are automatically available as AGREE identifiers."
+  ],
+  "anti_patterns": [
+    "Do not attempt to define new AADL identifiers or properties in AGREE annexes that are not already present in the model.",
+    "Do not attempt to convert AADL property values (e.g., 'Period' or 'Deadline') into AGREE expressions without explicit model support.",
+    "Do not add new architecture elements or components when fixing AGREE diagnostics; only modify existing AGREE clauses."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and `with` clauses",
+    "AGREE annex placement in component types vs. implementations",
+    "Model Analyst agent's role in extracting AADL structure",
+    "Requirement Analyst agent's role in traceability",
+    "Model Fusion agent's role in scope and owner preservation"
+  ]
+}

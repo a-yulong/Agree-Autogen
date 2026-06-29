@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 210: named thing must be an expression with a type",
+      "cause": "Self-equality assumption uses invalid port reference in AGREE context",
+      "minimal_edit": "Replace acc_in_data_x = acc_in_data_x with true"
+    },
+    {
+      "diagnostic": "line 211: named thing must be an expression with a type",
+      "cause": "Self-equality assumption uses invalid port reference in AGREE context",
+      "minimal_edit": "Replace acc_in_data_y = acc_in_data_y with true"
+    },
+    {
+      "diagnostic": "line 212: Couldn't resolve reference to 'acc_in_data_x'",
+      "cause": "AGREE cannot resolve port reference in component type contract",
+      "minimal_edit": "Replace accelero_thread.acc_in_data_x = accelero_thread.acc_in_data_x with true"
+    },
+    {
+      "diagnostic": "line 212: Couldn't resolve reference to 'accelero_thread'",
+      "cause": "AGREE cannot resolve subcomponent reference in component type contract",
+      "minimal_edit": "Replace accelero_thread.acc_in_data_x = accelero_thread.acc_in_data_x with true"
+    },
+    {
+      "diagnostic": "line 213: Couldn't resolve reference to 'acc_in_data_y'",
+      "cause": "AGREE cannot resolve port reference in component type contract",
+      "minimal_edit": "Replace accelero_thread.acc_in_data_y = accelero_thread.acc_in_data_y with true"
+    },
+    {
+      "diagnostic": "line 213: Couldn't resolve reference to 'accelero_thread'",
+      "cause": "AGREE cannot resolve subcomponent reference in component type contract",
+      "minimal_edit": "Replace accelero_thread.acc_in_data_y = accelero_thread.acc_in_data_y with true"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace line 210: assume \"acc_input_pc1_mapping\": acc_in_data_x = acc_in_data_x; with assume \"acc_input_pc1_mapping\": true;",
+    "Replace line 211: assume \"acc_input_pc2_mapping\": acc_in_data_y = acc_in_data_y; with assume \"acc_input_pc2_mapping\": true;",
+    "Replace line 212: guarantee \"accelero_thread_x_routing\": accelero_thread.acc_in_data_x = accelero_thread.acc_in_data_x; with guarantee \"accelero_thread_x_routing\": true;",
+    "Replace line 213: guarantee \"accelero_thread_y_routing\": accelero_thread.acc_in_data_y = accelero_thread.acc_in_data_y; with guarantee \"accelero_thread_y_routing\": true;"
+  ]
+}

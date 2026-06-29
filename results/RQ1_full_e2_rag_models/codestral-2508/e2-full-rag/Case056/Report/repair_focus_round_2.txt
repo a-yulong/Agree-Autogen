@@ -1,0 +1,92 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: Input, Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Input | in | data | real | Base_Types::Float
+Output | out | data | real | Base_Types::Float
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Input < 20.0",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "Input"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Output < Input + 15.0",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Input",
+        "Output"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: B | lines 15-18
+annex agree {**
+  assume "input_bound": Input < 20.0;
+  guarantee "output_bound": Output < Input + 15.0;
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+No validator line numbers were available.
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: B
+system B
+	features
+		Input: in data port Base_Types::Float;
+		Output: out data port Base_Types::Float;
+end B ;
+
+-- RELATED MODEL LINES
+Input: in data port Base_Types::Float;
+Output: out data port Base_Types::Float;
+system B
+end B ;
+B_sub : system B ;
+IN_TO_A : port Input -> A_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_B : port A_sub.Output -> B_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_C : port A_sub.Output -> C_sub.Input1 {Communication_Properties::Timing => immediate;};
+B_TO_C : port B_sub.Output -> C_sub.Input2 {Communication_Properties::Timing => immediate;};
+C_TO_Output : port C_sub.Output -> Output {Communication_Properties::Timing => immediate;};
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "B",
+      "kind": "system"
+    }
+  ],
+  "features": [
+    {
+      "owner": "B",
+      "name": "Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "B",
+      "name": "Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Float",
+      "scalar": "opaque"
+    }
+  ]
+}

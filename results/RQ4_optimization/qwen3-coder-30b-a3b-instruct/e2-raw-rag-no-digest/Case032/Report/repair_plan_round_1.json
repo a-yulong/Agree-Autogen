@@ -1,0 +1,14 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 110: Couldn't resolve reference to 'nearestIntruderAltitude_previous_time_step'.",
+      "cause": "Identifier 'nearestIntruderAltitude_previous_time_step' is not declared in any visible scope; it is not a port, property, or auxiliary variable.",
+      "minimal_edit": "Remove the equation for intruderVerticalVelocity since it depends on an undefined symbol and cannot be legally expressed with visible identifiers."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the entire 'eq intruderVerticalVelocity : real = nearestIntruderAltitude - nearestIntruderAltitude_previous_time_step;' line from the AGREE annex.",
+    "Leave the guarantee clause unchanged, as it uses only visible symbols: nearestIntruderAltitude and projectedIntruderAltitude."
+  ]
+}

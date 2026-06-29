@@ -1,0 +1,42 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 123: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes::Brake_Mode is not a visible or declared symbol in the model; it is a package-qualified identifier not supported in AGREE without explicit definition or import.",
+      "minimal_edit": "Remove the equation 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' since no visible relation or replacement function exists and Mode is not otherwise defined."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 138: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is not a visible or declared symbol; AGREE cannot resolve package-qualified function calls not defined in the model.",
+      "minimal_edit": "Replace 'Agree_Nodes::Brake_Cmd(Mode, Pedal)' with 'Pedal' to match the existing guarantee in the COM annex that CMD = Pedal, since Mode is being removed and Pedal is the only visible input directly linked to CMD per R4 intent."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 255: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Same unresolved package-qualified function; lemma references same invalid function.",
+      "minimal_edit": "Replace 'Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal)' with 'Pedal' to align with the only valid visible relation: CMD = Pedal in COM component."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 256: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Same unresolved package-qualified function; lemma references same invalid function.",
+      "minimal_edit": "Replace 'Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal)' with 'Pedal' to align with the only valid visible relation: CMD = Pedal in COM component."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Same unresolved package-qualified function; lemma references same invalid function.",
+      "minimal_edit": "Replace 'Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal)' with 'Pedal' to align with the only valid visible relation: CMD = Pedal in COM component."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 258: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Same unresolved package-qualified function; lemma references same invalid function.",
+      "minimal_edit": "Replace 'Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal)' with 'Pedal' to align with the only valid visible relation: CMD = Pedal in COM component."
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the entire annex agree block in COM (lines 102-106) because it contains an invalid guarantee CMD = Pedal that conflicts with the requirement R4 intent and is not aligned with the intended Mode-based computation.",
+    "Delete the Mode equation and Brake_Cmd references in MON annex (lines 123 and 138) to eliminate unresolved references.",
+    "Replace all instances of Agree_Nodes::Brake_Cmd(...) in lemmas L1-L4 (lines 255-258) with Pedal to reflect the only valid, visible, and type-compatible relation: CMD = Pedal as implied by the COM annex's current (flawed) guarantee, which must be preserved as the minimal consistent relation.",
+    "Add a new guarantee in COM's annex agree block: 'guarantee G_COM_1 \"Valve Command\" : not Fail => CMD = Pedal;' to explicitly satisfy R4 using only visible symbols and align with the validator's type constraints.",
+    "Remove all references to Mode in all annexes since it is not a declared or visible variable and has no legal definition."
+  ]
+}

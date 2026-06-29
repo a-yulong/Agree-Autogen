@@ -1,0 +1,61 @@
+package Mixin
+public
+
+  abstract Interface_1
+  features
+    Port_1 : in event port;
+  end Interface_1;
+
+  abstract implementation Interface_1.impl
+  end Interface_1.impl;
+
+  abstract Interface_2
+  features
+    Port_2 : in event port;
+  end Interface_2;
+
+  abstract implementation Interface_2.impl
+  end Interface_2.impl;
+
+  abstract Mixin
+  features
+    Port_1 : in event port;
+    Port_2 : in event port;
+  end Mixin;
+
+  abstract implementation Mixin.impl
+  subcomponents
+    Mix_1 : abstract Interface_1;
+    Mix_2 : abstract Interface_2;
+
+  connections
+    Y1:port Port_1 -> Mix_1.Port_1;
+    Y2:port Port_2 -> Mix_2.Port_2;
+  end Mixin.impl;
+
+  device Buzzer
+    features
+    Port_1 : in event port;
+  end Buzzer;
+
+  device implementation Buzzer.impl
+  end Buzzer.impl;
+
+  device Light 
+    features
+    Port_2 : in event port;
+  end Light;
+
+  device implementation Light.impl
+  end Light.impl;
+
+  system Demo extends Mixin
+  end Demo;
+
+  system implementation Demo.impl extends Mixin.impl
+  subcomponents
+    Mix_1 : refined to device Buzzer.impl { Classifier_Substitution_Rule => Signature_Match;};
+    Mix_2 : refined to device Light.impl { Classifier_Substitution_Rule => Signature_Match;};
+  end Demo.impl;
+
+end Mixin;

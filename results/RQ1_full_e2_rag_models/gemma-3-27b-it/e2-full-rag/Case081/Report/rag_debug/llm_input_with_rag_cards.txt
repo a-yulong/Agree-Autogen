@@ -1,0 +1,125 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `annex agree { ... };` blocks to contain AGREE contracts.
+- Place contracts in component implementation annexes for implementation-level bindings like assignments.
+Generic rules:
+- AGREE uses `assume`, `guarantee`, `eq`, and `const` keywords to define contracts.
+- AGREE expressions must reference identifiers visible in the current component scope.
+- AADL property names (e.g., Compute_Execution_Time) are not directly usable as AGREE variables.
+Syntax or pattern reminders:
+- Use double quotes for labels in `assume` and `guarantee` statements.
+- Ensure correct syntax for equations: `eq name : type = expression;`
+Anti-patterns:
+- Do not attempt to use AADL property names directly in AGREE expressions without explicit model exposure (ports or constants).
+- Avoid inventing identifiers or copying them from examples; use names from the model index.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Consumer
+- Consumer.impl
+- Mycalls
+- C_Spg
+- Init
+- Producer
+- Init.impl
+- Producer.impl
+- prodcons_soft
+- prodcons_soft.impl
+- Init1
+- Producer1
+- Consumer1
+
+Target interface:
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- Consumer
+- Consumer.impl
+- Mycalls
+- C_Spg
+- Init
+- Producer
+- Init.impl
+- Producer.impl
+- prodcons_soft
+- prodcons_soft.impl
+- Init1
+- Producer1
+- Consumer1
+
+Raw requirement:
+The Consumer component shall execute according to the scheduling and timing constraints defined for Consumer.impl. The implementation shall use the Periodic dispatch protocol, execute with a period of 1000 ms, meet a deadline of 1000 ms, complete compute execution within 0 ms .. 3 ms, and run at priority 101.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Consumer.impl Dispatch_Protocol is periodic",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Consumer.impl.Dispatch_Protocol"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Consumer.impl Period is 1000 ms",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Consumer.impl.Period"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Consumer.impl Deadline is 1000 ms",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Consumer.impl.Deadline"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Consumer.impl Compute_Execution_Time is 0 ms .. 3 ms",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Consumer.impl.Compute_Execution_Time"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Consumer.impl Priority is 101",
+      "kind": "aadl_property",
+      "intent": "guarantee",
+      "evidence": [
+        "Consumer.impl.Priority"
+      ]
+    }
+  ]
+}

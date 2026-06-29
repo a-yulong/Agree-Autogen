@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 368: Assume statements are allowed only in component types",
+      "cause": "Assume statements are placed in implementation annex, but AGREE requires them in component type annex",
+      "minimal_edit": "Move the annex block from ADIRUp_HM.impl to ADIRUp_HM"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 368: Couldn't resolve reference to 'inData_para1'.",
+      "cause": "inData_para1 is a subcomponent parameter, not visible at component type level",
+      "minimal_edit": "Remove the assume clauses since they reference non-visible subcomponent ports"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 368: left and right sides of binary expression '=' are of type 'int' and '<error>'",
+      "cause": "Left side (accData_in1) is a component port of type int; right side (ADIRUp_HM.inData_para1) is an unresolved subcomponent parameter",
+      "minimal_edit": "Remove the assume clauses since they reference non-visible subcomponent ports"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 368: named thing must be an expression with a type",
+      "cause": "ADIRUp_HM.inData_para1 is not a valid expression in component type scope",
+      "minimal_edit": "Remove the assume clauses since they reference non-visible subcomponent ports"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the annex agree block from ADIRUp_HM.impl",
+    "Add a new annex agree block to ADIRUp_HM (component type) with no content, since no valid assumption can be formed using only visible identifiers",
+    "Confirm that signal flow R1 and R2 are enforced by AADL connections C1 and C2, so no AGREE assumption is semantically needed"
+  ]
+}

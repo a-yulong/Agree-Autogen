@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 91: named thing must be an expression with a type",
+      "cause": "mag_out_data_x is a component port, but AGREE requires explicit expression context; trivial identity guarantee is meaningless and violates AGREE type-checking rules for ports in component type annexes",
+      "minimal_edit": "remove guarantee \"signal_flow_x\": mag_out_data_x = mag_out_data_x;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 92: named thing must be an expression with a type",
+      "cause": "mag_out_data_y is a component port; identity guarantee is invalid in component type annex and triggers AGREE type-check failure",
+      "minimal_edit": "remove guarantee \"signal_flow_y\": mag_out_data_y = mag_out_data_y;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 93: named thing must be an expression with a type",
+      "cause": "mag_out_data_z is a component port; identity guarantee is invalid in component type annex and triggers AGREE type-check failure",
+      "minimal_edit": "remove guarantee \"signal_flow_z\": mag_out_data_z = mag_out_data_z;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the entire annex agree block on lines 90-94",
+    "Verify no other AGREE annexes exist on MAGNETO_SUB_wrapper that improperly reference ports with identity expressions"
+  ]
+}

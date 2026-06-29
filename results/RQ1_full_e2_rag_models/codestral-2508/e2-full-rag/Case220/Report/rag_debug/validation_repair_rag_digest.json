@@ -1,0 +1,34 @@
+{
+  "rag_rules": [
+    "Repair validator diagnostics by adding missing annex delimiters when the diagnostic indicates a missing EOF at 'annex'",
+    "Do not introduce package-qualified identifiers or references in AGREE annexes",
+    "Place component type contracts in type annexes and implementation-level bindings in implementation annexes",
+    "Use only visible features in component type contracts; avoid subcomponent paths"
+  ],
+  "generic_rules": [
+    "Repair validator diagnostics by adding missing syntax elements when the diagnostic indicates a missing EOF at a specific syntax element",
+    "Ensure all AGREE annexes are properly closed with a semicolon",
+    "Use only valid AGREE scalar types (int, real, bool) in const and eq declarations",
+    "Place component type contracts in type annexes and implementation-level bindings in implementation annexes"
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are written inside `annex agree {** ... **};` blocks",
+    "Component type annexes are for assumptions, guarantees, constants, and equation declarations",
+    "Component implementation annexes are for implementation-level bindings such as assignments"
+  ],
+  "anti_patterns": [
+    "Do not use implementation-only subcomponent paths in a component type annex",
+    "Do not introduce package-qualified identifiers or references in AGREE annexes",
+    "Do not place implementation-level bindings in component type annexes",
+    "Do not use invalid AGREE scalar types in const and eq declarations"
+  ],
+  "irrelevant_topics": [
+    "AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes",
+    "Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections",
+    "Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs",
+    "For output dependency contracts, write a guarantee that relates visible outputs to visible inputs",
+    "For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation",
+    "If AGREE reports 'named thing must be an expression with a type' or a guarantee expression has type <error>, trace the first unresolved identifier or invalid helper declaration on the same line",
+    "If AGREE reports 'Couldn't resolve reference to 'integer'' or 'Couldn't resolve reference to 'boolean'' in a const or eq declaration, the generated AGREE type name is invalid"
+  ]
+}

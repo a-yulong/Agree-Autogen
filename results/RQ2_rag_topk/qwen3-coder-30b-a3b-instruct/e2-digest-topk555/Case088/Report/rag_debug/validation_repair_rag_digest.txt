@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Validator diagnostics should guide minimal repairs that preserve unrelated architecture.
+- AGREE syntax must align with AADL scope rules to avoid unresolved references.
+- When AGREE reports type errors, ensure scalar types are declared using int, real, or bool.
+- Do not encode AADL properties such as Stack_Size or timing attributes directly into AGREE expressions.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Use only visible AADL features or helper declarations in the same annex.
+- Component type contracts should not reference implementation-specific subcomponents or ports.
+- Constants and equations in AGREE must use valid scalar types: int, real, bool.
+Anti-patterns:
+- Adding architecture or property references that are not present in the AADL model.
+- Placing implementation-level guarantees or assignments in component type annexes.
+- Using AADL property names like Stack_Size as AGREE variables without explicit AADL port exposure.
+- Attempting to convert Boolean or opaque data types into numeric expressions.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about missing EOF or syntax errors in the model
+- AGREE validator diagnostics about missing EOF at 'constant'
+- Component type annexes for implementation-level bindings
+- AGREE syntax for assume/guarantee contracts in component implementations
+</RAG_DIGEST>

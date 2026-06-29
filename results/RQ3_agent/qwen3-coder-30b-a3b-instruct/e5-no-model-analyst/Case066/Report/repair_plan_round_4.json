@@ -1,0 +1,37 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 75: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "Forcing_Safe_Mode is not properly declared as a port in the component type",
+      "minimal_edit": "Remove the assume statement for mode_transition_SM"
+    },
+    {
+      "diagnostic": "line 77: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "Getting_Back_To_Normal_Mode is not properly declared as a port in the component type",
+      "minimal_edit": "Remove the assume statement for mode_transition_NM"
+    },
+    {
+      "diagnostic": "line 107: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "anomaly_detected is not properly declared as a port in the component type",
+      "minimal_edit": "Remove the assume statement for anomaly_handling"
+    },
+    {
+      "diagnostic": "line 154: Couldn't resolve reference to ConnectionEnd 'attitude_window'",
+      "cause": "ConnectionEnd 'attitude_window' does not exist in the referenced subcomponent",
+      "minimal_edit": "Remove the connection Cnx5"
+    },
+    {
+      "diagnostic": "line 155: Couldn't resolve reference to ConnectionEnd 'check_thresholds'",
+      "cause": "ConnectionEnd 'check_thresholds' does not exist in the referenced subcomponent",
+      "minimal_edit": "Remove the connection Cnx6"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the assume statement 'assume \"mode_transition_SM\": Forcing_Safe_Mode = true;' from the AGREE annex",
+    "Remove the assume statement 'assume \"mode_transition_NM\": Getting_Back_To_Normal_Mode = true;' from the AGREE annex",
+    "Remove the assume statement 'assume \"anomaly_handling\": anomaly_detected = true;' from the AGREE annex",
+    "Remove the connection 'Cnx5 : port TCP.attitude_window -> FDR.attitude_window;' from the implementation",
+    "Remove the connection 'Cnx6 : port TCP.check_thresholds -> FDR.check_thresholds;' from the implementation"
+  ]
+}

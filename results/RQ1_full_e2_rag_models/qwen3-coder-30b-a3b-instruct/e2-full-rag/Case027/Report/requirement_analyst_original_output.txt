@@ -1,0 +1,46 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "text": "The component shall maintain a real-valued recursive variable t with an initial value of 0.0 and a step size of 0.1",
+      "evidence": ["t"]
+    },
+    {
+      "id": "R2",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "The component shall define the constant minHeightAllowed as 200.0",
+      "evidence": ["minHeightAllowed"]
+    },
+    {
+      "id": "R3",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "text": "The component shall invoke the kinematicLinearization function from the gcas_nodes library, passing t as a parameter, to compute the height variable",
+      "evidence": ["kinematicLinearization", "t", "height"]
+    },
+    {
+      "id": "R4",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "text": "The component shall set the output port timeToRecovery to the constant 3.7",
+      "evidence": ["timeToRecovery"]
+    },
+    {
+      "id": "R5",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "When the simulation time t reaches or exceeds 3.7, the computed height shall always be greater than minHeightAllowed",
+      "evidence": ["t", "height", "minHeightAllowed"]
+    },
+    {
+      "id": "R6",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "When the simulation time t reaches or exceeds 3.7, the current height shall be greater than the previous height to indicate a pull-up trend",
+      "evidence": ["height"]
+    }
+  ]
+}

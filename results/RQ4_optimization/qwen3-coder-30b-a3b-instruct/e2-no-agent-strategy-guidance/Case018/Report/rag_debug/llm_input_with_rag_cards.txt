@@ -1,0 +1,118 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE assumptions and guarantees in component type scopes when they refer to ports or visible features; use implementation scopes for implementation-specific bindings.
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` syntax as defined in AGREE annex blocks.
+Generic rules:
+- Formulate assumptions with concrete bounds or named constants; avoid undefined or implementation-specific references.
+- Ensure output guarantees relate visible outputs to visible inputs, not subcomponent paths.
+- Use logical operators (`and`, `or`, `not`, `=>`) for complex AGREE expressions.
+- Initialize stateful equations with temporal recurrence patterns like `0.0 -> pre(t) + step`.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contracts.
+- Use `eq name : type = expression;` for defining helper equations.
+- Use `const name : type = value;` for named constants in AGREE.
+Anti-patterns:
+- Do not reference AADL property names (e.g., Deadline, Period) as AGREE variables unless explicitly exposed as typed ports or constants.
+- Do not place implementation-specific subcomponent ports in component type contracts.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- outGCASR
+- outImpact
+- outRecovery
+- outAltitude
+- outTime
+
+Target interface:
+Exact expression symbols: outGCASR, outGCASR.VV, outGCASR.DeltaHeading, outGCASR.Airspeed, outImpact, outRecovery, outAltitude, outTime
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+outGCASR | out | data | opaque | autopilot.autopilot_impl
+outGCASR.VV | out | data_field | real | Base_Types::float
+outGCASR.DeltaHeading | out | data_field | real | Base_Types::float
+outGCASR.Airspeed | out | data_field | real | Base_Types::float
+outImpact | out | data | real | Base_Types::float
+outRecovery | out | data | real | Base_Types::float
+outAltitude | out | data | real | Base_Types::float
+outTime | out | data | real | Base_Types::float
+
+Raw requirement:
+The GCAS_Recovery component shall define an altitude variable and invoke the gcasDynamics3 function for recursive computation. The component shall assume that the initial time timeRangeInitial and the final time timeRangeFinal are within the range [0.0, 10.0]. Under the assumption that the initial flight speed is 150.0 feet/second and the recovery time exceeds the threshold of 8.9 seconds, the component shall guarantee that the altitude variable outAltitude is greater than 0.0 to prevent ground impact.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "The GCAS_Recovery component defines an altitude variable and invokes the gcasDynamics3 function for recursive computation",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "outAltitude"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "The initial time timeRangeInitial and the final time timeRangeFinal are within the range [0.0, 10.0]",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "timeRangeInitial",
+        "timeRangeFinal"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "The initial flight speed is 150.0 feet/second",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "initial flight speed"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "The recovery time exceeds the threshold of 8.9 seconds",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "recovery time",
+        "8.9 seconds"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "The altitude variable outAltitude is greater than 0.0 to prevent ground impact",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "outAltitude",
+        "0.0"
+      ]
+    }
+  ]
+}

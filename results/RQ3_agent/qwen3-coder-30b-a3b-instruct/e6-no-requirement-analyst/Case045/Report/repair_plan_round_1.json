@@ -1,0 +1,37 @@
+{
+  "problems": [
+    {
+      "diagnostic": "mismatched input '=' expecting ':'",
+      "cause": "Invalid syntax in AGREE const declaration",
+      "minimal_edit": "Replace '=' with ':' in const declarations"
+    },
+    {
+      "diagnostic": "Expression for guarantee statement is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression syntax in guarantee statements",
+      "minimal_edit": "Fix guarantee expressions to use valid boolean logic"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'mode'",
+      "cause": "Undefined mode variable in AGREE context",
+      "minimal_edit": "Remove or replace mode references with valid expressions"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '!=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in binary expression",
+      "minimal_edit": "Ensure both sides of binary operators have matching types"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in AGREE guarantee",
+      "minimal_edit": "Rewrite guarantee to use valid AGREE expressions"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'const initial_mode_geq_0 = mode(0) >= 0;' with 'const initial_mode_geq_0 : bool = mode(0) >= 0;'",
+    "Replace 'const mode_increasing = forall t : mode(t+1) > mode(t);' with 'const mode_increasing : bool = forall t : mode(t+1) > mode(t);'",
+    "Remove or replace all references to 'mode' with valid expressions using Input1, Input2, Output",
+    "Rewrite guarantee statements to use valid boolean expressions with Input1, Input2, Output",
+    "Ensure all binary expressions have matching types"
+  ]
+}

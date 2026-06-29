@@ -1,0 +1,136 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts
+- Generate guarantee statements using AGREE logical operators such as and, or, not, and implication =>
+Generic rules:
+- Assign only to existing output features or declared auxiliary variables in implementation scope
+- Ensure type consistency between assumed and actual types in AGREE expressions
+- Use const declarations for invariant values and eq for boolean expressions in AGREE contracts
+Syntax or pattern reminders:
+- Use => for implication in guarantee statements
+- Use nested if-then-else for complex conditional logic
+- Use pre(t) for temporal recurrence in stateful equations
+Anti-patterns:
+- Do not place guarantee statements in implementation scope
+- Do not use assign for non-output features or undeclared variables
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- nearestIntruderAltitude
+- nearestIntruderGroundDistance
+- nearestIntruderLongitude
+- ownAltitude_in
+- ownHeading
+- ownVerticalVelocity
+- ownLatitude
+- ownLongitude
+- requiredVerticalVelocity
+- timeToRecovery
+- timeToFailure
+
+Target interface:
+Exact expression symbols: nearestIntruderAltitude, nearestIntruderGroundDistance, nearestIntruderLongitude, ownAltitude_in, ownHeading, ownVerticalVelocity, ownLatitude, ownLongitude, requiredVerticalVelocity, timeToRecovery, timeToFailure
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+nearestIntruderAltitude | in | data | opaque | int
+nearestIntruderGroundDistance | in | data | opaque | int
+nearestIntruderLongitude | in | data | opaque | int
+ownAltitude_in | in | data | opaque | int
+ownHeading | in | data | opaque | int
+ownVerticalVelocity | in | data | opaque | int
+ownLatitude | in | data | opaque | int
+ownLongitude | in | data | opaque | int
+requiredVerticalVelocity | out | data | opaque | int
+timeToRecovery | out | data | opaque | real
+timeToFailure | out | data | opaque | real
+
+Raw requirement:
+When the TCAS_singleton component's ownAltitude_in is equal to the nearestIntruderAltitude, if the ownLongitude is greater than the nearestIntruderLongitude, then set the requiredVerticalVelocity to 50; otherwise, set it to -50. When the TCAS_singleton component's ownAltitude_in is less than the nearestIntruderAltitude, set the requiredVerticalVelocity to 10. When the TCAS_singleton component's ownAltitude_in is greater than the nearestIntruderAltitude, set the requiredVerticalVelocity to -10. Define a boolean variable named ownAircraftGoesUpOnTie internally to represent the condition (ownLongitude > nearestIntruderLongitude).
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "When ownAltitude_in = nearestIntruderAltitude and ownLongitude > nearestIntruderLongitude, then requiredVerticalVelocity = 50",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "ownAltitude_in",
+        "nearestIntruderAltitude",
+        "ownLongitude",
+        "nearestIntruderLongitude",
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "When ownAltitude_in = nearestIntruderAltitude and ownLongitude <= nearestIntruderLongitude, then requiredVerticalVelocity = -50",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "ownAltitude_in",
+        "nearestIntruderAltitude",
+        "ownLongitude",
+        "nearestIntruderLongitude",
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "When ownAltitude_in < nearestIntruderAltitude, then requiredVerticalVelocity = 10",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "ownAltitude_in",
+        "nearestIntruderAltitude",
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "When ownAltitude_in > nearestIntruderAltitude, then requiredVerticalVelocity = -10",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "ownAltitude_in",
+        "nearestIntruderAltitude",
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Define boolean variable ownAircraftGoesUpOnTie = (ownLongitude > nearestIntruderLongitude)",
+      "kind": "other",
+      "intent": "describe",
+      "evidence": [
+        "ownLongitude",
+        "nearestIntruderLongitude"
+      ]
+    }
+  ]
+}

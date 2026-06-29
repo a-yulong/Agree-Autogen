@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "The variable 'actual_update' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "Type mismatch in equation declaration",
+      "minimal_edit": "Change the type of 'actual_update' from 'Base_Types::Float' to 'Types::speed.speed_impl'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '+' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Incompatible types in arithmetic operation",
+      "minimal_edit": "Cast 'Actuator_Input' to 'Types::speed.speed_impl' or convert 'pre(Actual)' to 'real' for arithmetic"
+    },
+    {
+      "diagnostic": "left side of binary expression '+' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Invalid operation on opaque type",
+      "minimal_edit": "Ensure all operands in arithmetic are of compatible numeric types"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Type mismatch in guarantee statement",
+      "minimal_edit": "Ensure 'Actual' and 'actual_update' have matching types"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Change the type of 'actual_update' in the equation to 'Types::speed.speed_impl'",
+    "Ensure that 'Actuator_Input' is cast or converted to 'Types::speed.speed_impl' for arithmetic operations",
+    "Ensure that 'pre(Actual)' is compatible with the arithmetic operation or cast to 'real' if needed",
+    "Verify that the guarantee statement assigns a value of type 'Types::speed.speed_impl' to 'Actual'"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "rag_rules": [
+    "Place output range guarantees in component type scopes using visible port names and concrete bounds.",
+    "Use AGREE logical operators and temporal recurrence for stateful equations and branching logic.",
+    "Generate type-consistent expressions with proper scalar types (int, real, bool) for constants and equations.",
+    "Write guarantees that relate visible outputs to visible inputs without referencing implementation-only subcomponents."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be enclosed in annex agree blocks within valid AADL component type or implementation scopes.",
+    "Assumptions and guarantees should reference only visible identifiers from the component's feature set.",
+    "Helper equations and constants must be declared with matching types to their assigned expressions.",
+    "Avoid referencing AADL properties as AGREE variables unless explicitly exposed as typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract clauses.",
+    "Declare equations with `eq name : type = expression;` and constants with `const name : type = value;`.",
+    "Apply nested `if ... then ... else` for branching logic and `and`, `or`, `not(...)` for logical operators.",
+    "Ensure all visible identifiers are properly scoped and typed before use in AGREE expressions."
+  ],
+  "anti_patterns": [
+    "Do not reference implementation-only subcomponent ports in component type contracts.",
+    "Do not encode AADL timing properties as AGREE expressions unless model exposes typed ports.",
+    "Do not attempt to resolve missing identifiers by inventing new declarations in repair.",
+    "Do not use Boolean domain values in numeric range comparisons without explicit scalar representation."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing constraints not tied to visible features",
+    "Model implementation details not present in component type scope",
+    "Validator diagnostics unrelated to current AGREE syntax or type resolution"
+  ]
+}

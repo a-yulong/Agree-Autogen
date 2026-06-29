@@ -1,0 +1,14 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 33: Couldn't resolve reference to 'Input1'.",
+      "cause": "Input1 is not a direct feature of top_level; it is a feature of subcomponent C_sub, and cannot be referenced in top_level's annex.",
+      "minimal_edit": "Delete the entire annex block on lines 32-35 because Input1 is not visible at the top_level scope."
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the annex block on lines 32-35 in system top_level because it references Input1, which is not a direct feature of top_level.",
+    "Leave the annex block on lines 22-25 in system C unchanged, as it correctly references Input1 and Output within their declaring component scope."
+  ]
+}

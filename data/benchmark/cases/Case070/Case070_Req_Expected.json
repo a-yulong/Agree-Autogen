@@ -1,0 +1,100 @@
+{
+  "case": 48,
+  "letter": "A",
+  "target": "Telecommand_Processing",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The Failure_Detection_Isolation thread component and its implementation layer Failure_Detection_Isolation.impl must assume that the attitude_window and check_thresholds data values are non-negative valid tolerance intervals. The component must guarantee that the anomaly_detected event is emitted only when the sensored_attitude or sun_direction data values exceed the range defined by the attitude_window. Additionally, because the thread is configured with a Period = 60000 ms live heartbeat property, the system must guarantee that under normal non-anomaly scheduling states, the watchdog_event event is continuously emitted to prevent the satellite hardware watchdog from triggering a hard reset due to software-layer suspension.",
+  "natural_requirement": "The Telecommand_Processing component shall execute according to the scheduling and timing constraints defined for Telecommand_Processing.impl. The implementation shall use the Aperiodic dispatch protocol and complete compute execution within 0 ms .. 100 us.",
+  "requirement_items": [
+    {
+      "text": "The Telecommand_Processing.impl implementation shall execute using the Aperiodic dispatch protocol.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "Telecommand_Processing.impl",
+        "",
+        "Dispatch_Protocol",
+        "Aperiodic"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "Telecommand_Processing.impl",
+        "owner_kind": "implementation",
+        "element": "",
+        "property": "Dispatch_Protocol",
+        "value": "Aperiodic"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The Telecommand_Processing.impl implementation shall assign Dispatch_Protocol as Aperiodic.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The Telecommand_Processing.impl implementation shall complete its compute execution within 0 ms .. 100 us.",
+      "requirement_class": "property_check",
+      "expected_output_type": "property_check",
+      "trace_refs": [
+        "Telecommand_Processing.impl",
+        "",
+        "Compute_Execution_Time",
+        "0 ms .. 100 us"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "property",
+        "owner": "Telecommand_Processing.impl",
+        "owner_kind": "implementation",
+        "element": "",
+        "property": "Compute_Execution_Time",
+        "value": "0 ms .. 100 us"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The Telecommand_Processing.impl implementation shall assign Compute_Execution_Time as 0 ms .. 100 us.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 73,
+  "original_label": "Case73_A",
+  "natural_requirement_before_behavior_style_rewrite": "The Telecommand_Processing.impl implementation shall assign Dispatch_Protocol as Aperiodic. The Telecommand_Processing.impl implementation shall assign Compute_Execution_Time as 0 ms .. 100 us.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The Telecommand_Processing.impl implementation shall execute using the Aperiodic dispatch protocol. The Telecommand_Processing.impl implementation shall complete its compute execution within 0 ms .. 100 us.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

@@ -1,0 +1,18 @@
+set oldState [${sbpText}.text cget -state]
+${sbpText}.text configure -state normal
+${sbpText}.text fastdelete 1.0 end
+array set lines [list ]
+set lines(error) [list ]
+set lines(warning) [list ]
+set lines(information) [list ]
+${sbpText}.text fastinsert end 697 d697
+${sbpText}.text tag bind d697 <Any-Enter> "${sbpText}.text tag configure d697 -foreground white -background black"
+${sbpText}.text tag bind d697 <Any-Leave> "${sbpText}.text tag configure d697 -foreground {} -background {}"
+${sbpText}.text tag bind d697 <1> "event generate . <<selectLine>> -data 697"
+lappend lines(error) 697
+TextEditor::fastaddText $sbpText " parsing Package_Specification, Empty packages are not allowed 
+"
+TextEditor::fastaddText $sbpText " Cannot parse AADL specifications
+"
+${sbpText}.text configure -state $oldState
+return [array get lines]

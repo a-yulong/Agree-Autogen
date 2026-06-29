@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '->' are of type 'int' and 'bool', but must be of the same type",
+      "cause": "Invalid equation syntax: 'eq mode : int = 0 -> true' uses incorrect arrow syntax for state definition",
+      "minimal_edit": "Change 'eq mode : int = 0 -> true;' to 'eq mode : int = 0 -> if (prev(mode) = 0) then 0 else 1;'"
+    },
+    {
+      "diagnostic": "The first and second arguments of the 'prev' function are of non-matching types 'IntTypeDef' and 'ErrorTypeDef'",
+      "cause": "prev() function used on a non-integer type or without proper initialization",
+      "minimal_edit": "Add initialization for mode using 'mode : int = 0 -> if (prev(mode) = 0) then 0 else 1;'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '>' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Expression 'mode > prev(mode)' fails due to type mismatch in prev() usage",
+      "minimal_edit": "Rewrite 'mode > prev(mode)' to 'mode > pre(mode)' with proper initialization"
+    },
+    {
+      "diagnostic": "right side of binary expression '>' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "prev() function returns an error type due to improper initialization",
+      "minimal_edit": "Replace 'prev(mode)' with 'pre(mode)' and ensure mode is initialized"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'eq mode : int = 0 -> true;' with 'eq mode : int = 0 -> if (prev(mode) = 0) then 0 else 1;'",
+    "Ensure mode is properly initialized with a valid state transition expression",
+    "Replace 'mode > prev(mode)' with 'mode > pre(mode)'",
+    "Verify all expressions use valid visible identifiers and correct AGREE syntax"
+  ]
+}

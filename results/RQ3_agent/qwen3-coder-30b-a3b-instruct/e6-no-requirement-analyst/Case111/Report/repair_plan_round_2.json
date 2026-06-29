@@ -1,0 +1,51 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'event_in'.",
+      "cause": "Reference to subcomponent port 'event_in' not visible in component type scope",
+      "minimal_edit": "Remove 'event_in' reference from assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'spg'.",
+      "cause": "Reference to subcomponent 'spg' not visible in component type scope",
+      "minimal_edit": "Remove 'spg' reference from assume statement"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in assume statement due to unresolved references",
+      "minimal_edit": "Remove assume statement"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in assume statement due to unresolved references",
+      "minimal_edit": "Remove assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'accDataOut'.",
+      "cause": "Reference to subcomponent port 'accDataOut' not visible in component type scope",
+      "minimal_edit": "Remove 'accDataOut' reference from guarantee statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'spg'.",
+      "cause": "Reference to subcomponent 'spg' not visible in component type scope",
+      "minimal_edit": "Remove 'spg' reference from guarantee statement"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in guarantee statement due to unresolved references",
+      "minimal_edit": "Remove guarantee statement"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in guarantee statement due to unresolved references",
+      "minimal_edit": "Remove guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire annex agree block from acc4_dataOutput component type",
+    "Move the signal routing assumptions and guarantees to the implementation annex",
+    "In the implementation annex, declare auxiliary variables to represent the signal routing",
+    "Use assign statements to bind the implementation-level connections to these variables"
+  ]
+}

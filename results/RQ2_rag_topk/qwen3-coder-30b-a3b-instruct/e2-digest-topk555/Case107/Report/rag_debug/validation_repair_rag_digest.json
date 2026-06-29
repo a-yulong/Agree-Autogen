@@ -1,0 +1,34 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by ensuring all identifiers are visible in the current AADL scope before using them in AGREE contracts.",
+    "Resolve type mismatches by aligning expression types with declared variable types in AGREE.",
+    "Avoid placing implementation-level guarantees in component type annexes; move valid assignments to implementation scopes.",
+    "Do not generate AGREE expressions that reference non-existent or unqualified identifiers from the AADL model."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, ensure all referenced identifiers are declared or visible in the current scope.",
+    "Maintain type consistency in AGREE expressions by matching declared types with expression results.",
+    "Place implementation-level bindings in implementation scopes, not in component type annexes.",
+    "Remove invalid AGREE clauses that reference unresolved or mismatched identifiers rather than attempting to add missing architecture."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use only visible AADL features or declared helpers in AGREE expressions.",
+    "Assignments in AGREE must reference valid output features or declared auxiliary variables.",
+    "AGREE scalar types are int, real, and bool; avoid referencing AADL-specific or unqualified types."
+  ],
+  "anti_patterns": [
+    "Do not attempt to resolve missing references by introducing new architecture elements.",
+    "Do not mix implementation-level and type-level references in the same AGREE contract block.",
+    "Do not generate AGREE expressions with mismatched or <error> types.",
+    "Do not assume that AADL identifiers are automatically available in AGREE without proper scope or import."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "type scope range assumption and guarantee",
+    "implementation scope output assign",
+    "range monitor chunk 1",
+    "output envelope chunk 2"
+  ]
+}

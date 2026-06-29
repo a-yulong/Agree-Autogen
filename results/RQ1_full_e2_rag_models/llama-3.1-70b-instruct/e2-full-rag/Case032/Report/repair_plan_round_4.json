@@ -1,0 +1,13 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 110: Couldn't resolve reference to 'previous'.",
+      "cause": "Undefined 'previous' function",
+      "minimal_edit": "Replace 'previous(nearestIntruderAltitude)' with '0.0 -> pre(nearestIntruderAltitude) + step'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the line 'guarantee \"intruderVerticalVelocity\": nearestIntruderAltitude - previous(nearestIntruderAltitude) = nearestIntruderAltitude - nearestIntruderAltitude;' with 'guarantee \"intruderVerticalVelocity\": nearestIntruderAltitude - (0.0 -> pre(nearestIntruderAltitude) + step) = nearestIntruderAltitude - nearestIntruderAltitude;'"
+  ]
+}

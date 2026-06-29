@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Place AGREE annex blocks in component type scopes for assumptions and guarantees that reference visible ports, and in implementation scopes for bindings.",
+    "Use component type annexes for input envelope assumptions and output range guarantees when concrete bounds or named constants are provided."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be placed in valid AADL scopes: component types for structural contracts, implementations for binding expressions.",
+    "Do not reference implementation-only subcomponent paths in component type annexes.",
+    "Ensure AGREE variable types match AADL port types; avoid unsafe type conversions or opaque data comparisons.",
+    "Do not encode AADL properties like timing or unit tokens directly into AGREE expressions unless explicitly exposed as typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Use `eq` for equation declarations and `guarantee` for output dependency contracts.",
+    "Visible feature names must be declared or exposed in the AADL model to be used in AGREE contracts.",
+    "Boolean expressions in AGREE should only reference AGREE bool variables, not opaque or enumeration data."
+  ],
+  "anti_patterns": [
+    "Avoid placing implementation-level bindings in component type annexes.",
+    "Do not use subcomponent ports in component type contracts unless represented through valid variables or outputs.",
+    "Do not encode AADL timing properties directly into AGREE expressions without explicit typed port exposure.",
+    "Do not convert Boolean domain values into integers unless the port is explicitly typed as AGREE bool."
+  ],
+  "irrelevant_topics": [
+    "AGREE validator diagnostics and repair patterns",
+    "Requirement traceability and compact semantics",
+    "Model analyst extraction of component structure",
+    "Fusion insertion location decisions"
+  ]
+}

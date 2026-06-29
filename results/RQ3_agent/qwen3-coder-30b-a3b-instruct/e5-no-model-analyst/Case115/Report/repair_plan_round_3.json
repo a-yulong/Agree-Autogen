@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 304: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "solver_in1 is compared to a component type instead of a port",
+      "minimal_edit": "Change solver_in1 = acc1_dataOutput to solver_in1 = acc1_input"
+    },
+    {
+      "diagnostic": "line 305: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "solver_in2 is compared to a component type instead of a port",
+      "minimal_edit": "Change solver_in2 = acc2_dataOutput to solver_in2 = acc2_input"
+    },
+    {
+      "diagnostic": "line 306: Couldn't resolve reference to 'acc1out'",
+      "cause": "acc1out is not visible in component type scope",
+      "minimal_edit": "Change acc1_dataOutput = acc1out to acc1_dataOutput = acc1_input"
+    },
+    {
+      "diagnostic": "line 307: Couldn't resolve reference to 'acc2out'",
+      "cause": "acc2out is not visible in component type scope",
+      "minimal_edit": "Change acc2_dataOutput = acc2out to acc2_dataOutput = acc2_input"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace solver_in1 = acc1_dataOutput with solver_in1 = acc1_input in the assume statement",
+    "Replace solver_in2 = acc2_dataOutput with solver_in2 = acc2_input in the assume statement",
+    "Replace acc1_dataOutput = acc1out with acc1_dataOutput = acc1_input in the guarantee statement",
+    "Replace acc2_dataOutput = acc2out with acc2_dataOutput = acc2_input in the guarantee statement"
+  ]
+}

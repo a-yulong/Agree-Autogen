@@ -1,0 +1,37 @@
+{
+  "problems": [
+    {
+      "diagnostic": "mismatched input '\"minHeightAllowed\"' expecting RULE_ID",
+      "cause": "String literal used as identifier in AGREE const declaration",
+      "minimal_edit": "Remove quotes around minHeightAllowed"
+    },
+    {
+      "diagnostic": "mismatched input '\"recoveryTime\"' expecting RULE_ID",
+      "cause": "String literal used as identifier in AGREE const declaration",
+      "minimal_edit": "Remove quotes around recoveryTime"
+    },
+    {
+      "diagnostic": "mismatched input '\"t_next\"' expecting RULE_ID",
+      "cause": "String literal used as identifier in AGREE equation declaration",
+      "minimal_edit": "Remove quotes around t_next"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 't'",
+      "cause": "Variable t not declared in AGREE annex",
+      "minimal_edit": "Add declaration for t as a recursive variable"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'height'",
+      "cause": "Variable height not declared in AGREE annex",
+      "minimal_edit": "Add declaration for height as a recursive variable"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove quotes from minHeightAllowed in const declaration",
+    "Remove quotes from recoveryTime in const declaration",
+    "Remove quotes from t_next in equation declaration",
+    "Add declaration for t as a recursive variable: eq t : real = 0.0 -> pre(t) + 0.1;",
+    "Add declaration for height as a recursive variable: eq height : real = kinematicLinearization(t);"
+  ]
+}

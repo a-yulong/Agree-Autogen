@@ -1,0 +1,129 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: tick, sp
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+tick | in | event | event | 
+sp | out | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "sp >= 0 and sp <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "sp"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "sp is bounded at every evaluation step",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "sp",
+        "tick"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: speed | lines 21-24
+annex agree {**
+  guarantee "sp bounded within range": sp >= 0 and sp <= 100;
+  guarantee "sp evaluated at every tick": sp = pre(sp) or tick = true => true;
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   19:     Dispatch_Protocol => periodic;
+   20:     Period => 1 sec;
+   21: annex agree {**
+   22:   guarantee "sp bounded within range": sp >= 0 and sp <= 100;
+>> 23:   guarantee "sp evaluated at every tick": sp = pre(sp) or tick = true => true;
+   24: **};
+   25: end speed;
+   26: 
+   27: thread implementation speed.i
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: speed
+thread speed
+  features
+    tick: in event port { Dequeue_Protocol => AllItems; };
+    sp: out data port Base_Types::Integer;
+  properties
+    Dispatch_Protocol => periodic;
+    Period => 1 sec;
+end speed;
+
+-- TARGET DECLARATION: speed.i
+thread implementation speed.i
+end speed.i;
+
+-- RELATED MODEL LINES
+-- Next example exploits the AADL execution model to compute a speed by
+thread speed
+tick: in event port { Dequeue_Protocol => AllItems; };
+sp: out data port Base_Types::Integer;
+end speed;
+thread implementation speed.i
+end speed.i;
+-- Note that in the preceding code, tick�count provides the number of events
+-- that are available in the tick port queue.
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "speed",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "speed.i",
+      "kind": "thread implementation",
+      "type_name": "speed"
+    }
+  ],
+  "features": [
+    {
+      "owner": "speed",
+      "name": "tick",
+      "direction": "in",
+      "category": "event port",
+      "type": "event port",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "speed",
+      "name": "sp",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "speed",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "periodic",
+      "applies_to": "speed"
+    },
+    {
+      "owner": "speed",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "1 sec",
+      "applies_to": "speed"
+    }
+  ]
+}

@@ -289,24 +289,32 @@ def extract_target_component(requirement_text: str, aadl_model: str) -> str:
 
 
 def run_single_case(pipeline, case_num: int, case_letter: str = "A", setting: str = "E2") -> Dict[str, Any]:
-    case_str = f"Case{case_num:02d}"
+    case_str = f"Case{case_num:03d}"
+    legacy_case_str = f"Case{case_num:02d}"
     source_root = os.environ.get("AGREE_SOURCE_ROOT", os.path.abspath("data/benchmark/cases"))
     case_dirs = []
     if case_letter:
         case_dirs.append(f"{case_str}_{case_letter}")
+        case_dirs.append(f"{legacy_case_str}_{case_letter}")
     case_dirs.append(case_str)
+    case_dirs.append(legacy_case_str)
     case_dir = None
+    case_file_label = case_str
     for candidate in case_dirs:
         candidate_path = os.path.join(source_root, candidate)
-        if os.path.exists(os.path.join(candidate_path, f"{case_str}_Base.txt")) and os.path.exists(os.path.join(candidate_path, f"{case_str}_Req.txt")):
-            case_dir = candidate
+        for label in (case_str, legacy_case_str):
+            if os.path.exists(os.path.join(candidate_path, f"{label}_Base.txt")) and os.path.exists(os.path.join(candidate_path, f"{label}_Req.txt")):
+                case_dir = candidate
+                case_file_label = label
+                break
+        if case_dir:
             break
     if case_dir is None:
         raise FileNotFoundError(f"No source case with Base/Req files found for {case_str}: {case_dirs}")
 
-    txt_file_path = os.path.join(source_root, case_dir, f"{case_str}_Base.txt")
-    req_file_path = os.path.join(source_root, case_dir, f"{case_str}_Req.txt")
-    aadl_file_path = os.path.join(source_root, case_dir, f"{case_str}_Base.aadl")
+    txt_file_path = os.path.join(source_root, case_dir, f"{case_file_label}_Base.txt")
+    req_file_path = os.path.join(source_root, case_dir, f"{case_file_label}_Req.txt")
+    aadl_file_path = os.path.join(source_root, case_dir, f"{case_file_label}_Base.aadl")
 
     if not os.path.exists(txt_file_path):
         raise FileNotFoundError(f"Base model file does not exist: {txt_file_path}")
@@ -337,7 +345,7 @@ def run_single_case(pipeline, case_num: int, case_letter: str = "A", setting: st
             user_requirements,
             target_component=target_component,
             models=models,
-            case_num=f"{case_num:02d}",
+            case_num=f"{case_num:03d}",
             case_letter=case_letter,
         )
     else:
@@ -346,12 +354,12 @@ def run_single_case(pipeline, case_num: int, case_letter: str = "A", setting: st
             user_requirements,
             target_component=target_component,
             models=models,
-            case_num=f"{case_num:02d}",
+            case_num=f"{case_num:03d}",
             case_letter=case_letter,
         )
 
     return {
-        "case_num": f"{case_num:02d}",
+        "case_num": f"{case_num:03d}",
         "case_letter": case_letter,
         "setting": normalized_setting,
         "target_component": target_component,

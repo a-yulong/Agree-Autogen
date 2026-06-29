@@ -1,0 +1,47 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Spg'.",
+      "cause": "Spg is a subcomponent in implementation scope, not visible in component type annex",
+      "minimal_edit": "Remove Spg reference from assume statements in component type annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_out_data_x'.",
+      "cause": "acc_out_data_x is a parameter in component type, but referenced as if it were a port in implementation",
+      "minimal_edit": "Replace acc_out_data_x with Acc_Out_Data_X in assume statement"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression syntax in assume statement",
+      "minimal_edit": "Correct expression to reference valid visible symbols"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_out_data_Y'.",
+      "cause": "acc_out_data_Y is a parameter in component type, but referenced as if it were a port in implementation",
+      "minimal_edit": "Replace acc_out_data_Y with Acc_Out_Data_Y in assume statement"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression syntax in assume statement",
+      "minimal_edit": "Correct expression to reference valid visible symbols"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_out_data_Z'.",
+      "cause": "acc_out_data_Z is a parameter in component type, but referenced as if it were a port in implementation",
+      "minimal_edit": "Replace acc_out_data_Z with Acc_Out_Data_Z in assume statement"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression syntax in assume statement",
+      "minimal_edit": "Correct expression to reference valid visible symbols"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the AGREE annex from ACCELERO_SUB_wrapper component type",
+    "Add a new AGREE annex to ACCELERO_SUB_wrapper.i implementation with correct signal flow guarantees",
+    "Replace Spg.acc_out_data_x with Acc_Out_Data_X in the assume statement",
+    "Replace Spg.acc_out_data_Y with Acc_Out_Data_Y in the assume statement",
+    "Replace Spg.acc_out_data_Z with Acc_Out_Data_Z in the assume statement"
+  ]
+}

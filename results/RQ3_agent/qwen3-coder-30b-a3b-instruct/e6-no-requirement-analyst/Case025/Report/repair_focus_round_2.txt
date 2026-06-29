@@ -1,0 +1,247 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: tempin1, tempin2, tempout
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+tempin1 | in | data | opaque | temperature_type
+tempin2 | in | data | opaque | temperature_type
+tempout | out | data | opaque | temperature_type
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: temp_control | lines 55-58
+annex agree {**
+  assume "signal_routing_assumption": tempin1 = tempin2 => tempout = tempin1;
+  guarantee "output_consistency": tempout = tempin1 or tempout = tempin2;
+**};
+
+-- owner: voter | lines 77-80
+annex agree {**
+  assume "signal_routing_assumption": tempin1 = tempin2 => tempout = tempin1;
+  guarantee "output_consistency": tempout = tempin1 or tempout = tempin2;
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   52:     temp1           : in data port temperature_type;
+   53:     temp2           : in data port temperature_type;
+   54:     user_request    : in data port command.impl;
+   55: annex agree {**
+>> 56:   assume "signal_routing_assumption": tempin1 = tempin2 => tempout = tempin1;
+   57:   guarantee "output_consistency": tempout = tempin1 or tempout = tempin2;
+   58: **};
+   59: end temp_control;
+   60: 
+
+   53:     temp2           : in data port temperature_type;
+   54:     user_request    : in data port command.impl;
+   55: annex agree {**
+   56:   assume "signal_routing_assumption": tempin1 = tempin2 => tempout = tempin1;
+>> 57:   guarantee "output_consistency": tempout = tempin1 or tempout = tempin2;
+   58: **};
+   59: end temp_control;
+   60: 
+   61: system implementation temp_control.i
+
+   59: end temp_control;
+   60: 
+   61: system implementation temp_control.i
+   62: subcomponents
+>> 63:     heater      : system heater.impl;
+   64:     cooler      : system cooler.impl;
+   65:     controller  : system controller.impl;
+   66:     voter       : system voter.impl;
+   67: connections
+
+   60: 
+   61: system implementation temp_control.i
+   62: subcomponents
+   63:     heater      : system heater.impl;
+>> 64:     cooler      : system cooler.impl;
+   65:     controller  : system controller.impl;
+   66:     voter       : system voter.impl;
+   67: connections
+   68:     c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+
+   61: system implementation temp_control.i
+   62: subcomponents
+   63:     heater      : system heater.impl;
+   64:     cooler      : system cooler.impl;
+>> 65:     controller  : system controller.impl;
+   66:     voter       : system voter.impl;
+   67: connections
+   68:     c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+   69:     c1 : port temp2 -> voter.tempin2 {communication_properties::timing => immediate;};
+
+   62: subcomponents
+   63:     heater      : system heater.impl;
+   64:     cooler      : system cooler.impl;
+   65:     controller  : system controller.impl;
+>> 66:     voter       : system voter.impl;
+   67: connections
+   68:     c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+   69:     c1 : port temp2 -> voter.tempin2 {communication_properties::timing => immediate;};
+   70:     c2 : port user_request -> controller.user_request {communication_properties::timing => immediate;};
+
+   64:     cooler      : system cooler.impl;
+   65:     controller  : system controller.impl;
+   66:     voter       : system voter.impl;
+   67: connections
+>> 68:     c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+   69:     c1 : port temp2 -> voter.tempin2 {communication_properties::timing => immediate;};
+   70:     c2 : port user_request -> controller.user_request {communication_properties::timing => immediate;};
+   71:     c3 : port controller.heater_on -> heater.enabled {communication_properties::timing => immediate;};
+   72:     c4 : port controller.cooler_on -> cooler.enabled {communication_properties::timing => immediate;};
+
+   65:     controller  : system controller.impl;
+   66:     voter       : system voter.impl;
+   67: connections
+   68:     c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+>> 69:     c1 : port temp2 -> voter.tempin2 {communication_properties::timing => immediate;};
+   70:     c2 : port user_request -> controller.user_request {communication_properties::timing => immediate;};
+   71:     c3 : port controller.heater_on -> heater.enabled {communication_properties::timing => immediate;};
+   72:     c4 : port controller.cooler_on -> cooler.enabled {communication_properties::timing => immediate;};
+   73:     c5 : port voter.tempout -> controller.tempin {communication_properties::timing => immediate;};
+
+   66:     voter       : system voter.impl;
+   67: connections
+   68:     c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+   69:     c1 : port temp2 -> voter.tempin2 {communication_properties::timing => immediate;};
+>> 70:     c2 : port user_request -> controller.user_request {communication_properties::timing => immediate;};
+   71:     c3 : port controller.heater_on -> heater.enabled {communication_properties::timing => immediate;};
+   72:     c4 : port controller.cooler_on -> cooler.enabled {communication_properties::timing => immediate;};
+   73:     c5 : port voter.tempout -> controller.tempin {communication_properties::timing => immediate;};
+   74: end temp_control.i;
+
+   67: connections
+   68:     c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+   69:     c1 : port temp2 -> voter.tempin2 {communication_properties::timing => immediate;};
+   70:     c2 : port user_request -> controller.user_request {communication_properties::timing => immediate;};
+>> 71:     c3 : port controller.heater_on -> heater.enabled {communication_properties::timing => immediate;};
+   72:     c4 : port controller.cooler_on -> cooler.enabled {communication_properties::timing => immediate;};
+   73:     c5 : port voter.tempout -> controller.tempin {communication_properties::timing => immediate;};
+   74: end temp_control.i;
+   75: 
+
+   68:     c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+   69:     c1 : port temp2 -> voter.tempin2 {communication_properties::timing => immediate;};
+   70:     c2 : port user_request -> controller.user_request {communication_properties::timing => immediate;};
+   71:     c3 : port controller.heater_on -> heater.enabled {communication_properties::timing => immediate;};
+>> 72:     c4 : port controller.cooler_on -> cooler.enabled {communication_properties::timing => immediate;};
+   73:     c5 : port voter.tempout -> controller.tempin {communication_properties::timing => immediate;};
+   74: end temp_control.i;
+   75: 
+   76: system voter
+
+   69:     c1 : port temp2 -> voter.tempin2 {communication_properties::timing => immediate;};
+   70:     c2 : port user_request -> controller.user_request {communication_properties::timing => immediate;};
+   71:     c3 : port controller.heater_on -> heater.enabled {communication_properties::timing => immediate;};
+   72:     c4 : port controller.cooler_on -> cooler.enabled {communication_properties::timing => immediate;};
+>> 73:     c5 : port voter.tempout -> controller.tempin {communication_properties::timing => immediate;};
+   74: end temp_control.i;
+   75: 
+   76: system voter
+   77: annex agree {**
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: voter
+system voter
+features
+    tempin1         : in data port temperature_type;
+    tempin2         : in data port temperature_type;
+    tempout         : out data port temperature_type;
+end voter;
+
+-- TARGET DECLARATION: voter.impl
+system implementation voter.impl
+end voter.impl;
+
+-- RELATED MODEL LINES
+voter       : system voter.impl;
+c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+c1 : port temp2 -> voter.tempin2 {communication_properties::timing => immediate;};
+c5 : port voter.tempout -> controller.tempin {communication_properties::timing => immediate;};
+system voter
+tempin1         : in data port temperature_type;
+tempin2         : in data port temperature_type;
+tempout         : out data port temperature_type;
+end voter;
+system implementation voter.impl
+end voter.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "voter",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "voter.impl",
+      "kind": "system implementation",
+      "type_name": "voter"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "voter",
+      "name": "voter",
+      "category": "system",
+      "classifier": "voter.impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "voter",
+      "name": "tempin1",
+      "direction": "in",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "voter",
+      "name": "tempin2",
+      "direction": "in",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "voter",
+      "name": "tempout",
+      "direction": "out",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "voter",
+      "name": "c0",
+      "kind": "port",
+      "source": "temp1",
+      "destination": "voter.tempin1"
+    },
+    {
+      "owner": "voter",
+      "name": "c1",
+      "kind": "port",
+      "source": "temp2",
+      "destination": "voter.tempin2"
+    },
+    {
+      "owner": "voter",
+      "name": "c5",
+      "kind": "port",
+      "source": "voter.tempout",
+      "destination": "controller.tempin"
+    }
+  ]
+}

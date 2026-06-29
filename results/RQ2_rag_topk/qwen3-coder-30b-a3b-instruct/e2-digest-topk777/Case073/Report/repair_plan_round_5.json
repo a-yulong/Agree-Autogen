@@ -1,0 +1,50 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'gps_pos'.",
+      "cause": "Reference to 'gps_pos' in AGREE annex is not visible in component type scope",
+      "minimal_edit": "Remove 'gps_pos = pspg.gps_pos' from AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "Reference to 'pspg' in AGREE annex is not visible in component type scope",
+      "minimal_edit": "Remove 'gps_pos = pspg.gps_pos' from AGREE annex"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Ardupilot_Software::GPS_Position.i' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in AGREE expression due to unresolved references",
+      "minimal_edit": "Remove 'gps_pos = pspg.gps_pos' from AGREE annex"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Unresolved reference in AGREE expression",
+      "minimal_edit": "Remove 'gps_pos = pspg.gps_pos' from AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "Reference to 'pspg' in AGREE annex is not visible in component type scope",
+      "minimal_edit": "Remove 'pspg.speed = speed' from AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'speed'.",
+      "cause": "Reference to 'speed' in AGREE annex is not visible in component type scope",
+      "minimal_edit": "Remove 'pspg.speed = speed' from AGREE annex"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in AGREE expression due to unresolved references",
+      "minimal_edit": "Remove 'pspg.speed = speed' from AGREE annex"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Unresolved reference in AGREE expression",
+      "minimal_edit": "Remove 'pspg.speed = speed' from AGREE annex"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from thr_mgmt component type",
+    "Move the signal flow assumptions to the implementation annex if needed for implementation-level contracts",
+    "Ensure that any necessary implementation-level bindings are placed in thr_mgmt.i annex"
+  ]
+}

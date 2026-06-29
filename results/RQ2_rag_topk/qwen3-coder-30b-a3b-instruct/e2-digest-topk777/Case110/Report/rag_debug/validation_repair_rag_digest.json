@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by using only visible identifiers from the current component scope; do not introduce new architecture.",
+    "Resolve type mismatches by ensuring expressions match the expected type of variables or ports.",
+    "Delete invalid AGREE clauses that reference undefined or inaccessible identifiers instead of adding missing declarations.",
+    "Avoid placing implementation-level bindings in component type annexes; move valid assignments to implementation scopes."
+  ],
+  "generic_rules": [
+    "AGREE expressions must preserve type consistency and use only declared or visible identifiers.",
+    "Component type contracts should reference only features available at that scope; implementation bindings go in implementation annexes.",
+    "When AGREE diagnostics report unresolved references, trace the root cause and correct or remove the offending clause.",
+    "Generated AGREE code should not introduce package-qualified identifiers unless they are present in the model's dependencies."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assign` only for output features or declared auxiliary variables in implementation scope.",
+    "Ensure all `const` and `eq` declarations use valid AGREE scalar types: int, real, bool.",
+    "Place `assume` and `guarantee` statements in component type annexes; use `assign` in implementation annexes.",
+    "AGREE annexes are enclosed in `annex agree {** ... **};` blocks."
+  ],
+  "anti_patterns": [
+    "Do not attempt to resolve missing identifiers by inventing new declarations or architecture elements.",
+    "Do not place implementation-level guarantees or assignments in component type scopes.",
+    "Do not generate AGREE expressions that reference AADL properties like Compute_Execution_Time or unit tokens directly."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE validator diagnostics",
+    "Model Analyst Agent's role in extracting AADL structure",
+    "Requirement Analyst Agent's role in traceability",
+    "Model Fusion Agent's role in owner/scope preservation"
+  ]
+}

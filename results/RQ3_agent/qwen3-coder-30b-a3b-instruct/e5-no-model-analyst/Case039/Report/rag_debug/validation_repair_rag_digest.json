@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Fix type mismatches between AGREE expressions and AADL port types by aligning helper declarations with actual expression types.",
+    "Avoid generating AGREE clauses that reference AADL properties like Compute_Execution_Time or unit tokens unless explicitly exposed as typed features.",
+    "Ensure AGREE contracts are placed in valid component type scopes for assumptions and guarantees, and in implementation scopes for bindings."
+  ],
+  "generic_rules": [
+    "Use initialized state guards when referencing previous values with pre() to avoid undefined behavior.",
+    "Generate AGREE logical expressions using standard operators (and, or, not, =>) and nested if-then-else for branching.",
+    "Validate that all identifiers in AGREE expressions are visible in the AADL model or declared locally in the same annex.",
+    "Place AGREE annex content in appropriate AADL scopes: component types for contracts, implementations for bindings."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use initialized temporal recurrence for stateful equations: e.g., `0.0 -> pre(t) + step`.",
+    "Guard pre() usage with initialized flags: e.g., `initialized : bool = false -> true`.",
+    "Use only visible AADL features or locally declared helpers in AGREE expressions."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL property names (e.g., Period, Deadline) as AGREE variables without explicit model exposure.",
+    "Do not place implementation-level bindings in component type scopes; use implementation scopes instead.",
+    "Do not generate AGREE clauses with unresolved identifiers or mismatched types."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE validator diagnostics beyond type and scope issues",
+    "Structured assignment implementation details"
+  ]
+}

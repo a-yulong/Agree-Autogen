@@ -1,0 +1,17 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE contracts inside annex agree {** ... **}; blocks within the appropriate component scope.
+- Use assume/guarantee declarations for interface behavior in component types, and assign clauses for implementation-level bindings in component implementations.
+Generic rules:
+- AGREE equations and constants should reference visible identifiers or named constants from the model.
+- Boolean logic in AGREE should use valid AADL data types and port references.
+- Component type contracts must not reference subcomponent ports directly unless represented through variables.
+- Avoid encoding AADL properties like timing or resource usage as AGREE expressions unless explicitly exposed as typed ports or constants.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for behavioral contracts.
+- Use `eq name : type = expression;` for derived values and `const name : type = value;` for named constants.
+- Use `assign output = expression;` for implementation-level bindings in component implementations.
+Anti-patterns:
+- Do not place assume/guarantee clauses in component implementations unless they are binding to subcomponent ports or outputs.
+- Do not reference AADL property names like Deadline or Period directly in AGREE expressions without explicit model exposure.
+</RAG_DIGEST>

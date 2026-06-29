@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assume statements are allowed only in component types",
+      "cause": "AGREE assume statements in implementation annex are not permitted",
+      "minimal_edit": "Move the entire AGREE annex block from Microwave_Control.Impl to Microwave_Control"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE expressions reference invalid identifiers or types",
+      "minimal_edit": "Replace all references to connection names with boolean expressions that relate input ports to output ports"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Assume statement uses invalid connection identifiers",
+      "minimal_edit": "Rewrite assume statements to use valid boolean expressions"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "Guarantee statement uses invalid connection identifiers",
+      "minimal_edit": "Rewrite guarantee statements to use valid boolean expressions"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the entire AGREE annex block from Microwave_Control.Impl to Microwave_Control",
+    "Replace assume statements with valid boolean expressions that relate input ports to output ports",
+    "Replace guarantee statements with valid boolean expressions that relate input ports to output ports"
+  ]
+}

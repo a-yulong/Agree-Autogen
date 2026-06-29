@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE clauses should reference only visible identifiers from the current component scope.
+- Assumptions and guarantees must align with the component's port and data type definitions.
+- Generated AGREE code should avoid introducing unresolved or package-qualified identifiers not present in the model.
+- When AGREE reports type mismatches, ensure helper declarations match the types of their expressions.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct syntax and types.
+- Boolean expressions in AGREE should use `and`, `or`, `not(...)`, and implication `=>`.
+- Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.
+Anti-patterns:
+- Do not place latched expressions in component type scopes; they are only valid in implementations.
+- Do not reference subcomponent ports or implementation-only paths in a component type annex.
+- Do not introduce package-qualified identifiers or types that are not declared in the model.
+- Do not attempt to fix type errors by adding new architecture; instead, correct or remove the clause.
+Irrelevant retrieved material:
+- AADL package references and with clauses
+- AGREE validator diagnostics beyond type and scope issues
+- Model fusion and component owner rules
+- Requirement traceability and compact semantics
+</RAG_DIGEST>

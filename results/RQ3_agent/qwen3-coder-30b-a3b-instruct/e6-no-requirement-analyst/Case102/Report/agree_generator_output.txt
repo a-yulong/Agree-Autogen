@@ -1,0 +1,15 @@
+annex agree {**
+  assume "impl_binding": ADIRU.impl = ADIRU.DeOS or ADIRU.impl = ADIRU.VxWorks653 or ADIRU.impl = ADIRU.EMV2;
+  
+  guarantee "signal_flow_c1": acc_pr.acc1_output = acc_hm_pr.acc1_input and C1 = acc_pr.acc1_output;
+  
+  guarantee "signal_flow_c2": acc_pr.acc2_output = acc_hm_pr.acc2_input and C2 = acc_pr.acc2_output;
+  
+  assume "processor_binding_acc_pr": acc_pr -> main_cpu.part1;
+  
+  assume "processor_binding_acc_hm_pr": acc_hm_pr -> main_cpu.part2;
+  
+  assume "processor_binding_ADIRUp_pr": ADIRUp_pr -> main_cpu.part3;
+  
+  assume "processor_binding_SHM_pr": SHM_pr -> main_cpu.part4;
+**};

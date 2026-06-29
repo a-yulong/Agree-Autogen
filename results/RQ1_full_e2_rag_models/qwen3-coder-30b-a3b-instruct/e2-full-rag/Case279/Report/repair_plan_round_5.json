@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "mismatched input ':' expecting 'in'",
+      "cause": "Invalid AGREE forall syntax with colon instead of 'in' keyword",
+      "minimal_edit": "Replace ':' with 'in' in the forall expression"
+    },
+    {
+      "diagnostic": "no viable alternative at input '.'",
+      "cause": "Invalid AGREE forall syntax with incorrect range specification",
+      "minimal_edit": "Remove the range specification and use standard forall without bounds"
+    },
+    {
+      "diagnostic": "required (...)+ loop did not match anything at character '.'",
+      "cause": "Invalid AGREE forall syntax with malformed range expression",
+      "minimal_edit": "Simplify the forall expression to valid AGREE syntax"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the PumpCtrl annex block, change line 63 from 'forall step:' to 'forall step in 0..100:'",
+    "In the WaterAlarm annex block, change line 82 from 'forall step in 0..100:' to 'forall step:'"
+  ]
+}

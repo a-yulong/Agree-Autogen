@@ -1,0 +1,8 @@
+annex agree {**
+  assume "non_negative_target_speed": Target_Speed.val >= 0.0;
+  assume "upper_bound_target_speed": Target_Speed.val < 150.0;
+  const max_accel : real = 40.0;
+  eq const_tar_speed : bool = State_Signal.val = 1;
+  guarantee "speed_limit_when_constant": const_tar_speed => Actual_Speed.val <= Target_Speed.val;
+  guarantee "acceleration_constraint": abs(Actual_Speed.val - Actual_Speed.val{prev}) < max_accel;
+**};

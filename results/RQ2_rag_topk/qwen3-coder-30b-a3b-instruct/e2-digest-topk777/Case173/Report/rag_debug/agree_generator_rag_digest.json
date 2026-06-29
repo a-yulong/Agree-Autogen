@@ -1,0 +1,24 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in component type scopes when they describe interface behavior, not implementation details.",
+    "Use visible identifiers from the AADL model to define assumptions and guarantees; avoid introducing new package-qualified names."
+  ],
+  "generic_rules": [
+    "Generate AGREE contracts with syntactically valid expressions using only visible variables and constants from the model.",
+    "Ensure that data type declarations and comparisons align with the AADL model's type system to avoid assumed/actual type mismatches.",
+    "For range constraints, use named constants or visible features to define bounds in component type contracts."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks must be enclosed in `annex agree {** ... **};` and placed in appropriate AADL component scopes.",
+    "Assumptions and guarantees should reference only identifiers that are present in the AADL model's scope."
+  ],
+  "anti_patterns": [
+    "Do not introduce assumptions or guarantees that reference non-visible identifiers or AADL properties not exposed as typed ports or constants.",
+    "Avoid creating generic numeric bounds (e.g., x >= 0) unless explicitly stated in the requirement and compatible with the data type."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations such as Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, and unit tokens like ms/us/Hz/Bytes",
+    "Implementation-level bindings and subcomponent port usage in component type contracts",
+    "Event port numeric encoding or Boolean activation patterns without explicit data values in the model"
+  ]
+}

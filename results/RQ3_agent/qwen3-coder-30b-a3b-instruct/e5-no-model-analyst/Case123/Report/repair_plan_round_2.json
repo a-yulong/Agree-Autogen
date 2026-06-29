@@ -1,0 +1,58 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'mag_out_data_x'.",
+      "cause": "Reference to port 'mag_out_data_x' is not visible in AGREE annex scope",
+      "minimal_edit": "Replace 'mag_out_data_x' with 'mag_out_data_x' (no change needed, but ensure correct scope)"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'magneto_sub'.",
+      "cause": "Reference to subcomponent 'magneto_sub' is not visible in AGREE annex scope",
+      "minimal_edit": "Remove or rewrite expression using only visible symbols"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in AGREE assume statement",
+      "minimal_edit": "Rewrite expression to use only visible identifiers"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'mag_out_data_y'.",
+      "cause": "Reference to port 'mag_out_data_y' is not visible in AGREE annex scope",
+      "minimal_edit": "Replace 'mag_out_data_y' with 'mag_out_data_y' (no change needed, but ensure correct scope)"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'magneto_sub'.",
+      "cause": "Reference to subcomponent 'magneto_sub' is not visible in AGREE annex scope",
+      "minimal_edit": "Remove or rewrite expression using only visible symbols"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in AGREE assume statement",
+      "minimal_edit": "Rewrite expression to use only visible identifiers"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'mag_out_data_z'.",
+      "cause": "Reference to port 'mag_out_data_z' is not visible in AGREE annex scope",
+      "minimal_edit": "Replace 'mag_out_data_z' with 'mag_out_data_z' (no change needed, but ensure correct scope)"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'magneto_sub'.",
+      "cause": "Reference to subcomponent 'magneto_sub' is not visible in AGREE annex scope",
+      "minimal_edit": "Remove or rewrite expression using only visible symbols"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in AGREE assume statement",
+      "minimal_edit": "Rewrite expression to use only visible identifiers"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from MAGNETO component type",
+    "Move the data flow assumptions to the MAGNETO.IMPL component implementation annex",
+    "In the implementation annex, rewrite each assumption to reference the connection name instead of the subcomponent port",
+    "Replace 'mag_out_data_x = magneto_sub.mag_out_data_x' with 'mag_out_data_x = MAG_PC1'",
+    "Replace 'mag_out_data_y = magneto_sub.mag_out_data_y' with 'mag_out_data_y = MAG_PC2'",
+    "Replace 'mag_out_data_z = magneto_sub.mag_out_data_z' with 'mag_out_data_z = MAG_PC3'"
+  ]
+}

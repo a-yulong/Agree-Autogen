@@ -1,0 +1,51 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc1'.",
+      "cause": "AGREE annex in process type refers to implementation subcomponent 'acc1' which is not visible in component type scope",
+      "minimal_edit": "Remove reference to 'acc1' from AGREE assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc1_input'.",
+      "cause": "AGREE annex in process type refers to implementation port 'acc1_input' which is not visible in component type scope",
+      "minimal_edit": "Remove reference to 'acc1_input' from AGREE assume statement"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "AGREE assume statement references undefined identifiers resulting in type mismatch",
+      "minimal_edit": "Remove entire assume statement referencing undefined identifiers"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE assume statement references undefined identifiers resulting in invalid expression",
+      "minimal_edit": "Remove entire assume statement referencing undefined identifiers"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc2'.",
+      "cause": "AGREE annex in process type refers to implementation subcomponent 'acc2' which is not visible in component type scope",
+      "minimal_edit": "Remove reference to 'acc2' from AGREE assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc2_input'.",
+      "cause": "AGREE annex in process type refers to implementation port 'acc2_input' which is not visible in component type scope",
+      "minimal_edit": "Remove reference to 'acc2_input' from AGREE assume statement"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "AGREE assume statement references undefined identifiers resulting in type mismatch",
+      "minimal_edit": "Remove entire assume statement referencing undefined identifiers"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE assume statement references undefined identifiers resulting in invalid expression",
+      "minimal_edit": "Remove entire assume statement referencing undefined identifiers"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire assume statement on line 74 referencing acc1_input and acc1",
+    "Remove the entire assume statement on line 75 referencing acc2_input and acc2",
+    "Move the AGREE annex block from acc_process_emv2 to acc_process_emv2.impl",
+    "In the implementation annex, replace the assume statements with valid implementation-level bindings using the actual connection names C21 and C22"
+  ]
+}

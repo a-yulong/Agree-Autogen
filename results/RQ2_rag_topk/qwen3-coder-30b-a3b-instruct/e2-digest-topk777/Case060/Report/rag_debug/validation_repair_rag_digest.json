@@ -1,0 +1,31 @@
+{
+  "rag_rules": [
+    "Fix type mismatches by aligning helper declaration types with expression types; use int, real, bool as AGREE scalar types.",
+    "Resolve 'Couldn't resolve reference' errors by using only visible identifiers from the current component scope.",
+    "Ensure AGREE expressions maintain type consistency: numeric variables must be assigned numeric expressions.",
+    "Delete invalid AGREE clauses that reference unresolved identifiers or use AADL properties as AGREE variables."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, always validate that referenced identifiers exist in the current scope.",
+    "Type consistency in AGREE expressions must match the expected data types of variables and operations.",
+    "Avoid introducing new package-qualified identifiers unless they are explicitly imported or defined in the model.",
+    "Use only visible AADL features or previously declared helpers in AGREE annexes to prevent resolution errors."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Helper declarations must specify correct types: `eq name : type = expression;` or `const name : type = value;`.",
+    "Guarantees and assumptions should reference only visible features or declared helpers in the same scope.",
+    "Assignments in AGREE are written as `assign output = expression;`."
+  ],
+  "anti_patterns": [
+    "Do not introduce new identifiers or types that are not present in the AADL model or its dependencies.",
+    "Do not attempt to resolve missing references by inventing new declarations in the AGREE annex.",
+    "Do not mix AADL property names directly into AGREE expressions without explicit model support."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE annex placement in component types vs implementations",
+    "Model fusion and owner/scope preservation rules",
+    "Requirement traceability and compact semantics"
+  ]
+}

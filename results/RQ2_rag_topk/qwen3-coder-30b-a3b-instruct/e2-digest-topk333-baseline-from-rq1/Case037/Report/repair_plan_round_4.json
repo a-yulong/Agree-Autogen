@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 16: Argument of real cast is of type '<error>' but must be of type 'int'",
+      "cause": "Target and Actual are not visible in implementation scope",
+      "minimal_edit": "Remove the (real) casts and use direct port references"
+    },
+    {
+      "diagnostic": "line 17: Guarantee statements are allowed only in component types",
+      "cause": "Guarantee placed in implementation annex",
+      "minimal_edit": "Move guarantee to component type Speed_Control"
+    },
+    {
+      "diagnostic": "line 18: Couldn't resolve reference to 'integral'",
+      "cause": "integral function not available in implementation scope",
+      "minimal_edit": "Remove integral equation and reference"
+    },
+    {
+      "diagnostic": "line 19: Couldn't resolve reference to 'derivative'",
+      "cause": "derivative function not available in implementation scope",
+      "minimal_edit": "Remove derivative equation and reference"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the guarantee statement from Speed_Control.Speed_Control_Impl annex to Speed_Control component type annex",
+    "Remove the (real) casts from Target and Actual in the equation on line 16",
+    "Remove the e_int and e_dot equation declarations from the implementation annex",
+    "Add the e_int and e_dot declarations to the component type annex if needed for the guarantee"
+  ]
+}

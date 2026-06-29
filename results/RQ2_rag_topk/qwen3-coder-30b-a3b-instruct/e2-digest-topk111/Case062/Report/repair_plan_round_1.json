@@ -1,0 +1,65 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "AGREE cannot reference component features directly by name from thread implementation annex",
+      "minimal_edit": "Replace 'Data_Sink' with 'Q.Impl.Data_Sink' to reference the port through the implementation"
+    },
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "AGREE cannot reference subcomponents directly by name from thread implementation annex",
+      "minimal_edit": "Replace 'Q_Spg' with 'Q.Impl.Q_Spg' to reference the subcomponent through the implementation"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "AGREE cannot reference properties directly by name from thread implementation annex",
+      "minimal_edit": "Replace 'Dispatch_Protocol' with 'Q.Impl.Dispatch_Protocol' to reference the property through the implementation"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Impl'.",
+      "cause": "AGREE cannot reference component implementation names directly in property expressions",
+      "minimal_edit": "Replace 'Impl' with 'Q.Impl' to reference the implementation directly"
+    },
+    {
+      "diagnostic": "line 67: mismatched input '\"period_ms\"' expecting RULE_ID",
+      "cause": "AGREE constant declarations require unquoted identifiers",
+      "minimal_edit": "Remove quotes from 'period_ms' to make it a valid identifier"
+    },
+    {
+      "diagnostic": "line 68: mismatched input '\"deadline_ms\"' expecting RULE_ID",
+      "cause": "AGREE constant declarations require unquoted identifiers",
+      "minimal_edit": "Remove quotes from 'deadline_ms' to make it a valid identifier"
+    },
+    {
+      "diagnostic": "line 69: mismatched input '\"priority_val\"' expecting RULE_ID",
+      "cause": "AGREE constant declarations require unquoted identifiers",
+      "minimal_edit": "Remove quotes from 'priority_val' to make it a valid identifier"
+    },
+    {
+      "diagnostic": "line 70: mismatched input '\"period_eq\"' expecting RULE_ID",
+      "cause": "AGREE equation declarations require unquoted identifiers",
+      "minimal_edit": "Remove quotes from 'period_eq' to make it a valid identifier"
+    },
+    {
+      "diagnostic": "line 71: mismatched input '\"deadline_eq\"' expecting RULE_ID",
+      "cause": "AGREE equation declarations require unquoted identifiers",
+      "minimal_edit": "Remove quotes from 'deadline_eq' to make it a valid identifier"
+    },
+    {
+      "diagnostic": "line 72: mismatched input '\"priority_eq\"' expecting RULE_ID",
+      "cause": "AGREE equation declarations require unquoted identifiers",
+      "minimal_edit": "Remove quotes from 'priority_eq' to make it a valid identifier"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Change 'Data_Sink = Q_Spg.Data_Sink' to 'Q.Impl.Data_Sink = Q.Impl.Q_Spg.Data_Sink'",
+    "Change 'Q.Impl.Dispatch_Protocol = Sporadic' to 'Q.Impl.Dispatch_Protocol = Sporadic'",
+    "Change 'const \"period_ms\": int = 10;' to 'const period_ms: int = 10;'",
+    "Change 'const \"deadline_ms\": int = 10;' to 'const deadline_ms: int = 10;'",
+    "Change 'const \"priority_val\": int = 1;' to 'const priority_val: int = 1;'",
+    "Change 'eq \"period_eq\": Q.Impl.Period = period_ms;' to 'eq period_eq: Q.Impl.Period = period_ms;'",
+    "Change 'eq \"deadline_eq\": Q.Impl.deadline = deadline_ms;' to 'eq deadline_eq: Q.Impl.deadline = deadline_ms;'",
+    "Change 'eq \"priority_eq\": Q.Impl.Priority = priority_val;' to 'eq priority_eq: Q.Impl.Priority = priority_val;'"
+  ]
+}

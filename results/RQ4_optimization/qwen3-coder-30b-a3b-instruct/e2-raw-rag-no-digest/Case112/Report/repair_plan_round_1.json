@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'accDataOut'.",
+      "cause": "Reference to subcomponent port 'spg.accDataOut' not visible in component type scope",
+      "minimal_edit": "Remove guarantee statement referencing 'spg.accDataOut' from component type annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'spg'.",
+      "cause": "Reference to subcomponent 'spg' not visible in component type scope",
+      "minimal_edit": "Remove guarantee statement referencing 'spg.event_in' from component type annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'event_in'.",
+      "cause": "Reference to subcomponent port 'spg.event_in' not visible in component type scope",
+      "minimal_edit": "Remove guarantee statement referencing 'spg.event_in' from component type annex"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from acc5_dataOutput component type to acc5_dataOutput.impl component implementation",
+    "Remove the guarantee statements referencing subcomponent ports from the component type annex",
+    "Add an implementation-level AGREE annex to acc5_dataOutput.impl with appropriate assignments for the connections"
+  ]
+}

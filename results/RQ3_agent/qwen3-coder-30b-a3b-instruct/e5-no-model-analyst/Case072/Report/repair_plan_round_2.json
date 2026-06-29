@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'speed'.",
+      "cause": "AGREE guarantee references component port 'speed' in thread type scope where port is not visible",
+      "minimal_edit": "Move the guarantee statement to the implementation annex and reference the port through the connection 'R3'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee statement from the thread type annex",
+    "Add a new annex block to the thread implementation thr_mgmt.i",
+    "Place the guarantee statement inside the implementation annex using the connection reference R3"
+  ]
+}

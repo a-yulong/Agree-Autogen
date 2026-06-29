@@ -65,7 +65,7 @@ class RuntimeConfig:
         return cls(
             model_base_url=os.environ.get("AGREE_MODEL_BASE_URL", "https://api.openai.com/v1"),
             model_api_key=os.environ.get("AGREE_MODEL_API_KEY", ""),
-            model_name=os.environ.get("AGREE_MODEL_NAME", "gpt-4o-mini"),
+            model_name=os.environ.get("AGREE_MODEL_NAME", "qwen3-coder-30b-a3b-instruct"),
             source_root=source_root,
             result_root=Path(result_root or os.environ.get("AGREE_RESULT_ROOT", repo_root / "results")),
             knowledge_base=Path(docs_dir or os.environ.get("AGREE_DOCS_DIR", repo_root / "knowledge_base")),

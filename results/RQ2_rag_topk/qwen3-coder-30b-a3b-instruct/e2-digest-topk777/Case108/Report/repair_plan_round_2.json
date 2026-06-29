@@ -1,0 +1,51 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc1DataOut'.",
+      "cause": "Reference to subcomponent port 'acc1DataOut' in AGREE assume statement in thread type scope",
+      "minimal_edit": "Replace 'sub1.acc1DataOut' with 'acc1out' in the data_routing assumption"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'sub1'.",
+      "cause": "Reference to subcomponent 'sub1' in AGREE assume statement in thread type scope",
+      "minimal_edit": "Remove 'sub1.' prefix from 'acc1DataOut' in the data_routing assumption"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved reference 'sub1.acc1DataOut' in AGREE assume statement",
+      "minimal_edit": "Replace 'sub1.acc1DataOut' with 'acc1out' in the data_routing assumption"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Unresolved reference 'sub1.acc1DataOut' in AGREE assume statement",
+      "minimal_edit": "Replace 'sub1.acc1DataOut' with 'acc1out' in the data_routing assumption"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'event_in'.",
+      "cause": "Reference to subcomponent port 'event_in' in AGREE assume statement in thread type scope",
+      "minimal_edit": "Replace 'sub1.event_in' with 'acc1_command_in' in the control_routing assumption"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'sub1'.",
+      "cause": "Reference to subcomponent 'sub1' in AGREE assume statement in thread type scope",
+      "minimal_edit": "Remove 'sub1.' prefix from 'event_in' in the control_routing assumption"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch due to unresolved reference 'sub1.event_in' in AGREE assume statement",
+      "minimal_edit": "Replace 'sub1.event_in' with 'acc1_command_in' in the control_routing assumption"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Unresolved reference 'sub1.event_in' in AGREE assume statement",
+      "minimal_edit": "Replace 'sub1.event_in' with 'acc1_command_in' in the control_routing assumption"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the data_routing assumption in the acc1_dataOutput thread type annex to use 'acc1out = acc1out' instead of 'acc1out = sub1.acc1DataOut'",
+    "Edit the control_routing assumption in the acc1_dataOutput thread type annex to use 'sub1.event_in = acc1_command_in' instead of 'sub1.event_in = acc1_command_in'",
+    "Remove the 'sub1.' prefix from both assumptions to reference the ports directly",
+    "Replace the invalid references with valid port names from the component type"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Mix_1'.",
+      "cause": "AGREE annex is in component type scope but references subcomponent ports which are not visible in that scope",
+      "minimal_edit": "Move the AGREE annex to the component implementation scope"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Port_1'.",
+      "cause": "AGREE annex is in component type scope but references component ports which are not visible in that scope",
+      "minimal_edit": "Move the AGREE annex to the component implementation scope"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "Invalid expression syntax using '=' with non-boolean types",
+      "minimal_edit": "Replace '=' with '->' for signal flow assertions"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression syntax using '=' with non-boolean types",
+      "minimal_edit": "Replace '=' with '->' for signal flow assertions"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Mix_2'.",
+      "cause": "AGREE annex is in component type scope but references subcomponent ports which are not visible in that scope",
+      "minimal_edit": "Move the AGREE annex to the component implementation scope"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Port_2'.",
+      "cause": "AGREE annex is in component type scope but references component ports which are not visible in that scope",
+      "minimal_edit": "Move the AGREE annex to the component implementation scope"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "Invalid expression syntax using '=' with non-boolean types",
+      "minimal_edit": "Replace '=' with '->' for signal flow assertions"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression syntax using '=' with non-boolean types",
+      "minimal_edit": "Replace '=' with '->' for signal flow assertions"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from Mixin component type",
+    "Add a new AGREE annex block to Mixin.impl component implementation",
+    "In the new AGREE annex, replace Port_1 = true => Mix_1.Port_1 = true with Port_1 -> Mix_1.Port_1",
+    "In the new AGREE annex, replace Port_2 = true => Mix_2.Port_2 = true with Port_2 -> Mix_2.Port_2"
+  ]
+}

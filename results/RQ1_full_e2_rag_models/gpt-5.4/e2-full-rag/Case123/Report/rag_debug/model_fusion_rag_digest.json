@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Preserve AADL architecture when inserting content: do not change component types, implementations, features, subcomponents, connections, or properties.",
+    "Place implementation-level content only in implementation scope, after the relevant structural declarations it depends on.",
+    "Respect owner scope: implementation content may reference implementation-local structure, while type-level content must not depend on implementation-only paths."
+  ],
+  "generic_rules": [
+    "Keep the insertion minimal and confined to the intended owning declaration.",
+    "Do not introduce new architectural elements or rename existing ones during insertion.",
+    "Use only identifiers that are already visible in the chosen owner scope."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AADL content must remain in a valid annex block attached to the correct owner.",
+    "Implementation-scoped references typically depend on already-declared subcomponents and connections, so preserve declaration order context."
+  ],
+  "anti_patterns": [
+    "Do not move implementation-specific content into a component type owner.",
+    "Do not invent missing identifiers, properties, ports, or data declarations to make references resolve.",
+    "Do not alter existing routing or structural declarations unless the task explicitly requires architecture edits."
+  ],
+  "irrelevant_topics": [
+    "Detailed AGREE clause forms such as assume/guarantee/assign syntax are not needed for this fusion step.",
+    "Boolean expression modeling patterns are not needed for owner/scope insertion decisions.",
+    "Validator-driven deletion or rewrite strategies are not relevant without active diagnostics."
+  ]
+}

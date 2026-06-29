@@ -1,0 +1,38 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'impl_1'.",
+      "cause": "AGREE expressions reference implementation names directly, but AGREE contracts must be in component type annexes and cannot reference implementation-specific identifiers",
+      "minimal_edit": "Remove the implementation reference 'Task.impl_1.' from all guarantee expressions"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'period'.",
+      "cause": "AGREE cannot reference AADL property names directly in expressions; property names are not valid AGREE identifiers",
+      "minimal_edit": "Replace property references with direct values or use valid AGREE expressions"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch due to unresolved property references resulting in invalid expressions",
+      "minimal_edit": "Replace invalid property references with valid AGREE expressions or constants"
+    },
+    {
+      "diagnostic": "Expression for guarantee statement is of type 'int' but must be of type 'bool'",
+      "cause": "Invalid expression syntax results in non-boolean type",
+      "minimal_edit": "Rewrite expressions to form valid boolean conditions"
+    },
+    {
+      "diagnostic": "no viable alternative at input 'ms'",
+      "cause": "AGREE does not support AADL unit syntax in expressions",
+      "minimal_edit": "Remove unit specifications from expressions"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove 'Task.impl_1.' prefix from all guarantee expressions",
+    "Replace 'period = 100 ms' with a valid AGREE constant or expression",
+    "Replace 'compute_execution_time = 0 ms .. 3 ms' with valid boolean bounds",
+    "Replace 'priority = 100' with a valid AGREE constant or expression",
+    "Remove all unit specifications (ms) from expressions",
+    "Ensure all expressions evaluate to boolean types"
+  ]
+}

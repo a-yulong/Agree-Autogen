@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "The variable 'actual_update' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "Type mismatch in equation declaration",
+      "minimal_edit": "Change 'actual_update : real' to 'actual_update : Types::speed.speed_impl'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '+' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Incompatible operand types in arithmetic expression",
+      "minimal_edit": "Cast 'Actuator_Input' to 'Types::speed.speed_impl' using a conversion or declare it as compatible type"
+    },
+    {
+      "diagnostic": "left side of binary expression '+' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Invalid operand types for arithmetic operation",
+      "minimal_edit": "Ensure both operands of '+' are of compatible numeric type"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Type mismatch in guarantee statement",
+      "minimal_edit": "Ensure 'Actual' and 'actual_update' have matching types"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify the type mismatch in the equation declaration for 'actual_update'",
+    "Change the type of 'actual_update' from 'real' to 'Types::speed.speed_impl'",
+    "Ensure that 'Actuator_Input' is compatible with 'Types::speed.speed_impl' in the arithmetic expression",
+    "Verify that the guarantee statement matches the declared types of 'Actual' and 'actual_update'"
+  ]
+}

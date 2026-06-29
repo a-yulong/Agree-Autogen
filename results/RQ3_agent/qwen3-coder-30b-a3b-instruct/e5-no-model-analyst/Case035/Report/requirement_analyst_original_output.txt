@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "text": "Target_Speed.val >= 0 and Target_Speed.val < 150.0",
+      "evidence": ["Target_Speed"]
+    },
+    {
+      "id": "R2",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "text": "const_tar_speed is a constant attribute indicating the logical state of the target speed being constant",
+      "evidence": ["const_tar_speed"]
+    },
+    {
+      "id": "R3",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "text": "when const_tar_speed is true, Actual_Speed.val <= Target_Speed.val",
+      "evidence": ["const_tar_speed", "Actual_Speed", "Target_Speed"]
+    },
+    {
+      "id": "R4",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "text": "when const_tar_speed is true, abs(Actual_Speed.val - Actual_Speed.val@prev) < 40.0",
+      "evidence": ["const_tar_speed", "Actual_Speed", "max_accel"]
+    }
+  ]
+}

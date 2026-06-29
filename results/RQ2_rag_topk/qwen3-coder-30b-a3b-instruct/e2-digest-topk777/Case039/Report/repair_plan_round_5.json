@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "The variable 'actual_update' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "Type mismatch in equation declaration: 'actual_update' is declared as 'real' but should match the port type 'Types::speed.speed_impl'",
+      "minimal_edit": "Change 'eq actual_update : real' to 'eq actual_update : Types::speed.speed_impl'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '+' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Incompatible types in arithmetic operation: 'pre(Actual)' is of type 'Types::speed.speed_impl' and '0.1 * Actuator_Input' is of type 'real'",
+      "minimal_edit": "Cast 'pre(Actual)' to 'real' or convert 'Actuator_Input' to 'Types::speed.speed_impl' to match types; prefer casting 'pre(Actual)' to 'real'"
+    },
+    {
+      "diagnostic": "left side of binary expression '+' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Invalid operand type for '+' operator: 'pre(Actual)' is of type 'Types::speed.speed_impl' which is not a numeric type",
+      "minimal_edit": "Cast 'pre(Actual)' to 'real' to enable arithmetic operation"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Type mismatch in guarantee statement: 'Actual' is of type 'Types::speed.speed_impl' but 'actual_update' is of type 'real'",
+      "minimal_edit": "Ensure 'actual_update' is of type 'Types::speed.speed_impl' to match 'Actual' port type"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Modify line 22 to cast pre(Actual) to real: eq actual_update : Types::speed.speed_impl = pre(Actual) as real + 0.1 * Actuator_Input;",
+    "Update the guarantee statement to ensure type consistency: guarantee \"actual_value_update\": Actual = actual_update;"
+  ]
+}

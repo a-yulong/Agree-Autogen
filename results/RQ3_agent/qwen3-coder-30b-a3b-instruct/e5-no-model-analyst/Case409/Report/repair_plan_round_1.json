@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 159: left and right sides of binary expression '<=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "AGREE cannot resolve 'temp' as a valid expression due to AADL property resolution errors",
+      "minimal_edit": "Replace 'temp >= 0' and 'temp <= 100' with 'temp >= 0 and temp <= 100' in the assume statement"
+    },
+    {
+      "diagnostic": "line 160: left and right sides of binary expression '<=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "AGREE cannot resolve 'temp' as a valid expression due to AADL property resolution errors",
+      "minimal_edit": "Replace 'temp >= 0' and 'temp <= 100' with 'temp >= 0 and temp <= 100' in the guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex for commandboard_receiveinput_thread, replace the assume statement with: assume \"bounded_temp_input\": temp >= 0 and temp <= 100;",
+    "In the AGREE annex for commandboard_receiveinput_thread, replace the guarantee statement with: guarantee \"commandboard_temp_operation\": temp >= 0 and temp <= 100;"
+  ]
+}

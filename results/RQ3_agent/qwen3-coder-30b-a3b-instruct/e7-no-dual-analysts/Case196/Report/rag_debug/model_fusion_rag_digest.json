@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Place AGREE annex blocks in component type scopes for assumptions and guarantees that reference component ports, and in implementation scopes for subcomponent bindings.",
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic."
+  ],
+  "generic_rules": [
+    "Ensure AGREE type declarations use int, real, or bool; avoid invalid scalar type names like 'integer' or 'boolean'.",
+    "Align helper declaration types with expression types: bool for comparisons, int for integer arithmetic, real for real arithmetic.",
+    "Avoid unsafe Boolean data range comparisons unless the port is explicitly an AGREE bool in scope.",
+    "Write guarantees relating visible outputs to visible inputs in component type annexes, avoiding implementation-only subcomponent paths."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `const`, `eq`, `ass`, and `gua` for declarations and assertions in AGREE.",
+    "Use logical operators `and`, `or`, `not(...)`, and implication `=>` in AGREE expressions.",
+    "Do not reference subcomponent ports in component type contracts unless represented through valid variables or outputs."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level bindings in component type annexes or use subcomponent paths in type-level contracts.",
+    "Do not use invalid scalar type names such as 'integer' or 'boolean' in AGREE declarations.",
+    "Do not generate range comparisons or 0/1 equality over opaque Boolean data ports without explicit scalar representation."
+  ],
+  "irrelevant_topics": [
+    "requirement traceability",
+    "AGREE validator diagnostics",
+    "model repair patterns",
+    "assume-guarantee syntax",
+    "component implementation bindings"
+  ]
+}

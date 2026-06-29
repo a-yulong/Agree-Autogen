@@ -1,0 +1,17 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assume/guarantee declarations in component type scopes when they describe interface behavior, and in implementation scopes for subcomponent bindings.
+- Use `annex agree {** ... **};` blocks to contain AGREE contract elements.
+Generic rules:
+- Use visible identifiers and feature names from the correct scope (type vs. implementation) when writing AGREE contracts.
+- Equation and constant declarations in AGREE should reference only visible symbols in their scope.
+- Assignments in AGREE must be placed in implementation scopes and reference valid subcomponent outputs.
+- Guarantees in component type annexes should only reference features visible at that scope.
+Syntax or pattern reminders:
+- AGREE contracts use `assume "label": expression;` and `guarantee "label": expression;` syntax.
+- Component type contracts use `eq name : type = expression;` and `const name : type = value;` for declarations.
+- Implementation-level bindings use `assign output = expression;` within implementation scopes.
+Anti-patterns:
+- Do not place implementation-level assignments or subcomponent references in component type annexes.
+- Do not reference subcomponent ports directly in type-level contracts unless represented through visible variables.
+</RAG_DIGEST>

@@ -1,0 +1,16 @@
+{
+  "problems": [
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE guarantee statements reference port names directly without proper expression context",
+      "minimal_edit": "Replace each port name with a valid AGREE expression that relates the output to an input or constant, e.g., 'gyro_out_data_x = gyro_out_data_x' should be 'gyro_out_data_x = gyro_out_data_x'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify the AGREE annex block in GYRO_SUB_wrapper component type",
+    "For each guarantee statement, ensure the expression is a valid AGREE expression using only visible identifiers",
+    "Replace the self-referential guarantees with meaningful expressions that relate outputs to inputs or constants",
+    "Ensure all referenced identifiers are visible in the component type scope"
+  ]
+}

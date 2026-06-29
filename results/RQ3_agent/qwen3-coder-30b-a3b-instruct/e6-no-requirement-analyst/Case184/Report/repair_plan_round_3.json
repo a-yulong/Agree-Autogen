@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "latched is an output port, but AGREE validator restricts latched expressions to input ports only",
+      "minimal_edit": "remove 'latched' from the guarantee expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: Latched expressions can appear only in component implementations",
+      "cause": "latched is used in a component type annex (door), but AGREE requires latched expressions only in implementation annexes",
+      "minimal_edit": "remove 'latched' from the guarantee expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: mismatched input 'and' expecting '('",
+      "cause": "Syntax error due to malformed boolean expression; likely due to invalid use of latched causing parser to misinterpret 'and'",
+      "minimal_edit": "replace '(closed and latched and locked)' with '(closed and locked)'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: right side of binary expression 'and' is of type '<error>' but must be of type 'bool'",
+      "cause": "latched is invalid in this context, causing type inference to fail, making the whole expression non-boolean",
+      "minimal_edit": "replace '(closed and latched and locked)' with '(closed and locked)'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove 'latched' from the guarantee expression in the annex block of component type door",
+    "Rewrite guarantee 'handle_position_logic' as: handle_position = (closed and locked)",
+    "Leave assume 'de_arrest_condition': de_arrest = true; unchanged as it is valid (de_arrest is an input port)"
+  ]
+}

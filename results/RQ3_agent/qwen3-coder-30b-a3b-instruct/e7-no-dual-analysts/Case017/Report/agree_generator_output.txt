@@ -1,0 +1,12 @@
+annex agree {**
+  assume "gcas_impact_bound": inpGCASImpact >= 0.0;
+  assume "acas_impact_bound": inpACASImpact >= 0.0;
+  assume "gcas_recovery_bound": inpGCASRecovery >= 0.0;
+  assume "acas_recovery_bound": inpACASRecovery >= 0.0;
+  guarantee "service_count_logic": numberServicesTrue = (if inpGCASM then 1 else 0) + (if inpSAM then 1 else 0) + (if inpACASM then 1 else 0) + (if inpGFM then 1 else 0) + (if inpWxM then 1 else 0) + (if inpFLS then 1 else 0);
+  guarantee "decision_logic": 
+    (inpGCASImpact > inpACASImpact and inpGCASRecovery + inpACASRecovery >= 0.0) => (outDec = 1) 
+    and not (inpGCASImpact > inpACASImpact and inpGCASRecovery + inpACASRecovery >= 0.0) => (outDec = 0);
+  guarantee "output_condition": numberServicesTrue >= 2 => (outDec = 1 or outDec = 0);
+  const numberServicesTrue : int = 0;
+**};

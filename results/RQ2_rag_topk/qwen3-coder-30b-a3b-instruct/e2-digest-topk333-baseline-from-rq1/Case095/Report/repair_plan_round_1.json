@@ -1,0 +1,50 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc1_validated_dataout'.",
+      "cause": "Reference to subcomponent port not visible in component type scope",
+      "minimal_edit": "Remove assumption 'signal_flow_R1' referencing subcomponent port"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_HM'.",
+      "cause": "Reference to subcomponent not visible in component type scope",
+      "minimal_edit": "Remove assumption 'signal_flow_R1' referencing subcomponent"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Invalid reference to subcomponent port results in type error",
+      "minimal_edit": "Remove assumption 'signal_flow_R1' causing type mismatch"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid reference to subcomponent port results in invalid expression",
+      "minimal_edit": "Remove assumption 'signal_flow_R1' with invalid expression"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc2_validated_dataout'.",
+      "cause": "Reference to subcomponent port not visible in component type scope",
+      "minimal_edit": "Remove assumption 'signal_flow_R2' referencing subcomponent port"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_HM'.",
+      "cause": "Reference to subcomponent not visible in component type scope",
+      "minimal_edit": "Remove assumption 'signal_flow_R2' referencing subcomponent"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Invalid reference to subcomponent port results in type error",
+      "minimal_edit": "Remove assumption 'signal_flow_R2' causing type mismatch"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid reference to subcomponent port results in invalid expression",
+      "minimal_edit": "Remove assumption 'signal_flow_R2' with invalid expression"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire annex agree block from acc_hm_process component type",
+    "Move the signal flow assumptions to the implementation annex",
+    "Add a new annex agree block to acc_hm_process.impl with only valid signal flow assumptions"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 468: Couldn't resolve reference to 'acc1_data_monitor'.",
+      "cause": "acc1_data_monitor, acc1out, and acc1_command_in are not visible in mitigationActor_th scope; they belong to other threads",
+      "minimal_edit": "remove the entire guarantee clause at line 468"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 469: Couldn't resolve reference to 'acc2_data_monitor'.",
+      "cause": "acc2_data_monitor, acc2out, and acc2_command_in are not visible in mitigationActor_th scope; they belong to other threads",
+      "minimal_edit": "remove the entire guarantee clause at line 469"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 470: Couldn't resolve reference to 'acc3_data_monitor'.",
+      "cause": "acc3_data_monitor, accout, and acc_command_in are not visible in mitigationActor_th scope; they belong to other threads",
+      "minimal_edit": "remove the entire guarantee clause at line 470"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the entire annex agree {** ... **} block from mitigationActor_th (lines 467-471)",
+    "Verify no other guarantee or assume statements in the model reference invisible identifiers from unrelated threads"
+  ]
+}

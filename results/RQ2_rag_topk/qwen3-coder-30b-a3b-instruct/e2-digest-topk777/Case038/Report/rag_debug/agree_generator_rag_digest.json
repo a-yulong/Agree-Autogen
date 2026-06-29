@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in component type scopes for port-based contracts.",
+    "Use visible identifiers from the current component scope; avoid undefined references.",
+    "Generate syntactically valid AGREE annex blocks with proper `assume`/`guarantee`/`eq`/`const` syntax.",
+    "Write deterministic dependency guarantees that relate visible outputs to visible inputs."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Constants and equations in AGREE should use valid scalar types: int, real, bool.",
+    "Assumptions and guarantees should reference only visible features or declared helpers.",
+    "Use logical operators and temporal recurrence patterns appropriate to AGREE syntax."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract statements.",
+    "Declare helpers with `eq name : type = expression;` and constants with `const name : type = value;`.",
+    "Use `if ... then ... else` for branching logic and `and`, `or`, `not(...)` for logical expressions.",
+    "Initialize stateful equations with temporal recurrence like `0.0 -> pre(t) + step`."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL properties (e.g., Deadline, Period) as AGREE variables.",
+    "Do not invent new identifiers not present in the visible component scope.",
+    "Do not place implementation-level bindings in component type annexes.",
+    "Avoid generating clauses with unresolved or mismatched types."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing constraints",
+    "Model fusion and component insertion locations",
+    "Validator diagnostics and repair strategies",
+    "Requirement traceability and compact semantics"
+  ]
+}

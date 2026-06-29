@@ -1,0 +1,55 @@
+{
+  "component_types": [
+    {
+      "name": "State_Machine",
+      "kind": "system"
+    },
+    {
+      "name": "Sub_State_Machine",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "State_Machine.Impl",
+      "kind": "system implementation",
+      "type_name": "State_Machine"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "State_Machine.Impl",
+      "name": "SSM",
+      "category": "system",
+      "classifier": "Sub_State_Machine.Impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "State_Machine",
+      "name": "State_Out",
+      "direction": "out",
+      "category": "data port",
+      "type": "Types::state_sig.impl",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "State_Machine.Impl",
+      "name": "SMToSSM",
+      "kind": "port",
+      "source": "SSM.State_Out",
+      "destination": "State_Out"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "State_Machine.Impl.SMToSSM",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": "SMToSSM"
+    }
+  ]
+}

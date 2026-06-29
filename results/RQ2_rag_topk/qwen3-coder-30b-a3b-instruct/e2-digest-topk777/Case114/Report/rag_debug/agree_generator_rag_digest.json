@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "Place assume/guarantee statements in component type scopes when describing interface behavior; use implementation scopes for subcomponent bindings and assignments.",
+    "Use only visible identifiers from the current component scope in AGREE expressions; do not invent or copy names from examples."
+  ],
+  "generic_rules": [
+    "AGREE annex blocks must be scoped to their owning component declaration and follow AADL structural boundaries.",
+    "Assignments in AGREE are valid only when the left-hand side is an output feature or declared auxiliary variable.",
+    "Assumptions and guarantees should reference concrete bounds, named constants, or visible relations when placed in type scopes.",
+    "Do not encode AADL timing properties as AGREE expressions unless explicit typed ports or constants are available."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for behavioral contracts.",
+    "Use `assign output = expression;` for implementation-level bindings to outputs or auxiliary variables.",
+    "Constants and equations are declared with `const name : type = value;` and `eq name : type = expression;`."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level guarantees in component type annexes; move valid assignments to implementation scope.",
+    "Do not reference identifiers not visible in the current component scope; resolve references using exact names from the model."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations as AGREE variables",
+    "Model dependency staging issues",
+    "Validator diagnostics for unresolved references"
+  ]
+}

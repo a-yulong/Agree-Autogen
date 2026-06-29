@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port names as if they were variables, but they are not defined in the scope",
+      "minimal_edit": "Replace each port reference with a variable that represents the output of the subcomponent call"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block for GYRO_SUB_wrapper, replace each guarantee with a variable declaration and a corresponding guarantee that relates the variable to the actual port expression",
+    "Introduce a variable for each output port in the AGREE annex",
+    "Update the guarantee statements to reference these variables instead of direct port names"
+  ]
+}

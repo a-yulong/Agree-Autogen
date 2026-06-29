@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Target (port spec) points to Base_Types::Real",
+      "cause": "port type mismatch with declared AADL type",
+      "minimal_edit": "change Target port type from Base_Types::Real to Types::speed.speed_impl"
+    },
+    {
+      "diagnostic": "Actual (port spec) points to Base_Types::Real",
+      "cause": "port type mismatch with declared AADL type",
+      "minimal_edit": "change Actual port type from Base_Types::Real to Types::speed.speed_impl"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to DataSubcomponentType 'Base_Types::Real'",
+      "cause": "undefined AADL type reference",
+      "minimal_edit": "replace Base_Types::Real with Types::speed.speed_impl for both Target and Actual ports"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Edit the Speed_Control system type declaration to change Target port type from Base_Types::Real to Types::speed.speed_impl",
+    "Edit the Speed_Control system type declaration to change Actual port type from Base_Types::Real to Types::speed.speed_impl",
+    "Update the AGREE annex to reference the correct port names and types as per the corrected system declaration"
+  ]
+}

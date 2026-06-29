@@ -1,0 +1,279 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: accout, acc_command_in
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+accout | out | data | int | SHM_DataType::accData
+acc_command_in | in | data | int | SHM_DataType::actionData
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "acc6_dataOutput.impl routes data from spg.accDataOut to accout through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc6_dataOutput.impl.sub1",
+        "acc6_dataOutput.impl.C1",
+        "accout"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "acc6_dataOutput.impl routes control signal from acc_command_in to spg.event_in through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc6_dataOutput.impl.C2",
+        "acc_command_in",
+        "sub1.event_in"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "acc6_dataOutput.impl uses subcomponent sub1 with classifier subprograms::acc6_dataOutput_spg",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "acc6_dataOutput.impl.sub1",
+        "subprograms::acc6_dataOutput_spg"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "acc6_dataOutput.impl has Sampling_Refresh_Period=50 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "acc6_dataOutput.impl",
+        "ARINC653::Sampling_Refresh_Period"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "acc_command_in is an input signal of type SHM_DataType::actionData",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "acc_command_in",
+        "SHM_DataType::actionData"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "accout is an output signal of type SHM_DataType::accData",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "accout",
+        "SHM_DataType::accData"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: acc6_dataOutput | lines 198-202
+annex agree {**
+    assume "input_type_check": acc_command_in : SHM_DataType::actionData;
+    guarantee "output_type_check": accout : SHM_DataType::accData;
+    assign accout = acc_command_in;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   195:     Period => 4000 ms;
+   196:     Compute_Execution_Time => 400 ms .. 500 ms;
+   197:     Deadline => 500 ms;
+   198:   annex agree {**
+>> 199:     assume "input_type_check": acc_command_in : SHM_DataType::actionData;
+   200:     guarantee "output_type_check": accout : SHM_DataType::accData;
+   201:     assign accout = acc_command_in;
+   202:   **};
+   203:   end acc6_dataOutput;
+
+   196:     Compute_Execution_Time => 400 ms .. 500 ms;
+   197:     Deadline => 500 ms;
+   198:   annex agree {**
+   199:     assume "input_type_check": acc_command_in : SHM_DataType::actionData;
+>> 200:     guarantee "output_type_check": accout : SHM_DataType::accData;
+   201:     assign accout = acc_command_in;
+   202:   **};
+   203:   end acc6_dataOutput;
+   204: 
+
+   197:     Deadline => 500 ms;
+   198:   annex agree {**
+   199:     assume "input_type_check": acc_command_in : SHM_DataType::actionData;
+   200:     guarantee "output_type_check": accout : SHM_DataType::accData;
+>> 201:     assign accout = acc_command_in;
+   202:   **};
+   203:   end acc6_dataOutput;
+   204: 
+   205:   thread implementation acc6_dataOutput.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: acc6_dataOutput
+thread acc6_dataOutput
+  features
+    accout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+    acc_command_in: in event data port SHM_DataType::actionData;
+  properties
+    Dispatch_Protocol => Periodic;
+    Priority => 1;
+    Stack_Size => 20 KByte;
+    Code_Size => 100 KByte;
+    Data_Size => 1 KByte;
+    Period => 4000 ms;
+    Compute_Execution_Time => 400 ms .. 500 ms;
+    Deadline => 500 ms;
+  end acc6_dataOutput;
+
+-- TARGET DECLARATION: acc6_dataOutput.impl
+thread implementation acc6_dataOutput.impl
+  calls
+    sub1: { spg: subprogram subprograms::acc6_dataOutput_spg;};
+
+  connections
+    C1: parameter spg.accDataOut->accout;
+    C2: parameter acc_command_in->spg.event_in;
+  end acc6_dataOutput.impl;
+
+-- RELATED MODEL LINES
+accout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc_command_in: in event data port SHM_DataType::actionData;
+C1: parameter spg.accDataOut->accout;
+C2: parameter acc_command_in->spg.event_in;
+thread acc6_dataOutput
+end acc6_dataOutput;
+thread implementation acc6_dataOutput.impl
+end acc6_dataOutput.impl;
+thread acc6_dataOutput_emv2 extends acc6_dataOutput
+thread implementation acc6_dataOutput_emv2.impl extends acc6_dataOutput.impl
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "acc6_dataOutput",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "acc6_dataOutput.impl",
+      "kind": "thread implementation",
+      "type_name": "acc6_dataOutput"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "acc6_dataOutput.impl",
+      "name": "sub1",
+      "category": "call",
+      "classifier": "subprograms::acc6_dataOutput_spg"
+    }
+  ],
+  "features": [
+    {
+      "owner": "acc6_dataOutput",
+      "name": "accout",
+      "direction": "out",
+      "category": "data port",
+      "type": "SHM_DataType::accData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "acc6_dataOutput",
+      "name": "acc_command_in",
+      "direction": "in",
+      "category": "event data port",
+      "type": "SHM_DataType::actionData",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "acc6_dataOutput.impl",
+      "name": "C1",
+      "kind": "parameter",
+      "source": "sub1.accDataOut",
+      "destination": "accout"
+    },
+    {
+      "owner": "acc6_dataOutput.impl",
+      "name": "C2",
+      "kind": "parameter",
+      "source": "acc_command_in",
+      "destination": "sub1.event_in"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "acc6_dataOutput",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "acc6_dataOutput"
+    },
+    {
+      "owner": "acc6_dataOutput",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": "acc6_dataOutput"
+    },
+    {
+      "owner": "acc6_dataOutput",
+      "owner_kind": "thread",
+      "name": "Stack_Size",
+      "value": "20 KByte",
+      "applies_to": "acc6_dataOutput"
+    },
+    {
+      "owner": "acc6_dataOutput",
+      "owner_kind": "thread",
+      "name": "Code_Size",
+      "value": "100 KByte",
+      "applies_to": "acc6_dataOutput"
+    },
+    {
+      "owner": "acc6_dataOutput",
+      "owner_kind": "thread",
+      "name": "Data_Size",
+      "value": "1 KByte",
+      "applies_to": "acc6_dataOutput"
+    },
+    {
+      "owner": "acc6_dataOutput",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "4000 ms",
+      "applies_to": "acc6_dataOutput"
+    },
+    {
+      "owner": "acc6_dataOutput",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "400 ms .. 500 ms",
+      "applies_to": "acc6_dataOutput"
+    },
+    {
+      "owner": "acc6_dataOutput",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "500 ms",
+      "applies_to": "acc6_dataOutput"
+    },
+    {
+      "owner": "acc6_dataOutput.impl",
+      "owner_kind": "thread implementation",
+      "name": "ARINC653::Sampling_Refresh_Period",
+      "value": "50 ms",
+      "applies_to": "acc6_dataOutput.accout"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'gps_pos'.",
+      "cause": "AGREE annex in thread type references implementation-level port 'gps_pos' which is not visible in thread type scope",
+      "minimal_edit": "Replace 'gps_pos' with 'pspg.gps_pos' in the assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "AGREE annex in thread type references implementation-level subcomponent 'pspg' which is not visible in thread type scope",
+      "minimal_edit": "Remove the assume statement referencing 'pspg' since it's not valid in thread type scope"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Ardupilot_Software::GPS_Position.i' and '<error>', but must be of the same type",
+      "cause": "Invalid type comparison in assume statement due to unresolved references",
+      "minimal_edit": "Remove the assume statement referencing 'pspg.gps_pos' since it's not valid in thread type scope"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in assume statement due to unresolved references",
+      "minimal_edit": "Remove the assume statement referencing 'pspg.gps_pos' since it's not valid in thread type scope"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "AGREE annex in thread type references implementation-level subcomponent 'pspg' which is not visible in thread type scope",
+      "minimal_edit": "Remove the guarantee statement referencing 'pspg' since it's not valid in thread type scope"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'speed'.",
+      "cause": "AGREE annex in thread type references implementation-level port 'speed' which is not visible in thread type scope",
+      "minimal_edit": "Remove the guarantee statement referencing 'speed' since it's not valid in thread type scope"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Invalid type comparison in guarantee statement due to unresolved references",
+      "minimal_edit": "Remove the guarantee statement referencing 'pspg.speed' since it's not valid in thread type scope"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in guarantee statement due to unresolved references",
+      "minimal_edit": "Remove the guarantee statement referencing 'pspg.speed' since it's not valid in thread type scope"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire annex agree block from thr_mgmt component type",
+    "Add a new annex agree block to thr_mgmt.i component implementation",
+    "In the new implementation annex, add assume and guarantee statements using only visible identifiers",
+    "Replace 'gps_pos = pspg.gps_pos' with 'gps_pos = pspg.gps_pos' in the implementation annex",
+    "Replace 'speed = pspg.speed' with 'speed = pspg.speed' in the implementation annex"
+  ]
+}

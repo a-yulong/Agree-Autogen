@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.",
+    "Place assumptions and guarantees in valid component type scopes when referring to ports, and in implementation scopes for bindings.",
+    "Generate AGREE contracts using logical operators (and, or, not, =>) and valid syntax for assume, guarantee, eq, const, and assign statements."
+  ],
+  "generic_rules": [
+    "For component type contracts, place input assumptions and output guarantees only when concrete bounds or visible relations are provided.",
+    "Write output dependency guarantees that relate visible outputs to visible inputs, avoiding implementation-only subcomponent paths.",
+    "Ensure AGREE type declarations match actual AADL types: int, real, bool; avoid invalid scalar type names like 'integer' or 'boolean'.",
+    "Avoid encoding AADL timing properties (e.g., Deadline, Period) as AGREE variables unless explicitly exposed as typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `-> pre(t) + step` for initialized temporal recurrence in stateful equations.",
+    "Use nested `if ... then ... else` for conditional logic in AGREE.",
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract statements."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL property names (e.g., Deadline, Period) as AGREE variables unless they are explicitly typed ports or constants.",
+    "Do not use invalid AGREE scalar types like 'integer' or 'boolean' in const or eq declarations.",
+    "Do not include implementation-only subcomponent paths in component type annex contracts."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing properties not automatically in AGREE scope",
+    "Component type vs implementation scope boundaries for annex placement",
+    "Validator diagnostics and repair patterns"
+  ]
+}

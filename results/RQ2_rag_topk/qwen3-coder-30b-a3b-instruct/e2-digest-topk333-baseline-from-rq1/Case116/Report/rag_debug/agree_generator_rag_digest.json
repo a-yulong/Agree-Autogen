@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in component type scopes when they refer to ports or features defined at the type level.",
+    "Use implementation scopes for assignments and bindings that are specific to the implementation, such as subcomponent connections or output assignments.",
+    "Do not place guarantee statements in implementation scope; use assumptions or constants instead."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be syntactically valid within annex agree blocks and use only visible identifiers from the AADL model.",
+    "Assumptions and guarantees should reference concrete bounds, named constants, or visible relations when describing port behaviors.",
+    "Avoid encoding AADL properties like Period or Deadline directly into AGREE expressions unless explicit typed ports or constants are available.",
+    "Ensure type consistency between helper declarations and expressions, especially for boolean, integer, and real comparisons."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks are enclosed in `annex agree {** ... **};` and must follow valid AGREE syntax for assumptions, guarantees, and assignments.",
+    "Assignments in implementation scope must target existing output features or declared auxiliary variables.",
+    "Boolean expressions should only be used with AGREE bool types; avoid converting opaque data into numeric forms."
+  ],
+  "anti_patterns": [
+    "Do not place output range guarantees in implementation scope; they should be in component type contracts.",
+    "Do not reference AADL property names like Period or Deadline as AGREE variables unless explicitly exposed in the model.",
+    "Do not generate clauses that assume or guarantee Boolean values from opaque or enumeration-like ports without numeric scalar representation."
+  ],
+  "irrelevant_topics": [
+    "AADL model structure extraction",
+    "Requirement traceability",
+    "Validator diagnostics and repair patterns",
+    "Model fusion and scope preservation rules"
+  ]
+}

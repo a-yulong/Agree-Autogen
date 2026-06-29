@@ -1,0 +1,34 @@
+{
+  "rag_rules": [
+    "Fix AGREE syntax errors by correcting mismatched input and invalid characters in expressions.",
+    "Ensure AGREE expressions use only visible identifiers from the current component scope.",
+    "Validate that all AGREE type declarations match AADL scalar types (int, real, bool).",
+    "Resolve unresolved references by using only existing visible identifiers or removing invalid clauses."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be placed in valid AADL scopes: component types for assumptions/guarantees, implementations for assignments.",
+    "Generated AGREE code must preserve type consistency and avoid package-qualified identifiers not present in the model.",
+    "Helper functions and variables in AGREE must be declared within the same annex and match the expected types.",
+    "Validator diagnostics should guide minimal repairs that preserve unrelated architecture elements."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE expressions must use valid operators and syntax; avoid invalid characters like '?' or unmatched '<='.",
+    "Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct syntax and valid identifiers.",
+    "Component type contracts reference only visible ports and features; implementation contracts use output assignments.",
+    "Type consistency is required: numeric expressions for int/real, Boolean for bool."
+  ],
+  "anti_patterns": [
+    "Do not introduce package-qualified identifiers or data types not present in the AADL model.",
+    "Do not attempt to fix unresolved references by inventing new declarations; use only visible identifiers.",
+    "Do not place implementation-level guarantees in component type annexes; move to implementation scope instead.",
+    "Do not generate AGREE clauses that reference AADL properties like Compute_Execution_Time as variables."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "type scope range assumption and guarantee",
+    "implementation scope output assign",
+    "output envelope chunk 2",
+    "range monitor chunk 1"
+  ]
+}

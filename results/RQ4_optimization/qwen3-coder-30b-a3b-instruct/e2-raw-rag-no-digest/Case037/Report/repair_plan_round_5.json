@@ -1,0 +1,32 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to DataSubcomponentType 'Types::speed.speed_impl'.",
+      "cause": "AADL type reference not resolvable due to missing with clause or incorrect package reference",
+      "minimal_edit": "Change 'Types::speed.speed_impl' to 'Base_Types::Float' for both Target and Actual port types"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "Type mismatch in equation due to unresolved type reference",
+      "minimal_edit": "Change type annotation in equation from 'Types::speed.speed_impl' to 'real'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'e_dot'",
+      "cause": "Undeclared variable 'e_dot' used in guarantee",
+      "minimal_edit": "Remove 'e_dot' term from Actuator_Input guarantee"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'e_int'",
+      "cause": "Undeclared variable 'e_int' used in guarantee",
+      "minimal_edit": "Remove 'e_int' term from Actuator_Input guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Update Target port type from Types::speed.speed_impl to Base_Types::Float",
+    "Update Actual port type from Types::speed.speed_impl to Base_Types::Float",
+    "Change type annotation in equation from Types::speed.speed_impl to real",
+    "Remove e_dot term from Actuator_Input guarantee",
+    "Remove e_int term from Actuator_Input guarantee"
+  ]
+}

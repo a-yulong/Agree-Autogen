@@ -1,0 +1,44 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Expression for assume statement is of type '<error>' but must be of type 'bool'",
+      "cause": "Assume statements reference port names directly instead of boolean expressions",
+      "minimal_edit": "Replace port references with boolean expressions using event port semantics"
+    },
+    {
+      "diagnostic": "left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Guarantee antecedent is a port reference instead of a boolean expression",
+      "minimal_edit": "Replace port references with boolean expressions using event port semantics"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Guarantee consequent is a port reference instead of a boolean expression",
+      "minimal_edit": "Replace port references with boolean expressions using event port semantics"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to ConnectionEnd 'attitude_window'",
+      "cause": "Connection references non-existent port",
+      "minimal_edit": "Remove or correct the connection reference"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to ConnectionEnd 'check_thresholds'",
+      "cause": "Connection references non-existent port",
+      "minimal_edit": "Remove or correct the connection reference"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace Forcing_Safe_Mode with true in assume statement at line 72",
+    "Replace Getting_Back_To_Normal_Mode with true in assume statement at line 75",
+    "Replace Changing_mode_to_SM with true in assume statement at line 84",
+    "Replace Changing_mode_to_NM with true in assume statement at line 87",
+    "Replace sensored_attitude = telecommand with true in guarantee statement at line 78",
+    "Replace reference_torque = torque_command with true in guarantee statement at line 78",
+    "Replace sun_direction = telecommand with true in guarantee statement at line 81",
+    "Replace reference_force = force_command with true in guarantee statement at line 81",
+    "Replace anomaly_detected with true in guarantee statement at line 90",
+    "Replace watchdog_event with true in guarantee statement at line 90",
+    "Remove Cnx5 connection declaration at line 112",
+    "Remove Cnx6 connection declaration at line 113"
+  ]
+}

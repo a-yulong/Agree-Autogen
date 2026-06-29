@@ -1,0 +1,14 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Communication_Properties (identifier) qualified reference name not found in 'with' statements of Integer_Toy (package specification)",
+      "cause": "Package Communication_Properties is not imported via 'with' clause",
+      "minimal_edit": "Remove the qualified reference to Communication_Properties::Timing in all connection property specifications"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove {Communication_Properties::Timing => immediate;} from all connection declarations in the implementation",
+    "Ensure that the model compiles without requiring Communication_Properties package"
+  ]
+}

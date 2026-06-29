@@ -1,0 +1,33 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by using only visible identifiers from the current component scope; do not introduce new architecture elements.",
+    "Resolve type mismatches by ensuring expressions match the expected types (bool, int, real) and avoid <error> types in guarantees.",
+    "Do not place implementation-level guarantees in component type scopes; move valid bindings to implementation annexes.",
+    "Delete invalid AGREE clauses that reference undefined or non-visible identifiers instead of attempting to define them."
+  ],
+  "generic_rules": [
+    "AGREE expressions must preserve type consistency and use only declared or visible identifiers.",
+    "Component type contracts should reference only features available at that scope; implementation bindings go in implementation scopes.",
+    "When AGREE diagnostics report unresolved references, trace the root cause and correct or remove the offending clause.",
+    "Avoid introducing package-qualified identifiers unless they are present in the model's configured dependencies."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks with valid syntax: assume, guarantee, eq, const, assign.",
+    "Assign statements in implementation scope must reference existing output features or declared auxiliary variables.",
+    "Helper declarations like `eq` and `const` should use correct scalar types: int, real, bool.",
+    "Ensure all identifiers in AGREE expressions are resolvable within the current AADL component scope."
+  ],
+  "anti_patterns": [
+    "Do not attempt to define or resolve missing identifiers by adding new architecture elements or imports.",
+    "Do not place implementation-level guarantees in component type annexes; this causes scope resolution errors.",
+    "Do not assume that AADL property names (e.g., Period, Deadline) are automatically available as AGREE variables.",
+    "Do not mix package-qualified references with missing dependencies; this leads to unresolved reference errors."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "implementation scope output assign",
+    "integrated pattern chunk 1",
+    "input validity chunk 1"
+  ]
+}

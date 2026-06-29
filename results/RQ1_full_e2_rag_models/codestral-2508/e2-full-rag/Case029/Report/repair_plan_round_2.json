@@ -1,0 +1,20 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assignment statements are allowed only in component implementations",
+      "cause": "assign statement in component type annex",
+      "minimal_edit": "move assign statement to GeoFence_singleton.impl annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'distanceFromFence'",
+      "cause": "distanceFromFence is not a visible identifier",
+      "minimal_edit": "remove distanceFromFence from guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "create new annex agree block in GeoFence_singleton.impl",
+    "move assign timeToRecovery = 1.7; to new annex block",
+    "remove guarantee \"distanceFromFence\": t >= 1.7 => distanceFromFence > pre(distanceFromFence); from GeoFence_singleton annex block"
+  ]
+}

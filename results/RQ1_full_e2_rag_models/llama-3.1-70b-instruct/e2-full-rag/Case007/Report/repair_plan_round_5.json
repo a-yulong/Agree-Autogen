@@ -1,0 +1,23 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: left and right sides of binary expression '=' are of type 'bool' and 'real', but must be of the same type",
+      "cause": "Type mismatch between bool and real",
+      "minimal_edit": "Replace 'p1 = gcas_timeToRecovery <= timeToFailure;' with 'p1 = gcas_timeToRecovery <= timeToFailure and gcas_timeToRecovery >= 0.0;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 102: left and right sides of binary expression '=' are of type 'bool' and 'real', but must be of the same type",
+      "cause": "Type mismatch between bool and real",
+      "minimal_edit": "Replace 'p2 = tcas_timeToRecovery <= timeToFailure and tcas_timeToRecovery >= 0.0;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 103: left and right sides of binary expression '=' are of type 'bool' and 'real', but must be of the same type",
+      "cause": "Type mismatch between bool and real",
+      "minimal_edit": "p3 = geof_timeToRecovery <= timeToFailure and geof_timeToRecovery >= 0.0;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the AGREE annex block in the Supervisor component type to replace the existing guarantee statements for p1, p2, and p3 with the revised statements that include the additional condition to ensure the timeToRecovery values are non-negative."
+  ]
+}

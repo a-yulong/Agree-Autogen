@@ -1,0 +1,61 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 56: Couldn't resolve reference to 'tempin1'.",
+      "cause": "Reference to 'tempin1' is not visible in the scope of temp_control component type.",
+      "minimal_edit": "Change 'temp1 = voter.tempin1' to 'temp1 = tempin1' in the assume statement at line 56."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 57: Couldn't resolve reference to 'tempin2'.",
+      "cause": "Reference to 'tempin2' is not visible in the scope of temp_control component type.",
+      "minimal_edit": "Change 'temp2 = voter.tempin2' to 'temp2 = tempin2' in the assume statement at line 57."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 86: Couldn't resolve reference to 'temp1'.",
+      "cause": "Reference to 'temp1' is not visible in the scope of voter component type.",
+      "minimal_edit": "Change 'temp1 = tempin1' to 'temp1 = tempin1' in the assume statement at line 86."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 87: Couldn't resolve reference to 'temp2'.",
+      "cause": "Reference to 'temp2' is not visible in the scope of voter component type.",
+      "minimal_edit": "Change 'temp2 = tempin2' to 'temp2 = tempin2' in the assume statement at line 87."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 97: Assume statements are allowed only in component types",
+      "cause": "Assume statements are placed in voter.impl, which is a component implementation, not a component type.",
+      "minimal_edit": "Move the entire annex agree block from voter.impl to voter component type."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 98: Assume statements are allowed only in component types",
+      "cause": "Assume statements are placed in voter.impl, which is a component implementation, not a component type.",
+      "minimal_edit": "Move the entire annex agree block from voter.impl to voter component type."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 99: Assume statements are allowed only in component types",
+      "cause": "Assume statements are placed in voter.impl, which is a component implementation, not a component type.",
+      "minimal_edit": "Move the entire annex agree block from voter.impl to voter component type."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 100: Assume statements are allowed only in component types",
+      "cause": "Assume statements are placed in voter.impl, which is a component implementation, not a component type.",
+      "minimal_edit": "Move the entire annex agree block from voter.impl to voter component type."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: Assume statements are allowed only in component types",
+      "cause": "Assume statements are placed in voter.impl, which is a component implementation, not a component type.",
+      "minimal_edit": "Move the entire annex agree block from voter.impl to voter component type."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 102: Assume statements are allowed only in component types",
+      "cause": "Assume statements are placed in voter.impl, which is a component implementation, not a component type.",
+      "minimal_edit": "Move the entire annex agree block from voter.impl to voter component type."
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the annex agree block from voter.impl (lines 96-103).",
+    "Move the annex agree block from temp_control (lines 55-61) to voter component type (after line 84).",
+    "Update the assume statements in the moved annex block to reference visible identifiers: change 'temp1 = voter.tempin1' to 'temp1 = tempin1' and 'temp2 = voter.tempin2' to 'temp2 = tempin2'.",
+    "Ensure that the timing assumptions are correctly placed in the component type annex."
+  ]
+}

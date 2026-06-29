@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 25: Couldn't resolve reference to 'k_next'.",
+      "cause": "k_next is not declared as a state variable",
+      "minimal_edit": "declare k_next as a state variable using 'eq k_next : int = ...'"
+    },
+    {
+      "diagnostic": "line 25: left and right sides of binary expression '->' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "invalid syntax for state equation; missing temporal recurrence",
+      "minimal_edit": "rewrite k equation to use pre() for previous value: 'eq k : int = k_init -> pre(k)'"
+    },
+    {
+      "diagnostic": "line 29: Couldn't resolve reference to 'k_next'.",
+      "cause": "k_next is not declared as a state variable",
+      "minimal_edit": "declare k_next as a state variable using 'eq k_next : int = ...'"
+    },
+    {
+      "diagnostic": "line 29: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "invalid syntax for state equation; missing temporal recurrence",
+      "minimal_edit": "rewrite k_update_rule to use pre() for previous value: 'guarantee \"k_update_rule\": k = pre(k)'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace line 25: 'eq k : int = k_init -> k_next;' with 'eq k : int = k_init -> pre(k);'",
+    "Replace line 29: 'guarantee \"k_update_rule\": k = k_next;' with 'guarantee \"k_update_rule\": k = pre(k);'"
+  ]
+}

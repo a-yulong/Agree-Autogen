@@ -1,0 +1,79 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- Task
+- Task.impl_1
+- node_a
+- node_a.impl
+- Task1
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Task.impl_1 | lines 29-33
+annex agree {**
+    assume "scheduling_constraint": schedulable = true;
+    assume "timing_constraint": timed = true;
+    guarantee "dispatch_protocol": dispatch_protocol = "Background";
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   26:     };
+   27:   properties
+   28:     Dispatch_Protocol => Background;
+   29:   annex agree {**
+>> 30:     assume "scheduling_constraint": schedulable = true;
+   31:     assume "timing_constraint": timed = true;
+   32:     guarantee "dispatch_protocol": dispatch_protocol = "Background";
+   33:   **};
+   34:   end Task.impl_1;
+
+   27:   properties
+   28:     Dispatch_Protocol => Background;
+   29:   annex agree {**
+   30:     assume "scheduling_constraint": schedulable = true;
+>> 31:     assume "timing_constraint": timed = true;
+   32:     guarantee "dispatch_protocol": dispatch_protocol = "Background";
+   33:   **};
+   34:   end Task.impl_1;
+   35: 
+
+   28:     Dispatch_Protocol => Background;
+   29:   annex agree {**
+   30:     assume "scheduling_constraint": schedulable = true;
+   31:     assume "timing_constraint": timed = true;
+>> 32:     guarantee "dispatch_protocol": dispatch_protocol = "Background";
+   33:   **};
+   34:   end Task.impl_1;
+   35: 
+   36:   ---------------
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Task
+thread Task
+  end Task;
+
+-- TARGET DECLARATION: Task.impl_1
+thread implementation Task.impl_1
+  calls 
+    Mycalls: {
+    P_Spg : subprogram Main_Loop;
+    };
+  properties
+    Dispatch_Protocol => Background;
+  end Task.impl_1;
+
+-- RELATED MODEL LINES
+thread Task
+end Task;
+thread implementation Task.impl_1
+end Task.impl_1;
+process node_a
+end node_a;
+process implementation node_a.impl
+Task1 : thread Task.impl_1;
+end node_a.impl;

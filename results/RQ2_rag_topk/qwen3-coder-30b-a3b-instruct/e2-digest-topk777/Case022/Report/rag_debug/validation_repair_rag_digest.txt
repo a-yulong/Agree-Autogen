@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE expressions must maintain type consistency: boolean expressions for bool, numeric for int/real.
+- Only reference identifiers that are explicitly visible in the current AADL component scope.
+- Use valid AGREE syntax for assumptions, guarantees, equations, and assignments within proper annex blocks.
+- Do not introduce package-qualified identifiers unless they are properly imported and available in the model.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.
+- Branching logic should use nested `if ... then ... else` expressions.
+- Helper functions and variables must be declared before use and match the expected types.
+Anti-patterns:
+- Do not generate AGREE clauses that reference identifiers not present in the current AADL component scope.
+- Do not attempt to resolve type errors by changing the expression type without fixing the root cause.
+- Do not place implementation-level guarantees or assignments in component type annexes.
+- Do not assume that AADL property names (e.g., Period, Deadline) are automatically available as AGREE variables.
+Irrelevant retrieved material:
+- AADL package references and with clauses
+- Model Analyst Agent's role in extracting AADL structure
+- Requirement Analyst Agent's focus on traceability
+- Model Fusion Agent's scope and owner preservation rules
+</RAG_DIGEST>

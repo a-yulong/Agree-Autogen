@@ -1,0 +1,7 @@
+annex agree {
+  eq mode : int = 0;
+  guarantee "initial_mode": mode >= 0;
+  guarantee "mode_increasing": @(time > 0) => mode > pre(mode);
+  guarantee "output_condition1": mode = 3 => Output = Input1 + Input2;
+  guarantee "output_condition2": mode != 3 => Output = 0;
+};

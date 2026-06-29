@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Use guarantees to express deterministic relations between visible outputs and visible inputs.",
+    "Write branching behavior with AGREE `if ... then ... else` expressions.",
+    "Keep references within symbols visible in the chosen component scope; avoid implementation-only paths when not explicitly visible."
+  ],
+  "generic_rules": [
+    "Prefer a direct boolean or value equality guarantee for derived-output behavior.",
+    "Only introduce helper `eq` declarations when they simplify a contract and their types match the expression.",
+    "Use concrete relations from the requirement rather than inventing extra bounds, constants, or state."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE clause forms include `assume`, `guarantee`, `eq`, `const`, and `assign`.",
+    "Scalar declaration types are `bool`, `int`, and `real`, not `boolean` or `integer`.",
+    "Comparison results are `bool`; nested conditions should be written as `if ... then ... else`."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL property names or unit tokens as if they were AGREE variables.",
+    "Do not use subcomponent ports or hidden implementation paths unless they are explicitly valid in scope.",
+    "Do not introduce temporal operators like `pre` or `->` for a purely stateless requirement."
+  ],
+  "irrelevant_topics": [
+    "Validator-specific repair actions for unresolved property references are not needed without active diagnostics.",
+    "Envelope or clamping patterns with invented min/max bounds are not relevant unless the requirement provides such bounds."
+  ]
+}

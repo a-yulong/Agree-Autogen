@@ -1,0 +1,69 @@
+```json
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "top_level must define an internal state variable mode",
+      "evidence": ["top_level"]
+    },
+    {
+      "id": "R2",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "text": "Input < 10",
+      "evidence": ["Input"]
+    },
+    {
+      "id": "R3",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "text": "mode >= 0",
+      "evidence": ["mode"]
+    },
+    {
+      "id": "R4",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "text": "Output < 50",
+      "evidence": ["Output"]
+    },
+    {
+      "id": "R5",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "text": "Input must be forwarded to A_sub",
+      "evidence": ["Input", "A_sub.Input"]
+    },
+    {
+      "id": "R6",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "text": "A_sub.Output must be connected to B_sub and C_sub",
+      "evidence": ["A_sub.Output", "B_sub.Input", "C_sub.Input1"]
+    },
+    {
+      "id": "R7",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "text": "B_sub.Output must be connected to C_sub.Input2",
+      "evidence": ["B_sub.Output", "C_sub.Input2"]
+    },
+    {
+      "id": "R8",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "text": "C_sub.Output must drive Output",
+      "evidence": ["C_sub.Output", "Output"]
+    },
+    {
+      "id": "R9",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "text": "mode of top_level must be assigned to mode of C_sub",
+      "evidence": ["top_level.mode", "C_sub.mode"]
+    }
+  ]
+}
+```

@@ -1,0 +1,14 @@
+annex agree {
+
+  component type ControllerType {
+
+    bool heating_request;
+    bool cooling_request;
+
+    eq "heating_request_def": heating_request = (user_request.heater_on and not user_request.cooler_on);
+    eq "cooling_request_def": cooling_request = (user_request.cooler_on and not user_request.heater_on);
+
+    guarantee "heater_on_condition": heater_on => (heating_request and tempin <= 20.0);
+    guarantee "cooler_on_condition": cooler_on => (cooling_request and tempin > 0.0);
+  }
+}

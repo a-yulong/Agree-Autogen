@@ -1,0 +1,11 @@
+annex agree {**
+  assume "threatDetected is Boolean": threatDetected is bool;
+  assume "threatAltitude is Float": threatAltitude is real;
+  assume "ownAltitude is Float": ownAltitude is real;
+  assume "ownLongitude is Int": ownLongitude is int;
+  assume "threatLongitude is Int": threatLongitude is int;
+  guarantee "R7": threatDetected and ownAltitude = threatAltitude and ownLongitude > threatLongitude => requiredVerticalVelocity = 50;
+  guarantee "R8": threatDetected and ownAltitude = threatAltitude and ownLongitude <= threatLongitude => requiredVerticalVelocity = -50;
+  guarantee "R9": threatDetected and ownAltitude < threatAltitude => requiredVerticalVelocity = -10;
+  guarantee "R10": threatDetected and ownAltitude > threatAltitude => requiredVerticalVelocity = 10;
+**};

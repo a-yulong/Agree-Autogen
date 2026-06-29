@@ -1,0 +1,46 @@
+set oldState [${sbpText}.text cget -state]
+${sbpText}.text configure -state normal
+${sbpText}.text fastdelete 1.0 end
+array set lines [list ]
+set lines(error) [list ]
+set lines(warning) [list ]
+set lines(information) [list ]
+${sbpText}.text fastinsert end 84 d84
+${sbpText}.text tag bind d84 <Any-Enter> "${sbpText}.text tag configure d84 -foreground white -background black"
+${sbpText}.text tag bind d84 <Any-Leave> "${sbpText}.text tag configure d84 -foreground {} -background {}"
+${sbpText}.text tag bind d84 <1> "event generate . <<selectLine>> -data 84"
+lappend lines(error) 84
+TextEditor::fastaddText $sbpText " TMP (subcomponent) points to software_aocs  Telemetry_Processing (entity reference), which does not exist.  
+"
+${sbpText}.text fastinsert end 85 d85
+${sbpText}.text tag bind d85 <Any-Enter> "${sbpText}.text tag configure d85 -foreground white -background black"
+${sbpText}.text tag bind d85 <Any-Leave> "${sbpText}.text tag configure d85 -foreground {} -background {}"
+${sbpText}.text tag bind d85 <1> "event generate . <<selectLine>> -data 85"
+lappend lines(error) 85
+TextEditor::fastaddText $sbpText " FDR (subcomponent) points to software_aocs  Failure_Detection_Isolation (entity reference), which does not exist.  
+"
+${sbpText}.text fastinsert end 86 d86
+${sbpText}.text tag bind d86 <Any-Enter> "${sbpText}.text tag configure d86 -foreground white -background black"
+${sbpText}.text tag bind d86 <Any-Leave> "${sbpText}.text tag configure d86 -foreground {} -background {}"
+${sbpText}.text tag bind d86 <1> "event generate . <<selectLine>> -data 86"
+lappend lines(error) 86
+TextEditor::fastaddText $sbpText " FR (subcomponent) points to software_aocs  Failure_Recovery (entity reference), which does not exist.  
+"
+${sbpText}.text fastinsert end 87 d87
+${sbpText}.text tag bind d87 <Any-Enter> "${sbpText}.text tag configure d87 -foreground white -background black"
+${sbpText}.text tag bind d87 <Any-Leave> "${sbpText}.text tag configure d87 -foreground {} -background {}"
+${sbpText}.text tag bind d87 <1> "event generate . <<selectLine>> -data 87"
+lappend lines(error) 87
+TextEditor::fastaddText $sbpText " Reconfig (subcomponent) points to software_aocs  Reconfigurations (entity reference), which does not exist. Possible mispelling of software_aocs  reconfigurations 
+"
+${sbpText}.text fastinsert end 88 d88
+${sbpText}.text tag bind d88 <Any-Enter> "${sbpText}.text tag configure d88 -foreground white -background black"
+${sbpText}.text tag bind d88 <Any-Leave> "${sbpText}.text tag configure d88 -foreground {} -background {}"
+${sbpText}.text tag bind d88 <1> "event generate . <<selectLine>> -data 88"
+lappend lines(error) 88
+TextEditor::fastaddText $sbpText " ME (subcomponent) points to software_aocs  Manoeuvre_Execution (entity reference), which does not exist.  
+"
+TextEditor::fastaddText $sbpText " Cannot analyze AADL specifications
+"
+${sbpText}.text configure -state $oldState
+return [array get lines]

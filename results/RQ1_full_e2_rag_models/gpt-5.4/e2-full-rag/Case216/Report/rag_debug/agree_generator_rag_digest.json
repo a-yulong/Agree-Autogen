@@ -1,0 +1,24 @@
+{
+  "rag_rules": [
+    "Use AGREE clause forms exactly: assume/guarantee with labels, eq for local equations, const for constants, assign for valid implementation-level output bindings.",
+    "Generate expressions only from identifiers visible in the current component scope; if visibility is unknown, avoid inventing names or declarations.",
+    "Keep type-level contracts limited to type-scope visible features and relations; implementation-only references belong only in valid implementation bindings.",
+    "Use assumptions and guarantees only when the requirement provides a concrete visible relation, threshold, or condition to encode."
+  ],
+  "generic_rules": [
+    "Prefer simple direct clauses over auxiliary equations unless an intermediate expression improves clarity or reuse.",
+    "For conditional logic, express it with if-then-else or a local equation plus a guarantee over an output.",
+    "Do not treat AADL property names or unit tokens as AGREE variables unless they are explicitly exposed as typed symbols."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Wrap contracts in an annex agree block; use semicolon-terminated clauses and AGREE logical operators such as and, or, not(...), and =>.",
+    "For stateful behavior, use initialized recurrence with -> and pre(...); avoid uninitialized temporal references."
+  ],
+  "anti_patterns": [
+    "Do not invent ports, constants, data types, package references, or other identifiers to satisfy a requirement.",
+    "Do not place implementation-scope references or subcomponent paths inside a type-level assume or guarantee."
+  ],
+  "irrelevant_topics": [
+    "Detailed AADL timing/property repair actions are not directly useful unless diagnostics specifically report unresolved property references."
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Periodic_dispatch_protocol'.",
+      "cause": "Invalid AGREE function name used for scheduling constraint",
+      "minimal_edit": "Replace 'Periodic_dispatch_protocol(Attitude_Control_Function)' with 'Periodic(Attitude_Control_Function)'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'execution_period'.",
+      "cause": "Invalid AGREE function name used for scheduling constraint",
+      "minimal_edit": "Replace 'execution_period(Attitude_Control_Function)' with 'compute_time(Attitude_Control_Function)'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in scheduling constraint expression",
+      "minimal_edit": "Replace 'execution_period(Attitude_Control_Function) = 500 us' with 'compute_time(Attitude_Control_Function) = 250 us'"
+    },
+    {
+      "diagnostic": "mismatched input 'us' expecting ';'",
+      "cause": "Invalid unit specification in AGREE expression",
+      "minimal_edit": "Remove 'us' unit from 'compute_time(Attitude_Control_Function) in 0 ms .. 250 us' and use 'compute_time(Attitude_Control_Function) in 0 .. 250'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'Periodic_dispatch_protocol(Attitude_Control_Function)' with 'Periodic(Attitude_Control_Function)'",
+    "Replace 'execution_period(Attitude_Control_Function)' with 'compute_time(Attitude_Control_Function)'",
+    "Replace 'execution_period(Attitude_Control_Function) = 500 us' with 'compute_time(Attitude_Control_Function) = 250 us'",
+    "Replace 'compute_time(Attitude_Control_Function) in 0 ms .. 250 us' with 'compute_time(Attitude_Control_Function) in 0 .. 250'"
+  ]
+}

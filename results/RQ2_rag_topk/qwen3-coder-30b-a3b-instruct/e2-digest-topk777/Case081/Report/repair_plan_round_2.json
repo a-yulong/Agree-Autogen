@@ -1,0 +1,46 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Consumer1'.",
+      "cause": "Consumer1 is a subcomponent reference, not directly accessible in component type annex",
+      "minimal_edit": "Change Consumer1 to Consumer.impl"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Period'.",
+      "cause": "Period is a property, not a direct subcomponent reference",
+      "minimal_edit": "Use Consumer.impl.Period directly"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Deadline'.",
+      "cause": "Deadline is a property, not a direct subcomponent reference",
+      "minimal_edit": "Use Consumer.impl.Deadline directly"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Compute_Execution_Time'.",
+      "cause": "Compute_Execution_Time is a property, not a direct subcomponent reference",
+      "minimal_edit": "Use Consumer.impl.Compute_Execution_Time directly"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Priority'.",
+      "cause": "Priority is a property, not a direct subcomponent reference",
+      "minimal_edit": "Use Consumer.impl.Priority directly"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "Dispatch_Protocol is a property, not a direct subcomponent reference",
+      "minimal_edit": "Use Consumer.impl.Dispatch_Protocol directly"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'periodic'.",
+      "cause": "periodic is a property value, not a direct reference",
+      "minimal_edit": "Use 'periodic' directly as a string literal"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Move the AGREE annex block from thread Consumer to thread implementation Consumer.impl",
+    "Replace all references to Consumer1 with Consumer.impl",
+    "Replace all property references with direct property access on Consumer.impl",
+    "Ensure all property values are properly typed and accessible"
+  ]
+}

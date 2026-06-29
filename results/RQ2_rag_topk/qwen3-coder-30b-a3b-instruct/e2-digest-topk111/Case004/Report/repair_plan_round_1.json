@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'circleLinearization'.",
+      "cause": "undefined function reference in AGREE expression",
+      "minimal_edit": "Remove or replace 'circleLinearization(t)' with a valid AGREE expression using only visible symbols"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 't'.",
+      "cause": "undefined variable 't' in AGREE context",
+      "minimal_edit": "Declare 't' as a state variable or remove reference to 't' in equation"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "type mismatch due to unresolved 't' reference",
+      "minimal_edit": "Fix type consistency by ensuring both sides of '=' are valid expressions of same type"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "invalid expression due to unresolved symbols",
+      "minimal_edit": "Replace invalid expression with valid AGREE temporal or logical expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'eq distanceFromFence : real = circleLinearization(t);' with a valid AGREE expression using only visible symbols",
+    "Add declaration for 't' as a state variable initialized to 0.1",
+    "Replace 't = t_0' with a valid temporal equation for 't'",
+    "Ensure all expressions in the annex use only visible identifiers and valid AGREE syntax"
+  ]
+}

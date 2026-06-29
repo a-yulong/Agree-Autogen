@@ -1,0 +1,90 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: altitude, timeToRecovery
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+altitude | in | data | opaque | real
+timeToRecovery | out | data | opaque | real
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GCAS_singleton | lines 10-17
+annex agree {**
+		  assume "initial_t": timeToRecovery = 0.0;
+		  assume "step_size": altitude = 0.1;
+		  const minHeightAllowed = 200.0;
+		  const recovery_time = 3.7;
+		  guarantee "height_bound": (timeToRecovery >= recovery_time) => (altitude > altitude);
+		  guarantee "pull_up_trend": (timeToRecovery >= recovery_time) => (altitude > altitude);
+		**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   9: 			timeToRecovery: out data port real;
+   10: 	annex agree {**
+   11: 		  assume "initial_t": timeToRecovery = 0.0;
+   12: 		  assume "step_size": altitude = 0.1;
+>> 13: 		  const minHeightAllowed = 200.0;
+   14: 		  const recovery_time = 3.7;
+   15: 		  guarantee "height_bound": (timeToRecovery >= recovery_time) => (altitude > altitude);
+   16: 		  guarantee "pull_up_trend": (timeToRecovery >= recovery_time) => (altitude > altitude);
+   17: 		**};
+
+   10: 	annex agree {**
+   11: 		  assume "initial_t": timeToRecovery = 0.0;
+   12: 		  assume "step_size": altitude = 0.1;
+   13: 		  const minHeightAllowed = 200.0;
+>> 14: 		  const recovery_time = 3.7;
+   15: 		  guarantee "height_bound": (timeToRecovery >= recovery_time) => (altitude > altitude);
+   16: 		  guarantee "pull_up_trend": (timeToRecovery >= recovery_time) => (altitude > altitude);
+   17: 		**};
+   18: 	end GCAS_singleton;
+
+   11: 		  assume "initial_t": timeToRecovery = 0.0;
+   12: 		  assume "step_size": altitude = 0.1;
+   13: 		  const minHeightAllowed = 200.0;
+   14: 		  const recovery_time = 3.7;
+>> 15: 		  guarantee "height_bound": (timeToRecovery >= recovery_time) => (altitude > altitude);
+   16: 		  guarantee "pull_up_trend": (timeToRecovery >= recovery_time) => (altitude > altitude);
+   17: 		**};
+   18: 	end GCAS_singleton;
+   19: 	
+
+   12: 		  assume "step_size": altitude = 0.1;
+   13: 		  const minHeightAllowed = 200.0;
+   14: 		  const recovery_time = 3.7;
+   15: 		  guarantee "height_bound": (timeToRecovery >= recovery_time) => (altitude > altitude);
+>> 16: 		  guarantee "pull_up_trend": (timeToRecovery >= recovery_time) => (altitude > altitude);
+   17: 		**};
+   18: 	end GCAS_singleton;
+   19: 	
+   20: 	system implementation GCAS_singleton.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: GCAS_singleton
+system GCAS_singleton
+		features
+			altitude: in data port real;
+			timeToRecovery: out data port real;
+	end GCAS_singleton;
+
+-- TARGET DECLARATION: GCAS_singleton.impl
+system implementation GCAS_singleton.impl
+	end GCAS_singleton.impl;
+
+-- RELATED MODEL LINES
+system GCAS_singleton
+altitude: in data port real;
+timeToRecovery: out data port real;
+end GCAS_singleton;
+system implementation GCAS_singleton.impl
+end GCAS_singleton.impl;
+data int extends base_types::Integer
+end int;
+data real extends base_types::Float
+end real;
+data bool extends base_types::Boolean
+end bool;

@@ -1,4 +1,4 @@
-import json
+﻿import json
 import subprocess
 import sys
 from pathlib import Path
@@ -6,8 +6,8 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RUN_FILES = REPO_ROOT / "scripts" / "run_files.py"
-REQ = REPO_ROOT / "data" / "benchmark" / "cases" / "Case01" / "Case01_Req.txt"
-AADL = REPO_ROOT / "data" / "benchmark" / "cases" / "Case01" / "Case01_Base.aadl"
+REQ = REPO_ROOT / "data" / "benchmark" / "cases" / "Case001" / "Case001_Req.txt"
+AADL = REPO_ROOT / "data" / "benchmark" / "cases" / "Case001" / "Case001_Base.aadl"
 CONFIG = REPO_ROOT / "configs" / "experiments.yaml"
 
 
@@ -23,7 +23,7 @@ def run_cli(args):
 
 
 def test_dry_run_with_released_case_succeeds(tmp_path):
-    out = tmp_path / "case01"
+    out = tmp_path / "Case001"
     result = run_cli([
         "--requirement", str(REQ),
         "--aadl", str(AADL),
@@ -108,3 +108,4 @@ def test_help_returns_success():
     assert result.returncode == 0
     assert "--requirement" in result.stdout
     assert "--dry-run" in result.stdout
+

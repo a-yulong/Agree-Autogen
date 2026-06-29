@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 110: Duplicate Element 'intruderVerticalVelocity'",
+      "cause": "constant declaration shadows component feature with same name",
+      "minimal_edit": "rename constant to 'intruderVerticalVelocity_calc' to avoid name collision"
+    },
+    {
+      "diagnostic": "line 111: Duplicate Element 'intruderVerticalVelocity'",
+      "cause": "equation reuses name of already declared constant",
+      "minimal_edit": "change left-hand side of equation to 'intruderVerticalVelocity_calc'"
+    },
+    {
+      "diagnostic": "line 111: The variable 'intruderVerticalVelocity' on the left side of equation is of type '<error>' but must be of type 'real'",
+      "cause": "name collision prevents type inference for equation variable",
+      "minimal_edit": "change left-hand side of equation to 'intruderVerticalVelocity_calc'"
+    },
+    {
+      "diagnostic": "line 113: left and right sides of binary expression '+' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "reference to undefined variable due to name collision",
+      "minimal_edit": "change 'intruderVerticalVelocity' to 'intruderVerticalVelocity_calc' in guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Rename the constant declaration on line 110 from 'intruderVerticalVelocity' to 'intruderVerticalVelocity_calc'",
+    "Change the equation on line 111 from 'intruderVerticalVelocity = nearestIntruderAltitude - nearestIntruderAltitude' to 'intruderVerticalVelocity_calc = nearestIntruderAltitude - nearestIntruderAltitude_previous_time_step'",
+    "Update the guarantee on line 113 from 'projectedIntruderAltitude = nearestIntruderAltitude + intruderVerticalVelocity' to 'projectedIntruderAltitude = nearestIntruderAltitude + intruderVerticalVelocity_calc'"
+  ]
+}

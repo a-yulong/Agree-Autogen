@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 74: Assume statements are allowed only in component types",
+      "cause": "AGREE annex is attached to implementation Q.Impl, but assume statements must be in component type Q",
+      "minimal_edit": "move the entire annex block from Q.Impl to Q"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 74: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink is a port of component Q, not visible in Q.Impl context for contracts",
+      "minimal_edit": "keep Data_Sink as-is since it is a feature of Q and will be visible in Q's annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 74: Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg is a subcomponent of Q.Impl, not visible in component type Q contract",
+      "minimal_edit": "remove the clause 'Data_Sink = Q_Spg.Data_Sink' because it references an implementation-local subcomponent port not expressible in component type contract"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 75: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "Property references like Dispatch_Protocol are not directly visible in AGREE without property set with-clauses and are only valid in component type if correctly scoped",
+      "minimal_edit": "remove all property assumption clauses (Dispatch_Protocol, Period, deadline, Priority) because they reference AADL properties not directly accessible in AGREE without property set declarations, and their intent is already captured in AADL properties"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "remove the annex agree block from Q.Impl",
+    "add an annex agree block to component type Q",
+    "in Q's annex, include only one assume statement: assume \"data_flow_routing\": Data_Sink = Data_Sink; (to represent self-binding, as Q_Spg.Data_Sink is not visible in component type)",
+    "remove all property-based assume statements (Dispatch_Protocol, Period, deadline, Priority) as AADL property values are not directly expressible in AGREE contracts without property set with-clauses and are already declared in AADL"
+  ]
+}

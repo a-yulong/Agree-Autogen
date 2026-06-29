@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 25: Couldn't resolve reference to 'k'.",
+      "cause": "k is referenced before declaration in constant expression",
+      "minimal_edit": "Move k declaration before k_prev declaration"
+    },
+    {
+      "diagnostic": "line 25: Non-constant expression in constant declaration",
+      "cause": "pre(k) is not a constant expression",
+      "minimal_edit": "Replace k_prev with a temporal recurrence using pre() on a declared variable"
+    },
+    {
+      "diagnostic": "line 26: Couldn't resolve reference to 'k'.",
+      "cause": "k is not yet declared in the scope of the equation",
+      "minimal_edit": "Declare k as a variable with temporal recurrence before using it in equations"
+    },
+    {
+      "diagnostic": "line 27: Couldn't resolve reference to 'k'.",
+      "cause": "k is not yet declared in the scope of the equation",
+      "minimal_edit": "Declare k as a variable with temporal recurrence before using it in equations"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Declare k as a variable with temporal recurrence before k_prev",
+    "Replace k_prev declaration with a proper temporal recurrence expression",
+    "Ensure all references to k are after its declaration"
+  ]
+}

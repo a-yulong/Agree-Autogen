@@ -1,0 +1,6 @@
+annex agree {**
+  assume "user_heating_command": user_request.heater_on;
+  assume "user_cooling_command": user_request.cooler_on;
+  guarantee "heater_on_impl": heater_on => (user_request.heater_on and not user_request.cooler_on and tempin <= 20.0);
+  guarantee "cooler_on_impl": cooler_on => (user_request.cooler_on and not user_request.heater_on and tempin > 0.0);
+**};

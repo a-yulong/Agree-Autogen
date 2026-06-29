@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Argument of real cast is of type 'Types::speed.speed_impl' but must be of type 'int'",
+      "cause": "Invalid type casting in AGREE expression",
+      "minimal_edit": "Remove the 'real()' casts around Target and Actual"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'integral'.",
+      "cause": "AGREE integral function not recognized",
+      "minimal_edit": "Replace 'integral(e, time)' with 'integral(e)'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'derivative'.",
+      "cause": "AGREE derivative function not recognized",
+      "minimal_edit": "Replace 'derivative(e, time)' with 'derivative(e)'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove real() casts from Target and Actual in the e equation",
+    "Replace integral(e, time) with integral(e) in the e_int equation",
+    "Replace derivative(e, time) with derivative(e) in the e_dot equation"
+  ]
+}

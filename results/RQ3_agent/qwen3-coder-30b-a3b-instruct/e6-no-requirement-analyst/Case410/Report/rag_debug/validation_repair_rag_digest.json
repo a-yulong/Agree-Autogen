@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Fix unresolved property references by ensuring all property definitions and constants are properly declared in the AADL model or its dependencies before use in AGREE contracts.",
+    "Resolve type errors in AGREE expressions by ensuring all identifiers refer to valid AADL features or previously declared eq/helpers with correct types.",
+    "When AGREE reports 'named thing must be an expression with a type', remove or correct the invalid guarantee or helper declaration that references an unresolved identifier."
+  ],
+  "generic_rules": [
+    "In AGREE contracts, only reference identifiers that are visible in the current scope or explicitly declared within the same annex.",
+    "Ensure all expressions in assume/guarantee clauses have consistent and resolvable types to avoid '<error>' type mismatches.",
+    "Use only AADL-defined property definitions, constants, and data types in AGREE annexes to prevent resolution failures."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE expressions must resolve to valid AADL types (int, real, bool) and cannot reference undefined identifiers.",
+    "Guarantee and assume clauses should reference only visible features or declared helpers with matching types.",
+    "Property associations in AADL must be resolvable to valid property definitions or constants in the model."
+  ],
+  "anti_patterns": [
+    "Do not introduce new property definitions or constants in AGREE annexes that are not declared in the AADL model or its dependencies.",
+    "Avoid placing guarantee statements in implementation scopes; use assign for output bindings instead.",
+    "Do not reference identifiers in AGREE that are not visible in the current component's scope or declared in the same annex."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "type scope range assumption and guarantee",
+    "implementation scope output assign",
+    "integrated pattern chunk 1"
+  ]
+}

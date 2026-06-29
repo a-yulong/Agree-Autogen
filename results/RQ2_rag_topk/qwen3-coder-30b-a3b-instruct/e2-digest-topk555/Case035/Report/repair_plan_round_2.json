@@ -1,0 +1,43 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 19: Couldn't resolve reference to 'val'.",
+      "cause": "AGREE cannot resolve '.val' on opaque data types",
+      "minimal_edit": "Replace 'Actual_Speed.val' with 'Actual_Speed' and 'Actual_Speed'.val with 'Actual_Speed' in the acceleration_constraint guarantee"
+    },
+    {
+      "diagnostic": "line 19: The condition of the if statement is of type 'RealTypeDef' but must be of type 'bool'",
+      "cause": "Invalid boolean expression in if-then-else",
+      "minimal_edit": "Rewrite the if expression to use proper boolean comparison with '>= 0' as a boolean expression"
+    },
+    {
+      "diagnostic": "line 19: left and right sides of binary expression '-' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Invalid expression with unresolved type",
+      "minimal_edit": "Replace the complex expression with a simpler valid AGREE expression using only visible identifiers"
+    },
+    {
+      "diagnostic": "line 33: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "Port reference mismatch in connection",
+      "minimal_edit": "Change 'THROT.Actual' to 'THROT.Actual_Speed' in the connection"
+    },
+    {
+      "diagnostic": "line 35: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "Port reference mismatch in connection",
+      "minimal_edit": "Change 'CNTRL.Target' to 'CNTRL.Target_Speed' in the connection"
+    },
+    {
+      "diagnostic": "line 40: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "Port reference mismatch in connection",
+      "minimal_edit": "Change 'SM.State_Out' to 'SM.State_Signal' in the connection"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex, replace 'Actual_Speed.val' with 'Actual_Speed' in the acceleration_constraint guarantee",
+    "In the AGREE annex, rewrite the if-then-else expression to use valid boolean logic",
+    "In the AGREE annex, simplify the acceleration_constraint to use only visible identifiers",
+    "In the Car.Car_Impl connections, change 'THROT.Actual' to 'THROT.Actual_Speed'",
+    "In the Car.Car_Impl connections, change 'CNTRL.Target' to 'CNTRL.Target_Speed'",
+    "In the Car.Car_Impl connections, change 'SM.State_Out' to 'SM.State_Signal'"
+  ]
+}

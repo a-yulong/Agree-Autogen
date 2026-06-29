@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 182: Couldn't resolve reference to 'C1'.",
+      "cause": "AGREE annex is in implementation scope but references connection 'C1' which is not visible in that scope",
+      "minimal_edit": "Remove guarantee statement for C1 signal flow"
+    },
+    {
+      "diagnostic": "line 184: Couldn't resolve reference to 'C2'.",
+      "cause": "AGREE annex is in implementation scope but references connection 'C2' which is not visible in that scope",
+      "minimal_edit": "Remove guarantee statement for C2 signal flow"
+    },
+    {
+      "diagnostic": "line 186: Guarantee statements are allowed only in component types",
+      "cause": "AGREE annex is in implementation scope but contains guarantee statements which are not allowed in implementation annexes",
+      "minimal_edit": "Move annex to component type ADIRU"
+    },
+    {
+      "diagnostic": "line 188: Guarantee statements are allowed only in component types",
+      "cause": "AGREE annex is in implementation scope but contains guarantee statements which are not allowed in implementation annexes",
+      "minimal_edit": "Move annex to component type ADIRU"
+    },
+    {
+      "diagnostic": "line 190: Guarantee statements are allowed only in component types",
+      "cause": "AGREE annex is in implementation scope but contains guarantee statements which are not allowed in implementation annexes",
+      "minimal_edit": "Move annex to component type ADIRU"
+    },
+    {
+      "diagnostic": "line 192: Guarantee statements are allowed only in component types",
+      "cause": "AGREE annex is in implementation scope but contains guarantee statements which are not allowed in implementation annexes",
+      "minimal_edit": "Move annex to component type ADIRU"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire AGREE annex block from ADIRU.EMV2 implementation to the ADIRU component type",
+    "Remove the signal flow guarantees that reference connections not visible in component type scope",
+    "Ensure the remaining binding guarantees are valid in component type scope"
+  ]
+}

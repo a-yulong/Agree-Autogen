@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use valid AGREE annex syntax and generate only clauses that can be expressed with visible symbols in scope.
+- Prefer component-level assumptions and guarantees over implementation-only references; avoid subcomponent paths unless they are exposed through valid visible variables.
+- When expressing dependencies, relate visible outputs to visible inputs or local helper equations rather than hidden implementation structure.
+- Use exact Boolean expressions only for Boolean-typed symbols; do not invent numeric range checks for non-numeric or opaque values.
+Generic rules:
+- Only generate assumptions or guarantees when the requirement provides a concrete visible relation, condition, or dependency.
+- Helper declarations must use AGREE scalar types `bool`, `int`, or `real` that match the expression type.
+- Use local equations to name intermediate logic before referencing them in guarantees when that improves clarity and type safety.
+Syntax or pattern reminders:
+- AGREE contracts use `annex agree {** ... **};` with logical operators such as `and`, `or`, `not(...)`, and `=>`.
+- Temporal state should use initialized recurrence like `init -> pre(x)`; branching uses `if ... then ... else`.
+Anti-patterns:
+- Do not use invalid scalar names like `boolean` or `integer`.
+- Do not reference implementation-only subcomponent ports or paths in a component contract.
+- Do not compare Boolean-like values to numeric literals or add numeric bounds without explicit numeric typing support.
+</RAG_DIGEST>

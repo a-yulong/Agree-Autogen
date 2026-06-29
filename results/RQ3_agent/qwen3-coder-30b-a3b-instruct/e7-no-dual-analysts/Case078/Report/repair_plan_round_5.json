@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'door1'.",
+      "cause": "Reference to subcomponent 'door1' is not visible in process type scope",
+      "minimal_edit": "Remove the assume statements referencing 'door1' and its ports"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'handle_position'.",
+      "cause": "Reference to subcomponent port 'handle_position' is not visible in process type scope",
+      "minimal_edit": "Remove the assume statements referencing 'door1' and its ports"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'closed'.",
+      "cause": "Reference to subcomponent port 'closed' is not visible in process type scope",
+      "minimal_edit": "Remove the assume statements referencing 'door1' and its ports"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire annex agree block from doors_process",
+    "Move the assume statements to the implementation annex if they are needed for implementation-level bindings",
+    "Verify that all referenced identifiers are visible in the new scope"
+  ]
+}

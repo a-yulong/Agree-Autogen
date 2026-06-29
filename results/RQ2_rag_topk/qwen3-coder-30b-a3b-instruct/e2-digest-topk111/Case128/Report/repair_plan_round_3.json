@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 210: Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "acc_in_data_x is not visible in the AGREE annex context of ATTITUDE",
+      "minimal_edit": "Replace acc_in_data_x with accelero_thread.acc_in_data_x in the assume statement"
+    },
+    {
+      "diagnostic": "line 210: Couldn't resolve reference to 'accelero_thread'.",
+      "cause": "accelero_thread is not directly accessible in the AGREE annex context of ATTITUDE",
+      "minimal_edit": "Remove the reference to accelero_thread and use only visible identifiers"
+    },
+    {
+      "diagnostic": "line 211: Couldn't resolve reference to 'acc_in_data_y'.",
+      "cause": "acc_in_data_y is not visible in the AGREE annex context of ATTITUDE",
+      "minimal_edit": "Replace acc_in_data_y with accelero_thread.acc_in_data_y in the assume statement"
+    },
+    {
+      "diagnostic": "line 211: Couldn't resolve reference to 'accelero_thread'.",
+      "cause": "accelero_thread is not directly accessible in the AGREE annex context of ATTITUDE",
+      "minimal_edit": "Remove the reference to accelero_thread and use only visible identifiers"
+    },
+    {
+      "diagnostic": "line 212: Couldn't resolve reference to 'ACC_INPUT_PC1'.",
+      "cause": "ACC_INPUT_PC1 is not a valid AGREE expression; it's a connection name",
+      "minimal_edit": "Remove or rewrite the guarantee statement involving ACC_INPUT_PC1"
+    },
+    {
+      "diagnostic": "line 213: Couldn't resolve reference to 'ACC_INPUT_PC2'.",
+      "cause": "ACC_INPUT_PC2 is not a valid AGREE expression; it's a connection name",
+      "minimal_edit": "Remove or rewrite the guarantee statement involving ACC_INPUT_PC2"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the assume statements that reference acc_in_data_x and acc_in_data_y directly",
+    "Remove the guarantee statements that reference ACC_INPUT_PC1 and ACC_INPUT_PC2",
+    "Keep only valid AGREE expressions using visible identifiers"
+  ]
+}

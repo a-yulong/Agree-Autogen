@@ -1,0 +1,24 @@
+<RAG_DIGEST agent="model_fusion">
+Generic rules:
+- Preserve the original AADL architecture when inserting AGREE annex blocks
+- Use only visible identifiers when writing AGREE contracts
+- Place assumptions and guarantees in the appropriate scope based on the component type or implementation
+- Avoid using subcomponent ports in component type contracts unless they are represented through valid variables or outputs
+Syntax or pattern reminders:
+- AGREE contracts are written inside `annex agree {** ... **};` blocks
+- Use `assume "label": expression;` and `guarantee "label": expression;` for assumptions and guarantees
+- Use `eq name : type = expression;` for equations and `const name : type = value;` for constants
+Anti-patterns:
+- Do not use subcomponent ports in component type contracts unless they are represented through valid variables or outputs
+- Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for them
+- Do not place assumptions and guarantees in the wrong scope based on the component type or implementation
+Irrelevant retrieved material:
+- AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes
+- Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections
+- Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs
+- AGREE contracts are written inside `annex agree {** ... **};` blocks
+- Component type annexes are the normal location for assumptions, guarantees, constants, and equation declarations
+- Component implementation annexes are used for implementation-level bindings such as assignments when they are valid in that scope
+- For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation
+- Use case-provided thresholds and legal visible feature names when writing assumptions and guarantees
+</RAG_DIGEST>

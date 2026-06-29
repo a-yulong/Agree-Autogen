@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assume statements are allowed only in component types",
+      "cause": "Assume statements in AGREE annex are restricted to component types, not implementations",
+      "minimal_edit": "Move the entire AGREE annex block from ADIRU.EMV2 implementation to the ADIRU component type"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_pr'",
+      "cause": "Reference to subcomponent 'acc_pr' not visible in current annex scope",
+      "minimal_edit": "Remove the reference to 'acc_pr' from the AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'main_cpu'",
+      "cause": "Reference to processor 'main_cpu' not visible in current annex scope",
+      "minimal_edit": "Remove the reference to 'main_cpu' from the AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'part1'",
+      "cause": "Reference to processor partition 'part1' not visible in current annex scope",
+      "minimal_edit": "Remove the reference to 'part1' from the AGREE annex"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression syntax in AGREE assumption",
+      "minimal_edit": "Remove the invalid expression from the AGREE annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from ADIRU.EMV2 implementation",
+    "Add a new AGREE annex block to the ADIRU component type",
+    "Move all assume statements from implementation annex to component type annex",
+    "Remove all references to subcomponents and processor partitions from the AGREE annex"
+  ]
+}

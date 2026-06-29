@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "Fix validator diagnostics by aligning AGREE expressions with visible AADL identifiers and types; do not introduce new package or property references not present in the model.",
+    "When AGREE reports type mismatches, ensure helper declarations match the types of their expressions; use int, real, or bool as scalar types."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be placed in valid AADL scopes: component types for assumptions/guarantees, implementations for bindings.",
+    "Generated AGREE expressions must preserve type consistency and use only visible identifiers from the model.",
+    "Do not encode AADL properties like timing or resource usage directly into AGREE expressions unless model exposes typed ports or constants.",
+    "If a clause references an unresolved identifier, remove it rather than inventing new declarations."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annexes are enclosed in `annex agree {** ... **};` blocks with valid syntax: assume, guarantee, eq, const, assign.",
+    "Helper functions and variables must be declared in the same annex and match the types of their expressions."
+  ],
+  "anti_patterns": [
+    "Avoid introducing package-qualified identifiers or property references that are not declared in the AADL model or its dependencies.",
+    "Do not attempt to fix unresolved references by adding new architecture elements; instead, remove or rewrite clauses using only visible identifiers."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and `with` clauses",
+    "AGREE annex placement in component implementations",
+    "Model Analyst's role in extracting component structure",
+    "Requirement Analyst's handling of compact semantics",
+    "Model Fusion's owner/scope preservation rules"
+  ]
+}

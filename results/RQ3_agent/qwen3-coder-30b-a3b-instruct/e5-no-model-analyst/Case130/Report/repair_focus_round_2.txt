@@ -1,0 +1,123 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- Task
+- Task.impl_1
+- node_a
+- node_a.impl
+- Task1
+- hello
+- hello.impl
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "hello component shall use deployment bindings defined for hello.impl",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "hello",
+        "hello.impl"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "deployment mapping shall bind node_a to processor cpu_rm.p0",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "node_a",
+        "cpu_rm.p0"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "deployment mapping shall bind Node_A to memory mem.segment1",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "Node_A",
+        "mem.segment1"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: hello | lines 106-110
+annex agree {**
+      assume "deployment_binding_hello": hello = hello;
+      assume "deployment_binding_node_a": node_a = node_a;
+      assume "deployment_binding_Node_A": Node_A = node_a;
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   103:   ------------
+   104: 
+   105:   system hello
+   106:   annex agree {**
+>> 107:       assume "deployment_binding_hello": hello = hello;
+   108:       assume "deployment_binding_node_a": node_a = node_a;
+   109:       assume "deployment_binding_Node_A": Node_A = node_a;
+   110:     **};
+   111:   end hello;
+
+   104: 
+   105:   system hello
+   106:   annex agree {**
+   107:       assume "deployment_binding_hello": hello = hello;
+>> 108:       assume "deployment_binding_node_a": node_a = node_a;
+   109:       assume "deployment_binding_Node_A": Node_A = node_a;
+   110:     **};
+   111:   end hello;
+   112: 
+
+   105:   system hello
+   106:   annex agree {**
+   107:       assume "deployment_binding_hello": hello = hello;
+   108:       assume "deployment_binding_node_a": node_a = node_a;
+>> 109:       assume "deployment_binding_Node_A": Node_A = node_a;
+   110:     **};
+   111:   end hello;
+   112: 
+   113:   system implementation hello.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: hello
+system hello
+  end hello;
+
+-- TARGET DECLARATION: hello.impl
+system implementation hello.impl
+  subcomponents
+    node_a : process node_a.impl;
+    cpu_rm : processor cpurm.impl;
+
+    mem    :  memory myram.sdram;
+  properties
+    Actual_Processor_Binding => (reference (cpu_rm.p0)) applies to node_a;
+    actual_memory_binding => (reference (mem.segment1)) applies to Node_A;
+  end hello.impl;
+
+-- RELATED MODEL LINES
+Source_Text     => ("hello.c");
+thread Task
+end Task;
+thread implementation Task.impl_1
+end Task.impl_1;
+process node_a
+end node_a;
+process implementation node_a.impl
+Task1 : thread Task.impl_1;
+end node_a.impl;
+system hello
+end hello;
+system implementation hello.impl
+node_a : process node_a.impl;
+Actual_Processor_Binding => (reference (cpu_rm.p0)) applies to node_a;
+end hello.impl;

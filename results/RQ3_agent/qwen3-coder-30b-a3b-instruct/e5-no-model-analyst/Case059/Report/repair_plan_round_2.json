@@ -1,0 +1,52 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 29: Couldn't resolve reference to 'CMD'.",
+      "cause": "Reference to undefined symbol CMD in component type contract",
+      "minimal_edit": "Replace CMD with COM1.CMD in the guarantee statement"
+    },
+    {
+      "diagnostic": "line 29: Couldn't resolve reference to 'Fail'.",
+      "cause": "Reference to undefined symbol Fail in component type contract",
+      "minimal_edit": "Replace Fail with COM1.Fail in the guarantee statement"
+    },
+    {
+      "diagnostic": "line 41: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove or replace with valid expression using visible symbols"
+    },
+    {
+      "diagnostic": "line 44: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove or replace with valid expression using visible symbols"
+    },
+    {
+      "diagnostic": "line 62: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove or replace with valid expression using visible symbols"
+    },
+    {
+      "diagnostic": "line 77: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove or replace with valid expression using visible symbols"
+    },
+    {
+      "diagnostic": "line 179: Couldn't resolve reference to 'COM1.Panel'.",
+      "cause": "Reference to undefined symbol COM1.Panel in implementation annex",
+      "minimal_edit": "Replace with valid output port or auxiliary variable"
+    },
+    {
+      "diagnostic": "line 180: Couldn't resolve reference to 'MON1.CMD_From_COM'.",
+      "cause": "Reference to undefined symbol MON1.CMD_From_COM in implementation annex",
+      "minimal_edit": "Replace with valid output port or auxiliary variable"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the annex block at lines 25-30 from BSCU to COM component type",
+    "Move the annex block at lines 39-45 from COM to COM1 component implementation",
+    "Move the annex block at lines 59-84 from MON to MON1 component implementation",
+    "Remove or replace the undefined package qualified identifiers Agree_Nodes::Brake_Mode and Agree_Nodes::Brake_Cmd with valid expressions",
+    "Replace the invalid assignments in BSCU.BSCU_Impl annex with valid output port assignments or auxiliary variable declarations"
+  ]
+}

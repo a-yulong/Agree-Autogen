@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "AGREE annex is in component implementation scope but references component type features directly without proper qualification",
+      "minimal_edit": "Replace 'acc_in_data_x' with 'acc_in_data_x' (no change needed, but ensure correct scope)"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "AGREE annex is in component implementation scope but references subprogram port without proper qualification",
+      "minimal_edit": "Remove or rewrite the reference to 'attitude_sub' to use only visible symbols"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE assumes reference to component type features are not properly qualified in implementation context",
+      "minimal_edit": "Rewrite the assume statements to reference only visible identifiers in the implementation scope"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that the AGREE annex is in the implementation scope but references component type features and subprogram ports directly",
+    "Remove the assume statements that reference 'attitude_sub' or use invalid qualified names",
+    "Rewrite the assume statements to reference only visible identifiers in the implementation scope",
+    "Ensure all expressions use only identifiers that are directly available in the implementation context"
+  ]
+}

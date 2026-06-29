@@ -1,0 +1,33 @@
+{
+  "rag_rules": [
+    "Place timing and signal flow constraints in component type annexes when they refer to visible features or constants; use implementation annexes for output assignments only.",
+    "Use `assume` and `guarantee` statements with valid AADL feature names and types; avoid encoding AADL properties like Compute_Execution_Time directly into AGREE expressions.",
+    "Generate `eq` helpers for range checks and boolean conditions using visible identifiers or declared constants; ensure type alignment between expressions and declarations.",
+    "Do not place guarantees in implementation scope; use `assign` only for output features or declared auxiliary variables."
+  ],
+  "generic_rules": [
+    "AGREE annex blocks must be syntactically valid and scoped to their owning component type or implementation.",
+    "Visible AADL identifiers must be used in expressions; avoid referencing AADL properties as AGREE variables.",
+    "Helper declarations (`eq`, `const`) should align with the types of the expressions they define.",
+    "Assignments in AGREE are limited to output features or auxiliary variables in implementation scope."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for logical constraints.",
+    "Declare auxiliary values with `eq name : type = expression;` and constants with `const name : type = value;`.",
+    "Assignments are written as `assign output = expression;` and must target valid output features."
+  ],
+  "anti_patterns": [
+    "Do not encode AADL property names (e.g., Compute_Execution_Time) directly into AGREE expressions unless they are explicitly typed in the model.",
+    "Avoid placing guarantees in implementation scope; use only `assign` for output bindings.",
+    "Do not reference unresolved or opaque identifiers in AGREE expressions without proper declaration or visibility.",
+    "Do not mix Boolean and numeric comparisons unless the data type is explicitly scalar and visible."
+  ],
+  "irrelevant_topics": [
+    "AADL AS5506C standard reference",
+    "Model Analyst Agent's structural extraction",
+    "Requirement Analyst's traceability",
+    "Validation Repair's minimal repair patterns",
+    "Model Fusion's owner/scope preservation rules"
+  ]
+}

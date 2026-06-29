@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 20: Couldn't resolve reference to 'abs_real'.",
+      "cause": "abs_real is not a recognized AGREE function; should use abs",
+      "minimal_edit": "Replace 'abs_real' with 'abs'"
+    },
+    {
+      "diagnostic": "line 20: left and right sides of binary expression '<' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Expression has invalid type resolution due to abs_real error",
+      "minimal_edit": "Replace 'abs_real(Actual_Speed.val - Actual_Speed.val)' with 'abs(Actual_Speed.val - Actual_Speed.val_previous)'"
+    },
+    {
+      "diagnostic": "line 20: left side of binary expression '<' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Expression has invalid type resolution due to abs_real error",
+      "minimal_edit": "Replace 'abs_real(Actual_Speed.val - Actual_Speed.val)' with 'abs(Actual_Speed.val - Actual_Speed.val_previous)'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'abs_real' with 'abs' in the acceleration_limit guarantee",
+    "Replace 'Actual_Speed.val - Actual_Speed.val' with 'Actual_Speed.val - Actual_Speed.val_previous' in the acceleration_limit guarantee"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '<' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Comparison of opaque AADL type with real literal",
+      "minimal_edit": "Replace Target_Speed with Target_Speed.val in all comparisons"
+    },
+    {
+      "diagnostic": "mismatched input '=' expecting ':'",
+      "cause": "Invalid AGREE syntax for constant declaration",
+      "minimal_edit": "Change 'const max_accel = 40.0;' to 'const max_accel : real = 40.0;'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'const_tar_speed'",
+      "cause": "Undeclared variable in AGREE annex",
+      "minimal_edit": "Remove references to 'const_tar_speed' and rewrite guarantees using visible features"
+    },
+    {
+      "diagnostic": "left side of binary expression '<=' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Comparison of opaque AADL type with real literal",
+      "minimal_edit": "Replace Actual_Speed with Actual_Speed.val in all comparisons"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Subtraction of opaque AADL types",
+      "minimal_edit": "Replace Actual_Speed with Actual_Speed.val in all expressions"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'abs'",
+      "cause": "Unqualified function call in AGREE",
+      "minimal_edit": "Use 'abs(Actual_Speed.val - pre(Actual_Speed.val))' with proper variable references"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace Target_Speed with Target_Speed.val in the speed_bounds assumption",
+    "Replace Actual_Speed with Actual_Speed.val in both guarantees",
+    "Change 'const max_accel = 40.0;' to 'const max_accel : real = 40.0;'",
+    "Remove const_tar_speed references and rewrite guarantees using only visible features",
+    "Replace abs() with proper AGREE syntax using visible variables",
+    "Ensure all expressions use .val for opaque AADL types"
+  ]
+}

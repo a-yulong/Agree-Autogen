@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Fix unresolved property references by ensuring all property definitions and constants are properly declared in the AADL model or its dependencies before use in AGREE contracts.",
+    "Resolve type errors in AGREE expressions by ensuring all identifiers and helper declarations refer to valid AADL features or previously declared AGREE helpers with matching types.",
+    "When AGREE reports 'named thing must be an expression with a type', remove or correct the invalid clause instead of adding new architecture elements."
+  ],
+  "generic_rules": [
+    "In AGREE contracts, only reference identifiers that are visible in the current scope or explicitly declared within the same annex.",
+    "Ensure all expressions in assume/guarantee clauses have consistent types; avoid mixing int, real, and bool without explicit conversion.",
+    "Use only valid AGREE scalar types (int, real, bool) in const and eq declarations to prevent resolution errors."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE clauses must be placed in valid scopes: assumptions and guarantees in component types, assigns in implementations.",
+    "Property references in AGREE must resolve to definitions present in the AADL model or configured dependencies."
+  ],
+  "anti_patterns": [
+    "Do not introduce new property definitions or constants in AGREE annexes that are not already declared in the AADL model.",
+    "Do not attempt to fix type mismatches by adding architecture elements; instead, correct the expression or helper declaration."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "Component type vs implementation scope rules for contracts",
+    "AGREE annex placement and visibility rules"
+  ]
+}

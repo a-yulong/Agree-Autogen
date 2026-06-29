@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Fix unresolved property references by removing invalid AGREE clauses that reference AADL properties like HM_Errors or Stack_Size",
+    "Resolve type errors in AGREE expressions by ensuring numeric and Boolean types match expected int, real, or bool",
+    "Remove guarantees or assumptions that reference invalid implementation-level features or subcomponents in component type scopes"
+  ],
+  "generic_rules": [
+    "Only reference visible identifiers in AGREE annexes; avoid undefined or package-qualified names not in scope",
+    "Ensure all AGREE expressions have consistent types: int, real, or bool",
+    "Place implementation-level bindings in implementation scopes, not component type annexes",
+    "Delete invalid AGREE clauses when diagnostics point to unresolved identifiers or invalid types"
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be inside annex agree {** ... **}; blocks",
+    "Use const, eq, assume, and guarantee with correct scalar types: int, real, bool",
+    "Assignments in implementation scope must reference valid output features or declared variables"
+  ],
+  "anti_patterns": [
+    "Do not reference AADL property names like Stack_Size or HM_Errors as AGREE variables",
+    "Do not place implementation-level guarantees in component type annexes",
+    "Do not generate AGREE expressions with mismatched or <error> types"
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and their resolution in model scope",
+    "ARINC653 partition and slot allocation details",
+    "Component implementation bindings and subcomponent paths in type annexes"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Place AGREE contracts in component type scopes for port-based assumptions and guarantees, and in implementation scopes for subcomponent bindings.",
+    "Use annex agree {** ... **}; blocks for AGREE contract syntax and ensure all identifiers are visible in the current scope."
+  ],
+  "generic_rules": [
+    "Ensure type consistency in AGREE expressions: numeric variables must use numeric expressions, and Boolean variables must use Boolean expressions.",
+    "Do not introduce package-qualified identifiers or data types not present in the analyzed model and its dependencies.",
+    "Generated AGREE code should only reference visible AADL features or helper declarations within the same annex.",
+    "Use valid AGREE scalar types: int, real, and bool for constants and equation declarations."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts use assume/guarantee syntax with labeled expressions and eq/const declarations inside annex agree blocks.",
+    "Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.",
+    "Branching logic should use nested `if ... then ... else` expressions.",
+    "Logical operators such as `and`, `or`, `not(...)`, and implication `=>` are valid in AGREE."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level bindings in component type scopes or use subcomponent ports in type-level contracts.",
+    "Do not encode AADL timing properties (e.g., Deadline, Period) as AGREE expressions unless explicitly exposed as typed ports or constants.",
+    "Do not attempt to resolve unresolved identifiers by inventing new declarations; instead, use only visible identifiers or remove the clause."
+  ],
+  "irrelevant_topics": [
+    "AGREE validator diagnostics and repair patterns",
+    "Requirement traceability and compact semantics",
+    "Model analyst-specific AADL structural extraction rules"
+  ]
+}

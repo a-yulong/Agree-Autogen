@@ -1,0 +1,17 @@
+annex agree {**
+  assume "data_routing_constraint": 
+    acc_pr.acc1_output = acc_hm_pr.acc1_input and 
+    acc_pr.acc2_output = acc_hm_pr.acc2_input;
+  
+  assume "signal_flow_path_C1": 
+    acc_pr.acc1_output -> acc_hm_pr.acc1_input;
+  
+  assume "signal_flow_path_C2": 
+    acc_pr.acc2_output -> acc_hm_pr.acc2_input;
+  
+  assume "deployment_mapping": 
+    ADIRU.impl = main_cpu.part1 and 
+    acc_hm_pr = main_cpu.part2 and 
+    ADIRUp_pr = main_cpu.part3 and 
+    SHM_pr = main_cpu.part4;
+**};

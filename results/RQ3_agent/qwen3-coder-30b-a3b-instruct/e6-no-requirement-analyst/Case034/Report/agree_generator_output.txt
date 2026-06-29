@@ -1,0 +1,10 @@
+annex agree {**
+  assume "threat detection": threatDetected;
+  assume "altitude equality": ownAltitude = threatAltitude;
+  assume "longitude comparison": ownLongitude > threatLongitude;
+  guarantee "climb command": requiredVerticalVelocity = 50;
+  assume "own altitude lower": ownAltitude < threatAltitude;
+  guarantee "top intrusion avoidance": requiredVerticalVelocity = -10;
+  assume "own altitude higher": ownAltitude > threatAltitude;
+  guarantee "bottom intrusion avoidance": requiredVerticalVelocity = 10;
+**};

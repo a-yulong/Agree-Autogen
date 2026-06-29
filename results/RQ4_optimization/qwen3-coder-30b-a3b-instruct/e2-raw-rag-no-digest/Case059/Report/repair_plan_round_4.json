@@ -1,0 +1,93 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 30: Couldn't resolve reference to 'CMD'.",
+      "cause": "Reference to undefined symbol 'CMD' in guarantee statement",
+      "minimal_edit": "Replace 'CMD' with 'COM1.CMD' or 'COM2.CMD' depending on context"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 30: Couldn't resolve reference to 'Fail'.",
+      "cause": "Reference to undefined symbol 'Fail' in guarantee statement",
+      "minimal_edit": "Replace 'Fail' with 'FailCOM1' or 'FailCOM2' depending on context"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 42: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Package qualified reference to undefined function 'Agree_Nodes::Brake_Mode'",
+      "minimal_edit": "Remove or replace 'Agree_Nodes::Brake_Mode' with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 45: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Package qualified reference to undefined function 'Agree_Nodes::Brake_Cmd'",
+      "minimal_edit": "Remove or replace 'Agree_Nodes::Brake_Cmd' with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 63: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Package qualified reference to undefined function 'Agree_Nodes::Brake_Mode'",
+      "minimal_edit": "Remove or replace 'Agree_Nodes::Brake_Mode' with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 78: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Package qualified reference to undefined function 'Agree_Nodes::Brake_Cmd'",
+      "minimal_edit": "Remove or replace 'Agree_Nodes::Brake_Cmd' with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 188: Couldn't resolve reference to 'Initializing'.",
+      "cause": "Reference to undefined symbol 'Initializing' in assignment",
+      "minimal_edit": "Replace 'Initializing' with valid expression or remove assignment"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 195: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Package qualified reference to undefined function 'Agree_Nodes::Brake_Cmd'",
+      "minimal_edit": "Remove or replace 'Agree_Nodes::Brake_Cmd' with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 196: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Package qualified reference to undefined function 'Agree_Nodes::Brake_Cmd'",
+      "minimal_edit": "Remove or replace 'Agree_Nodes::Brake_Cmd' with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 197: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Package qualified reference to undefined function 'Agree_Nodes::Brake_Cmd'",
+      "minimal_edit": "Remove or replace 'Agree_Nodes::Brake_Cmd' with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 198: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Package qualified reference to undefined function 'Agree_Nodes::Brake_Cmd'",
+      "minimal_edit": "Remove or replace 'Agree_Nodes::Brake_Cmd' with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 206: Couldn't resolve reference to 'COM1Failed'.",
+      "cause": "Reference to undefined symbol 'COM1Failed' in lemma",
+      "minimal_edit": "Replace 'COM1Failed' with valid expression or remove lemma"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 206: Couldn't resolve reference to 'MON1Failed'.",
+      "cause": "Reference to undefined symbol 'MON1Failed' in lemma",
+      "minimal_edit": "Replace 'MON1Failed' with valid expression or remove lemma"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 207: Couldn't resolve reference to 'COM2Failed'.",
+      "cause": "Reference to undefined symbol 'COM2Failed' in lemma",
+      "minimal_edit": "Replace 'COM2Failed' with valid expression or remove lemma"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 207: Couldn't resolve reference to 'MON2Failed'.",
+      "cause": "Reference to undefined symbol 'MON2Failed' in lemma",
+      "minimal_edit": "Replace 'MON2Failed' with valid expression or remove lemma"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the COM annex, replace 'eq Mode: int = 0;' with 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);'",
+    "In the COM annex, replace 'not Fail => CMD = Pedal;' with 'not FailCOM1 => COM1.CMD = Pedal;'",
+    "In the MON annex, replace 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' with 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);'",
+    "In the MON annex, replace 'not Fail => (Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal));' with 'not FailMON1 => (MON1.Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal));'",
+    "In the BSCU.BSCU_Impl annex, replace 'assign Initializing = not (COM1_Running and COM2_Running and MON1_Running and MON2_Running);' with 'eq Initializing : bool = not (COM1_Running and COM2_Running and MON1_Running and MON2_Running);'",
+    "In the BSCU.BSCU_Impl annex, replace 'lemma L1 \"COM1 Consistency\" : COM1._CLK and not FailCOM1 => (COM1.CMD = Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal));' with 'lemma L1 \"COM1 Consistency\" : COM1._CLK and not FailCOM1 => (COM1.CMD = Pedal);'",
+    "In the BSCU.BSCU_Impl annex, replace 'lemma L2 \"COM2 Consistency\" : COM2._CLK and not FailCOM2 => (COM2.CMD = Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal));' with 'lemma L2 \"COM2 Consistency\" : COM2._CLK and not FailCOM2 => (COM2.CMD = Pedal);'",
+    "In the BSCU.BSCU_Impl annex, replace 'lemma L3 \"MON1 Consistency\" : MON1._CLK and not FailMON1 => (MON1.Status.Cmd = Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal));' with 'lemma L3 \"MON1 Consistency\" : MON1._CLK and not FailMON1 => (MON1.Status.Cmd = Pedal);'",
+    "In the BSCU.BSCU_Impl annex, replace 'lemma L4 \"MON2 Consistency\" : MON2._CLK and not FailMON2 => (MON2.Status.Cmd = Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal));' with 'lemma L4 \"MON2 Consistency\" : MON2._CLK and not FailMON2 => (MON2.Status.Cmd = Pedal);'",
+    "In the BSCU.BSCU_Impl annex, replace 'lemma L11 \"CH1 Error Only if Failed\" : CH1.Error => COM1Failed or MON1Failed;' with 'lemma L11 \"CH1 Error Only if Failed\" : CH1.Error => (FailCOM1 or FailMON1);'",
+    "In the BSCU.BSCU_Impl annex, replace 'lemma L12 \"Ch2 Error Only if Failed\" : CH2.Error => COM2Failed or MON2Failed;' with 'lemma L12 \"Ch2 Error Only if Failed\" : CH2.Error => (FailCOM2 or FailMON2);'"
+  ]
+}

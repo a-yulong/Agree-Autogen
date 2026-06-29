@@ -1,0 +1,45 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'SSM'.",
+      "cause": "SSM is a subcomponent, not directly accessible in component type scope",
+      "minimal_edit": "Remove SSM reference from assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'State_Out'.",
+      "cause": "State_Out is a port, not directly accessible in component type scope",
+      "minimal_edit": "Remove State_Out reference from assume statement"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::state_sig.impl' and '<error>', but must be of the same type",
+      "cause": "Invalid expression due to unresolved references",
+      "minimal_edit": "Replace invalid expression with valid AGREE expression or remove"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression due to unresolved references",
+      "minimal_edit": "Replace invalid expression with valid AGREE expression or remove"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'SMToSSM'.",
+      "cause": "SMToSSM is a connection, not directly accessible in component type scope",
+      "minimal_edit": "Remove SMToSSM reference from assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'immediate'.",
+      "cause": "immediate is a property value, not directly accessible in component type scope",
+      "minimal_edit": "Remove immediate reference from assume statement"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression due to unresolved references",
+      "minimal_edit": "Replace invalid expression with valid AGREE expression or remove"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from State_Machine component type to State_Machine.Impl component implementation",
+    "Remove the invalid assume statements that reference unresolved identifiers",
+    "Ensure the AGREE annex in State_Machine.Impl only contains valid expressions using visible identifiers"
+  ]
+}

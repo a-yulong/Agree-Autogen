@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "state Actual: real;",
+      "cause": "AGREE state declaration references port name 'Actual' which is not a valid variable in this context",
+      "minimal_edit": "rename state variable to 'actual_state' or similar to avoid conflict with port name"
+    },
+    {
+      "diagnostic": "Actual = pre(Actual) + 0.1 * Actuator_Input;",
+      "cause": "AGREE expression references port name 'Actual' directly instead of a declared state variable",
+      "minimal_edit": "replace 'Actual' with a declared state variable name like 'actual_state' in the guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block, rename the state declaration from 'Actual' to 'actual_state'",
+    "In the guarantee statement, replace all occurrences of 'Actual' with 'actual_state'"
+  ]
+}

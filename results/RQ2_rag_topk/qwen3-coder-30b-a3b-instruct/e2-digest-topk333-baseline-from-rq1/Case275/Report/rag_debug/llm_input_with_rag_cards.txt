@@ -1,0 +1,118 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE assumptions and guarantees in component type scopes when they refer to visible ports or features.
+- Use `assume` and `guarantee` statements with descriptive labels for contract elements.
+- Write `eq` declarations for boolean range checks using `and` to combine lower and upper bounds.
+Generic rules:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Component type annexes are for assumptions, guarantees, constants, and equations.
+- Implementation-level bindings go in implementation scopes after subcomponents and connections.
+- Do not reference AADL property names like Period, Priority, or Compute_Execution_Time directly in AGREE expressions.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements.
+- Declare boolean range checks with `eq name : bool = lower_bound <= value and value <= upper_bound;`
+- Constants and equations are declared with `const name : type = value;` and `eq name : type = expression;`
+Anti-patterns:
+- Do not place implementation-specific bindings in component type contracts.
+- Avoid referencing AADL timing properties directly in AGREE expressions without explicit typed variables.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- MethaneLevel
+
+Target interface:
+Exact expression symbols: MethaneLevel
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+MethaneLevel | out | data | int | int
+
+Raw requirement:
+The MethaneMonitoring component shall bound the MethaneLevel output at every evaluation step. The MethaneLevel value shall be greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "MethaneLevel >= 0",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "MethaneLevel"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "MethaneLevel <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "MethaneLevel"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "MethaneMonitoring.MethaneMonitoring_Thread dispatch protocol is Periodic",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "MethaneMonitoring",
+        "Dispatch_Protocol"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "MethaneMonitoring.MethaneMonitoring_Thread period is 100 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "MethaneMonitoring",
+        "Period"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "MethaneMonitoring.MethaneMonitoring_Thread compute execution time is 1 ms .. 2 ms",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "MethaneMonitoring",
+        "Compute_Execution_Time"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "MethaneMonitoring.MethaneMonitoring_Thread priority is 2",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "MethaneMonitoring",
+        "Priority"
+      ]
+    }
+  ]
+}

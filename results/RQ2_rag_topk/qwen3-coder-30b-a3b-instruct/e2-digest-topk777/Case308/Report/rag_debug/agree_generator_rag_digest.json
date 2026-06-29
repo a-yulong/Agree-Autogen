@@ -1,0 +1,33 @@
+{
+  "rag_rules": [
+    "Place input envelope assumptions in component type annexes using visible feature names and concrete bounds from the requirement.",
+    "Use AGREE 'assume' statements for input constraints and ensure the expression type matches the feature's AADL data type.",
+    "Generate syntactically valid AGREE annex blocks with proper 'annex agree {** ... **};' syntax and scope placement.",
+    "Do not introduce package-qualified identifiers or data types not present in the analyzed AADL model."
+  ],
+  "generic_rules": [
+    "Use constants for numeric thresholds in AGREE contracts to improve readability and maintainability.",
+    "Ensure all AGREE expressions reference only visible identifiers from the AADL model.",
+    "Validate that AGREE types (int, real, bool) align with the AADL feature types to prevent resolution errors.",
+    "Avoid generating assumptions or guarantees for event ports unless they have explicit data values in the model."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks within component type or implementation annexes.",
+    "Use `const` for named numeric limits and `eq` for boolean expressions in AGREE contracts.",
+    "Assumptions should be placed in component type scopes unless they involve implementation-level bindings.",
+    "Do not reference AADL properties like Period or Deadline directly in AGREE expressions."
+  ],
+  "anti_patterns": [
+    "Do not assume numeric bounds for ports unless explicitly stated in the requirement and compatible with the AADL type.",
+    "Avoid generating clauses that reference non-existent or opaque data types in AGREE expressions.",
+    "Do not create assignments or guarantees in implementation scope unless the left-hand side is a valid output or auxiliary variable.",
+    "Do not encode Boolean domain values into integers or use 0/1 for event ports without model support."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "Model Analyst Agent's structural extraction",
+    "Requirement Analyst's compact semantics and traceability",
+    "Model Fusion's owner/scope preservation rules",
+    "Validation Repair's minimal repair patterns"
+  ]
+}

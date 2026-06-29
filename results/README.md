@@ -1,71 +1,29 @@
-# Results
+# Experiment Results
 
-This directory is reserved for released experiment results. Results should be organized so that aggregate metrics can be traced back to per-case reports.
+This directory contains the released AGREE-AutoGen experiment outputs used for the reported RQ1-RQ4 analysis.
 
-## Recommended Layout
+## Result Sets
 
-```text
-results/
-  aggregates/
-    rq1_summary.csv
-    rq2_summary.csv
-    rq3_summary.csv
-    rq4_summary.csv
-  rq1/
-    <setting>/
-      Case001_report.json
-      ...
-  rq2/
-  rq3/
-  rq4/
-  MANIFEST.csv
-  SHA256SUMS.txt
-```
+| Directory | Content |
+|---|---|
+| `RQ1_full_e2_rag_models/` | Full E2 pipeline results for the model comparison. |
+| `RQ2_rag_topk/` | Retrieval top-k comparison under the Qwen setting, including the balanced 3-3-3 baseline. |
+| `RQ3_agent/` | Agent-ablation results for direct generation and the analyst-ablation settings retained in the final study. |
+| `RQ4_optimization/` | Optimization-ablation results for raw RAG without digest, no agent strategy guidance, and full target context. |
 
-Large result archives may be published as GitHub Release assets. In that case, this directory should still contain:
+Each setting directory contains per-case outputs under `Case001` to `Case459` when the setting has completed the full benchmark. A case directory preserves the generated reports and intermediate artifacts produced by the run.
 
-- aggregate tables;
-- a manifest of released files;
-- checksums;
-- links to the release assets;
-- notes describing how metrics were computed.
+## Aggregate Tables
 
-## Required Metadata
+The root CSV and Markdown files summarize the same result set:
 
-Each result suite should document:
+- `completed_experiments_summary.csv`
+- `completed_experiments_summary.md`
+- `all_experiments_summary_20260622.csv`
+- `all_experiments_summary_20260622.md`
 
-- model name and provider interface;
-- experiment setting;
-- retrieval configuration;
-- case range;
-- expected case count;
-- completed report count;
-- rerun policy;
-- aggregation script and command;
-- generation or release date.
+The aggregate tables report completed cases, final successes, final failures, stage errors, first-pass successes, repair-round counts, and timing/token statistics when available.
 
-## Per-Case Reports
+## Metric Source
 
-Per-case reports should be valid JSON files containing:
-
-- case identifier;
-- success or failure status;
-- validation outcome;
-- stage-error status when applicable;
-- repair-round information when applicable;
-- trace artifacts when available.
-
-See `docs/result_schema.md` for field definitions and metric interpretation.
-
-## Release Discipline
-
-Results should not include:
-
-- API keys or provider credentials;
-- private service logs;
-- console-only progress logs;
-- process crash dumps;
-- temporary rerun folders;
-- generated caches.
-
-Provider or quota interruptions should be summarized in release notes or rerun logs, not mixed into result tables as validation failures.
+Metrics are computed from `Case*_report.json` files. A case is counted as completed when its report contains a case identifier and a success field. Validator failures remain experimental failures. Provider or stage errors are counted separately when the report marks them as stage errors.

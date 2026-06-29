@@ -1,0 +1,17 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Communication_Properties (identifier) qualified reference name not found in 'with' statements of Integer_Toy (package specification)",
+      "cause": "Qualified reference to Communication_Properties::Timing in connection properties is not resolved due to missing 'with' clause",
+      "minimal_edit": "Remove the qualified reference to Communication_Properties::Timing from all connection property specifications"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove {Communication_Properties::Timing => immediate;} from connection IN_TO_A",
+    "Remove {Communication_Properties::Timing => immediate;} from connection A_TO_B",
+    "Remove {Communication_Properties::Timing => immediate;} from connection A_TO_C",
+    "Remove {Communication_Properties::Timing => immediate;} from connection B_TO_C",
+    "Remove {Communication_Properties::Timing => immediate;} from connection C_TO_Output"
+  ]
+}

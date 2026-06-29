@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assume statements are allowed only in component types",
+      "cause": "AGREE assume statements in implementation annex block",
+      "minimal_edit": "Move assume statements from hello.impl annex to hello type annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'actual_processor_binding'",
+      "cause": "Invalid property reference with double underscore naming",
+      "minimal_edit": "Replace 'ANNEX__actual_processor_binding' with 'Actual_Processor_Binding'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'actual_memory_binding'",
+      "cause": "Invalid property reference with double underscore naming",
+      "minimal_edit": "Replace 'ANNEX__actual_memory_binding' with 'actual_memory_binding'"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove assume statements from hello.impl annex block",
+    "Add new annex block to hello component type with assume statements",
+    "Replace 'ANNEX__actual_processor_binding' with 'Actual_Processor_Binding' in new assume statement",
+    "Replace 'ANNEX__actual_memory_binding' with 'actual_memory_binding' in new assume statement"
+  ]
+}

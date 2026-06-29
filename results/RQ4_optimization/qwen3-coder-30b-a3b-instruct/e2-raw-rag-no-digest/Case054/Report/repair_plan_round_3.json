@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Communication_Properties (identifier) qualified reference name not found in 'with' statements of Integer_Toy_Extended (package specification)",
+      "cause": "Qualified reference to Communication_Properties in port connections",
+      "minimal_edit": "Remove or replace Communication_Properties::Timing => immediate; with a valid unqualified expression or omit the property"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Identify all port connection lines with Communication_Properties::Timing => immediate;",
+    "Remove the Communication_Properties::Timing => immediate; property from each affected port connection",
+    "Verify that the model compiles without the qualified package reference"
+  ]
+}

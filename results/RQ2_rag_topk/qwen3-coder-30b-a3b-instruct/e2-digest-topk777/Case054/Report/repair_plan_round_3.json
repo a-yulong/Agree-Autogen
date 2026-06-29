@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 33: Couldn't resolve reference to 'Input1'.",
+      "cause": "AGREE annex at top_level scope references component port 'Input1' not visible in that scope",
+      "minimal_edit": "Change 'Input1' to 'Input1' (no change needed, but ensure correct scope)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 33: left and right sides of binary expression '<' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Expression contains unresolved reference causing type mismatch",
+      "minimal_edit": "Remove or correct the invalid expression in top_level annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 33: left side of binary expression '<' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Unresolved identifier results in error type on left side of expression",
+      "minimal_edit": "Remove or correct the invalid expression in top_level annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 33: named thing must be an expression with a type",
+      "cause": "Invalid expression due to unresolved reference",
+      "minimal_edit": "Remove or correct the invalid expression in top_level annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from top_level component",
+    "Ensure the AGREE annex block remains only in the C component scope",
+    "Verify that all references in the C component's AGREE annex are valid and visible"
+  ]
+}

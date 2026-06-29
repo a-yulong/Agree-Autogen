@@ -1,0 +1,24 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE contracts must maintain type consistency: variables must be declared with types matching their assigned expressions.
+- Generated AGREE code should only reference identifiers visible in the current scope and declared in the same annex.
+- Component type contracts should only reference visible ports and type-level helpers, not implementation-specific subcomponents.
+- When AGREE diagnostics report unresolved references, prioritize fixing root causes rather than adding new architecture.
+Syntax or pattern reminders:
+- AGREE annexes are enclosed in `annex agree {** ... **};` blocks and should be placed in component type or implementation scopes as appropriate.
+- Helper declarations in AGREE must use valid scalar types: int, real, bool; avoid package-qualified names unless imported.
+- Guarantees and assumptions should reference only visible features or previously declared helpers in the same annex.
+- Assignments in AGREE must reference valid output features or variables defined in the same scope.
+Anti-patterns:
+- Do not introduce new package or data type declarations in AGREE to resolve type errors; instead, use existing visible identifiers.
+- Do not place implementation-level bindings in component type annexes; move them to implementation scopes if needed.
+- Do not attempt to repair AGREE clauses by adding new architecture; instead, delete or rewrite invalid clauses to use existing identifiers.
+- Do not assume that unresolved references can be fixed by inventing new helper declarations; always verify visibility in the current scope.
+Irrelevant retrieved material:
+- aadl_scope_notes
+- agree_syntax_notes
+- type scope range assumption and guarantee
+- type scope deterministic dependency guarantee
+- range monitor chunk 1
+- output envelope chunk 2
+</RAG_DIGEST>

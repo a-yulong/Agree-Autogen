@@ -1,0 +1,167 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: timeToRecovery, timeToFailure
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+timeToRecovery | out | data | opaque | real
+timeToFailure | out | data | opaque | real
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Recursive variable t is initialized with value 0.1",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "t"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Variable distanceFromFence is declared",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "distanceFromFence"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "distanceFromFence is calculated by calling circleLinearization function with parameter t",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "distanceFromFence",
+        "circleLinearization",
+        "t"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "After time value exceeds recovery time of 1.7, distanceFromFence must be greater than previous time step's distanceFromFence",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "timeToRecovery",
+        "distanceFromFence"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "System failure time is set to 9.5",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "timeToFailure"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GeoFence_singleton | lines 49-54
+annex agree {**
+				  assume "initial_t_value": t = 0.1;
+				  guarantee "distanceFromFence_calculation": distanceFromFence = circleLinearization(t);
+				  guarantee "distance_growth_after_recovery": (timeToRecovery > 1.7) => (distanceFromFence > pre(distanceFromFence));
+				  assume "system_failure_time": timeToFailure = 9.5;
+				**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   46: 		features
+   47: 			timeToRecovery: out data port real;
+   48: 			timeToFailure: out data port real;
+   49: 	annex agree {**
+>> 50: 				  assume "initial_t_value": t = 0.1;
+   51: 				  guarantee "distanceFromFence_calculation": distanceFromFence = circleLinearization(t);
+   52: 				  guarantee "distance_growth_after_recovery": (timeToRecovery > 1.7) => (distanceFromFence > pre(distanceFromFence));
+   53: 				  assume "system_failure_time": timeToFailure = 9.5;
+   54: 				**};
+
+   47: 			timeToRecovery: out data port real;
+   48: 			timeToFailure: out data port real;
+   49: 	annex agree {**
+   50: 				  assume "initial_t_value": t = 0.1;
+>> 51: 				  guarantee "distanceFromFence_calculation": distanceFromFence = circleLinearization(t);
+   52: 				  guarantee "distance_growth_after_recovery": (timeToRecovery > 1.7) => (distanceFromFence > pre(distanceFromFence));
+   53: 				  assume "system_failure_time": timeToFailure = 9.5;
+   54: 				**};
+   55: 	end GeoFence_singleton;
+
+   48: 			timeToFailure: out data port real;
+   49: 	annex agree {**
+   50: 				  assume "initial_t_value": t = 0.1;
+   51: 				  guarantee "distanceFromFence_calculation": distanceFromFence = circleLinearization(t);
+>> 52: 				  guarantee "distance_growth_after_recovery": (timeToRecovery > 1.7) => (distanceFromFence > pre(distanceFromFence));
+   53: 				  assume "system_failure_time": timeToFailure = 9.5;
+   54: 				**};
+   55: 	end GeoFence_singleton;
+   56: 	
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: GeoFence_singleton
+system GeoFence_singleton
+		features
+			timeToRecovery: out data port real;
+			timeToFailure: out data port real;
+	end GeoFence_singleton;
+
+-- TARGET DECLARATION: GeoFence_singleton.impl
+system implementation GeoFence_singleton.impl
+	end GeoFence_singleton.impl;
+
+-- RELATED MODEL LINES
+timeToFailure: out data port real;
+timeToRecovery: out data port real;
+geof: system GeoFence_singleton;
+gcas_ttr: port gcas.timeToRecovery -> Supervisor.gcas_timeToRecovery	{Communication_Properties::Timing => immediate;};
+tcas_ttr: port tcas.timeToRecovery -> Supervisor.tcas_timeToRecovery	{Communication_Properties::Timing => immediate;};
+geof_ttr: port geof.timeToRecovery -> Supervisor.geof_timeToRecovery	{Communication_Properties::Timing => immediate;};
+gcas_ttf: port gcas.timeToFailure -> Supervisor.gcas_timeToFailure	{Communication_Properties::Timing => immediate;};
+tcas_ttf: port tcas.timeToFailure -> Supervisor.tcas_timeToFailure	{Communication_Properties::Timing => immediate;};
+geof_ttf: port geof.timeToFailure -> Supervisor.geof_timeToFailure	{Communication_Properties::Timing => immediate;};
+ttf_to_top: port supervisor.timeToFailure -> timeToFailure	{Communication_Properties::Timing => immediate;};
+ttr_to_top: port supervisor.timeToRecovery -> timeToRecovery;
+system GeoFence_singleton
+end GeoFence_singleton;
+system implementation GeoFence_singleton.impl
+end GeoFence_singleton.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "GeoFence_singleton",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "GeoFence_singleton.impl",
+      "kind": "system implementation",
+      "type_name": "GeoFence_singleton"
+    }
+  ],
+  "features": [
+    {
+      "owner": "GeoFence_singleton",
+      "name": "timeToRecovery",
+      "direction": "out",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GeoFence_singleton",
+      "name": "timeToFailure",
+      "direction": "out",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    }
+  ]
+}

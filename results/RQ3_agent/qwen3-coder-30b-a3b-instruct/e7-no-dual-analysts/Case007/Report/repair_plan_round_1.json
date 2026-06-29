@@ -1,0 +1,20 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 100: Couldn't resolve reference to 'min'.",
+      "cause": "AGREE does not support direct use of 'min' function; it must be defined or imported",
+      "minimal_edit": "Replace 'min' function calls with explicit conditional expressions using '<' operator"
+    },
+    {
+      "diagnostic": "line 100: left and right sides of binary expression '=' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Invalid use of 'min' function results in type mismatch due to unresolved reference",
+      "minimal_edit": "Replace 'min' function calls with explicit conditional expressions using '<' operator"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the min() function calls in the guarantee statement with explicit conditional expressions",
+    "Rewrite guarantee \"timeToFailure_min\": timeToFailure = min(gcas_timeToFailure, min(tcas_timeToFailure, geof_timeToFailure)); to use nested conditional logic",
+    "Ensure all expressions use only visible identifiers and valid AGREE syntax"
+  ]
+}

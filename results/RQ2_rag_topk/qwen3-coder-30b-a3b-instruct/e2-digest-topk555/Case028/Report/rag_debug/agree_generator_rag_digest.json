@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations like `0.0 -> pre(t) + 0.1`",
+    "Place component type contracts in component type scopes with valid assumptions and guarantees",
+    "Use AGREE logical operators such as `and`, `or`, `not(...)`, and implication `=>` for complex expressions",
+    "Generate AGREE annex blocks within `annex agree {** ... **};` syntax"
+  ],
+  "generic_rules": [
+    "Assumptions and guarantees referring to component ports must be scoped to valid component type or implementation contexts",
+    "Constants and equations should be declared in component type annexes unless implementation-specific bindings are required",
+    "Assignments in implementation scope must reference existing output features or declared auxiliary variables",
+    "Ensure type consistency between helper declarations and expressions (e.g., `int`, `real`, `bool`)"
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract statements",
+    "Use `eq name : type = expression;` for stateful equation definitions",
+    "Use `const name : type = value;` for constant declarations",
+    "Use `assign output = expression;` only for implementation-level output bindings"
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope unless they are output bindings",
+    "Do not reference AADL property names like Period or Deadline as AGREE variables",
+    "Do not use invalid scalar type names such as 'integer' or 'boolean' in AGREE declarations",
+    "Do not generate expressions with unresolved identifiers or invalid helper types"
+  ],
+  "irrelevant_topics": [
+    "AADL AS5506C standard references",
+    "Model traceability and requirement semantics",
+    "Validator-driven repair patterns",
+    "Component type vs implementation scope distinctions beyond AGREE annex placement"
+  ]
+}

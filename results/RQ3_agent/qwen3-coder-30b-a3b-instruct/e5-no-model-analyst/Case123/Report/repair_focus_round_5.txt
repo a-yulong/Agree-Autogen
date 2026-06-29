@@ -1,0 +1,187 @@
+round=5
+
+[TARGET INTERFACE]
+Exact expression symbols: mag_in_data_x, mag_in_data_y, mag_in_data_z, mag_out_data_x, mag_out_data_y, mag_out_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+mag_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_x | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_y | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_z | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "MAGNETO.IMPL routes data flow from magneto_sub.mag_out_data_x to mag_out_data_x through MAG_PC1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO.IMPL",
+        "magneto_sub.mag_out_data_x",
+        "mag_out_data_x",
+        "MAG_PC1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "MAGNETO.IMPL routes data flow from magneto_sub.mag_out_data_y to mag_out_data_y through MAG_PC2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO.IMPL",
+        "magneto_sub.mag_out_data_y",
+        "mag_out_data_y",
+        "MAG_PC2"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: MAGNETO | lines 83-87
+annex agree {**
+          guarantee "mag_data_flow_x": mag_out_data_x = magneto_sub.mag_out_data_x;
+          guarantee "mag_data_flow_y": mag_out_data_y = magneto_sub.mag_out_data_y;
+          guarantee "mag_data_flow_z": mag_out_data_z = magneto_sub.mag_out_data_z;
+        **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   80:     Period			       => 80 ms;
+   81:     Compute_Execution_Time => 0 ms .. 4 ms;
+   82:     Source_Stack_Size      => 512 Bytes;
+   83:   annex agree {**
+>> 84:           guarantee "mag_data_flow_x": mag_out_data_x = magneto_sub.mag_out_data_x;
+   85:           guarantee "mag_data_flow_y": mag_out_data_y = magneto_sub.mag_out_data_y;
+   86:           guarantee "mag_data_flow_z": mag_out_data_z = magneto_sub.mag_out_data_z;
+   87:         **};
+   88:   end MAGNETO;
+
+   81:     Compute_Execution_Time => 0 ms .. 4 ms;
+   82:     Source_Stack_Size      => 512 Bytes;
+   83:   annex agree {**
+   84:           guarantee "mag_data_flow_x": mag_out_data_x = magneto_sub.mag_out_data_x;
+>> 85:           guarantee "mag_data_flow_y": mag_out_data_y = magneto_sub.mag_out_data_y;
+   86:           guarantee "mag_data_flow_z": mag_out_data_z = magneto_sub.mag_out_data_z;
+   87:         **};
+   88:   end MAGNETO;
+   89: 
+
+   82:     Source_Stack_Size      => 512 Bytes;
+   83:   annex agree {**
+   84:           guarantee "mag_data_flow_x": mag_out_data_x = magneto_sub.mag_out_data_x;
+   85:           guarantee "mag_data_flow_y": mag_out_data_y = magneto_sub.mag_out_data_y;
+>> 86:           guarantee "mag_data_flow_z": mag_out_data_z = magneto_sub.mag_out_data_z;
+   87:         **};
+   88:   end MAGNETO;
+   89: 
+   90:   subprogram MAGNETO_SUB_wrapper
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: MAGNETO
+thread MAGNETO
+  features
+    --  Connections from the magnetometer device
+
+    mag_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    mag_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    mag_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+
+    --  Connections to the other software elements
+
+    mag_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    mag_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    mag_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+
+  properties
+    Priority               => 4;
+    Dispatch_Protocol      => Periodic;
+    Period			       => 80 ms;
+    Compute_Execution_Time => 0 ms .. 4 ms;
+    Source_Stack_Size      => 512 Bytes;
+  end MAGNETO;
+
+-- TARGET DECLARATION: MAGNETO.IMPL
+thread implementation MAGNETO.IMPL
+  calls
+    MAGNETO_CALL: { magneto_sub : subprogram MAGNETO_SUB_wrapper.i; };
+
+  connections
+    MAG_PC1 : parameter magneto_sub.mag_out_data_x -> mag_out_data_x;
+    MAG_PC2 : parameter magneto_sub.mag_out_data_y -> mag_out_data_y;
+    MAG_PC3 : parameter magneto_sub.mag_out_data_z -> mag_out_data_z;
+
+  end MAGNETO.IMPL;
+
+-- RELATED MODEL LINES
+thread ACCELERO
+acc_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+f1 : flow sink acc_in_data_x { latency => 10 ms .. 20 ms;};
+end ACCELERO;
+acc_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+P1: parameter Spg.acc_out_data_x -> Acc_Out_Data_X;
+thread implementation ACCELERO.IMPL
+ACC_PC1 : parameter accelero_sub.acc_out_data_x -> acc_out_data_x;
+ACC_PC2 : parameter accelero_sub.acc_out_data_y -> acc_out_data_y;
+ACC_PC3 : parameter accelero_sub.acc_out_data_z -> acc_out_data_z;
+end ACCELERO.IMPL;
+thread MAGNETO
+mag_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+end MAGNETO;
+mag_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+P1: parameter Spg.mag_out_data_x -> Mag_Out_Data_X;
+thread implementation MAGNETO.IMPL
+MAG_PC1 : parameter magneto_sub.mag_out_data_x -> mag_out_data_x;
+MAG_PC2 : parameter magneto_sub.mag_out_data_y -> mag_out_data_y;
+MAG_PC3 : parameter magneto_sub.mag_out_data_z -> mag_out_data_z;
+end MAGNETO.IMPL;
+thread GYRO
+gyro_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+end GYRO;
+gyro_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+P1: parameter Spg.gyro_out_data_x -> Gyro_Out_Data_X;
+thread implementation GYRO.IMPL
+GYRO_PC1 : parameter gyro_sub.gyro_out_data_x -> gyro_out_data_x;
+GYRO_PC2 : parameter gyro_sub.gyro_out_data_y -> gyro_out_data_y;
+GYRO_PC3 : parameter gyro_sub.gyro_out_data_z -> gyro_out_data_z;
+end GYRO.IMPL;
+thread ATTITUDE_CALCULATION
+acc_in_data_x : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_in_data_y : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_in_data_z : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_x : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_y : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_z : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_x : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_y : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_z : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+end ATTITUDE_CALCULATION;
+thread implementation ATTITUDE_CALCULATION.IMPL
+ACC_PC1 : parameter acc_in_data_x	-> attitude_sub.acc_in_data_x;
+ACC_PC2 :
+-- [target model context truncated]

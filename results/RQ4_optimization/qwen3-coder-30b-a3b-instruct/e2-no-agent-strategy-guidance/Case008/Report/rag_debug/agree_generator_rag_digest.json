@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Use `assume \"label\": expression;` for input envelope assumptions and `guarantee \"label\": expression;` for output range guarantees in component type annexes.",
+    "Place AGREE contracts inside `annex agree {** ... **};` blocks within component type or implementation annexes as appropriate.",
+    "Generate `eq name : type = expression;` or `const name : type = value;` for named constants and equations in component type contracts."
+  ],
+  "generic_rules": [
+    "Only generate `assign` statements in implementation scope for existing output features or declared auxiliary variables.",
+    "Do not place guarantee statements in implementation scope; use only assumptions and equations.",
+    "Ensure all expressions in AGREE contracts match the actual AADL data types of visible identifiers.",
+    "Avoid encoding AADL timing properties (e.g., Deadline, Period) as AGREE variables unless explicitly exposed in the model."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `eq` for equations and `const` for constants in component type annexes.",
+    "Assumptions and guarantees must be labeled with quoted strings for clarity and traceability."
+  ],
+  "anti_patterns": [
+    "Do not generate `assign` statements in component type annexes or place `guarantee` statements in implementation scope.",
+    "Do not encode AADL properties like Period or Deadline as AGREE expressions unless they are explicitly typed in the model.",
+    "Avoid generating range checks or equality comparisons on Boolean or opaque data unless the model exposes numeric representations."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing constraints not directly tied to visible model features",
+    "Model fusion and owner/scope preservation rules",
+    "Validator diagnostics and repair patterns"
+  ]
+}

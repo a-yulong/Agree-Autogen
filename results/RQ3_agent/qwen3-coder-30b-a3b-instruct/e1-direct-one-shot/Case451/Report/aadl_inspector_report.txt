@@ -1,0 +1,18 @@
+set oldState [${sbpText}.text cget -state]
+${sbpText}.text configure -state normal
+${sbpText}.text fastdelete 1.0 end
+array set lines [list ]
+set lines(error) [list ]
+set lines(warning) [list ]
+set lines(information) [list ]
+${sbpText}.text fastinsert end 879 d879
+${sbpText}.text tag bind d879 <Any-Enter> "${sbpText}.text tag configure d879 -foreground white -background black"
+${sbpText}.text tag bind d879 <Any-Leave> "${sbpText}.text tag configure d879 -foreground {} -background {}"
+${sbpText}.text tag bind d879 <1> "event generate . <<selectLine>> -data 879"
+lappend lines(error) 879
+TextEditor::fastaddText $sbpText " flyByWire_hard (identifier) is not a package or a property set visible or existing 
+"
+TextEditor::fastaddText $sbpText " Cannot analyze AADL specifications
+"
+${sbpText}.text configure -state $oldState
+return [array get lines]

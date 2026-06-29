@@ -1,0 +1,258 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- Consumer
+- Consumer.impl
+- Mycalls
+- C_Spg
+- Init
+- Producer
+- Init.impl
+- Producer.impl
+- prodcons_soft
+- prodcons_soft.impl
+- Init1
+- Producer1
+- Consumer1
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Consumer.impl uses Periodic dispatch protocol",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Consumer.impl",
+        "Dispatch_Protocol=periodic"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Consumer.impl has Period of 1000 ms",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Consumer.impl",
+        "Period=1000 ms"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Consumer.impl has Deadline of 1000 ms",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Consumer.impl",
+        "Deadline=1000 ms"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Consumer.impl has Compute_Execution_Time of 0 ms .. 3 ms",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Consumer.impl",
+        "Compute_Execution_Time=0 ms .. 3 ms"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Consumer.impl has Priority of 101",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Consumer.impl",
+        "Priority=101"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Consumer | lines 45-51
+annex agree {**
+      assume "periodic_dispatch": Dispatch_Protocol = periodic;
+      assume "period": Period = 1000 ms;
+      assume "deadline": Deadline = 1000 ms;
+      assume "compute_execution_time": Compute_Execution_Time >= 0 ms and Compute_Execution_Time <= 3 ms;
+      assume "priority": Priority = 101;
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   42:   end Producer;
+   43:   
+   44:   thread Consumer
+   45:   annex agree {**
+>> 46:       assume "periodic_dispatch": Dispatch_Protocol = periodic;
+   47:       assume "period": Period = 1000 ms;
+   48:       assume "deadline": Deadline = 1000 ms;
+   49:       assume "compute_execution_time": Compute_Execution_Time >= 0 ms and Compute_Execution_Time <= 3 ms;
+   50:       assume "priority": Priority = 101;
+
+   43:   
+   44:   thread Consumer
+   45:   annex agree {**
+   46:       assume "periodic_dispatch": Dispatch_Protocol = periodic;
+>> 47:       assume "period": Period = 1000 ms;
+   48:       assume "deadline": Deadline = 1000 ms;
+   49:       assume "compute_execution_time": Compute_Execution_Time >= 0 ms and Compute_Execution_Time <= 3 ms;
+   50:       assume "priority": Priority = 101;
+   51:     **};
+
+   44:   thread Consumer
+   45:   annex agree {**
+   46:       assume "periodic_dispatch": Dispatch_Protocol = periodic;
+   47:       assume "period": Period = 1000 ms;
+>> 48:       assume "deadline": Deadline = 1000 ms;
+   49:       assume "compute_execution_time": Compute_Execution_Time >= 0 ms and Compute_Execution_Time <= 3 ms;
+   50:       assume "priority": Priority = 101;
+   51:     **};
+   52:   end Consumer;
+
+   45:   annex agree {**
+   46:       assume "periodic_dispatch": Dispatch_Protocol = periodic;
+   47:       assume "period": Period = 1000 ms;
+   48:       assume "deadline": Deadline = 1000 ms;
+>> 49:       assume "compute_execution_time": Compute_Execution_Time >= 0 ms and Compute_Execution_Time <= 3 ms;
+   50:       assume "priority": Priority = 101;
+   51:     **};
+   52:   end Consumer;
+   53:   
+
+   46:       assume "periodic_dispatch": Dispatch_Protocol = periodic;
+   47:       assume "period": Period = 1000 ms;
+   48:       assume "deadline": Deadline = 1000 ms;
+   49:       assume "compute_execution_time": Compute_Execution_Time >= 0 ms and Compute_Execution_Time <= 3 ms;
+>> 50:       assume "priority": Priority = 101;
+   51:     **};
+   52:   end Consumer;
+   53:   
+   54:   thread implementation Init.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Consumer
+thread Consumer
+  end Consumer;
+
+-- TARGET DECLARATION: Consumer.impl
+thread implementation Consumer.impl
+  calls 
+    Mycalls: {
+    C_Spg : subprogram Consumer_Spg;
+    };
+  properties
+    Dispatch_Protocol      => periodic;
+    Period                 => 1000 ms;
+    Compute_Execution_Time => 0 ms .. 3 ms;
+    Deadline               => 1000 ms;
+    Priority               => 101;
+    Stack_Size      => 5000 Bytes;
+    Code_Size       => 678 Bytes;
+  end Consumer.impl;
+
+-- RELATED MODEL LINES
+thread Init
+end Init;
+thread Producer
+end Producer;
+thread Consumer
+end Consumer;
+thread implementation Init.impl
+Mycalls: {
+end Init.impl;
+thread implementation Producer.impl
+end Producer.impl;
+thread implementation Consumer.impl
+C_Spg : subprogram Consumer_Spg;
+end Consumer.impl;
+process prodcons_soft
+end prodcons_soft;
+process implementation prodcons_soft.impl
+Init1     : thread Init.impl;
+Producer1 : thread Producer.impl;
+Consumer1 : thread Consumer.impl;
+end prodcons_soft.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Consumer",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Consumer.impl",
+      "kind": "thread",
+      "type_name": "Consumer"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Consumer.impl",
+      "name": "Mycalls",
+      "direction": "out",
+      "category": "calls",
+      "type": "subprogram",
+      "scalar": "opaque"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Consumer.impl",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "periodic",
+      "applies_to": null
+    },
+    {
+      "owner": "Consumer.impl",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "1000 ms",
+      "applies_to": null
+    },
+    {
+      "owner": "Consumer.impl",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 3 ms",
+      "applies_to": null
+    },
+    {
+      "owner": "Consumer.impl",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "1000 ms",
+      "applies_to": null
+    },
+    {
+      "owner": "Consumer.impl",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "101",
+      "applies_to": null
+    },
+    {
+      "owner": "Consumer.impl",
+      "owner_kind": "thread",
+      "name": "Stack_Size",
+      "value": "5000 Bytes",
+      "applies_to": null
+    },
+    {
+      "owner": "Consumer.impl",
+      "owner_kind": "thread",
+      "name": "Code_Size",
+      "value": "678 Bytes",
+      "applies_to": null
+    }
+  ]
+}

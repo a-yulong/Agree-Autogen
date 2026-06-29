@@ -1,0 +1,10 @@
+annex agree {
+
+  const ACAS : int = 1;
+  const GCAS : int = 0;
+
+  guarantee "GCAS_ACAS_Decision": (inpGCASImpact > inpACASImpact) and (inpGCASRecovery + inpACASRecovery >= 0.0) => outDec = ACAS;
+  guarantee "GCAS_Fallback": not ((inpGCASImpact > inpACASImpact) and (inpGCASRecovery + inpACASRecovery >= 0.0)) => outDec = GCAS;
+  guarantee "Static_Priority": numberServicesTrue < 2 => outDec = 0;
+  guarantee "Dynamic_Decision": numberServicesTrue >= 2 => outDec = ACAS;
+};

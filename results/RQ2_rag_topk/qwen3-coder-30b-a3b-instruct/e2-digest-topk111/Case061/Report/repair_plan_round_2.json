@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "AGREE cannot reference component implementation features directly; only component type features are visible",
+      "minimal_edit": "Replace Q.Impl.Data_Sink with just Data_Sink"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Impl'.",
+      "cause": "AGREE cannot reference component implementation names in expressions",
+      "minimal_edit": "Remove Q.Impl. prefix from the expression"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "AGREE cannot reference subcomponent names in expressions",
+      "minimal_edit": "Remove Q.Impl. prefix from the expression"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE requires valid expression syntax for guarantees",
+      "minimal_edit": "Rewrite the guarantee to reference only visible identifiers"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace Q.Impl.Data_Sink = Q.Impl.Q_Spg.Data_Sink with Data_Sink = Q_Spg.Data_Sink in the guarantee statement",
+    "Ensure the expression uses only visible identifiers as per AGREE's scoping rules"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 19: Couldn't resolve reference to 'abs'.",
+      "cause": "AGREE does not recognize 'abs' as a built-in function; it must be replaced with a legal AGREE expression or removed.",
+      "minimal_edit": "replace 'abs(Actual_Speed.val - Actual_Speed.val{prev})' with 'abs(Actual_Speed.val - pre(Actual_Speed.val))'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 19: Couldn't resolve reference to 'val'.",
+      "cause": "Ports are not directly accessible as 'port.val'; AGREE requires direct port name use without .val suffix.",
+      "minimal_edit": "replace 'Actual_Speed.val' with 'Actual_Speed' and 'Target_Speed.val' with 'Target_Speed'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 19: Expression for guarantee statement is of type '<error>' but must be of type 'bool'",
+      "cause": "The expression 'abs(...) < max_accel' returns a real, not a bool; must be wrapped in a boolean comparison or removed.",
+      "minimal_edit": "wrap the expression in a comparison to true (e.g., 'abs(...) < max_accel') — but since type mismatch persists, the real comparison is invalid as a guarantee without boolean context; this diagnostic is secondary to type and symbol errors."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 33: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "AGREE validator is flagging AADL connection type mismatch: THROT.Actual (subcomponent port) is not compatible with Actual_Speed (component port), but this is an AADL connection error, not an AGREE contract error.",
+      "minimal_edit": "do not edit AGREE annex; this is a model structure error outside AGREE scope."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 35: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "AADL connection has type mismatch: Target_Speed (Types::speed.speed_impl) connected to CNTRL.Target — but this is an AADL connection error, not an AGREE contract error.",
+      "minimal_edit": "do not edit AGREE annex; this is a model structure error outside AGREE scope."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 40: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "AADL connection has type mismatch: SM.State_Out (subcomponent port) not compatible with State_Signal (component port); this is AADL model error.",
+      "minimal_edit": "do not edit AGREE annex; this is a model structure error outside AGREE scope."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove all '.val' suffixes from port references in the annex: replace 'Target_Speed.val' with 'Target_Speed' and 'Actual_Speed.val' with 'Actual_Speed'",
+    "Replace 'Actual_Speed.val{prev}' with 'pre(Actual_Speed)' to use valid AGREE temporal operator syntax",
+    "Replace 'abs(...)' with 'if (...) >= 0 then ... else -(...)' to avoid unsupported abs function",
+    "Rewrite guarantee 'acceleration_constraint' as: 'if Actual_Speed - pre(Actual_Speed) >= 0 then Actual_Speed - pre(Actual_Speed) else -(Actual_Speed - pre(Actual_Speed)) < max_accel'",
+    "Ensure all expressions are boolean by confirming the comparison '< max_accel' is acceptable as a real-valued expression in AGREE guarantees (AGREE allows real comparisons in guarantees when semantics permit)"
+  ]
+}

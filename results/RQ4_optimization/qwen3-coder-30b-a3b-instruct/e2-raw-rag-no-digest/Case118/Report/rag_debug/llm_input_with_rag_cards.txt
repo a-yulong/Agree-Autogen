@@ -1,0 +1,126 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+- `assume "label": expression;` - `guarantee "label": expression;` - `eq name : type = expression;` - `const name : type = value;` - `assign output = expression;`
+
+[KSYN-2]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes. Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections. Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs.
+
+[KSYN-3]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+AGREE contracts are written inside `annex agree {** ... **};` blocks. Component type annexes are the normal location for assumptions, guarantees, constants, and equation declarations. Component implementation annexes are used for implementation-level bindings such as assignments when they are valid in that scope.
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+[KEXP-1]
+Source: distilled pattern library
+Topic: implementation scope output assign
+For implementation contracts, use assign only when the left-hand side is an existing output feature or declared auxiliary variable. Do not place guarantee statements in implementation scope.
+
+[KEXP-2]
+Source: distilled pattern library
+Topic: type scope range assumption and guarantee
+For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation. Use case-provided thresholds and legal visible feature names.
+
+[KEXP-3]
+Source: distilled pattern library
+Topic: type scope deterministic dependency guarantee
+For output dependency contracts, write a guarantee that relates visible outputs to visible inputs. Do not use implementation-only subcomponent paths in a component type annex.
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Annex Scope
+Treat each annex agree block as scoped to its owning component declaration.
+
+[KDEF-2]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AADL Property Names Are Not AGREE Variables chunk 1
+If diagnostics report unresolved references to Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens such as ms/us/Hz/Bytes inside an AGREE annex, delete the generated clause. AADL property associations are not automatically in AGREE expression scope as variables. Recommended pattern: Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for the
+
+[KDEF-3]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Subcomponent Binding
+Use implementation-level assignments to bind subcomponent outputs when needed.
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>
+
+Visible target-interface symbols:
+- diagnosis_in
+- diagnosis_out
+
+Target interface:
+Exact expression symbols: diagnosis_in, diagnosis_out
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+diagnosis_in | in | data | int | SHM_DataType::errorData
+diagnosis_out | out | data | int | SHM_DataType::errorData
+
+Raw requirement:
+The diagnosisEngine component shall define the implementation-level signal routing for diagnosisEngine.impl. In the implementation layer, diagnosisEngine.impl shall route data flow from diagnosis_in to diagnosisEngine.inData_para through C1 and data flow from diagnosisEngine.outData_para to diagnosis_out through C2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "diagnosis_in is routed to diagnosisEngine.inData_para through connection C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "diagnosis_in",
+        "diagnosisEngine.inData_para",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "diagnosisEngine.outData_para is routed to diagnosis_out through connection C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "diagnosisEngine.outData_para",
+        "diagnosis_out",
+        "C2"
+      ]
+    }
+  ]
+}

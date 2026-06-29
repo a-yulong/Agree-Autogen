@@ -1,0 +1,89 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 14: left and right sides of binary expression '<' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Comparison of opaque data port type with real literal",
+      "minimal_edit": "Replace Target_Speed with a real-valued expression or introduce a real-valued variable"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 14: left and right sides of binary expression '>=' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Comparison of opaque data port type with real literal",
+      "minimal_edit": "Replace Target_Speed with a real-valued expression or introduce a real-valued variable"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 14: left side of binary expression '<' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Opaque data port type used in arithmetic expression",
+      "minimal_edit": "Introduce a real-valued variable to represent the port value"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 14: left side of binary expression '>=' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Opaque data port type used in arithmetic expression",
+      "minimal_edit": "Introduce a real-valued variable to represent the port value"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 16: mismatched input '\"max_accel\"' expecting RULE_ID",
+      "cause": "Incorrect syntax for constant declaration",
+      "minimal_edit": "Remove quotes from max_accel identifier"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 18: Couldn't resolve reference to 'const_tar_speed'.",
+      "cause": "Undeclared variable used in guarantee",
+      "minimal_edit": "Introduce const_tar_speed as a boolean variable or remove reference"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 18: left side of binary expression '<=' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Opaque data port type used in arithmetic expression",
+      "minimal_edit": "Introduce a real-valued variable to represent the port value"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 18: right side of binary expression '<=' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Opaque data port type used in arithmetic expression",
+      "minimal_edit": "Introduce a real-valued variable to represent the port value"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 20: Couldn't resolve reference to 'Actual_Speed_delayed'.",
+      "cause": "Undeclared delayed variable",
+      "minimal_edit": "Introduce Actual_Speed_delayed using AGREE's temporal operators"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 20: Couldn't resolve reference to 'abs'.",
+      "cause": "Undefined function reference",
+      "minimal_edit": "Use AGREE's built-in abs function or define it"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 20: Couldn't resolve reference to 'const_tar_speed'.",
+      "cause": "Undeclared variable used in guarantee",
+      "minimal_edit": "Introduce const_tar_speed as a boolean variable or remove reference"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 20: Couldn't resolve reference to 'max_accel'.",
+      "cause": "Undeclared variable used in guarantee",
+      "minimal_edit": "Introduce max_accel as a real constant or use literal value"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 20: left and right sides of binary expression '-' are of type 'Types::speed.speed_impl' and '<error>', but must be of the same type",
+      "cause": "Incompatible types in arithmetic expression",
+      "minimal_edit": "Ensure both operands are real-valued"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 20: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Opaque data port type used in arithmetic expression",
+      "minimal_edit": "Introduce a real-valued variable to represent the port value"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 20: right side of binary expression '-' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Undeclared or invalid expression",
+      "minimal_edit": "Ensure both operands are real-valued"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Introduce a real-valued variable to represent Target_Speed in the AGREE annex",
+    "Replace Target_Speed in comparisons with the new real variable",
+    "Introduce const_tar_speed as a boolean variable in the AGREE annex",
+    "Introduce Actual_Speed_delayed using AGREE's temporal operators",
+    "Replace abs() with AGREE's built-in absolute value function",
+    "Correct the constant declaration syntax by removing quotes from max_accel",
+    "Ensure all variables used in guarantees are properly declared"
+  ]
+}

@@ -1,0 +1,188 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: MCU1_Data_Input, MCU1_Data_Input.data_0, MCU1_Data_Input.data_1, MCU1_Data_Input.data_2, MCU1_Data_Input.data_3, MCU1_Data_Input.data_4, MCU1_Data_Input.data_5, MCU1_Data_Input.data_6, MCU1_Data_Input.data_7, MCU1_Send_Output, MCU1_Send_Output.channels, MCU1_Send_Output.ppm_cpt, MCU1_Send_Output.satus, MCU1_Send_Output.nb_err, MCU1_Send_Output.vsupply, Radio_Ok_Input, Radio_Really_Lost_Input
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+MCU1_Data_Input | in | data | opaque | Papa_Types::Tableau.Generic
+MCU1_Data_Input.data_0 | in | data_field | opaque | Base_Types::Integer_16
+MCU1_Data_Input.data_1 | in | data_field | opaque | Base_Types::Integer_16
+MCU1_Data_Input.data_2 | in | data_field | opaque | Base_Types::Integer_16
+MCU1_Data_Input.data_3 | in | data_field | opaque | Base_Types::Integer_16
+MCU1_Data_Input.data_4 | in | data_field | opaque | Base_Types::Integer_16
+MCU1_Data_Input.data_5 | in | data_field | opaque | Base_Types::Integer_16
+MCU1_Data_Input.data_6 | in | data_field | opaque | Base_Types::Integer_16
+MCU1_Data_Input.data_7 | in | data_field | opaque | Base_Types::Integer_16
+MCU1_Send_Output | out | data | opaque | Papa_Types::Inter_mcu_msg.Generic
+MCU1_Send_Output.channels | out | data_field | opaque | Tableau.Generic
+MCU1_Send_Output.ppm_cpt | out | data_field | opaque | Base_Types::Integer_8
+MCU1_Send_Output.satus | out | data_field | opaque | Base_Types::Integer_8
+MCU1_Send_Output.nb_err | out | data_field | opaque | Base_Types::Integer_8
+MCU1_Send_Output.vsupply | out | data_field | opaque | Base_Types::Integer_8
+Radio_Ok_Input | in | data | bool | Base_Types::Boolean
+Radio_Really_Lost_Input | in | data | bool | Base_Types::Boolean
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Radio_Ok_Input is true",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "Radio_Ok_Input"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "send_data_to_autopilot_task operates when Radio_Ok_Input is true",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "send_data_to_autopilot_task.Impl",
+        "Radio_Ok_Input"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: send_data_to_autopilot_task | lines 42-45
+annex agree {**
+        assume "Radio_Ok_Input is true": Radio_Ok_Input = true;
+        guarantee "Operate when Radio_Ok_Input is true": Radio_Ok_Input => (MCU1_Send_Output.channels = MCU1_Data_Input.data_0 and MCU1_Send_Output.ppm_cpt = MCU1_Data_Input.data_1 and MCU1_Send_Output.satus = MCU1_Data_Input.data_2 and MCU1_Send_Output.nb_err = MCU1_Data_Input.data_3 and MCU1_Send_Output.vsupply = MCU1_Data_Input.data_4);
+      **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   40:     Radio_Ok_Input : in data port Base_Types::Boolean;
+   41:     Radio_Really_Lost_Input : in data port Base_Types::Boolean;
+   42:   annex agree {**
+   43:         assume "Radio_Ok_Input is true": Radio_Ok_Input = true;
+>> 44:         guarantee "Operate when Radio_Ok_Input is true": Radio_Ok_Input => (MCU1_Send_Output.channels = MCU1_Data_Input.data_0 and MCU1_Send_Output.ppm_cpt = MCU1_Data_Input.data_1 and MCU1_Send_Output.satus = MCU1_Data_Input.data_2 and MCU1_Send_Output.nb_err = MCU1_Data_Input.data_3 and MCU1_Send_Output.vsupply = MCU1_Data_Input.data_4);
+   45:       **};
+   46:   end send_data_to_autopilot_task;
+   47: 
+   48:   thread implementation send_data_to_autopilot_task.Impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: send_data_to_autopilot_task
+thread send_data_to_autopilot_task
+  features
+    MCU1_Data_Input : in data port Papa_Types::Tableau.Generic;
+    MCU1_Send_Output : out event data port Papa_Types::Inter_mcu_msg.Generic;
+    Radio_Ok_Input : in data port Base_Types::Boolean;
+    Radio_Really_Lost_Input : in data port Base_Types::Boolean;
+  end send_data_to_autopilot_task;
+
+-- TARGET DECLARATION: send_data_to_autopilot_task.Impl
+thread implementation send_data_to_autopilot_task.Impl
+  properties
+    Dispatch_Protocol=>periodic;
+    Period => 25 ms; --meme periode que reception_Decodage
+    Source_Text => ("fly_by_wire/main.c");
+    Compute_Entrypoint_Source_Text => "send_data_to_autopilot_task";
+  end send_data_to_autopilot_task.Impl;
+
+-- RELATED MODEL LINES
+thread send_data_to_autopilot_task
+MCU1_Data_Input : in data port Papa_Types::Tableau.Generic;
+MCU1_Send_Output : out event data port Papa_Types::Inter_mcu_msg.Generic;
+Radio_Ok_Input : in data port Base_Types::Boolean;
+Radio_Really_Lost_Input : in data port Base_Types::Boolean;
+end send_data_to_autopilot_task;
+thread implementation send_data_to_autopilot_task.Impl
+Compute_Entrypoint_Source_Text => "send_data_to_autopilot_task";
+end send_data_to_autopilot_task.Impl;
+Send_Th	: thread send_data_to_autopilot_task.Impl;
+c2: port Send_Th.MCU1_Send_Output->Interrupt_SPI_1.Evt_Send_SPI_Input in modes(manual);
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "send_data_to_autopilot_task",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "send_data_to_autopilot_task.Impl",
+      "kind": "thread implementation",
+      "type_name": "send_data_to_autopilot_task"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "send_data_to_autopilot_task.Impl",
+      "name": "Send_Th",
+      "category": "thread",
+      "classifier": "send_data_to_autopilot_task.Impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "send_data_to_autopilot_task",
+      "name": "MCU1_Data_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Papa_Types::Tableau.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "send_data_to_autopilot_task",
+      "name": "MCU1_Send_Output",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "send_data_to_autopilot_task",
+      "name": "Radio_Ok_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "send_data_to_autopilot_task",
+      "name": "Radio_Really_Lost_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Boolean",
+      "scalar": "opaque"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "send_data_to_autopilot_task.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "periodic",
+      "applies_to": "send_data_to_autopilot_task.Impl"
+    },
+    {
+      "owner": "send_data_to_autopilot_task.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Period",
+      "value": "25 ms",
+      "applies_to": "send_data_to_autopilot_task.Impl"
+    },
+    {
+      "owner": "send_data_to_autopilot_task.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Source_Text",
+      "value": "\"fly_by_wire/main.c\"",
+      "applies_to": "send_data_to_autopilot_task.Impl"
+    },
+    {
+      "owner": "send_data_to_autopilot_task.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "\"send_data_to_autopilot_task\"",
+      "applies_to": "send_data_to_autopilot_task.Impl"
+    }
+  ]
+}

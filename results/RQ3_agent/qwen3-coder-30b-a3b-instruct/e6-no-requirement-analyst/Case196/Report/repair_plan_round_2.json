@@ -1,0 +1,39 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "latched is an output port, but AGREE validator forbids output ports in latched expressions (likely misinterpretation of 'latched' as stateful or input-only)",
+      "minimal_edit": "remove 'latched' from the right-hand side of swivel_control guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: mismatched input 'and' expecting '('",
+      "cause": "AGREE parser misinterprets 'closed and latched and locked' due to invalid use of output port 'latched' in boolean expression context",
+      "minimal_edit": "remove 'latched' from the right-hand side of swivel_control guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: right side of binary expression 'and' is of type '<error>' but must be of type 'bool'",
+      "cause": "latched is an output port and its use in expression confuses type inference, causing type error",
+      "minimal_edit": "remove 'latched' from the right-hand side of swivel_control guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 102: Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "latched is an output port, but validator incorrectly treats it as a latched expression (likely confusion due to name)",
+      "minimal_edit": "remove 'latched' from the right-hand side of lock_activation guarantee (already correct; diagnostic is spurious due to prior error propagation)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 102: mismatched input 'and' expecting '('",
+      "cause": "Parser error propagates from line 101 due to malformed expression; fixing 101 resolves this",
+      "minimal_edit": "remove 'latched' from the right-hand side of swivel_control guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 102: right side of binary expression 'and' is of type '<error>' but must be of type 'bool'",
+      "cause": "Type error propagates from line 101; latched causes RHS to be invalid type",
+      "minimal_edit": "remove 'latched' from the right-hand side of swivel_control guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove 'latched' from the right-hand side of the guarantee 'swivel_control' on line 101, changing it from 'swivel => (closed and latched and locked)' to 'swivel => (closed and locked)'",
+    "Verify that 'lock => locked' on line 102 no longer triggers diagnostic after fixing line 101 (diagnostic is propagating from prior error)"
+  ]
+}

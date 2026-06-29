@@ -1,0 +1,15 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- When generating AGREE contracts, ensure all referenced identifiers are either component ports, declared eq variables, or valid constants within the same annex scope.
+- AGREE contracts must not introduce package-qualified identifiers or types that are not present in the AADL model's configured dependencies.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks and must be placed in appropriate component type or implementation scopes.
+- Assignments in AGREE must reference valid output ports or eq variables on the left-hand side.
+Anti-patterns:
+- Avoid referencing identifiers in AGREE that are not declared or visible in the current component's scope, as this leads to 'Couldn't resolve reference' errors.
+- Do not use invalid scalar type names in AGREE const or eq declarations; use int, real, or bool instead.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about property associations not pointing to anything
+- Model traceability and requirement semantics
+- Component type and implementation structural extraction
+</RAG_DIGEST>

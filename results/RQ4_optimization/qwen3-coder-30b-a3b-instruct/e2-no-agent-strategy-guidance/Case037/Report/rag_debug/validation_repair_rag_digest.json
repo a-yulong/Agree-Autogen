@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Fix AGREE type mismatches by ensuring helper declarations match expression types (int, real, bool).",
+    "Resolve 'named thing must be an expression with a type' errors by validating visible identifiers and removing invalid clauses.",
+    "Avoid referencing unresolved identifiers in AGREE contracts; delete invalid guarantees instead of adding architecture."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or locally declared helpers in AGREE contracts.",
+    "Ensure AGREE scalar types (int, real, bool) match the expected operand types in expressions.",
+    "Place AGREE annexes in appropriate component scopes: type for assumptions/guarantees, implementation for bindings.",
+    "Validate that all referenced identifiers are resolvable within the same annex or visible in the component."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must reside in `annex agree {** ... **};` blocks within component types or implementations.",
+    "Equation declarations in AGREE must have consistent left and right side types.",
+    "Constants and equations in AGREE must use valid scalar types: int, real, bool."
+  ],
+  "anti_patterns": [
+    "Do not introduce package-qualified identifiers in AGREE that are not present in the model's configured dependencies.",
+    "Do not reference subcomponent ports directly in component type annexes; use visible features or outputs instead.",
+    "Do not add new architecture elements to fix AGREE diagnostics; only correct existing expressions or remove invalid clauses."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "Component type vs implementation scope distinctions beyond AGREE annex placement",
+    "Specific AADL inspector diagnostics about unreachable targets"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "rag_rules": [
+    "Use AGREE annex blocks for contracts and keep expressions limited to symbols actually visible in the component scope.",
+    "Generate assumptions/guarantees only from model-visible ports, constants, or valid local declarations; do not rely on AADL property names as AGREE variables."
+  ],
+  "generic_rules": [
+    "Treat the AADL model as the authority for available identifiers, directions, and types before writing any clause.",
+    "Only write port-based contract statements in valid component contract scope; avoid subcomponent-port references unless exposed through valid symbols.",
+    "Skip descriptive model facts such as property settings or connection metadata unless they are represented by explicit AGREE-visible variables."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use valid `annex agree {** ... **};` block syntax.",
+    "Ensure helper equations and comparisons use type-correct AGREE expressions; range checks produce boolean results."
+  ],
+  "anti_patterns": [
+    "Do not reference timing/property names or unit tokens directly inside AGREE expressions.",
+    "Do not generate numeric range comparisons for Boolean, opaque, or non-numeric data without clear scalar typing."
+  ],
+  "irrelevant_topics": [
+    "Implementation-level binding guidance is not needed unless generating valid implementation-scope assignments.",
+    "Raw AADL property associations and connection descriptions should not be passed downstream as direct AGREE clauses without explicit exposed symbols."
+  ]
+}

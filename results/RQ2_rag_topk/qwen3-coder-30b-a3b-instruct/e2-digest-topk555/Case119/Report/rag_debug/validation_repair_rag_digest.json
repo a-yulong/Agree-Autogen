@@ -1,0 +1,33 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by using only visible identifiers from the current component scope; do not introduce new declarations.",
+    "Ensure type consistency in AGREE expressions: numeric variables must have numeric expressions, Boolean variables must have Boolean expressions.",
+    "Do not place implementation-level guarantees in component type annexes; move valid bindings to implementation scope or remove invalid clauses.",
+    "When diagnostics report type errors, trace the root cause to an unresolved identifier or invalid helper and resolve it by correcting the reference or deleting the clause."
+  ],
+  "generic_rules": [
+    "AGREE contracts must use only identifiers visible in the current scope to avoid resolution errors.",
+    "Type mismatches in AGREE expressions should be resolved by aligning helper declarations with their assigned expressions.",
+    "Assignments in AGREE should only reference existing output features or declared auxiliary variables.",
+    "Validator diagnostics pointing to invalid references should be addressed by removing or rewriting clauses that use unavailable identifiers."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks and must follow strict scoping rules for component types vs. implementations.",
+    "Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct syntax and type matching.",
+    "Helper functions and variables must be declared in the same annex and match the types of their expressions.",
+    "Package-qualified identifiers in AGREE must be imported or defined in the model to avoid resolution errors."
+  ],
+  "anti_patterns": [
+    "Avoid introducing new identifiers or types in AGREE contracts that are not present in the AADL model.",
+    "Do not attempt to fix unresolved references by adding missing declarations; instead, correct or remove the clause.",
+    "Do not mix implementation-level references in component type contracts; move valid bindings to implementation scope.",
+    "Do not assume that AGREE scalar types like 'integer' or 'boolean' are valid; use 'int', 'real', and 'bool' instead."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "implementation scope output assign",
+    "integrated pattern chunk 1",
+    "input validity chunk 1"
+  ]
+}

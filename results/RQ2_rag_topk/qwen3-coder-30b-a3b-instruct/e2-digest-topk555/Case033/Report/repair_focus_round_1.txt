@@ -1,0 +1,128 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: nearestIntruderAltitude, projectedIntruderAltitude
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+nearestIntruderAltitude | in | data | real | base_types::Float
+projectedIntruderAltitude | out | data | real | base_types::Float
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "projectedIntruderAltitude = nearestIntruderAltitude + (nearestIntruderAltitude - nearestIntruderAltitude_previous)",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "nearestIntruderAltitude",
+        "projectedIntruderAltitude"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "nearestIntruderAltitude is a real-valued input data port",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "nearestIntruderAltitude"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "projectedIntruderAltitude is a real-valued output data port",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "projectedIntruderAltitude"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: TrajectoryExtrapolation | lines 109-111
+annex agree {**
+	  guarantee "vertical_velocity_computation": projectedIntruderAltitude = nearestIntruderAltitude + (nearestIntruderAltitude - nearestIntruderAltitude_previous);
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   106: 		features
+   107: 			nearestIntruderAltitude: in data port base_types::Float;
+   108: 			projectedIntruderAltitude: out data port base_types::Float;
+   109: 	annex agree {**
+>> 110: 	  guarantee "vertical_velocity_computation": projectedIntruderAltitude = nearestIntruderAltitude + (nearestIntruderAltitude - nearestIntruderAltitude_previous);
+   111: 	**};
+   112: 	end TrajectoryExtrapolation;
+   113: 	
+   114: 	system implementation TrajectoryExtrapolation.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: TrajectoryExtrapolation
+system TrajectoryExtrapolation
+		features
+			nearestIntruderAltitude: in data port base_types::Float;
+			projectedIntruderAltitude: out data port base_types::Float;
+	end TrajectoryExtrapolation;
+
+-- TARGET DECLARATION: TrajectoryExtrapolation.impl
+system implementation TrajectoryExtrapolation.impl
+	end TrajectoryExtrapolation.impl;
+
+-- RELATED MODEL LINES
+nearestIntruderAltitude: in data port base_types::Float;
+trajectoryExtrapolation: system TrajectoryExtrapolation.impl;
+nia_from_external: port nearestIntruderAltitude -> surveillance.nearestIntruderAltitude_in {Communication_Properties::Timing => immediate;};
+nia_to_td: port surveillance.nearestIntruderAltitude -> threatDetection.nearestIntruderAltitude {Communication_Properties::Timing => immediate;};
+ia_to_rs: port surveillance.nearestIntruderAltitude -> responseSelection.threatAltitude {Communication_Properties::Timing => immediate;};
+nearestIntruderAltitude: out data port base_types::Float;
+system TrajectoryExtrapolation
+projectedIntruderAltitude: out data port base_types::Float;
+end TrajectoryExtrapolation;
+system implementation TrajectoryExtrapolation.impl
+end TrajectoryExtrapolation.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "TrajectoryExtrapolation",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "TrajectoryExtrapolation.impl",
+      "kind": "system implementation",
+      "type_name": "TrajectoryExtrapolation"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "TrajectoryExtrapolation.impl",
+      "name": "trajectoryExtrapolation",
+      "category": "system",
+      "classifier": "TrajectoryExtrapolation.impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "TrajectoryExtrapolation",
+      "name": "nearestIntruderAltitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "base_types::Float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TrajectoryExtrapolation",
+      "name": "projectedIntruderAltitude",
+      "direction": "out",
+      "category": "data port",
+      "type": "base_types::Float",
+      "scalar": "opaque"
+    }
+  ]
+}

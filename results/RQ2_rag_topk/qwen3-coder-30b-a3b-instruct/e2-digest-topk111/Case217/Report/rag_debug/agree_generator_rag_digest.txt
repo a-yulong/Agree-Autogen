@@ -1,0 +1,14 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use 'guarantee "label": expression;' for requirement items with intent='guarantee' and visible symbols in the expression.
+- Define helper boolean expressions with 'eq name : bool = ...;' when comparing numeric values to establish range or relation constraints.
+Generic rules:
+- Map requirement intent directly to AGREE clause type: guarantee for output conditions, assume for input constraints.
+- Use named boolean equations to encapsulate complex numeric comparisons for clarity and type safety.
+Syntax or pattern reminders:
+- AGREE guarantee clauses must end with a semicolon and contain a well-typed boolean expression.
+- All variables in expressions must be visible identifiers from the model; no implicit or external names.
+Anti-patterns:
+- Avoid using raw literals in guarantees without type-aligned helper equations (e.g., use eq range_check : bool = x >= 5; guarantee "...": range_check; not guarantee "...": x >= 5;).
+- Do not embed assignment or const declarations inside guarantee or assume clauses.
+</RAG_DIGEST>

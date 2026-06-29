@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 29: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "AGREE validator misinterprets THROT.Actual as a direct operand in a contract, but it is a subcomponent port not visible at component type level.",
+      "minimal_edit": "Remove any AGREE clause referencing THROT.Actual; no such clause exists in current annex, so this diagnostic is triggered by invalid inference — no edit needed if annex is empty."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 31: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "AGREE validator detects a type mismatch between component port Target_Speed (Types::speed.speed_impl) and subcomponent port CNTRL.Target, but subcomponent ports are not visible in component type annex.",
+      "minimal_edit": "Do not reference CNTRL.Target in component type annex; only use visible ports: Target_Speed, Actual_Speed, etc."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "AGREE validator incorrectly attempts to validate SM.State_Out against State_Signal, but SM.State_Out is a subcomponent port not visible in component type scope.",
+      "minimal_edit": "Remove any reference to SM.State_Out from component type annex; only State_Signal is visible."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the entire annex agree block under Car (lines 13-16) because it contains only constants and no valid contract clauses referencing visible ports.",
+    "Create a new annex agree block under Car (component type) with no content or with minimal valid guarantees using only visible ports: Target_Speed, Actual_Speed, Target_Tire_Pitch, Actual_Tire_Pitch, State_Signal.",
+    "Do not introduce any subcomponent port references (e.g., CNTRL.Target, THROT.Actual, SM.State_Out) in the component type annex, as they are not visible per AADL scope rules."
+  ]
+}

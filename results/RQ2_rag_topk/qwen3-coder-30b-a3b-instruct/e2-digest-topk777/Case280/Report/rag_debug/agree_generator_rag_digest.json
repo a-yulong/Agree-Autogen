@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Place output range guarantees in component type scopes using visible port names and concrete bounds.",
+    "Use `assume` and `guarantee` syntax with valid AGREE logical operators and expression patterns.",
+    "Generate `eq` helpers for complex boolean conditions like range checks, and `const` for named limits."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be placed in valid AADL scopes: component types for assumptions/guarantees, implementations for assignments.",
+    "Visible identifiers from the AADL model must be used directly; do not invent new names or types.",
+    "Use initialized temporal recurrence for stateful equations and nested `if-then-else` for branching logic.",
+    "Ensure all types in AGREE declarations match AADL feature types: int, real, bool."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks are enclosed in `annex agree {** ... **};`",
+    "Guarantees are written as `guarantee \"label\": expression;`",
+    "Equations are declared as `eq name : type = expression;`",
+    "Constants are declared as `const name : type = value;`"
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent ports or implementation-only paths in component type contracts.",
+    "Do not use AADL property names (e.g., Deadline, Period) as AGREE variables without explicit model exposure.",
+    "Do not declare types like 'integer' or 'boolean' in AGREE; use 'int', 'real', 'bool' instead."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing constraints not tied to visible model features",
+    "Model implementation details not relevant to component type contracts",
+    "Validator diagnostics or repair actions not directly related to AGREE syntax or scope"
+  ]
+}

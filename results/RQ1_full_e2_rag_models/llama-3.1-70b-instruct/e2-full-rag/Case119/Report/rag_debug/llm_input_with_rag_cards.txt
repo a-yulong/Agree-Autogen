@@ -1,0 +1,80 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `assume` and `guarantee` statements with labels and expressions in AGREE annex blocks.
+- Place assumptions and guarantees in valid component type scopes, and implementation-level bindings in implementation scopes.
+Generic rules:
+- Use concrete bounds, named constants, or visible relations for input envelope assumptions and output range guarantees in component type contracts.
+- Use `assign` only when the left-hand side is an existing output feature or declared auxiliary variable in implementation contracts.
+Syntax or pattern reminders:
+- AGREE contracts are written inside `annex agree {**... **};` blocks.
+- Use `eq` declarations to define boolean expressions, and `const` declarations to define integer or real constants.
+Anti-patterns:
+- Do not use subcomponent ports in a component type contract unless represented through valid variables or outputs.
+- Do not place guarantee statements in implementation scope.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- mitigation_in
+- mitigation_command
+
+Target interface:
+Exact expression symbols: mitigation_in, mitigation_command
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+mitigation_in | in | data | int | SHM_DataType::errorData
+mitigation_command | out | data | int | SHM_DataType::actionData
+
+Raw requirement:
+The mitigationActor_th component shall define the implementation-level signal routing for mitigationActor_th.impl. In the implementation layer, mitigationActor_th.impl shall route data flow from mitigation_in to mitigationActor.inData_para through C1 and control signal from mitigationActor.outData_para to mitigation_command through C2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "mitigation_in -> mitigationActor.inData_para through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "mitigation_in",
+        "mitigationActor.inData_para",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "mitigationActor.outData_para -> mitigation_command through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "mitigationActor.outData_para",
+        "mitigation_command",
+        "C2"
+      ]
+    }
+  ]
+}

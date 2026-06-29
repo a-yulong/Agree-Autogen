@@ -1,0 +1,108 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic
+- Generate contracts with AGREE logical operators and implication
+Generic rules:
+- Assign only to existing output features or declared auxiliary variables in implementation scope
+- Ensure type consistency between assumed and actual types in helper declarations
+Syntax or pattern reminders:
+- Use `=>` for implication and `and`, `or`, `not(...)` for logical operations
+- Structure branching with nested `if ... then ... else` expressions
+Anti-patterns:
+- Do not place guarantee statements in implementation scope
+- Avoid type mismatches between assumed and actual types in declarations
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- tempin
+- user_request
+- heater_on
+- cooler_on
+
+Target interface:
+Exact expression symbols: tempin, user_request, user_request.heater_on, user_request.cooler_on, heater_on, cooler_on
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+tempin | in | data | opaque | temperature_type
+user_request | in | data | opaque | command.impl
+user_request.heater_on | in | data_field | bool | base_types::boolean
+user_request.cooler_on | in | data_field | bool | base_types::boolean
+heater_on | out | data | bool | base_types::boolean
+cooler_on | out | data | bool | base_types::boolean
+
+Raw requirement:
+The controller component shall define boolean variables heating_request and cooling_request. The heating_request shall be true if and only if the user_request contains a heating command and does not contain a cooling command. Likewise, the cooling_request shall be true if and only if the user_request contains a cooling command and does not contain a heating command. The controller shall ensure that: the heater_on output is true only if heating_request is true and the temperature input is less than or equal to 20 degrees; the cooler_on output is true only if cooling_request is true and the temperature input is greater than 0 degrees.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "heating_request is true if and only if user_request.heater_on is true and user_request.cooler_on is false",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "heating_request",
+        "user_request.heater_on",
+        "user_request.cooler_on"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "cooling_request is true if and only if user_request.cooler_on is true and user_request.heater_on is false",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "cooling_request",
+        "user_request.cooler_on",
+        "user_request.heater_on"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "heater_on is true only if heating_request is true and tempin is less than or equal to 20",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "heater_on",
+        "heating_request",
+        "tempin"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "cooler_on is true only if cooling_request is true and tempin is greater than 0",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "cooler_on",
+        "cooling_request",
+        "tempin"
+      ]
+    }
+  ]
+}

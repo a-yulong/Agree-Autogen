@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 84: named thing must be an expression with a type",
+      "cause": "assume statement references port names that are not visible in component type scope",
+      "minimal_edit": "move the annex block from component type MAGNETO to implementation MAGNETO.IMPL"
+    },
+    {
+      "diagnostic": "line 85: named thing must be an expression with a type",
+      "cause": "assume statement references port names that are not visible in component type scope",
+      "minimal_edit": "move the annex block from component type MAGNETO to implementation MAGNETO.IMPL"
+    },
+    {
+      "diagnostic": "line 86: named thing must be an expression with a type",
+      "cause": "guarantee statement references port names that are not visible in component type scope",
+      "minimal_edit": "move the annex block from component type MAGNETO to implementation MAGNETO.IMPL"
+    },
+    {
+      "diagnostic": "line 87: named thing must be an expression with a type",
+      "cause": "guarantee statement references port names that are not visible in component type scope",
+      "minimal_edit": "move the annex block from component type MAGNETO to implementation MAGNETO.IMPL"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from the MAGNETO component type",
+    "Add a new AGREE annex block to the MAGNETO.IMPL component implementation",
+    "Place the assume and guarantee statements inside the implementation annex",
+    "Ensure all referenced identifiers (mag_in_data_x, mag_in_data_y, mag_out_data_x, mag_out_data_y) are properly scoped within the implementation context"
+  ]
+}

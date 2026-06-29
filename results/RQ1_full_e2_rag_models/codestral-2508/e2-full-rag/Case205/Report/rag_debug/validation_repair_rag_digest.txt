@@ -1,0 +1,23 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Repair only the specific diagnostic issue without altering unrelated architecture
+- Use visible identifiers when possible to maintain traceability
+- Ensure all AGREE contracts are properly scoped within their respective annex blocks
+Syntax or pattern reminders:
+- AGREE annex blocks are written as `annex agree {** ... **};`
+- Use valid AGREE scalar types (int, real, bool) in declarations
+- Ensure all AGREE annex blocks are properly closed with `};`
+Anti-patterns:
+- Do not add or modify architecture outside the scope of the validator diagnostic
+- Avoid using implementation-only subcomponent paths in component type annexes
+- Do not use component ports in component type contracts unless represented through valid variables or outputs
+Irrelevant retrieved material:
+- AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes
+- Stateful equations should use initialized temporal recurrence, for example `0.0 -> pre(t) + step`
+- Branching logic should use nested `if ... then ... else`
+- Generated contracts should use AGREE logical operators such as `and`, `or`, `not(...)`, and implication `=>`
+- For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation
+- For output dependency contracts, write a guarantee that relates visible outputs to visible inputs
+- If AGREE reports "The assumed type ... is ... but the actual type is ...", align the helper declaration type with the expression
+- If AGREE reports "named thing must be an expression with a type" or a guarantee expression has type <error>, trace the first unresolved identifier or invalid helper declaration on the same line
+</RAG_DIGEST>

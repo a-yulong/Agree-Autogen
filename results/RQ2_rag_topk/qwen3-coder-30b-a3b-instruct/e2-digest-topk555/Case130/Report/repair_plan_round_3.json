@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 107: named thing must be an expression with a type",
+      "cause": "hello is a system component name, not a boolean-valued expression; AGREE requires boolean expressions in assume clauses",
+      "minimal_edit": "remove assume \"deployment_binding_hello_impl\": hello = hello;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 108: Couldn't resolve reference to 'cpu_rm'.",
+      "cause": "cpu_rm is a subcomponent name in hello.impl, but the annex is attached to hello (system type), where cpu_rm is not visible",
+      "minimal_edit": "remove assume \"node_a_processor_binding\": node_a = cpu_rm;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 109: Couldn't resolve reference to 'mem'.",
+      "cause": "mem is a subcomponent name in hello.impl, but the annex is attached to hello (system type), where mem is not visible",
+      "minimal_edit": "remove assume \"node_a_memory_binding\": Node_A = mem;"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "delete the entire annex agree block from system hello (lines 106-110)",
+    "add a new annex agree block to system implementation hello.impl",
+    "within the new annex in hello.impl, write: assume \"node_a_processor_binding\": node_a.ANNEX__actual_processor_binding = true;",
+    "within the new annex in hello.impl, write: assume \"node_a_memory_binding\": node_a.ANNEX__actual_memory_binding = true;"
+  ]
+}

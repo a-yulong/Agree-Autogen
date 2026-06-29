@@ -1,0 +1,77 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: tick, sp
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+tick | in | event | event | 
+sp | out | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "sp >= 0 and sp <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "sp"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "sp is bounded at every evaluation step",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "sp"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: speed | lines 21-24
+annex agree {**
+  guarantee "bounded_output": sp >= 0 and sp <= 100;
+  guarantee "every_step": [tick] -> (sp >= 0 and sp <= 100);
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   19:     Dispatch_Protocol => periodic;
+   20:     Period => 1 sec;
+   21: annex agree {**
+   22:   guarantee "bounded_output": sp >= 0 and sp <= 100;
+>> 23:   guarantee "every_step": [tick] -> (sp >= 0 and sp <= 100);
+   24: **};
+   25: end speed;
+   26: 
+   27: thread implementation speed.i
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: speed
+thread speed
+  features
+    tick: in event port { Dequeue_Protocol => AllItems; };
+    sp: out data port Base_Types::Integer;
+  properties
+    Dispatch_Protocol => periodic;
+    Period => 1 sec;
+end speed;
+
+-- TARGET DECLARATION: speed.i
+thread implementation speed.i
+end speed.i;
+
+-- RELATED MODEL LINES
+-- Next example exploits the AADL execution model to compute a speed by
+thread speed
+tick: in event port { Dequeue_Protocol => AllItems; };
+sp: out data port Base_Types::Integer;
+end speed;
+thread implementation speed.i
+end speed.i;
+-- Note that in the preceding code, tick�count provides the number of events
+-- that are available in the tick port queue.

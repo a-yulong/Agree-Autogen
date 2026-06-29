@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 27: Couldn't resolve reference to 'RTOS'.",
+      "cause": "Reference to 'RTOS' is not visible in the current scope",
+      "minimal_edit": "Replace 'SBC_32F411EDISCOVERY.RTOS' with 'SBC_32F411EDISCOVERY.impl' in the deployment_binding assumption"
+    },
+    {
+      "diagnostic": "line 28: Couldn't resolve reference to 'Software'.",
+      "cause": "Reference to 'Software' is not visible in the current scope",
+      "minimal_edit": "Remove the software_processor_binding assumption as it references an undefined identifier"
+    },
+    {
+      "diagnostic": "line 28: Couldn't resolve reference to 'v2'.",
+      "cause": "Reference to 'v2' is not visible in the current scope",
+      "minimal_edit": "Remove the software_processor_binding assumption as it references an undefined identifier"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the assume statement on line 27 to reference SBC_32F411EDISCOVERY.impl instead of SBC_32F411EDISCOVERY.RTOS",
+    "Remove the assume statement on line 28 which references undefined identifiers 'Software' and 'v2'"
+  ]
+}

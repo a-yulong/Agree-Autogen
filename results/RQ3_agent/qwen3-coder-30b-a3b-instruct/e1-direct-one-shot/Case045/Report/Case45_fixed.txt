@@ -1,0 +1,72 @@
+package Integer_Toy
+public 
+   with Base_Types;
+   
+system A
+	features
+		Input: in data port Base_Types::Integer;
+		Output: out data port Base_Types::Integer;
+end A ; 
+
+system B
+	features
+		Input: in data port Base_Types::Integer;
+		Output: out data port Base_Types::Integer;
+end B ; 
+
+system C
+	features
+		Input1: in data port Base_Types::Integer;
+		Input2: in data port Base_Types::Integer;
+		Output: out data port Base_Types::Integer;
+end C ; 
+   
+system implementation C.Impl
+   properties
+      AGREE::AGREE_Guard => "true";
+   end C.Impl;
+   
+   annex agree {**
+      -- State variable mode
+      var mode: Integer;
+      
+      -- Initial condition: mode >= 0
+      property initial_mode is
+         mode = 0;
+      end initial_mode;
+      
+      -- Monotonic increase: mode(t+1) > mode(t)
+      property monotonic_mode is
+         mode' > mode;
+      end monotonic_mode;
+      
+      -- Output condition: Output = Input1 + Input2 if mode = 3, else Output = 0
+      property output_condition is
+         (mode = 3) => (Output = Input1 + Input2);
+         (mode /= 3) => (Output = 0);
+      end output_condition;
+   **};
+   
+end C.Impl;
+
+system top_level
+	features
+		Input: in data port Base_Types::Integer;
+		Output: out data port Base_Types::Integer;
+end top_level;
+
+system implementation top_level.Impl
+	subcomponents
+		A_sub : system A ; 
+		B_sub : system B ; 
+		C_sub : system C ; 
+	connections
+		IN_TO_A : port Input -> A_sub.Input {Communication_Properties::Timing => immediate;};
+		A_TO_B : port A_sub.Output -> B_sub.Input {Communication_Properties::Timing => immediate;};
+		A_TO_C : port A_sub.Output -> C_sub.Input1 {Communication_Properties::Timing => immediate;};
+		B_TO_C : port B_sub.Output -> C_sub.Input2 {Communication_Properties::Timing => immediate;};
+		C_TO_Output : port C_sub.Output -> Output {Communication_Properties::Timing => immediate;}; 
+		
+end top_level.Impl;
+	
+end Integer_Toy;

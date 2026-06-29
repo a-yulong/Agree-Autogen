@@ -1,0 +1,17 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Signal flow requirements should not directly translate into AGREE clauses; they describe the system, but do not constrain it.
+- Timing constraints (e.g., 'immediate timing') are AADL properties and should not be directly encoded as AGREE expressions unless exposed as ports or constants.
+Generic rules:
+- AGREE contracts reside within `annex agree { ... };` blocks.
+- Use `assume` and `guarantee` for component type contracts, and `assign` for implementation-level bindings.
+- Ensure AGREE expressions align with the declared data types (bool, int, real).
+- Use visible symbols (constants, ports) when defining ranges or relations in contracts.
+Syntax or pattern reminders:
+- Use `eq name : type = expression;` to define constants or equations.
+- Use `const name : type = value;` to define constants.
+- Use `assign output = expression;` to bind implementation outputs.
+Anti-patterns:
+- Do not include AADL properties (Compute_Execution_Time, Deadline, etc.) directly in AGREE expressions without corresponding ports or constants.
+- Avoid range comparisons or equality checks on Boolean or opaque data types unless a numeric scalar representation is available.
+</RAG_DIGEST>

@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Fix unresolved references in AGREE contracts by tracing invalid identifiers or helper declarations and resolving root causes or removing invalid clauses.",
+    "Move implementation-level bindings from component type annexes to implementation annexes when diagnostics reference subcomponent paths or implementation-specific features.",
+    "Avoid generating AGREE clauses that reference opaque Boolean data or perform numeric comparisons on non-scalar types unless the requirement and AADL model support such operations."
+  ],
+  "generic_rules": [
+    "Ensure AGREE contracts only reference visible identifiers and features within the current scope to avoid diagnostics related to undefined or inaccessible symbols.",
+    "Validate that all property associations and data type references in AGREE contracts are present in the AADL model and its configured dependencies.",
+    "When generating AGREE guarantees, ensure they are placed in the correct annex scope (type vs. implementation) based on the referenced features and bindings.",
+    "Remove or revise AGREE clauses that reference invalid or unsupported data types, such as Boolean ports used in numeric comparisons."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks and placed in appropriate annex scopes (type or implementation).",
+    "AGREE guarantees referencing component ports must be in valid scopes; implementation-level bindings should not appear in component type annexes.",
+    "Do not introduce package-qualified identifiers in AGREE code unless they are explicitly defined in the AADL model or its dependencies."
+  ],
+  "anti_patterns": [
+    "Do not attempt to resolve diagnostics by adding new architecture elements; instead, correct or remove invalid AGREE clauses.",
+    "Avoid placing implementation-specific references in component type annexes, as this leads to scope-related validation errors."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about property associations not pointing to anything",
+    "AGREE validator diagnostics",
+    "Requirement traceability and compact semantics",
+    "Model fusion and owner/scope preservation rules"
+  ]
+}

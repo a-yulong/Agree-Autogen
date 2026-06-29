@@ -1,0 +1,20 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "AGREE cannot directly compare AADL ports to boolean literals",
+      "minimal_edit": "Replace Port_1 = true and Port_2 = true with Port_1 and Port_2 respectively, since ports are already boolean expressions in AGREE"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE expects port expressions to be valid boolean expressions",
+      "minimal_edit": "Remove the boolean literal 'true' from the assumption expressions"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the AGREE annex block in Mixin to remove the 'true' literals from the assumption expressions",
+    "Change 'assume \"signal_routing_from_Port_1\": Port_1 = true;' to 'assume \"signal_routing_from_Port_1\": Port_1;'",
+    "Change 'assume \"signal_routing_from_Port_2\": Port_2 = true;' to 'assume \"signal_routing_from_Port_2\": Port_2;'"
+  ]
+}

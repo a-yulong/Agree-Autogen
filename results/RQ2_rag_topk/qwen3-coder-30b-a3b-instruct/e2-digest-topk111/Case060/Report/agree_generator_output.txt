@@ -1,0 +1,9 @@
+annex agree {**
+  assume "Fail is False": not Fail;
+  guarantee "Mode derived from Panel signals": 
+    (Panel.LO and not Panel.MED and not Panel.MAX) or
+    (Panel.MED and not Panel.LO and not Panel.MAX) or
+    (Panel.MAX and not Panel.LO and not Panel.MED);
+  guarantee "CMD equals theoretical brake command": 
+    CMD = (Mode * Pedal);
+**};

@@ -1,0 +1,101 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assume/guarantee declarations in component type annexes when they describe interface behavior.
+- Use `assign` statements in implementation annexes for bindings valid in that scope.
+Generic rules:
+- Use `const` and `eq` to define typed constants and boolean expressions in AGREE contracts.
+- Ensure all referenced identifiers are visible in the component's scope.
+- Place AGREE annex blocks within `annex agree {** ... **};` delimiters.
+Syntax or pattern reminders:
+- Component type contracts use `assume` and `guarantee` for interface behavior.
+- Implementation contracts use `assign` for port bindings.
+Anti-patterns:
+- Do not place implementation-level `assign` clauses in component type annexes.
+- Avoid referencing AADL properties like Deadline or Period directly in AGREE expressions.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- door_management
+- door_management.imp
+- door1
+- door2
+- lgs
+- dps
+- ocu
+- fws
+- ecam
+- process_door
+- door
+- handle_position
+- closed
+- latched
+- locked
+- swivel
+- de_arrest
+- lock
+- warn_diff_pres
+- warn_slide
+- door.imp
+- LGS
+- in_flight1
+- on_ground1
+- engine_running1
+- emergency_evacuation1
+- in_flight2
+- on_ground2
+- engine_running2
+- emergency_evacuation2
+- LGS.imp
+- DPS
+- dps1
+- dps2
+- DPS.imp
+- OCU
+- cll
+- OCU.imp
+- FWS
+- wrn_door1
+
+Target interface:
+Exact expression symbols: handle_position, closed, latched, locked, swivel, de_arrest, lock, warn_diff_pres, warn_slide
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+handle_position | out | data | bool | Base_Types::boolean
+closed | out | data | bool | Base_Types::boolean
+latched | out | data | bool | Base_Types::boolean
+locked | out | data | bool | Base_Types::boolean
+swivel | in | data | bool | Base_Types::boolean
+de_arrest | in | data | bool | Base_Types::boolean
+lock | in | data | bool | Base_Types::boolean
+warn_diff_pres | in | data | bool | Base_Types::boolean
+warn_slide | in | data | bool | Base_Types::boolean
+
+Raw requirement:
+The door component shall operate under a Boolean input condition on de_arrest. The environment shall provide de_arrest as true whenever this contract is evaluated.
+
+Requirement items:
+DISABLED

@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'impl'.",
+      "cause": "AGREE expression attempts to reference a non-existent identifier 'impl' in a deployment binding assumption",
+      "minimal_edit": "Replace 'hello.impl' with 'hello' in the assumption expression"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'cpu_rm'.",
+      "cause": "AGREE expression attempts to reference a non-existent identifier 'cpu_rm' in a deployment binding assumption",
+      "minimal_edit": "Replace 'cpu_rm.p0' with 'node_a' in the assumption expression"
+    },
+    {
+      "diagnostic": "line 109: Couldn't resolve reference to 'mem'.",
+      "cause": "AGREE expression attempts to reference a non-existent identifier 'mem' in a deployment binding assumption",
+      "minimal_edit": "Replace 'mem.segment1' with 'node_a' in the assumption expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'hello = hello.impl' with 'hello = hello' in the first assumption",
+    "Replace 'node_a = cpu_rm.p0' with 'node_a = node_a' in the second assumption",
+    "Replace 'Node_A = mem.segment1' with 'Node_A = node_a' in the third assumption"
+  ]
+}

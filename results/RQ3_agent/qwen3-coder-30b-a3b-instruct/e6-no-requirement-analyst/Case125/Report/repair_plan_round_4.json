@@ -1,0 +1,16 @@
+{
+  "problems": [
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE assume statements reference port names that are not valid expressions in the component type scope",
+      "minimal_edit": "Move the assume statements to the component implementation annex and rewrite them to reference the correct port names"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the assume statements from the GYRO component type annex",
+    "Add a new annex agree block to the GYRO.IMPL component implementation",
+    "Move the assume statements into the GYRO.IMPL annex",
+    "Ensure the port names in the assume statements match the implementation-level port names"
+  ]
+}

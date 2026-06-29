@@ -1,0 +1,123 @@
+{
+  "component_types": [
+    {
+      "name": "alarmAggregator",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "alarmAggregator.impl",
+      "kind": "thread",
+      "type_name": "alarmAggregator"
+    }
+  ],
+  "subcomponents": [],
+  "features": [
+    {
+      "owner": "alarmAggregator",
+      "name": "arlarm_acc_in",
+      "direction": "in",
+      "category": "event data port",
+      "type": "SHM_DataType::errorData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "alarmAggregator",
+      "name": "arlarm_adirup_in",
+      "direction": "in",
+      "category": "event data port",
+      "type": "SHM_DataType::errorData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "alarmAggregator",
+      "name": "alarmAggregator_out",
+      "direction": "out",
+      "category": "event data port",
+      "type": "SHM_DataType::errorData",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "alarmAggregator.impl",
+      "name": "C1",
+      "kind": "parameter",
+      "source": "arlarm_acc_in",
+      "destination": "alarmAggregator.inData_para1"
+    },
+    {
+      "owner": "alarmAggregator.impl",
+      "name": "C2",
+      "kind": "parameter",
+      "source": "arlarm_adirup_in",
+      "destination": "alarmAggregator.inData_para2"
+    },
+    {
+      "owner": "alarmAggregator.impl",
+      "name": "C3",
+      "kind": "parameter",
+      "source": "alarmAggregator.outData_para",
+      "destination": "alarmAggregator_out"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "alarmAggregator",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "6",
+      "applies_to": null
+    },
+    {
+      "owner": "alarmAggregator",
+      "owner_kind": "thread",
+      "name": "Stack_Size",
+      "value": "20 KByte",
+      "applies_to": null
+    },
+    {
+      "owner": "alarmAggregator",
+      "owner_kind": "thread",
+      "name": "Code_Size",
+      "value": "100 KByte",
+      "applies_to": null
+    },
+    {
+      "owner": "alarmAggregator",
+      "owner_kind": "thread",
+      "name": "Data_Size",
+      "value": "1 KByte",
+      "applies_to": null
+    },
+    {
+      "owner": "alarmAggregator",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": null
+    },
+    {
+      "owner": "alarmAggregator",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "3000 ms",
+      "applies_to": null
+    },
+    {
+      "owner": "alarmAggregator",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "400 ms .. 500 ms",
+      "applies_to": null
+    },
+    {
+      "owner": "alarmAggregator",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "500 ms",
+      "applies_to": null
+    }
+  ]
+}

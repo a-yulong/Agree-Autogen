@@ -1,0 +1,104 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use an annex agree block for AGREE content, and treat each block as scoped to its owning component declaration.
+- In component type scope, express dependencies as guarantees only between visible inputs and outputs.
+- In component implementation scope, use assign only when the left-hand side is an existing output feature or declared auxiliary variable.
+Generic rules:
+- Only generate clauses when the relation can be written with identifiers that are visible in the current component scope.
+- Use exact model-provided names and avoid inventing identifiers or copying names from examples.
+- Prefer concrete, case-supported relations over generic behavioral statements.
+Syntax or pattern reminders:
+- AGREE statement forms include assume/guarantee with a labeled expression, eq declarations, const declarations, and assign statements ending with semicolons.
+- Do not use implementation-only subcomponent paths inside a component type contract.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope.
+- Do not reference AADL property names or unit tokens as if they were AGREE variables unless explicitly exposed as typed model elements.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- acc1_output
+- acc2_output
+- acc3_output
+- acc4_output
+- acc5_output
+- acc6_output
+- acc1_event_in
+- acc2_event_in
+- acc3_event_in
+- acc4_event_in
+- acc5_event_in
+- acc6_event_in
+
+Target interface:
+Exact expression symbols: acc1_output, acc2_output, acc3_output, acc4_output, acc5_output, acc6_output, acc1_event_in, acc2_event_in, acc3_event_in, acc4_event_in, acc5_event_in, acc6_event_in
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc1_output | out | data | int | SHM_DataType::accData
+acc2_output | out | data | int | SHM_DataType::accData
+acc3_output | out | data | int | SHM_DataType::accData
+acc4_output | out | data | int | SHM_DataType::accData
+acc5_output | out | data | int | SHM_DataType::accData
+acc6_output | out | data | int | SHM_DataType::accData
+acc1_event_in | in | data | int | SHM_DataType::actionData
+acc2_event_in | in | data | int | SHM_DataType::actionData
+acc3_event_in | in | data | int | SHM_DataType::actionData
+acc4_event_in | in | data | int | SHM_DataType::actionData
+acc5_event_in | in | data | int | SHM_DataType::actionData
+acc6_event_in | in | data | int | SHM_DataType::actionData
+
+Raw requirement:
+The acc_process component shall define the implementation-level signal routing for acc_process.impl. In the implementation layer, acc_process.impl shall route control signal from acc1_event_in to acc1.acc1_command_in through C1 and control signal from acc2_event_in to acc2.acc2_command_in through C2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "acc_process.impl routes control signal from acc1_event_in to acc1.acc1_command_in through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc_process.impl",
+        "acc1_event_in",
+        "acc1.acc1_command_in",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "acc_process.impl routes control signal from acc2_event_in to acc2.acc2_command_in through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc_process.impl",
+        "acc2_event_in",
+        "acc2.acc2_command_in",
+        "C2"
+      ]
+    }
+  ]
+}

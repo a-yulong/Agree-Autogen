@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 24: Couldn't resolve reference to 'k_init'.",
+      "cause": "k_init is undefined in the AGREE annex",
+      "minimal_edit": "Replace k_init with a constant declaration for k_init = 10"
+    },
+    {
+      "diagnostic": "line 24: The variable 'k' on the left side of equation is of type 'int' but must be of type '<error>'",
+      "cause": "Invalid temporal recurrence syntax for k",
+      "minimal_edit": "Rewrite k equation to use proper initialized temporal recurrence: k : int = 10 -> pre(k_next)"
+    },
+    {
+      "diagnostic": "line 35: Couldn't resolve reference to 'k_init'.",
+      "cause": "k_init is undefined in the AGREE annex",
+      "minimal_edit": "Replace k_init with a constant declaration for k_init = 10"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add const k_init : int = 10; at the beginning of the AGREE annex",
+    "Rewrite eq k : int = k_init -> pre(k_next); to eq k : int = 10 -> pre(k_next);",
+    "Replace assume \"k_initial_value\": k = k_init; with assume \"k_initial_value\": k = 10;"
+  ]
+}

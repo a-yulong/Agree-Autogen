@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level subcomponent ports",
+      "minimal_edit": "Remove the AGREE annex from component type and place equivalent implementation-level assertions in the implementation annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level subcomponent",
+      "minimal_edit": "Remove the AGREE annex from component type and place equivalent implementation-level assertions in the implementation annex"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE annex is in component type scope but references implementation-level subcomponent ports",
+      "minimal_edit": "Remove the AGREE annex from component type and place equivalent implementation-level assertions in the implementation annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from the ATTITUDE_CALCULATION component type",
+    "Add a new AGREE annex block to the ATTITUDE_CALCULATION.IMPL component implementation",
+    "In the new implementation annex, add assume statements that reference the connection names and port names directly",
+    "Replace each assume statement with an equivalent assertion using the connection names (ACC_PC1, ACC_PC2, etc.) and port names"
+  ]
+}

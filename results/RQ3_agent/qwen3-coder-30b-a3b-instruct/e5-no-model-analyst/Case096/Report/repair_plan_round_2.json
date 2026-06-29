@@ -1,0 +1,51 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 257: Couldn't resolve reference to 'HM_th'.",
+      "cause": "HM_th is a subcomponent, not a port; cannot be referenced directly in AGREE contract",
+      "minimal_edit": "Replace HM_th.accData_in1 with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "line 257: Couldn't resolve reference to 'accData_in1'.",
+      "cause": "accData_in1 is a subcomponent port, not directly accessible in component type scope",
+      "minimal_edit": "Remove or rewrite the guarantee to reference only visible ports"
+    },
+    {
+      "diagnostic": "line 257: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Invalid type comparison due to unresolved references",
+      "minimal_edit": "Replace the entire guarantee with a valid expression"
+    },
+    {
+      "diagnostic": "line 257: named thing must be an expression with a type",
+      "cause": "Reference to unresolved subcomponent port",
+      "minimal_edit": "Rewrite guarantee to use only valid port expressions"
+    },
+    {
+      "diagnostic": "line 258: Couldn't resolve reference to 'HM_th'.",
+      "cause": "HM_th is a subcomponent, not a port; cannot be referenced directly in AGREE contract",
+      "minimal_edit": "Replace HM_th.accData_in2 with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "line 258: Couldn't resolve reference to 'accData_in2'.",
+      "cause": "accData_in2 is a subcomponent port, not directly accessible in component type scope",
+      "minimal_edit": "Remove or rewrite the guarantee to reference only visible ports"
+    },
+    {
+      "diagnostic": "line 258: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Invalid type comparison due to unresolved references",
+      "minimal_edit": "Replace the entire guarantee with a valid expression"
+    },
+    {
+      "diagnostic": "line 258: named thing must be an expression with a type",
+      "cause": "Reference to unresolved subcomponent port",
+      "minimal_edit": "Rewrite guarantee to use only valid port expressions"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the AGREE annex block from the component type ADIRUp_process",
+    "Move the AGREE annex block to the implementation ADIRUp_process.impl",
+    "Replace the guarantees with valid expressions using only visible ports",
+    "Ensure all references in the AGREE annex are valid identifiers from the component's feature list"
+  ]
+}

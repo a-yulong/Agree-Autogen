@@ -1,0 +1,20 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Expression for guarantee statement is of type 'int' but must be of type 'bool'",
+      "cause": "Guarantee statements must be boolean expressions, not equality comparisons of integers",
+      "minimal_edit": "Remove the equality comparisons and keep only the constant values in the guarantee statements"
+    },
+    {
+      "diagnostic": "no viable alternative at input 'ms'",
+      "cause": "AGREE does not support time unit suffixes like 'ms' in expressions",
+      "minimal_edit": "Remove the 'ms' suffixes from the guarantee statements"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the guarantee statements in the AGREE annex block for Q to remove the equality comparisons and time unit suffixes",
+    "Change \"guarantee \"execution_period\": 10 ms = 10 ms;\" to \"guarantee \"execution_period\": 10;\"",
+    "Change \"guarantee \"deadline_constraint\": 10 ms = 10 ms;\" to \"guarantee \"deadline_constraint\": 10;\""
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations: `0.0 -> pre(t) + 0.1`",
+    "Place output assignments in implementation scope only when the left-hand side is an existing output feature or declared auxiliary variable",
+    "Use AGREE logical operators (`and`, `or`, `not(...)`, `=>`) for contract expressions"
+  ],
+  "generic_rules": [
+    "Assumptions and guarantees referring to component ports must be placed in valid component type scopes",
+    "For component type contracts, only include input envelope assumptions and output range guarantees when concrete bounds or named constants are provided",
+    "Mode transition logic should use nested `if ... then ... else` expressions with proper temporal recurrence"
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks use `assume \"label\": expression;`, `guarantee \"label\": expression;`, `eq name : type = expression;`, `const name : type = value;`, and `assign output = expression;` syntax",
+    "Stateful variables should be declared with initialized recurrence using `-> pre(...)` pattern"
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope; use only assumptions and equations there",
+    "Do not encode AADL timing properties (e.g., Period, Deadline) as AGREE expressions unless model exposes typed ports or constants"
+  ],
+  "irrelevant_topics": [
+    "AADL property names as AGREE variables",
+    "Validator-driven minimal repair patterns",
+    "Model traceability and requirement semantics"
+  ]
+}

@@ -1,0 +1,172 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: angle
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+angle | in | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "0 <= angle <= 100",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "angle"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: thr_yaw_simulation | lines 183-195
+annex agree {**
+
+
+    annex agree {
+
+
+      assume "angle_bounds": 0 <= angle and angle <= 100;
+
+
+    };
+
+
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   182: 
+   183:   annex agree {**
+   184: 
+   185: 
+>> 186:     annex agree {
+   187: 
+   188: 
+   189:       assume "angle_bounds": 0 <= angle and angle <= 100;
+   190: 
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: thr_yaw_simulation
+thread thr_yaw_simulation
+  features
+    angle : in data port Base_Types::Integer;
+  flows
+  	fs1 : flow sink angle;
+  properties
+    Dispatch_Protocol      => Periodic;
+    Period                 => 1000ms;
+    Deadline               => 1000ms;
+    Compute_Execution_Time => 5ms .. 10ms;
+
+  end thr_yaw_simulation;
+
+-- TARGET DECLARATION: thr_yaw_simulation.i
+thread implementation thr_yaw_simulation.i
+  calls 
+    call1 : { pspg : subprogram spg_yaw_simulation;};
+
+  connections
+    R6:parameter angle -> pspg.angle;
+  end thr_yaw_simulation.i;
+
+-- RELATED MODEL LINES
+angle     : out parameter Base_Types::Integer;
+fs3 : flow source angle;
+angle       : out data port Base_Types::Integer;
+R4:parameter pspg.angle -> angle;
+angle : in parameter Base_Types::Integer;
+thread thr_yaw_simulation
+angle : in data port Base_Types::Integer;
+fs1 : flow sink angle;
+end thr_yaw_simulation;
+thread implementation thr_yaw_simulation.i
+R6:parameter angle -> pspg.angle;
+end thr_yaw_simulation.i;
+prs_yaw      : thread Ardupilot_Software::thr_yaw_simulation.i;
+R9:port prs_mgmt.angle    -> prs_yaw.angle;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "thr_yaw_simulation",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "thr_yaw_simulation.i",
+      "kind": "thread implementation",
+      "type_name": "thr_yaw_simulation"
+    }
+  ],
+  "features": [
+    {
+      "owner": "thr_yaw_simulation",
+      "name": "angle",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "thr_yaw_simulation.i",
+      "name": "angle",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "thr_yaw_simulation.i",
+      "name": "pspg",
+      "direction": "out",
+      "category": "subprogram",
+      "type": "spg_yaw_simulation",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "thr_yaw_simulation.i",
+      "name": "R6",
+      "kind": "parameter",
+      "source": "angle",
+      "destination": "pspg.angle"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "thr_yaw_simulation",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": null
+    },
+    {
+      "owner": "thr_yaw_simulation",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "1000ms",
+      "applies_to": null
+    },
+    {
+      "owner": "thr_yaw_simulation",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "1000ms",
+      "applies_to": null
+    },
+    {
+      "owner": "thr_yaw_simulation",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "5ms .. 10ms",
+      "applies_to": null
+    }
+  ]
+}

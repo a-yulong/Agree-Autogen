@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 36: named thing must be an expression with a type",
+      "cause": "assume statement references port names that are not visible in component type scope",
+      "minimal_edit": "remove assume \"signal_flow_x\": acc_out_data_x = acc_in_data_x;"
+    },
+    {
+      "diagnostic": "line 37: named thing must be an expression with a type",
+      "cause": "assume statement references port names that are not visible in component type scope",
+      "minimal_edit": "remove assume \"signal_flow_y\": acc_out_data_y = acc_in_data_y;"
+    },
+    {
+      "diagnostic": "line 38: named thing must be an expression with a type",
+      "cause": "guarantee statement references port names that are not visible in component type scope",
+      "minimal_edit": "remove guarantee \"data_consistency_x\": acc_out_data_x = acc_in_data_x;"
+    },
+    {
+      "diagnostic": "line 39: named thing must be an expression with a type",
+      "cause": "guarantee statement references port names that are not visible in component type scope",
+      "minimal_edit": "remove guarantee \"data_consistency_y\": acc_out_data_y = acc_in_data_y;"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire annex agree block from ACCELERO component type",
+    "Add a new annex agree block to ACCELERO.IMPL component implementation",
+    "In the new implementation annex, declare auxiliary variables for data flow relationships",
+    "In the new implementation annex, add assign statements for the data flow relationships"
+  ]
+}

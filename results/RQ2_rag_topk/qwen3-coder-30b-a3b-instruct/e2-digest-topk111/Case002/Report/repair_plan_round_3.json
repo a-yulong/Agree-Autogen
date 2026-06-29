@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Non-constant expression in constant declaration",
+      "cause": "AGREE requires constant declarations to be evaluatable at compile time, but the expression (ownLongitude > nearestIntruderLongitude) references input ports which are not compile-time constants",
+      "minimal_edit": "Remove the const declaration and inline the boolean expression directly in the guarantee conditions where it is used"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the const declaration on line 69 with an inline boolean expression in the guarantee conditions",
+    "Update guarantee R1_condition to use (ownLongitude > nearestIntruderLongitude) directly instead of the const variable",
+    "Update guarantee R2_condition to use (ownLongitude <= nearestIntruderLongitude) directly instead of the const variable"
+  ]
+}

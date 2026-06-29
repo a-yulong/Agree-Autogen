@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place output range guarantees in component type scopes using visible feature names and concrete bounds.",
+    "Use `assume` and `guarantee` syntax with valid AGREE logical operators and expression patterns.",
+    "Generate `eq` helpers for complex boolean conditions like range checks, and `const` for threshold values.",
+    "Write component type contracts using only visible ports and features; avoid implementation-level subcomponent paths."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes for assignments.",
+    "Use initialized temporal recurrence for stateful equations and nested `if-then-else` for branching logic.",
+    "Ensure all identifiers in AGREE expressions are visible in the current AADL component scope."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract statements.",
+    "Declare helper equations with `eq name : type = expression;` and constants with `const name : type = value;`.",
+    "Apply `and`, `or`, `not(...)`, and implication `=>` for logical expressions.",
+    "Use `if ... then ... else` for conditional logic in AGREE expressions."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent ports or implementation-specific paths in component type contracts.",
+    "Do not encode AADL timing properties as AGREE variables unless explicitly exposed as typed features.",
+    "Do not invent new identifiers; only use visible AADL features or declared helpers in AGREE annexes.",
+    "Do not generate clauses with unresolved or mismatched types; align helper declarations with expression types."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing tokens such as ms/us/Hz/Bytes",
+    "Model unit or package resolution failures",
+    "Validator diagnostics for architecture changes",
+    "Implementation-level bindings in component type scopes"
+  ]
+}

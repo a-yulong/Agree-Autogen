@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="model_fusion">
+Generic rules:
+- Preserve AADL structure by ensuring AGREE annexes respect scope boundaries: type-level for visible ports, implementation-level for subcomponent bindings.
+- Only reference explicitly exposed ports or constants in AGREE contracts—never internal subcomponent paths or AADL properties as variables.
+Syntax or pattern reminders:
+- Use `annex agree {** ... **};` for all contracts; place assumptions/guarantees in component type scope when using visible outputs/inputs.
+- Declare intermediate boolean conditions with `eq` for range checks, e.g., `eq in_range : bool = output >= min and output <= max;`
+Anti-patterns:
+- Do not reference AADL properties (e.g., Period, Deadline) as if they are AGREE variables—they are not in expression scope unless bound via explicit constants or ports.
+- Avoid using subcomponent port names directly in component type annexes; they must be mediated through visible outputs or connections.
+Irrelevant retrieved material:
+- assign output = expression;
+- validator diagnostics
+- repair patterns
+- AGREE annex placement decisions for specific target names
+</RAG_DIGEST>

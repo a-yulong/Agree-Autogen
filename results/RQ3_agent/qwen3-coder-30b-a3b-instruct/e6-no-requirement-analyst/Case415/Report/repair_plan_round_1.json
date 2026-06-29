@@ -1,0 +1,22 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "The 'latched' port is referenced in a guarantee within a component type annex, but it is an output port in the component type",
+      "minimal_edit": "Remove 'latched' from all boolean expressions in the guarantees"
+    },
+    {
+      "diagnostic": "Latched expressions can appear only in component implementations",
+      "cause": "Guarantees referencing 'latched' are placed in component type annex instead of implementation",
+      "minimal_edit": "Remove 'latched' from all boolean expressions in the guarantees"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the AGREE annex block to remove 'latched' from all boolean expressions in the guarantees",
+    "Update guarantee \"swivel_output\": swivel = (handle_position and closed and locked);",
+    "Update guarantee \"de_arrest_output\": de_arrest = (handle_position and closed and locked);",
+    "Update guarantee \"lock_output\": lock = (handle_position and closed and locked);",
+    "Update guarantee \"door_locked_output\": door_locked = (handle_position and closed and locked);"
+  ]
+}

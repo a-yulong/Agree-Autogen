@@ -1,0 +1,66 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 31: Assignment statements are allowed only in component implementations",
+      "cause": "AGREE assign statements in component type annex",
+      "minimal_edit": "Move the assign statement from top_level annex to top_level.Impl annex"
+    },
+    {
+      "diagnostic": "line 31: Couldn't resolve reference to 'C_sub'",
+      "cause": "Reference to subcomponent not visible in component type scope",
+      "minimal_edit": "Remove assignment to C_sub.Output in top_level annex"
+    },
+    {
+      "diagnostic": "line 31: Couldn't resolve reference to 'Output'",
+      "cause": "Reference to output port not visible in component type scope",
+      "minimal_edit": "Remove assignment to Output in top_level annex"
+    },
+    {
+      "diagnostic": "line 31: Mulitiple assignments to variable 'Output'",
+      "cause": "Conflicting assignments to same output in component type",
+      "minimal_edit": "Remove assignment to Output in top_level annex"
+    },
+    {
+      "diagnostic": "line 52: Couldn't resolve reference to 'B_sub.Input'",
+      "cause": "Reference to subcomponent port not visible in component type scope",
+      "minimal_edit": "Remove assignment to B_sub.Input in top_level.Impl annex"
+    },
+    {
+      "diagnostic": "line 52: LHS of assignment must be an AGREE 'eq' variable or an output port of this component",
+      "cause": "Invalid assignment target in component implementation",
+      "minimal_edit": "Remove assignment to B_sub.Input in top_level.Impl annex"
+    },
+    {
+      "diagnostic": "line 52: The left hand side of the assignment statement is of type '<error>' but the right hand side is of type 'int'",
+      "cause": "Invalid assignment target in component implementation",
+      "minimal_edit": "Remove assignment to B_sub.Input in top_level.Impl annex"
+    },
+    {
+      "diagnostic": "line 55: Couldn't resolve reference to 'C_sub.Input'",
+      "cause": "Reference to subcomponent port not visible in component type scope",
+      "minimal_edit": "Remove assignment to C_sub.Input in top_level.Impl annex"
+    },
+    {
+      "diagnostic": "line 55: LHS of assignment must be an AGREE 'eq' variable or an output port of this component",
+      "cause": "Invalid assignment target in component implementation",
+      "minimal_edit": "Remove assignment to C_sub.Input in top_level.Impl annex"
+    },
+    {
+      "diagnostic": "line 55: The left hand side of the assignment statement is of type '<error>' but the right hand side is of type 'int'",
+      "cause": "Invalid assignment target in component implementation",
+      "minimal_edit": "Remove assignment to C_sub.Input in top_level.Impl annex"
+    },
+    {
+      "diagnostic": "line 58: Mulitiple assignments to variable 'Output'",
+      "cause": "Conflicting assignments to same output in component implementation",
+      "minimal_edit": "Remove assignment to Output in top_level.Impl annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the assign Output = C_sub.Output; statement from top_level annex to top_level.Impl annex",
+    "Remove all assignment statements from the top_level annex",
+    "Remove all assignment statements from the top_level.Impl annex that reference subcomponent ports",
+    "Ensure only valid output port assignments remain in the top_level.Impl annex"
+  ]
+}

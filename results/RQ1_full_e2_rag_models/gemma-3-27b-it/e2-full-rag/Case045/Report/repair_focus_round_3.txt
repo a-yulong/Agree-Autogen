@@ -1,0 +1,151 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: Input1, Input2, Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Input1 | in | data | int | Base_Types::Integer
+Input2 | in | data | int | Base_Types::Integer
+Output | out | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "mode >= 0 initially",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": []
+    },
+    {
+      "id": "R2",
+      "text": "mode > previous(mode) @(time > 0)",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": []
+    },
+    {
+      "id": "R3",
+      "text": "mode = 3 -> Output = Input1 + Input2",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Input1",
+        "Input2",
+        "Output"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "mode != 3 -> Output = 0",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Output"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: C | lines 22-29
+annex agree {**
+  eq mode : int = 0;
+  guarantee "initial_mode": mode >= 0;
+  guarantee "mode_increasing": int(time) > pre(mode);
+  guarantee "output_condition1": mode = 3 => Output = Input1 + Input2;
+  guarantee "output_condition2": mode != 3 => Output = 0;
+};
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   21: 		Output: out data port Base_Types::Integer;
+   22: annex agree {**
+   23:   eq mode : int = 0;
+   24:   guarantee "initial_mode": mode >= 0;
+>> 25:   guarantee "mode_increasing": int(time) > pre(mode);
+   26:   guarantee "output_condition1": mode = 3 => Output = Input1 + Input2;
+   27:   guarantee "output_condition2": mode != 3 => Output = 0;
+   28: };
+   29: **};
+
+   24:   guarantee "initial_mode": mode >= 0;
+   25:   guarantee "mode_increasing": int(time) > pre(mode);
+   26:   guarantee "output_condition1": mode = 3 => Output = Input1 + Input2;
+   27:   guarantee "output_condition2": mode != 3 => Output = 0;
+>> 28: };
+   29: **};
+   30: end C ; 
+   31:    
+   32: system top_level
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: C
+system C
+	features
+		Input1: in data port Base_Types::Integer;
+		Input2: in data port Base_Types::Integer;
+		Output: out data port Base_Types::Integer;
+end C ;
+
+-- RELATED MODEL LINES
+Output: out data port Base_Types::Integer;
+system C
+Input1: in data port Base_Types::Integer;
+Input2: in data port Base_Types::Integer;
+end C ;
+C_sub : system C ;
+A_TO_B : port A_sub.Output -> B_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_C : port A_sub.Output -> C_sub.Input1 {Communication_Properties::Timing => immediate;};
+B_TO_C : port B_sub.Output -> C_sub.Input2 {Communication_Properties::Timing => immediate;};
+C_TO_Output : port C_sub.Output -> Output {Communication_Properties::Timing => immediate;};
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "C",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "C",
+      "kind": "system",
+      "type_name": "C"
+    },
+    {
+      "name": "C_sub",
+      "kind": "system",
+      "type_name": "C"
+    }
+  ],
+  "features": [
+    {
+      "owner": "C",
+      "name": "Input1",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "C",
+      "name": "Input2",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "C",
+      "name": "Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    }
+  ]
+}

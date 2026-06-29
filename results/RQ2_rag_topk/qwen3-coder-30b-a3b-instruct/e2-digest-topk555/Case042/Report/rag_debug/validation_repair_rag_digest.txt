@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE contracts must reference only visible identifiers from the current scope; avoid package-qualified names unless explicitly imported.
+- Generated AGREE expressions should preserve type correctness: numeric, boolean, and real types must align with their declarations and usage.
+- Component type contracts should only reference visible ports and features; implementation-specific details belong in implementation annexes.
+- Validator diagnostics pointing to unresolved identifiers or type mismatches should be resolved by correcting or removing the invalid AGREE clause.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks and must be placed in valid component type or implementation scopes.
+- Use only declared constants, variables, or helper functions in AGREE expressions; avoid undefined or unqualified references.
+- Assignments in implementation scope must target valid output features or declared auxiliary variables.
+- Boolean expressions in AGREE must evaluate to bool type; numeric expressions to int or real type.
+Anti-patterns:
+- Do not attempt to fix unresolved references by adding new declarations or architecture elements; instead, remove or rewrite the clause.
+- Avoid placing implementation-level guarantees or assignments in component type annexes; they must be in the correct scope.
+- Do not assume that missing identifiers can be resolved by inventing new ones; always use visible identifiers from the model.
+Irrelevant retrieved material:
+- AADL package references and with clauses
+- AGREE annex placement in component types vs. implementations
+- Model traceability and requirement semantics
+- Component type structural extraction
+- Validator-driven minimal repair patterns
+</RAG_DIGEST>

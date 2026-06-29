@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate assume/guarantee clauses only from visible input/output features, not AADL properties or subcomponent paths.
+- Use AGREE logical operators (and, or, not, =>) and nested if-then-else for branching in expressions.
+- Declare helper equations with explicit types (int, real, bool) to ensure type consistency.
+Generic rules:
+- Assumptions should define input envelopes using concrete bounds from visible features.
+- Guarantees must relate visible outputs to visible inputs without implementation-level dependencies.
+- All variables in expressions must be either AADL-visible ports or locally declared eq/const helpers.
+Syntax or pattern reminders:
+- Use annex agree {** ... **}; for component type contracts.
+- Format: assume "label": expression; or guarantee "label": expression;
+- Use eq name : type = expression; to define intermediate boolean or numeric helpers.
+Anti-patterns:
+- Do not reference AADL properties (e.g., Period, Deadline) as if they are AGREE variables.
+- Do not use subcomponent ports or internal implementation paths in component type annexes.
+- Avoid type names like 'integer' or 'boolean' — use 'int' or 'bool'.
+</RAG_DIGEST>

@@ -1,0 +1,35 @@
+{
+  "rag_rules": [
+    "Use 'eq' to define recursive variables with initial values and step logic, e.g., '0.0 -> pre(t) + 0.1'",
+    "Use 'guarantee' for output range and behavioral relations, not 'assign' in implementation scope",
+    "Reference only visible features or declared helpers; never assume AADL properties are automatically available",
+    "Use 'and', 'or', 'not', '=>' for logical expressions; avoid Boolean comparisons on non-Boolean ports",
+    "Place implementation-level assignments in implementation annex only when targeting existing outputs"
+  ],
+  "generic_rules": [
+    "Define stateful variables with explicit initialization and recurrence, not implicit state",
+    "Ensure type consistency: numeric expressions for real/int, Boolean for bool, no mixing",
+    "Derive guarantees from observable outputs or declared variables, not internal model structure",
+    "Use package-qualified identifiers only if explicitly imported and visible in the scope"
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex syntax: 'annex agree {** ... **};'",
+    "Equation declaration: 'eq name : type = expression;'",
+    "Constant declaration: 'const name : type = value;'",
+    "Guarantee format: 'guarantee \"label\": expression;'",
+    "Temporal recurrence: 'initial -> pre(var) + delta'"
+  ],
+  "anti_patterns": [
+    "Do not reference AADL properties (e.g., Period, Deadline) as if they are AGREE variables",
+    "Do not use 'assign' in component type annexes or for non-output targets",
+    "Do not convert Boolean ports to numeric comparisons without explicit numeric representation",
+    "Do not invent declarations for unresolved identifiers; delete invalid clauses instead"
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "Assumed Type vs Actual Type",
+    "AADL Property Names Are Not AGREE Variables",
+    "Named Thing Has No Type",
+    "Unresolved Current-Case Identifier"
+  ]
+}

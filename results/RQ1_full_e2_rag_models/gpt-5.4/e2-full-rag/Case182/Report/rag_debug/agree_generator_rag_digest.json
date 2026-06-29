@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Use AGREE guarantee/assume clauses with a quoted label and a boolean expression terminated by a semicolon.",
+    "Generate clauses only from identifiers that are visible in the current component scope; do not invent missing names.",
+    "For direct behavioral equivalence, prefer a single boolean relation in a guarantee rather than auxiliary structure unless it improves clarity.",
+    "If helper definitions are needed, use AGREE declarations such as eq name : bool = expression; with valid scalar types only."
+  ],
+  "generic_rules": [
+    "Preserve requirement semantics with the smallest valid AGREE expression that matches the stated relation.",
+    "Use only case-provided relations, bounds, constants, and visible feature names; avoid adding unstated assumptions or thresholds."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE scalar types are int, real, and bool, not integer or boolean.",
+    "Use AGREE operators and expressions such as =, and, or, not(...), =>, and if ... then ... else ... when needed.",
+    "Stateful logic requires initialized recurrence using -> and pre(...); avoid temporal syntax for purely combinational relations."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent ports or implementation-only names unless they are explicitly visible in the current scope.",
+    "Do not use AADL property names or unit tokens as AGREE variables.",
+    "Do not generate clauses with unresolved identifiers; rewrite using exact visible names or omit unsupported content."
+  ],
+  "irrelevant_topics": [
+    "Implementation-level placement decisions beyond ensuring referenced symbols are in scope",
+    "AADL timing/property associations as direct AGREE expressions"
+  ]
+}

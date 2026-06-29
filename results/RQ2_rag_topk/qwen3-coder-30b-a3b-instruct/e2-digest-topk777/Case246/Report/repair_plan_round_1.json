@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'door_locked'.",
+      "cause": "door_locked is an output port, not a visible variable in the component type scope",
+      "minimal_edit": "Replace door_handler.door_locked with door_locked"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'engine_running'.",
+      "cause": "engine_running is an input port, not a visible variable in the component type scope",
+      "minimal_edit": "Replace door_handler.engine_running with engine_running"
+    },
+    {
+      "diagnostic": "left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "engine_running is not properly resolved as a boolean expression",
+      "minimal_edit": "Remove the component prefix from engine_running"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "door_locked is not properly resolved as a boolean expression",
+      "minimal_edit": "Remove the component prefix from door_locked"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit line 286 to remove the component prefix 'door_handler.' from both engine_running and door_locked",
+    "Change 'door_handler.engine_running => door_handler.door_locked' to 'engine_running => door_locked'"
+  ]
+}

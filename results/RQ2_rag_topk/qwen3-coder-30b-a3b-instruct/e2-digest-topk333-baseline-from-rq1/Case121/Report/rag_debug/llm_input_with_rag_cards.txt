@@ -1,0 +1,132 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE assumptions and guarantees in component type scopes when they refer to ports, and in implementation scopes for bindings and assignments.
+- Use `assign` only for output features or declared auxiliary variables in implementation scope.
+- Do not encode AADL timing properties like Period, Compute_Execution_Time, Dispatch_Protocol as AGREE expressions unless model exposes typed ports or constants.
+Generic rules:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for assignments and bindings.
+- Ensure type consistency between AGREE declarations and AADL property types (int, real, bool).
+- Use visible identifiers and named constants in AGREE expressions to avoid unresolved reference errors.
+Syntax or pattern reminders:
+- AGREE syntax includes `assume`, `guarantee`, `eq`, `const`, and `assign` statements.
+- Equation and constant declarations must specify valid AGREE scalar types: int, real, bool.
+- Guarantee statements should express valid logical relationships between variables or constants.
+- Assignments must reference existing output features or declared auxiliary variables.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope.
+- Do not reference AADL property names directly in AGREE expressions without model exposure.
+- Do not use invalid scalar type names like 'integer' or 'boolean' in AGREE declarations.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- acc_in_data_x
+- acc_in_data_y
+- acc_in_data_z
+- acc_out_data_x
+- acc_out_data_y
+- acc_out_data_z
+
+Target interface:
+Exact expression symbols: acc_in_data_x, acc_in_data_y, acc_in_data_z, acc_out_data_x, acc_out_data_y, acc_out_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_out_data_x | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_out_data_y | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_out_data_z | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+Raw requirement:
+The ACCELERO component shall define the implementation-level signal routing for ACCELERO.IMPL. In the implementation layer, ACCELERO.IMPL shall route data flow from accelero_sub.acc_out_data_x to acc_out_data_x through ACC_PC1 and data flow from accelero_sub.acc_out_data_y to acc_out_data_y through ACC_PC2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "ACCELERO.IMPL routes data flow from accelero_sub.acc_out_data_x to acc_out_data_x through ACC_PC1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "ACCELERO.IMPL.ACC_PC1",
+        "accelero_sub.acc_out_data_x",
+        "acc_out_data_x"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "ACCELERO.IMPL routes data flow from accelero_sub.acc_out_data_y to acc_out_data_y through ACC_PC2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "ACCELERO.IMPL.ACC_PC2",
+        "accelero_sub.acc_out_data_y",
+        "acc_out_data_y"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "ACCELERO.IMPL has subcomponent ACCELERO_CALL with classifier ACCELERO_SUB_wrapper.i",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "ACCELERO.IMPL.ACCELERO_CALL",
+        "ACCELERO_SUB_wrapper.i"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "ACCELERO.IMPL has Dispatch_Protocol=Periodic and Period=80 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "ACCELERO.IMPL.Dispatch_Protocol",
+        "ACCELERO.IMPL.Period"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "ACCELERO.IMPL has Compute_Execution_Time=0 ms .. 4 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "ACCELERO.IMPL.Compute_Execution_Time"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "ACCELERO.IMPL has Source_Stack_Size=512 Bytes",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "ACCELERO.IMPL.Source_Stack_Size"
+      ]
+    }
+  ]
+}

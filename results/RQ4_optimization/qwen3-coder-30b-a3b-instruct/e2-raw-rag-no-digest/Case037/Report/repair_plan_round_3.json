@@ -1,0 +1,51 @@
+{
+  "problems": [
+    {
+      "diagnostic": "The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "AGREE equation attempts to assign a real-valued expression to a variable typed as opaque speed_impl",
+      "minimal_edit": "Change 'eq e : real = Target - Actual;' to 'eq e : real = Target - Actual;' and ensure Target and Actual are properly typed as real or int for arithmetic"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Target and Actual are typed as opaque speed_impl, not numeric types",
+      "minimal_edit": "Ensure Target and Actual are treated as real-valued expressions in the equation"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Target and Actual are typed as opaque speed_impl, not numeric types",
+      "minimal_edit": "Ensure Target and Actual are treated as real-valued expressions in the equation"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'derivative'.",
+      "cause": "AGREE derivative function not recognized due to type mismatch or missing import",
+      "minimal_edit": "Remove or replace 'derivative(e, time)' with a valid AGREE expression or ensure proper import"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'integral'.",
+      "cause": "AGREE integral function not recognized due to type mismatch or missing import",
+      "minimal_edit": "Remove or replace 'integral(e, time)' with a valid AGREE expression or ensure proper import"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'real' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "Mismatch between real-valued Actuator_Input and speed_impl expression",
+      "minimal_edit": "Ensure Actuator_Input is treated as a real-valued output in the guarantee"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Target and Actual are typed as opaque speed_impl, not numeric types",
+      "minimal_edit": "Ensure Target and Actual are treated as real-valued expressions in the equation"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Target and Actual are typed as opaque speed_impl, not numeric types",
+      "minimal_edit": "Ensure Target and Actual are treated as real-valued expressions in the equation"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove or replace the derivative and integral expressions with valid AGREE constructs",
+    "Ensure Target and Actual are treated as real-valued expressions in the equation",
+    "Correct the type mismatch in the error definition guarantee",
+    "Ensure all expressions in the AGREE annex use only visible identifiers and valid types"
+  ]
+}

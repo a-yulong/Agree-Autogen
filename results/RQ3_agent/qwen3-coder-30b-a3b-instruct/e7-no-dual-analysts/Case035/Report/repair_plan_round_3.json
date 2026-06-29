@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 29: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "AGREE annex references Actual_Speed, but validator detects a type mismatch from subcomponent port THROT.Actual; this implies the annex is being evaluated in a context where subcomponent port visibility is incorrectly assumed.",
+      "minimal_edit": "Remove any implicit reliance on THROT.Actual; keep only visible component ports: Target_Speed, Actual_Speed, Target_Tire_Pitch, Actual_Tire_Pitch, State_Signal."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 31: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "AGREE annex uses Target_Speed, but validator detects a type mismatch with CNTRL.Target — implying the annex is being evaluated over subcomponent ports not visible at component type level.",
+      "minimal_edit": "Keep only Target_Speed as visible input; do not reference CNTRL.Target in component type annex."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "AGREE annex references State_Signal, but validator detects a type mismatch from SM.State_Out — indicating the annex is being evaluated over an implementation-only subcomponent port.",
+      "minimal_edit": "Keep only State_Signal as visible output; do not reference SM.State_Out in component type annex."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove all references to subcomponent ports (THROT.Actual, CNTRL.Target, SM.State_Out) from the AGREE annex — they are not visible at the component type level.",
+    "Retain only the five visible component-level ports: Target_Speed, Actual_Speed, Target_Tire_Pitch, Actual_Tire_Pitch, State_Signal.",
+    "Keep the existing assume and guarantee clauses, as they use only visible ports and are logically valid.",
+    "Confirm that no new identifiers, types, or package qualifiers are introduced."
+  ]
+}

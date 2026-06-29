@@ -1,0 +1,57 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: named thing must be an expression with a type",
+      "cause": "Data_Sink = Data_Sink is not a valid AGREE expression; port names cannot be used in equality expressions without proper context",
+      "minimal_edit": "Replace Data_Sink = Data_Sink with true"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Data_Source'",
+      "cause": "Data_Source is not visible in the Q component type scope",
+      "minimal_edit": "Remove guarantee 'sporadic_dispatch': Q.Impl = Data_Source"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Impl'",
+      "cause": "Q.Impl is not a valid expression in this context",
+      "minimal_edit": "Remove guarantee 'sporadic_dispatch': Q.Impl = Data_Source"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'Impl'",
+      "cause": "Q.Impl is not a valid expression in this context",
+      "minimal_edit": "Remove guarantee 'execution_period': Q.Impl = 10"
+    },
+    {
+      "diagnostic": "line 67: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Invalid expression due to unresolved reference to Q.Impl",
+      "minimal_edit": "Remove guarantee 'execution_period': Q.Impl = 10"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'Impl'",
+      "cause": "Q.Impl is not a valid expression in this context",
+      "minimal_edit": "Remove guarantee 'deadline': Q.Impl = 10"
+    },
+    {
+      "diagnostic": "line 68: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Invalid expression due to unresolved reference to Q.Impl",
+      "minimal_edit": "Remove guarantee 'deadline': Q.Impl = 10"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'Impl'",
+      "cause": "Q.Impl is not a valid expression in this context",
+      "minimal_edit": "Remove guarantee 'priority': Q.Impl = 1"
+    },
+    {
+      "diagnostic": "line 69: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Invalid expression due to unresolved reference to Q.Impl",
+      "minimal_edit": "Remove guarantee 'priority': Q.Impl = 1"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the assumption 'assume \"data_routing\": Data_Sink = Data_Sink;' with 'assume \"data_routing\": true;'",
+    "Remove the guarantee 'guarantee \"sporadic_dispatch\": Q.Impl = Data_Source;' from the annex",
+    "Remove the guarantee 'guarantee \"execution_period\": Q.Impl = 10;' from the annex",
+    "Remove the guarantee 'guarantee \"deadline\": Q.Impl = 10;' from the annex",
+    "Remove the guarantee 'guarantee \"priority\": Q.Impl = 1;' from the annex"
+  ]
+}

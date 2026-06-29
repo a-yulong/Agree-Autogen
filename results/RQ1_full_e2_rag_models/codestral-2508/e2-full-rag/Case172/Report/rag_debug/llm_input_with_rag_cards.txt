@@ -1,0 +1,71 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assumptions in component type annexes when referring to component ports
+- Use implementation annexes for implementation-level bindings
+- Ensure AGREE contracts are written inside `annex agree {** ... **};` blocks
+- Align helper declaration types with expression types for valid comparisons
+Generic rules:
+- Use bool for comparison expressions, int for integer arithmetic, and real for real arithmetic
+- Avoid range comparisons or 0/1 equality over Boolean, enumeration-like, or opaque data ports
+- Do not encode AADL property associations as AGREE expressions without explicit typed ports or constants
+- Ensure all referenced identifiers are in scope and properly declared
+Syntax or pattern reminders:
+- Use `eq` for equation declarations in AGREE
+- Use `assume` for input assumptions in AGREE
+- Use `and` for logical conjunctions in AGREE expressions
+Anti-patterns:
+- Do not use subcomponent ports in component type contracts
+- Do not convert Boolean domain values into integers for comparisons
+- Do not use AADL property names directly in AGREE expressions
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- angle
+
+Target interface:
+Exact expression symbols: angle
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+angle | in | data | int | Base_Types::Integer
+
+Raw requirement:
+The thr_yaw_simulation component shall operate under a bounded input condition for angle. The environment shall keep angle greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "angle >= 0 and angle <= 100",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "angle"
+      ]
+    }
+  ]
+}

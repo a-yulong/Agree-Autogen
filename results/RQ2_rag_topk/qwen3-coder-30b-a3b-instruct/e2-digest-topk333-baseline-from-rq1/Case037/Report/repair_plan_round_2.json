@@ -1,0 +1,51 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 13: The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "AGREE equation attempts to assign opaque type to real variable",
+      "minimal_edit": "Change 'eq e : real = Target - Actual;' to 'eq e : real = Target - Actual;' (remove type annotation)"
+    },
+    {
+      "diagnostic": "line 13: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port types are opaque and cannot be used in arithmetic expressions",
+      "minimal_edit": "Replace 'Target - Actual' with 'Target - Actual' (use port names directly)"
+    },
+    {
+      "diagnostic": "line 13: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port types are opaque and cannot be used in arithmetic expressions",
+      "minimal_edit": "Replace 'Target - Actual' with 'Target - Actual' (use port names directly)"
+    },
+    {
+      "diagnostic": "line 15: left and right sides of binary expression '=' are of type 'real' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "Mismatch between real and opaque types in equality",
+      "minimal_edit": "Change 'guarantee \"error_calc\": e = Target - Actual;' to 'guarantee \"error_calc\": e = Target - Actual;' (remove type annotation)"
+    },
+    {
+      "diagnostic": "line 15: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port types are opaque and cannot be used in arithmetic expressions",
+      "minimal_edit": "Replace 'Target - Actual' with 'Target - Actual' (use port names directly)"
+    },
+    {
+      "diagnostic": "line 15: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port types are opaque and cannot be used in arithmetic expressions",
+      "minimal_edit": "Replace 'Target - Actual' with 'Target - Actual' (use port names directly)"
+    },
+    {
+      "diagnostic": "line 16: Couldn't resolve reference to 'integ'.",
+      "cause": "AGREE integral function not recognized",
+      "minimal_edit": "Replace 'eq e_int : real = integ(e);' with 'eq e_int : real = integ(e);' (use correct integral syntax)"
+    },
+    {
+      "diagnostic": "line 17: Couldn't resolve reference to 'diff'.",
+      "cause": "AGREE derivative function not recognized",
+      "minimal_edit": "Replace 'eq e_dot : real = diff(e);' with 'eq e_dot : real = diff(e);' (use correct derivative syntax)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove type annotations from equation declarations",
+    "Ensure all port references are used directly without type conversion",
+    "Replace integral and derivative functions with valid AGREE syntax",
+    "Verify all expressions use only visible identifiers"
+  ]
+}

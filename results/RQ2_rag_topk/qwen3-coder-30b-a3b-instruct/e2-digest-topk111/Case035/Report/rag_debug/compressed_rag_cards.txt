@@ -1,0 +1,35 @@
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+Stateful equations should use initialized temporal recurrence, for example `0.0 -> pre(t) + step`. Branching logic should use nested `if ... then ... else`. Generated contracts should use AGREE logical operators such as `and`, `or`, `not(...)`, and implication `=>`.
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+[KEXP-1]
+Source: distilled pattern library
+Topic: type scope range assumption and guarantee
+For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation. Use case-provided thresholds and legal visible feature names.
+
+[KEXP-2]
+Source: processed\kexp\agree_code_knowledge_dataset.txt
+Topic: integrated pattern chunk 1
+package agree_kexp_integrated_pattern public with Base_Types; data int extends Base_Types::Integer end int; data real extends Base_Types::Float end real; data bool extends Base_Types::Boolean end bool; system RangeMonitorExample features value_in : in data port real; safe_flag : out data port bool; annex agree {** const lower_limit : real = 0.0; const upper_limit : real = 100.0; eq value_in_range : bool = value_in >= lower_limit and value_in <= upper_limit; gua
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Assumed Type vs Actual Type
+If AGREE reports "The assumed type ... is ... but the actual type is ...", align the helper declaration type with the expression. Comparison expressions are bool; integer literals and integer arithmetic are int; real literals and real arithmetic are real. Recommended pattern: eq range_value : bool = x >= min_value and x <= max_value;
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>

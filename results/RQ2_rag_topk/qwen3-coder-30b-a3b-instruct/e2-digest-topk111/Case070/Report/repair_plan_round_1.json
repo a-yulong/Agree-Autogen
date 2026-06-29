@@ -1,0 +1,32 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 57: Couldn't resolve reference to 'Compute_Execution_Time'.",
+      "cause": "Compute_Execution_Time is an AADL property declared in the implementation, not visible in the component type annex",
+      "minimal_edit": "Move the timing_constraint and dispatch_protocol assume/guarantee clauses from component type to implementation annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 61: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "Dispatch_Protocol is an AADL property in the implementation, not visible in component type scope",
+      "minimal_edit": "Move the dispatch_protocol assume/guarantee clauses from component type to implementation annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 57: mismatched input 'us' expecting ';'",
+      "cause": "AGREE does not natively parse AADL time units (ms, us); must use numeric literals in seconds or define constants",
+      "minimal_edit": "Replace '0 ms' with 0.0 and '100 us' with 0.0001 in all timing expressions"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 61: Couldn't resolve reference to 'Aperiodic'.",
+      "cause": "Aperiodic is an AADL enumeration literal, not an AGREE-visible symbol; cannot be used directly in AGREE equality",
+      "minimal_edit": "Remove the Dispatch_Protocol = Aperiodic clauses since no legal AGREE replacement exists without introducing new symbols"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the entire annex agree block from Telecommand_Processing (component type)",
+    "Create a new annex agree block in Telecommand_Processing.impl (implementation)",
+    "In the implementation annex, express timing constraint as: assume \"timing_constraint\": telecommand = telecommand => (0.0 <= Compute_Execution_Time and Compute_Execution_Time <= 0.0001);",
+    "In the implementation annex, express guarantee as: guarantee \"compute_execution_time_bounds\": telecommand = telecommand => (0.0 <= Compute_Execution_Time and Compute_Execution_Time <= 0.0001);",
+    "Omit Dispatch_Protocol = Aperiodic clauses entirely because Aperiodic is not a visible AGREE symbol and no valid replacement expression exists without violating requirement intent or introducing new identifiers"
+  ]
+}

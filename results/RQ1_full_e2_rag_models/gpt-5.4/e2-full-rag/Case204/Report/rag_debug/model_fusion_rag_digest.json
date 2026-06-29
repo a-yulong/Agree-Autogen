@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Preserve the existing AADL structure and attach any generated annex only to the owning declared element with valid scope for that kind of content.",
+    "Keep component-type contract content separate from implementation-level content; do not move type-scope statements into an implementation unless the content is valid there.",
+    "Do not introduce references that cross scope boundaries or depend on subcomponent paths unless the target scope legally exposes them."
+  ],
+  "generic_rules": [
+    "Maintain owner fidelity: insert new content into the intended owning component or implementation without changing unrelated declarations, features, connections, or properties.",
+    "Use minimal edits that preserve formatting and surrounding architecture; avoid restructuring the model when only annex insertion is needed."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE content is wrapped in an `annex agree {** ... **};` block.",
+    "Implementation-scoped content should appear only in valid implementation scopes and after any needed local structural declarations are already present."
+  ],
+  "anti_patterns": [
+    "Do not place type-level port contracts in an implementation scope just because the current target is an implementation.",
+    "Do not use subcomponent port names or implementation-only paths from a scope where they are not visible.",
+    "Do not alter architecture elements or repair unrelated model issues while performing insertion."
+  ],
+  "irrelevant_topics": [
+    "Stateful equation syntax and temporal recurrence details",
+    "Scalar helper type selection and expression typing rules",
+    "Boolean-to-numeric comparison patterns"
+  ]
+}

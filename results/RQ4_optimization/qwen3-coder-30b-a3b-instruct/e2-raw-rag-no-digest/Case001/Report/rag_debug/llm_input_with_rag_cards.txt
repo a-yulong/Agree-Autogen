@@ -1,0 +1,181 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+Stateful equations should use initialized temporal recurrence, for example `0.0 -> pre(t) + step`. Branching logic should use nested `if ... then ... else`. Generated contracts should use AGREE logical operators such as `and`, `or`, `not(...)`, and implication `=>`.
+
+[KSYN-2]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes. Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections. Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs.
+
+[KSYN-3]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+- `assume "label": expression;` - `guarantee "label": expression;` - `eq name : type = expression;` - `const name : type = value;` - `assign output = expression;`
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+[KEXP-1]
+Source: distilled pattern library
+Topic: implementation scope output assign
+For implementation contracts, use assign only when the left-hand side is an existing output feature or declared auxiliary variable. Do not place guarantee statements in implementation scope.
+
+[KEXP-2]
+Source: distilled pattern library
+Topic: type scope range assumption and guarantee
+For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation. Use case-provided thresholds and legal visible feature names.
+
+[KEXP-3]
+Source: processed\kexp\agree_code_knowledge_dataset.txt
+Topic: integrated pattern chunk 1
+package agree_kexp_integrated_pattern public with Base_Types; data int extends Base_Types::Integer end int; data real extends Base_Types::Float end real; data bool extends Base_Types::Boolean end bool; system RangeMonitorExample features value_in : in data port real; safe_flag : out data port bool; annex agree {** const lower_limit : real = 0.0; const upper_limit : real = 100.0; eq value_in_range : bool = value_in >= lower_limit and value_in <= upper_limit; gua
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Assumed Type vs Actual Type
+If AGREE reports "The assumed type ... is ... but the actual type is ...", align the helper declaration type with the expression. Comparison expressions are bool; integer literals and integer arithmetic are int; real literals and real arithmetic are real. Recommended pattern: eq range_value : bool = x >= min_value and x <= max_value;
+
+[KDEF-2]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AGREE Scalar Type Names
+If AGREE reports "Couldn't resolve reference to 'integer'" or "Couldn't resolve reference to 'boolean'" in a const or eq declaration, the generated AGREE type name is invalid. AGREE scalar declaration types are int, real, and bool. Recommended pattern: const lower_limit : int = 0; eq ok : bool = x >= lower_limit;
+
+[KDEF-3]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AADL Property Names Are Not AGREE Variables chunk 1
+If diagnostics report unresolved references to Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens such as ms/us/Hz/Bytes inside an AGREE annex, delete the generated clause. AADL property associations are not automatically in AGREE expression scope as variables. Recommended pattern: Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for the
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>
+
+Visible target-interface symbols:
+- nearestIntruderAltitude
+- nearestIntruderGroundDistance
+- nearestIntruderLongitude
+- ownAltitude_in
+- ownHeading
+- ownVerticalVelocity
+- ownLatitude
+- ownLongitude
+- requiredVerticalVelocity
+- timeToRecovery
+- timeToFailure
+
+Target interface:
+Exact expression symbols: nearestIntruderAltitude, nearestIntruderGroundDistance, nearestIntruderLongitude, ownAltitude_in, ownHeading, ownVerticalVelocity, ownLatitude, ownLongitude, requiredVerticalVelocity, timeToRecovery, timeToFailure
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+nearestIntruderAltitude | in | data | opaque | int
+nearestIntruderGroundDistance | in | data | opaque | int
+nearestIntruderLongitude | in | data | opaque | int
+ownAltitude_in | in | data | opaque | int
+ownHeading | in | data | opaque | int
+ownVerticalVelocity | in | data | opaque | int
+ownLatitude | in | data | opaque | int
+ownLongitude | in | data | opaque | int
+requiredVerticalVelocity | out | data | opaque | int
+timeToRecovery | out | data | opaque | real
+timeToFailure | out | data | opaque | real
+
+Raw requirement:
+When the TCAS_singleton component receives an ownAltitude_in value that equals the nearestIntruderAltitude value, if the ownLongitude in data port value is greater than the nearestIntruderLongitude value, then set the requiredVerticalVelocity out data port to 50; otherwise, set it to -50. When the ownAltitude_in value is less than the nearestIntruderAltitude value, set the requiredVerticalVelocity out data port to 10. When the ownAltitude_in value is greater than the nearestIntruderAltitude value, set the requiredVerticalVelocity out data port to -10. Additionally, define a boolean internal variable named ownAircraftGoesUpOnTie to store the result of the comparison between ownLongitude and nearestIntruderLongitude.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "if ownAltitude_in == nearestIntruderAltitude and ownLongitude > nearestIntruderLongitude then requiredVerticalVelocity = 50",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "ownAltitude_in",
+        "nearestIntruderAltitude",
+        "ownLongitude",
+        "nearestIntruderLongitude",
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "if ownAltitude_in == nearestIntruderAltitude and ownLongitude <= nearestIntruderLongitude then requiredVerticalVelocity = -50",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "ownAltitude_in",
+        "nearestIntruderAltitude",
+        "ownLongitude",
+        "nearestIntruderLongitude",
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "if ownAltitude_in < nearestIntruderAltitude then requiredVerticalVelocity = 10",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "ownAltitude_in",
+        "nearestIntruderAltitude",
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "if ownAltitude_in > nearestIntruderAltitude then requiredVerticalVelocity = -10",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "ownAltitude_in",
+        "nearestIntruderAltitude",
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "ownAircraftGoesUpOnTie is a boolean variable storing (ownLongitude > nearestIntruderLongitude)",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "ownLongitude",
+        "nearestIntruderLongitude",
+        "ownAircraftGoesUpOnTie"
+      ]
+    }
+  ]
+}

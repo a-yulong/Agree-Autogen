@@ -1,0 +1,121 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `eq` for initialized temporal recurrence like `eq height : real = 0.0 -> pre(height) + step`
+- Place assumptions and guarantees in valid component type scopes when referring to ports
+- Use `pre()` expressions with initialized guards like `initialized : bool = false -> true`
+Generic rules:
+- Use `assume` and `guarantee` labels for clear contract semantics
+- Use `if-then-else` for branching logic in AGREE
+- Declare helper variables with `eq` or `const` for complex expressions
+- Ensure type consistency between AGREE expressions and AADL types
+Syntax or pattern reminders:
+- Use `->` for temporal recurrence and `pre()` for previous values
+- Use `and`, `or`, `not`, and `=>` for logical expressions
+- Use `assign` for output assignments in component implementations
+Anti-patterns:
+- Do not reference AADL properties like Period or Deadline as AGREE variables
+- Do not use subcomponent ports directly in component type contracts
+- Do not generate assumptions or guarantees without visible identifiers
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- altitude
+- timeToRecovery
+- timeToFailure
+
+Target interface:
+Exact expression symbols: altitude, timeToRecovery, timeToFailure
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+altitude | in | data | opaque | real
+timeToRecovery | out | data | opaque | real
+timeToFailure | out | data | opaque | real
+
+Raw requirement:
+The GCAS_singleton component shall declare a height variable and invoke the kinematicLinearization function from the gcas_nodes library to compute its value. The component shall set the recovery time to 8.7 and the failure time to 16.0. Additionally, the component shall guarantee that once the simulation time exceeds the recovery time of 8.7, the height value must always remain greater than the minimum allowed height of 200.0, and the current height must be strictly greater than the height value from the previous time step to indicate a continuous pull-up trend.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "GCAS_singleton component shall declare a height variable",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "altitude"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "GCAS_singleton component shall invoke the kinematicLinearization function from the gcas_nodes library to compute the height value",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "altitude"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "GCAS_singleton component shall set the recovery time to 8.7",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "timeToRecovery"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "GCAS_singleton component shall set the failure time to 16.0",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "timeToFailure"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Once the simulation time exceeds the recovery time of 8.7, the height value must always remain greater than the minimum allowed height of 200.0",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "altitude",
+        "timeToRecovery"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "Once the simulation time exceeds the recovery time of 8.7, the current height must be strictly greater than the height value from the previous time step",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "altitude",
+        "timeToRecovery"
+      ]
+    }
+  ]
+}

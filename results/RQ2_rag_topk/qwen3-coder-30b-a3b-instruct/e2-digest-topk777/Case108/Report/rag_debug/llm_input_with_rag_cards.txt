@@ -1,0 +1,84 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assume/guarantee statements in component type scopes; use implementation scopes only for valid output assignments.
+- Use assign only for implementation-level bindings to existing output features or declared auxiliary variables.
+- Generate AGREE annex blocks within `annex agree {** ... **};` and ensure all identifiers are visible in the current component scope.
+Generic rules:
+- Component type contracts should reference only visible ports and features; implementation contracts may bind subcomponent outputs via assign.
+- AGREE expressions must use valid scalar types (int, real, bool) and visible identifiers from the AADL model.
+- Do not encode AADL timing properties as AGREE expressions unless explicit typed ports or constants are available.
+- If AGREE diagnostics report unresolved references, do not invent declarations; instead, rewrite or delete the clause using only visible identifiers.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for component contracts.
+- Use `eq name : type = expression;` and `const name : type = value;` for helper declarations in AGREE.
+- Use `assign output = expression;` for implementation-level output bindings.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope unless the left-hand side is a valid output feature.
+- Do not reference subcomponent ports or features in component type contracts unless they are properly declared or represented.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- acc1out
+- acc1_command_in
+
+Target interface:
+Exact expression symbols: acc1out, acc1_command_in
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc1out | out | data | int | SHM_DataType::accData
+acc1_command_in | in | data | int | SHM_DataType::actionData
+
+Raw requirement:
+The acc1_dataOutput component shall define the implementation-level signal routing for acc1_dataOutput.impl. In the implementation layer, acc1_dataOutput.impl shall route data flow from spg.acc1DataOut to acc1out through C1 and control signal from acc1_command_in to spg.event_in through C2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "acc1_dataOutput.impl routes data from spg.acc1DataOut to acc1out through connection C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc1_dataOutput.impl.sub1",
+        "acc1out",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "acc1_dataOutput.impl routes control signal from acc1_command_in to spg.event_in through connection C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc1_command_in",
+        "acc1_dataOutput.impl.sub1",
+        "C2"
+      ]
+    }
+  ]
+}

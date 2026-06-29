@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 75: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Forcing_Safe_Mode is not a boolean expression in AGREE context",
+      "minimal_edit": "Replace Forcing_Safe_Mode with a boolean variable or expression"
+    },
+    {
+      "diagnostic": "line 77: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Getting_Back_To_Normal_Mode is not a boolean expression in AGREE context",
+      "minimal_edit": "Replace Getting_Back_To_Normal_Mode with a boolean variable or expression"
+    },
+    {
+      "diagnostic": "line 107: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "anomaly_detected is not a boolean expression in AGREE context",
+      "minimal_edit": "Replace anomaly_detected with a boolean variable or expression"
+    },
+    {
+      "diagnostic": "line 154: Couldn't resolve reference to ConnectionEnd 'attitude_window'",
+      "cause": "attitude_window is not a valid connection end in the model",
+      "minimal_edit": "Remove or correct the connection reference"
+    },
+    {
+      "diagnostic": "line 155: Couldn't resolve reference to ConnectionEnd 'check_thresholds'",
+      "cause": "check_thresholds is not a valid connection end in the model",
+      "minimal_edit": "Remove or correct the connection reference"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that Forcing_Safe_Mode, Getting_Back_To_Normal_Mode, and anomaly_detected are event ports and not directly usable as boolean expressions in AGREE",
+    "Replace the problematic assume statements with valid boolean expressions or introduce auxiliary variables",
+    "Remove or correct the invalid connection references Cnx5 and Cnx6 in the implementation",
+    "Ensure all expressions in the AGREE annex use only visible identifiers and valid AGREE syntax"
+  ]
+}

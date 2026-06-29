@@ -1,0 +1,14 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate assume clauses for input envelope constraints using visible feature names and provided numeric bounds.
+- Place all assumptions and guarantees inside annex agree {** ... **}; blocks of the target component implementation.
+Generic rules:
+- Use explicit numeric bounds from requirements to form logical expressions in assume/guarantee statements.
+- Only reference identifiers explicitly visible in the AADL model; avoid AADL property names as AGREE variables.
+Syntax or pattern reminders:
+- Use 'assume "label": expression;' syntax for input constraints and ensure expressions are well-typed.
+- Declare auxiliary boolean conditions with 'eq name : bool = ...;' when composing range checks.
+Anti-patterns:
+- Do not convert Boolean or enumeration ports into numeric comparisons unless the AADL model exposes them as scalars.
+- Do not reference AADL properties (e.g., Period, Deadline) as if they are AGREE-visible variables.
+</RAG_DIGEST>

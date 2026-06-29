@@ -1,0 +1,130 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks within `annex agree {** ... **};` and place type-level assumptions/guarantees in component type annexes, implementation-level assignments in component implementation annexes.
+- Use `assume` for input constraints and `guarantee` for output behavior, ensuring expressions reference only visible identifiers from the current component scope.
+Generic rules:
+- Place AGREE contracts inside annex blocks scoped to their owning component; avoid referencing identifiers not present in the AADL model.
+- Formulate guarantees as dependencies between visible inputs and outputs; avoid implementation-specific subcomponent paths in type annexes.
+- Use `assign` only for output features or auxiliary variables in implementation scope; do not place guarantees in implementation annexes.
+- Do not encode AADL timing properties (e.g., Period, Deadline) as AGREE variables unless explicitly exposed as typed ports or constants.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for logical constraints; use `eq name : type = expression;` for equations.
+- AGREE expressions must reference only identifiers visible in the current component scope; do not invent or copy names from examples.
+Anti-patterns:
+- Do not reference AADL properties like Period or Deadline as AGREE variables unless they are explicitly typed and visible in the component.
+- Do not place guarantee statements in implementation scope; use type scope for behavioral contracts.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- nearestIntruderAltitude
+- nearestIntruderGroundDistance
+- nearestIntruderLongitude
+- ownAltitude
+- ownHeading
+- ownVerticalVelocity
+- ownLatitude
+- ownLongitude
+- requiredVerticalVelocity
+
+Target interface:
+Exact expression symbols: nearestIntruderAltitude, nearestIntruderGroundDistance, nearestIntruderLongitude, ownAltitude, ownHeading, ownVerticalVelocity, ownLatitude, ownLongitude, requiredVerticalVelocity
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+nearestIntruderAltitude | in | data | real | base_types::Float
+nearestIntruderGroundDistance | in | data | opaque | int
+nearestIntruderLongitude | in | data | opaque | int
+ownAltitude | in | data | real | base_types::float
+ownHeading | in | data | opaque | int
+ownVerticalVelocity | in | data | opaque | int
+ownLatitude | in | data | opaque | int
+ownLongitude | in | data | opaque | int
+requiredVerticalVelocity | out | data | opaque | int
+
+Raw requirement:
+The TCAS component shall define the implementation-level data routing and execution constraints for TCAS.impl. In the implementation layer, TCAS.impl shall route signal flow from nearestIntruderAltitude to surveillance.nearestIntruderAltitude_in through nia_from_external and signal flow from nearestIntruderGroundDistance to surveillance.nearestIntruderGroundDistance_in through nigd_from_external. Additionally, TCAS.impl shall use immediate communication timing on connection nia_from_external, use immediate communication timing on connection nigd_from_external, use immediate communication timing on connection nilo_from_external, and use immediate communication timing on connection oa_from_external.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "signal flow from nearestIntruderAltitude to surveillance.nearestIntruderAltitude_in through nia_from_external",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "nia_from_external",
+        "surveillance.nearestIntruderAltitude_in"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "signal flow from nearestIntruderGroundDistance to surveillance.nearestIntruderGroundDistance_in through nigd_from_external",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "nigd_from_external",
+        "surveillance.nearestIntruderGroundDistance_in"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "use immediate communication timing on connection nia_from_external",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "nia_from_external"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "use immediate communication timing on connection nigd_from_external",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "nigd_from_external"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "use immediate communication timing on connection nilo_from_external",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "nilo_from_external"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "use immediate communication timing on connection oa_from_external",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "oa_from_external"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- When generating AGREE contracts, ensure all referenced identifiers are declared or visible in the same annex or component scope.
+- Use only valid AGREE scalar types (int, real, bool) for constant and equation declarations.
+- Validate that binary expressions in guarantees use compatible types (int, real, or bool) on both sides.
+- Prefer visible AADL features or locally declared helpers in AGREE contracts to avoid <error> type diagnostics.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks within component type or implementation scopes.
+- Assignments in implementation scope must reference existing output features or declared auxiliary variables.
+- Constants and equations in AGREE must declare valid types (int, real, bool) and be type-compatible in expressions.
+Anti-patterns:
+- Do not reference identifiers that are not declared or visible in the current AGREE annex scope.
+- Do not mix incompatible types (e.g., int and real) in binary comparison expressions without explicit conversion.
+- Do not place guarantee statements in implementation scope unless they are tied to output features or auxiliary variables.
+Irrelevant retrieved material:
+- aadl_scope_notes
+- agree_syntax_notes
+</RAG_DIGEST>

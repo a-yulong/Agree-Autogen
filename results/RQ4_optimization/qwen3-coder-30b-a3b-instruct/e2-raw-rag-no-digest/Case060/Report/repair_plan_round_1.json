@@ -1,0 +1,63 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 104: Couldn't resolve reference to 'Mode'.",
+      "cause": "Mode is referenced before being declared in the same annex block",
+      "minimal_edit": "Move the equation defining Mode above the guarantee statement"
+    },
+    {
+      "diagnostic": "line 104: Couldn't resolve reference to 'compute_brake_command'.",
+      "cause": "compute_brake_command is not defined in the annex scope",
+      "minimal_edit": "Replace compute_brake_command with Agree_Nodes::Brake_Cmd"
+    },
+    {
+      "diagnostic": "line 122: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes package is not imported or referenced in the model",
+      "minimal_edit": "Remove the reference to Agree_Nodes::Brake_Mode and define Mode using visible expressions only"
+    },
+    {
+      "diagnostic": "line 137: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package is not imported or referenced in the model",
+      "minimal_edit": "Remove the reference to Agree_Nodes::Brake_Cmd and define CMD using visible expressions only"
+    },
+    {
+      "diagnostic": "line 254: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package is not imported or referenced in the model",
+      "minimal_edit": "Remove the reference to Agree_Nodes::Brake_Cmd and define CMD using visible expressions only"
+    },
+    {
+      "diagnostic": "line 255: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package is not imported or referenced in the model",
+      "minimal_edit": "Remove the reference to Agree_Nodes::Brake_Cmd and define CMD using visible expressions only"
+    },
+    {
+      "diagnostic": "line 256: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package is not imported or referenced in the model",
+      "minimal_edit": "Remove the reference to Agree_Nodes::Brake_Cmd and define CMD using visible expressions only"
+    },
+    {
+      "diagnostic": "line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package is not imported or referenced in the model",
+      "minimal_edit": "Remove the reference to Agree_Nodes::Brake_Cmd and define CMD using visible expressions only"
+    },
+    {
+      "diagnostic": "line 259: Couldn't resolve reference to 'Mode'.",
+      "cause": "Mode is referenced before being declared in the same annex block",
+      "minimal_edit": "Remove the reference to Mode in the lemma or define Mode properly"
+    },
+    {
+      "diagnostic": "line 260: Couldn't resolve reference to 'Mode'.",
+      "cause": "Mode is referenced before being declared in the same annex block",
+      "minimal_edit": "Remove the reference to Mode in the lemma or define Mode properly"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the COM component annex, move the equation 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' before the guarantee statement",
+    "In the COM component annex, replace 'compute_brake_command(Mode, Pedal)' with 'Agree_Nodes::Brake_Cmd(Mode, Pedal)'",
+    "In the MON component annex, remove the reference to Agree_Nodes::Brake_Mode and define Mode using only visible symbols",
+    "In the MON component annex, remove the reference to Agree_Nodes::Brake_Cmd and define CMD using only visible symbols",
+    "In the BSCU_Impl component annex, remove all references to Agree_Nodes::Brake_Cmd and define CMD using only visible symbols",
+    "In the BSCU_Impl component annex, remove all references to Mode in lemmas that cannot be resolved"
+  ]
+}

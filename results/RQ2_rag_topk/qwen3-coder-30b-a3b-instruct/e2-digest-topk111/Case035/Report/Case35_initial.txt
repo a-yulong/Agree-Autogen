@@ -1,0 +1,45 @@
+package Car
+public
+	with Agree_Nodes, Types, Transmission, Steering;
+	with Communication_Properties;
+
+	system Car
+		features
+			Target_Speed: in data port Types::speed.speed_impl;
+			Actual_Speed: out data port Types::speed.speed_impl;
+			Target_Tire_Pitch: in data port Types::pitch.pitch_impl;
+			Actual_Tire_Pitch: out data port Types::pitch.pitch_impl;
+			State_Signal: out data port Types::state_sig.impl;
+	annex agree {**
+	  assume "speed_bounds": Target_Speed.val >= 0.0 and Target_Speed.val < 150.0;
+  
+	  const max_accel = 40.0;
+  
+	  guarantee "speed_constaint": const_tar_speed => (Actual_Speed.val <= Target_Speed.val);
+  
+	  guarantee "acceleration_limit": const_tar_speed => (abs(Actual_Speed.val - Actual_Speed.val_previous) < max_accel);
+	**};
+	end Car;
+
+	system implementation Car.Car_Impl
+		subcomponents
+			THROT: system Transmission::Throttle.Throttle_Impl;
+			CNTRL: system Transmission::Speed_Control.Speed_Control_Impl;
+			AXL: system Steering::Axle.Axle_Impl;
+			SM: system Transmission::State_Machine.Impl;
+
+		connections
+			SpeedToThrot: port CNTRL.Actuator_Input -> THROT.Actuator_Input {
+				Communication_Properties::Timing => immediate;};
+			AcSpeedToTop: port THROT.Actual -> Actual_Speed {Communication_Properties::Timing => immediate;};
+			AcSpeedToCntrl: port THROT.Actual -> CNTRL.Actual {Communication_Properties::Timing => immediate;};
+			TgSpeedToCntrl: port Target_Speed -> CNTRL.Target {Communication_Properties::Timing => immediate;};
+			TgPtichToAxl: port Target_Tire_Pitch -> AXL.Target_Tire_Direction {
+				Communication_Properties::Timing => immediate;};
+			AcPtichToCar: port AXL.Actual_Tire_Direction -> Actual_Tire_Pitch {
+				Communication_Properties::Timing => immediate;};
+			SSToSM: port SM.State_Out -> State_Signal {Communication_Properties::Timing => immediate;};
+
+	end Car.Car_Impl;
+
+end Car;

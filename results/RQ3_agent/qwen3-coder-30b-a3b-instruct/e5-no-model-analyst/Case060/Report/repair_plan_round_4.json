@@ -1,0 +1,54 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 103: missing EOF at 'with'",
+      "cause": "Invalid 'with' clause placement: 'with Agree_Nodes;' must be at the top of the annex block or in a parent scope, but AGREE does not support 'with' clauses inside annex blocks in this context.",
+      "minimal_edit": "Remove 'with Agree_Nodes;' from line 103"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 124: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Brake_Mode is referenced but not defined in any visible scope; no package 'Agree_Nodes' is declared or imported in the model.",
+      "minimal_edit": "Remove the equation 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' from line 124"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 139: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Brake_Cmd is referenced but not defined; no package 'Agree_Nodes' is declared or imported.",
+      "minimal_edit": "Remove 'Agree_Nodes::Brake_Cmd(Mode, Pedal)' and replace with a direct relation using only visible symbols; however, no valid replacement exists without redefining semantics, so remove the entire guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 256: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Brake_Cmd is not declared; used in lemma L1.",
+      "minimal_edit": "Remove 'Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal)' from lemma L1"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 256: Couldn't resolve reference to 'Mode'.",
+      "cause": "'Mode' is not a visible variable in BSCU.BSCU_Impl scope; it is declared in COM and MON, not accessible here.",
+      "minimal_edit": "Remove 'COM1.Mode' from lemma L1; use only visible identifiers (COM1.CMD, Pedal, etc.) — but no legal substitute exists, so remove the entire lemma"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 261: Couldn't resolve reference to 'Mode'.",
+      "cause": "'Mode' is not visible in BSCU.BSCU_Impl scope; used in MON1.Mode != COM1.Mode comparison.",
+      "minimal_edit": "Remove 'MON1.Mode != COM1.Mode' from lemma L5; no visible equivalent exists, so remove the entire lemma"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 262: Couldn't resolve reference to 'Mode'.",
+      "cause": "'Mode' is not visible in BSCU.BSCU_Impl scope; used in MON2.Mode != COM2.Mode comparison.",
+      "minimal_edit": "Remove 'MON2.Mode != COM2.Mode' from lemma L6; no visible equivalent exists, so remove the entire lemma"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove 'with Agree_Nodes;' from line 103 in COM annex",
+    "Remove the entire 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' line from COM annex (line 104)",
+    "Remove the entire 'assume \"Fail is False\": not Fail;' line from COM annex (line 105) — violates R3 as it assumes input, but R3 is a component input assumption and should be enforced at system level",
+    "Remove the entire 'guarantee \"CMD equals theoretical brake command\": CMD = Agree_Nodes::Brake_Cmd(Mode, Pedal);' line from COM annex (line 106)",
+    "Remove the entire 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' line from MON annex (line 124)",
+    "Remove the entire 'guarantee G_MON_1 \"MON Brake Command\" : not Fail => (Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal));' line from MON annex (line 139)",
+    "Remove lemma L1 \"COM1 Consistency\" from BSCU.BSCU_Impl annex (line 256)",
+    "Remove lemma L2 \"COM2 Consistency\" from BSCU.BSCU_Impl annex (line 257)",
+    "Remove lemma L3 \"MON1 Consistency\" from BSCU.BSCU_Impl annex (line 258)",
+    "Remove lemma L4 \"MON2 Consistency\" from BSCU.BSCU_Impl annex (line 259)",
+    "Remove lemma L5 \"CH1 Consistency\" from BSCU.BSCU_Impl annex (line 261)",
+    "Remove lemma L6 \"CH2 Consistency\" from BSCU.BSCU_Impl annex (line 262)"
+  ]
+}

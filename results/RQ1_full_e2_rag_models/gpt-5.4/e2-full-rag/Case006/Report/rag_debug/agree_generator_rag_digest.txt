@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use AGREE constructs appropriate to scope: guarantees/equations/constants in component type contracts, assignments only in valid implementation scope.
+- Only reference symbols that are visible in the current AGREE scope; avoid subcomponent-port references in a type contract unless exposed through valid variables or outputs.
+- Use assign only when the left-hand side is an existing output feature or a declared auxiliary variable.
+Generic rules:
+- Translate requirement relations into simple AGREE expressions using visible identifiers and explicit helper equations only when they clarify a reusable relation.
+- Prefer direct guarantees for output relations and use helper eq declarations for intermediate boolean or computed expressions when needed.
+- Only generate range or envelope assumptions/guarantees when concrete bounds or explicit visible thresholds are provided by the inputs.
+Syntax or pattern reminders:
+- AGREE annex form is annex agree {** ... **};.
+- Statement forms include assume "label": expr; guarantee "label": expr; eq name : type = expr; const name : type = value; assign lhs = expr;
+- Valid AGREE scalar types are int, real, and bool.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope.
+- Do not use unresolved AADL property names or unit tokens as AGREE expression variables.
+- Do not declare helper types with mismatched expression types; comparisons yield bool, integer arithmetic yields int, and real arithmetic yields real.
+</RAG_DIGEST>

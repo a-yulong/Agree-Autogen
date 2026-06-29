@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place component type contracts in component type scopes; use visible feature names and constants for bounds.",
+    "Generate syntactically valid AGREE annex blocks with proper assume/guarantee syntax and logical operators.",
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic.",
+    "Avoid referencing AADL property names as AGREE variables; only use visible features or declared helpers."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be enclosed in annex agree {** ... **}; blocks.",
+    "Constants and equations should be declared in component type scopes for type-level contracts.",
+    "Guarantees should relate visible outputs to visible inputs without relying on implementation-only paths.",
+    "Ensure type consistency between declarations and expressions in AGREE annexes."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for assumptions and guarantees.",
+    "Use `eq name : type = expression;` for helper equations and `const name : type = value;` for constants.",
+    "Use `if ... then ... else` for conditional logic and `and`, `or`, `not(...)`, `=>` for logical operators.",
+    "Component type contracts should not reference subcomponent ports directly; use valid variables or outputs."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level bindings in component type scopes.",
+    "Do not reference AADL timing properties (e.g., Period, Deadline) as AGREE variables.",
+    "Do not use invalid AGREE scalar types like 'integer' or 'boolean'; use 'int', 'real', 'bool'.",
+    "Do not generate guarantees that depend on unresolved identifiers or invalid helper declarations."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing attributes",
+    "Implementation-level bindings and subcomponent paths",
+    "Validator diagnostics and repair actions",
+    "Model fusion and owner/scope preservation rules"
+  ]
+}

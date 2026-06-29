@@ -1,0 +1,133 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `assume` and `guarantee` statements with labels and expressions inside `annex agree` blocks.
+- Place assumptions and guarantees in valid component type scopes, and implementation-level bindings in implementation scopes.
+Generic rules:
+- Use concrete bounds, named constants, or visible relations for input envelope assumptions and output range guarantees.
+- Use `assign` only when the left-hand side is an existing output feature or declared auxiliary variable.
+Syntax or pattern reminders:
+- AGREE contracts are written inside `annex agree {**... **};` blocks.
+- Use `eq` declarations for boolean expressions, and `const` declarations for scalar values.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope.
+- Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- gcas_timeToFailure
+- tcas_timeToFailure
+- geof_timeToFailure
+- timeToFailure
+- gcas_timeToRecovery
+- tcas_timeToRecovery
+- geof_timeToRecovery
+- timeToRecovery
+- p1
+- p2
+- p3
+
+Target interface:
+Exact expression symbols: gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure, timeToFailure, gcas_timeToRecovery, tcas_timeToRecovery, geof_timeToRecovery, timeToRecovery, p1, p2, p3
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+gcas_timeToFailure | in | data | opaque | real
+tcas_timeToFailure | in | data | opaque | real
+geof_timeToFailure | in | data | opaque | real
+timeToFailure | out | data | opaque | real
+gcas_timeToRecovery | in | data | opaque | real
+tcas_timeToRecovery | in | data | opaque | real
+geof_timeToRecovery | in | data | opaque | real
+timeToRecovery | out | data | opaque | real
+p1 | out | data | opaque | bool
+p2 | out | data | opaque | bool
+p3 | out | data | opaque | bool
+
+Raw requirement:
+The Supervisor component's timeToFailure output shall be equal to the minimum of the three subsystems' timeToFailure inputs: gcas_timeToFailure, tcas_timeToFailure, and geof_timeToFailure. The implementation shall invoke the composite_nodes library to calculate three concurrency factors using the concurrencyFactor function, where the inputs are the respective subsystems' recovery times (gcas_timeToRecovery, tcas_timeToRecovery, geof_timeToRecovery) and the system's timeToFailure. The resulting concurrency factors shall be assigned to the output ports p1, p2, and p3 respectively. Additionally, the system shall guarantee that the timeToFailure output is greater than the sum of the three subsystems' timeToRecovery inputs.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "timeToFailure = min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure)",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Supervisor.timeToFailure",
+        "Supervisor.gcas_timeToFailure",
+        "Supervisor.tcas_timeToFailure",
+        "Supervisor.geof_timeToFailure"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "p1 = concurrencyFactor(gcas_timeToRecovery, timeToFailure)",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Supervisor.p1",
+        "Supervisor.gcas_timeToRecovery",
+        "Supervisor.timeToFailure"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "p2 = concurrencyFactor(tcas_timeToRecovery, timeToFailure)",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Supervisor.p2",
+        "Supervisor.tcas_timeToRecovery",
+        "Supervisor.timeToFailure"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "p3 = concurrencyFactor(geof_timeToRecovery, timeToFailure)",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Supervisor.p3",
+        "Supervisor.geof_timeToRecovery",
+        "Supervisor.timeToFailure"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "timeToFailure > gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Supervisor.timeToFailure",
+        "Supervisor.gcas_timeToRecovery",
+        "Supervisor.tcas_timeToRecovery",
+        "Supervisor.geof_timeToRecovery"
+      ]
+    }
+  ]
+}

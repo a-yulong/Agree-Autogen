@@ -1,0 +1,15 @@
+annex agree {**
+  assume "threatDetected is Boolean": threatDetected in {true, false};
+  assume "threatAltitude is Float": threatAltitude >= -10000.0 and threatAltitude <= 10000.0;
+  assume "ownAltitude is Float": ownAltitude >= -10000.0 and ownAltitude <= 10000.0;
+  assume "ownLongitude is Int": ownLongitude >= -180 and ownLongitude <= 180;
+  assume "threatLongitude is Int": threatLongitude >= -180 and threatLongitude <= 180;
+  guarantee "priority based on longitude when altitudes equal and threat detected": 
+    threatDetected and ownAltitude = threatAltitude => 
+      (ownLongitude > threatLongitude => requiredVerticalVelocity = 50) and 
+      (ownLongitude <= threatLongitude => requiredVerticalVelocity = -50);
+  guarantee "bottom intrusion avoidance when own altitude higher": 
+    threatDetected and ownAltitude > threatAltitude => requiredVerticalVelocity = 10;
+  guarantee "top intrusion avoidance when own altitude lower": 
+    threatDetected and ownAltitude < threatAltitude => requiredVerticalVelocity = -10;
+**};

@@ -1,0 +1,110 @@
+round=5
+
+[TARGET INTERFACE]
+Exact expression symbols: Input1, Input2, Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Input1 | in | data | real | Base_Types::Float
+Input2 | in | data | real | Base_Types::Float
+Output | out | data | real | Base_Types::Float
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Output = Input1 + Input2",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Output",
+        "Input1",
+        "Input2"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: C | lines 22-26
+annex agree {**
+annex agree {
+  guarantee "sum_of_inputs": Output = Input1 + Input2;
+};
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   19: 		Input1: in data port Base_Types::Float;
+   20: 		Input2: in data port Base_Types::Float;
+   21: 		Output: out data port Base_Types::Float;
+   22: annex agree {**
+>> 23: annex agree {
+   24:   guarantee "sum_of_inputs": Output = Input1 + Input2;
+   25: };
+   26: **};
+   27: end C ; 
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: C
+system C
+	features
+		Input1: in data port Base_Types::Float;
+		Input2: in data port Base_Types::Float;
+		Output: out data port Base_Types::Float;
+end C ;
+
+-- RELATED MODEL LINES
+Output: out data port Base_Types::Float;
+system C
+Input1: in data port Base_Types::Float;
+Input2: in data port Base_Types::Float;
+end C ;
+C_sub : system C ;
+A_TO_B : port A_sub.Output -> B_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_C : port A_sub.Output -> C_sub.Input1 {Communication_Properties::Timing => immediate;};
+B_TO_C : port B_sub.Output -> C_sub.Input2 {Communication_Properties::Timing => immediate;};
+C_TO_Output : port C_sub.Output -> Output {Communication_Properties::Timing => immediate;};
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "C",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "C_sub",
+      "kind": "system",
+      "type_name": "C"
+    }
+  ],
+  "features": [
+    {
+      "owner": "C",
+      "name": "Input1",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "C",
+      "name": "Input2",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "C",
+      "name": "Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Float",
+      "scalar": "opaque"
+    }
+  ]
+}

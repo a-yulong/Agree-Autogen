@@ -1,0 +1,45 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'SSM'.",
+      "cause": "SSM is a subcomponent, not a visible AGREE identifier in the component type scope",
+      "minimal_edit": "Remove SSM reference from the assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'State_Out'.",
+      "cause": "State_Out is a port, not a visible AGREE identifier in the component type scope",
+      "minimal_edit": "Remove State_Out reference from the assume statement"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::state_sig.impl' and '<error>', but must be of the same type",
+      "cause": "Invalid expression due to unresolved identifiers",
+      "minimal_edit": "Remove the entire assume statement"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Expression contains unresolved identifiers",
+      "minimal_edit": "Remove the entire assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'SMToSSM'.",
+      "cause": "SMToSSM is a connection, not a visible AGREE identifier in the component type scope",
+      "minimal_edit": "Remove SMToSSM reference from the assume statement"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'Types::state_sig.impl', but must be of the same type",
+      "cause": "Invalid expression due to unresolved identifiers",
+      "minimal_edit": "Remove the entire assume statement"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Expression contains unresolved identifiers",
+      "minimal_edit": "Remove the entire assume statement"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from State_Machine to State_Machine.Impl",
+    "Remove the invalid assume statements that reference unresolved identifiers",
+    "Place valid AGREE expressions in the implementation annex if needed"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 29: Couldn't resolve reference to 'impl'.",
+      "cause": "AGREE assumes reference to implementation name instead of port",
+      "minimal_edit": "Replace 'acc1_dataOutput.impl' with 'acc1out' on left side of '='"
+    },
+    {
+      "diagnostic": "line 29: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in port equality assumption",
+      "minimal_edit": "Replace 'acc1_dataOutput.impl = acc1out' with 'acc1out = acc1out' (remove invalid assumption)"
+    },
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'event_in'.",
+      "cause": "Invalid reference to non-existent port in subcomponent",
+      "minimal_edit": "Replace 'acc1_command_in = spg.event_in' with 'acc1_command_in = acc1_command_in' (remove invalid assumption)"
+    },
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'spg'.",
+      "cause": "Invalid reference to subcomponent in assumption",
+      "minimal_edit": "Remove invalid subcomponent reference from assumption"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the invalid assumption 'acc1_dataOutput.impl = acc1out' from the AGREE annex",
+    "Remove the invalid assumption 'acc1_command_in = spg.event_in' from the AGREE annex",
+    "Move any valid signal flow assumptions to the component type scope if they represent valid contracts",
+    "Ensure all references in AGREE annex are valid port names or declared variables"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Guarantee statements are allowed only in component types",
+      "cause": "AGREE annex with guarantee statements is placed in system implementation scope",
+      "minimal_edit": "Move the entire AGREE annex block from Microwave_Control.Impl to Microwave_Control"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Guarantee statements reference connection names as expressions instead of boolean conditions",
+      "minimal_edit": "Replace connection names with boolean expressions that relate input ports to output ports"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Guarantee statements reference connection names instead of valid boolean expressions",
+      "minimal_edit": "Rewrite guarantee expressions to use valid boolean logic with input/output port relationships"
+    },
+    {
+      "diagnostic": "Expression for guarantee statement is of type '<error>' but must be of type 'bool'",
+      "cause": "Guarantee statements reference connection names instead of valid boolean expressions",
+      "minimal_edit": "Rewrite guarantee expressions to use valid boolean logic with input/output port relationships"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from Microwave_Control.Impl",
+    "Add a new AGREE annex block to the Microwave_Control component type",
+    "In the new AGREE annex, replace guarantee statements with valid boolean expressions that relate input ports to output ports",
+    "Ensure all guarantee expressions are valid AGREE boolean expressions using only visible identifiers"
+  ]
+}

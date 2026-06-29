@@ -1,0 +1,131 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks within the owning component declaration.
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` syntax as defined in the AGREE annex.
+Generic rules:
+- AGREE annex blocks are scoped to their owning component and must reference only visible identifiers from that scope.
+- Do not encode AADL properties like timing or unit tokens directly into AGREE expressions unless explicitly exposed as typed ports or constants.
+- Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for assignments valid in that scope.
+Syntax or pattern reminders:
+- AGREE expressions must only reference identifiers present in the current component's scope.
+- Use exact names from the AADL model for ports, components, and data types.
+Anti-patterns:
+- Avoid referencing AADL property names (e.g., Deadline, Period) as AGREE variables unless they are explicitly typed in the model.
+- Do not copy identifiers from examples or invent new ports/components not present in the AADL model.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- ATTITUDE
+- ATTITUDE.IMPL
+- accelero_thread
+- magneto_thread
+- gyro_thread
+- attitude_calculation_thread
+- ACC_INPUT_PC1
+- ACC_INPUT_PC2
+- ACC_INPUT_PC3
+- MAG_INPUT_PC1
+- MAG_INPUT_PC2
+- MAG_INPUT_PC3
+- GYRO_INPUT_PC1
+- GYRO_INPUT_PC2
+- GYRO_INPUT_PC3
+- ACC_SUBMIT_PC1
+- ACC_SUBMIT_PC2
+- ACC_SUBMIT_PC3
+- MAG_SUBMIT_PC1
+- MAG_SUBMIT_PC2
+- MAG_SUBMIT_PC3
+- GYRO_SUBMIT_PC1
+- GYRO_SUBMIT_PC2
+- GYRO_SUBMIT_PC3
+- acc_in_data_x
+- acc_in_data_y
+- acc_in_data_z
+- mag_in_data_x
+- mag_in_data_y
+- mag_in_data_z
+- gyro_in_data_x
+- gyro_in_data_y
+- gyro_in_data_z
+- acc_out_data_x
+- acc_out_data_y
+- acc_out_data_z
+- mag_out_data_x
+- mag_out_data_y
+- mag_out_data_z
+- gyro_out_data_x
+
+Target interface:
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- ATTITUDE
+- ATTITUDE.IMPL
+- accelero_thread
+- magneto_thread
+- gyro_thread
+- attitude_calculation_thread
+- ACC_INPUT_PC1
+- ACC_INPUT_PC2
+- ACC_INPUT_PC3
+- MAG_INPUT_PC1
+- MAG_INPUT_PC2
+- MAG_INPUT_PC3
+- GYRO_INPUT_PC1
+- GYRO_INPUT_PC2
+- GYRO_INPUT_PC3
+- ACC_SUBMIT_PC1
+- ACC_SUBMIT_PC2
+- ACC_SUBMIT_PC3
+- MAG_SUBMIT_PC1
+- MAG_SUBMIT_PC2
+- MAG_SUBMIT_PC3
+- GYRO_SUBMIT_PC1
+- GYRO_SUBMIT_PC2
+- GYRO_SUBMIT_PC3
+- acc_in_data_x
+- acc_in_data_y
+- acc_in_data_z
+- mag_in_data_x
+- mag_in_data_y
+- mag_in_data_z
+- gyro_in_data_x
+- gyro_in_data_y
+- gyro_in_data_z
+- acc_out_data_x
+- acc_out_data_y
+- acc_out_data_z
+- mag_out_data_x
+- mag_out_data_y
+- mag_out_data_z
+- gyro_out_data_x
+
+Raw requirement:
+The ATTITUDE component shall define the implementation-level signal routing for ATTITUDE.IMPL. In the implementation layer, ATTITUDE.IMPL shall route data flow from acc_in_data_x to accelero_thread.acc_in_data_x through ACC_INPUT_PC1 and data flow from acc_in_data_y to accelero_thread.acc_in_data_y through ACC_INPUT_PC2.
+
+Requirement items:
+DISABLED

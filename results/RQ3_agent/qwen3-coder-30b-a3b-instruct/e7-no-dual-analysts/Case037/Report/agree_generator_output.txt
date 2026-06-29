@@ -1,0 +1,9 @@
+annex agree {**
+  assume "speed_control_input_valid": Target = Target;
+  assume "actual_speed_input_valid": Actual = Actual;
+  guarantee "error_calculation": e = Target - Actual;
+  guarantee "control_law_output": Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int;
+  eq e : Types::speed::speed_impl = Target - Actual;
+  eq e_dot : Base_Types::Float = derivative(e);
+  eq e_int : Base_Types::Float = integral(e);
+**};

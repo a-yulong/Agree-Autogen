@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "AGREE annex is in thread implementation context but references port names without proper qualification",
+      "minimal_edit": "Remove the assume statements from the AGREE annex in ATTITUDE_CALCULATION.IMPL and move them to the component type ATTITUDE_CALCULATION"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "AGREE annex is in thread implementation context but references subprogram port names without proper qualification",
+      "minimal_edit": "Remove the assume statements from the AGREE annex in ATTITUDE_CALCULATION.IMPL and move them to the component type ATTITUDE_CALCULATION"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE annex is in thread implementation context but references port names without proper qualification",
+      "minimal_edit": "Remove the assume statements from the AGREE annex in ATTITUDE_CALCULATION.IMPL and move them to the component type ATTITUDE_CALCULATION"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from ATTITUDE_CALCULATION.IMPL",
+    "Add a new AGREE annex block to the ATTITUDE_CALCULATION component type",
+    "Copy all assume statements from the implementation annex to the component type annex",
+    "Ensure the assume statements reference the correct identifiers in the component type context"
+  ]
+}

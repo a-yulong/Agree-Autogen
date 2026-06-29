@@ -1,0 +1,57 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'mode'.",
+      "cause": "mode is not declared as a variable or constant in the component type",
+      "minimal_edit": "Remove the guarantee statement referencing 'mode' from the component type annex"
+    },
+    {
+      "diagnostic": "line 49: Assume statements are allowed only in component types",
+      "cause": "assume statements are placed in component implementation annex",
+      "minimal_edit": "Move the assume statement from implementation annex to component type annex"
+    },
+    {
+      "diagnostic": "line 51: Guarantee statements are allowed only in component types",
+      "cause": "guarantee statements are placed in component implementation annex",
+      "minimal_edit": "Move the guarantee statements from implementation annex to component type annex"
+    },
+    {
+      "diagnostic": "line 55: Couldn't resolve reference to '\"input_forward\": A_sub.Input'.",
+      "cause": "A_sub.Input is not a valid left-hand side for assignment in AGREE implementation annex",
+      "minimal_edit": "Remove assignment to subcomponent port in implementation annex"
+    },
+    {
+      "diagnostic": "line 57: Couldn't resolve reference to '\"a_to_b_c\": B_sub.Input'.",
+      "cause": "B_sub.Input is not a valid left-hand side for assignment in AGREE implementation annex",
+      "minimal_edit": "Remove assignment to subcomponent port in implementation annex"
+    },
+    {
+      "diagnostic": "line 59: Couldn't resolve reference to '\"a_to_c\": C_sub.Input_1'.",
+      "cause": "C_sub.Input_1 is not a valid left-hand side for assignment in AGREE implementation annex",
+      "minimal_edit": "Remove assignment to subcomponent port in implementation annex"
+    },
+    {
+      "diagnostic": "line 61: Couldn't resolve reference to '\"b_to_c\": C_sub.Input_2'.",
+      "cause": "C_sub.Input_2 is not a valid left-hand side for assignment in AGREE implementation annex",
+      "minimal_edit": "Remove assignment to subcomponent port in implementation annex"
+    },
+    {
+      "diagnostic": "line 63: Couldn't resolve reference to '\"c_to_output\": Output'.",
+      "cause": "Output is not a valid left-hand side for assignment in AGREE implementation annex",
+      "minimal_edit": "Remove assignment to output port in implementation annex"
+    },
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to '\"mode_assignment\": mode'.",
+      "cause": "mode is not declared as a variable or constant in the component implementation",
+      "minimal_edit": "Remove assignment to 'mode' in implementation annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Move the assume statement from top_level.Impl annex to top_level annex",
+    "Move the guarantee statements from top_level.Impl annex to top_level annex",
+    "Remove the guarantee statement referencing 'mode' from top_level annex",
+    "Remove all assignments to subcomponent ports from top_level.Impl annex",
+    "Remove assignment to 'mode' from top_level.Impl annex"
+  ]
+}

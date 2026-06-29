@@ -1,0 +1,8 @@
+annex agree {
+  const minHeightAllowed : real = 200.0;
+  eq t : real = 0.0 -> pre(t) + 0.1;
+  eq height : real = kinematicLinearization(t);
+  assign timeToRecovery = 3.7;
+  guarantee "height_above_min": t >= 3.7 => height > minHeightAllowed;
+  guarantee "pull_up_trend": t >= 3.7 => height > pre(height);
+};

@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '<=' are of type 'Papa_Types::Tableau.Generic' and 'int', but must be of the same type",
+      "cause": "Expression compares opaque data field 'MCU1_Send_Output.channels' to integer literal '16'",
+      "minimal_edit": "Remove guarantee 'channel_count_valid' as 'channels' is opaque type and cannot be compared to integer"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '>=' are of type 'Papa_Types::Tableau.Generic' and 'int', but must be of the same type",
+      "cause": "Expression compares opaque data field 'MCU1_Send_Output.channels' to integer literal '0'",
+      "minimal_edit": "Remove guarantee 'channel_count_valid' as 'channels' is opaque type and cannot be compared to integer"
+    },
+    {
+      "diagnostic": "left side of binary expression '<=' is of type 'Papa_Types::Tableau.Generic' but must be of type'int' or 'real'",
+      "cause": "Opaque data field 'MCU1_Send_Output.channels' cannot be compared to integer literal '16'",
+      "minimal_edit": "Remove guarantee 'channel_count_valid' as 'channels' is opaque type and cannot be compared to integer"
+    },
+    {
+      "diagnostic": "left side of binary expression '>=' is of type 'Papa_Types::Tableau.Generic' but must be of type'int' or 'real'",
+      "cause": "Opaque data field 'MCU1_Send_Output.channels' cannot be compared to integer literal '0'",
+      "minimal_edit": "Remove guarantee 'channel_count_valid' as 'channels' is opaque type and cannot be compared to integer"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee statement 'channel_count_valid' from the AGREE annex block",
+    "Verify that all remaining guarantee statements reference valid, comparable types"
+  ]
+}

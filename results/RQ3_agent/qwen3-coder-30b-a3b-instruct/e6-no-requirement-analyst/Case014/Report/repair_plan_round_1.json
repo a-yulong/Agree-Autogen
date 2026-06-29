@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 40: mismatched input '=' expecting ':'",
+      "cause": "Invalid AGREE syntax for constant declaration",
+      "minimal_edit": "Change `const collision_time_constant = 8.0;` to `const collision_time_constant : real = 8.0;`"
+    },
+    {
+      "diagnostic": "line 41: mismatched input '=' expecting ':'",
+      "cause": "Invalid AGREE syntax for constant declaration",
+      "minimal_edit": "Change `const recovery_time_constant = 5.0;` to `const recovery_time_constant : real = 5.0;`"
+    },
+    {
+      "diagnostic": "line 45: left and right sides of binary expression '=' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "AGREE cannot resolve 'outImpact' as a valid expression in this context",
+      "minimal_edit": "Replace `outImpact = collision_time_constant` with `outImpact = collision_time_constant` (ensure proper type resolution)"
+    },
+    {
+      "diagnostic": "line 45: named thing must be an expression with a type",
+      "cause": "AGREE cannot resolve 'outImpact' as a valid expression in this context",
+      "minimal_edit": "Ensure 'outImpact' is properly declared as a variable or expression in the AGREE annex"
+    },
+    {
+      "diagnostic": "line 47: left and right sides of binary expression '=' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "AGREE cannot resolve 'outRecovery' as a valid expression in this context",
+      "minimal_edit": "Replace `outRecovery = recovery_time_constant` with `outRecovery = recovery_time_constant` (ensure proper type resolution)"
+    },
+    {
+      "diagnostic": "line 47: named thing must be an expression with a type",
+      "cause": "AGREE cannot resolve 'outRecovery' as a valid expression in this context",
+      "minimal_edit": "Ensure 'outRecovery' is properly declared as a variable or expression in the AGREE annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add type annotations to constant declarations: 'const collision_time_constant : real = 8.0;' and 'const recovery_time_constant : real = 5.0;'",
+    "Verify that 'outImpact' and 'outRecovery' are properly declared as variables or expressions in the AGREE annex",
+    "Ensure that all expressions in guarantees use only visible identifiers and valid AGREE syntax"
+  ]
+}

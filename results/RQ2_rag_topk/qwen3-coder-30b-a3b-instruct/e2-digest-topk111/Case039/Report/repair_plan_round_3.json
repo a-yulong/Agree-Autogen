@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 28: Assume statements are allowed only in component types",
+      "cause": "assume statement placed in system implementation annex",
+      "minimal_edit": "move assume statement to component type Throttle"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 30: Guarantee statements are allowed only in component types",
+      "cause": "guarantee statement placed in system implementation annex",
+      "minimal_edit": "move guarantee statement to component type Throttle"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 30: left and right sides of binary expression '=' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "type mismatch in behavior relation guarantee",
+      "minimal_edit": "rewrite behavior relation to compare real-valued expressions only"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 32: Guarantee statements are allowed only in component types",
+      "cause": "guarantee statement placed in system implementation annex",
+      "minimal_edit": "move guarantee statement to component type Throttle"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the assume statement on line 28 to the component type Throttle annex",
+    "Move the guarantee statements on lines 30 and 32 to the component type Throttle annex",
+    "Rewrite the behavior_relation guarantee to use only real-valued expressions",
+    "Delete the current AGREE annex from Throttle.Throttle_Impl"
+  ]
+}

@@ -21,6 +21,10 @@ RUN_CASE = REPO_ROOT / "scripts" / "run_case.py"
 CASE_RE = re.compile(r"^Case(\d+)(?:_([AB]))?$")
 
 
+def case_label(case_num: int) -> str:
+    return f"Case{case_num:03d}"
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run existing AGREE-AutoGen cases.")
     parser.add_argument("--source-root", default=os.environ.get("AGREE_SOURCE_ROOT", str(REPO_ROOT / "data" / "benchmark" / "cases")))
@@ -60,9 +64,13 @@ def discover_cases(
         num = int(match.group(1))
         letter = match.group(2) or ""
         if case_from <= num <= case_to and (not letter or letter in letters):
-            base = path / f"Case{num:02d}_Base.txt"
-            req = path / f"Case{num:02d}_Req.txt"
-            if base.exists() and req.exists():
+            label = case_label(num)
+            legacy_label = f"Case{num:02d}"
+            base = path / f"{label}_Base.txt"
+            req = path / f"{label}_Req.txt"
+            legacy_base = path / f"{legacy_label}_Base.txt"
+            legacy_req = path / f"{legacy_label}_Req.txt"
+            if (base.exists() and req.exists()) or (legacy_base.exists() and legacy_req.exists()):
                 found.setdefault(num, {})[letter] = path.name
     cases: list[tuple[int, str, str]] = []
     if canonical_one_per_number:
@@ -82,8 +90,9 @@ def discover_cases(
 
 
 def report_path(result_root: Path, case_num: int, letter: str) -> Path:
-    label = f"Case{case_num:02d}_{letter}" if letter else f"Case{case_num:02d}"
-    return result_root / label / "Report" / f"Case{case_num:02d}_report.json"
+    base_label = case_label(case_num)
+    label = f"{base_label}_{letter}" if letter else base_label
+    return result_root / label / "Report" / f"{base_label}_report.json"
 
 
 def main() -> int:

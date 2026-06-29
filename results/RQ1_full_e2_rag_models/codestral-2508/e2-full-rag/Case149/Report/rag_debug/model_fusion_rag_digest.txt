@@ -1,0 +1,20 @@
+<RAG_DIGEST agent="model_fusion">
+Generic rules:
+- Preserve the AADL architecture by inserting annex blocks in the correct scope.
+- Use only visible identifiers from the current scope in AGREE expressions.
+- Do not encode AADL properties as AGREE expressions unless they are exposed as explicit typed ports or constants.
+Syntax or pattern reminders:
+- AGREE contracts are written inside `annex agree {** ... **};` blocks.
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` for AGREE syntax.
+Anti-patterns:
+- Avoid using subcomponent ports in component type contracts unless represented through valid variables or outputs.
+- Do not use AADL property names directly in AGREE expressions without explicit typed ports or constants.
+Irrelevant retrieved material:
+- AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes.
+- Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections.
+- Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs.
+- For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation.
+- For output dependency contracts, write a guarantee that relates visible outputs to visible inputs.
+- If AGREE reports 'The assumed type ... is ... but the actual type is ...', align the helper declaration type with the expression.
+- If diagnostics report unresolved references to AADL properties inside an AGREE annex, delete the generated clause.
+</RAG_DIGEST>

@@ -1,0 +1,220 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: diagnosis_in, diagnosis_out
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+diagnosis_in | in | data | int | SHM_DataType::errorData
+diagnosis_out | out | data | int | SHM_DataType::errorData
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "diagnosis_in is routed to diagnosisEngine.inData_para through connection C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "diagnosis_in",
+        "diagnosisEngine.inData_para",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "diagnosisEngine.outData_para is routed to diagnosis_out through connection C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "diagnosisEngine.outData_para",
+        "diagnosis_out",
+        "C2"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: diagnosisEngine | lines 427-430
+annex agree {**
+    guarantee "signal_flow_in": diagnosis_in = diagnosisEngine.inData_para;
+    guarantee "signal_flow_out": diagnosisEngine.outData_para = diagnosis_out;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   424:     Period => 3000 ms;
+   425:     Compute_Execution_Time => 400 ms .. 500 ms;
+   426:     Deadline => 500 ms;
+   427:   annex agree {**
+>> 428:     guarantee "signal_flow_in": diagnosis_in = diagnosisEngine.inData_para;
+   429:     guarantee "signal_flow_out": diagnosisEngine.outData_para = diagnosis_out;
+   430:   **};
+   431:   end diagnosisEngine;
+   432: 
+
+   425:     Compute_Execution_Time => 400 ms .. 500 ms;
+   426:     Deadline => 500 ms;
+   427:   annex agree {**
+   428:     guarantee "signal_flow_in": diagnosis_in = diagnosisEngine.inData_para;
+>> 429:     guarantee "signal_flow_out": diagnosisEngine.outData_para = diagnosis_out;
+   430:   **};
+   431:   end diagnosisEngine;
+   432: 
+   433:   thread implementation diagnosisEngine.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: diagnosisEngine
+thread diagnosisEngine
+  features
+    diagnosis_in: in event data port SHM_DataType::errorData;
+    diagnosis_out: out event data port SHM_DataType::errorData;
+  properties
+    Priority => 7;
+    Stack_Size => 20 KByte;
+    Code_Size => 100 KByte;
+    Data_Size => 1 KByte;
+    Dispatch_Protocol => Periodic;
+    Period => 3000 ms;
+    Compute_Execution_Time => 400 ms .. 500 ms;
+    Deadline => 500 ms;
+  end diagnosisEngine;
+
+-- TARGET DECLARATION: diagnosisEngine.impl
+thread implementation diagnosisEngine.impl
+  calls
+    sub1: { diagnosisEngine: subprogram subprograms::diagnosisEngine_spg; };
+
+  connections
+    C1: parameter  diagnosis_in->diagnosisEngine.inData_para;
+    C2: parameter  diagnosisEngine.outData_para->diagnosis_out;
+  end diagnosisEngine.impl;
+
+-- RELATED MODEL LINES
+thread diagnosisEngine
+diagnosis_in: in event data port SHM_DataType::errorData;
+diagnosis_out: out event data port SHM_DataType::errorData;
+end diagnosisEngine;
+thread implementation diagnosisEngine.impl
+sub1: { diagnosisEngine: subprogram subprograms::diagnosisEngine_spg; };
+C1: parameter  diagnosis_in->diagnosisEngine.inData_para;
+C2: parameter  diagnosisEngine.outData_para->diagnosis_out;
+end diagnosisEngine.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "diagnosisEngine",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "diagnosisEngine.impl",
+      "kind": "thread implementation",
+      "type_name": "diagnosisEngine"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "diagnosisEngine.impl",
+      "name": "sub1",
+      "category": "call",
+      "classifier": "subprograms::diagnosisEngine_spg"
+    }
+  ],
+  "features": [
+    {
+      "owner": "diagnosisEngine",
+      "name": "diagnosis_in",
+      "direction": "in",
+      "category": "event data port",
+      "type": "SHM_DataType::errorData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "diagnosisEngine",
+      "name": "diagnosis_out",
+      "direction": "out",
+      "category": "event data port",
+      "type": "SHM_DataType::errorData",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "diagnosisEngine.impl",
+      "name": "C1",
+      "kind": "parameter",
+      "source": "diagnosis_in",
+      "destination": "diagnosisEngine.inData_para"
+    },
+    {
+      "owner": "diagnosisEngine.impl",
+      "name": "C2",
+      "kind": "parameter",
+      "source": "diagnosisEngine.outData_para",
+      "destination": "diagnosis_out"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "diagnosisEngine",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "7",
+      "applies_to": "diagnosisEngine"
+    },
+    {
+      "owner": "diagnosisEngine",
+      "owner_kind": "thread",
+      "name": "Stack_Size",
+      "value": "20 KByte",
+      "applies_to": "diagnosisEngine"
+    },
+    {
+      "owner": "diagnosisEngine",
+      "owner_kind": "thread",
+      "name": "Code_Size",
+      "value": "100 KByte",
+      "applies_to": "diagnosisEngine"
+    },
+    {
+      "owner": "diagnosisEngine",
+      "owner_kind": "thread",
+      "name": "Data_Size",
+      "value": "1 KByte",
+      "applies_to": "diagnosisEngine"
+    },
+    {
+      "owner": "diagnosisEngine",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "diagnosisEngine"
+    },
+    {
+      "owner": "diagnosisEngine",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "3000 ms",
+      "applies_to": "diagnosisEngine"
+    },
+    {
+      "owner": "diagnosisEngine",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "400 ms .. 500 ms",
+      "applies_to": "diagnosisEngine"
+    },
+    {
+      "owner": "diagnosisEngine",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "500 ms",
+      "applies_to": "diagnosisEngine"
+    }
+  ]
+}

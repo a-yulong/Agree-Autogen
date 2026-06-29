@@ -1,0 +1,13 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Non-constant expression in constant declaration",
+      "cause": "AGREE requires constant declarations to be evaluatable at compile time, but the expression (ownLongitude > nearestIntruderLongitude) references input ports which are not compile-time constants",
+      "minimal_edit": "Replace the constant declaration with a boolean variable declaration that can be evaluated within the AGREE context"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'const ownAircraftGoesUpOnTie : bool = (ownLongitude > nearestIntruderLongitude);' with 'variable ownAircraftGoesUpOnTie : bool = (ownLongitude > nearestIntruderLongitude);' in the AGREE annex block"
+  ]
+}

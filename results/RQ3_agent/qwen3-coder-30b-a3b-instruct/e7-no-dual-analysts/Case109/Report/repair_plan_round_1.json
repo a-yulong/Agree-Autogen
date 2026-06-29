@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 63: Couldn't resolve reference to 'impl'.",
+      "cause": "Invalid reference to 'impl' in assume statement",
+      "minimal_edit": "Replace 'acc2_dataOutput.impl' with 'acc2_dataOutput_emv2.impl' in the assume statement"
+    },
+    {
+      "diagnostic": "line 64: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Port-to-component comparison in guarantee statement",
+      "minimal_edit": "Replace 'acc2out = acc2_dataOutput_emv2' with 'acc2out = acc2_dataOutput_emv2.acc2_input' in the guarantee statement"
+    },
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'impl'.",
+      "cause": "Invalid reference to 'impl' in guarantee statement",
+      "minimal_edit": "Replace 'acc2_dataOutput_emv2.impl' with 'acc2_dataOutput_emv2' in the guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block, replace 'acc2_dataOutput.impl = acc2_dataOutput_emv2.impl' with 'acc2_dataOutput_emv2.impl = acc2_dataOutput_emv2.impl'",
+    "In the AGREE annex block, replace 'acc2out = acc2_dataOutput_emv2' with 'acc2out = acc2_dataOutput_emv2.acc2_input'",
+    "In the AGREE annex block, replace 'acc2_command_in = acc2_dataOutput_emv2.impl' with 'acc2_command_in = acc2_dataOutput_emv2'"
+  ]
+}

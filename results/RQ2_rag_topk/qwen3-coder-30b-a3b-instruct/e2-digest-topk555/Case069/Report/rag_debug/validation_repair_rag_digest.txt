@@ -1,0 +1,23 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- In AGREE contracts, ensure all expressions use valid, visible identifiers and declared helpers from the same scope.
+- When generating AGREE guarantees, validate that types match between operands in binary expressions like '<=' or comparisons.
+- Use only visible AADL features or declared auxiliary variables in implementation-level assignments and guarantees.
+- If a guarantee references an invalid or unresolved identifier, remove the clause rather than introducing new architecture.
+Syntax or pattern reminders:
+- AGREE expressions must have consistent types; e.g., int comparisons should not mix with <error> or real types.
+- AGREE constants and equations must be declared with valid scalar types: int, real, or bool.
+- Implementation-level guarantees should reference valid output features or declared variables, not subcomponent paths in type scopes.
+- Do not assume that Boolean ports can be used in numeric range checks without explicit scalar representation.
+Anti-patterns:
+- Do not attempt to fix type errors by adding new architecture; instead, trace and correct the root cause of unresolved identifiers.
+- Avoid placing implementation-level bindings in component type annexes unless they reference valid outputs or declared variables.
+- Do not attempt to convert opaque Boolean or enumeration data into numeric comparisons without clear scalar semantics.
+- Do not introduce package-qualified identifiers in AGREE code that are not present in the input AADL model.
+Irrelevant retrieved material:
+- AADL package references and with clauses
+- AGREE annex placement in component types vs implementations
+- AGREE assume/guarantee syntax and validator diagnostics
+- Model fusion and scope preservation rules
+- Requirement traceability and compact semantics
+</RAG_DIGEST>

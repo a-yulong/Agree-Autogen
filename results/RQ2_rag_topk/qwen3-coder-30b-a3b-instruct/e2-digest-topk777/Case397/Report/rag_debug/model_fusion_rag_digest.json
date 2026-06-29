@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in valid AADL scopes: component types for structural contracts, implementations for binding assignments.",
+    "Use component type annexes for input envelope assumptions and output range guarantees when concrete bounds are provided.",
+    "Insert AGREE annex blocks within `annex agree {** ... **};` syntax in appropriate AADL component type or implementation scopes."
+  ],
+  "generic_rules": [
+    "Ensure AGREE expressions preserve type consistency: numeric variables use numeric expressions, Boolean variables use Boolean expressions.",
+    "Do not introduce package-qualified identifiers or types not present in the model's configured dependencies.",
+    "Generated AGREE contracts should use valid AADL feature names and visible identifiers only.",
+    "Avoid referencing implementation-only subcomponents or ports in component type annexes."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts use `assume`, `guarantee`, `eq`, `const`, and `assign` syntax within `annex agree {** ... **};` blocks.",
+    "Stateful equations should use initialized temporal recurrence; branching logic uses nested `if ... then ... else`.",
+    "Helper functions and variables must be declared in the same annex or imported from available packages.",
+    "Constants and equations should be declared with correct AGREE scalar types: `int`, `real`, `bool`."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level bindings in component type annexes unless they reference visible outputs.",
+    "Do not reference AADL property names like Period or Deadline as AGREE variables without explicit typed ports or constants.",
+    "Do not invent new identifiers or types not visible in the current AADL component scope."
+  ],
+  "irrelevant_topics": [
+    "AGREE validator diagnostics and repair patterns",
+    "Requirement semantics and model traceability",
+    "Model analyst AADL structural extraction details",
+    "AGREE syntax for assume/guarantee logic and clause generation"
+  ]
+}

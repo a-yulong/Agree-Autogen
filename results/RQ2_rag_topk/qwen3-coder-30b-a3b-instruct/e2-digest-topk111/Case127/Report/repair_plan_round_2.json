@@ -1,0 +1,14 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 204: Couldn't resolve reference to 'attitude_sub.acc_in_data_x'.",
+      "cause": "AGREE annex in implementation cannot reference subcomponent ports directly; 'attitude_sub.acc_in_data_x' is not a visible port of the implementation",
+      "minimal_edit": "Remove the entire annex block since signal flow is already fully defined by connections in the AADL implementation"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the entire annex agree { ... } block from ATTITUDE_CALCULATION.IMPL",
+    "Confirm that all signal flows are correctly modeled via connections (ACC_PC1..GYRO_PC3) in the implementation"
+  ]
+}

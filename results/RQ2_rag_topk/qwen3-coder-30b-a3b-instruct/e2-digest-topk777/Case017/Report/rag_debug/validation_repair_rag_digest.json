@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix type mismatches by ensuring AGREE variable declarations match the expected AADL data types (int, real, bool).",
+    "Resolve 'named thing must be an expression with a type' errors by removing or correcting invalid AGREE clauses that reference unresolved identifiers.",
+    "Correct 'assumed type ... but the actual type is ...' errors by aligning variable types with their assigned expressions (e.g., bool for comparisons, int for arithmetic).",
+    "Avoid placing implementation-level bindings in component type annexes; move valid assignments to implementation scopes."
+  ],
+  "generic_rules": [
+    "Use only visible identifiers from the current AADL component scope in AGREE contracts.",
+    "Ensure all AGREE expressions maintain type consistency between left and right sides of comparisons and assignments.",
+    "Place component type contracts in the appropriate annex scope and avoid referencing implementation-only features.",
+    "Do not introduce package-qualified identifiers or AADL properties as AGREE variables unless explicitly exposed in the model."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.",
+    "Branching logic in AGREE uses nested `if ... then ... else` expressions.",
+    "Helper functions and variables must be declared before use and match the expected data types."
+  ],
+  "anti_patterns": [
+    "Do not assume that AADL property names (e.g., Deadline, Priority) are automatically available as AGREE variables.",
+    "Do not reference subcomponent ports or implementation-specific paths in component type annexes.",
+    "Do not introduce new package-qualified identifiers or data types not present in the AADL model.",
+    "Do not attempt to fix type errors by adding architecture; instead, correct or remove invalid AGREE clauses."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE validator diagnostics and repair strategies",
+    "Model fusion and component insertion locations",
+    "Requirement traceability and compact semantics"
+  ]
+}

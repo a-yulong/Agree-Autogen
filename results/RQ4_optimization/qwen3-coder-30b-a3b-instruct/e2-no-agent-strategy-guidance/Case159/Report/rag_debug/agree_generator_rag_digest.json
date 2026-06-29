@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in component type scopes when referring to component ports, and in implementation scopes for subcomponent bindings.",
+    "Use `annex agree {** ... **};` syntax for AGREE contracts, with component type annexes for assumptions, guarantees, constants, and equation declarations."
+  ],
+  "generic_rules": [
+    "Align helper declaration types with expression types in AGREE: bool for comparisons, int for integer arithmetic, real for real arithmetic.",
+    "Avoid encoding AADL timing properties as AGREE expressions unless explicit typed ports or constants are available.",
+    "Do not convert Boolean domain values into integers; use exact Boolean expressions only when the port is an AGREE bool in scope.",
+    "Omit unsafe range comparisons or 0/1 equality over opaque data ports unless numeric scalar representation is provided."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are the standard location for assumptions and guarantees.",
+    "Implementation annexes are used for assignments and bindings valid in that scope.",
+    "Helper declarations must match the type of the expression they represent."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL property names like Compute_Execution_Time or unit tokens (ms, Hz, Bytes) as AGREE variables.",
+    "Do not use subcomponent ports directly in component type contracts unless represented through valid variables or outputs.",
+    "Do not generate clauses for Boolean data ports unless the AADL model provides a numeric scalar representation.",
+    "Do not assume that AGREE will resolve AADL property associations as visible variables."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and their mapping to AGREE expressions",
+    "Model fusion and component implementation binding strategies",
+    "Validator diagnostics and repair patterns",
+    "Requirement traceability and compact semantics"
+  ]
+}

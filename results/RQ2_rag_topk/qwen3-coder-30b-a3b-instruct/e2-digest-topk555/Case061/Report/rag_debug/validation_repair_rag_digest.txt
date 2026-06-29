@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Only reference AADL identifiers that are visible in the current scope; do not introduce package-qualified names not present in the model.
+- Ensure AGREE expressions use only declared types (int, real, bool) and avoid invalid scalar type references.
+- Validate that guarantees and assumptions refer to valid component features or ports in their respective scopes.
+- Remove clauses that reference opaque Boolean or numeric data types unless the requirement and AADL model support scalar representations.
+Syntax or pattern reminders:
+- AGREE contracts must be placed in valid annex scopes: component types for assumptions/guarantees, implementations for bindings.
+- AGREE constants and equations must declare valid scalar types (int, real, bool) and reference only visible identifiers.
+Anti-patterns:
+- Do not generate AGREE expressions that assume AADL property associations are automatically available as variables.
+- Do not reference subcomponent ports or implementation-level paths in component type annexes.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about missing property associations
+- AGREE validator diagnostics (none present)
+- Component type annexes for implementation-level bindings
+- Implementation-level guarantees in component type scopes
+</RAG_DIGEST>

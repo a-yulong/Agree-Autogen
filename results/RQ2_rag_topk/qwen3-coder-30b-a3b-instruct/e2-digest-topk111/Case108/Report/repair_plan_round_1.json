@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 29: Couldn't resolve reference to 'acc1DataOut'.",
+      "cause": "Reference to subcomponent port 'spg.acc1DataOut' not resolvable in component type scope",
+      "minimal_edit": "Replace 'spg.acc1DataOut' with 'acc1DataOut' and move assumption to implementation scope"
+    },
+    {
+      "diagnostic": "line 29: Couldn't resolve reference to 'spg'.",
+      "cause": "Reference to subcomponent 'spg' not resolvable in component type scope",
+      "minimal_edit": "Remove reference to 'spg' and use direct feature name"
+    },
+    {
+      "diagnostic": "line 29: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved reference",
+      "minimal_edit": "Replace 'spg.acc1DataOut' with 'acc1DataOut' and ensure type consistency"
+    },
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'event_in'.",
+      "cause": "Reference to subcomponent port 'spg.event_in' not resolvable in component type scope",
+      "minimal_edit": "Replace 'spg.event_in' with 'event_in' and move assumption to implementation scope"
+    },
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'spg'.",
+      "cause": "Reference to subcomponent 'spg' not resolvable in component type scope",
+      "minimal_edit": "Remove reference to 'spg' and use direct feature name"
+    },
+    {
+      "diagnostic": "line 30: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch due to unresolved reference",
+      "minimal_edit": "Replace 'spg.event_in' with 'event_in' and ensure type consistency"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the AGREE annex from acc1_dataOutput component type to acc1_dataOutput.impl component implementation",
+    "Replace 'spg.acc1DataOut' with 'acc1DataOut' in the data flow assumption",
+    "Replace 'spg.event_in' with 'event_in' in the control signal assumption",
+    "Ensure the assumptions are placed in the implementation annex where subcomponent references are valid"
+  ]
+}

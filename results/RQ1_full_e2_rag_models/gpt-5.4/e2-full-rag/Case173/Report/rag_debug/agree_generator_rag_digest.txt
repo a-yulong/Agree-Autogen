@@ -1,0 +1,17 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Write AGREE only inside an `annex agree` block, using clause forms valid for the selected AADL scope.
+- Treat the AADL model as the source of truth for visible names, feature directions, connections, and data types.
+- In a type contract, relate visible component features and avoid implementation-only subcomponent paths unless they are surfaced through valid visible variables.
+- Add range or dependency clauses only when the requirement provides concrete bounds, named constants, or another visible relation.
+- Keep helper and clause types aligned with their expressions; comparison and range predicates are Boolean.
+Generic rules:
+- Prefer simple clauses that map cleanly to one requirement statement and one visible relation.
+- If a nontrivial predicate is reused, name it with a local helper before using it in another clause.
+Syntax or pattern reminders:
+- Boolean range checks belong in Boolean expressions or Boolean helpers, not in numeric-typed helpers.
+- Use legal visible identifiers exactly as exposed by the model; do not invent aliases, hidden paths, or unsupported constants.
+Anti-patterns:
+- Do not generate numeric comparisons for Boolean, enumeration-like, or opaque data unless the model proves a numeric scalar type.
+- Do not reference AADL property names or unit tokens as AGREE variables unless the model exposes them as explicit typed constants or ports.
+</RAG_DIGEST>

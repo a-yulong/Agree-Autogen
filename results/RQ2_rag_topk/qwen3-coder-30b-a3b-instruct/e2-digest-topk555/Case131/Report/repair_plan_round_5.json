@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 35: Couldn't resolve reference to 'Period'.",
+      "cause": "AGREE guarantee statements in implementation annex cannot reference implementation properties directly",
+      "minimal_edit": "Move the guarantee block to the component type 'Task' instead of 'Task.impl_1'"
+    },
+    {
+      "diagnostic": "line 36: Couldn't resolve reference to 'Compute_Execution_time'.",
+      "cause": "AGREE guarantee statements in implementation annex cannot reference implementation properties directly",
+      "minimal_edit": "Move the guarantee block to the component type 'Task' instead of 'Task.impl_1'"
+    },
+    {
+      "diagnostic": "line 37: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "AGREE guarantee statements in implementation annex cannot reference implementation properties directly",
+      "minimal_edit": "Move the guarantee block to the component type 'Task' instead of 'Task.impl_1'"
+    },
+    {
+      "diagnostic": "line 38: Assume statements are allowed only in component types",
+      "cause": "AGREE assume statement in implementation annex is not allowed",
+      "minimal_edit": "Move the guarantee block to the component type 'Task' instead of 'Task.impl_1'"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from Task.impl_1",
+    "Add a new AGREE annex block to the Task component type",
+    "Move all guarantee and assume statements from implementation to component type annex",
+    "Ensure all referenced property names are valid in the component type context"
+  ]
+}

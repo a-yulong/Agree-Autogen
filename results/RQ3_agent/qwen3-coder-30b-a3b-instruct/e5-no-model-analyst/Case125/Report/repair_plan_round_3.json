@@ -1,0 +1,20 @@
+{
+  "problems": [
+    {
+      "diagnostic": "assume \"gyro_impl_signal_flow_x\": true;",
+      "cause": "assumption in component type annex refers to implementation-specific connection names",
+      "minimal_edit": "assume \"gyro_impl_signal_flow_x\": gyro_out_data_x = gyro_sub.gyro_out_data_x;"
+    },
+    {
+      "diagnostic": "assume \"gyro_impl_signal_flow_y\": true;",
+      "cause": "assumption in component type annex refers to implementation-specific connection names",
+      "minimal_edit": "assume \"gyro_impl_signal_flow_y\": gyro_out_data_y = gyro_sub.gyro_out_data_y;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace each true assumption with an equality expressing the data flow relationship using visible identifiers",
+    "Ensure the new assumptions are placed in the component type annex scope",
+    "Verify that the expressions use only visible symbols from the component interface"
+  ]
+}

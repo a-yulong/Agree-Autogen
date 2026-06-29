@@ -1,0 +1,172 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: Target, Actuator_Input, Actual
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Target | in | data | opaque | Types::speed.speed_impl
+Actuator_Input | out | data | real | Base_Types::Float
+Actual | in | data | opaque | Types::speed.speed_impl
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "PID control logic with P = 1.0, D = 0.0, I = 0.0",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "Speed_Control"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "error e is the difference between Target and Actual",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "Target",
+        "Actual"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "error integration term e_int is the integral of e over time",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "e_int",
+        "e"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "error derivative term e_dot is the derivative of e with respect to time",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "e_dot",
+        "e"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Actuator_Input is strictly equal to P * e + D * e_dot + I * e_int",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "Actuator_Input",
+        "P",
+        "e",
+        "D",
+        "e_dot",
+        "I",
+        "e_int"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Speed_Control | lines 12-22
+annex agree {**
+			  const P : real = 1.0;
+			  const D : real = 0.0;
+			  const I : real = 0.0;
+
+			  eq e = Target - Actual;
+			  eq e_int : real = 0.0;
+			  eq e_dot : real = 0.0;
+
+			  guarantee "PID control law": Actuator_Input = P * e + D * e_dot + I * e_int;
+			**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   13: 			  const P : real = 1.0;
+   14: 			  const D : real = 0.0;
+   15: 			  const I : real = 0.0;
+   16: 
+>> 17: 			  eq e = Target - Actual;
+   18: 			  eq e_int : real = 0.0;
+   19: 			  eq e_dot : real = 0.0;
+   20: 
+   21: 			  guarantee "PID control law": Actuator_Input = P * e + D * e_dot + I * e_int;
+
+   17: 			  eq e = Target - Actual;
+   18: 			  eq e_int : real = 0.0;
+   19: 			  eq e_dot : real = 0.0;
+   20: 
+>> 21: 			  guarantee "PID control law": Actuator_Input = P * e + D * e_dot + I * e_int;
+   22: 			**};
+   23: 	end Speed_Control;
+   24: 
+   25: 	system implementation Speed_Control.Speed_Control_Impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Speed_Control
+system Speed_Control
+		features
+			Target: in data port Types::speed.speed_impl;
+			Actuator_Input: out data port Base_Types::Float;
+			Actual: in data port Types::speed.speed_impl;
+	end Speed_Control;
+
+-- TARGET DECLARATION: Speed_Control.Speed_Control_Impl
+system implementation Speed_Control.Speed_Control_Impl
+	end Speed_Control.Speed_Control_Impl;
+
+-- RELATED MODEL LINES
+system Speed_Control
+Target: in data port Types::speed.speed_impl;
+Actuator_Input: out data port Base_Types::Float;
+Actual: in data port Types::speed.speed_impl;
+end Speed_Control;
+system implementation Speed_Control.Speed_Control_Impl
+end Speed_Control.Speed_Control_Impl;
+Actuator_Input: in data port Base_Types::Float;
+Actual: out data port Types::speed.speed_impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Speed_Control",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Speed_Control.Speed_Control_Impl",
+      "kind": "system",
+      "type_name": "Speed_Control"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Speed_Control",
+      "name": "Target",
+      "direction": "in",
+      "category": "data port",
+      "type": "Types::speed.speed_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Speed_Control",
+      "name": "Actuator_Input",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Speed_Control",
+      "name": "Actual",
+      "direction": "in",
+      "category": "data port",
+      "type": "Types::speed.speed_impl",
+      "scalar": "opaque"
+    }
+  ]
+}

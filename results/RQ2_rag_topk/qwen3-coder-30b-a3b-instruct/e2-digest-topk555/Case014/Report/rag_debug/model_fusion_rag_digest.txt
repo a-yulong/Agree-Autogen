@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="model_fusion">
+Generic rules:
+- Component type contracts should reference visible ports and features only, avoiding implementation-specific subcomponent paths.
+- AGREE contracts must use valid scalar types (int, real, bool) and avoid AADL property names as variables.
+- Assumptions and guarantees should be placed in the appropriate AADL scope: type for structural contracts, implementation for binding details.
+- Ensure all AGREE expressions reference only visible identifiers or previously declared helpers.
+Syntax or pattern reminders:
+- AGREE annex blocks are enclosed in `annex agree {** ... **};`.
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct syntax and types.
+- Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.
+- Branching logic should use nested `if ... then ... else` expressions.
+Anti-patterns:
+- Do not reference subcomponent ports in component type annexes unless represented through variables or outputs.
+- Do not encode AADL timing properties (e.g., Deadline, Period) as AGREE expressions unless explicitly exposed as typed ports or constants.
+Irrelevant retrieved material:
+- agree_syntax_notes
+- aadl_scope_notes
+</RAG_DIGEST>

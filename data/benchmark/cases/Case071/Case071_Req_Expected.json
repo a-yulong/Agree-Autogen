@@ -1,0 +1,98 @@
+{
+  "case": 49,
+  "letter": "A",
+  "target": "thr_mgmt",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The thr_gps_simulation thread component must guarantee that the latitude, longitude, and altitude values transmitted through its output port gps_pos are strictly within the valid physical coordinate ranges: latitude must be greater than or equal to -90.0 and less than or equal to 90.0, longitude must be greater than or equal to -180.0 and less than or equal to 180.0, and altitude must be greater than or equal to 0. This ensures that the output data conforms to the expected geographic coordinate constraints before being consumed by downstream modules.",
+  "natural_requirement": "The thr_mgmt component shall define the implementation-level signal routing for thr_mgmt.i. In the implementation layer, thr_mgmt.i shall route signal flow from gps_pos to pspg.gps_pos through R2 and signal flow from pspg.speed to speed through R3.",
+  "requirement_items": [
+    {
+      "text": "The thr_mgmt.i implementation shall route the signal flow from gps_pos to pspg.gps_pos through connection R2.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "thr_mgmt.i",
+        "R2",
+        "gps_pos",
+        "pspg.gps_pos"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "thr_mgmt.i",
+        "connection": "R2",
+        "source": "gps_pos",
+        "destination": "pspg.gps_pos"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The thr_mgmt.i implementation shall declare connection R2 from gps_pos to pspg.gps_pos.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The thr_mgmt.i implementation shall route the signal flow from pspg.speed to speed through connection R3.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "thr_mgmt.i",
+        "R3",
+        "pspg.speed",
+        "speed"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "thr_mgmt.i",
+        "connection": "R3",
+        "source": "pspg.speed",
+        "destination": "speed"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The thr_mgmt.i implementation shall declare connection R3 from pspg.speed to speed.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 74,
+  "original_label": "Case74_A",
+  "natural_requirement_before_behavior_style_rewrite": "The thr_mgmt.i implementation shall declare connection R2 from gps_pos to pspg.gps_pos. The thr_mgmt.i implementation shall declare connection R3 from pspg.speed to speed.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The thr_mgmt.i implementation shall route the signal flow from gps_pos to pspg.gps_pos through connection R2. The thr_mgmt.i implementation shall route the signal flow from pspg.speed to speed through connection R3.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

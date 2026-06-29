@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 187: Couldn't resolve reference to 'i'.",
+      "cause": "AGREE references implementation name 'thr_yaw_simulation.i' in component type annex",
+      "minimal_edit": "Move the guarantee statement to the implementation annex of thr_yaw_simulation.i"
+    },
+    {
+      "diagnostic": "line 187: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Invalid type comparison due to unresolved reference in guarantee expression",
+      "minimal_edit": "Remove the guarantee statement from component type annex and place in implementation annex"
+    },
+    {
+      "diagnostic": "line 187: named thing must be an expression with a type",
+      "cause": "AGREE cannot resolve 'thr_yaw_simulation.i' as a valid expression in component type context",
+      "minimal_edit": "Move guarantee to implementation annex where 'thr_yaw_simulation.i' is valid"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the guarantee statement from the component type annex of thr_yaw_simulation",
+    "Add a new annex block to thr_yaw_simulation.i containing the guarantee statement",
+    "Ensure the guarantee references only visible symbols in the implementation context"
+  ]
+}

@@ -1,0 +1,200 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: dataout
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+dataout | out | data | opaque | temperature_type
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "0 <= dataout <= 20",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "dataout"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "k is initialized to 10",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "k"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "if k >= 20 then k := k - 1",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "k"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "if k <= 0 then k := k + 1",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "k"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "otherwise k := k",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "k"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "dataout = k",
+      "kind": "signal_flow",
+      "intent": "guarantee",
+      "evidence": [
+        "dataout",
+        "k"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: temperature_sensor | lines 23-29
+annex agree {**
+  guarantee "dataout_range": 0 <= dataout and dataout <= 20;
+  guarantee "dataout_equals_k": dataout = k;
+  assume "k_initial": k = 10;
+  guarantee "k_update": if pre(k) >= 20 then k = pre(k) - 1 else if pre(k) <= 0 then k = pre(k) + 1 else k = pre(k);
+};
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   13: 
+   14: data implementation command.impl
+   15: subcomponents
+   16:     heater_on : data base_types::boolean
+>> 17:     cooler_on : data base_types::boolean;
+   18: end command.impl;
+   19: 
+   20: system temperature_sensor
+   21: features
+
+   21: features
+   22:     dataout : out data port temperature_type;
+   23: annex agree {**
+   24:   guarantee "dataout_range": 0 <= dataout and dataout <= 20;
+>> 25:   guarantee "dataout_equals_k": dataout = k;
+   26:   assume "k_initial": k = 10;
+   27:   guarantee "k_update": if pre(k) >= 20 then k = pre(k) - 1 else if pre(k) <= 0 then k = pre(k) + 1 else k = pre(k);
+   28: };
+   29: **};
+
+   22:     dataout : out data port temperature_type;
+   23: annex agree {**
+   24:   guarantee "dataout_range": 0 <= dataout and dataout <= 20;
+   25:   guarantee "dataout_equals_k": dataout = k;
+>> 26:   assume "k_initial": k = 10;
+   27:   guarantee "k_update": if pre(k) >= 20 then k = pre(k) - 1 else if pre(k) <= 0 then k = pre(k) + 1 else k = pre(k);
+   28: };
+   29: **};
+   30: end temperature_sensor;
+
+   23: annex agree {**
+   24:   guarantee "dataout_range": 0 <= dataout and dataout <= 20;
+   25:   guarantee "dataout_equals_k": dataout = k;
+   26:   assume "k_initial": k = 10;
+>> 27:   guarantee "k_update": if pre(k) >= 20 then k = pre(k) - 1 else if pre(k) <= 0 then k = pre(k) + 1 else k = pre(k);
+   28: };
+   29: **};
+   30: end temperature_sensor;
+   31: 
+
+   24:   guarantee "dataout_range": 0 <= dataout and dataout <= 20;
+   25:   guarantee "dataout_equals_k": dataout = k;
+   26:   assume "k_initial": k = 10;
+   27:   guarantee "k_update": if pre(k) >= 20 then k = pre(k) - 1 else if pre(k) <= 0 then k = pre(k) + 1 else k = pre(k);
+>> 28: };
+   29: **};
+   30: end temperature_sensor;
+   31: 
+   32: system implementation temperature_sensor.i1
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: temperature_sensor
+system temperature_sensor
+features
+    dataout : out data port temperature_type;
+end temperature_sensor;
+
+-- TARGET DECLARATION: temperature_sensor.i2
+system implementation temperature_sensor.i2
+end temperature_sensor.i2;
+
+-- RELATED MODEL LINES
+system temperature_sensor
+dataout : out data port temperature_type;
+end temperature_sensor;
+system implementation temperature_sensor.i1
+end temperature_sensor.i1;
+system implementation temperature_sensor.i2
+end temperature_sensor.i2;
+sensor1     : system temperature_sensor.i1;
+sensor2     : system temperature_sensor.i2;
+sensor1_tc : port sensor1.dataout -> temp_control.temp1 {communication_properties::timing => immediate;};
+sensor2_tc : port sensor2.dataout -> temp_control.temp2 {communication_properties::timing => immediate;};
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "temperature_sensor",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "temperature_sensor.i1",
+      "kind": "system",
+      "type_name": "temperature_sensor"
+    },
+    {
+      "name": "temperature_sensor.i2",
+      "kind": "system",
+      "type_name": "temperature_sensor"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "temperature_sensor",
+      "name": "sensor1",
+      "category": "subcomponent",
+      "classifier": "temperature_sensor.i1"
+    },
+    {
+      "owner": "temperature_sensor",
+      "name": "sensor2",
+      "category": "subcomponent",
+      "classifier": "temperature_sensor.i2"
+    }
+  ],
+  "features": [
+    {
+      "owner": "temperature_sensor",
+      "name": "dataout",
+      "direction": "out",
+      "category": "port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    }
+  ]
+}

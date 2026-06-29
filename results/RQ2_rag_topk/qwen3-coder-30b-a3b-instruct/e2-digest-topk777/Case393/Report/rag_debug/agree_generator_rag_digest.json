@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place output range guarantees in component type scopes when the output feature is visible and the bounds are concrete.",
+    "Use `assume` and `guarantee` statements with valid AADL feature names and types from the current scope.",
+    "Generate `eq` declarations for boolean range checks using visible input features and constant bounds.",
+    "Insert AGREE annex blocks within valid AADL component type or implementation scopes as appropriate."
+  ],
+  "generic_rules": [
+    "AGREE contracts must use only identifiers and types present in the AADL model's visible scope.",
+    "Constants and equations in AGREE should reflect the data types and structure of the underlying AADL component.",
+    "Assignments in AGREE are valid only for output features or declared auxiliary variables in implementation scope.",
+    "Guarantees in AGREE should express valid temporal or state-based constraints using visible identifiers."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for logical constraints.",
+    "Use `eq name : type = expression;` for derived boolean or numeric values in AGREE.",
+    "Use `const name : type = value;` for named constants in AGREE contracts.",
+    "Wrap AGREE annex content in `annex agree {** ... **};` blocks."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level guarantees in component type scopes; use assignments instead.",
+    "Do not reference AADL property names (e.g., Deadline, Period) as AGREE variables.",
+    "Do not redeclare AADL ports as AGREE variables; they are already in scope.",
+    "Do not introduce package-qualified identifiers or types not present in the AADL model."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "Model Analyst Agent's role in extracting AADL structure",
+    "Validator diagnostics and repair actions",
+    "Fusion of multiple models or components"
+  ]
+}

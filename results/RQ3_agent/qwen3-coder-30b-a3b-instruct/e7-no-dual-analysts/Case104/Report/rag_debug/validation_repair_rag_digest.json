@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by ensuring all identifiers are visible in the current scope or declared as helpers in the same annex.",
+    "Resolve type mismatches by aligning expression types with declared helper types or using valid AGREE scalar types (int, real, bool).",
+    "Remove invalid guarantee clauses that reference unresolved identifiers or have type errors rather than adding missing architecture.",
+    "Validate that all AGREE expressions reference only visible AADL features or previously declared helpers in the same annex."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, ensure all identifiers are resolvable within the current scope.",
+    "Use only valid AGREE scalar types (int, real, bool) in constant and equation declarations.",
+    "Align helper declaration types with the types of their assigned expressions to avoid type mismatch errors.",
+    "Avoid introducing package-qualified identifiers that are not present in the model's configured dependencies."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are for assumptions, guarantees, constants, and equation declarations.",
+    "Component implementation annexes are for implementation-level bindings such as assignments.",
+    "Helper declarations must match the types of their assigned expressions."
+  ],
+  "anti_patterns": [
+    "Do not add new architecture elements to resolve AGREE type or reference errors; instead, fix the root cause or remove the invalid clause.",
+    "Do not use invalid scalar type names like 'integer' or 'boolean' in AGREE declarations; use 'int', 'real', or 'bool' instead.",
+    "Do not reference identifiers that are not visible in the current scope or declared in the same annex.",
+    "Do not introduce package-qualified identifiers that are not defined in the model or its dependencies."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes"
+  ]
+}

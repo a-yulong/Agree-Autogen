@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "no viable alternative at input '\"Aperiodic\"'",
+      "cause": "AGREE syntax error in string literal comparison",
+      "minimal_edit": "Remove quotes around Aperiodic to compare against the property value directly"
+    },
+    {
+      "diagnostic": "Expression for guarantee statement is of type 'int' but must be of type 'bool'",
+      "cause": "Invalid guarantee expression using numeric values instead of boolean condition",
+      "minimal_edit": "Rewrite guarantee to use a valid boolean expression with proper timing bounds"
+    },
+    {
+      "diagnostic": "no viable alternative at input 'ms'",
+      "cause": "AGREE does not support time unit syntax in expressions",
+      "minimal_edit": "Remove time units from the guarantee expression and use dimensionless values"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the assume statement with correct property reference: assume \"dispatch protocol is aperiodic\": Dispatch_Protocol = Aperiodic;",
+    "Replace the guarantee statement with valid boolean expression: guarantee \"compute execution time within bounds\": Compute_Execution_Time >= 0 and Compute_Execution_Time <= 100;",
+    "Remove time units from the guarantee expression"
+  ]
+}

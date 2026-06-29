@@ -1,0 +1,21 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: named thing must be an expression with a type",
+      "cause": "The guarantee references acc_out_data_x in a type-level AGREE equality, but that name is not accepted as a typed expression in this context; ACC_PC1 routing also cannot be rewritten here using only the visible symbols.",
+      "minimal_edit": "Delete the guarantee clause labeled \"ACC_PC1 route\" instead of rewriting it."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 37: named thing must be an expression with a type",
+      "cause": "The guarantee references acc_out_data_y in a type-level AGREE equality, but that name is not accepted as a typed expression in this context; ACC_PC2 routing also cannot be rewritten here using only the visible symbols.",
+      "minimal_edit": "Delete the guarantee clause labeled \"ACC_PC2 route\" instead of rewriting it."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Open the AGREE annex owned by thread ACCELERO at lines 35-38.",
+    "Remove the guarantee \"ACC_PC1 route\": acc_out_data_x = acc_in_data_x;",
+    "Remove the guarantee \"ACC_PC2 route\": acc_out_data_y = acc_in_data_y;",
+    "Leave the annex block otherwise unchanged and do not add replacement expressions using connection names or subcomponent paths."
+  ]
+}

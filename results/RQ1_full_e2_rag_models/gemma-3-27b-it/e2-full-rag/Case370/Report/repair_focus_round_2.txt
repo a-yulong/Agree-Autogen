@@ -1,0 +1,180 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: Radio_Cdes_Input, RC_Evt_Input, AP_Cdes_Input, AP_Cdes_Input.channels, AP_Cdes_Input.ppm_cpt, AP_Cdes_Input.satus, AP_Cdes_Input.nb_err, AP_Cdes_Input.vsupply, Cdes_Vol_Output, Cdes_Vol_Output.channels, Cdes_Vol_Output.ppm_cpt, Cdes_Vol_Output.satus, Cdes_Vol_Output.nb_err, Cdes_Vol_Output.vsupply, Cde_Elevator_Output, Cde_MotorL_Output, Cde_MotorR_Output, Cde_AileronL_Output, Cde_AileronR_Output, Cde_Rudder_Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Radio_Cdes_Input | in | data | opaque | Papa_Types::Unknown
+RC_Evt_Input | in | event | event | 
+AP_Cdes_Input | in | data | opaque | Papa_Types::Inter_mcu_msg.Generic
+AP_Cdes_Input.channels | in | data_field | opaque | Tableau.Generic
+AP_Cdes_Input.ppm_cpt | in | data_field | opaque | Base_Types::Integer_8
+AP_Cdes_Input.satus | in | data_field | opaque | Base_Types::Integer_8
+AP_Cdes_Input.nb_err | in | data_field | opaque | Base_Types::Integer_8
+AP_Cdes_Input.vsupply | in | data_field | opaque | Base_Types::Integer_8
+Cdes_Vol_Output | out | data | opaque | Papa_Types::Inter_mcu_msg.Generic
+Cdes_Vol_Output.channels | out | data_field | opaque | Tableau.Generic
+Cdes_Vol_Output.ppm_cpt | out | data_field | opaque | Base_Types::Integer_8
+Cdes_Vol_Output.satus | out | data_field | opaque | Base_Types::Integer_8
+Cdes_Vol_Output.nb_err | out | data_field | opaque | Base_Types::Integer_8
+Cdes_Vol_Output.vsupply | out | data_field | opaque | Base_Types::Integer_8
+Cde_Elevator_Output | out | data | opaque | Base_Types::Integer_16
+Cde_MotorL_Output | out | data | opaque | Base_Types::Integer_16
+Cde_MotorR_Output | out | data | opaque | Base_Types::Integer_16
+Cde_AileronL_Output | out | data | opaque | Base_Types::Integer_16
+Cde_AileronR_Output | out | data | opaque | Base_Types::Integer_16
+Cde_Rudder_Output | out | data | opaque | Base_Types::Integer_16
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "0 <= Cde_AileronR_Output <= 100",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Cde_AileronR_Output"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: RecepteurCde_PilotageServo | lines 212-215
+annex agree {**
+      guarantee "aileron_range": 0 <= Cde_AileronR_Output and Cde_AileronR_Output <= 100;
+    };
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   210:     Cde_AileronR_Output : out data port Base_Types::Integer_16;
+   211:     Cde_Rudder_Output : out data port Base_Types::Integer_16;
+   212:   annex agree {**
+   213:       guarantee "aileron_range": 0 <= Cde_AileronR_Output and Cde_AileronR_Output <= 100;
+>> 214:     };
+   215:     **};
+   216:   end RecepteurCde_PilotageServo;
+   217: 
+   218:   process implementation RecepteurCde_PilotageServo.Impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: RecepteurCde_PilotageServo
+process RecepteurCde_PilotageServo
+  features
+    Radio_Cdes_Input : in event data port Papa_Types::Unknown;
+    RC_Evt_Input : in event port;
+    AP_Cdes_Input : in event data port Papa_Types::Inter_mcu_msg.Generic;--Autopilot Input
+    Cdes_Vol_Output : out event data port Papa_Types::Inter_mcu_msg.Generic;--data transmission to MCU0
+
+    Cde_Elevator_Output : out data port Base_Types::Integer_16;
+    Cde_MotorL_Output : out data port Base_Types::Integer_16;
+    Cde_MotorR_Output : out data port Base_Types::Integer_16;
+    Cde_AileronL_Output : out data port Base_Types::Integer_16;
+    Cde_AileronR_Output : out data port Base_Types::Integer_16;
+    Cde_Rudder_Output : out data port Base_Types::Integer_16;
+  end RecepteurCde_PilotageServo;
+
+-- TARGET DECLARATION: RecepteurCde_PilotageServo.Impl
+process implementation RecepteurCde_PilotageServo.Impl
+  subcomponents
+    Rec_Dec_Th : thread test_ppm_task.Impl;
+    Send_Th	: thread send_data_to_autopilot_task.Impl;
+    Pilot_Serv_Th : thread servo_transmit.Impl;
+    Check_Ap_Th : thread check_mega128_values_task.Impl;
+    Check_Fail_Th: thread check_failsafe_task.Impl;
+
+    Interrupt_Elevator_Th:thread Interruption_Envoi_Servo.Elevator;
+    Interrupt_MotorL_Th:thread Interruption_Envoi_Servo.MotorL;
+    Interrupt_MotorR_Th:thread Interruption_Envoi_Servo.MotorR;
+    Interrupt_AileronL_Th:thread Interruption_Envoi_Servo.AileronL;
+    Interrupt_AileronR_Th:thread Interruption_Envoi_Servo.AileronR;
+    Interrupt_Rudder_Th:thread Interruption_Envoi_Servo.Rudder;
+
+    Interrupt_SPI_1: thread Interruption_SPI_MCU1;
+    Interrupt_RC_Th: thread Interruption_Radio.Impl;
+
+    --System Settings
+    System_Mode : data Base_Types::Boolean;
+    Radio_Ok : data Base_Types::Boolean;
+    Radio_Really_Lost : data Base_Types::Boolean;
+    Mega128_Ok : data Base_Types::Boolean;
+  connections
+    c1: port Radio_Cdes_Input-> Interrupt_RC_Th.RC_Evt_Input in modes (manual);
+    c2: port Send_Th.MCU1_Send_Output->Interrupt_SPI_1.Evt_Send_SPI_Input in modes(manual);
+    c3: port Interrupt_SPI_1.Data_Send_SPI_Output->Cdes_Vol_Output in modes(manual);
+
+    c4: port AP_Cdes_Input->Interrupt_SPI_1.Evt_Rec_SPI_Input in modes (auto,manual);
+
+    c5: port Interrupt_Elevator_Th.Data_Output->Cde_Elevator_Output;
+    c6: port Interrupt_MotorL_Th.Data_Output->Cde_MotorL_Output;
+    c7: port Interrupt_MotorR_Th.Data_Output->Cde_MotorR_Output;
+    c8: port Interrupt_AileronL_Th.Data_Output->Cde_AileronL_Output;
+    c9: port Interrupt_AileronR_Th.Data_Output->Cde_AileronR_Output;
+    c10: port Interrupt_Rudder_Th.Data_Output->Cde_Rudder_Output;
+  modes
+    manual : initial mode;
+    auto : mode;
+    failsafe: mode;
+  properties
+    Source_Text => ("fly_by_wire/main.c");
+  end RecepteurCde_PilotageServo.Impl;
+
+-- RELATED MODEL LINES
+RC_Evt_Input : in event data port Papa_Types::Unknown;
+process RecepteurCde_PilotageServo
+Radio_Cdes_Input : in event data port Papa_Types::Unknown;
+RC_Evt_Input : in event port;
+AP_Cdes_Input : in event data port Papa_Types::Inter_mcu_msg.Generic;--Autopilot Input
+Cdes_Vol_Output : out event data port Papa_Types::Inter_mcu_msg.Generic;--data transmission to MCU0
+Cde_Elevator_Output : out data port Base_Types::Integer_16;
+Cde_MotorL_Output : out data port Base_Types::Integer_16;
+Cde_MotorR_Output : out data port Base_Types::Integer_16;
+Cde_AileronL_Output : out data port Base_Types::Integer_16;
+Cde_AileronR_Output : out data port Base_Types::Integer_16;
+Cde_Rudder_Output : out data port Base_Types::Integer_16;
+end RecepteurCde_PilotageServo;
+process implementation RecepteurCde_PilotageServo.Impl
+c1: port Radio_Cdes_Input-> Interrupt_RC_Th.RC_Evt_Input in modes (manual);
+c3: port Interrupt_SPI_1.Data_Send_SPI_Output->Cdes_Vol_Output in modes(manual);
+c4: port AP_Cdes_Input->Interrupt_SPI_1.Evt_Rec_SPI_Input in modes (auto,manual);
+c5: port Interrupt_Elevator_Th.Data_Output->Cde_Elevator_Output;
+c6: port Interrupt_MotorL_Th.Data_Output->Cde_MotorL_Output;
+c7: port Interrupt_MotorR_Th.Data_Output->Cde_MotorR_Output;
+c8: port Interrupt_AileronL_Th.Data_Output->Cde_AileronL_Output;
+c9: port Interrupt_AileronR_Th.Data_Output->Cde_AileronR_Output;
+c10: port Interrupt_Rudder_Th.Data_Output->Cde_Rudder_Output;
+end RecepteurCde_PilotageServo.Impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "RecepteurCde_PilotageServo",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "RecepteurCde_PilotageServo.Impl",
+      "kind": "process implementation",
+      "type_name": "RecepteurCde_PilotageServo"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "RecepteurCde_PilotageServo.Impl",
+      "name": "Rec_Dec_Th",
+      "category": "thread",
+      "classifier": "test_ppm_task.Impl"
+    },
+    {
+      "owner": "RecepteurCde_PilotageServo.Impl",
+      "name": "Send_Th",
+      "category": "thread",
+      "classifier": "send_data_to_autopilot_task.Impl"
+    },
+    {
+      "owner": "
+-- [target model context truncated]

@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "Preserve the AADL architecture by inserting AGREE annex blocks only in valid component type or implementation scopes",
+    "Place assumptions and guarantees in component type annexes when they reference component ports",
+    "Place implementation-level bindings in component implementation annexes after subcomponents and connections",
+    "Use only visible identifiers from the current scope or the AADL model for AGREE expressions"
+  ],
+  "generic_rules": [
+    "Maintain the authoritative source of component structure from the input AADL model",
+    "Avoid using subcomponent ports in component type contracts unless represented through valid variables or outputs",
+    "Do not encode AADL property associations as AGREE expressions unless explicitly exposed as ports or constants",
+    "Align helper declaration types with the expression types to avoid type mismatches"
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `annex agree {** ... **};` blocks for AGREE contracts",
+    "For range comparisons, use the pattern `eq range_value : bool = x >= min_value and x <= max_value;`",
+    "For output dependency contracts, relate visible outputs to visible inputs in component type annexes"
+  ],
+  "anti_patterns": [
+    "Do not use implementation-only subcomponent paths in component type annexes",
+    "Avoid range comparisons or 0/1 equality over Boolean, enumeration-like, or opaque data ports unless the port is an AGREE bool in scope",
+    "Do not encode AADL timing properties as AGREE expressions without explicit typed ports or constants"
+  ],
+  "irrelevant_topics": [
+    "AGREE, annex, assume, guarantee, assign, validator, or repair"
+  ]
+}

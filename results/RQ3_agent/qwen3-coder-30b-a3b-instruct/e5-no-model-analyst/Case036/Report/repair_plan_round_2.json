@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 17: missing EOF at 'equation'",
+      "cause": "AGREE syntax error: 'equation' is not a valid keyword; should be 'const' or 'let'",
+      "minimal_edit": "Change 'equation const_tar_speed: bool = true;' to 'const const_tar_speed: bool = true;'"
+    },
+    {
+      "diagnostic": "line 33: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "Port name mismatch in connection; 'Actual' is not a valid port name in the context",
+      "minimal_edit": "Correct the port name in the connection to match the declared port name: 'AcSpeedToTop: port THROT.Actual -> Actual_Speed {Communication_Properties::Timing => immediate;};'"
+    },
+    {
+      "diagnostic": "line 35: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "Port name mismatch in connection; 'Target' is not a valid port name in the context",
+      "minimal_edit": "Correct the port name in the connection to match the declared port name: 'TgSpeedToCntrl: port Target_Speed -> CNTRL.Target {Communication_Properties::Timing => immediate;};'"
+    },
+    {
+      "diagnostic": "line 40: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "Port name mismatch in connection; 'State_Out' is not a valid port name in the context",
+      "minimal_edit": "Correct the port name in the connection to match the declared port name: 'SSToSM: port SM.State_Out -> State_Signal {Communication_Properties::Timing => immediate;};'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Change 'equation const_tar_speed: bool = true;' to 'const const_tar_speed: bool = true;' on line 17",
+    "Correct 'AcSpeedToTop: port THROT.Actual -> Actual_Speed' to ensure port name matches declared port",
+    "Correct 'TgSpeedToCntrl: port Target_Speed -> CNTRL.Target' to ensure port name matches declared port",
+    "Correct 'SSToSM: port SM.State_Out -> State_Signal' to ensure port name matches declared port"
+  ]
+}

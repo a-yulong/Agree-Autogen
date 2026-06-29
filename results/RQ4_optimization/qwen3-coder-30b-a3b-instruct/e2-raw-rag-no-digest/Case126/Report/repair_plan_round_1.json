@@ -1,0 +1,16 @@
+{
+  "problems": [
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE guarantee statements reference port names as both left-hand and right-hand sides without proper input/output relationship definition",
+      "minimal_edit": "Replace each guarantee with a valid AGREE expression that defines the relationship between the output port and an input port or constant, using only visible identifiers"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that the current AGREE annex in GYRO_SUB_wrapper is incorrectly defining guarantees using port names on both sides of equality",
+    "Replace each guarantee with a valid AGREE expression that properly relates the output port to an input port or constant",
+    "Ensure that the new expressions use only visible identifiers from the component type scope",
+    "Remove the invalid self-referential guarantees that cause the validator diagnostics"
+  ]
+}

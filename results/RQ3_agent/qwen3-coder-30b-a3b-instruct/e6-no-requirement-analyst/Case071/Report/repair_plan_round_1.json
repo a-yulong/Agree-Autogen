@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 107: Couldn't resolve reference to 'gps_pos'.",
+      "cause": "gps_pos is a port of the component type thr_mgmt, but pspg.gps_pos is a subcomponent port not visible in the component type annex",
+      "minimal_edit": "Remove the entire assume clause 'gps_pos = pspg.gps_pos' because pspg is not visible in thr_mgmt type scope"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 108: Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent of thr_mgmt.i, not visible in thr_mgmt component type annex",
+      "minimal_edit": "Remove the entire assume clause 'pspg.speed = speed' because pspg is not visible in thr_mgmt type scope"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete line 107: assume \"signal_routing_gps_pos\": gps_pos = pspg.gps_pos;",
+    "Delete line 108: assume \"signal_routing_speed\": pspg.speed = speed;"
+  ]
+}

@@ -1,0 +1,68 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assume/guarantee/eq/const in component type annexes for interface behavior; use assign in implementation annexes for binding-level logic.
+- AGREE annexes must be enclosed in `annex agree {** ... **};` and scoped to their owning component declaration.
+Generic rules:
+- Use constants and equations to represent derived or abstracted system behaviors, not direct AADL property names.
+- Ensure all expressions in contracts reference only visible symbols or explicitly declared variables, not implicit AADL properties.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for declarative contracts.
+- Declare constants with `const name : type = value;` and equations with `eq name : type = expression;`.
+Anti-patterns:
+- Do not reference AADL properties like Period, Deadline, or Stack_Size directly in AGREE expressions without explicit port or constant binding.
+- Do not place implementation-level assignments in component type annexes.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Int
+- WaterLevelMonitoring
+- WaterAlarm
+- MethaneMonitoring
+- MethaneLevel
+- PumpCtrl
+- WaterLevel
+- MinePump_Software
+- MinePump_Software.impl
+- WaterLevelMonitoring_Thread
+- MethaneMonitoring_Thread
+- PumpCtrl_Thread
+- WaterAlarm_Thread
+- MinePump
+- MinePump.impl
+- Software
+
+Target interface:
+Exact expression symbols: WaterAlarm
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+WaterAlarm | in | data | int | Int
+
+Raw requirement:
+The PumpCtrl component shall bound the WaterAlarm output at every evaluation step. The WaterAlarm value shall be greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+DISABLED

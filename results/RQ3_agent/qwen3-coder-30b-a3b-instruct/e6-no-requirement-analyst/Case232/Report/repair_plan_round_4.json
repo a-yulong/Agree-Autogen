@@ -1,0 +1,14 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 102: Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "AGREE guarantee references 'lock' as if it were an output port, but 'lock' is an input port",
+      "minimal_edit": "Remove the invalid guarantee 'lock_input' that attempts to define an input port as an output"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee statement 'guarantee \"lock_input\": lock = lock;' from the AGREE annex block",
+    "Verify that all remaining guarantees reference only valid output ports or expressions"
+  ]
+}

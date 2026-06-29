@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 35: Guarantee statements are allowed only in component types",
+      "cause": "AGREE guarantees in implementation annex block",
+      "minimal_edit": "Move the annex block to the component type 'Task'"
+    },
+    {
+      "diagnostic": "line 35: Couldn't resolve reference to 'Period'",
+      "cause": "AGREE cannot reference AADL property names directly in implementation",
+      "minimal_edit": "Remove the Period property reference from the guarantee"
+    },
+    {
+      "diagnostic": "line 36: Couldn't resolve reference to 'Compute_Execution_time'",
+      "cause": "AGREE cannot reference AADL property names directly in implementation",
+      "minimal_edit": "Remove the Compute_Execution_time property reference from the guarantee"
+    },
+    {
+      "diagnostic": "line 37: Couldn't resolve reference to 'Dispatch_Protocol'",
+      "cause": "AGREE cannot reference AADL property names directly in implementation",
+      "minimal_edit": "Remove the Dispatch_Protocol property reference from the guarantee"
+    },
+    {
+      "diagnostic": "line 37: Couldn't resolve reference to 'Periodic'",
+      "cause": "AGREE cannot reference AADL property values directly in implementation",
+      "minimal_edit": "Remove the Periodic literal from the guarantee"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire AGREE annex block from Task.impl_1 to the Task component type",
+    "Remove all property references (Period, Compute_Execution_time, Dispatch_Protocol) and their values from the AGREE guarantees",
+    "Remove the Periodic literal from the dispatch protocol guarantee"
+  ]
+}

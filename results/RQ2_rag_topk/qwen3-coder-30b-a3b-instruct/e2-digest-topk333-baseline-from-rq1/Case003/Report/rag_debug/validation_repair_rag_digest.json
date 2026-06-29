@@ -1,0 +1,34 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by ensuring all identifiers used in AGREE contracts are visible in the current scope or properly declared as equations.",
+    "Resolve type errors by aligning expression types with declared helper types; comparisons must be bool, integers must be int, and reals must be real.",
+    "Use only visible AADL features or declared equations in AGREE contracts to avoid 'named thing must be an expression with a type' errors.",
+    "Remove invalid guarantee clauses that reference unresolved identifiers or have mismatched types rather than adding missing architecture."
+  ],
+  "generic_rules": [
+    "In AGREE contracts, always validate that referenced identifiers are either AADL features or previously declared equations.",
+    "Ensure type consistency in AGREE expressions: boolean comparisons, integer arithmetic, and real arithmetic must use corresponding types.",
+    "When diagnostics report unresolved references, trace back to the root cause and correct the declaration or remove the invalid clause.",
+    "Prevent type mismatches by matching declared types with expression types in AGREE contracts."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `eq name : type = expression;` for equation declarations and `const name : type = value;` for constants.",
+    "Assignments in implementation scope must target existing output features or declared auxiliary variables.",
+    "Guarantee statements should not appear in implementation scope unless they are valid output bindings."
+  ],
+  "anti_patterns": [
+    "Do not attempt to reference identifiers that are not visible in the current AGREE scope or have not been declared as equations.",
+    "Avoid adding new architecture elements to resolve AGREE diagnostics; instead, correct or remove invalid clauses."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "type scope range assumption and guarantee",
+    "implementation scope output assign",
+    "integrated pattern chunk 1",
+    "Named Thing Has No Type",
+    "Assumed Type vs Actual Type",
+    "AGREE Scalar Type Names"
+  ]
+}

@@ -1,0 +1,192 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: MCU1_Data_Input, MCU1_Data_Input.channels, MCU1_Data_Input.ppm_cpt, MCU1_Data_Input.satus, MCU1_Data_Input.nb_err, MCU1_Data_Input.vsupply, GPS_Input, GPS_Evt_Input, IR_Input, P_Input, T_Input, Compas_Input, V_Air_Input, Trans_MCU0_Output, Trans_MCU0_Output.channels, Trans_MCU0_Output.ppm_cpt, Trans_MCU0_Output.satus, Trans_MCU0_Output.nb_err, Trans_MCU0_Output.vsupply, Trans_Sol_Output, Trans_Sol_Output.channels, Trans_Sol_Output.ppm_cpt, Trans_Sol_Output.satus, Trans_Sol_Output.nb_err, Trans_Sol_Output.vsupply
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+MCU1_Data_Input | in | data | opaque | Papa_Types::Inter_mcu_msg.Generic
+MCU1_Data_Input.channels | in | data_field | opaque | Tableau.Generic
+MCU1_Data_Input.ppm_cpt | in | data_field | opaque | Base_Types::Integer_8
+MCU1_Data_Input.satus | in | data_field | opaque | Base_Types::Integer_8
+MCU1_Data_Input.nb_err | in | data_field | opaque | Base_Types::Integer_8
+MCU1_Data_Input.vsupply | in | data_field | opaque | Base_Types::Integer_8
+GPS_Input | in | data | opaque | Papa_Types::Stream_Element.Generic
+GPS_Evt_Input | in | event | event | 
+IR_Input | in | data | opaque | Papa_Types::Stream_Element.Generic
+P_Input | in | data | opaque | Base_Types::Float_32
+T_Input | in | data | opaque | Base_Types::Integer_8
+Compas_Input | in | data | opaque | Base_Types::Float_32
+V_Air_Input | in | data | opaque | Base_Types::Integer_8
+Trans_MCU0_Output | out | data | opaque | Papa_Types::Inter_mcu_msg.Generic
+Trans_MCU0_Output.channels | out | data_field | opaque | Tableau.Generic
+Trans_MCU0_Output.ppm_cpt | out | data_field | opaque | Base_Types::Integer_8
+Trans_MCU0_Output.satus | out | data_field | opaque | Base_Types::Integer_8
+Trans_MCU0_Output.nb_err | out | data_field | opaque | Base_Types::Integer_8
+Trans_MCU0_Output.vsupply | out | data_field | opaque | Base_Types::Integer_8
+Trans_Sol_Output | out | data | opaque | Papa_Types::Inter_mcu_msg.Generic
+Trans_Sol_Output.channels | out | data_field | opaque | Tableau.Generic
+Trans_Sol_Output.ppm_cpt | out | data_field | opaque | Base_Types::Integer_8
+Trans_Sol_Output.satus | out | data_field | opaque | Base_Types::Integer_8
+Trans_Sol_Output.nb_err | out | data_field | opaque | Base_Types::Integer_8
+Trans_Sol_Output.vsupply | out | data_field | opaque | Base_Types::Integer_8
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "P_Input >= 0.0 and P_Input <= 100.0",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "P_Input"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Nav_Stab_Control_Proc | lines 231-235
+annex agree {**
+  annex agree {
+    assume "P_Input_bounds": P_Input >= 0.0 and P_Input <= 100.0;
+  };
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   228:     Trans_MCU0_Output: out event data port Papa_Types::Inter_mcu_msg.Generic;
+   229:     -- donnees transmies a la station sol
+   230:     Trans_Sol_Output : out event data port Papa_Types::Inter_mcu_msg.Generic;
+   231:   annex agree {**
+>> 232:   annex agree {
+   233:     assume "P_Input_bounds": P_Input >= 0.0 and P_Input <= 100.0;
+   234:   };
+   235:   **};
+   236:   end Nav_Stab_Control_Proc;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Nav_Stab_Control_Proc
+process Nav_Stab_Control_Proc
+  features
+    MCU1_Data_Input : in event data port Papa_Types::Inter_mcu_msg.Generic;--Param Radio_Cde (mode manuel)
+    GPS_Input : in event data port Papa_Types::Stream_Element.Generic;
+    GPS_Evt_Input : in event port;
+    IR_Input : in data port Papa_Types::Stream_Element.Generic;
+    P_Input : in data port Base_Types::Float_32;
+    T_Input : in data port Base_Types::Integer_8;
+    Compas_Input : in data port Base_Types::Float_32;
+    V_Air_Input : in data port Base_Types::Integer_8;
+    -- donnees transmies a MCU1
+    Trans_MCU0_Output: out event data port Papa_Types::Inter_mcu_msg.Generic;
+    -- donnees transmies a la station sol
+    Trans_Sol_Output : out event data port Papa_Types::Inter_mcu_msg.Generic;
+  end Nav_Stab_Control_Proc;
+
+-- TARGET DECLARATION: Nav_Stab_Control_Proc.Impl
+process implementation Nav_Stab_Control_Proc.Impl
+  subcomponents
+    Data_Acq_Filt_Th : thread receive_gps_data_task.Impl;
+    Alt_Ctrl_Th : thread altitude_control_task.Impl;
+    Nav_Th : thread navigation_task.Impl;
+    Climb_Ctrl_Th : thread climb_control_task.Impl;
+    Stab_Th : thread stabilisation_task.Impl;
+    Send_MCU1_Th : thread link_fbw_send.Impl;
+    Send_Grd_Station_Th : thread reporting_task.Impl;
+    Interrupt_SPI_Th1:thread Interruption_SPI_MCU0_1.Impl;
+    Interrupt_SPI_Th2:thread Interruption_SPI_MCU0_2.Impl;
+    Interrupt_Modem_Th: thread Interruption_Modem.Impl;
+    Interrupt_GPS_Th: thread Interruption_GPS.Impl;
+    Ctrl_By_RC_Th: thread radio_control_task.Impl;
+
+    --save the autopilot settings
+    AP_Data : data Papa_Types::Inter_mcu_msg.Generic;
+  connections
+
+    c1: port GPS_Input->Interrupt_GPS_Th.GPS_Input;
+    c2: port Data_Acq_Filt_Th.GPS_Output->Nav_Th.GPS_Data_Input;
+    c3: port Nav_Th.Altitude_Desiree_Output->Alt_Ctrl_Th.Altitude_Desiree_Input in modes (auto, home);
+    c4: port Alt_Ctrl_Th.Montee_Desiree_Output->Climb_Ctrl_Th.Montee_Desiree_Input in modes (auto, home);
+
+    c5: port IR_Input->Stab_Th.IR_Input;
+
+    c6: port Send_MCU1_Th.MCU0_Send_Output->Interrupt_SPI_Th1.Evt_Send_SPI_Input in modes(auto,home,manual);
+    c7: port Interrupt_SPI_Th1.Data_Send_SPI_Output->Interrupt_SPI_Th2.Data_Send_SPI_Input in modes(auto,home,manual);
+    c8: port Interrupt_SPI_Th2.Data_Send_SPI_Output->Trans_MCU0_Output in modes(auto,home,manual);
+
+    c9: port MCU1_Data_Input->Interrupt_SPI_Th1.Evt_Rec_SPI_Input in modes(manual);
+    c10: port Interrupt_SPI_Th1.Data_Rec_MCU0_Output->Interrupt_SPI_Th2.Data_Rec_MCU0_Input in modes(manual);
+
+    c11: port Send_Grd_Station_Th.Data_Output->Interrupt_Modem_Th.Data_Input in modes (auto,manual,home);
+    c12: port Interrupt_Modem_Th.Data_Output->Trans_Sol_Output in modes (auto,manual,home);
+
+  modes
+    manual : initial mode;
+    auto : mode;
+    home : mode;
+  properties
+    Source_Text => ("autopilot/mainloop.c");
+  end Nav_Stab_Control_Proc.Impl;
+
+-- RELATED MODEL LINES
+IR_Input : in data port Papa_Types::Stream_Element.Generic;
+GPS_Input : in event data port Papa_Types::Stream_Element.Generic;
+process Nav_Stab_Control_Proc
+MCU1_Data_Input : in event data port Papa_Types::Inter_mcu_msg.Generic;--Param Radio_Cde (mode manuel)
+GPS_Evt_Input : in event port;
+P_Input : in data port Base_Types::Float_32;
+T_Input : in data port Base_Types::Integer_8;
+Compas_Input : in data port Base_Types::Float_32;
+V_Air_Input : in data port Base_Types::Integer_8;
+Trans_MCU0_Output: out event data port Papa_Types::Inter_mcu_msg.Generic;
+Trans_Sol_Output : out event data port Papa_Types::Inter_mcu_msg.Generic;
+end Nav_Stab_Control_Proc;
+process implementation Nav_Stab_Control_Proc.Impl
+c1: port GPS_Input->Interrupt_GPS_Th.GPS_Input;
+c5: port IR_Input->Stab_Th.IR_Input;
+c8: port Interrupt_SPI_Th2.Data_Send_SPI_Output->Trans_MCU0_Output in modes(auto,home,manual);
+c9: port MCU1_Data_Input->Interrupt_SPI_Th1.Evt_Rec_SPI_Input in modes(manual);
+c12: port Interrupt_Modem_Th.Data_Output->Trans_Sol_Output in modes (auto,manual,home);
+end Nav_Stab_Control_Proc.Impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Nav_Stab_Control_Proc",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Nav_Stab_Control_Proc.Impl",
+      "kind": "process",
+      "type_name": "Nav_Stab_Control_Proc"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Data_Acq_Filt_Th",
+      "category": "thread",
+      "classifier": "receive_gps_data_task.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Alt_Ctrl_Th",
+      "category": "thread",
+      "classifier": "altitude_control_task.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Nav_Th",
+      "category": "thread",
+      "classifier": "navigation_task.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Climb_Ctrl_Th",
+      "category": "thread",
+      "classifier": "climb_control_task.Impl"
+  
+-- [target model context truncated]

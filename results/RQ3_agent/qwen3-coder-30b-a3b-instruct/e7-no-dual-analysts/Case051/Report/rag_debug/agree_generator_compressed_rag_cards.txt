@@ -1,0 +1,60 @@
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+- `assume "label": expression;` - `guarantee "label": expression;` - `eq name : type = expression;` - `const name : type = value;` - `assign output = expression;`
+
+[KSYN-2]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes. Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections. Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs.
+
+[KSYN-3]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+AGREE contracts are written inside `annex agree {** ... **};` blocks. Component type annexes are the normal location for assumptions, guarantees, constants, and equation declarations. Component implementation annexes are used for implementation-level bindings such as assignments when they are valid in that scope.
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+[KEXP-1]
+Source: distilled pattern library
+Topic: type scope range assumption and guarantee
+For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation. Use case-provided thresholds and legal visible feature names.
+
+[KEXP-2]
+Source: processed\kexp\agree_code_knowledge_dataset.txt
+Topic: integrated pattern chunk 3
+in data port int; selected_value : out data port int; annex agree {** eq chosen_value : int = if select_first then input_a else input_b; guarantee "selected output follows the selector": selected_value = chosen_value; **}; end ConditionalSelectionExample; system implementation ConditionalSelectionExample.impl end ConditionalSelectionExample.impl; system IntegratedPatternExample features source_value : in data port real; selector : in data port bool; input_left
+
+[KEXP-3]
+Source: processed\kexp\agree_code_knowledge_dataset.txt
+Topic: conditional selection chunk 2
+then input_a else input_b; guarantee "selected output follows the selector": selected_value = chosen_value; **}; end ConditionalSelectionExample; system implementation ConditionalSelectionExample.impl end ConditionalSelectionExample.impl; end agree_kexp_conditional_selection;
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: built-in defensive rule
+Topic: Structural Binding
+Rule: component types and implementations have different legal scopes. Must: place assume/guarantee/eq/const in the component type when they describe interface behavior, and implementation-oriented assign/assert clauses in the matching implementation. Forbid: redesigning architecture during fusion/repair.
+
+[KDEF-2]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Subcomponent Binding
+Use implementation-level assignments to bind subcomponent outputs when needed.
+
+[KDEF-3]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Implementation Scope Guarantee Error
+If diagnostics point to implementation-level references or subcomponent paths in a component type annex, move only valid implementation bindings to the implementation annex or delete the invalid guarantee. Component type contracts may reference only features visible at that type scope. Recommended pattern: Use a type-level guarantee over visible ports, or an implementation-level assign when the left-hand side is a valid output.
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>

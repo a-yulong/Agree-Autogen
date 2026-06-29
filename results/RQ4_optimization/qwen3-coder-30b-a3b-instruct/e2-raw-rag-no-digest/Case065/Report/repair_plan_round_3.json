@@ -1,0 +1,20 @@
+{
+  "problems": [
+    {
+      "diagnostic": "guarantee \"nominal_attitude routing\": sensored_attitude = telecommand;",
+      "cause": "AGREE guarantee references port 'telecommand' which is not visible in component type scope",
+      "minimal_edit": "Replace 'telecommand' with 'sensored_attitude' to reference a visible port"
+    },
+    {
+      "diagnostic": "guarantee \"nominal_orbit routing\": sun_direction = telemetry;",
+      "cause": "AGREE guarantee references port 'telemetry' which is not visible in component type scope",
+      "minimal_edit": "Replace 'telemetry' with 'sun_direction' to reference a visible port"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the AGREE annex block in AOCSprocessing component type",
+    "Change the first guarantee to reference sensored_attitude on both sides",
+    "Change the second guarantee to reference sun_direction on both sides"
+  ]
+}

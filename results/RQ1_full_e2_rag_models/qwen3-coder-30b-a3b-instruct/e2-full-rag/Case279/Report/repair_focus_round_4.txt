@@ -1,0 +1,190 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: WaterAlarm
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+WaterAlarm | in | data | int | Int
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "WaterAlarm >= 0 and WaterAlarm <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "WaterAlarm"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "WaterAlarm is bounded at every evaluation step",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "WaterAlarm"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: PumpCtrl | lines 61-64
+annex agree {**
+    guarantee "water_alarm_bounds": (WaterAlarm >= 0) and (WaterAlarm <= 100);
+    guarantee "water_alarm_bounded_every_step": forall step: (WaterAlarm >= 0) and (WaterAlarm <= 100);
+  **};
+
+-- owner: WaterAlarm | lines 80-83
+annex agree {**
+      guarantee "water_alarm_bounds": (WaterAlarm >= 0) and (WaterAlarm <= 100);
+      guarantee "water_alarm_bounded_every_step": forall step: (WaterAlarm >= 0) and (WaterAlarm <= 100);
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   59:     Compute_Entrypoint_Source_Text => "pumpctrl_body";
+   60:     Source_Text => ("minepump.c");
+   61:   annex agree {**
+   62:     guarantee "water_alarm_bounds": (WaterAlarm >= 0) and (WaterAlarm <= 100);
+>> 63:     guarantee "water_alarm_bounded_every_step": forall step: (WaterAlarm >= 0) and (WaterAlarm <= 100);
+   64:   **};
+   65:   end PumpCtrl;
+   66: 
+   67:   thread WaterAlarm
+
+   78:     Compute_Entrypoint_Source_Text => "wateralarm_body";
+   79:     Source_Text => ("minepump.c");
+   80:   annex agree {**
+   81:       guarantee "water_alarm_bounds": (WaterAlarm >= 0) and (WaterAlarm <= 100);
+>> 82:       guarantee "water_alarm_bounded_every_step": forall step: (WaterAlarm >= 0) and (WaterAlarm <= 100);
+   83:     **};
+   84:   end WaterAlarm;
+   85: 
+   86:   --  MinePump software process
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: WaterAlarm
+thread WaterAlarm
+  features
+    WaterAlarm : in event data port Int;
+
+  properties
+    Dispatch_Protocol => Sporadic;         --  Concurrency configuration
+    Period => 100 ms;
+    Compute_Execution_Time => 1 ms .. 2 ms;
+    Priority => 2;
+
+    -- Source_Language => (C);                --  Link to code source
+    Compute_Entrypoint_Source_Text => "wateralarm_body";
+    Source_Text => ("minepump.c");
+  end WaterAlarm;
+
+-- RELATED MODEL LINES
+WaterAlarm : out data port Int;
+WaterAlarm   : out data port Int;
+thread WaterAlarm
+WaterAlarm : in event data port Int;
+end WaterAlarm;
+WaterAlarm_Thread           : thread WaterAlarm;
+C2 : port WaterLevelMonitoring_Thread.WaterAlarm
+C3 : port PumpCtrl_Thread.WaterAlarm
+-> WaterAlarm_Thread.WaterAlarm;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "WaterAlarm",
+      "kind": "thread"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "WaterAlarm",
+      "name": "WaterAlarm_Thread",
+      "category": "thread",
+      "classifier": "WaterAlarm"
+    }
+  ],
+  "features": [
+    {
+      "owner": "WaterAlarm",
+      "name": "WaterAlarm",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "WaterAlarm",
+      "name": "WaterAlarm",
+      "direction": "out",
+      "category": "data port",
+      "type": "Int",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "WaterAlarm",
+      "name": "C2",
+      "kind": "port",
+      "source": "WaterLevelMonitoring_Thread.WaterAlarm",
+      "destination": "WaterAlarm_Thread.WaterAlarm"
+    },
+    {
+      "owner": "WaterAlarm",
+      "name": "C3",
+      "kind": "port",
+      "source": "PumpCtrl_Thread.WaterAlarm",
+      "destination": "WaterAlarm_Thread.WaterAlarm"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Sporadic",
+      "applies_to": "WaterAlarm"
+    },
+    {
+      "owner": "WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "100 ms",
+      "applies_to": "WaterAlarm"
+    },
+    {
+      "owner": "WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "1 ms .. 2 ms",
+      "applies_to": "WaterAlarm"
+    },
+    {
+      "owner": "WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "2",
+      "applies_to": "WaterAlarm"
+    },
+    {
+      "owner": "WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "\"wateralarm_body\"",
+      "applies_to": "WaterAlarm"
+    },
+    {
+      "owner": "WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "(\"minepump.c\")",
+      "applies_to": "WaterAlarm"
+    }
+  ]
+}

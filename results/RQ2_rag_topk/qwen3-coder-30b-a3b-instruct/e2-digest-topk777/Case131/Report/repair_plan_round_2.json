@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Task1'.",
+      "cause": "Task1 is a subcomponent of Task.impl_1, not a standalone identifier in the component type scope",
+      "minimal_edit": "Replace 'Task1' with 'Task.impl_1' in the guarantee statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'impl_1'.",
+      "cause": "impl_1 is not a valid identifier in the component type scope; it's part of the full component implementation name",
+      "minimal_edit": "Replace 'Task.impl_1' with 'Task' in the guarantee statement"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "The right-hand side of the assignment is not a valid AGREE expression",
+      "minimal_edit": "Remove the guarantee statement as it is not valid in the component type scope"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the entire guarantee statement from the Task component type annex",
+    "Move the guarantee statement to the Task.impl_1 component implementation annex if needed for implementation-level binding",
+    "Ensure that any references in AGREE annexes only use identifiers visible in that scope"
+  ]
+}

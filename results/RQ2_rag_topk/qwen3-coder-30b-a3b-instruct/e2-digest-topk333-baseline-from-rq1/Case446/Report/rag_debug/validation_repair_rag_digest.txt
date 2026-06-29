@@ -1,0 +1,17 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Use only visible AADL features or helper declarations within the same AGREE annex to avoid unresolved references.
+- Align helper declaration types with the types of the expressions they represent to prevent type mismatch errors.
+- Avoid encoding AADL property associations (e.g., timing or resource properties) as AGREE variables unless explicitly exposed as typed ports or constants.
+- Ensure that all AGREE expressions reference valid, typed identifiers that are either AADL features or previously declared helpers.
+Syntax or pattern reminders:
+- AGREE clauses must use valid syntax: `assume "label": expression;`, `guarantee "label": expression;`, `eq name : type = expression;`, `const name : type = value;`, and `assign output = expression;`.
+- Do not reference package-qualified identifiers unless matching `with` clauses exist in the AADL model.
+Anti-patterns:
+- Do not introduce identifiers or types into AGREE annexes that are not visible or declared in the AADL model.
+- Do not encode AADL timing or resource properties directly as AGREE expressions without explicit model exposure.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about package or property set visibility
+- AGREE validator diagnostics (none present)
+- Implementation-level bindings and subcomponent port usage in component type contracts
+</RAG_DIGEST>

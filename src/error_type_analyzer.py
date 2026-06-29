@@ -14,7 +14,10 @@ LLM_BASE_URL = os.environ.get(
     os.environ.get("AGREE_MODEL_BASE_URL", "https://api.openai.com/v1"),
 )
 LLM_API_KEY = os.environ.get("AGREE_ERROR_ANALYZER_API_KEY", os.environ.get("AGREE_MODEL_API_KEY", ""))
-LLM_MODEL_NAME = os.environ.get("AGREE_ERROR_ANALYZER_MODEL", os.environ.get("AGREE_MODEL_NAME", "gpt-4o-mini"))
+LLM_MODEL_NAME = os.environ.get(
+    "AGREE_ERROR_ANALYZER_MODEL",
+    os.environ.get("AGREE_MODEL_NAME", "qwen3-coder-30b-a3b-instruct"),
+)
 
 
 @dataclass

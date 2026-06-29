@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc1'.",
+      "cause": "AGREE annex in process type references subcomponent names directly instead of using port connections",
+      "minimal_edit": "Move AGREE annex to process implementation and reference ports directly"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc1_input'.",
+      "cause": "AGREE annex in process type references port names directly but they are not visible in that scope",
+      "minimal_edit": "Move AGREE annex to process implementation and reference ports directly"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "AGREE annex in process type references port names directly but they are not visible in that scope",
+      "minimal_edit": "Move AGREE annex to process implementation and reference ports directly"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE annex in process type references port names directly but they are not visible in that scope",
+      "minimal_edit": "Move AGREE annex to process implementation and reference ports directly"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from acc_process_emv2 component type",
+    "Add a new AGREE annex block to acc_process_emv2.impl component implementation",
+    "In the new implementation annex, replace each assumption with a direct port-to-port equality expression using only the exact port names provided",
+    "Ensure the new annex block contains exactly the same assumptions but in the correct scope"
+  ]
+}

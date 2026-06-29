@@ -1,0 +1,39 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Target (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "Incorrect type reference in connection specification.",
+      "minimal_edit": "Remove the `Communication_Properties::Timing => immediate;` property from the `SMToSSM` connection."
+    },
+    {
+      "diagnostic": "Target (port spec) does not point to anything or to something unreachable",
+      "cause": "Connection target is invalid.",
+      "minimal_edit": "Remove the `Communication_Properties::Timing => immediate;` property from the `SMToSSM` connection."
+    },
+    {
+      "diagnostic": "Actual (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "Incorrect type reference in connection specification.",
+      "minimal_edit": "Remove the `Communication_Properties::Timing => immediate;` property from the `SMToSSM` connection."
+    },
+    {
+      "diagnostic": "Actual (port spec) does not point to anything or to something unreachable",
+      "cause": "Connection target is invalid.",
+      "minimal_edit": "Remove the `Communication_Properties::Timing => immediate;` property from the `SMToSSM` connection."
+    },
+    {
+      "diagnostic": "State_Out (port spec) points to Types  state_sig.impl (entity reference), which is not of an adequate kind",
+      "cause": "Incorrect type reference in guarantee.",
+      "minimal_edit": "Rewrite the guarantee to use only visible symbols: `guarantee \"signal_flow\": State_Out = State_Out;`"
+    },
+    {
+      "diagnostic": "State_Out (port spec) does not point to anything or to something unreachable",
+      "cause": "Guarantee target is invalid.",
+      "minimal_edit": "Rewrite the guarantee to use only visible symbols: `guarantee \"signal_flow\": State_Out = State_Out;`"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove `Communication_Properties::Timing => immediate;` from the `SMToSSM` connection in `State_Machine.Impl`.",
+    "Verify the AGREE guarantee `State_Out = State_Out;` remains valid."
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 97: mismatched input '=' expecting ':'",
+      "cause": "Invalid syntax in AGREE constant declaration",
+      "minimal_edit": "Change `const MAX_SERVICES = 6;` to `const MAX_SERVICES : int = 6;`"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 100: no viable alternative at input 'endif'",
+      "cause": "Invalid AGREE expression syntax due to missing type annotation",
+      "minimal_edit": "Add explicit type annotation to the expression: `if inpGCASM then 1 : int else 0 : int endif`"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: no viable alternative at input 'endif'",
+      "cause": "Invalid AGREE expression syntax due to missing type annotation",
+      "minimal_edit": "Add explicit type annotation to the expression: `if inpSAM then 1 : int else 0 : int endif`"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 102: left and right sides of binary expression '<=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in binary expression due to untyped subexpressions",
+      "minimal_edit": "Ensure all subexpressions in the sum have explicit type annotations: `if inpACASM then 1 : int else 0 : int endif`"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 102: no viable alternative at input 'endif'",
+      "cause": "Invalid AGREE expression syntax due to missing type annotation",
+      "minimal_edit": "Add explicit type annotation to the expression: `if inpGFM then 1 : int else 0 : int endif`"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 102: right side of binary expression '<=' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Type error in binary expression due to untyped subexpressions",
+      "minimal_edit": "Ensure all subexpressions in the sum have explicit type annotations: `if inpWxM then 1 : int else 0 : int endif`"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 103: named thing must be an expression with a type",
+      "cause": "Untyped expression in binary comparison",
+      "minimal_edit": "Add explicit type annotation to the expression: `if inpFLS then 1 : int else 0 : int endif`"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 103: no viable alternative at input 'endif'",
+      "cause": "Invalid AGREE expression syntax due to missing type annotation",
+      "minimal_edit": "Add explicit type annotation to the expression: `if inpFLS then 1 : int else 0 : int endif`"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 115: no viable alternative at input 'endif'",
+      "cause": "Invalid AGREE expression syntax due to missing type annotation",
+      "minimal_edit": "Add explicit type annotation to the expression: `if inpGCASM then 1 : int else 0 : int endif`"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 116: no viable alternative at input 'endif'",
+      "cause": "Invalid AGREE expression syntax due to missing type annotation",
+      "minimal_edit": "Add explicit type annotation to the expression: `if inpSAM then 1 : int else 0 : int endif`"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add explicit type annotations to all if-then-else expressions in the service_count_bounds guarantee",
+    "Add explicit type annotations to all if-then-else expressions in the output_condition guarantee",
+    "Change the constant declaration from 'const MAX_SERVICES = 6;' to 'const MAX_SERVICES : int = 6;'"
+  ]
+}

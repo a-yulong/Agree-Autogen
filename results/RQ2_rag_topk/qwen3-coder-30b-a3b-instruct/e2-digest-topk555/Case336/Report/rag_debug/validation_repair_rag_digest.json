@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Fix type mismatches in AGREE binary expressions by ensuring left and right sides are of identical types, such as matching data port types or constant declarations.",
+    "Avoid placing implementation-level bindings or subcomponent references in component type annexes; move valid assignments to implementation scopes."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or declared helpers within AGREE annexes to prevent unresolved references.",
+    "Ensure AGREE scalar type declarations use correct syntax: int, real, bool.",
+    "Align helper declaration types with the types of their assigned expressions to avoid type mismatch errors.",
+    "Place guarantees in valid scopes: component type contracts for visible ports, implementation annexes for subcomponent bindings."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.",
+    "Branching logic in AGREE uses nested `if ... then ... else` expressions.",
+    "Use AGREE logical operators: `and`, `or`, `not(...)`, and implication `=>`."
+  ],
+  "anti_patterns": [
+    "Do not reference implementation-only subcomponents or ports in component type annexes.",
+    "Do not mix incompatible data types in binary expressions like `Generic = Generic` without explicit conversion."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and `with` clauses",
+    "AGREE validator diagnostics and repair strategies",
+    "Model fusion and scope preservation rules",
+    "Requirement traceability and compact semantics"
+  ]
+}

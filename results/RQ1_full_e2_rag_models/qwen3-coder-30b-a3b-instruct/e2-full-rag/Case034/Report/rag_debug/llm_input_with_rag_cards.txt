@@ -1,0 +1,175 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.
+- Place assumption and guarantee statements in valid component type or implementation scopes based on the target component.
+Generic rules:
+- Use AGREE logical operators (and, or, not, =>) for expressing relationships in contracts.
+- Declare constants and equations with appropriate scalar types (int, real, bool) matching the expression types.
+- Assign output values only to existing output features or declared auxiliary variables in implementation scope.
+- Avoid encoding AADL property names as AGREE variables unless explicitly exposed as typed ports or constants.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements.
+- Use `eq name : type = expression;` for defining equations and `const name : type = value;` for constants.
+- Use `assign output = expression;` only for implementation-level output assignments.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope; use type scope for guarantees.
+- Do not reference AADL timing properties (e.g., Deadline, Period) directly in AGREE expressions.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- threatDetected
+- threatAltitude
+- ownAltitude
+- ownLongitude
+- threatLongitude
+- requiredVerticalVelocity
+
+Target interface:
+Exact expression symbols: threatDetected, threatAltitude, ownAltitude, ownLongitude, threatLongitude, requiredVerticalVelocity
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+threatDetected | in | data | bool | base_types::Boolean
+threatAltitude | in | data | real | base_types::float
+ownAltitude | in | data | real | base_types::float
+ownLongitude | in | data | opaque | int
+threatLongitude | in | data | opaque | int
+requiredVerticalVelocity | out | data | opaque | int
+
+Raw requirement:
+The ResponseSelection component shall prioritize aircraft based on geographic longitude when resolving altitude conflicts. Specifically, when a threat is detected and the own aircraft's altitude is equal to the threat's altitude, the component shall select the maneuver command from the maneuver templates based on the longitudinal position: if the own longitude is greater than the threat longitude, the command for climbing (50) shall be selected; otherwise, the command for descending (-50) shall be selected. When the own aircraft's altitude is lower than the threat's altitude, the component shall output the top intrusion avoidance command (-10). When the own aircraft's altitude is higher than the threat's altitude, the component shall output the bottom intrusion avoidance command (10). The component shall receive inputs including threatDetected (Boolean), threatAltitude (Float), ownAltitude (Float), ownLongitude (Int), and threatLongitude (Int), and shall produce the requiredVerticalVelocity (Int) output.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "When threatDetected is true, ownAltitude equals threatAltitude, ownLongitude > threatLongitude, then requiredVerticalVelocity = 50",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "threatDetected",
+        "ownAltitude",
+        "threatAltitude",
+        "ownLongitude",
+        "threatLongitude",
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "When threatDetected is true, ownAltitude equals threatAltitude, ownLongitude <= threatLongitude, then requiredVerticalVelocity = -50",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "threatDetected",
+        "ownAltitude",
+        "threatAltitude",
+        "ownLongitude",
+        "threatLongitude",
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "When threatDetected is true, ownAltitude < threatAltitude, then requiredVerticalVelocity = -10",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "threatDetected",
+        "ownAltitude",
+        "threatAltitude",
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "When threatDetected is true, ownAltitude > threatAltitude, then requiredVerticalVelocity = 10",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "threatDetected",
+        "ownAltitude",
+        "threatAltitude",
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "threatDetected is Boolean",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "threatDetected"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "threatAltitude is Float",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "threatAltitude"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "ownAltitude is Float",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "ownAltitude"
+      ]
+    },
+    {
+      "id": "R8",
+      "text": "ownLongitude is Int",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "ownLongitude"
+      ]
+    },
+    {
+      "id": "R9",
+      "text": "threatLongitude is Int",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "threatLongitude"
+      ]
+    },
+    {
+      "id": "R10",
+      "text": "requiredVerticalVelocity is Int",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "requiredVerticalVelocity"
+      ]
+    }
+  ]
+}

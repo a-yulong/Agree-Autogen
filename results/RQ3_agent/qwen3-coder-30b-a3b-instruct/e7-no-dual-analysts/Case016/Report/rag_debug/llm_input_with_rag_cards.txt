@@ -1,0 +1,104 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assume/guarantee declarations in component type scopes when describing interface behavior, and in implementation scopes for subcomponent bindings.
+- Use `annex agree {** ... **};` blocks to contain all AGREE contract elements.
+Generic rules:
+- Use visible identifiers and feature names from the component scope in AGREE expressions.
+- Define constants and equations in component type annexes for interface-level contracts.
+- Assign implementation-level bindings in component implementation annexes after subcomponent declarations.
+- Avoid referencing AADL property names directly as AGREE variables unless explicitly exposed as ports or constants.
+Syntax or pattern reminders:
+- AGREE syntax uses `assume "label": expression;`, `guarantee "label": expression;`, `eq name : type = expression;`, and `const name : type = value;`.
+- Component type contracts should use input/output feature names and visible constants for bounds and relations.
+Anti-patterns:
+- Do not place implementation-level assignments in component type scopes.
+- Do not reference AADL timing properties like Period or Deadline directly in AGREE expressions.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- autopilot
+- autopilot.autopilot_impl
+- VV
+- DeltaHeading
+- Airspeed
+- GCAS_Monitor
+- altitude
+- verticalVelocity
+- outImpact
+- outRecovery
+- gcasRequested
+- GCAS_Monitor.GCAS_Monitor_impl
+- ACAS_Monitor
+- latitude
+- longitude
+- distance
+- acasRequested
+- ACAS_Monitor.ACAS_Monitor_impl
+- SA_Monitor
+- horzDistance
+- vertDistance
+- saRequested
+- SA_Monitor.SA_Monitor_impl
+- GF_Monitor
+- gfRequested
+- GF_Monitor.GF_Monitor_impl
+- Wx_Monitor
+- wxRequested
+- Wx_Monitor.Wx_Monitor_impl
+- FLS_Monitor
+- linkConnection
+- landingRequested
+- Aviate_Decider
+- inpGCASM
+- inpGCASImpact
+- inpGCASRecovery
+- inpSAM
+- inpACASM
+- inpACASImpact
+- inpACASRecovery
+
+Target interface:
+Exact expression symbols: inpGCASM, inpGCASImpact, inpGCASRecovery, inpSAM, inpACASM, inpACASImpact, inpACASRecovery, inpGFM, inpWxM, inpFLS, outDec
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+inpGCASM | in | data | bool | Base_Types::boolean
+inpGCASImpact | in | data | real | Base_Types::float
+inpGCASRecovery | in | data | real | Base_Types::float
+inpSAM | in | data | bool | Base_Types::boolean
+inpACASM | in | data | bool | Base_Types::boolean
+inpACASImpact | in | data | real | Base_Types::float
+inpACASRecovery | in | data | real | Base_Types::float
+inpGFM | in | data | bool | Base_Types::boolean
+inpWxM | in | data | bool | Base_Types::boolean
+inpFLS | in | data | bool | Base_Types::boolean
+outDec | out | data | int | Base_Types::integer
+
+Raw requirement:
+The Aviate_Decider component shall maintain an internal variable numberServicesTrue that counts the total number of currently active service requests. The component shall implement dynamicDecide logic such that when the GCAS estimated time of impact (inpGCASImpact) is greater than the ACAS estimated time of impact (inpACASImpact) and the sum of their recovery times (inpGCASRecovery + inpACASRecovery) ensures no secondary collision occurs, the decision shall be ACAS; otherwise, the decision shall be GCAS. The final output outDec shall use the dynamic decision result when the value of numberServicesTrue is greater than or equal to 2; otherwise, outDec shall fall back to a static priority-based decision.
+
+Requirement items:
+DISABLED

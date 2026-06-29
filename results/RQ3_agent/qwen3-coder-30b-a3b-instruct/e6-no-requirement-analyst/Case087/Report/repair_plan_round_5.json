@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE assumes reference a port name without proper expression context",
+      "minimal_edit": "Replace each port name with a valid AGREE expression using the port name directly as a variable"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace each assume statement with a valid AGREE expression that uses the port name directly as a variable",
+    "Ensure that each assume statement references a valid AGREE expression (e.g., acc_in_data_x = acc_in_data_x should be replaced with a meaningful constraint or removed if redundant)",
+    "Since all the assume statements are of the form 'port = port', which are trivially true and not meaningful in AGREE contracts, remove them"
+  ]
+}

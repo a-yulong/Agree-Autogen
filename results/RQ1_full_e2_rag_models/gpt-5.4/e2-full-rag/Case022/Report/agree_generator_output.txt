@@ -1,0 +1,9 @@
+annex agree {**
+  eq heating_request: bool = user_request.heater_on and not user_request.cooler_on;
+  eq cooling_request: bool = user_request.cooler_on and not user_request.heater_on;
+
+  guarantee "heating request definition": heating_request <=> (user_request.heater_on and not user_request.cooler_on);
+  guarantee "cooling request definition": cooling_request <=> (user_request.cooler_on and not user_request.heater_on);
+  guarantee "heater enabled only when requested and cold": heater_on => (heating_request and tempin <= 20);
+  guarantee "cooler enabled only when requested and above zero": cooler_on => (cooling_request and tempin > 0);
+**};

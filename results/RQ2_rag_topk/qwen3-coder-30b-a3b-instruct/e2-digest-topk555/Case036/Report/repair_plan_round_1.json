@@ -1,0 +1,38 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 14: left and right sides of binary expression '>=' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Port type mismatch in comparison expression",
+      "minimal_edit": "Replace Target_Speed >= 0.0 with Target_Speed.val >= 0.0"
+    },
+    {
+      "diagnostic": "line 15: left and right sides of binary expression '<' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Port type mismatch in comparison expression",
+      "minimal_edit": "Replace Target_Speed < 150.0 with Target_Speed.val < 150.0"
+    },
+    {
+      "diagnostic": "line 16: mismatched input '=' expecting ':'",
+      "cause": "Invalid syntax for constant declaration",
+      "minimal_edit": "Replace const max_accel = 40.0; with const max_accel : real = 40.0;"
+    },
+    {
+      "diagnostic": "line 17: Couldn't resolve reference to 'const_tar_speed'",
+      "cause": "Undefined variable reference",
+      "minimal_edit": "Remove guarantee statement referencing undefined variable"
+    },
+    {
+      "diagnostic": "line 18: Couldn't resolve reference to 'abs'",
+      "cause": "Undefined function reference",
+      "minimal_edit": "Remove guarantee statement referencing undefined function"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the AGREE annex block at lines 13-19",
+    "Replace Target_Speed >= 0.0 with Target_Speed.val >= 0.0 on line 14",
+    "Replace Target_Speed < 150.0 with Target_Speed.val < 150.0 on line 15",
+    "Replace const max_accel = 40.0; with const max_accel : real = 40.0; on line 16",
+    "Remove the guarantee statement on line 17 referencing undefined variable",
+    "Remove the guarantee statement on line 18 referencing undefined function"
+  ]
+}

@@ -1,0 +1,67 @@
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes. Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections. Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs.
+
+[KSYN-2]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+AADL package references require matching `with` clauses. Generated AGREE code should not introduce package-qualified identifiers, data types, or property references that are absent from the analyzed model and its configured dependencies.
+
+[KSYN-3]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+AGREE contracts are written inside `annex agree {** ... **};` blocks. Component type annexes are the normal location for assumptions, guarantees, constants, and equation declarations. Component implementation annexes are used for implementation-level bindings such as assignments when they are valid in that scope.
+
+[KSYN-4]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+- `assume "label": expression;` - `guarantee "label": expression;` - `eq name : type = expression;` - `const name : type = value;` - `assign output = expression;`
+
+[KSYN-5]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+This Ksyn note summarizes AADL scope knowledge used by AGREE-AutoGen during architecture grounding and fusion. The AADL AS5506C standard is recorded as a local source through `raw/ksyn/AADL_AS5506C.local_source.md` and `local_sources.example.yaml`.
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Named Thing Has No Type
+If AGREE reports "named thing must be an expression with a type" or a guarantee expression has type <error>, trace the first unresolved identifier or invalid helper declaration on the same line. Fix the root unresolved reference, or delete the invalid clause instead of adding architecture. Recommended pattern: Use only visible AADL features or eq helpers declared in the same annex; otherwise remove the guarantee.
+
+[KDEF-2]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Assumed Type vs Actual Type
+If AGREE reports "The assumed type ... is ... but the actual type is ...", align the helper declaration type with the expression. Comparison expressions are bool; integer literals and integer arithmetic are int; real literals and real arithmetic are real. Recommended pattern: eq range_value : bool = x >= min_value and x <= max_value;
+
+[KDEF-3]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AGREE Scalar Type Names
+If AGREE reports "Couldn't resolve reference to 'integer'" or "Couldn't resolve reference to 'boolean'" in a const or eq declaration, the generated AGREE type name is invalid. AGREE scalar declaration types are int, real, and bool. Recommended pattern: const lower_limit : int = 0; eq ok : bool = x >= lower_limit;
+
+[KDEF-4]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AADL Property Names Are Not AGREE Variables chunk 1
+If diagnostics report unresolved references to Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens such as ms/us/Hz/Bytes inside an AGREE annex, delete the generated clause. AADL property associations are not automatically in AGREE expression scope as variables. Recommended pattern: Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for the
+
+[KDEF-5]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Unresolved Current-Case Identifier
+If AGREE reports "Couldn't resolve reference to" a port, data type, package, or ModelUnit, do not invent a declaration in repair. Use exact visible identifiers from the current component scope; for package/data type failures, this is usually a model dependency staging issue rather than a contract repair issue. Recommended pattern: Delete or rewrite the AGREE clause to use existing visible identifiers; keep architecture unchanged.
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>

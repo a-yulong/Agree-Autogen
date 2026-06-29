@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 23: Couldn't resolve reference to 'Input'.",
+      "cause": "AGREE annex in component C references non-existent port 'Input'",
+      "minimal_edit": "Change 'Input' to 'Input1' on line 23"
+    },
+    {
+      "diagnostic": "line 24: Couldn't resolve reference to 'Input'.",
+      "cause": "AGREE annex in component C references non-existent port 'Input'",
+      "minimal_edit": "Change 'Input' to 'Input2' on line 24"
+    },
+    {
+      "diagnostic": "line 34: Couldn't resolve reference to 'Input1'.",
+      "cause": "AGREE annex in component top_level references non-existent port 'Input1'",
+      "minimal_edit": "Change 'Input1' to 'Input1' (no change needed, but this line is in wrong component)"
+    },
+    {
+      "diagnostic": "line 35: Couldn't resolve reference to 'Input2'.",
+      "cause": "AGREE annex in component top_level references non-existent port 'Input2'",
+      "minimal_edit": "Change 'Input2' to 'Input2' (no change needed, but this line is in wrong component)"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex from component C to the correct component that owns Input1 and Input2 ports",
+    "In the correct component C, change 'Input' to 'Input1' on line 23",
+    "In the correct component C, change 'Input' to 'Input2' on line 24",
+    "Remove the AGREE annex from component top_level since it references ports that don't exist in that component"
+  ]
+}

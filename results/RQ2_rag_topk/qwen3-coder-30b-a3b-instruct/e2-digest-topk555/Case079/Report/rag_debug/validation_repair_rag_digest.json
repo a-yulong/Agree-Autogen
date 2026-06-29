@@ -1,0 +1,33 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by using only visible identifiers from the current component scope; do not introduce new architecture.",
+    "Ensure type consistency in AGREE expressions: Boolean expressions for bool types, numeric for int/real types.",
+    "Move invalid implementation-level guarantees to the correct implementation scope or remove them.",
+    "Do not add package-qualified identifiers unless they are present in the model's configured dependencies."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be placed in appropriate scopes: component types for assumptions/guarantees, implementations for bindings.",
+    "Generated AGREE code should only reference identifiers that are visible in the current scope or properly imported.",
+    "When fixing diagnostics, prioritize removing or correcting invalid clauses over adding new architecture elements.",
+    "Helper functions and variables in AGREE must be declared within the same annex and match the expected types."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct syntax and type alignment.",
+    "Component implementation annexes are for assignments and bindings; type annexes are for contracts.",
+    "AGREE expressions must resolve to valid types; avoid `<error>` by ensuring all identifiers are defined.",
+    "Avoid referencing subcomponent ports or outputs in component type contracts unless properly declared."
+  ],
+  "anti_patterns": [
+    "Do not attempt to resolve missing identifiers by inventing new declarations or architecture elements.",
+    "Do not place implementation-level guarantees in component type annexes.",
+    "Do not mix package-qualified names without matching `with` clauses in the model.",
+    "Do not assume that AGREE scalar types like 'integer' or 'boolean' are valid; use 'int', 'real', 'bool'."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "implementation scope output assign",
+    "integrated pattern chunk 1",
+    "input validity chunk 1"
+  ]
+}

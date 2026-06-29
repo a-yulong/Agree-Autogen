@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 31: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "AGREE annex references subcomponent port 'THROT.Actual' which is not visible in component type scope",
+      "minimal_edit": "Remove reference to 'THROT.Actual' from AGREE annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 33: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "AGREE annex references subcomponent port 'CNTRL.Target' which is not visible in component type scope",
+      "minimal_edit": "Remove reference to 'CNTRL.Target' from AGREE annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 38: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "AGREE annex references subcomponent port 'SM.State_Out' which is not visible in component type scope",
+      "minimal_edit": "Remove reference to 'SM.State_Out' from AGREE annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove all references to subcomponent ports (THROT.Actual, CNTRL.Target, SM.State_Out) from the AGREE annex",
+    "Keep only the valid assumptions and guarantees that reference only visible component ports (Target_Speed, Actual_Speed, etc.)",
+    "Ensure the remaining AGREE annex only contains expressions using the exact symbols: Target_Speed, Actual_Speed, Target_Tire_Pitch, Actual_Tire_Pitch, State_Signal"
+  ]
+}

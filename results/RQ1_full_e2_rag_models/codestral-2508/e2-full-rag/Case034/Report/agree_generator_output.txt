@@ -1,0 +1,11 @@
+annex agree {**
+  assume "threatDetected is a Boolean input": threatDetected = true or threatDetected = false;
+  assume "threatAltitude is a real input": threatAltitude >= 0.0;
+  assume "ownAltitude is a real input": ownAltitude >= 0.0;
+  assume "ownLongitude is an integer input": ownLongitude >= 0;
+  assume "threatLongitude is an integer input": threatLongitude >= 0;
+  guarantee "requiredVerticalVelocity is an integer output": requiredVerticalVelocity >= -10 and requiredVerticalVelocity <= 50;
+  guarantee "altitude conflict resolution based on longitude": threatDetected and ownAltitude = threatAltitude => (ownLongitude > threatLongitude => requiredVerticalVelocity = 50) and (ownLongitude <= threatLongitude => requiredVerticalVelocity = -50);
+  guarantee "lower altitude resolution": threatDetected and ownAltitude < threatAltitude => requiredVerticalVelocity = -10;
+  guarantee "higher altitude resolution": threatDetected and ownAltitude > threatAltitude => requiredVerticalVelocity = 10;
+**};

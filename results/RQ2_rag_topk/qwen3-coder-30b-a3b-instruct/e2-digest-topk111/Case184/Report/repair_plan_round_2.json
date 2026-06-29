@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 102: Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "locked is an output port, not an input port",
+      "minimal_edit": "Remove the guarantee 'locked_logic' from the component type annex"
+    },
+    {
+      "diagnostic": "line 102: Latched expressions can appear only in component implementations",
+      "cause": "Guarantee statements in component type annexes cannot reference output ports",
+      "minimal_edit": "Move the guarantee 'locked_logic' to the implementation annex"
+    },
+    {
+      "diagnostic": "line 102: left side of binary expression 'and' is of type '<error>' but must be of type 'bool'",
+      "cause": "Expression references output port 'locked' on left side of assignment",
+      "minimal_edit": "Remove the guarantee 'locked_logic' from the component type annex"
+    },
+    {
+      "diagnostic": "line 102: mismatched input 'and' expecting '('",
+      "cause": "Invalid syntax due to malformed expression referencing output port",
+      "minimal_edit": "Remove the guarantee 'locked_logic' from the component type annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee 'locked_logic' from the component type annex",
+    "Add the guarantee 'locked_logic' to the implementation annex"
+  ]
+}

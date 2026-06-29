@@ -1,0 +1,37 @@
+annex agree {**
+  guarantee "signal_flow_attitude": Forcing_Safe_Mode => sensored_attitude = telecommand;
+  guarantee "signal_flow_orbit": Getting_Back_To_Normal_Mode => sun_direction = telecommand;
+  assume "mode_transition_SM": Forcing_Safe_Mode => Force_mode_to_SM;
+  assume "mode_transition_NM": Getting_Back_To_Normal_Mode => Force_mode_to_NM;
+  guarantee "telemetry_output": telemetry = reference_torque;
+  guarantee "power_status_consistency": 
+    power_status_FSS = true and 
+    power_status_CSS = true and 
+    power_status_SPS = true and 
+    power_status_ES = true and 
+    power_status_MGM = true and 
+    power_status_GYR = true and 
+    power_status_STR = true and 
+    power_status_GPS = true and 
+    power_status_THU = true and 
+    power_status_RW = true and 
+    power_status_MGT = true;
+  guarantee "reconfiguration_signals": 
+    FSS_reconfiguration = true and 
+    CSS_reconfiguration = true and 
+    SPS_reconfiguration = true and 
+    ES_reconfiguration = true and 
+    MGM_reconfiguration = true and 
+    GYR_reconfiguration = true and 
+    STR_reconfiguration = true and 
+    GPS_reconfiguration = true and 
+    THU_reconfiguration = true and 
+    RW_reconfiguration = true and 
+    MGT_reconfiguration = true;
+  guarantee "command_signals": 
+    torque_command = reference_torque and 
+    force_command = reference_force;
+  guarantee "mode_change_SM": Changing_mode_to_SM => Forcing_Safe_Mode;
+  guarantee "mode_change_NM": Changing_mode_to_NM => Getting_Back_To_Normal_Mode;
+  guarantee "anomaly_handling": anomaly_detected => watchdog_event;
+**};

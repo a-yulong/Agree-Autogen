@@ -1,0 +1,33 @@
+{
+  "rag_rules": [
+    "Fix AGREE diagnostics by resolving references to visible identifiers in the current component scope",
+    "Use only output ports or declared auxiliary variables on the left-hand side of assign statements in implementation scope",
+    "Ensure type consistency between helper declarations and their expressions to avoid '<error>' types",
+    "Delete invalid AGREE clauses that reference unresolved identifiers or invalid types rather than adding new architecture"
+  ],
+  "generic_rules": [
+    "AGREE contracts must reference only visible identifiers from the current component scope",
+    "Assign statements in implementation scope must target valid output features or declared variables",
+    "Type declarations in AGREE must match AADL data types (int, real, bool) and align with expression types",
+    "Invalid AGREE diagnostics often indicate unresolved references or incorrect scope usage"
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks",
+    "Use `assign output = expression;` for implementation-level bindings to output ports",
+    "Helper declarations like `eq name : type = expression;` must have matching types",
+    "Guarantees in component type annexes should reference only visible ports or declared variables"
+  ],
+  "anti_patterns": [
+    "Do not introduce package-qualified identifiers or data types not present in the AADL model",
+    "Do not place implementation-level guarantees in component type annexes",
+    "Do not attempt to fix unresolved references by inventing new declarations",
+    "Do not mix type-level and implementation-level references in the same contract"
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "implementation scope output assign",
+    "integrated pattern chunk 1",
+    "input validity chunk 1"
+  ]
+}

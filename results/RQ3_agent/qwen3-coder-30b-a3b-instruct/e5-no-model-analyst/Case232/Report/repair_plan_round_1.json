@@ -1,0 +1,14 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "The left side 'door' is not a valid expression in the context of a component type annex; it refers to the component type itself, not a port or variable",
+      "minimal_edit": "Replace 'door = de_arrest' with 'de_arrest = true' to match the assumption and avoid referencing the component type directly"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the guarantee statement 'guarantee \"door_operates_under_de_arrest\": door = de_arrest;' with 'guarantee \"door_operates_under_de_arrest\": de_arrest = true;' in the AGREE annex block",
+    "Ensure the edited AGREE annex block remains within the component type 'door' scope"
+  ]
+}

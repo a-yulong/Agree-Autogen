@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Restrict AGREE expressions to visible features plus local eq/const helpers; omit any clause that depends on out-of-scope names.
+- Encode history-dependent behavior with initialized temporal patterns around pre(...), not with raw previous-step references.
+Generic rules:
+- Introduce local eq/const declarations for derived values or named constants before using them in guarantees.
+- Add range or threshold properties only when explicit bounds/constants and legal referenced symbols are provided.
+Syntax or pattern reminders:
+- Use `assume "label": expr;` and `guarantee "label": expr;` for contract clauses.
+- Use `eq name : type = expr;`, `const name : type = value;`, and `assign output = expr;` only when that form is valid in scope.
+- Use `init -> expr_with_pre(...)` for temporal recurrence, `if ... then ... else` for branching, and `and`, `or`, `not(...)`, `=>` for logic.
+Anti-patterns:
+- Do not use `pre(...)` without an initial value or initialization guard.
+- Do not treat subcomponent ports, AADL property names, or unit tokens as AGREE variables unless they are explicitly exposed in scope.
+- Do not leave unresolved identifiers or mismatched helper types in a clause; boolean comparisons need `bool`, and real-valued arithmetic/literals need `real`.
+</RAG_DIGEST>

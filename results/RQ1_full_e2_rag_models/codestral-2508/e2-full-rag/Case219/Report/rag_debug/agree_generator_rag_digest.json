@@ -1,0 +1,31 @@
+{
+  "rag_rules": [
+    "Generate AGREE annex blocks with valid syntax: assume/guarantee labels, eq/const declarations, and assign statements",
+    "Place component type contracts in type scopes and implementation-level bindings in implementation scopes",
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic",
+    "Place input envelope assumptions and output range guarantees only when concrete bounds, named constants, or visible relations are available",
+    "Use AGREE logical operators (and, or, not, =>) and implication for contract expressions"
+  ],
+  "generic_rules": [
+    "Use exact visible identifiers from the current component scope; do not invent declarations",
+    "Use AGREE scalar types (int, real, bool) for declarations; avoid AADL property names as AGREE variables",
+    "Delete or rewrite AGREE clauses that reference unresolved identifiers; keep architecture unchanged"
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use initialized temporal recurrence for stateful equations: `0.0 -> pre(t) + step`",
+    "Use nested if-then-else for branching logic: `if condition then expression else expression`",
+    "Use AGREE logical operators: `and`, `or`, `not(...)`, and implication `=>`"
+  ],
+  "anti_patterns": [
+    "Do not encode AADL timing properties as AGREE expressions unless exposed as typed ports or constants",
+    "Do not invent declarations for unresolved identifiers; use exact visible identifiers",
+    "Do not use AADL property names (Compute_Execution_Time, Deadline, etc.) as AGREE variables"
+  ],
+  "irrelevant_topics": [
+    "AADL structural extraction",
+    "compact requirement semantics",
+    "model traceability",
+    "generic owner/scope rules",
+    "validator-driven minimal repair patterns"
+  ]
+}

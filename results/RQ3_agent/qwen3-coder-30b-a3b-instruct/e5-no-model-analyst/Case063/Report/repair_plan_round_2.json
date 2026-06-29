@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink is a port in the component type, not visible in implementation annex",
+      "minimal_edit": "Remove the signal flow guarantee from the implementation annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg is a subprogram reference, not a visible AGREE expression",
+      "minimal_edit": "Remove the signal flow guarantee from the implementation annex"
+    },
+    {
+      "diagnostic": "Guarantee statements are allowed only in component types",
+      "cause": "AGREE guarantees in implementation annex are not allowed",
+      "minimal_edit": "Move guarantees to component type annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'period'.",
+      "cause": "period is a property, not a visible AGREE expression",
+      "minimal_edit": "Remove the period guarantee from the implementation annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'deadline'.",
+      "cause": "deadline is a property, not a visible AGREE expression",
+      "minimal_edit": "Remove the deadline guarantee from the implementation annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'priority'.",
+      "cause": "priority is a property, not a visible AGREE expression",
+      "minimal_edit": "Remove the priority guarantee from the implementation annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the AGREE annex from Q.Impl to Q component type",
+    "Remove the signal flow guarantee from the Q.Impl annex",
+    "Remove the period, deadline, and priority guarantees from the Q.Impl annex",
+    "Add a new AGREE annex to the Q component type with the moved guarantees"
+  ]
+}

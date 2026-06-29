@@ -1,0 +1,110 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate assume/guarantee clauses only for behavior_relations with explicit thresholds or visible relations.
+- Declare derived variables using eq or const when initializing or computing values from visible symbols.
+- Use pre() for temporal references to prior states in guarantees involving time-based conditions.
+Generic rules:
+- Anchor contracts to concrete, visible identifiers from the model context.
+- Express boolean conditions as explicit comparisons, never implicit truth values.
+- Preserve type consistency: real arithmetic yields real, integer arithmetic yields int, comparisons yield bool.
+Syntax or pattern reminders:
+- Use 'eq name : type = expression;' for derived variables, 'const name : type = value;' for literals.
+- Format guarantees as 'guarantee "label": expression;' with expression being a boolean-valued relation.
+- Use 'pre(variable)' to reference a variable's value from the previous time step.
+Anti-patterns:
+- Do not introduce new identifiers not present in the model or requirement evidence.
+- Do not use assume/guarantee for data declarations—use eq or const instead.
+- Do not mix real and integer literals in comparisons without explicit type casting or context alignment.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- timeToRecovery
+- timeToFailure
+
+Target interface:
+Exact expression symbols: timeToRecovery, timeToFailure
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+timeToRecovery | out | data | opaque | real
+timeToFailure | out | data | opaque | real
+
+Raw requirement:
+The GeoFence_singleton component shall establish a recursive variable t with an initial value of 0.1, declare the variable distanceFromFence, and calculate it by calling the circleLinearization function from the geofence_nodes library with the variable t as a parameter. The component shall ensure that after the time value exceeds the recovery time of 1.7, the value of distanceFromFence must be greater than the value of the previous time step's distanceFromFence. The system failure time shall be set to 9.5.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "recursive variable t shall be initialized with value 0.1",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "t"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "variable distanceFromFence shall be declared",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "distanceFromFence"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "distanceFromFence shall be calculated by calling circleLinearization function with parameter t",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "distanceFromFence",
+        "circleLinearization",
+        "t"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "after time value exceeds recovery time of 1.7, distanceFromFence shall be greater than previous time step's distanceFromFence",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "timeToRecovery",
+        "distanceFromFence"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "system failure time shall be set to 9.5",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "timeToFailure"
+      ]
+    }
+  ]
+}

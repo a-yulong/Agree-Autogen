@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 159: left and right sides of binary expression '<=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "AGREE cannot resolve 'temp' as a valid expression due to property reference issues",
+      "minimal_edit": "Replace 'temp >= 0 and temp <= 100' with 'temp >= 0 and temp <= 100' (no change needed, but ensure temp is properly typed)"
+    },
+    {
+      "diagnostic": "line 159: named thing must be an expression with a type",
+      "cause": "AGREE cannot resolve 'temp' as a valid expression due to property reference issues",
+      "minimal_edit": "Ensure 'temp' is properly declared as a port in the component type"
+    },
+    {
+      "diagnostic": "line 156: Couldn't resolve reference to property definition 'ARINC653::HM_Errors'",
+      "cause": "Property definition not found in AADL model",
+      "minimal_edit": "Remove ARINC653 properties from component declarations"
+    },
+    {
+      "diagnostic": "line 157: Couldn't resolve reference to property definition 'ARINC653::HM_Process_Recovery_Actions'",
+      "cause": "Property definition not found in AADL model",
+      "minimal_edit": "Remove ARINC653 properties from component declarations"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove ARINC653 properties from commandboard_receiveinput_thread component declaration",
+    "Verify that temp is properly declared as an in data port integer in the component type",
+    "Ensure AGREE annex block only contains valid expressions using visible identifiers"
+  ]
+}

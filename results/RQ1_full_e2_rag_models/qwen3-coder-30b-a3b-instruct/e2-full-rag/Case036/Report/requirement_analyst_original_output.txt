@@ -1,0 +1,39 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "text": "Target_Speed.val >= 0 and Target_Speed.val < 150.0",
+      "evidence": ["Target_Speed"]
+    },
+    {
+      "id": "R2",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "const_tar_speed is a boolean attribute indicating the logical state of the target speed being constant",
+      "evidence": ["const_tar_speed"]
+    },
+    {
+      "id": "R3",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "text": "When const_tar_speed is true, Actual_Speed.val <= Target_Speed.val",
+      "evidence": ["const_tar_speed", "Actual_Speed", "Target_Speed"]
+    },
+    {
+      "id": "R4",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "text": "max_accel = 40.0",
+      "evidence": ["max_accel"]
+    },
+    {
+      "id": "R5",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "abs(Actual_Speed.val - prev(Actual_Speed.val)) < max_accel",
+      "evidence": ["Actual_Speed", "max_accel"]
+    }
+  ]
+}

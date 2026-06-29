@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place input envelope assumptions in component type annexes using visible feature names and concrete bounds from the requirement.",
+    "Use AGREE's assume statement for input constraints and guarantee statement for output behavior within valid component scopes.",
+    "Declare constants and equations in AGREE annex blocks to express numeric ranges and boolean conditions.",
+    "Ensure all AGREE expressions reference only visible identifiers from the AADL model and avoid package-qualified names."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be syntactically valid and use only declared variables and types from the AADL model.",
+    "Component type contracts should define assumptions about input ports; implementation contracts should bind outputs to subcomponents.",
+    "Avoid generating bounds or constraints that are not explicitly stated in the requirement or incompatible with AADL types.",
+    "Do not introduce AADL property references as AGREE variables unless they are explicitly exposed as typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"name\": condition;` for input assumptions and `guarantee \"name\": condition;` for output guarantees.",
+    "Declare constants with `const name : type = value;` and boolean expressions with `eq name : bool = condition;`.",
+    "Place AGREE annex blocks inside `annex agree {** ... **};` within component type or implementation scopes.",
+    "Ensure all identifiers in AGREE expressions are visible in the AADL model and match their declared types."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level assignments or guarantees in component type scopes.",
+    "Do not assume numeric bounds for ports unless explicitly stated in the requirement and compatible with AADL types.",
+    "Do not reference AADL properties like Period or Deadline as AGREE variables without model exposure.",
+    "Do not encode event ports as numeric or Boolean values unless a data value is explicitly provided in the model."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE validator diagnostics and repair actions",
+    "Model fusion and insertion location decisions",
+    "Requirement traceability and compact semantics"
+  ]
+}

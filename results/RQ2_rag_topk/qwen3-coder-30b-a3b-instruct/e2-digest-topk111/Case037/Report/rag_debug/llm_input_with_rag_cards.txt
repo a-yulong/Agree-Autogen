@@ -1,0 +1,99 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `assume` and `guarantee` to encode requirement intent with visible symbols and expressions
+- Express behavior relations using `eq` declarations for derived values like error terms and their derivatives
+Generic rules:
+- Place assumptions and guarantees in AGREE annex only when concrete bounds or visible relations are provided
+- Use `eq` declarations to define derived quantities and their relationships in AGREE contracts
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract clauses
+- Use `eq name : type = expression;` to define derived values and their types in AGREE
+Anti-patterns:
+- Avoid placing assumptions or guarantees without visible symbol references or concrete bounds
+- Do not define types that do not match the actual expression types in AGREE
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Target
+- Actuator_Input
+- Actual
+
+Target interface:
+Exact expression symbols: Target, Actuator_Input, Actual
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Target | in | data | opaque | Types::speed.speed_impl
+Actuator_Input | out | data | real | Base_Types::Float
+Actual | in | data | opaque | Types::speed.speed_impl
+
+Raw requirement:
+The Speed_Control component shall implement PID control logic using proportional gain P = 1.0, derivative gain D = 0.0, and integral gain I = 0.0. The component shall compute the error e as the difference between the target speed input and the actual speed input. It shall calculate the error integration term e_int as the integral of e over time and the error derivative term e_dot as the derivative of e with respect to time. The Speed_Control implementation shall ensure that the Actuator_Input output is strictly equal to the control law result P * e + D * e_dot + I * e_int.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Actuator_Input = 1.0 * (Target - Actual) + 0.0 * e_dot + 0.0 * e_int",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Target",
+        "Actual",
+        "Actuator_Input"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "e = Target - Actual",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "Target",
+        "Actual"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "e_int is the integral of e over time",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "e"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "e_dot is the derivative of e with respect to time",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "e"
+      ]
+    }
+  ]
+}

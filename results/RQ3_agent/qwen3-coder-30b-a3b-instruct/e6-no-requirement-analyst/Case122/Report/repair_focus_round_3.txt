@@ -1,0 +1,165 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: acc_out_data_x, acc_out_data_y, acc_out_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc_out_data_x | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_out_data_y | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_out_data_z | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: ACCELERO_SUB_wrapper | lines 42-46
+annex agree {**
+      guarantee "data_x_routing": acc_out_data_x = acc_out_data_x;
+      guarantee "data_y_routing": acc_out_data_y = acc_out_data_y;
+      guarantee "data_z_routing": acc_out_data_z = acc_out_data_z;
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   39:     acc_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   40:     acc_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   41:     acc_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   42:   annex agree {**
+>> 43:       guarantee "data_x_routing": acc_out_data_x = acc_out_data_x;
+   44:       guarantee "data_y_routing": acc_out_data_y = acc_out_data_y;
+   45:       guarantee "data_z_routing": acc_out_data_z = acc_out_data_z;
+   46:     **};
+   47:   end ACCELERO_SUB_wrapper;
+
+   40:     acc_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   41:     acc_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   42:   annex agree {**
+   43:       guarantee "data_x_routing": acc_out_data_x = acc_out_data_x;
+>> 44:       guarantee "data_y_routing": acc_out_data_y = acc_out_data_y;
+   45:       guarantee "data_z_routing": acc_out_data_z = acc_out_data_z;
+   46:     **};
+   47:   end ACCELERO_SUB_wrapper;
+   48: 
+
+   41:     acc_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   42:   annex agree {**
+   43:       guarantee "data_x_routing": acc_out_data_x = acc_out_data_x;
+   44:       guarantee "data_y_routing": acc_out_data_y = acc_out_data_y;
+>> 45:       guarantee "data_z_routing": acc_out_data_z = acc_out_data_z;
+   46:     **};
+   47:   end ACCELERO_SUB_wrapper;
+   48: 
+   49:   subprogram implementation ACCELERO_SUB_wrapper.i
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: ACCELERO_SUB_wrapper
+subprogram ACCELERO_SUB_wrapper
+  features
+    acc_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    acc_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    acc_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+  end ACCELERO_SUB_wrapper;
+
+-- TARGET DECLARATION: ACCELERO_SUB_wrapper.i
+subprogram implementation ACCELERO_SUB_wrapper.i
+  calls
+    Mycalls: { Spg : subprogram AHRS::Subprograms::ACCELERO_SUB; };
+  connections
+    P1: parameter Spg.acc_out_data_x -> Acc_Out_Data_X;
+    P2: parameter Spg.acc_out_data_Y -> Acc_Out_Data_Y;
+    P3: parameter Spg.acc_out_data_Z -> Acc_Out_Data_Z;
+  end ACCELERO_SUB_wrapper.i;
+
+-- RELATED MODEL LINES
+acc_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+subprogram ACCELERO_SUB_wrapper
+acc_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+end ACCELERO_SUB_wrapper;
+subprogram implementation ACCELERO_SUB_wrapper.i
+P1: parameter Spg.acc_out_data_x -> Acc_Out_Data_X;
+end ACCELERO_SUB_wrapper.i;
+ACCELERO_CALL: { accelero_sub : subprogram ACCELERO_SUB_wrapper.i; };
+ACC_PC1 : parameter accelero_sub.acc_out_data_x -> acc_out_data_x;
+ACC_PC2 : parameter accelero_sub.acc_out_data_y -> acc_out_data_y;
+ACC_PC3 : parameter accelero_sub.acc_out_data_z -> acc_out_data_z;
+ACC_SUBMIT_PC1  : port accelero_thread.acc_out_data_x -> attitude_calculation_thread.acc_in_data_x;
+ACC_SUBMIT_PC2  : port accelero_thread.acc_out_data_y -> attitude_calculation_thread.acc_in_data_y;
+ACC_SUBMIT_PC3  : port accelero_thread.acc_out_data_z -> attitude_calculation_thread.acc_in_data_z;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "ACCELERO_SUB_wrapper",
+      "kind": "subprogram"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "ACCELERO_SUB_wrapper.i",
+      "kind": "subprogram implementation",
+      "type_name": "ACCELERO_SUB_wrapper"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "ACCELERO_SUB_wrapper.i",
+      "name": "accelero_sub",
+      "category": "subprogram",
+      "classifier": "ACCELERO_SUB_wrapper.i"
+    }
+  ],
+  "features": [
+    {
+      "owner": "ACCELERO_SUB_wrapper",
+      "name": "acc_out_data_x",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACCELERO_SUB_wrapper",
+      "name": "acc_out_data_y",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACCELERO_SUB_wrapper",
+      "name": "acc_out_data_z",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "ACCELERO_SUB_wrapper.i",
+      "name": "P1",
+      "kind": "parameter",
+      "source": "Spg.acc_out_data_x",
+      "destination": "Acc_Out_Data_X"
+    },
+    {
+      "owner": "ACCELERO_SUB_wrapper.i",
+      "name": "P2",
+      "kind": "parameter",
+      "source": "Spg.acc_out_data_Y",
+      "destination": "Acc_Out_Data_Y"
+    },
+    {
+      "owner": "ACCELERO_SUB_wrapper.i",
+      "name": "P3",
+      "kind": "parameter",
+      "source": "Spg.acc_out_data_Z",
+      "destination": "Acc_Out_Data_Z"
+    }
+  ]
+}

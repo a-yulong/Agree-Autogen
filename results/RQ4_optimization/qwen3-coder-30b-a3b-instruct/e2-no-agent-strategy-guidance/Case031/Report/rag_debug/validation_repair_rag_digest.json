@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by ensuring all identifiers are visible in the current scope or declared as helpers within the same annex.",
+    "Resolve type mismatches by aligning helper declarations with the correct AGREE scalar types (int, real, bool).",
+    "Avoid placing guarantee statements in implementation scopes; use only valid output-to-input dependencies in component type contracts.",
+    "Do not introduce package-qualified identifiers that are not present in the analyzed model's dependencies."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, ensure all referenced identifiers are either visible features or properly declared helpers.",
+    "Use only AGREE scalar types (int, real, bool) for constant and equation declarations to prevent type resolution errors.",
+    "Place implementation-level bindings in implementation scopes and component type contracts in component type scopes.",
+    "Validate that all expressions in guarantees have consistent types to avoid '<error>' type mismatches."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Assignments in implementation scopes must reference existing output features or declared auxiliary variables.",
+    "Guarantee expressions should relate visible inputs to visible outputs, not subcomponent paths.",
+    "Type declarations in AGREE must match AADL data types: int, real, bool."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent ports in component type annexes unless represented through valid variables or outputs.",
+    "Do not place guarantee statements in implementation scope; use type scope for output dependency contracts.",
+    "Do not introduce package-qualified identifiers that are not declared in the model or its configured dependencies.",
+    "Do not attempt to fix type errors by adding new architecture; instead, resolve root causes or remove invalid clauses."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "implementation scope output assign",
+    "type scope deterministic dependency guarantee"
+  ]
+}

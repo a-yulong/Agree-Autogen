@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- In AGREE contracts, ensure all expressions have consistent types (e.g., int, real, bool) to prevent type mismatch errors.
+- Place assume/guarantee clauses in appropriate scopes: component types for port envelopes, implementations for output assignments.
+- Validate that all referenced property definitions and constants exist in the AADL model before generating AGREE contracts.
+Syntax or pattern reminders:
+- AGREE expressions must be typed; use eq for boolean conditions and const for typed constants.
+- Assign statements in implementation scope must reference existing output features or declared auxiliary variables.
+- Use visible AADL identifiers and avoid package-qualified names unless explicitly allowed by the model's with clauses.
+Anti-patterns:
+- Do not introduce new identifiers or types in AGREE contracts that are not declared in the AADL model or its dependencies.
+- Do not place guarantee statements in implementation scope; use assign for output bindings instead.
+- Do not assume types without verifying that the expression matches the expected scalar type (int, real, bool).
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about property associations not pointing to anything
+- AGREE validator diagnostics about property definitions not being resolvable
+- Property term resolution errors in AADL model
+</RAG_DIGEST>

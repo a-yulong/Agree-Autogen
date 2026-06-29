@@ -1,0 +1,51 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 26: mismatched input '=' expecting ':'",
+      "cause": "AGREE constant declaration syntax error",
+      "minimal_edit": "Change 'const verticalAcceleration = 100.0;' to 'const verticalAcceleration : real = 100.0;'"
+    },
+    {
+      "diagnostic": "line 27: mismatched input '=' expecting ':'",
+      "cause": "AGREE constant declaration syntax error",
+      "minimal_edit": "Change 'const expectedImpactTime = 15.0;' to 'const expectedImpactTime : real = 15.0;'"
+    },
+    {
+      "diagnostic": "line 28: mismatched input '=' expecting ':'",
+      "cause": "AGREE constant declaration syntax error",
+      "minimal_edit": "Change 'const recoveryTime = 5.0;' to 'const recoveryTime : real = 5.0;'"
+    },
+    {
+      "diagnostic": "line 30: Function definition 'height' requires 4 arguments, but this function call provides 3 arguments",
+      "cause": "Incorrect function call argument count",
+      "minimal_edit": "Change 'Agree_Nodes::height(altitude, verticalVelocity, 0.5)' to 'Agree_Nodes::height(altitude, verticalVelocity, 0.5, 0.0)'"
+    },
+    {
+      "diagnostic": "line 30: The variable 'altitudeFromGround' on the left side of equation is of type '<error>' but must be of type 'real'",
+      "cause": "Missing type annotation for equation variable",
+      "minimal_edit": "Change 'eq altitudeFromGround =' to 'eq altitudeFromGround : real ='"
+    },
+    {
+      "diagnostic": "line 33: left and right sides of binary expression '<=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Type mismatch in comparison expression",
+      "minimal_edit": "Ensure both sides of 'altitude <= 30.0' and 'altitudeFromGround <= 500.0' are properly typed by ensuring 'altitude' and 'altitudeFromGround' are declared with correct types"
+    },
+    {
+      "diagnostic": "line 33: left side of binary expression '<=' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Undeclared or improperly typed variable",
+      "minimal_edit": "Ensure 'altitude' is properly declared as a real type in the context"
+    },
+    {
+      "diagnostic": "line 33: named thing must be an expression with a type",
+      "cause": "Invalid expression reference in guarantee",
+      "minimal_edit": "Ensure all referenced variables in guarantee are properly declared and typed"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add type annotations to all constant declarations: 'const verticalAcceleration : real = 100.0;', 'const expectedImpactTime : real = 15.0;', 'const recoveryTime : real = 5.0;'",
+    "Add type annotation to equation variable: 'eq altitudeFromGround : real ='",
+    "Correct function call to provide required 4 arguments: 'Agree_Nodes::height(altitude, verticalVelocity, 0.5, 0.0)'",
+    "Verify that 'altitude' and 'altitudeFromGround' are properly typed in the AGREE context"
+  ]
+}

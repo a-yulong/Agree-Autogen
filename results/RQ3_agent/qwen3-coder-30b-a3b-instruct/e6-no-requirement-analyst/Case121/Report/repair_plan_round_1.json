@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 36: named thing must be an expression with a type",
+      "cause": "assume statement references port names directly in component type scope",
+      "minimal_edit": "move the annex block to the implementation owner ACCELERO.IMPL"
+    },
+    {
+      "diagnostic": "line 37: named thing must be an expression with a type",
+      "cause": "assume statement references port names directly in component type scope",
+      "minimal_edit": "move the annex block to the implementation owner ACCELERO.IMPL"
+    },
+    {
+      "diagnostic": "line 38: named thing must be an expression with a type",
+      "cause": "assume statement references port names directly in component type scope",
+      "minimal_edit": "move the annex block to the implementation owner ACCELERO.IMPL"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from component type ACCELERO",
+    "Add a new AGREE annex block to component implementation ACCELERO.IMPL",
+    "In the new annex block, replace each assume statement with an assign statement that binds the output port to the input port",
+    "Use only the exact identifiers: acc_in_data_x, acc_in_data_y, acc_in_data_z, acc_out_data_x, acc_out_data_y, acc_out_data_z"
+  ]
+}

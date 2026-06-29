@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 55: Couldn't resolve reference to 'Aperiodic'.",
+      "cause": "AGREE cannot resolve AADL property value 'Aperiodic' as a visible symbol",
+      "minimal_edit": "Replace 'Aperiodic' with a visible symbol or remove the reference"
+    },
+    {
+      "diagnostic": "line 55: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "AGREE cannot resolve AADL property name 'Dispatch_Protocol' as a visible symbol",
+      "minimal_edit": "Replace 'Dispatch_Protocol' with a visible symbol or remove the reference"
+    },
+    {
+      "diagnostic": "line 55: named thing must be an expression with a type",
+      "cause": "AGREE requires a valid expression with a type for assumption statements",
+      "minimal_edit": "Rewrite the assumption to use only visible symbols or remove the invalid assumption"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the invalid assumption statement 'assume \"dispatch_protocol\": Dispatch_Protocol = Aperiodic;' from the AGREE annex block",
+    "Ensure that all references in AGREE annexes are visible symbols or valid expressions within the component type scope"
+  ]
+}

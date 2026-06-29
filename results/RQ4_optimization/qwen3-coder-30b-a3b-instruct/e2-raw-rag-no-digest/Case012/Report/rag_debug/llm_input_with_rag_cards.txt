@@ -1,0 +1,139 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+Stateful equations should use initialized temporal recurrence, for example `0.0 -> pre(t) + step`. Branching logic should use nested `if ... then ... else`. Generated contracts should use AGREE logical operators such as `and`, `or`, `not(...)`, and implication `=>`.
+
+[KSYN-2]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes. Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections. Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs.
+
+[KSYN-3]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+- `assume "label": expression;` - `guarantee "label": expression;` - `eq name : type = expression;` - `const name : type = value;` - `assign output = expression;`
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+[KEXP-1]
+Source: distilled pattern library
+Topic: type scope range assumption and guarantee
+For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation. Use case-provided thresholds and legal visible feature names.
+
+[KEXP-2]
+Source: distilled pattern library
+Topic: type scope deterministic dependency guarantee
+For output dependency contracts, write a guarantee that relates visible outputs to visible inputs. Do not use implementation-only subcomponent paths in a component type annex.
+
+[KEXP-3]
+Source: processed\kexp\agree_code_knowledge_dataset.txt
+Topic: output envelope chunk 2
+tput : real = if raw_input < min_output then min_output else if raw_input > max_output then max_output else raw_input; eq limit_applied : bool = raw_input < min_output or raw_input > max_output; guarantee "bounded output remains within the envelope": bounded_output >= min_output and bounded_output <= max_output; guarantee "bounded output equals the clamped value": bounded_output = clamped_output; guarantee "limit flag records whether clamping was required": was
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Assumed Type vs Actual Type
+If AGREE reports "The assumed type ... is ... but the actual type is ...", align the helper declaration type with the expression. Comparison expressions are bool; integer literals and integer arithmetic are int; real literals and real arithmetic are real. Recommended pattern: eq range_value : bool = x >= min_value and x <= max_value;
+
+[KDEF-2]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AADL Property Names Are Not AGREE Variables chunk 1
+If diagnostics report unresolved references to Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens such as ms/us/Hz/Bytes inside an AGREE annex, delete the generated clause. AADL property associations are not automatically in AGREE expression scope as variables. Recommended pattern: Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for the
+
+[KDEF-3]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AGREE Scalar Type Names
+If AGREE reports "Couldn't resolve reference to 'integer'" or "Couldn't resolve reference to 'boolean'" in a const or eq declaration, the generated AGREE type name is invalid. AGREE scalar declaration types are int, real, and bool. Recommended pattern: const lower_limit : int = 0; eq ok : bool = x >= lower_limit;
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>
+
+Visible target-interface symbols:
+- altitude
+- verticalVelocity
+- outImpact
+- outRecovery
+- gcasRequested
+
+Target interface:
+Exact expression symbols: altitude, verticalVelocity, outImpact, outRecovery, gcasRequested
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+altitude | in | data | real | Base_Types::float
+verticalVelocity | in | data | real | Base_Types::float
+outImpact | out | data | real | Base_Types::float
+outRecovery | out | data | real | Base_Types::float
+gcasRequested | out | data | bool | Base_Types::boolean
+
+Raw requirement:
+The GCAS_Monitor component must establish a terrain clearance buffer logic (TCB) through guarantee statements. Specifically, when the verticalDistance input is less than or equal to 30.0 or the horizontalDistance input is less than or equal to 30.0, the component must transition into a collision avoidance state. It is assumed that the aircraft's roll rate remains within the range of 10.0 to 15.0. Additionally, the output ports outImpact and outRecovery must be initialized to 0.0 and must remain constant while the component is active.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "When verticalDistance <= 30.0 or horizontalDistance <= 30.0, transition to collision avoidance state",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "verticalDistance",
+        "horizontalDistance"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Aircraft roll rate is in range 10.0 to 15.0",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "roll rate"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "outImpact = 0.0 and outRecovery = 0.0 while component is active",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "outImpact",
+        "outRecovery"
+      ]
+    }
+  ]
+}

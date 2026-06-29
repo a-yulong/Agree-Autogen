@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE contracts must use only visible identifiers from the AADL model and its configured dependencies.
+- Type declarations in AGREE must match AADL scalar types: int, real, bool.
+- Guarantee expressions must relate visible inputs to visible outputs; avoid implementation-only paths.
+- Fix root type resolution errors by resolving identifiers or removing invalid clauses.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in annex agree {** ... **}; blocks.
+- Use eq for helper declarations and const for constants with explicit scalar types.
+- Assignments in implementation scope must target existing output features or declared variables.
+- Ensure all identifiers in AGREE expressions are visible in the AADL model.
+Anti-patterns:
+- Do not introduce package-qualified identifiers not present in the input model.
+- Do not write guarantee statements in implementation scope that reference subcomponent paths.
+- Do not mix incompatible types in binary expressions like 'int = bool'.
+- Do not assume type names like 'integer' or 'boolean' in AGREE; use 'int', 'real', 'bool'.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics
+- Model Analyst Agent component extraction
+- Requirement Analyst compact semantics
+- Model Fusion owner/scope preservation
+</RAG_DIGEST>

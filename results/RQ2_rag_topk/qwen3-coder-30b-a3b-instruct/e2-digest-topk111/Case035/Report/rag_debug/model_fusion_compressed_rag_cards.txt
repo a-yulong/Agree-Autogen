@@ -1,0 +1,35 @@
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes. Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections. Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs.
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+[KEXP-1]
+Source: distilled pattern library
+Topic: type scope range assumption and guarantee
+For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation. Use case-provided thresholds and legal visible feature names.
+
+[KEXP-2]
+Source: processed\kexp\agree_code_knowledge_dataset.txt
+Topic: output envelope chunk 2
+tput : real = if raw_input < min_output then min_output else if raw_input > max_output then max_output else raw_input; eq limit_applied : bool = raw_input < min_output or raw_input > max_output; guarantee "bounded output remains within the envelope": bounded_output >= min_output and bounded_output <= max_output; guarantee "bounded output equals the clamped value": bounded_output = clamped_output; guarantee "limit flag records whether clamping was required": was
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Assumed Type vs Actual Type
+If AGREE reports "The assumed type ... is ... but the actual type is ...", align the helper declaration type with the expression. Comparison expressions are bool; integer literals and integer arithmetic are int; real literals and real arithmetic are real. Recommended pattern: eq range_value : bool = x >= min_value and x <= max_value;
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>

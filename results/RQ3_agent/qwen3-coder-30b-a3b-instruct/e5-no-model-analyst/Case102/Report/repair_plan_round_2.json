@@ -1,0 +1,46 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 183: Assume statements are allowed only in component types",
+      "cause": "AGREE annex is placed in system implementation instead of system type",
+      "minimal_edit": "Move the annex block from ADIRU.impl to ADIRU"
+    },
+    {
+      "diagnostic": "line 183: Couldn't resolve reference to 'acc_pr'",
+      "cause": "Reference to subcomponent 'acc_pr' not visible in system type context",
+      "minimal_edit": "Remove or rewrite references to subcomponents in assume/guarantee statements"
+    },
+    {
+      "diagnostic": "line 183: Couldn't resolve reference to 'main_cpu'",
+      "cause": "Reference to processor 'main_cpu' not visible in system type context",
+      "minimal_edit": "Remove or rewrite references to processor in assume/guarantee statements"
+    },
+    {
+      "diagnostic": "line 183: named thing must be an expression with a type",
+      "cause": "Invalid expression in assume statement",
+      "minimal_edit": "Remove invalid assume statements"
+    },
+    {
+      "diagnostic": "line 195: Guarantee statements are allowed only in component types",
+      "cause": "AGREE annex is placed in system implementation instead of system type",
+      "minimal_edit": "Move the annex block from ADIRU.impl to ADIRU"
+    },
+    {
+      "diagnostic": "line 195: Couldn't resolve reference to 'acc1_input'",
+      "cause": "Reference to port 'acc1_input' not visible in system type context",
+      "minimal_edit": "Remove or rewrite references to ports in assume/guarantee statements"
+    },
+    {
+      "diagnostic": "line 195: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression in guarantee statement",
+      "minimal_edit": "Remove invalid guarantee statements"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire annex agree block from ADIRU.impl to ADIRU system type",
+    "Remove all assume statements referencing subcomponents and processors",
+    "Remove all guarantee statements referencing ports",
+    "Verify that the annex block is now in the correct system type scope"
+  ]
+}

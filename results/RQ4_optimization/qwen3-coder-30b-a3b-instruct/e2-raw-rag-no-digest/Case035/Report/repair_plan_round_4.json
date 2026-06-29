@@ -1,0 +1,27 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 32: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "AGREE annex references port 'Actual' from subcomponent 'THROT' which is not visible in component type scope",
+      "minimal_edit": "Remove reference to 'Actual' in guarantee statement on line 32"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 34: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "AGREE annex references port 'Target' from subcomponent 'CNTRL' which is not visible in component type scope",
+      "minimal_edit": "Remove reference to 'Target' in guarantee statement on line 34"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 39: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "AGREE annex references port 'State_Out' from subcomponent 'SM' which is not visible in component type scope",
+      "minimal_edit": "Remove reference to 'State_Out' in guarantee statement on line 39"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the AGREE annex block in Car component to remove all references to subcomponent ports",
+    "Replace references to 'Actual' with 'Actual_Speed' in the first guarantee",
+    "Replace references to 'Target' with 'Target_Speed' in the second guarantee",
+    "Replace references to 'State_Out' with 'State_Signal' in the third guarantee",
+    "Ensure all expressions use only visible feature names from the component type"
+  ]
+}

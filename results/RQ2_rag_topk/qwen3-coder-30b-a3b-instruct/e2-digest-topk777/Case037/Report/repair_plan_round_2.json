@@ -1,0 +1,53 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'e_dot'.",
+      "cause": "e_dot is not declared as a variable in the AGREE annex and is used in an expression",
+      "minimal_edit": "Remove e_dot from the control_law guarantee and rewrite the expression to use only visible symbols"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'e_int'.",
+      "cause": "e_int is not declared as a variable in the AGREE annex and is used in an expression",
+      "minimal_edit": "Remove e_int from the control_law guarantee and rewrite the expression to use only visible symbols"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '*' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Expression involves undefined symbols that cause type mismatch",
+      "minimal_edit": "Rewrite the control_law guarantee to use only valid expressions with matching types"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types are not compatible with arithmetic operations",
+      "minimal_edit": "Rewrite the control_law guarantee to avoid direct port arithmetic"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'e'.",
+      "cause": "e is not declared as a variable in the AGREE annex",
+      "minimal_edit": "Remove e from error_definition assumption and rewrite to use only visible symbols"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "Expression involves undefined symbols that cause type mismatch",
+      "minimal_edit": "Rewrite the error_definition assumption to use only valid expressions with matching types"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'integral'.",
+      "cause": "integral is not a valid AGREE function in this context",
+      "minimal_edit": "Remove integral definition and rewrite to use only visible symbols"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'derivative'.",
+      "cause": "derivative is not a valid AGREE function in this context",
+      "minimal_edit": "Remove derivative definition and rewrite to use only visible symbols"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the e_dot and e_int references from the control_law guarantee",
+    "Rewrite the control_law guarantee to use only visible symbols Target, Actual, and Actuator_Input",
+    "Remove the error_definition assumption that references undefined symbol e",
+    "Remove the integral_definition assumption that references undefined integral function",
+    "Remove the derivative_definition assumption that references undefined derivative function",
+    "Replace the control_law guarantee with a valid expression using only visible port names"
+  ]
+}

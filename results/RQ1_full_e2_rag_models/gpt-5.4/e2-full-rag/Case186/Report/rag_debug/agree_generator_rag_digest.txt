@@ -1,0 +1,17 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use valid AGREE annex syntax with clause forms such as assume, guarantee, eq, const, and assign.
+- Generate only clauses that reference identifiers visible in the current component scope; if visibility is unknown, avoid inventing names or declarations.
+- Prefer type-level contracts for assumptions, guarantees, constants, and equations; implementation-level content is mainly for valid assignments.
+- Use assumptions for input/environment conditions and guarantees for observable commitments, based only on provided requirement intent and visible relations.
+Generic rules:
+- Do not introduce thresholds, bounds, constants, or derived relations unless they are explicitly provided by the inputs.
+- When a helper computation is needed, define it with an equation and reference it from a guarantee rather than embedding unnecessary complexity directly.
+- If a needed name cannot be resolved from visible symbols, rewrite or omit the clause instead of guessing architecture elements or types.
+Syntax or pattern reminders:
+- Wrap generated contracts in an AGREE annex block and terminate clauses with semicolons.
+- Use AGREE logical forms and temporal syntax correctly, including if-then-else, and/or/not, implication, and initialized pre only for stateful recurrence.
+Anti-patterns:
+- Do not reference AADL property names, units, packages, or model artifacts as if they were AGREE variables.
+- Do not place implementation-only references or subcomponent paths into a type-scope contract, and do not invent missing declarations to fix unresolved identifiers.
+</RAG_DIGEST>

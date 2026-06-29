@@ -1,0 +1,122 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use AGREE syntax: assume/guarantee for contracts, eq for equations, const for constants, assign for assignments
+- Use temporal recurrence for stateful equations: '0.0 -> pre(t) + step'
+- Use nested if-then-else for branching logic
+- Use AGREE logical operators: and, or, not, =>
+- Place component type contracts in type scopes, implementation contracts in implementation scopes
+- Use visible feature names in contracts, not subcomponent paths
+- Use concrete bounds, named constants, or visible relations for input assumptions and output guarantees
+- Use AGREE scalar types: int, real, bool
+Generic rules:
+- Use visible identifiers in contracts, not subcomponent paths
+- Use concrete bounds or named constants for input assumptions and output guarantees
+- Use AGREE logical operators for contracts
+- Use temporal recurrence for stateful equations
+- Use nested if-then-else for branching logic
+Syntax or pattern reminders:
+- AGREE scalar types: int, real, bool
+- Temporal recurrence pattern: '0.0 -> pre(t) + step'
+- Nested if-then-else pattern
+- AGREE logical operators: and, or, not, =>
+Anti-patterns:
+- Do not use subcomponent paths in component type contracts
+- Do not use AADL property names as AGREE variables
+- Do not use invalid AGREE type names like 'integer' or 'boolean'
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Data_Elev_Input
+- Data_AilL_Input
+- Data_AilR_Input
+- Data_MotorL_Input
+- Data_MotorR_Input
+- Data_Rudder_Input
+- Data_Elev_Output
+- Data_AilL_Output
+- Data_AilR_Output
+- Data_MotorL_Output
+- Data_MotorR_Output
+- Data_Rudder_Output
+- Dev_Bus
+
+Target interface:
+Exact expression symbols: Data_Elev_Input, Data_AilL_Input, Data_AilR_Input, Data_MotorL_Input, Data_MotorR_Input, Data_Rudder_Input, Data_Elev_Output, Data_AilL_Output, Data_AilR_Output, Data_MotorL_Output, Data_MotorR_Output, Data_Rudder_Output, Dev_Bus
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_Elev_Input | in | data | opaque | Base_Types::Integer_16
+Data_AilL_Input | in | data | opaque | Base_Types::Integer_16
+Data_AilR_Input | in | data | opaque | Base_Types::Integer_16
+Data_MotorL_Input | in | data | opaque | Base_Types::Integer_16
+Data_MotorR_Input | in | data | opaque | Base_Types::Integer_16
+Data_Rudder_Input | in | data | opaque | Base_Types::Integer_16
+Data_Elev_Output | out | data | opaque | Base_Types::Integer_16
+Data_AilL_Output | out | data | opaque | Base_Types::Integer_16
+Data_AilR_Output | out | data | opaque | Base_Types::Integer_16
+Data_MotorL_Output | out | data | opaque | Base_Types::Integer_16
+Data_MotorR_Output | out | data | opaque | Base_Types::Integer_16
+Data_Rudder_Output | out | data | opaque | Base_Types::Integer_16
+Dev_Bus | requires | access | opaque | 
+
+Raw requirement:
+The Compteur component shall select Data_AilL_Output according to the current Data_AilL_Input value. When Data_AilL_Input is greater than 0, Data_AilL_Output shall equal 1; otherwise Data_AilL_Output shall equal 0.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data_AilL_Output is selected according to Data_AilL_Input",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "Data_AilL_Input",
+        "Data_AilL_Output"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Data_AilL_Output equals 1 when Data_AilL_Input > 0",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Data_AilL_Input",
+        "Data_AilL_Output"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Data_AilL_Output equals 0 when Data_AilL_Input <= 0",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Data_AilL_Input",
+        "Data_AilL_Output"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '*' are of type 'real' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "Port types 'Types::speed.speed_impl' used in arithmetic expressions",
+      "minimal_edit": "Change Target and Actual from port references to real-valued variables in the AGREE annex"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types 'Types::speed.speed_impl' used in arithmetic expressions",
+      "minimal_edit": "Change Target and Actual from port references to real-valued variables in the AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'integral'.",
+      "cause": "Integral function not recognized in AGREE context",
+      "minimal_edit": "Replace integral(e) with a variable declaration and update the control law accordingly"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'derivative'.",
+      "cause": "Derivative function not recognized in AGREE context",
+      "minimal_edit": "Replace derivative(e) with a variable declaration and update the control law accordingly"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex, declare Target and Actual as real-valued variables",
+    "Replace the direct use of Target and Actual ports in expressions with these real-valued variables",
+    "Replace integral(e) with a variable declaration for e_int and update the control law",
+    "Replace derivative(e) with a variable declaration for e_dot and update the control law"
+  ]
+}

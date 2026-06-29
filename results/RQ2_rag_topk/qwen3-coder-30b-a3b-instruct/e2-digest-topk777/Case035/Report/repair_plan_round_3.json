@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 31: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "Port connection uses subcomponent port 'THROT.Actual' instead of visible component port 'Actual_Speed'",
+      "minimal_edit": "Change 'THROT.Actual' to 'Actual_Speed' in the connection 'AcSpeedToTop'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 33: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "Port connection uses subcomponent port 'CNTRL.Target' instead of visible component port 'Target_Speed'",
+      "minimal_edit": "Change 'CNTRL.Target' to 'Target_Speed' in the connection 'TgSpeedToCntrl'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 38: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "Port connection uses subcomponent port 'SM.State_Out' instead of visible component port 'State_Signal'",
+      "minimal_edit": "Change 'SM.State_Out' to 'State_Signal' in the connection 'SSToSM'"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Edit the connection AcSpeedToTop to reference Actual_Speed instead of THROT.Actual",
+    "Edit the connection TgSpeedToCntrl to reference Target_Speed instead of CNTRL.Target",
+    "Edit the connection SSToSM to reference State_Signal instead of SM.State_Out"
+  ]
+}

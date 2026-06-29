@@ -1,0 +1,86 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 25: Couldn't resolve reference to 'k'.",
+      "cause": "k is not declared as a variable in the AGREE annex",
+      "minimal_edit": "declare k as a variable using 'var k : int;' before the assume/guarantee statements"
+    },
+    {
+      "diagnostic": "line 25: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "k is undeclared and causes type resolution failure",
+      "minimal_edit": "declare k as a variable using 'var k : int;' before the assume/guarantee statements"
+    },
+    {
+      "diagnostic": "line 26: mismatched input '\"k initial value\"' expecting RULE_ID",
+      "cause": "const declaration syntax error due to undeclared k",
+      "minimal_edit": "replace const with var and use proper initialization syntax"
+    },
+    {
+      "diagnostic": "line 27: Couldn't resolve reference to 'k_prev'.",
+      "cause": "k_prev is not declared as a variable in the AGREE annex",
+      "minimal_edit": "declare k_prev as a variable using 'var k_prev : int;' before the equation"
+    },
+    {
+      "diagnostic": "line 27: Equation assigns 0 variables, but right side returns 1 values",
+      "cause": "k_prev is undeclared and causes equation parsing failure",
+      "minimal_edit": "declare k_prev as a variable using 'var k_prev : int;' before the equation"
+    },
+    {
+      "diagnostic": "line 27: left and right sides of binary expression '+' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "k_prev is undeclared and causes type resolution failure",
+      "minimal_edit": "declare k_prev as a variable using 'var k_prev : int;' before the equation"
+    },
+    {
+      "diagnostic": "line 27: left and right sides of binary expression '-' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "k_prev is undeclared and causes type resolution failure",
+      "minimal_edit": "declare k_prev as a variable using 'var k_prev : int;' before the equation"
+    },
+    {
+      "diagnostic": "line 27: left and right sides of binary expression '<=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "k_prev is undeclared and causes type resolution failure",
+      "minimal_edit": "declare k_prev as a variable using 'var k_prev : int;' before the equation"
+    },
+    {
+      "diagnostic": "line 27: left and right sides of binary expression '>=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "k_prev is undeclared and causes type resolution failure",
+      "minimal_edit": "declare k_prev as a variable using 'var k_prev : int;' before the equation"
+    },
+    {
+      "diagnostic": "line 27: left side of binary expression '+' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "k_prev is undeclared and causes type resolution failure",
+      "minimal_edit": "declare k_prev as a variable using 'var k_prev : int;' before the equation"
+    },
+    {
+      "diagnostic": "line 27: left side of binary expression '-' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "k_prev is undeclared and causes type resolution failure",
+      "minimal_edit": "declare k_prev as a variable using 'var k_prev : int;' before the equation"
+    },
+    {
+      "diagnostic": "line 27: left side of binary expression '<=' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "k_prev is undeclared and causes type resolution failure",
+      "minimal_edit": "declare k_prev as a variable using 'var k_prev : int;' before the equation"
+    },
+    {
+      "diagnostic": "line 27: left side of binary expression '>=' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "k_prev is undeclared and causes type resolution failure",
+      "minimal_edit": "declare k_prev as a variable using 'var k_prev : int;' before the equation"
+    },
+    {
+      "diagnostic": "line 27: mismatched input '\"k update rule\"' expecting RULE_ID",
+      "cause": "equation syntax error due to undeclared k_prev",
+      "minimal_edit": "replace eq with var and use proper initialization syntax"
+    },
+    {
+      "diagnostic": "line 27: named thing must be an expression with a type",
+      "cause": "k_prev is undeclared and causes type resolution failure",
+      "minimal_edit": "declare k_prev as a variable using 'var k_prev : int;' before the equation"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add 'var k : int;' declaration after the assume statement",
+    "Add 'var k_prev : int;' declaration after the k variable declaration",
+    "Replace 'const \"k initial value\": k = 10;' with 'var k : int = 10;'",
+    "Replace 'eq \"k update rule\": k = (if k_prev >= 20 then k_prev - 1 else if k_prev <= 0 then k_prev + 1 else k_prev);' with 'eq \"k update rule\": k = (if k_prev >= 20 then k_prev - 1 else if k_prev <= 0 then k_prev + 1 else k_prev);'"
+  ]
+}

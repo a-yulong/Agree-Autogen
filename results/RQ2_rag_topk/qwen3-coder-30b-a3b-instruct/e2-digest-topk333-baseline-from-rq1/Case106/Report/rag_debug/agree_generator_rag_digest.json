@@ -1,0 +1,24 @@
+{
+  "rag_rules": [
+    "Generate AGREE annex blocks within `annex agree {** ... **};` and place type-level assumptions/guarantees in component type annexes, implementation-level assignments in component implementation annexes.",
+    "Use `assume` for input envelope constraints and `guarantee` for output behavior, ensuring expressions reference only visible identifiers from the current component scope."
+  ],
+  "generic_rules": [
+    "Place AGREE contracts inside annex blocks scoped to their owning component declaration.",
+    "Formulate guarantees that relate visible outputs to visible inputs, avoiding implementation-only subcomponent paths in type annexes.",
+    "Use `assign` only for output features or declared auxiliary variables in implementation scope."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for logical constraints.",
+    "Use `eq name : type = expression;` and `const name : type = value;` for equations and constants."
+  ],
+  "anti_patterns": [
+    "Do not reference identifiers not present in the current component's visible scope.",
+    "Do not place guarantee statements in implementation scope; use type scope for behavioral contracts."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations as AGREE variables",
+    "Model fusion and component merging",
+    "Validator diagnostics and repair actions"
+  ]
+}

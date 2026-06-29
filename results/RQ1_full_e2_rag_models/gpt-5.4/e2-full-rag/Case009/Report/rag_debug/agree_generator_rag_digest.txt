@@ -1,0 +1,19 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE contracts as annex agree blocks with assumptions and guarantees in valid component type scope; use implementation scope only for valid implementation-level bindings.
+- Use only identifiers and relations that are visible from the AADL model; rely on extracted feature names, directions, and types rather than inventing symbols.
+- Add range-style assumptions or guarantees only when concrete bounds or relations are explicitly provided by the requirement or visible model context.
+Generic rules:
+- Prefer compact clauses that map directly to stated requirement semantics without introducing unnecessary helpers.
+- If a helper expression is needed, ensure its declared type matches the expression type exactly.
+- Only compare values numerically when the referenced symbol is known to be a numeric scalar in scope.
+Syntax or pattern reminders:
+- AGREE contract syntax uses annex agree {** ... **};.
+- Boolean range checks are formed with relational expressions combined by and; helper predicates for such checks should be declared as bool.
+- Do not reference subcomponent ports in a component type contract unless they are exposed through valid visible symbols.
+Anti-patterns:
+- Do not use assign unless in a valid implementation scope and the left-hand side is an existing output or declared auxiliary variable.
+- Do not place guarantee statements in implementation scope.
+- Do not use AADL property names or unit tokens as if they were AGREE variables.
+- Do not coerce Boolean or opaque nonnumeric data into numeric range constraints.
+</RAG_DIGEST>

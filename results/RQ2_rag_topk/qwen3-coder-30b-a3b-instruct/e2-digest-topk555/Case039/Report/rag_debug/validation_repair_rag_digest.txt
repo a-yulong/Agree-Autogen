@@ -1,0 +1,23 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Use initialized temporal recurrence for stateful equations in AGREE, e.g., `0.0 -> pre(t) + step`.
+- Place component type contracts in valid component type scopes and implementation-level bindings in implementation scopes.
+- Guard previous-value comparisons with initialized state variables to prevent undefined behavior.
+- Declare constants and equations in AGREE annexes using only visible AADL features or previously declared helpers.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct syntax and type alignment.
+- Binary expressions in AGREE must have operands of the same type (int, real, or bool).
+- Branching logic in AGREE uses nested `if ... then ... else` expressions.
+Anti-patterns:
+- Do not reference AADL property names (e.g., Period, Deadline) as AGREE variables unless explicitly exposed as typed ports or constants.
+- Do not mix AADL port types with AGREE scalar types in binary expressions without explicit conversion.
+- Avoid placing implementation-level assignments in component type scopes; use implementation scopes instead.
+- Do not assume that unresolved identifiers in AGREE are automatically resolved by AADL architecture; trace and fix root causes.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about unreachable or inadequate port specs
+- AGREE validator diagnostics about component type contracts
+- AGREE syntax notes unrelated to type resolution or expression matching
+- Model traceability and requirement semantics
+- Component type structural extraction
+</RAG_DIGEST>

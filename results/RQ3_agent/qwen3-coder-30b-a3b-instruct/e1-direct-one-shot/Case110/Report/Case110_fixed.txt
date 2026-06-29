@@ -1,0 +1,31 @@
+package threads
+public
+
+  with ARINC653;
+  with SHM_DataType;
+  with subprograms;
+
+  thread acc3_dataOutput
+  features
+    accout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+    acc_command_in: in event data port SHM_DataType::actionData;
+  properties
+    Dispatch_Protocol => Periodic;
+    Priority => 1;
+    Stack_Size => 20 KByte;
+    Code_Size => 100 KByte;
+    Data_Size => 1 KByte;
+    Period => 4000 ms;
+    Compute_Execution_Time => 400 ms .. 500 ms;
+    Deadline => 500 ms;
+  end acc3_dataOutput;
+
+  thread implementation acc3_dataOutput.impl
+  calls
+    sub1: { spg: subprogram subprograms::acc3_dataOutput_spg;};
+  connections
+    C1: parameter spg.accDataOut->accout;
+    C2: parameter acc_command_in->spg.event_in;
+  end  acc3_dataOutput.impl;
+
+end threads;

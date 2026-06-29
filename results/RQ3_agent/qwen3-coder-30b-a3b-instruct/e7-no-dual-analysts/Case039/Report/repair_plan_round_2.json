@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 22: left and right sides of binary expression '+' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Type mismatch in arithmetic expression involving port Actual of type speed_impl and real literal",
+      "minimal_edit": "Change Actual = pre(Actual) + 0.1 * Actuator_Input to a valid expression using only visible symbols or remove the guarantee if no valid relation exists"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 22: left side of binary expression '+' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Invalid arithmetic operation on opaque type speed_impl",
+      "minimal_edit": "Rewrite the guarantee to avoid arithmetic on Actual port of opaque type speed_impl"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 24: mismatched input '=' expecting ':'",
+      "cause": "Invalid syntax in const declaration",
+      "minimal_edit": "Remove or correct the const declaration 'first_time = true' to valid AGREE syntax"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify the invalid arithmetic expression involving Actual port of type speed_impl",
+    "Replace the guarantee with a valid expression or remove it if no visible relation exists",
+    "Correct the const declaration syntax to match AGREE grammar",
+    "Ensure all expressions use only visible symbols and valid types"
+  ]
+}

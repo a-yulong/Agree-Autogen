@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "Use AGREE clauses that are syntactically valid and limited to visible component-scope identifiers.",
+    "Express conditional requirements with logical implication or an equivalent if-then-else pattern without adding unconstrained behavior beyond the stated condition.",
+    "If helper logic is needed, define it with typed eq declarations and then reference it from guarantees.",
+    "Use only AGREE scalar types int, real, and bool for declarations."
+  ],
+  "generic_rules": [
+    "Prefer direct guarantees for output relations; add assumptions or helper equations only when the requirement semantics require them.",
+    "Keep contracts generic and traceable to stated requirement semantics without inventing new ports, constants, or model elements.",
+    "When no identifier whitelist is available, be conservative and reference only identifiers explicitly provided by model facts or requirement evidence."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE clause forms include assume \"label\": expr; guarantee \"label\": expr; eq name : type = expr; const name : type = value;",
+    "Use AGREE operators and patterns such as and, or, not(...), =>, and nested if ... then ... else expressions.",
+    "For stateful behavior, use initialized recurrence with -> and pre(...) only when the requirement is explicitly temporal."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent-only names or implementation-only internals unless they are confirmed visible in the current contract scope.",
+    "Do not use AADL property names or unit tokens as AGREE variables unless exposed as explicit typed symbols.",
+    "Do not invent unresolved identifiers, packages, or declarations to satisfy a clause; rewrite using existing visible symbols or omit the unsupported relation."
+  ],
+  "irrelevant_topics": [
+    "AADL implementation/type placement guidance beyond generic scope visibility",
+    "Validator-driven repair actions for unresolved references"
+  ]
+}

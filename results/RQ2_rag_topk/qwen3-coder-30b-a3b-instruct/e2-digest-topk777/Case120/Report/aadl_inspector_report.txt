@@ -1,0 +1,39 @@
+set oldState [${sbpText}.text cget -state]
+${sbpText}.text configure -state normal
+${sbpText}.text fastdelete 1.0 end
+array set lines [list ]
+set lines(error) [list ]
+set lines(warning) [list ]
+set lines(information) [list ]
+${sbpText}.text fastinsert end 362 d362
+${sbpText}.text tag bind d362 <Any-Enter> "${sbpText}.text tag configure d362 -foreground white -background black"
+${sbpText}.text tag bind d362 <Any-Leave> "${sbpText}.text tag configure d362 -foreground {} -background {}"
+${sbpText}.text tag bind d362 <1> "event generate . <<selectLine>> -data 362"
+lappend lines(error) 362
+TextEditor::fastaddText $sbpText " Source_Stack_Size (property association) does not point to anything 
+"
+${sbpText}.text fastinsert end 410 d410
+${sbpText}.text tag bind d410 <Any-Enter> "${sbpText}.text tag configure d410 -foreground white -background black"
+${sbpText}.text tag bind d410 <Any-Leave> "${sbpText}.text tag configure d410 -foreground {} -background {}"
+${sbpText}.text tag bind d410 <1> "event generate . <<selectLine>> -data 410"
+lappend lines(error) 410
+TextEditor::fastaddText $sbpText " Source_Stack_Size (property association) does not point to anything 
+"
+${sbpText}.text fastinsert end 459 d459
+${sbpText}.text tag bind d459 <Any-Enter> "${sbpText}.text tag configure d459 -foreground white -background black"
+${sbpText}.text tag bind d459 <Any-Leave> "${sbpText}.text tag configure d459 -foreground {} -background {}"
+${sbpText}.text tag bind d459 <1> "event generate . <<selectLine>> -data 459"
+lappend lines(error) 459
+TextEditor::fastaddText $sbpText " Source_Stack_Size (property association) does not point to anything 
+"
+${sbpText}.text fastinsert end 508 d508
+${sbpText}.text tag bind d508 <Any-Enter> "${sbpText}.text tag configure d508 -foreground white -background black"
+${sbpText}.text tag bind d508 <Any-Leave> "${sbpText}.text tag configure d508 -foreground {} -background {}"
+${sbpText}.text tag bind d508 <1> "event generate . <<selectLine>> -data 508"
+lappend lines(error) 508
+TextEditor::fastaddText $sbpText " Source_Stack_Size (property association) does not point to anything 
+"
+TextEditor::fastaddText $sbpText " Cannot analyze AADL specifications
+"
+${sbpText}.text configure -state $oldState
+return [array get lines]

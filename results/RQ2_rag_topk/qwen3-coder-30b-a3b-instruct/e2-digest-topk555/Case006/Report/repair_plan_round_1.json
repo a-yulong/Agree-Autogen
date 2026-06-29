@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 100: Couldn't resolve reference to 'min'.",
+      "cause": "AGREE does not support the 'min' function; it must be expressed using conditional logic or replaced with a legal AGREE expression",
+      "minimal_edit": "Replace 'min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure)' with a legal AGREE expression using nested conditional logic or a defined constant"
+    },
+    {
+      "diagnostic": "line 101: Couldn't resolve reference to 'concurrencyFactor'.",
+      "cause": "AGREE does not support the 'concurrencyFactor' function; it must be replaced with a legal AGREE expression or removed",
+      "minimal_edit": "Replace 'concurrencyFactor(gcas_timeToRecovery, timeToFailure)' with a legal AGREE expression or remove the guarantee if no visible relation remains"
+    },
+    {
+      "diagnostic": "line 102: Couldn't resolve reference to 'concurrencyFactor'.",
+      "cause": "AGREE does not support the 'concurrencyFactor' function; it must be replaced with a legal AGREE expression or removed",
+      "minimal_edit": "Replace 'concurrencyFactor(tcas_timeToRecovery, timeToFailure)' with a legal AGREE expression or remove the guarantee if no visible relation remains"
+    },
+    {
+      "diagnostic": "line 103: Couldn't resolve reference to 'concurrencyFactor'.",
+      "cause": "AGREE does not support the 'concurrencyFactor' function; it must be replaced with a legal AGREE expression or removed",
+      "minimal_edit": "Replace 'concurrencyFactor(geof_timeToRecovery, timeToFailure)' with a legal AGREE expression or remove the guarantee if no visible relation remains"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the min() function with a legal AGREE expression using conditional logic or define a constant for the minimum value",
+    "Replace each concurrencyFactor() call with a valid AGREE expression or remove the guarantee statements if no visible relation can be expressed",
+    "Ensure all expressions on both sides of '=' are of matching types"
+  ]
+}

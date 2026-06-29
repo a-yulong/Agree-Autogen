@@ -1,0 +1,86 @@
+{
+  "component_types": [
+    {
+      "name": "WaterAlarm",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "WaterAlarm_Thread",
+      "kind": "thread_implementation",
+      "type_name": "WaterAlarm"
+    }
+  ],
+  "subcomponents": [],
+  "features": [
+    {
+      "owner": "WaterAlarm",
+      "name": "WaterAlarm",
+      "direction": "in",
+      "category": "data port",
+      "type": "Int",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "WaterAlarm_Thread",
+      "name": "C2",
+      "kind": "port",
+      "source": "WaterLevelMonitoring_Thread.WaterAlarm",
+      "destination": "WaterAlarm_Thread.WaterAlarm"
+    },
+    {
+      "owner": "WaterAlarm_Thread",
+      "name": "C3",
+      "kind": "port",
+      "source": "PumpCtrl_Thread.WaterAlarm",
+      "destination": "WaterAlarm_Thread.WaterAlarm"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Sporadic",
+      "applies_to": null
+    },
+    {
+      "owner": "WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "100 ms",
+      "applies_to": null
+    },
+    {
+      "owner": "WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "1 ms .. 2 ms",
+      "applies_to": null
+    },
+    {
+      "owner": "WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "2",
+      "applies_to": null
+    },
+    {
+      "owner": "WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "wateralarm_body",
+      "applies_to": null
+    },
+    {
+      "owner": "WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "minepump.c",
+      "applies_to": null
+    }
+  ]
+}

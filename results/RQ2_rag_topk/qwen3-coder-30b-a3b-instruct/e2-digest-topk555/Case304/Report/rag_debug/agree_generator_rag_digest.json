@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place input envelope assumptions in component type annexes using visible feature names and concrete bounds.",
+    "Use AGREE 'assume' for input constraints and 'guarantee' for output behavior within valid scope.",
+    "Declare constants and helper variables for numeric ranges before using them in expressions.",
+    "Avoid generating assumptions for ports without explicit numeric bounds in the requirement."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be syntactically valid and use only visible identifiers from the AADL model.",
+    "Component type contracts should use feature names and constants; implementation contracts should bind to subcomponents.",
+    "Ensure type consistency between AGREE expressions and AADL data types, especially for boolean and numeric comparisons.",
+    "Do not assume or generate bounds unless explicitly stated in the requirement or visible in the model."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks are enclosed in `annex agree {** ... **};` and must follow valid AGREE syntax.",
+    "Use `const` for named limits and `eq` for helper boolean expressions before placing assumptions or guarantees.",
+    "Assumptions refer to input features; guarantees refer to output behavior or derived values.",
+    "Assignments in implementation scope must reference existing output features or declared auxiliary variables."
+  ],
+  "anti_patterns": [
+    "Do not place assumptions or guarantees in implementation scope unless the target is a subcomponent or output feature.",
+    "Do not generate numeric bounds for inputs unless the requirement explicitly states them.",
+    "Do not use AADL property names (e.g., Period, Deadline) as AGREE variables without explicit model exposure.",
+    "Do not convert Boolean or opaque data ports into numeric comparisons unless the model supports it."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing constraints not tied to visible ports or constants",
+    "Implementation-level bindings that do not involve subcomponents or outputs",
+    "Boolean domain values converted to integers or 0/1 comparisons without model support",
+    "Generic non-negative assumptions not explicitly stated in the requirement"
+  ]
+}

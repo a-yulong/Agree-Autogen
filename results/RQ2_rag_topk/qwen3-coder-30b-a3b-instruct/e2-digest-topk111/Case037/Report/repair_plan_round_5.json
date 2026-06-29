@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'real' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "Actuator_Input is of type Base_Types::Float (real), but Target and Actual are of type Types::speed.speed_impl (opaque)",
+      "minimal_edit": "Change the guarantee to use only the real-valued ports and ensure type compatibility"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Target is of type Types::speed.speed_impl (opaque), not a real-valued expression",
+      "minimal_edit": "Ensure that Target and Actual are treated as real-valued expressions in the guarantee"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Actual is of type Types::speed.speed_impl (opaque), not a real-valued expression",
+      "minimal_edit": "Ensure that Target and Actual are treated as real-valued expressions in the guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that Target and Actual are opaque types and cannot be used directly in arithmetic expressions",
+    "Modify the guarantee to use a real-valued expression that correctly represents the intended behavior",
+    "Replace the direct use of Target and Actual with a valid real-valued expression that matches the requirement R1"
+  ]
+}

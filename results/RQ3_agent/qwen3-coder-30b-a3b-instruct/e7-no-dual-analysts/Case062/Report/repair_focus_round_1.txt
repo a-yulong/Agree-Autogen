@@ -1,0 +1,123 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: Data_Sink
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_Sink | in | data | int | Simple_Type
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Q | lines 64-71
+annex agree {**
+    assume "impl_constraints": Q.Impl = Q.Impl;
+    guarantee "data_routing": Data_Sink -> Q.Impl;
+    guarantee "dispatch_protocol": Q.Impl = Q.Impl;
+    guarantee "execution_period": Q.Impl = Q.Impl;
+    guarantee "deadline": Q.Impl = Q.Impl;
+    guarantee "priority": Q.Impl = Q.Impl;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   61:   thread Q
+   62:   features
+   63:     Data_Sink : in event data port Simple_Type;
+   64:   annex agree {**
+>> 65:     assume "impl_constraints": Q.Impl = Q.Impl;
+   66:     guarantee "data_routing": Data_Sink -> Q.Impl;
+   67:     guarantee "dispatch_protocol": Q.Impl = Q.Impl;
+   68:     guarantee "execution_period": Q.Impl = Q.Impl;
+   69:     guarantee "deadline": Q.Impl = Q.Impl;
+
+   62:   features
+   63:     Data_Sink : in event data port Simple_Type;
+   64:   annex agree {**
+   65:     assume "impl_constraints": Q.Impl = Q.Impl;
+>> 66:     guarantee "data_routing": Data_Sink -> Q.Impl;
+   67:     guarantee "dispatch_protocol": Q.Impl = Q.Impl;
+   68:     guarantee "execution_period": Q.Impl = Q.Impl;
+   69:     guarantee "deadline": Q.Impl = Q.Impl;
+   70:     guarantee "priority": Q.Impl = Q.Impl;
+
+   63:     Data_Sink : in event data port Simple_Type;
+   64:   annex agree {**
+   65:     assume "impl_constraints": Q.Impl = Q.Impl;
+   66:     guarantee "data_routing": Data_Sink -> Q.Impl;
+>> 67:     guarantee "dispatch_protocol": Q.Impl = Q.Impl;
+   68:     guarantee "execution_period": Q.Impl = Q.Impl;
+   69:     guarantee "deadline": Q.Impl = Q.Impl;
+   70:     guarantee "priority": Q.Impl = Q.Impl;
+   71:   **};
+
+   64:   annex agree {**
+   65:     assume "impl_constraints": Q.Impl = Q.Impl;
+   66:     guarantee "data_routing": Data_Sink -> Q.Impl;
+   67:     guarantee "dispatch_protocol": Q.Impl = Q.Impl;
+>> 68:     guarantee "execution_period": Q.Impl = Q.Impl;
+   69:     guarantee "deadline": Q.Impl = Q.Impl;
+   70:     guarantee "priority": Q.Impl = Q.Impl;
+   71:   **};
+   72:   end Q;
+
+   65:     assume "impl_constraints": Q.Impl = Q.Impl;
+   66:     guarantee "data_routing": Data_Sink -> Q.Impl;
+   67:     guarantee "dispatch_protocol": Q.Impl = Q.Impl;
+   68:     guarantee "execution_period": Q.Impl = Q.Impl;
+>> 69:     guarantee "deadline": Q.Impl = Q.Impl;
+   70:     guarantee "priority": Q.Impl = Q.Impl;
+   71:   **};
+   72:   end Q;
+   73: 
+
+   66:     guarantee "data_routing": Data_Sink -> Q.Impl;
+   67:     guarantee "dispatch_protocol": Q.Impl = Q.Impl;
+   68:     guarantee "execution_period": Q.Impl = Q.Impl;
+   69:     guarantee "deadline": Q.Impl = Q.Impl;
+>> 70:     guarantee "priority": Q.Impl = Q.Impl;
+   71:   **};
+   72:   end Q;
+   73: 
+   74:   thread implementation Q.Impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Q
+thread Q
+  features
+    Data_Sink : in event data port Simple_Type;
+  end Q;
+
+-- TARGET DECLARATION: Q.Impl
+thread implementation Q.Impl
+  calls
+    Mycalls: {
+    Q_Spg : subprogram Ping_Spg;
+    };
+  connections
+    P1 : parameter Data_Sink -> Q_Spg.Data_Sink;
+  properties
+    Dispatch_Protocol                  => Sporadic;
+    Period                             => 10 Ms;
+    deadline                           => 10 Ms;
+    Priority                           => 1;
+  end Q.Impl;
+
+-- RELATED MODEL LINES
+data Simple_Type
+end Simple_Type;
+Data_Source : out parameter Simple_Type;
+Data_Sink : in parameter Simple_Type;
+thread P
+Data_Source : out event data port Simple_Type;
+end P;
+thread implementation P.Impl
+P1 : parameter P_Spg.Data_Source -> Data_Source;
+end P.Impl;
+thread Q
+Data_Sink : in event data port Simple_Type;
+end Q;
+thread implementation Q.Impl
+P1 : parameter Data_Sink -> Q_Spg.Data_Sink;
+end Q.Impl;

@@ -1,0 +1,21 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left side of binary expression '=>' is of type 'int' but must be of type 'bool'",
+      "cause": "AGREE guarantees require boolean expressions on both sides of '=>', but int ports are used directly",
+      "minimal_edit": "Wrap each port reference with a boolean conversion or comparison to 0 to make it a boolean expression"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type 'int' but must be of type 'bool'",
+      "cause": "AGREE guarantees require boolean expressions on both sides of '=>', but int ports are used directly",
+      "minimal_edit": "Wrap each port reference with a boolean conversion or comparison to 0 to make it a boolean expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace acc1_event_in with (acc1_event_in /= 0) in the guarantee statement at line 37",
+    "Replace acc1_output with (acc1_output /= 0) in the guarantee statement at line 37",
+    "Replace acc2_event_in with (acc2_event_in /= 0) in the guarantee statement at line 38",
+    "Replace acc2_output with (acc2_output /= 0) in the guarantee statement at line 38"
+  ]
+}

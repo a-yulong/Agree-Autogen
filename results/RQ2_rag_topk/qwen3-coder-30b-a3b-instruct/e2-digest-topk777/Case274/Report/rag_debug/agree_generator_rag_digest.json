@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Generate guarantees for visible output ports using concrete bounds or relations from the requirement, without referencing implementation subcomponents.",
+    "Use only identifiers visible in the component scope; do not invent or assume AADL property names as AGREE variables."
+  ],
+  "generic_rules": [
+    "Express range guarantees as numeric comparisons using visible port names and constants, not inferred or implicit properties.",
+    "Define helper equations for reusable conditions (e.g., range checks) to improve contract clarity and type safety.",
+    "Ensure all expressions in guarantees and equations maintain type consistency: numeric comparisons yield bool, and constants are declared with int, real, or bool."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `guarantee \"label\": expression;` inside `annex agree {** ... **};` for component type contracts.",
+    "Use `eq name : type = expression;` to define reusable boolean conditions for range or validity checks.",
+    "Use `const name : type = value;` to declare numeric bounds explicitly within the annex."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL properties (e.g., Period, Deadline) as if they are AGREE variables.",
+    "Do not convert Boolean or opaque ports into numeric range comparisons unless explicitly typed as real/int in the model.",
+    "Do not use subcomponent paths or implementation-level bindings in component type annexes."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "Assumed Type vs Actual Type",
+    "AADL Property Names Are Not AGREE Variables",
+    "AGREE Scalar Type Names",
+    "Named Thing Has No Type",
+    "Unresolved Current-Case Identifier",
+    "Opaque Boolean Data Range Comparison"
+  ]
+}

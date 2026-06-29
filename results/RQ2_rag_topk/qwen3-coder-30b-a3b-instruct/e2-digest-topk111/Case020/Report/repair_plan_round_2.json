@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 25: Couldn't resolve reference to 'k'.",
+      "cause": "Variable 'k' is referenced before being declared as a constant",
+      "minimal_edit": "Move the declaration of 'k' before its use in the guarantee statement"
+    },
+    {
+      "diagnostic": "line 25: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved reference to 'k' causing type inference failure",
+      "minimal_edit": "Ensure 'k' is properly declared as a constant before use"
+    },
+    {
+      "diagnostic": "line 26: The assumed type of constant statement 'k_prev' is 'IntTypeDef' but the actual type is 'ErrorTypeDef'",
+      "cause": "Invalid syntax for temporal recurrence expression",
+      "minimal_edit": "Replace '-> pre(t) + step' with valid AGREE temporal recurrence syntax"
+    },
+    {
+      "diagnostic": "line 26: no viable alternative at input '->'",
+      "cause": "Invalid AGREE syntax for temporal recurrence",
+      "minimal_edit": "Replace '-> pre(t) + step' with valid AGREE syntax"
+    },
+    {
+      "diagnostic": "line 27: Couldn't resolve reference to 'k'.",
+      "cause": "Variable 'k' is referenced before being declared as a constant",
+      "minimal_edit": "Move the declaration of 'k' before its use in the guarantee statement"
+    },
+    {
+      "diagnostic": "line 27: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch due to unresolved reference to 'k' causing type inference failure",
+      "minimal_edit": "Ensure 'k' is properly declared as a constant before use"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Move the declaration of 'k' to be before the guarantee statement that uses it",
+    "Replace the invalid temporal recurrence expression '-> pre(t) + step' with valid AGREE syntax",
+    "Ensure all references to 'k' are after its declaration",
+    "Ensure all references to 'k_prev' are after its declaration"
+  ]
+}

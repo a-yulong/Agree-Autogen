@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 192: Assume statements are allowed only in component types",
+      "cause": "AGREE assume statements in implementation annex are not allowed",
+      "minimal_edit": "Move the annex block from ADIRU.EMV2 to ADIRU"
+    },
+    {
+      "diagnostic": "line 192: Couldn't resolve reference to 'acc_pr'",
+      "cause": "Reference to subcomponent 'acc_pr' not visible in current annex scope",
+      "minimal_edit": "Remove the assume statement for acc_pr"
+    },
+    {
+      "diagnostic": "line 195: Couldn't resolve reference to 'acc_hm_pr'",
+      "cause": "Reference to subcomponent 'acc_hm_pr' not visible in current annex scope",
+      "minimal_edit": "Remove the assume statement for acc_hm_pr"
+    },
+    {
+      "diagnostic": "line 198: Couldn't resolve reference to 'ADIRUp_pr'",
+      "cause": "Reference to subcomponent 'ADIRUp_pr' not visible in current annex scope",
+      "minimal_edit": "Remove the assume statement for ADIRUp_pr"
+    },
+    {
+      "diagnostic": "line 201: Couldn't resolve reference to 'SHM_pr'",
+      "cause": "Reference to subcomponent 'SHM_pr' not visible in current annex scope",
+      "minimal_edit": "Remove the assume statement for SHM_pr"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from ADIRU.EMV2",
+    "Add a new AGREE annex block to the ADIRU system type",
+    "In the new AGREE annex block, add assume statements for the processor bindings using valid component type references"
+  ]
+}

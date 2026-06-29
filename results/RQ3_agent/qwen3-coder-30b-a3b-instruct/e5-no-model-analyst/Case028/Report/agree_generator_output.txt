@@ -1,0 +1,10 @@
+annex agree {**
+  const "minHeightAllowed": real = 200.0;
+  const "recoveryTime": real = 3.7;
+  eq "t_next": real = 0.0 -> pre(t) + 0.1;
+  guarantee "output_timeToRecovery": timeToRecovery = 3.7;
+  guarantee "height_greater_than_minHeightAllowed": 
+    (t >= recoveryTime) => (height > minHeightAllowed);
+  guarantee "pull_up_trend": 
+    (t >= recoveryTime) => (height > pre(height));
+**};

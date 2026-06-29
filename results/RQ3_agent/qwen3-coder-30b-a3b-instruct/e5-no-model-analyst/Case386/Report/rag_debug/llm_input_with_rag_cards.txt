@@ -1,0 +1,107 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks within component type or implementation annexes.
+- Assumptions referring to component ports must be placed in valid component type scopes.
+Generic rules:
+- AGREE expressions must align types between helper declarations and their referenced values.
+- Boolean data range comparisons should only use exact Boolean expressions when the port is an AGREE bool in scope.
+- Do not encode AADL timing properties as AGREE expressions unless explicit typed ports or constants are available.
+Syntax or pattern reminders:
+- Use `eq variable : bool = x >= min_value and x <= max_value;` for range comparisons in AGREE.
+- Component-level contracts are typically placed in component type annexes; implementation bindings in implementation annexes.
+Anti-patterns:
+- Avoid referencing AADL property names like Compute_Execution_Time directly in AGREE expressions.
+- Do not convert Boolean domain values into integers for range comparisons.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Alpha_Type
+- One_Dimension_Array
+- A_Struct
+- A_Struct.impl
+- All_elems
+- elem
+- Computation_Th
+- Data_Out
+- Producer_Th
+- Data_In
+- Data_Source1
+- Data_Source2
+- Pr_Index
+- Consumer_Th
+- Data_Sink1
+- Data_Sink2
+- Cr_Index
+- A
+- Alpha1
+- Alpha2
+- Alpha3
+- A.Impl
+- Computation
+- Producer
+- B
+- Beta1
+- Beta2
+- Beta3
+- B.Impl
+- Consumer
+- PC_Simple
+- PC_Simple.Native
+- pr_A
+- pr_B
+- Device_A
+- Device_B
+
+Target interface:
+Exact expression symbols: Beta1, Beta1.All_elems, Beta1.elem, Beta2, Beta2.All_elems, Beta2.elem, Beta3
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Beta1 | in | data | opaque | A_Struct.impl
+Beta1.All_elems | in | data_field | opaque | One_Dimension_Array
+Beta1.elem | in | data_field | int | Base_Types::Integer
+Beta2 | in | data | opaque | A_Struct.impl
+Beta2.All_elems | in | data_field | opaque | One_Dimension_Array
+Beta2.elem | in | data_field | int | Base_Types::Integer
+Beta3 | in | data | int | Base_Types::Integer
+
+Raw requirement:
+The B component shall operate under a bounded input condition for Beta3. The environment shall keep Beta3 greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Beta3 >= 0 and Beta3 <= 100",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "Beta3"
+      ]
+    }
+  ]
+}

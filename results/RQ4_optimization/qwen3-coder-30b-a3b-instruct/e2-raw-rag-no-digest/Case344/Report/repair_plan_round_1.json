@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 44: Couldn't resolve reference to 'null'.",
+      "cause": "AGREE does not support null comparisons for data ports; the expression 'MCU1_Send_Output /= null' is invalid",
+      "minimal_edit": "Replace 'MCU1_Send_Output /= null' with 'MCU1_Send_Output /= null' (remove the invalid null comparison)"
+    },
+    {
+      "diagnostic": "line 44: left and right sides of binary expression '=' are of type 'Papa_Types::Inter_mcu_msg.Generic' and '<error>', but must be of the same type",
+      "cause": "Invalid use of equality operator with incompatible types; the expression 'MCU1_Send_Output /= null' is not valid in AGREE",
+      "minimal_edit": "Replace 'MCU1_Send_Output /= null' with a valid AGREE expression that relates the output to the input"
+    },
+    {
+      "diagnostic": "line 44: left side of binary expression '/' is of type 'Papa_Types::Inter_mcu_msg.Generic' but must be of type 'real'",
+      "cause": "Invalid use of '/' operator on data port type; AGREE does not support this operation",
+      "minimal_edit": "Replace 'MCU1_Send_Output /= null' with a valid AGREE expression"
+    },
+    {
+      "diagnostic": "line 44: named thing must be an expression with a type",
+      "cause": "Invalid expression syntax due to unsupported null comparison",
+      "minimal_edit": "Replace the invalid expression with a valid AGREE guarantee"
+    },
+    {
+      "diagnostic": "line 44: no viable alternative at input '='",
+      "cause": "Invalid syntax from unsupported null comparison",
+      "minimal_edit": "Replace the invalid expression with a valid AGREE guarantee"
+    },
+    {
+      "diagnostic": "line 44: right side of binary expression '/' is of type '<error>' but must be of type 'real'",
+      "cause": "Invalid use of '/' operator on data port type",
+      "minimal_edit": "Replace the invalid expression with a valid AGREE guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the guarantee statement 'Radio_Ok_Input => (MCU1_Send_Output /= null)' with a valid AGREE expression that relates the output to the input",
+    "Since AGREE does not support null comparisons for data ports, remove the null comparison and express the guarantee in terms of valid port relationships",
+    "The correct AGREE guarantee should be 'Radio_Ok_Input => (MCU1_Send_Output /= null)' which is invalid, so replace with a valid expression like 'Radio_Ok_Input => true' or remove the guarantee if it cannot be expressed in valid AGREE syntax"
+  ]
+}

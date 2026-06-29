@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'min'.",
+      "cause": "AGREE does not support the 'min' function; it must be expressed using conditional logic or replaced with a legal AGREE expression.",
+      "minimal_edit": "Replace 'min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure)' with a legal AGREE expression using conditional logic or a defined function."
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'concurrencyFactor'.",
+      "cause": "AGREE does not support the 'concurrencyFactor' function; it must be expressed using legal AGREE constructs or removed if not definable.",
+      "minimal_edit": "Replace 'concurrencyFactor(gcas_timeToRecovery, timeToFailure)' with a legal AGREE expression or remove the guarantee if not expressible."
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'concurrencyFactor'.",
+      "cause": "AGREE does not support the 'concurrencyFactor' function; it must be expressed using legal AGREE constructs or removed if not definable.",
+      "minimal_edit": "Replace 'concurrencyFactor(tcas_timeToRecovery, timeToFailure)' with a legal AGREE expression or remove the guarantee if not expressible."
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'concurrencyFactor'.",
+      "cause": "AGREE does not support the 'concurrencyFactor' function; it must be expressed using legal AGREE constructs or removed if not definable.",
+      "minimal_edit": "Replace 'concurrencyFactor(geof_timeToRecovery, timeToFailure)' with a legal AGREE expression or remove the guarantee if not expressible."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the 'min' function in guarantee \"timeToFailure_min\" with a legal AGREE expression using conditional logic or a defined function.",
+    "Replace all instances of 'concurrencyFactor' in guarantees \"p1_concurrency_factor\", \"p2_concurrency_factor\", and \"p3_concurrency_factor\" with legal AGREE expressions or remove those guarantees if not expressible.",
+    "Ensure all expressions in the AGREE annex use only visible identifiers and legal AGREE constructs."
+  ]
+}

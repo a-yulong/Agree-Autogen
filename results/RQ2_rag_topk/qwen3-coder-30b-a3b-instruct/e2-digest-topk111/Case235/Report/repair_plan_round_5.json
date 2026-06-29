@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "extraneous input '(' expecting RULE_ID",
+      "cause": "Invalid AGREE syntax: use of parentheses around boolean expression",
+      "minimal_edit": "Remove parentheses around (dps_val > 0)"
+    },
+    {
+      "diagnostic": "mismatched input '>' expecting ':'",
+      "cause": "Invalid AGREE syntax: use of '>' instead of 'eq' for boolean comparison",
+      "minimal_edit": "Replace '>' with 'eq' for boolean equality"
+    },
+    {
+      "diagnostic": "no viable alternative at input 'eq'",
+      "cause": "Invalid AGREE syntax: incorrect use of 'eq' with parentheses",
+      "minimal_edit": "Remove parentheses around (dps_val > 0)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'ecam_info eq (dps_val > 0)' with 'ecam_info eq (dps > 0)'",
+    "Remove the parentheses around the boolean expression to make it 'ecam_info eq dps > 0'"
+  ]
+}

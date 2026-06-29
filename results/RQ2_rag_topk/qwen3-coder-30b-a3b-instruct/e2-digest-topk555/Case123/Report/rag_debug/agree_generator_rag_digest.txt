@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE contracts in annex agree blocks within component type scopes for assumptions and guarantees, and implementation scopes for assignments.
+- Use assume/guarantee syntax with valid AADL feature names and types from the model.
+- Generate equation helpers and constants in component type scopes when describing data flow or signal ranges.
+- Avoid encoding AADL properties like Period, Priority, Compute_Execution_Time as AGREE variables unless model exposes typed ports or constants.
+Generic rules:
+- AGREE annex blocks must be syntactically valid with proper scoping of variables and expressions.
+- Assumptions should describe input constraints, guarantees should describe output behavior.
+- Constants and equations in AGREE should use valid scalar types: int, real, bool.
+- Only reference visible AADL features or previously declared helpers in AGREE expressions.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements.
+- Declare helpers with `eq name : type = expression;` and constants with `const name : type = value;`.
+- Assignments use `assign output = expression;` in implementation scope only.
+- Component type contracts go in component type annexes; implementation contracts in implementation annexes.
+Anti-patterns:
+- Do not reference AADL property names like Period or Priority directly in AGREE expressions.
+- Do not place guarantee statements in implementation scope unless they are output assignments.
+- Do not use invalid scalar types like 'integer' or 'boolean' in AGREE declarations.
+- Do not reference non-visible AADL features or undefined helpers in AGREE expressions.
+</RAG_DIGEST>

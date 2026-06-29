@@ -1,0 +1,51 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'accDataOut'.",
+      "cause": "Reference to subcomponent port 'spg.accDataOut' in AGREE annex of component type",
+      "minimal_edit": "Replace 'spg.accDataOut' with 'accout' in the signal_flow_data assumption"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'spg'.",
+      "cause": "Reference to subcomponent 'spg' in AGREE annex of component type",
+      "minimal_edit": "Remove reference to 'spg' in the signal_flow_data assumption"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in signal_flow_data assumption due to invalid reference",
+      "minimal_edit": "Correct the signal_flow_data assumption to use valid identifiers"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in signal_flow_data assumption",
+      "minimal_edit": "Rewrite signal_flow_data assumption to reference valid port 'accout' only"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'event_in'.",
+      "cause": "Reference to subcomponent port 'spg.event_in' in AGREE annex of component type",
+      "minimal_edit": "Replace 'spg.event_in' with 'acc_command_in' in the signal_flow_control assumption"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'spg'.",
+      "cause": "Reference to subcomponent 'spg' in AGREE annex of component type",
+      "minimal_edit": "Remove reference to 'spg' in the signal_flow_control assumption"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in signal_flow_control assumption due to invalid reference",
+      "minimal_edit": "Correct the signal_flow_control assumption to use valid identifiers"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in signal_flow_control assumption",
+      "minimal_edit": "Rewrite signal_flow_control assumption to reference valid port 'acc_command_in' only"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the AGREE annex block in acc3_dataOutput to remove references to subcomponent 'spg' and its ports",
+    "Change the signal_flow_data assumption from 'accout = spg.accDataOut' to 'accout = accout'",
+    "Change the signal_flow_control assumption from 'spg.event_in = acc_command_in' to 'acc_command_in = acc_command_in'",
+    "Since these assumptions are logically redundant, consider removing them entirely from the component type annex"
+  ]
+}

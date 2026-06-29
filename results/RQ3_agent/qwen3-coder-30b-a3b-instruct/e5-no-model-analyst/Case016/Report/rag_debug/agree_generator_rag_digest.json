@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.",
+    "Place assumptions and guarantees in valid component type scopes when referring to ports, and in implementation scopes for bindings.",
+    "Generate AGREE contracts using logical operators (and, or, not, =>) and follow the syntax: assume \"label\": expr; guarantee \"label\": expr; eq name : type = expr; const name : type = value; assign output = expr;"
+  ],
+  "generic_rules": [
+    "For component type contracts, only include assumptions and guarantees that reference visible variables or named constants with concrete bounds.",
+    "Write output dependency guarantees that relate visible outputs to visible inputs, avoiding implementation-only subcomponent paths.",
+    "Ensure AGREE type declarations use correct scalar types: int, real, bool, and align helper declaration types with actual expression types.",
+    "Avoid encoding AADL timing properties (e.g., Deadline, Period) as AGREE variables unless explicitly exposed as typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `0.0 -> pre(t) + step` for stateful equations and nested `if ... then ... else` for conditional logic.",
+    "Use `eq name : type = expression;` for defining equations and `const name : type = value;` for constants.",
+    "Use `assign output = expression;` for output assignments and `assume/guarantee` for contract statements."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent ports in component type contracts unless represented through visible variables or outputs.",
+    "Do not encode AADL properties like Period or Deadline as AGREE expressions unless they are explicitly typed and visible.",
+    "Do not use invalid AGREE scalar types such as 'integer' or 'boolean'; use 'int', 'real', or 'bool' instead.",
+    "Avoid placing implementation-level bindings in component type scopes; use implementation scopes for such constructs."
+  ],
+  "irrelevant_topics": [
+    "AADL structural extraction",
+    "Requirement semantics and traceability",
+    "Model fusion owner/scope rules",
+    "Validator-driven repair patterns"
+  ]
+}

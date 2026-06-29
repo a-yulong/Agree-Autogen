@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'gps_pos'.",
+      "cause": "gps_pos is a port of thr_mgmt, not visible in implementation scope",
+      "minimal_edit": "Remove gps_pos reference from assume statement"
+    },
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent, not visible in component type scope",
+      "minimal_edit": "Remove pspg reference from assume statement"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent, not visible in component type scope",
+      "minimal_edit": "Remove pspg reference from assume statement"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'speed'.",
+      "cause": "speed is a port of thr_mgmt, not visible in implementation scope",
+      "minimal_edit": "Remove speed reference from assume statement"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the assume statements from thr_mgmt component type to thr_mgmt.i implementation",
+    "Remove the assume statements from the component type annex",
+    "Update the assume statements to reference only visible identifiers in implementation scope"
+  ]
+}

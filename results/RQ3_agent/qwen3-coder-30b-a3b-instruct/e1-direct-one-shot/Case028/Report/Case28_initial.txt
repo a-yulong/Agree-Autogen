@@ -1,0 +1,44 @@
+package gcas_single
+public
+	with base_types;
+	with gcas_nodes;
+	
+	system GCAS_singleton
+		features
+			altitude: in data port real;
+			timeToRecovery: out data port real;
+	end GCAS_singleton;
+	
+	system implementation GCAS_singleton.impl
+		annex agree {**
+			var t: real;
+			const minHeightAllowed: real = 200.0;
+			var height: real;
+			
+			let
+				t = 0.0;
+				height = kinematicLinearization(t);
+				timeToRecovery = 3.7;
+				
+			guaranties
+				-- When simulation time t reaches or exceeds the recovery time,
+				-- the computed height value must always be greater than minHeightAllowed
+				-- and the current height must be greater than the previous height
+				-- to indicate a pull-up trend
+				(t >= 3.7) => (height > minHeightAllowed) and (height > height'');
+		**};
+	end GCAS_singleton.impl;
+	
+	
+	-- Type Aliases
+	
+	data int extends base_types::Integer
+	end int;
+	
+	data real extends base_types::Float
+	end real;
+	
+	data bool extends base_types::Boolean
+	end bool;
+	
+end gcas_single;

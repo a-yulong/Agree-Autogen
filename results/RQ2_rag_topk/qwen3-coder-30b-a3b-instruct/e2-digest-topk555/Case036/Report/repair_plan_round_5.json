@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 30: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "Type mismatch between subcomponent port and component port in connection",
+      "minimal_edit": "Remove the connection AcSpeedToTop from the implementation annex since it references subcomponent port 'THROT.Actual' which is not visible in the component type contract."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 32: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "Type mismatch between component port and subcomponent port in connection",
+      "minimal_edit": "Remove the connection TgSpeedToCntrl from the implementation annex since it references subcomponent port 'CNTRL.Target' which is not visible in the component type contract."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 37: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "Type mismatch between subcomponent port and component port in connection",
+      "minimal_edit": "Remove the connection SSToSM from the implementation annex since it references subcomponent port 'SM.State_Out' which is not visible in the component type contract."
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex from the Car component type to the Car.Car_Impl implementation",
+    "Remove all connection references to subcomponent ports from the AGREE annex",
+    "Ensure only visible component ports are referenced in the AGREE annex"
+  ]
+}

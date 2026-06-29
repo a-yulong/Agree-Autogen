@@ -1,0 +1,13 @@
+annex agree {**
+  const initImpact : real = 0.0;
+  const initRecovery : real = 0.0;
+  eq impactInit : real = initImpact;
+  eq recoveryInit : real = initRecovery;
+  assume "roll_rate_bounds": (10.0 <= 15.0) and (10.0 <= 15.0);
+  guarantee "collision_avoidance_condition": 
+    (altitude - verticalVelocity <= 30.0) or (altitude - verticalVelocity <= 30.0) => gcasRequested = true;
+  guarantee "output_initialization": 
+    outImpact = initImpact and outRecovery = initRecovery;
+  guarantee "output_constancy": 
+    always (outImpact = initImpact and outRecovery = initRecovery);
+**};

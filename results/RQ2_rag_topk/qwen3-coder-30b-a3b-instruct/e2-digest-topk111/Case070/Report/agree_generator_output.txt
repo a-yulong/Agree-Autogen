@@ -1,0 +1,17 @@
+annex agree {**
+  assume "timing_constraint": 
+    telecommand = telecommand => 
+      (0 ms <= Compute_Execution_Time and Compute_Execution_Time <= 100 us);
+  
+  assume "dispatch_protocol": 
+    telecommand = telecommand => 
+      Dispatch_Protocol = Aperiodic;
+  
+  guarantee "compute_execution_time_bounds": 
+    telecommand = telecommand => 
+      (0 ms <= Compute_Execution_Time and Compute_Execution_Time <= 100 us);
+  
+  guarantee "dispatch_protocol_binding": 
+    telecommand = telecommand => 
+      Dispatch_Protocol = Aperiodic;
+**};

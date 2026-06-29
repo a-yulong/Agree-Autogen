@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 191: Assume statements are allowed only in component types",
+      "cause": "AGREE annex is attached to ADIRU.EMV2, which is a system implementation, not a component type",
+      "minimal_edit": "Move the entire annex agree block from ADIRU.EMV2 to ADIRU"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 191: Couldn't resolve reference to 'C1'.",
+      "cause": "C1 is a connection, not a boolean expression; => operator requires boolean operands",
+      "minimal_edit": "Remove assume statements for C1, C2, etc., as connections cannot be used as boolean conditions in AGREE"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 191: Couldn't resolve reference to 'acc1_output'.",
+      "cause": "acc_pr.acc1_output is a port, not a visible AGREE expression; ports are not directly addressable in component type AGREE without intermediate variables",
+      "minimal_edit": "Remove all port references (acc_pr.acc1_output, acc_pr.acc2_output) as they are not legal in AGREE contracts at this scope"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 195: Couldn't resolve reference to 'main_cpu'.",
+      "cause": "main_cpu is a subcomponent of ADIRU.impl, not visible in ADIRU component type scope",
+      "minimal_edit": "Remove all 'acc_pr = main_cpu.part1' etc. bindings, since subcomponent references are not visible in component type contracts"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the entire annex agree block from ADIRU.EMV2",
+    "Create a new annex agree block in ADIRU (component type) with no content, since no valid assumptions can be expressed with visible symbols",
+    "Verify that all port and subcomponent references in the original annex are removed, as they are not legal in component type AGREE contracts"
+  ]
+}

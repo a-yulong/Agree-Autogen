@@ -1,0 +1,31 @@
+{
+  "rag_rules": [
+    "When fixing port type mismatches, ensure target and actual port specifications reference valid AADL types within the component's scope.",
+    "If diagnostics indicate unreachable or invalid port references, verify that the referenced types are properly declared and accessible in the current AADL model.",
+    "For AGREE contract diagnostics, resolve type mismatches by aligning helper declarations with expression types (int, real, bool)."
+  ],
+  "generic_rules": [
+    "AGREE contracts must only reference visible identifiers from the AADL model; avoid introducing undefined or package-qualified names.",
+    "Implementation-level bindings in AGREE should use assign statements for valid output features or declared auxiliary variables.",
+    "Component type contracts should not include guarantees that reference implementation-specific subcomponents or paths.",
+    "Ensure all AGREE expressions use valid scalar types (int, real, bool) and avoid AADL property names as variables."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annexes are enclosed in `annex agree {** ... **};` blocks and must be placed in appropriate component scopes.",
+    "Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct syntax and visible identifiers.",
+    "Type declarations in AGREE must match AADL data types exactly (e.g., int, real, bool)."
+  ],
+  "anti_patterns": [
+    "Do not introduce package-qualified identifiers or AADL property names (e.g., Deadline, Period) into AGREE expressions.",
+    "Avoid placing implementation-level guarantees in component type annexes; move them to implementation scopes if needed.",
+    "Do not reference ports or features that are not visible in the current AADL scope when writing AGREE contracts."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "type scope range assumption and guarantee",
+    "implementation scope output assign",
+    "range monitor chunk 1",
+    "output envelope chunk 2"
+  ]
+}

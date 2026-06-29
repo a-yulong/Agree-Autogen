@@ -1,0 +1,61 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 118: Assume statements are allowed only in component types",
+      "cause": "AGREE assume statements in implementation annex",
+      "minimal_edit": "Move assume statement to thr_mgmt type annex"
+    },
+    {
+      "diagnostic": "line 118: Couldn't resolve reference to 'gps_pos'",
+      "cause": "Reference to port not visible in implementation scope",
+      "minimal_edit": "Remove reference to gps_pos in implementation annex"
+    },
+    {
+      "diagnostic": "line 118: Couldn't resolve reference to 'pspg'",
+      "cause": "Reference to subcomponent not visible in implementation scope",
+      "minimal_edit": "Remove reference to pspg in implementation annex"
+    },
+    {
+      "diagnostic": "line 118: left and right sides of binary expression '=' are of type 'Ardupilot_Software::GPS_Position.i' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in equality expression",
+      "minimal_edit": "Remove invalid equality expression"
+    },
+    {
+      "diagnostic": "line 118: named thing must be an expression with a type",
+      "cause": "Invalid expression syntax",
+      "minimal_edit": "Remove invalid expression"
+    },
+    {
+      "diagnostic": "line 119: Assume statements are allowed only in component types",
+      "cause": "AGREE assume statements in implementation annex",
+      "minimal_edit": "Move assume statement to thr_mgmt type annex"
+    },
+    {
+      "diagnostic": "line 119: Couldn't resolve reference to 'pspg'",
+      "cause": "Reference to subcomponent not visible in implementation scope",
+      "minimal_edit": "Remove reference to pspg in implementation annex"
+    },
+    {
+      "diagnostic": "line 119: Couldn't resolve reference to 'speed'",
+      "cause": "Reference to port not visible in implementation scope",
+      "minimal_edit": "Remove reference to speed in implementation annex"
+    },
+    {
+      "diagnostic": "line 119: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in equality expression",
+      "minimal_edit": "Remove invalid equality expression"
+    },
+    {
+      "diagnostic": "line 119: named thing must be an expression with a type",
+      "cause": "Invalid expression syntax",
+      "minimal_edit": "Remove invalid expression"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from thr_mgmt.i",
+    "Add a new AGREE annex block to the thr_mgmt component type",
+    "In the new annex block, add assumptions that reference only visible identifiers: gps_pos, speed, angle",
+    "Ensure the new annex block contains only valid AGREE expressions using visible symbols"
+  ]
+}

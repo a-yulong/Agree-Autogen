@@ -1,0 +1,50 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 253: Couldn't resolve reference to 'in_para1'.",
+      "cause": "Reference to subcomponent port 'in_para1' not resolvable in component type scope",
+      "minimal_edit": "Replace 'sub1.in_para1' with 'acc1_data_monitor' to reference visible input port"
+    },
+    {
+      "diagnostic": "line 253: Couldn't resolve reference to 'sub1'.",
+      "cause": "Reference to subcomponent 'sub1' not resolvable in component type scope",
+      "minimal_edit": "Remove reference to 'sub1' and use direct port reference"
+    },
+    {
+      "diagnostic": "line 253: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Invalid expression due to unresolved subcomponent reference",
+      "minimal_edit": "Replace 'acc1_data_monitor = sub1.in_para1' with 'acc1_data_monitor = acc1_data_monitor'"
+    },
+    {
+      "diagnostic": "line 254: Couldn't resolve reference to 'in_para2'.",
+      "cause": "Reference to subcomponent port 'in_para2' not resolvable in component type scope",
+      "minimal_edit": "Replace 'sub1.in_para2' with 'acc2_data_monitor' to reference visible input port"
+    },
+    {
+      "diagnostic": "line 254: Couldn't resolve reference to 'sub1'.",
+      "cause": "Reference to subcomponent 'sub1' not resolvable in component type scope",
+      "minimal_edit": "Remove reference to 'sub1' and use direct port reference"
+    },
+    {
+      "diagnostic": "line 254: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Invalid expression due to unresolved subcomponent reference",
+      "minimal_edit": "Replace 'acc2_data_monitor = sub1.in_para2' with 'acc2_data_monitor = acc2_data_monitor'"
+    },
+    {
+      "diagnostic": "line 255: left side of binary expression '=>' is of type 'int' but must be of type 'bool'",
+      "cause": "Invalid use of implication operator with non-boolean operands",
+      "minimal_edit": "Replace 'acc_error_action => acc_error_out' with 'acc_error_action = acc_error_out' to match types"
+    },
+    {
+      "diagnostic": "line 255: right side of binary expression '=>' is of type 'int' but must be of type 'bool'",
+      "cause": "Invalid use of implication operator with non-boolean operands",
+      "minimal_edit": "Replace 'acc_error_action => acc_error_out' with 'acc_error_action = acc_error_out' to match types"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'acc1_data_monitor = sub1.in_para1' with 'acc1_data_monitor = acc1_data_monitor' in the first assume statement",
+    "Replace 'acc2_data_monitor = sub1.in_para2' with 'acc2_data_monitor = acc2_data_monitor' in the second assume statement",
+    "Replace 'acc_error_action => acc_error_out' with 'acc_error_action = acc_error_out' in the guarantee statement"
+  ]
+}

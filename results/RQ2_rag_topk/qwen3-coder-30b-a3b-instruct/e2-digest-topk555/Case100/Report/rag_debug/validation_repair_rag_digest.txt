@@ -1,0 +1,25 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE contracts must reference only visible identifiers from the current scope; avoid package-qualified names unless explicitly imported.
+- Generated AGREE code should preserve type safety and avoid <error> types by ensuring all expressions have valid types.
+- Component type contracts should not reference implementation-only features or subcomponent paths; use only visible ports and type-level variables.
+- Validator diagnostics pointing to unresolved identifiers or type mismatches should be resolved by correcting or removing the offending AGREE clause.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks and must be placed in appropriate scopes (type or implementation).
+- Helper declarations like `const` and `eq` must use valid scalar types: int, real, bool.
+- Assignments in implementation scope should only target existing output features or declared auxiliary variables.
+- Guarantees in component type annexes must relate visible inputs to visible outputs; avoid implementation-specific paths.
+Anti-patterns:
+- Do not introduce new identifiers or types in AGREE contracts that are not present in the AADL model's visible scope.
+- Do not place implementation-level bindings in component type annexes; this leads to scope resolution errors.
+- Do not attempt to fix type errors by adding placeholder declarations; instead, resolve the root cause of the type mismatch.
+- Do not assume that package-qualified identifiers are available unless explicitly imported in the AADL model.
+Irrelevant retrieved material:
+- aadl_scope_notes
+- agree_syntax_notes
+- implementation scope output assign
+- type scope deterministic dependency guarantee
+- integrated pattern chunk 1
+- type scope range assumption and guarantee
+- range monitor chunk 2
+</RAG_DIGEST>

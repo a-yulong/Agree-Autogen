@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 118: Assume statements are allowed only in component types",
+      "cause": "assume statement placed in thread implementation annex",
+      "minimal_edit": "move assume statement to thread type annex"
+    },
+    {
+      "diagnostic": "line 119: Guarantee statements are allowed only in component types",
+      "cause": "guarantee statement placed in thread implementation annex",
+      "minimal_edit": "move guarantee statement to thread type annex"
+    },
+    {
+      "diagnostic": "line 118: Couldn't resolve reference to 'gps_pos'",
+      "cause": "reference to port not visible in implementation scope",
+      "minimal_edit": "remove or rewrite expression using only visible symbols"
+    },
+    {
+      "diagnostic": "line 118: Couldn't resolve reference to 'pspg'",
+      "cause": "subcomponent reference not visible in implementation scope",
+      "minimal_edit": "remove or rewrite expression using only visible symbols"
+    },
+    {
+      "diagnostic": "line 119: Couldn't resolve reference to 'pspg'",
+      "cause": "subcomponent reference not visible in implementation scope",
+      "minimal_edit": "remove or rewrite expression using only visible symbols"
+    },
+    {
+      "diagnostic": "line 119: Couldn't resolve reference to 'speed'",
+      "cause": "reference to port not visible in implementation scope",
+      "minimal_edit": "remove or rewrite expression using only visible symbols"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire annex agree block from thr_mgmt.i to thr_mgmt",
+    "Remove the assume and guarantee statements from the implementation annex",
+    "Ensure that any necessary contracts are expressed in the thread type annex using only visible identifiers"
+  ]
+}

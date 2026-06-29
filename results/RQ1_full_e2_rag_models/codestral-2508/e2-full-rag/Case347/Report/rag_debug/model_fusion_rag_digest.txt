@@ -1,0 +1,24 @@
+<RAG_DIGEST agent="model_fusion">
+Generic rules:
+- Maintain the original AADL structure when inserting annex blocks
+- Ensure AGREE annex blocks are placed in the correct scope for their intended purpose
+- Use only visible identifiers in AGREE expressions to avoid unresolved references
+- Avoid using AADL property names directly in AGREE expressions unless explicitly exposed as ports or constants
+Syntax or pattern reminders:
+- AGREE contracts are written inside `annex agree {** ... **};` blocks
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` for valid AGREE syntax
+- For output range guarantees, use the pattern `guarantee "label": output >= min and output <= max;`
+Anti-patterns:
+- Do not place implementation-level bindings in component type annexes
+- Avoid using subcomponent ports in component type contracts
+- Do not use AADL property names directly in AGREE expressions without explicit exposure
+- Ensure all identifiers in AGREE expressions are visible in the current scope
+Irrelevant retrieved material:
+- AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes
+- Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections
+- Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs
+- For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation
+- For output dependency contracts, write a guarantee that relates visible outputs to visible inputs
+- If AGREE reports "The assumed type ... is ... but the actual type is ...", align the helper declaration type with the expression
+- If diagnostics report unresolved references to Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens such as ms/us/Hz/Bytes inside an AGREE annex, delete the generated clause
+</RAG_DIGEST>

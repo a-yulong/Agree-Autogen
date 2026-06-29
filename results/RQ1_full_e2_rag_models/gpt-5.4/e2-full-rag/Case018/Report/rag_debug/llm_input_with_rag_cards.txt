@@ -1,0 +1,142 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use only AGREE constructs with valid syntax such as assume, guarantee, eq, const, and assign when supported by the target scope.
+- Write contracts over visible symbols only; relate outputs to inputs or locally declared helpers, not hidden implementation paths.
+- Include range assumptions or guarantees only when the requirement provides concrete bounds, constants, or an explicit visible relation.
+- For dependency behavior, express a deterministic relation between visible variables rather than describing internal invocation details.
+Generic rules:
+- Prefer small helper equations for reusable predicates such as range checks, then reference those helpers in assumptions or guarantees.
+- Keep numeric comparisons and bounds faithful to the requirement thresholds and operand types.
+- If no explicit identifier whitelist is available, be conservative and avoid introducing undeclared names.
+Syntax or pattern reminders:
+- Boolean range helper pattern: declare an eq helper as bool, then use conjunctions like x >= low and x <= high.
+- Use initialized temporal recurrence for stateful logic and nested if-then-else for branching when needed.
+- AGREE logical forms use and, or, not(...), and =>.
+Anti-patterns:
+- Do not reference subcomponent ports or implementation-only paths in a contract intended for a component interface scope.
+- Do not use AADL property names or unit tokens as if they were AGREE variables.
+- Do not declare helpers with a type that disagrees with the expression; comparisons produce bool, integer arithmetic int, and real arithmetic real.
+- Do not keep clauses with unresolved identifiers; restrict to visible features or locally declared helpers, otherwise omit the clause.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- outGCASR
+- outImpact
+- outRecovery
+- outAltitude
+- outTime
+
+Target interface:
+Exact expression symbols: outGCASR, outGCASR.VV, outGCASR.DeltaHeading, outGCASR.Airspeed, outImpact, outRecovery, outAltitude, outTime
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+outGCASR | out | data | opaque | autopilot.autopilot_impl
+outGCASR.VV | out | data_field | real | Base_Types::float
+outGCASR.DeltaHeading | out | data_field | real | Base_Types::float
+outGCASR.Airspeed | out | data_field | real | Base_Types::float
+outImpact | out | data | real | Base_Types::float
+outRecovery | out | data | real | Base_Types::float
+outAltitude | out | data | real | Base_Types::float
+outTime | out | data | real | Base_Types::float
+
+Raw requirement:
+The GCAS_Recovery component shall define an altitude variable and invoke the gcasDynamics3 function for recursive computation. The component shall assume that the initial time timeRangeInitial and the final time timeRangeFinal are within the range [0.0, 10.0]. Under the assumption that the initial flight speed is 150.0 feet/second and the recovery time exceeds the threshold of 8.9 seconds, the component shall guarantee that the altitude variable outAltitude is greater than 0.0 to prevent ground impact.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "GCAS_Recovery defines an altitude variable.",
+      "kind": "other",
+      "intent": "describe",
+      "evidence": [
+        "GCAS_Recovery",
+        "altitude variable",
+        "outAltitude"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "GCAS_Recovery invokes gcasDynamics3 for recursive computation.",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "GCAS_Recovery",
+        "gcasDynamics3"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Initial time timeRangeInitial is within [0.0, 10.0].",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "timeRangeInitial",
+        "[0.0, 10.0]"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Final time timeRangeFinal is within [0.0, 10.0].",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "timeRangeFinal",
+        "[0.0, 10.0]"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Initial flight speed is 150.0 feet/second.",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "150.0 feet/second"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "Recovery time exceeds 8.9 seconds.",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "8.9 seconds"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "outAltitude > 0.0.",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "outAltitude",
+        "0.0"
+      ]
+    }
+  ]
+}

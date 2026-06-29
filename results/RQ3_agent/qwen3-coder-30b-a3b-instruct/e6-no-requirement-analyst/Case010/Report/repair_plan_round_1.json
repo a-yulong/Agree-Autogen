@@ -1,0 +1,62 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 26: mismatched input '=' expecting ':'",
+      "cause": "AGREE const declaration syntax error",
+      "minimal_edit": "Change 'const verticalAcceleration = 100.0;' to 'const verticalAcceleration : real = 100.0;'"
+    },
+    {
+      "diagnostic": "line 27: mismatched input '=' expecting ':'",
+      "cause": "AGREE const declaration syntax error",
+      "minimal_edit": "Change 'const expectedImpactTime = 15.0;' to 'const expectedImpactTime : real = 15.0;'"
+    },
+    {
+      "diagnostic": "line 28: mismatched input '=' expecting ':'",
+      "cause": "AGREE const declaration syntax error",
+      "minimal_edit": "Change 'const recoveryTime = 5.0;' to 'const recoveryTime : real = 5.0;'"
+    },
+    {
+      "diagnostic": "line 30: left and right sides of binary expression '=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "AGREE guarantee syntax error with invalid const reference",
+      "minimal_edit": "Change 'guarantee \"vertical_acceleration_defined\": verticalAcceleration = 100.0;' to 'guarantee \"vertical_acceleration_defined\": verticalAcceleration = 100.0;' (add type annotation)"
+    },
+    {
+      "diagnostic": "line 31: left and right sides of binary expression '=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "AGREE guarantee syntax error with invalid const reference",
+      "minimal_edit": "Change 'guarantee \"expected_impact_time_defined\": expectedImpactTime = 15.0;' to 'guarantee \"expected_impact_time_defined\": expectedImpactTime = 15.0;' (add type annotation)"
+    },
+    {
+      "diagnostic": "line 32: left and right sides of binary expression '=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "AGREE guarantee syntax error with invalid const reference",
+      "minimal_edit": "Change 'guarantee \"recovery_time_defined\": recoveryTime = 5.0;' to 'guarantee \"recovery_time_defined\": recoveryTime = 5.0;' (add type annotation)"
+    },
+    {
+      "diagnostic": "line 38: Couldn't resolve reference to 'altitudeFromGround'.",
+      "cause": "AGREE variable not declared before use",
+      "minimal_edit": "Add declaration 'const altitudeFromGround : real;' before the guarantee"
+    },
+    {
+      "diagnostic": "line 38: Function definition 'height' requires 4 arguments, but this function call provides 3 arguments",
+      "cause": "AGREE function call argument count mismatch",
+      "minimal_edit": "Change 'Agree_Nodes::height(altitude, verticalVelocity, 0.5)' to 'Agree_Nodes::height(altitude, verticalVelocity, 0.5, 0.0)'"
+    },
+    {
+      "diagnostic": "line 41: Couldn't resolve reference to 'altitudeFromGround'.",
+      "cause": "AGREE variable not declared before use",
+      "minimal_edit": "Add declaration 'const altitudeFromGround : real;' before the assume"
+    },
+    {
+      "diagnostic": "line 41: left side of binary expression '<=' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "AGREE expression type mismatch",
+      "minimal_edit": "Change 'altitude <= 30.0 or altitudeFromGround <= 500.0' to 'altitude <= 30.0 or altitudeFromGround <= 500.0' (ensure type consistency)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add type annotations to all const declarations: 'const verticalAcceleration : real = 100.0;', 'const expectedImpactTime : real = 15.0;', 'const recoveryTime : real = 5.0;'",
+    "Add declaration 'const altitudeFromGround : real;' before the guarantee statement",
+    "Add declaration 'const altitudeFromGround : real;' before the assume statement",
+    "Fix function call: Change 'Agree_Nodes::height(altitude, verticalVelocity, 0.5)' to 'Agree_Nodes::height(altitude, verticalVelocity, 0.5, 0.0)'",
+    "Ensure all expressions use valid visible identifiers and types"
+  ]
+}

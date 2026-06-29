@@ -1,0 +1,103 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: Input1, Input2, Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Input1 | in | data | int | Base_Types::Integer
+Input2 | in | data | int | Base_Types::Integer
+Output | out | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Input1 < 10",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "Input1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Output < 55",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Output"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: C | lines 22-25
+annex agree {**
+  assume "Input1_bound": Input1 < 10;
+  guarantee "Output_bound": Output < 55;
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+No validator line numbers were available.
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: C
+system C
+	features
+		Input1: in data port Base_Types::Integer;
+		Input2: in data port Base_Types::Integer;
+		Output: out data port Base_Types::Integer;
+end C ;
+
+-- RELATED MODEL LINES
+Output: out data port Base_Types::Integer;
+system C
+Input1: in data port Base_Types::Integer;
+Input2: in data port Base_Types::Integer;
+end C ;
+C_sub : system C ;
+A_TO_B : port A_sub.Output -> B_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_C : port A_sub.Output -> C_sub.Input1 {Communication_Properties::Timing => immediate;};
+B_TO_C : port B_sub.Output -> C_sub.Input2 {Communication_Properties::Timing => immediate;};
+C_TO_Output : port C_sub.Output -> Output {Communication_Properties::Timing => immediate;};
+TOP_TO_A : port top_sub.Output -> A_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_OUT : port A_sub.Output -> Output {Communication_Properties::Timing => immediate;};
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "C",
+      "kind": "system"
+    }
+  ],
+  "features": [
+    {
+      "owner": "C",
+      "name": "Input1",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "C",
+      "name": "Input2",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "C",
+      "name": "Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    }
+  ]
+}

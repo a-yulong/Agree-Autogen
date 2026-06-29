@@ -1,0 +1,111 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE assumptions and guarantees in component type scopes when they refer to ports or features, and in implementation scopes for output assignments.
+- Use `assume` and `guarantee` statements with descriptive labels and valid expressions.
+- Declare constants and equations in component type annexes using `const` and `eq` syntax.
+Generic rules:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Ensure all identifiers used in AGREE expressions are visible in the current scope.
+- Use `assign` only for output features or declared auxiliary variables in implementation scope.
+- Validate that types in AGREE declarations match AADL scalar types: int, real, bool.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` for assumptions and `guarantee "label": expression;` for guarantees.
+- Declare auxiliary variables with `eq name : type = expression;` and constants with `const name : type = value;`.
+- Place implementation-level bindings like `assign output = expression;` in implementation scopes.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope; use only assumptions and assignments there.
+- Avoid referencing AADL properties like Period or Deadline directly in AGREE expressions unless explicitly exposed as typed features.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- int
+- TCAS
+- nearestIntruderAltitude
+- nearestIntruderGroundDistance
+- nearestIntruderLongitude
+- ownAltitude
+- ownHeading
+- ownVerticalVelocity
+- ownLatitude
+- ownLongitude
+- requiredVerticalVelocity
+- TCAS.impl
+- surveillance
+- instrumentation
+- trajectoryExtrapolation
+- threatDetection
+- maneuverTemplates
+- responseSelection
+- Surveillance
+- nearestIntruderAltitude_in
+- nearestIntruderGroundDistance_in
+- nearestIntruderLongitude_in
+- Surveillance.impl
+- Instrumentation
+- altitude_in
+- heading_in
+- verticalVelocity_in
+- ownLatitude_in
+- ownLongitude_in
+- altitude
+- heading
+- verticalVelocity
+- Instrumentation.impl
+- TrajectoryExtrapolation
+- projectedIntruderAltitude
+- TrajectoryExtrapolation.impl
+- ThreatDetection
+- threatDetected
+- ThreatDetection.impl
+- ManeuverTemplates
+
+Target interface:
+Exact expression symbols: nearestIntruderAltitude, projectedIntruderAltitude
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+nearestIntruderAltitude | in | data | real | base_types::Float
+projectedIntruderAltitude | out | data | real | base_types::Float
+
+Raw requirement:
+The TrajectoryExtrapolation component shall compute the intruder's vertical velocity as the difference between the current nearestIntruderAltitude and its value at the previous time step. Using this computed vertical velocity, the component shall predict the future intruder altitude by adding the vertical velocity to the current nearestIntruderAltitude. The resulting projected intruder altitude shall be assigned to the projectedIntruderAltitude output port.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "projectedIntruderAltitude = nearestIntruderAltitude + (nearestIntruderAltitude - nearestIntruderAltitude_in)",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "nearestIntruderAltitude",
+        "projectedIntruderAltitude",
+        "nearestIntruderAltitude_in"
+      ]
+    }
+  ]
+}

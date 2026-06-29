@@ -1,0 +1,37 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'P1'.",
+      "cause": "P1 is a connection in implementation scope, not accessible in component type annex",
+      "minimal_edit": "Move the P1 assumption to Q.Impl annex"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "Property reference in component type annex not accessible from implementation",
+      "minimal_edit": "Move property guarantees to Q.Impl annex"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'Period'.",
+      "cause": "Property reference in component type annex not accessible from implementation",
+      "minimal_edit": "Move property guarantees to Q.Impl annex"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'deadline'.",
+      "cause": "Property reference in component type annex not accessible from implementation",
+      "minimal_edit": "Move property guarantees to Q.Impl annex"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'Priority'.",
+      "cause": "Property reference in component type annex not accessible from implementation",
+      "minimal_edit": "Move property guarantees to Q.Impl annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the current AGREE annex from component type Q",
+    "Create a new AGREE annex in component implementation Q.Impl",
+    "Move the P1 assumption to the Q.Impl annex",
+    "Move all property guarantees (Dispatch_Protocol, Period, deadline, Priority) to the Q.Impl annex",
+    "Ensure all references in the new annex use only visible symbols"
+  ]
+}

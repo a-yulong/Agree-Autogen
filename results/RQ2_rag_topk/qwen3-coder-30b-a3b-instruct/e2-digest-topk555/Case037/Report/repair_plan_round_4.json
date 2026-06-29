@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 13: The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "AGREE equation attempts to assign real-valued expression to port type",
+      "minimal_edit": "Change 'eq e : real' to 'eq e : Types::speed.speed_impl'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 13: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port type mismatch in subtraction operation",
+      "minimal_edit": "Cast Target and Actual to real type using 'real(Target) - real(Actual)'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 13: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port type mismatch in subtraction operation",
+      "minimal_edit": "Cast Target and Actual to real type using 'real(Target) - real(Actual)'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 14: Couldn't resolve reference to 'integral'.",
+      "cause": "Integral function not recognized in AGREE context",
+      "minimal_edit": "Replace 'integral(e)' with 'integral_of(e)' or use explicit integration variable"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 15: Couldn't resolve reference to 'derivative'.",
+      "cause": "Derivative function not recognized in AGREE context",
+      "minimal_edit": "Replace 'derivative(e)' with 'derivative_of(e)' or use explicit derivative variable"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Change 'eq e : real = Target - Actual;' to 'eq e : Types::speed.speed_impl = real(Target) - real(Actual);'",
+    "Change 'eq e_int : real = integral(e);' to 'eq e_int : real = integral_of(e);'",
+    "Change 'eq e_dot : real = derivative(e);' to 'eq e_dot : real = derivative_of(e);'"
+  ]
+}

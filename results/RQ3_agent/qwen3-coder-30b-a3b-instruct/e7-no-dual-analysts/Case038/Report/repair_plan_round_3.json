@@ -1,0 +1,47 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Target (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "AADL type reference in port specification is not of adequate kind for AGREE expression",
+      "minimal_edit": "Replace Target with a valid scalar type expression or remove the reference"
+    },
+    {
+      "diagnostic": "Actual (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "AADL type reference in port specification is not of adequate kind for AGREE expression",
+      "minimal_edit": "Replace Actual with a valid scalar type expression or remove the reference"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "AGREE constants P, D, I are not properly declared or resolved",
+      "minimal_edit": "Ensure P, D, I are declared as constants before use in assumptions"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "AGREE variable e is not properly typed or resolved",
+      "minimal_edit": "Ensure e is declared as a variable with proper scalar type"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port types are not scalar types for arithmetic operations",
+      "minimal_edit": "Replace Target and Actual with scalar expressions or variables"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port types are not scalar types for arithmetic operations",
+      "minimal_edit": "Replace Target and Actual with scalar expressions or variables"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "AGREE variables e_dot, e_int are not properly declared or resolved",
+      "minimal_edit": "Ensure e_dot and e_int are declared as variables with proper scalar type"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove or replace Target and Actual port references with scalar expressions",
+    "Ensure all AGREE constants P, D, I are declared before use in assumptions",
+    "Ensure all AGREE variables e, e_dot, e_int are declared with proper scalar types",
+    "Rewrite error definition to use scalar types only",
+    "Rewrite control law to use scalar types only"
+  ]
+}

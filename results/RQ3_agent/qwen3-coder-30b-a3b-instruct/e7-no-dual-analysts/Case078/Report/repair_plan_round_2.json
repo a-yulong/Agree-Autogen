@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'door1'.",
+      "cause": "door1 is a subcomponent in the implementation, not accessible in the component type annex",
+      "minimal_edit": "Remove reference to door1.handle_position and door1.closed from the assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'handle_position'.",
+      "cause": "handle_position is a subcomponent port, not directly accessible in component type scope",
+      "minimal_edit": "Remove reference to door1.handle_position from the assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'closed'.",
+      "cause": "closed is a subcomponent port, not directly accessible in component type scope",
+      "minimal_edit": "Remove reference to door1.closed from the assume statement"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the assume statements from the component type annex to the implementation annex",
+    "Remove the references to door1.handle_position and door1.closed from the assume statements",
+    "Ensure the assume statements only reference visible identifiers from the component type"
+  ]
+}

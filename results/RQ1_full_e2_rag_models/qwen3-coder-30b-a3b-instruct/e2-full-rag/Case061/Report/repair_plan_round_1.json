@@ -1,0 +1,42 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level port",
+      "minimal_edit": "Move the data flow assumption to the implementation annex"
+    },
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level subcomponent",
+      "minimal_edit": "Move the data flow assumption to the implementation annex"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level property",
+      "minimal_edit": "Move property guarantees to the implementation annex"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'Period'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level property",
+      "minimal_edit": "Move property guarantees to the implementation annex"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'deadline'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level property",
+      "minimal_edit": "Move property guarantees to the implementation annex"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'Priority'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level property",
+      "minimal_edit": "Move property guarantees to the implementation annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the current AGREE annex from component type Q",
+    "Create a new AGREE annex in component implementation Q.Impl",
+    "Move the data flow assumption to the implementation annex",
+    "Move all property guarantees to the implementation annex",
+    "Ensure all references in the implementation annex use only visible symbols"
+  ]
+}

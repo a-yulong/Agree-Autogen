@@ -1,0 +1,52 @@
+{
+  "problems": [
+    {
+      "diagnostic": "The variable 'e' on the left side of equation is of type '<error>' but must be of type 'Types::speed.speed_impl'",
+      "cause": "Port types 'Types::speed.speed_impl' are not compatible with arithmetic operations in AGREE",
+      "minimal_edit": "Change 'eq e = Target - Actual;' to 'eq e = Target - Actual;' and ensure Target and Actual are treated as real-valued expressions"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types 'Types::speed.speed_impl' are not compatible with arithmetic operations in AGREE",
+      "minimal_edit": "Introduce a real-valued variable to represent the difference between Target and Actual"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types 'Types::speed.speed_impl' are not compatible with arithmetic operations in AGREE",
+      "minimal_edit": "Introduce a real-valued variable to represent the difference between Target and Actual"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '*' are of type 'real' and '<error>' but must be of the same type",
+      "cause": "Expression uses undefined or incorrectly typed variables",
+      "minimal_edit": "Ensure all variables in the guarantee are properly defined with correct types"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid reference to undefined or incorrectly typed variables",
+      "minimal_edit": "Define all variables with correct types before use"
+    },
+    {
+      "diagnostic": "right side of binary expression '*' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "Expression uses undefined or incorrectly typed variables",
+      "minimal_edit": "Ensure all variables in the guarantee are properly defined with correct types"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'integral'.",
+      "cause": "AGREE integral function not properly recognized",
+      "minimal_edit": "Use AGREE's integral syntax with proper variable declaration"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'derivative'.",
+      "cause": "AGREE derivative function not properly recognized",
+      "minimal_edit": "Use AGREE's derivative syntax with proper variable declaration"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'eq e = Target - Actual;' with a real-valued expression that computes the difference between Target and Actual",
+    "Define a real-valued variable for the error term that can be used in arithmetic operations",
+    "Replace 'eq e_int = integral(e);' with proper AGREE integral syntax",
+    "Replace 'eq e_dot = derivative(e);' with proper AGREE derivative syntax",
+    "Ensure all variables in the guarantee statement are properly typed and defined"
+  ]
+}

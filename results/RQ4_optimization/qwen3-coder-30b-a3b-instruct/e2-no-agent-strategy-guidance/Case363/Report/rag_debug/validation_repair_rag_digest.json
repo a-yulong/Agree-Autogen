@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Fix unresolved references like 'next' before writing guarantees; remove invalid guarantee clauses if references cannot be resolved.",
+    "Ensure guarantee expressions evaluate to type 'bool'; align helper declarations with expression types to avoid '<error>' type issues."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or declared helpers in AGREE annexes to prevent unresolved reference errors.",
+    "Place component type contracts in component type scopes with valid feature references and concrete bounds.",
+    "Write guarantees that relate visible outputs to visible inputs; avoid implementation-only subcomponent paths in type annexes.",
+    "Declare constants and equations with correct AGREE scalar types (int, real, bool) to prevent type resolution errors."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be inside `annex agree {** ... **};` blocks with valid syntax: `assume`, `guarantee`, `eq`, `const`, `assign`.",
+    "Guarantee expressions must evaluate to boolean type; use `eq` helpers to define boolean relations from numeric comparisons."
+  ],
+  "anti_patterns": [
+    "Do not write guarantees referencing unresolved identifiers or invalid helper declarations; remove the clause if the root cause cannot be fixed.",
+    "Do not place implementation-level bindings in component type annexes; use implementation scopes for assignments."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics",
+    "Model fusion and owner/scope preservation rules",
+    "Requirement traceability and compact semantics"
+  ]
+}

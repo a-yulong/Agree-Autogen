@@ -1,0 +1,22 @@
+{
+  "rag_rules": [
+    "Use the AADL model as the authority for names, directions, data types, connections, and symbol visibility before writing any AGREE clause.",
+    "Keep assumptions, guarantees, constants, and equations in valid AGREE contract scopes; reserve implementation-only bindings for implementation scope.",
+    "Do not reference subcomponent ports from a type-level contract unless they are exposed through valid in-scope AGREE symbols."
+  ],
+  "generic_rules": [
+    "When visibility is uncertain, generate clauses only from interface-level symbols confirmed by the model and any local AGREE declarations.",
+    "Prefer small boolean helper predicates for reusable checks such as ranges, but only when the referenced signal is numeric and in scope."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use a well-formed AGREE annex block with correct declaration and clause terminators.",
+    "Ensure each declared helper type matches its expression type; comparisons produce boolean values, and integer vs real arithmetic must stay consistent."
+  ],
+  "anti_patterns": [
+    "Do not treat AADL property associations or unit tokens as AGREE expression variables unless the model explicitly exposes them to AGREE.",
+    "Do not generate numeric range or equality checks for boolean, enumeration-like, or opaque ports without clear numeric scalar semantics."
+  ],
+  "irrelevant_topics": [
+    "Raw AADL timing or property settings that are not exposed as AGREE-visible typed signals or constants."
+  ]
+}

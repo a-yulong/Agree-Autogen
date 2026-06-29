@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 216: Guarantee statements are allowed only in component types",
+      "cause": "AGREE guarantee statement placed in process implementation annex",
+      "minimal_edit": "Move the guarantee statement from partition1_process.impl annex to partition1_process annex"
+    },
+    {
+      "diagnostic": "line 197: named thing must be an expression with a type",
+      "cause": "Expression type resolution failed due to previous diagnostics",
+      "minimal_edit": "Ensure the guarantee expression in partition1_process annex is valid and properly typed"
+    },
+    {
+      "diagnostic": "line 216: named thing must be an expression with a type",
+      "cause": "Expression type resolution failed due to previous diagnostics",
+      "minimal_edit": "Remove the duplicate guarantee statement in partition1_process.impl annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from partition1_process.impl (lines 213-219)",
+    "Verify that the guarantee statement in partition1_process annex (lines 195-199) is correctly formatted and valid",
+    "Ensure no duplicate guarantee statements exist in implementation annexes"
+  ]
+}

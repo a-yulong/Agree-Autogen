@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Preserve AADL structure by adding annex content only within a valid owner scope and without altering existing subcomponents, connections, features, or properties.",
+    "Keep type-level contract content with the component type owner, and keep implementation-level binding content with the implementation owner.",
+    "Do not move implementation-only references into a type owner; owner scope must match the symbols used."
+  ],
+  "generic_rules": [
+    "Maintain the existing architecture verbatim except for the minimal annex insertion needed by the upstream content.",
+    "Choose an insertion scope based on ownership and symbol visibility, not on convenience or nearby text.",
+    "If implementation-only paths or bindings are involved, keep them in an implementation scope rather than lifting them to a type scope."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE content is wrapped in an `annex agree {** ... **};` block attached to a valid AADL owner.",
+    "Implementation-level bindings belong after relevant structural declarations within the implementation scope."
+  ],
+  "anti_patterns": [
+    "Do not rewrite or disturb unrelated AADL declarations while inserting annex content.",
+    "Do not place references to subcomponent ports or implementation-only symbols under a type owner.",
+    "Do not treat AADL property names or unit tokens as in-scope AGREE variables during fusion."
+  ],
+  "irrelevant_topics": [
+    "Requirement-level semantic decomposition",
+    "Validator-driven type repair details"
+  ]
+}

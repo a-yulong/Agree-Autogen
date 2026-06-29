@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 55: Expression for assume statement is of type 'int' but must be of type 'bool'",
+      "cause": "Timing constraint uses integer units instead of boolean expression",
+      "minimal_edit": "Replace `0 us <= Compute_Execution_Time <= 100 us` with `Compute_Execution_Time >= 0 us and Compute_Execution_Time <= 100 us`"
+    },
+    {
+      "diagnostic": "line 55: no viable alternative at input 'us'",
+      "cause": "Invalid syntax for time unit comparison in assume",
+      "minimal_edit": "Replace `0 us <= Compute_Execution_Time <= 100 us` with `Compute_Execution_Time >= 0 us and Compute_Execution_Time <= 100 us`"
+    },
+    {
+      "diagnostic": "line 56: Expression for guarantee statement is of type 'real' but must be of type 'bool'",
+      "cause": "Guarantee uses data port instead of boolean expression",
+      "minimal_edit": "Remove the guarantee statement as it is not valid AGREE syntax for port dependencies"
+    },
+    {
+      "diagnostic": "line 56: mismatched input ',' expecting ')'",
+      "cause": "Invalid syntax in guarantee expression",
+      "minimal_edit": "Remove the guarantee statement as it is not valid AGREE syntax for port dependencies"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the assume statement on line 55 with a valid boolean expression using comparison operators",
+    "Remove the guarantee statement on line 56 as it is not valid AGREE syntax for port dependencies",
+    "Ensure all expressions use only visible identifiers and valid AGREE syntax"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "rag_rules": [
+    "Fix unresolved property references by ensuring all property definitions and constants are visible in the current AADL scope or properly imported via 'with' clauses.",
+    "Resolve type errors in AGREE expressions by aligning helper declarations with the correct scalar types: int, real, or bool."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, ensure all identifiers (features, constants, properties) are visible in the current scope or properly qualified.",
+    "Validate that expression types in AGREE guarantees and equations match the expected scalar types (int, real, bool).",
+    "Avoid introducing new property definitions or constants that are not declared in the AADL model or its dependencies.",
+    "Use only visible AADL features or locally declared helpers in AGREE contracts to prevent 'named thing must be an expression with a type' errors."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `const` for constants, `eq` for expressions, and `gua` for guarantees.",
+    "Ensure property references in AGREE are fully qualified or imported via `with` clauses.",
+    "Binary comparisons in AGREE must have operands of matching types (int, real, bool)."
+  ],
+  "anti_patterns": [
+    "Do not introduce property definitions or constants that are not present in the AADL model or its configured dependencies.",
+    "Do not use unresolved identifiers in AGREE expressions without ensuring they are visible or properly declared."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "type scope range assumption and guarantee",
+    "implementation scope output assign",
+    "Named Thing Has No Type",
+    "Assumed Type vs Actual Type",
+    "AGREE Scalar Type Names"
+  ]
+}

@@ -1,0 +1,124 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assume/guarantee statements in component type scopes when they describe interface behavior; use implementation scopes for subcomponent bindings and assignments.
+- Use exact visible identifiers from the current component scope; do not invent or copy names from examples.
+- Generate AGREE annex blocks within `annex agree {** ... **};` and respect the scope of the owning component declaration.
+- Do not encode AADL timing properties (e.g., Deadline, Period) as AGREE expressions unless explicit typed ports or constants are available.
+Generic rules:
+- AGREE contracts must reference only identifiers visible in the current component scope.
+- Assignments in AGREE are valid only when the left-hand side is an output feature or declared auxiliary variable.
+- Component type contracts should use assumptions and guarantees for interface behavior, while implementation contracts handle subcomponent bindings.
+- Do not place guarantees in implementation scope; use assignments or equations instead.
+Syntax or pattern reminders:
+- AGREE syntax uses `assume "label": expression;` and `guarantee "label": expression;` for contracts.
+- Use `eq name : type = expression;` for equations and `const name : type = value;` for constants.
+- Implementation-level `assign output = expression;` is valid only for outputs or auxiliary variables.
+Anti-patterns:
+- Avoid placing implementation-level guarantees in component type annexes; move them to implementation scope or delete.
+- Do not reference AADL properties like Deadline or Period directly in AGREE expressions unless they are explicitly typed in the model.
+- Do not invent or copy identifiers from example code; always use exact names from the current component scope.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- tempin1
+- tempin2
+- tempout
+
+Target interface:
+Exact expression symbols: tempin1, tempin2, tempout
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+tempin1 | in | data | opaque | temperature_type
+tempin2 | in | data | opaque | temperature_type
+tempout | out | data | opaque | temperature_type
+
+Raw requirement:
+The temp_control component shall define the implementation-level data routing and execution constraints for temp_control.i. In the implementation layer, temp_control.i shall route signal flow from temp1 to voter.tempin1 through c0 and signal flow from temp2 to voter.tempin2 through c1. Additionally, temp_control.i shall use immediate communication timing on connection c0, use immediate communication timing on connection c1, use immediate communication timing on connection c2, and use immediate communication timing on connection c3.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Signal flow from temp1 to voter.tempin1 through connection c0",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "temp1",
+        "voter.tempin1",
+        "c0"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Signal flow from temp2 to voter.tempin2 through connection c1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "temp2",
+        "voter.tempin2",
+        "c1"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Connection c0 uses immediate communication timing",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "c0"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Connection c1 uses immediate communication timing",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "c1"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Connection c2 uses immediate communication timing",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "c2"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "Connection c3 uses immediate communication timing",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "c3"
+      ]
+    }
+  ]
+}

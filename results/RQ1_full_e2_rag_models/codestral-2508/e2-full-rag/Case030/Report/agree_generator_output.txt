@@ -1,0 +1,11 @@
+annex agree {
+  const initial_t : real = 0.0;
+  const step_size : real = 0.1;
+  const recovery_time : real = 1.7;
+
+  eq t : real = initial_t -> pre(t) + step_size;
+
+  assign timeToRecovery = recovery_time;
+
+  guarantee "recovery_action": t >= recovery_time => distanceFromFence > pre(distanceFromFence);
+};

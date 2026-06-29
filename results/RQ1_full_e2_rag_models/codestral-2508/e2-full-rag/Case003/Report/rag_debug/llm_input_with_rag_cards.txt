@@ -1,0 +1,107 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `annex agree {** ... **};` blocks for AGREE contracts
+- Place assumptions and guarantees in component type annexes when referring to ports
+- Use `assign` in implementation annexes only for existing outputs or auxiliary variables
+- Do not place guarantees in implementation annexes
+- Use `eq` for helper declarations and `const` for constants
+- Use only visible AADL features or declared helpers in AGREE expressions
+Generic rules:
+- Use concrete bounds, named constants, or visible relations for assumptions and guarantees
+- Align helper declaration types with expression types
+- Avoid encoding AADL properties as AGREE expressions unless exposed as ports or constants
+- Use only valid identifiers from the visible scope in AGREE expressions
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` syntax
+- Use `eq name : type = expression;` for helper declarations
+- Use `const name : type = value;` for constants
+- Use `assign output = expression;` for assignments
+Anti-patterns:
+- Do not use AADL property names directly in AGREE expressions
+- Do not place guarantees in implementation annexes
+- Do not use subcomponent ports in component type contracts unless represented through variables or outputs
+- Do not use unresolved identifiers or invalid helper declarations in guarantees
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- timeToRecovery
+- timeToFailure
+
+Target interface:
+Exact expression symbols: timeToRecovery, timeToFailure
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+timeToRecovery | out | data | opaque | real
+timeToFailure | out | data | opaque | real
+
+Raw requirement:
+The GeoFence_singleton component shall establish a recursive variable t with a time step of 0.1, declare the variable distanceFromFence, and compute distanceFromFence by invoking the circleLinearization function from the geofence_nodes library with the time variable t as its input parameter. The component must guarantee that, once the time t exceeds the recovery time value of 1.7, the computed distanceFromFence shall remain greater than its preceding time-step value. Additionally, the system failure time shall be set to 9.5.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "t is a recursive variable with a time step of 0.1",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "t"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "distanceFromFence is computed by invoking circleLinearization function with t as input parameter",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "distanceFromFence",
+        "t",
+        "circleLinearization"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "once t exceeds 1.7, distanceFromFence shall remain greater than its preceding time-step value",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "t",
+        "distanceFromFence"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "timeToFailure is set to 9.5",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "timeToFailure"
+      ]
+    }
+  ]
+}

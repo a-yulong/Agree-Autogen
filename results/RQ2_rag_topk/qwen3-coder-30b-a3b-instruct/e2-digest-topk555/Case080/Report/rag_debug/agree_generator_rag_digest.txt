@@ -1,0 +1,19 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks within component type or implementation scopes.
+- Timing and scheduling constraints should be expressed as guarantees in component type annexes when referring to component ports.
+- Property associations like dispatch protocols must not be directly encoded as AGREE variables unless explicit typed ports or constants are available.
+Generic rules:
+- Assumptions and guarantees should be scoped to valid AADL component types or implementations based on their references.
+- AGREE annexes must only reference identifiers present in the AADL model's visible scope.
+- Do not introduce package-qualified identifiers or data types not declared in the model.
+- Avoid encoding AADL properties as AGREE expressions unless the model exposes explicit typed ports or constants.
+Syntax or pattern reminders:
+- Use `assume` and `guarantee` keywords for contract statements, and ensure valid AGREE syntax for expressions.
+- Component implementation annexes are for implementation-level bindings such as assignments.
+- Event ports should not be treated as numeric or Boolean values unless a data value is explicitly provided.
+Anti-patterns:
+- Do not encode AADL timing properties like Period or Deadline as AGREE variables without model support.
+- Do not use unresolved identifiers or package-qualified names in AGREE annexes.
+- Do not convert Boolean or opaque data ports into numeric values without explicit scalar representation.
+</RAG_DIGEST>

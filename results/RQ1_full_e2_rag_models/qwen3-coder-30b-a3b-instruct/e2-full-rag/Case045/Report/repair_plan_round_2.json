@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 25: Couldn't resolve reference to 'mode'.",
+      "cause": "mode is referenced as a state variable but never declared; it is not a port or constant.",
+      "minimal_edit": "declare mode : int = mode_initial -> if mode' = mode + 1 then mode + 1 else mode;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 25: The condition of the if statement is of type 'ErrorTypeDef' but must be of type 'bool'",
+      "cause": "mode' is not a valid AGREE operator; AGREE uses pre() for previous value, not prime notation.",
+      "minimal_edit": "replace mode' with pre(mode) in the if-condition"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 25: mismatched character '<EOF>' expecting '''",
+      "cause": "Syntax error caused by invalid expression structure due to undefined mode and invalid mode' operator.",
+      "minimal_edit": "rewrite entire equation as valid AGREE temporal recurrence using pre() and initialized state"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 25: named thing must be an expression with a type",
+      "cause": "mode is used without declaration, so the expression has no type context.",
+      "minimal_edit": "declare mode as a state variable initialized to mode_initial"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the invalid 'eq mode_next : int = ...' line (line 25)",
+    "Add declaration: mode : int = mode_initial -> if pre(mode) < mode then pre(mode) + 1 else pre(mode);",
+    "Ensure mode_initial is used as the initial value (line 24 is valid and preserved)",
+    "Preserve all guarantee statements as they are syntactically correct and use only visible identifiers (Input1, Input2, Output, mode, initial_mode_bound)"
+  ]
+}

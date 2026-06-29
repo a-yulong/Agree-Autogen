@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in valid component type scopes, using only visible features and ports.",
+    "Avoid package-qualified identifiers in AGREE contracts unless they are properly imported in the AADL model.",
+    "Ensure type consistency in AGREE expressions by matching declared types with actual expressions."
+  ],
+  "generic_rules": [
+    "Use component type annexes for input assumptions and output guarantees that reference visible ports.",
+    "Move implementation-specific bindings to component implementation annexes to avoid scope errors.",
+    "Validate that all identifiers in AGREE contracts are either visible AADL features or locally declared helpers.",
+    "Do not include AADL property references (e.g., Compute_Execution_Time) as AGREE variables unless explicitly typed."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Assumptions and guarantees must use valid AGREE syntax: `assume \"label\": expression;` and `guarantee \"label\": expression;`.",
+    "Helper declarations should use `eq name : type = expression;` and constants should use `const name : type = value;`."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level subcomponent paths or bindings in component type annexes.",
+    "Do not reference package-qualified identifiers without matching `with` clauses in the AADL model.",
+    "Do not mix AADL property names (e.g., Period, Deadline) directly into AGREE expressions."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about package references",
+    "AGREE validator diagnostics",
+    "Model fusion or component insertion locations"
+  ]
+}

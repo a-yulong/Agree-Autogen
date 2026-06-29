@@ -1,0 +1,6 @@
+annex agree {**
+  guarantee "lag_calculation": Actual = Actual_previous + 0.1 * Actuator_Input;
+  assume "valid_input_range": Actuator_Input >= 0.0 and Actuator_Input <= 1.0;
+  eq Actual_previous = Actual when time = previous_time;
+  const previous_time = time - 1;
+**};

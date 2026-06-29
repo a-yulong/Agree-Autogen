@@ -1,0 +1,120 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- AGREE annex blocks must be scoped to the owning component and use only visible identifiers from the AADL model.
+- Assumptions and guarantees must be expressed using valid AGREE syntax with labeled expressions.
+Generic rules:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Component implementations may contain assignments, while component types may contain constants and equations.
+- AGREE expressions must reference only identifiers visible in the current component scope.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements.
+- Use `assign output = expression;` for implementation-level bindings in component implementations.
+Anti-patterns:
+- Do not reference AADL properties like Deadline or Period as AGREE variables without explicit model exposure.
+- Do not copy identifiers from examples or invent new ports/components not present in the AADL model.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- ACCELERO
+- acc_in_data_x
+- acc_in_data_y
+- acc_in_data_z
+- acc_out_data_x
+- acc_out_data_y
+- acc_out_data_z
+- ACCELERO.IMPL
+- MAGNETO
+- mag_in_data_x
+- mag_in_data_y
+- mag_in_data_z
+- mag_out_data_x
+- mag_out_data_y
+- mag_out_data_z
+- MAGNETO.IMPL
+- GYRO
+- gyro_in_data_x
+- gyro_in_data_y
+- gyro_in_data_z
+- gyro_out_data_x
+- gyro_out_data_y
+- gyro_out_data_z
+- GYRO.IMPL
+- ATTITUDE_CALCULATION
+- ATTITUDE_CALCULATION.IMPL
+- ATTITUDE
+- ATTITUDE.IMPL
+- accelero_thread
+- magneto_thread
+- gyro_thread
+- attitude_calculation_thread
+
+Target interface:
+Exact expression symbols: acc_in_data_x, acc_in_data_y, acc_in_data_z, mag_in_data_x, mag_in_data_y, mag_in_data_z, gyro_in_data_x, gyro_in_data_y, gyro_in_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+acc_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+Raw requirement:
+The ATTITUDE_CALCULATION component shall define the implementation-level signal routing for ATTITUDE_CALCULATION.IMPL. In the implementation layer, ATTITUDE_CALCULATION.IMPL shall route data flow from acc_in_data_x to attitude_sub.acc_in_data_x through ACC_PC1 and data flow from acc_in_data_y to attitude_sub.acc_in_data_y through ACC_PC2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "ATTITUDE_CALCULATION.IMPL routes data flow from acc_in_data_x to attitude_sub.acc_in_data_x through ACC_PC1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "ATTITUDE_CALCULATION.IMPL",
+        "acc_in_data_x",
+        "attitude_sub.acc_in_data_x",
+        "ACC_PC1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "ATTITUDE_CALCULATION.IMPL routes data flow from acc_in_data_y to attitude_sub.acc_in_data_y through ACC_PC2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "ATTITUDE_CALCULATION.IMPL",
+        "acc_in_data_y",
+        "attitude_sub.acc_in_data_y",
+        "ACC_PC2"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "problems": [
+    {
+      "diagnostic": "mismatched input '=' expecting ':'",
+      "cause": "Invalid syntax in AGREE const declaration",
+      "minimal_edit": "Change 'const minHeightAllowed = 200.0;' to 'const minHeightAllowed : real = 200.0;'"
+    },
+    {
+      "diagnostic": "mismatched input '=' expecting ':'",
+      "cause": "Invalid syntax in AGREE const declaration",
+      "minimal_edit": "Change 'const recovery_time = 3.7;' to 'const recovery_time : real = 3.7;'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'height'.",
+      "cause": "Variable 'height' is not properly declared in AGREE scope",
+      "minimal_edit": "Change 'var height: real = altitude;' to 'var height : real = altitude;'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 't'.",
+      "cause": "Variable 't' is not properly declared in AGREE scope",
+      "minimal_edit": "Change 'var t: real = 0.0 -> pre(t) + delta_t;' to 'var t : real = 0.0 -> pre(t) + delta_t;'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '>=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Invalid expression due to unresolved references",
+      "minimal_edit": "Change 'guarantee \"height_greater_than_min\": (t >= 3.7) => (height > minHeightAllowed);' to 'guarantee \"height_greater_than_min\": (t >= 3.7) => (height > minHeightAllowed);'"
+    },
+    {
+      "diagnostic": "left side of binary expression '>' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Invalid expression due to unresolved references",
+      "minimal_edit": "Change 'guarantee \"height_greater_than_min\": (t >= 3.7) => (height > minHeightAllowed);' to 'guarantee \"height_greater_than_min\": (t >= 3.7) => (height > minHeightAllowed);'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'prev_height'.",
+      "cause": "Variable 'prev_height' is not properly declared in AGREE scope",
+      "minimal_edit": "Change 'var prev_height: real = 0.0 -> pre(height);' to 'var prev_height : real = 0.0 -> pre(height);'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Invalid expression due to unresolved references",
+      "minimal_edit": "Change 'guarantee \"recovery_time_output\": timeToRecovery = recovery_time;' to 'guarantee \"recovery_time_output\": timeToRecovery = recovery_time;'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add type annotations to all const declarations: 'const minHeightAllowed = 200.0;' -> 'const minHeightAllowed : real = 200.0;' and 'const recovery_time = 3.7;' -> 'const recovery_time : real = 3.7;'",
+    "Add type annotations to all var declarations: 'var height: real = altitude;' -> 'var height : real = altitude;' and 'var t: real = 0.0 -> pre(t) + delta_t;' -> 'var t : real = 0.0 -> pre(t) + delta_t;' and 'var prev_height: real = 0.0 -> pre(height);' -> 'var prev_height : real = 0.0 -> pre(height);'",
+    "Ensure all expressions in guarantees use properly declared variables with correct types"
+  ]
+}

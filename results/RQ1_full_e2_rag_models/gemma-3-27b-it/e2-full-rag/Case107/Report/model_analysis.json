@@ -1,0 +1,129 @@
+{
+  "component_types": [
+    {
+      "name": "systemHM_process",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "systemHM_process.impl",
+      "kind": "process implementation",
+      "type_name": "systemHM_process"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "systemHM_process.impl",
+      "name": "alarmAggregator",
+      "category": "thread",
+      "classifier": "threads::alarmAggregator.impl"
+    },
+    {
+      "owner": "systemHM_process.impl",
+      "name": "diagnosisEngine",
+      "category": "thread",
+      "classifier": "threads::diagnosisEngine.impl"
+    },
+    {
+      "owner": "systemHM_process.impl",
+      "name": "mitigationActor",
+      "category": "thread",
+      "classifier": "threads::mitigationActor_th.impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "systemHM_process",
+      "name": "arlarm_acc_in",
+      "direction": "in",
+      "category": "data port",
+      "type": "SHM_DataType::errorData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "systemHM_process",
+      "name": "arlarm_adirup_in",
+      "direction": "in",
+      "category": "data port",
+      "type": "SHM_DataType::errorData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "systemHM_process",
+      "name": "systemHM_action_acc_hm",
+      "direction": "out",
+      "category": "data port",
+      "type": "SHM_DataType::actionData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "systemHM_process",
+      "name": "systemHM_action_adirup",
+      "direction": "out",
+      "category": "data port",
+      "type": "SHM_DataType::actionData",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "systemHM_process.impl",
+      "name": "C1",
+      "kind": "port",
+      "source": "systemHM_process.arlarm_acc_in",
+      "destination": "alarmAggregator.arlarm_acc_in"
+    },
+    {
+      "owner": "systemHM_process.impl",
+      "name": "C2",
+      "kind": "port",
+      "source": "systemHM_process.arlarm_adirup_in",
+      "destination": "alarmAggregator.arlarm_adirup_in"
+    },
+    {
+      "owner": "systemHM_process.impl",
+      "name": "C31",
+      "kind": "port",
+      "source": "mitigationActor.mitigation_command",
+      "destination": "systemHM_process.systemHM_action_acc_hm"
+    },
+    {
+      "owner": "systemHM_process.impl",
+      "name": "C32",
+      "kind": "port",
+      "source": "mitigationActor.mitigation_command",
+      "destination": "systemHM_process.systemHM_action_adirup"
+    },
+    {
+      "owner": "systemHM_process.impl",
+      "name": "C4",
+      "kind": "port",
+      "source": "alarmAggregator.alarmAggregator_out",
+      "destination": "diagnosisEngine.diagnosis_in"
+    },
+    {
+      "owner": "systemHM_process.impl",
+      "name": "C5",
+      "kind": "port",
+      "source": "diagnosisEngine.diagnosis_out",
+      "destination": "mitigationActor.mitigation_in"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "systemHM_process",
+      "owner_kind": "process",
+      "name": "Compute_Deadline",
+      "value": "0 ms",
+      "applies_to": "arlarm_acc_in"
+    },
+    {
+      "owner": "systemHM_process",
+      "owner_kind": "process",
+      "name": "Compute_Deadline",
+      "value": "0 ms",
+      "applies_to": "arlarm_adirup_in"
+    }
+  ]
+}

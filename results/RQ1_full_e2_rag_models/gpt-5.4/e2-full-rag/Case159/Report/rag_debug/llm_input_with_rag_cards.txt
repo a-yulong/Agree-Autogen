@@ -1,0 +1,99 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use only identifiers and types confirmed by the AADL model or visible-symbol set.
+- Keep port-based assumptions and guarantees in valid component type contracts; use implementation scope only for valid implementation-level bindings.
+- Do not reference subcomponent ports in a type-level contract unless they are exposed through contract-visible variables or outputs.
+Generic rules:
+- Encode numeric range constraints as boolean comparisons over a visible scalar symbol.
+- Introduce helper equations only when useful, and make the declared type match the expression type.
+Syntax or pattern reminders:
+- Write AGREE contracts inside annex agree {** ... **};
+- Comparison and range expressions evaluate to bool.
+Anti-patterns:
+- Do not treat AADL property names or unit tokens as AGREE variables unless the model explicitly exposes them as typed ports or constants.
+- Do not convert Boolean, enumeration-like, or opaque data into numeric 0/1 checks or numeric ranges.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- speed
+
+Target interface:
+Exact expression symbols: speed
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+speed | in | data | int | Base_Types::Integer
+
+Raw requirement:
+The thr_throttle_simulation component shall operate under a bounded input condition for speed. The environment shall keep speed greater than or equal to -100 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "speed >= -100 and speed <= 100",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": []
+    },
+    {
+      "id": "R2",
+      "text": "thr_throttle_simulation.i.R5 source=speed destination=pspg.speed",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R3",
+      "text": "thr_throttle_simulation Dispatch_Protocol=Periodic",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R4",
+      "text": "thr_throttle_simulation Period=1000ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R5",
+      "text": "thr_throttle_simulation Deadline=1000ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R6",
+      "text": "thr_throttle_simulation Compute_Execution_Time=5ms .. 10ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": []
+    }
+  ]
+}

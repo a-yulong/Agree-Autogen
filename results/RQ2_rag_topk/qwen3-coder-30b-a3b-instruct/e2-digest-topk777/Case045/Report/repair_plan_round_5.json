@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 23: The first and second arguments of the 'prev' function are of non-matching types 'IntTypeDef' and 'ErrorTypeDef'",
+      "cause": "Invalid use of prev() with undefined or mismatched type",
+      "minimal_edit": "Replace `eq mode : int = 0 -> if (prev(mode) = 0) then 0 else 1;` with `eq mode : int = 0 -> if (mode = 0) then 0 else 1;`"
+    },
+    {
+      "diagnostic": "line 23: extraneous input ')' expecting 'then'",
+      "cause": "Syntax error in conditional expression",
+      "minimal_edit": "Fix syntax by correcting the conditional expression to use proper AGREE syntax: `eq mode : int = 0 -> if (mode = 0) then 0 else 1;`"
+    },
+    {
+      "diagnostic": "line 23: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in equality expression",
+      "minimal_edit": "Correct the equality expression to use valid AGREE syntax: `eq mode : int = 0 -> if (mode = 0) then 0 else 1;`"
+    },
+    {
+      "diagnostic": "line 23: mismatched input ')' expecting ','",
+      "cause": "Syntax error in function call or expression",
+      "minimal_edit": "Rewrite the entire expression to use correct AGREE syntax: `eq mode : int = 0 -> if (mode = 0) then 0 else 1;`"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the entire state equation on line 23 with `eq mode : int = 0 -> if (mode = 0) then 0 else 1;`",
+    "Ensure all other AGREE expressions remain unchanged"
+  ]
+}

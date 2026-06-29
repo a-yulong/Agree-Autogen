@@ -1,0 +1,24 @@
+<RAG_DIGEST agent="model_fusion">
+Generic rules:
+- Insert AGREE annex blocks in the most specific valid scope for the contract
+- Use visible identifiers from the current scope when writing AGREE expressions
+- Avoid using identifiers that are not visible in the current scope
+- Preserve the AADL architecture by not modifying the component hierarchy or connections
+Syntax or pattern reminders:
+- AGREE contracts are written inside `annex agree {** ... **};` blocks
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` for valid AGREE syntax
+- Place input envelope assumptions and output range guarantees in component type annexes when concrete bounds are available
+Anti-patterns:
+- Do not use subcomponent ports in component type contracts unless represented through valid variables or outputs
+- Do not encode AADL property associations as AGREE expressions unless the model exposes explicit typed ports or constants for them
+- Do not use identifiers that are not visible in the current scope
+Irrelevant retrieved material:
+- AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes
+- Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections
+- Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs
+- AGREE contracts are written inside `annex agree {** ... **};` blocks
+- Component type annexes are the normal location for assumptions, guarantees, constants, and equation declarations
+- Component implementation annexes are used for implementation-level bindings such as assignments when they are valid in that scope
+- For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation
+- Use case-provided thresholds and legal visible feature names
+</RAG_DIGEST>

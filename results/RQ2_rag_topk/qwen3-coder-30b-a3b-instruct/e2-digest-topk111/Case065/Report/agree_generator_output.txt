@@ -1,0 +1,6 @@
+annex agree {**
+  assume "signal_flow_attitude": Forcing_Safe_Mode => sensored_attitude = sun_direction;
+  assume "signal_flow_orbit": Getting_Back_To_Normal_Mode => reference_torque = reference_force;
+  guarantee "route_attitude": sensored_attitude = sun_direction => reference_torque = reference_force;
+  guarantee "route_orbit": reference_torque = reference_force => telemetry = torque_command;
+**};

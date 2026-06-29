@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "no viable alternative at input '['",
+      "cause": "AGREE does not support interval syntax [0..100] in guarantee statements",
+      "minimal_edit": "Replace [0..100] with (Data_Input >= 0) and (Data_Input <= 100)"
+    },
+    {
+      "diagnostic": "no viable alternative at input 'in'",
+      "cause": "AGREE does not support the 'in' operator for interval membership",
+      "minimal_edit": "Replace Data_Input in [0..100] with (Data_Input >= 0) and (Data_Input <= 100)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the guarantee statement on line 46 to replace 'Data_Input in [0..100]' with '(Data_Input >= 0) and (Data_Input <= 100)'",
+    "Ensure the edited guarantee statement maintains the same logical meaning as the original"
+  ]
+}

@@ -1,0 +1,152 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks inside `annex agree {** ... **};`
+- Use `assign` only for implementation-level bindings when the left-hand side is an existing output feature or declared auxiliary variable
+- Place input envelope assumptions and output range guarantees in component type annexes when concrete bounds, named constants, or visible relations are available
+- Write output dependency guarantees that relate visible outputs to visible inputs in component type annexes
+Generic rules:
+- Use exact current-case names from the model index for all identifiers
+- Treat each annex agree block as scoped to its owning component declaration
+- Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for them
+- Use visible identifiers and avoid implementation-only subcomponent paths in component type annexes
+Syntax or pattern reminders:
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` syntax correctly
+- Place assumptions, guarantees, constants, and equations in component type annexes
+- Place assignments in component implementation annexes when valid in that scope
+Anti-patterns:
+- Do not place guarantee statements in implementation scope
+- Do not use implementation-only subcomponent paths in component type annexes
+- Do not invent ports/components or copy identifiers from examples
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- clear
+- start
+- kp_0
+- kp_1
+- kp_2
+- kp_3
+- kp_4
+- kp_5
+- kp_6
+- kp_7
+- kp_8
+- kp_9
+- door_closed
+- heating_element_on
+- left_digit
+- middle_digit
+- right_digit
+
+Target interface:
+Exact expression symbols: clear, start, kp_0, kp_1, kp_2, kp_3, kp_4, kp_5, kp_6, kp_7, kp_8, kp_9, door_closed, heating_element_on, left_digit, middle_digit, right_digit
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+clear | in | data | bool | Base_Types::Boolean
+start | in | data | bool | Base_Types::Boolean
+kp_0 | in | data | bool | Base_Types::Boolean
+kp_1 | in | data | bool | Base_Types::Boolean
+kp_2 | in | data | bool | Base_Types::Boolean
+kp_3 | in | data | bool | Base_Types::Boolean
+kp_4 | in | data | bool | Base_Types::Boolean
+kp_5 | in | data | bool | Base_Types::Boolean
+kp_6 | in | data | bool | Base_Types::Boolean
+kp_7 | in | data | bool | Base_Types::Boolean
+kp_8 | in | data | bool | Base_Types::Boolean
+kp_9 | in | data | bool | Base_Types::Boolean
+door_closed | in | data | bool | Base_Types::Boolean
+heating_element_on | out | data | bool | Base_Types::Boolean
+left_digit | out | data | int | Base_Types::Integer
+middle_digit | out | data | int | Base_Types::Integer
+right_digit | out | data | int | Base_Types::Integer
+
+Raw requirement:
+The Microwave_Control component shall define the implementation-level data routing and execution constraints for Microwave_Control.Impl. In the implementation layer, Microwave_Control.Impl shall route signal flow from clear to MC.clear through clear_TO_MC_clear and signal flow from clear to DC.clear through clear_TO_DC_clear. Additionally, Microwave_Control.Impl shall use immediate communication timing on connection clear_TO_MC_clear, use immediate communication timing on connection clear_TO_DC_clear, use immediate communication timing on connection start_TO_MC_start, and use immediate communication timing on connection kp_0_TO_DC_kp_0.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "route clear to MC.clear through clear_TO_MC_clear",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "clear",
+        "MC.clear",
+        "clear_TO_MC_clear"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "route clear to DC.clear through clear_TO_DC_clear",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "clear",
+        "DC.clear",
+        "clear_TO_DC_clear"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "use immediate communication timing on connection clear_TO_MC_clear",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "clear_TO_MC_clear"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "use immediate communication timing on connection clear_TO_DC_clear",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "clear_TO_DC_clear"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "use immediate communication timing on connection start_TO_MC_start",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "start_TO_MC_start"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "use immediate communication timing on connection kp_0_TO_DC_kp_0",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "kp_0_TO_DC_kp_0"
+      ]
+    }
+  ]
+}

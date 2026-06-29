@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 140: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is not valid syntax for a contract guarantee",
+      "minimal_edit": "Replace `gyro_out_data_x = gyro_out_data_x` with `gyro_out_data_x = gyro_out_data_x` (no change needed, but the expression is malformed)"
+    },
+    {
+      "diagnostic": "line 141: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is not valid syntax for a contract guarantee",
+      "minimal_edit": "Replace `gyro_out_data_y = gyro_out_data_y` with `gyro_out_data_y = gyro_out_data_y` (no change needed, but the expression is malformed)"
+    },
+    {
+      "diagnostic": "line 142: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is not valid syntax for a contract guarantee",
+      "minimal_edit": "Replace `gyro_out_data_z = gyro_out_data_z` with `gyro_out_data_z = gyro_out_data_z` (no change needed, but the expression is malformed)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that the AGREE annex in GYRO_SUB_wrapper is incorrectly specifying guarantees using port names on both sides of an equality",
+    "Replace each malformed guarantee with a valid contract expression that relates the output port to a corresponding input port or a constant/variable",
+    "Since the requirement is about routing data flow, and the component type does not have visible inputs to relate to, the guarantees should be removed or rewritten to reflect a valid contract",
+    "Remove the entire AGREE annex block from GYRO_SUB_wrapper since it does not express a valid contract for the component type"
+  ]
+}

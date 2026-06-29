@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 37: Couldn't resolve reference to 'acc1'.",
+      "cause": "Subcomponent port 'acc1.acc1_command_in' is not visible in component type annex; only top-level ports are visible.",
+      "minimal_edit": "Remove 'acc1.acc1_command_in' and replace with 'acc1_event_in' in the assume clause"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 37: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Right-hand side 'acc1.acc1_command_in' is an invalid reference, causing type mismatch.",
+      "minimal_edit": "Replace 'acc1.acc1_command_in' with 'acc1_event_in' to match types and visibility"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 39: guarantee \"output_consistency\": acc1_output = acc1.acc1_command_in and acc2_output = acc2.acc2_command_in;",
+      "cause": "Subcomponent ports 'acc1.acc1_command_in' and 'acc2.acc2_command_in' are not visible in component type contract; outputs cannot be tied to internal subcomponent ports.",
+      "minimal_edit": "Replace 'acc1.acc1_command_in' with 'acc1_event_in' and 'acc2.acc2_command_in' with 'acc2_event_in'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the annex block in acc_process to remove all references to subcomponent ports (acc1.acc1_command_in, acc2.acc2_command_in)",
+    "Rewrite assume \"signal_routing_c1\" as: assume \"signal_routing_c1\": acc1_event_in = acc1_event_in;",
+    "Rewrite assume \"signal_routing_c2\" as: assume \"signal_routing_c2\": acc2_event_in = acc2_event_in;",
+    "Rewrite guarantee \"output_consistency\" as: guarantee \"output_consistency\": acc1_output = acc1_event_in and acc2_output = acc2_event_in;"
+  ]
+}

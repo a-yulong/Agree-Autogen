@@ -1,0 +1,284 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: inpGCASM, inpGCASImpact, inpGCASRecovery, inpSAM, inpACASM, inpACASImpact, inpACASRecovery, inpGFM, inpWxM, inpFLS, outDec
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+inpGCASM | in | data | bool | Base_Types::boolean
+inpGCASImpact | in | data | real | Base_Types::float
+inpGCASRecovery | in | data | real | Base_Types::float
+inpSAM | in | data | bool | Base_Types::boolean
+inpACASM | in | data | bool | Base_Types::boolean
+inpACASImpact | in | data | real | Base_Types::float
+inpACASRecovery | in | data | real | Base_Types::float
+inpGFM | in | data | bool | Base_Types::boolean
+inpWxM | in | data | bool | Base_Types::boolean
+inpFLS | in | data | bool | Base_Types::boolean
+outDec | out | data | int | Base_Types::integer
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "numberServicesTrue counts true values among inpGCASM, inpSAM, inpACASM, inpGFM, inpWxM, and inpFLS",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "inpGCASM",
+        "inpSAM",
+        "inpACASM",
+        "inpGFM",
+        "inpWxM",
+        "inpFLS"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "If inpGCASImpact > inpACASImpact and (inpGCASRecovery + inpACASRecovery) is sufficient, then outDec = ACAS",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "inpGCASImpact",
+        "inpACASImpact",
+        "inpGCASRecovery",
+        "inpACASRecovery",
+        "outDec"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "If inpGCASImpact <= inpACASImpact or (inpGCASRecovery + inpACASRecovery) is insufficient, then outDec = GCAS",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "inpGCASImpact",
+        "inpACASImpact",
+        "inpGCASRecovery",
+        "inpACASRecovery",
+        "outDec"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "If numberServicesTrue >= 2, then outDec is set to the dynamic decision result",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "numberServicesTrue",
+        "outDec"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "If numberServicesTrue < 2, then outDec defaults to a static priority-based value",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "numberServicesTrue",
+        "outDec"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Aviate_Decider | lines 96-104
+annex agree {**
+				eq numberServicesTrue : bool = (inpGCASM or inpSAM or inpACASM or inpGFM or inpWxM or inpFLS);
+				assume "impact_recovery_sufficient": (inpGCASRecovery + inpACASRecovery) >= 1.0;
+				guarantee "dynamic_decision_acas": (inpGCASImpact > inpACASImpact) and (inpGCASRecovery + inpACASRecovery) >= 1.0 => outDec = 1;
+				guarantee "dynamic_decision_gcas": (inpGCASImpact <= inpACASImpact) or (inpGCASRecovery + inpACASRecovery) < 1.0 => outDec = 0;
+				guarantee "outdec_dynamic_when_sufficient_services": (inpGCASM or inpSAM or inpACASM or inpGFM or inpWxM or inpFLS) >= 2 => (outDec = 0 or outDec = 1);
+				guarantee "outdec_static_when_insufficient_services": (inpGCASM or inpSAM or inpACASM or inpGFM or inpWxM or inpFLS) < 2 => outDec = 0;
+			};
+			**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   97: 				eq numberServicesTrue : bool = (inpGCASM or inpSAM or inpACASM or inpGFM or inpWxM or inpFLS);
+   98: 				assume "impact_recovery_sufficient": (inpGCASRecovery + inpACASRecovery) >= 1.0;
+   99: 				guarantee "dynamic_decision_acas": (inpGCASImpact > inpACASImpact) and (inpGCASRecovery + inpACASRecovery) >= 1.0 => outDec = 1;
+   100: 				guarantee "dynamic_decision_gcas": (inpGCASImpact <= inpACASImpact) or (inpGCASRecovery + inpACASRecovery) < 1.0 => outDec = 0;
+>> 101: 				guarantee "outdec_dynamic_when_sufficient_services": (inpGCASM or inpSAM or inpACASM or inpGFM or inpWxM or inpFLS) >= 2 => (outDec = 0 or outDec = 1);
+   102: 				guarantee "outdec_static_when_insufficient_services": (inpGCASM or inpSAM or inpACASM or inpGFM or inpWxM or inpFLS) < 2 => outDec = 0;
+   103: 			};
+   104: 			**};
+   105: 	end Aviate_Decider;
+
+   98: 				assume "impact_recovery_sufficient": (inpGCASRecovery + inpACASRecovery) >= 1.0;
+   99: 				guarantee "dynamic_decision_acas": (inpGCASImpact > inpACASImpact) and (inpGCASRecovery + inpACASRecovery) >= 1.0 => outDec = 1;
+   100: 				guarantee "dynamic_decision_gcas": (inpGCASImpact <= inpACASImpact) or (inpGCASRecovery + inpACASRecovery) < 1.0 => outDec = 0;
+   101: 				guarantee "outdec_dynamic_when_sufficient_services": (inpGCASM or inpSAM or inpACASM or inpGFM or inpWxM or inpFLS) >= 2 => (outDec = 0 or outDec = 1);
+>> 102: 				guarantee "outdec_static_when_insufficient_services": (inpGCASM or inpSAM or inpACASM or inpGFM or inpWxM or inpFLS) < 2 => outDec = 0;
+   103: 			};
+   104: 			**};
+   105: 	end Aviate_Decider;
+   106: 	
+
+   99: 				guarantee "dynamic_decision_acas": (inpGCASImpact > inpACASImpact) and (inpGCASRecovery + inpACASRecovery) >= 1.0 => outDec = 1;
+   100: 				guarantee "dynamic_decision_gcas": (inpGCASImpact <= inpACASImpact) or (inpGCASRecovery + inpACASRecovery) < 1.0 => outDec = 0;
+   101: 				guarantee "outdec_dynamic_when_sufficient_services": (inpGCASM or inpSAM or inpACASM or inpGFM or inpWxM or inpFLS) >= 2 => (outDec = 0 or outDec = 1);
+   102: 				guarantee "outdec_static_when_insufficient_services": (inpGCASM or inpSAM or inpACASM or inpGFM or inpWxM or inpFLS) < 2 => outDec = 0;
+>> 103: 			};
+   104: 			**};
+   105: 	end Aviate_Decider;
+   106: 	
+   107: 	Process Implementation Aviate_Decider.Aviate_Decider_impl 
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Aviate_Decider
+Process Aviate_Decider
+	features
+			inpGCASM : in data port Base_Types::boolean;
+			inpGCASImpact: in data port Base_Types::float;
+			inpGCASRecovery: in data port Base_Types::float;
+			inpSAM : in data port Base_Types::boolean;
+			inpACASM : in data port Base_Types::boolean;
+			inpACASImpact: in data port Base_Types::float;
+			inpACASRecovery: in data port Base_Types::float;
+			inpGFM : in data port Base_Types::boolean;
+			inpWxM : in data port Base_Types::boolean;
+			inpFLS: in data port Base_Types::boolean;
+			outDec: out data port Base_Types::integer;
+	end Aviate_Decider;
+
+-- TARGET DECLARATION: Aviate_Decider.Aviate_Decider_impl
+Process Implementation Aviate_Decider.Aviate_Decider_impl 
+	end Aviate_Decider.Aviate_Decider_impl;
+
+-- RELATED MODEL LINES
+Process Aviate_Decider
+inpGCASM : in data port Base_Types::boolean;
+inpGCASImpact: in data port Base_Types::float;
+inpGCASRecovery: in data port Base_Types::float;
+inpSAM : in data port Base_Types::boolean;
+inpACASM : in data port Base_Types::boolean;
+inpACASImpact: in data port Base_Types::float;
+inpACASRecovery: in data port Base_Types::float;
+inpGFM : in data port Base_Types::boolean;
+inpWxM : in data port Base_Types::boolean;
+inpFLS: in data port Base_Types::boolean;
+outDec: out data port Base_Types::integer;
+end Aviate_Decider;
+Process Implementation Aviate_Decider.Aviate_Decider_impl
+end Aviate_Decider.Aviate_Decider_impl;
+dmc: process Aviate_Decider;
+gcasm_to_decider: port gcasm.gcasRequested -> dmc.inpGCASM;
+gcasmimp_to_decider: port gcasm.outImpact -> dmc.inpGCASImpact;
+gcasrec_to_decider: port gcasm.outRecovery -> dmc.inpGCASRecovery;
+sam_to_decider: port sam.saRequested -> dmc.inpSAM;
+acasm_to_decider: port acasm.acasRequested -> dmc.inpACASM;
+acasmimp_to_decider: port acasm.outImpact -> dmc.inpACASImpact;
+acasrec_to_decider: port acasm.outRecovery -> dmc.inpACASRecovery;
+gfm_to_decider: port gfm.gfRequested -> dmc.inpGFM;
+wxm_to_decider: port wxm.wxRequested -> dmc.inpWxM;
+flsm_to_decider: port flsm.landingRequested -> dmc.inpFLS;
+dec_to_switch: port dmc.outDec -> swt.inpDecider;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Aviate_Decider",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Aviate_Decider.Aviate_Decider_impl",
+      "kind": "process implementation",
+      "type_name": "Aviate_Decider"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpGCASM",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpGCASImpact",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpGCASRecovery",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpSAM",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpACASM",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpACASImpact",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpACASRecovery",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpGFM",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpWxM",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpFLS",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "outDec",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::integer",
+      "scalar": "opaque"
+    }
+  ]
+}

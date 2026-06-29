@@ -1,0 +1,320 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: accout, acc_command_in
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+accout | out | data | int | SHM_DataType::accData
+acc_command_in | in | data | int | SHM_DataType::actionData
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "acc4_dataOutput.impl routes data from sub1.accDataOut to accout through connection C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput.impl.sub1",
+        "accout",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "acc4_dataOutput.impl routes control signal from acc_command_in to sub1.event_in through connection C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc_command_in",
+        "sub1.event_in",
+        "C2"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "acc4_dataOutput.impl uses subcomponent sub1 with classifier subprograms::acc4_dataOutput_spg",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput.impl",
+        "sub1",
+        "subprograms::acc4_dataOutput_spg"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "acc4_dataOutput has Period=4000 ms and Deadline=500 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput",
+        "Period=4000 ms",
+        "Deadline=500 ms"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "acc4_dataOutput Compute_Execution_Time is between 400 ms and 500 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput",
+        "Compute_Execution_Time=400 ms .. 500 ms"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "acc4_dataOutput has Dispatch_Protocol=Periodic and Priority=1",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput",
+        "Dispatch_Protocol=Periodic",
+        "Priority=1"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "acc4_dataOutput has Stack_Size=20 KByte and Code_Size=100 KByte",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput",
+        "Stack_Size=20 KByte",
+        "Code_Size=100 KByte"
+      ]
+    },
+    {
+      "id": "R8",
+      "text": "acc4_dataOutput has Data_Size=1 KByte and ARINC653::Sampling_Refresh_Period=50 ms",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc4_dataOutput",
+        "Data_Size=1 KByte",
+        "ARINC653::Sampling_Refresh_Period=50 ms"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: acc4_dataOutput | lines 132-140
+annex agree {**
+    assume "signal_flow_data": accout = acc_command_in;
+    guarantee "signal_flow_control": acc_command_in = accout;
+    assume "timing_period": 4000 ms >= 0;
+    assume "timing_deadline": 500 ms >= 0;
+    guarantee "execution_time_bounds": 400 ms <= 500 ms;
+    assume "dispatch_protocol": "Periodic" = "Periodic";
+    assume "priority": 1 >= 0;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   131:     Deadline => 500 ms;
+   132:   annex agree {**
+   133:     assume "signal_flow_data": accout = acc_command_in;
+   134:     guarantee "signal_flow_control": acc_command_in = accout;
+>> 135:     assume "timing_period": 4000 ms >= 0;
+   136:     assume "timing_deadline": 500 ms >= 0;
+   137:     guarantee "execution_time_bounds": 400 ms <= 500 ms;
+   138:     assume "dispatch_protocol": "Periodic" = "Periodic";
+   139:     assume "priority": 1 >= 0;
+
+   132:   annex agree {**
+   133:     assume "signal_flow_data": accout = acc_command_in;
+   134:     guarantee "signal_flow_control": acc_command_in = accout;
+   135:     assume "timing_period": 4000 ms >= 0;
+>> 136:     assume "timing_deadline": 500 ms >= 0;
+   137:     guarantee "execution_time_bounds": 400 ms <= 500 ms;
+   138:     assume "dispatch_protocol": "Periodic" = "Periodic";
+   139:     assume "priority": 1 >= 0;
+   140:   **};
+
+   133:     assume "signal_flow_data": accout = acc_command_in;
+   134:     guarantee "signal_flow_control": acc_command_in = accout;
+   135:     assume "timing_period": 4000 ms >= 0;
+   136:     assume "timing_deadline": 500 ms >= 0;
+>> 137:     guarantee "execution_time_bounds": 400 ms <= 500 ms;
+   138:     assume "dispatch_protocol": "Periodic" = "Periodic";
+   139:     assume "priority": 1 >= 0;
+   140:   **};
+   141:   end acc4_dataOutput;
+
+   134:     guarantee "signal_flow_control": acc_command_in = accout;
+   135:     assume "timing_period": 4000 ms >= 0;
+   136:     assume "timing_deadline": 500 ms >= 0;
+   137:     guarantee "execution_time_bounds": 400 ms <= 500 ms;
+>> 138:     assume "dispatch_protocol": "Periodic" = "Periodic";
+   139:     assume "priority": 1 >= 0;
+   140:   **};
+   141:   end acc4_dataOutput;
+   142: 
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: acc4_dataOutput
+thread acc4_dataOutput
+  features
+    accout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+    acc_command_in: in event data port SHM_DataType::actionData;
+  properties
+    --Reference_Processor=>classifier(ACC_Module::powerpc_acc);
+    --Initialize_Entrypoint => classifier (ACC_Module::acc_dataOutput_spg);
+    Dispatch_Protocol => Periodic;
+    Priority => 1;
+    Stack_Size => 20 KByte;
+    Code_Size => 100 KByte;
+    Data_Size => 1 KByte;
+    Period => 4000 ms;
+    Compute_Execution_Time => 400 ms .. 500 ms;
+    Deadline => 500 ms;
+  end acc4_dataOutput;
+
+-- TARGET DECLARATION: acc4_dataOutput.impl
+thread implementation acc4_dataOutput.impl
+  calls
+    sub1: { spg: subprogram subprograms::acc4_dataOutput_spg;};
+
+  connections
+    C1: parameter spg.accDataOut->accout;
+    C2: parameter acc_command_in->spg.event_in;
+  end  acc4_dataOutput.impl;
+
+-- RELATED MODEL LINES
+accout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc_command_in: in event data port SHM_DataType::actionData;
+C1: parameter spg.accDataOut->accout;
+C2: parameter acc_command_in->spg.event_in;
+thread acc4_dataOutput
+end acc4_dataOutput;
+thread implementation acc4_dataOutput.impl
+end  acc4_dataOutput.impl;
+thread acc4_dataOutput_emv2 extends acc4_dataOutput
+thread implementation acc4_dataOutput_emv2.impl extends acc4_dataOutput.impl
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "acc4_dataOutput",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "acc4_dataOutput.impl",
+      "kind": "thread implementation",
+      "type_name": "acc4_dataOutput"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "acc4_dataOutput.impl",
+      "name": "sub1",
+      "category": "call",
+      "classifier": "subprograms::acc4_dataOutput_spg"
+    }
+  ],
+  "features": [
+    {
+      "owner": "acc4_dataOutput",
+      "name": "accout",
+      "direction": "out",
+      "category": "data port",
+      "type": "SHM_DataType::accData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "acc4_dataOutput",
+      "name": "acc_command_in",
+      "direction": "in",
+      "category": "event data port",
+      "type": "SHM_DataType::actionData",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "acc4_dataOutput.impl",
+      "name": "C1",
+      "kind": "parameter",
+      "source": "sub1.accDataOut",
+      "destination": "accout"
+    },
+    {
+      "owner": "acc4_dataOutput.impl",
+      "name": "C2",
+      "kind": "parameter",
+      "source": "acc_command_in",
+      "destination": "sub1.event_in"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "acc4_dataOutput",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "acc4_dataOutput"
+    },
+    {
+      "owner": "acc4_dataOutput",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": "acc4_dataOutput"
+    },
+    {
+      "owner": "acc4_dataOutput",
+      "owner_kind": "thread",
+      "name": "Stack_Size",
+      "value": "20 KByte",
+      "applies_to": "acc4_dataOutput"
+    },
+    {
+      "owner": "acc4_dataOutput",
+      "owner_kind": "thread",
+      "name": "Code_Size",
+      "value": "100 KByte",
+      "applies_to": "acc4_dataOutput"
+    },
+    {
+      "owner": "acc4_dataOutput",
+      "owner_kind": "thread",
+      "name": "Data_Size",
+      "value": "1 KByte",
+      "applies_to": "acc4_dataOutput"
+    },
+    {
+      "owner": "acc4_dataOutput",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "4000 ms",
+      "applies_to": "acc4_dataOutput"
+    },
+    {
+      "owner": "acc4_dataOutput",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "400 ms .. 500 ms",
+      "applies_to": "acc4_dataOutput"
+    },
+    {
+      "owner": "acc4_dataOutput",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "500 ms",
+      "applies_to": "acc4_dataOutput"
+    },
+    {
+      "owner": "acc4_dataOutput",
+      "owner_kind": "thread",
+      "name": "ARINC653::Sampling_Refresh_Period",
+      "value": "50 ms",
+      "applies_to": "accout"
+    }
+  ]
+}

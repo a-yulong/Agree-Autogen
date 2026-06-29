@@ -1,0 +1,31 @@
+{
+  "rag_rules": [
+    "Preserve AADL architecture by inserting annex blocks only in valid component or implementation scopes",
+    "Use component type annexes for assumptions, guarantees, constants, and equations that reference only visible ports",
+    "Use implementation annexes for implementation-level bindings like assignments when they reference valid outputs",
+    "Do not use subcomponent paths in component type annexes; restrict type-level contracts to visible ports"
+  ],
+  "generic_rules": [
+    "Insert annex blocks in the most specific valid scope that contains all referenced identifiers",
+    "Ensure all referenced identifiers are visible in the target scope to avoid resolution errors",
+    "Use AGREE scalar types (int, real, bool) consistently to avoid type mismatch errors",
+    "Place implementation-specific bindings in implementation annexes to maintain type-level contract purity"
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks use the syntax `annex agree {** ... **};`",
+    "Component type annexes contain assumptions, guarantees, constants, and equations",
+    "Implementation annexes contain implementation-level bindings like assignments",
+    "Use `eq` for equations, `const` for constants, `assume` for assumptions, and `guarantee` for guarantees"
+  ],
+  "anti_patterns": [
+    "Avoid using subcomponent paths in component type annexes; they are implementation details",
+    "Do not mix type-level and implementation-level references in the same annex block",
+    "Ensure all referenced identifiers are visible in the target scope to avoid resolution errors",
+    "Do not use AGREE scalar type names like 'integer' or 'boolean'; use 'int', 'real', or 'bool'"
+  ],
+  "irrelevant_topics": [
+    "AGREE validator diagnostics",
+    "Requirement assignment patterns",
+    "Contract fusion techniques"
+  ]
+}

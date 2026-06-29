@@ -1,0 +1,27 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'accDataOut'.",
+      "cause": "Reference to subcomponent port 'spg.accDataOut' not visible in component type scope",
+      "minimal_edit": "Replace 'spg.accDataOut' with 'accout' in the assume and guarantee statements"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'event_in'.",
+      "cause": "Reference to subcomponent port 'spg.event_in' not visible in component type scope",
+      "minimal_edit": "Replace 'spg.event_in' with 'acc_command_in' in the assume and guarantee statements"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'spg'.",
+      "cause": "Reference to subcomponent 'spg' not visible in component type scope",
+      "minimal_edit": "Remove reference to 'spg' from the assume and guarantee statements"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block for acc3_dataOutput, replace 'spg.accDataOut' with 'accout' in the signal_flow_data assumption",
+    "In the AGREE annex block for acc3_dataOutput, replace 'spg.event_in' with 'acc_command_in' in the signal_flow_control assumption",
+    "In the AGREE annex block for acc3_dataOutput, replace 'spg.accDataOut' with 'accout' in the routing_consistency guarantee",
+    "In the AGREE annex block for acc3_dataOutput, replace 'spg.event_in' with 'acc_command_in' in the routing_consistency guarantee",
+    "Remove any remaining references to 'spg' in the AGREE annex block for acc3_dataOutput"
+  ]
+}

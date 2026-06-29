@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 118: Assume statements are allowed only in component types",
+      "cause": "assume statement in thread implementation annex",
+      "minimal_edit": "move assume statement to thread type annex"
+    },
+    {
+      "diagnostic": "line 119: Guarantee statements are allowed only in component types",
+      "cause": "guarantee statement in thread implementation annex",
+      "minimal_edit": "move guarantee statement to thread type annex"
+    },
+    {
+      "diagnostic": "line 120: Guarantee statements are allowed only in component types",
+      "cause": "guarantee statement in thread implementation annex",
+      "minimal_edit": "move guarantee statement to thread type annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire AGREE annex block from thr_mgmt.i to thr_mgmt",
+    "In thr_mgmt, add assume and guarantee statements that reference only visible identifiers (gps_pos, speed, angle) without subcomponent references",
+    "Remove the AGREE annex from thr_mgmt.i"
+  ]
+}

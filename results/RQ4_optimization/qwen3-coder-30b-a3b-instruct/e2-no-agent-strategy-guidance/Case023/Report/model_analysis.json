@@ -1,0 +1,117 @@
+{
+  "component_types": [
+    {
+      "name": "controller",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "controller.impl",
+      "kind": "system implementation",
+      "type_name": "controller"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "controller.impl",
+      "name": "controller",
+      "category": "system",
+      "classifier": "controller.impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "controller",
+      "name": "tempin",
+      "direction": "in",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "controller",
+      "name": "user_request",
+      "direction": "in",
+      "category": "data port",
+      "type": "command.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "controller",
+      "name": "heater_on",
+      "direction": "out",
+      "category": "data port",
+      "type": "base_types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "controller",
+      "name": "cooler_on",
+      "direction": "out",
+      "category": "data port",
+      "type": "base_types::boolean",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "controller.impl",
+      "name": "c2",
+      "kind": "port",
+      "source": "user_request",
+      "destination": "controller.user_request"
+    },
+    {
+      "owner": "controller.impl",
+      "name": "c3",
+      "kind": "port",
+      "source": "controller.heater_on",
+      "destination": "heater.enabled"
+    },
+    {
+      "owner": "controller.impl",
+      "name": "c4",
+      "kind": "port",
+      "source": "controller.cooler_on",
+      "destination": "cooler.enabled"
+    },
+    {
+      "owner": "controller.impl",
+      "name": "c5",
+      "kind": "port",
+      "source": "voter.tempout",
+      "destination": "controller.tempin"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "c2",
+      "owner_kind": "connection",
+      "name": "timing",
+      "value": "immediate",
+      "applies_to": "communication_properties::timing"
+    },
+    {
+      "owner": "c3",
+      "owner_kind": "connection",
+      "name": "timing",
+      "value": "immediate",
+      "applies_to": "communication_properties::timing"
+    },
+    {
+      "owner": "c4",
+      "owner_kind": "connection",
+      "name": "timing",
+      "value": "immediate",
+      "applies_to": "communication_properties::timing"
+    },
+    {
+      "owner": "c5",
+      "owner_kind": "connection",
+      "name": "timing",
+      "value": "immediate",
+      "applies_to": "communication_properties::timing"
+    }
+  ]
+}

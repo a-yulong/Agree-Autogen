@@ -1,0 +1,19 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` syntax within `annex agree {** ... **};` blocks as per KSYN-1 and KSYN-2.
+- Place implementation-level `assign` statements only in component implementation annexes, and avoid `guarantee` statements there (KEXP-1).
+- In component type annexes, place assumptions and guarantees only when concrete bounds or visible relations are provided (KEXP-2).
+Generic rules:
+- AGREE annex blocks are scoped to their owning component declaration (KDEF-1).
+- Only reference identifiers visible in the current component scope; do not invent or copy names from examples (KDEF-3).
+- Do not encode AADL timing properties as AGREE variables unless explicitly exposed as typed ports or constants (KDEF-2).
+- For type contracts, relate outputs to visible inputs; avoid implementation-only subcomponent paths (KEXP-3).
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Use `assign` only for output features or declared auxiliary variables in implementation scope.
+- Guarantees in type scope should express deterministic dependencies between visible features.
+Anti-patterns:
+- Do not place `guarantee` statements in implementation scope.
+- Do not reference AADL properties like Deadline or Period as AGREE variables without explicit model exposure.
+- Do not use implementation-only subcomponent paths in component type annexes.
+</RAG_DIGEST>

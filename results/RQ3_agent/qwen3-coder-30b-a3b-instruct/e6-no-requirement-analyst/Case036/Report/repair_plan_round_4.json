@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 14: left and right sides of binary expression '=' are of type 'Types::state_sig.impl' and 'real', but must be of the same type",
+      "cause": "Comparing port State_Signal (type Types::state_sig.impl) with literal real 1.0",
+      "minimal_edit": "remove '::Types::state_sig.impl' and replace 1.0 with a valid boolean value representing the state condition, e.g., State_Signal = 1"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 14: mismatched input '::' expecting ';'",
+      "cause": "Illegal AADL type qualifier '::Types::state_sig.impl' used in AGREE expression",
+      "minimal_edit": "remove '::Types::state_sig.impl' entirely from the expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the type qualifier '::Types::state_sig.impl' from line 14",
+    "Replace '1.0' with '1' to form a valid boolean comparison between State_Signal and a numeric literal, assuming State_Signal is intended to be a discrete state signal where 1 indicates active state"
+  ]
+}

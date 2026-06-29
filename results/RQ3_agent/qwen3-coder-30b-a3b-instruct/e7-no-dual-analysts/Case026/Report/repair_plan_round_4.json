@@ -1,0 +1,85 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 57: Couldn't resolve reference to 'tempin1'.",
+      "cause": "Reference to 'tempin1' not visible in temp_control context",
+      "minimal_edit": "Replace 'voter.tempin1' with 'tempin1' in assume statement"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 57: Couldn't resolve reference to 'tempin2'.",
+      "cause": "Reference to 'tempin2' not visible in temp_control context",
+      "minimal_edit": "Replace 'voter.tempin2' with 'tempin2' in assume statement"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 57: Couldn't resolve reference to 'tempout'.",
+      "cause": "Reference to 'tempout' not visible in temp_control context",
+      "minimal_edit": "Replace 'tempout' with 'tempout' (already correct, but needs to be visible)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 60: Couldn't resolve reference to 'tempin1'.",
+      "cause": "Reference to 'tempin1' not visible in temp_control context",
+      "minimal_edit": "Replace 'temp1' with 'tempin1' in guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 63: Couldn't resolve reference to 'tempin2'.",
+      "cause": "Reference to 'tempin2' not visible in temp_control context",
+      "minimal_edit": "Replace 'temp2' with 'tempin2' in guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 66: Couldn't resolve reference to 'tempin1'.",
+      "cause": "Reference to 'tempin1' not visible in temp_control context",
+      "minimal_edit": "Replace 'tempin1' with 'tempin1' (already correct, but needs to be visible)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 66: Couldn't resolve reference to 'tempin2'.",
+      "cause": "Reference to 'tempin2' not visible in temp_control context",
+      "minimal_edit": "Replace 'tempin2' with 'tempin2' (already correct, but needs to be visible)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 66: Couldn't resolve reference to 'tempout'.",
+      "cause": "Reference to 'tempout' not visible in temp_control context",
+      "minimal_edit": "Replace 'tempout' with 'tempout' (already correct, but needs to be visible)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 95: Couldn't resolve reference to 'temp1'.",
+      "cause": "Reference to 'temp1' not visible in voter context",
+      "minimal_edit": "Replace 'temp1' with 'tempin1' in guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 98: Couldn't resolve reference to 'temp2'.",
+      "cause": "Reference to 'temp2' not visible in voter context",
+      "minimal_edit": "Replace 'temp2' with 'tempin2' in guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 107: Assume statements are allowed only in component types",
+      "cause": "Assume statement placed in implementation annex",
+      "minimal_edit": "Move assume statement from voter.impl to voter type"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 110: Guarantee statements are allowed only in component types",
+      "cause": "Guarantee statement placed in implementation annex",
+      "minimal_edit": "Move guarantee statement from voter.impl to voter type"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 113: Guarantee statements are allowed only in component types",
+      "cause": "Guarantee statement placed in implementation annex",
+      "minimal_edit": "Move guarantee statement from voter.impl to voter type"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 116: Guarantee statements are allowed only in component types",
+      "cause": "Guarantee statement placed in implementation annex",
+      "minimal_edit": "Move guarantee statement from voter.impl to voter type"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex from voter.impl",
+    "Move the assume and guarantee statements from temp_control annex to voter type annex",
+    "Replace all references to 'temp1' with 'tempin1' in voter type annex",
+    "Replace all references to 'temp2' with 'tempin2' in voter type annex",
+    "Replace all references to 'voter.tempin1' with 'tempin1' in temp_control annex",
+    "Replace all references to 'voter.tempin2' with 'tempin2' in temp_control annex",
+    "Replace all references to 'temp1' with 'tempin1' in temp_control annex",
+    "Replace all references to 'temp2' with 'tempin2' in temp_control annex"
+  ]
+}

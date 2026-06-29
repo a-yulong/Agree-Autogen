@@ -1,0 +1,185 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- Task
+- Task.impl_1
+- Task1
+- node_a
+- node_a.impl
+- hello
+- hello.impl
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Task shall execute with a period of 100 ms",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Task.impl_1 Period"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Task shall complete compute execution within 0 ms .. 3 ms",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Task.impl_1 Compute_Execution_time"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Task shall use the Periodic dispatch protocol",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Task.impl_1 Dispatch_Protocol"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Task shall run at priority 100",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Task.impl_1 Priority"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Task.impl_1 | lines 34-38
+annex agree {**
+      guarantee "period_constraint": true;
+      guarantee "execution_time_constraint": true;
+      guarantee "dispatch_protocol_constraint": true;
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   31:     Dispatch_Protocol                  => Periodic;
+   32:     Period                             => 100 ms;
+   33:     Compute_Execution_time             => 0 ms .. 3 ms;
+   34:   annex agree {**
+>> 35:       guarantee "period_constraint": true;
+   36:       guarantee "execution_time_constraint": true;
+   37:       guarantee "dispatch_protocol_constraint": true;
+   38:     **};
+   39:   end Task.impl_1;
+
+   32:     Period                             => 100 ms;
+   33:     Compute_Execution_time             => 0 ms .. 3 ms;
+   34:   annex agree {**
+   35:       guarantee "period_constraint": true;
+>> 36:       guarantee "execution_time_constraint": true;
+   37:       guarantee "dispatch_protocol_constraint": true;
+   38:     **};
+   39:   end Task.impl_1;
+   40: 
+
+   33:     Compute_Execution_time             => 0 ms .. 3 ms;
+   34:   annex agree {**
+   35:       guarantee "period_constraint": true;
+   36:       guarantee "execution_time_constraint": true;
+>> 37:       guarantee "dispatch_protocol_constraint": true;
+   38:     **};
+   39:   end Task.impl_1;
+   40: 
+   41:   -------------
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Task
+thread Task
+  end Task;
+
+-- TARGET DECLARATION: Task.impl_1
+thread implementation Task.impl_1
+  calls
+    Mycalls: {
+    P_Spg : subprogram Hello_Spg_1;
+    };
+  properties
+    Priority => 100;
+    Dispatch_Protocol                  => Periodic;
+    Period                             => 100 ms;
+    Compute_Execution_time             => 0 ms .. 3 ms;
+  end Task.impl_1;
+
+-- RELATED MODEL LINES
+Source_Text     => ("hello.c");
+thread Task
+end Task;
+thread implementation Task.impl_1
+end Task.impl_1;
+process node_a
+end node_a;
+process implementation node_a.impl
+Task1 : thread Task.impl_1;
+end node_a.impl;
+system hello
+end hello;
+system implementation hello.impl
+node_a : process node_a.impl;
+Actual_Processor_Binding => (reference (cpu_rm.p0)) applies to node_a;
+end hello.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Task",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Task.impl_1",
+      "kind": "thread implementation",
+      "type_name": "Task"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "Task.impl_1",
+      "name": "Task1",
+      "category": "thread",
+      "classifier": "Task.impl_1"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Task.impl_1",
+      "owner_kind": "thread implementation",
+      "name": "Priority",
+      "value": "100",
+      "applies_to": "Task.impl_1"
+    },
+    {
+      "owner": "Task.impl_1",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "Task.impl_1"
+    },
+    {
+      "owner": "Task.impl_1",
+      "owner_kind": "thread implementation",
+      "name": "Period",
+      "value": "100 ms",
+      "applies_to": "Task.impl_1"
+    },
+    {
+      "owner": "Task.impl_1",
+      "owner_kind": "thread implementation",
+      "name": "Compute_Execution_time",
+      "value": "0 ms .. 3 ms",
+      "applies_to": "Task.impl_1"
+    }
+  ]
+}

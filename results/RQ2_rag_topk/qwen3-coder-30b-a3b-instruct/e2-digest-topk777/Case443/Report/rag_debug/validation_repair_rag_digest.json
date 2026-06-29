@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "When repairing AGREE contracts, ensure that all identifiers and types referenced in assumptions and guarantees are visible in the current AADL component scope and match the model's declared features and data types.",
+    "Place component type contracts, including input range assumptions and output guarantees, within the appropriate component type annexes using valid AADL feature names and types."
+  ],
+  "generic_rules": [
+    "AGREE expressions must preserve type consistency; numeric variables should receive numeric expressions, and Boolean variables should receive Boolean expressions.",
+    "Generated AGREE code should not introduce package-qualified identifiers or data types that are not present in the analyzed model or its configured dependencies.",
+    "Assumptions and guarantees should reference only visible AADL features or helper functions declared within the same annex block.",
+    "Avoid using implementation-specific subcomponent paths or outputs in component type annexes; these should be moved to implementation-level annexes."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks, with assumptions using `assume \"label\": expression;` and guarantees using `guarantee \"label\": expression;`.",
+    "Constants and equations in AGREE are declared using `const name : type = value;` and `eq name : type = expression;` respectively."
+  ],
+  "anti_patterns": [
+    "Do not introduce new package-qualified identifiers or data types that are not part of the input AADL model or its dependencies.",
+    "Do not reference implementation-only subcomponents or ports in a component type annex; move such bindings to the implementation scope."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about missing packages or property sets",
+    "AGREE validator diagnostics (none present)",
+    "Model Analyst Agent's role in extracting AADL structure",
+    "Requirement Analyst Agent's role in compact requirement semantics",
+    "Model Fusion Agent's role in owner/scope preservation"
+  ]
+}

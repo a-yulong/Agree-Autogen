@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 91: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is invalid syntax",
+      "minimal_edit": "Change guarantee \"route_x\": mag_out_data_x = mag_out_data_x; to guarantee \"route_x\": mag_out_data_x = mag_out_data_x;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 92: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is invalid syntax",
+      "minimal_edit": "Change guarantee \"route_y\": mag_out_data_y = mag_out_data_y; to guarantee \"route_y\": mag_out_data_y = mag_out_data_y;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 93: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is invalid syntax",
+      "minimal_edit": "Change guarantee \"route_z\": mag_out_data_z = mag_out_data_z; to guarantee \"route_z\": mag_out_data_z = mag_out_data_z;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify the AGREE annex block in the component type MAGNETO_SUB_wrapper",
+    "For each guarantee statement, replace the redundant equality with a valid expression that relates the output to an input or another valid expression",
+    "Ensure that the guarantee statements are syntactically valid AGREE expressions",
+    "Verify that the guarantees correctly express the intended data flow routing behavior"
+  ]
+}

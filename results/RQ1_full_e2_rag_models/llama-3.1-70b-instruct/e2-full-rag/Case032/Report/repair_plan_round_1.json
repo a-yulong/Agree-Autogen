@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 110: Couldn't resolve reference to 'defined'.",
+      "cause": "Undefined function 'defined' in assume statement",
+      "minimal_edit": "Remove assume statement or replace with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 111: Couldn't resolve reference to 'intruderVerticalVelocity'.",
+      "cause": "Undefined variable 'intruderVerticalVelocity' in guarantee statement",
+      "minimal_edit": "Declare 'intruderVerticalVelocity' as an auxiliary variable or remove reference"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 111: Couldn't resolve reference to 'previous'.",
+      "cause": "Undefined function 'previous' in guarantee statement",
+      "minimal_edit": "Replace with valid temporal operator or remove reference"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 112: Couldn't resolve reference to 'intruderVerticalVelocity'.",
+      "cause": "Undefined variable 'intruderVerticalVelocity' in guarantee statement",
+      "minimal_edit": "Declare 'intruderVerticalVelocity' as an auxiliary variable or remove reference"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the assume statement on line 110",
+    "Declare 'intruderVerticalVelocity' as an auxiliary variable in the annex agree block",
+    "Replace 'previous' with a valid temporal operator in the guarantee statement on line 111",
+    "Update the guarantee statement on line 112 to use the declared 'intruderVerticalVelocity' variable"
+  ]
+}

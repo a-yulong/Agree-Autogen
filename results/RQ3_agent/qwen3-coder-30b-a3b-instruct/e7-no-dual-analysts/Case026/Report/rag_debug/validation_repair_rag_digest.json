@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by ensuring all identifiers used in AGREE contracts are visible in the current scope or properly declared as helpers.",
+    "Avoid placing assume/guarantee statements in implementation scopes; they must be in component type scopes.",
+    "Do not introduce package-qualified identifiers in AGREE annexes that are not present in the model's configured dependencies."
+  ],
+  "generic_rules": [
+    "When AGREE reports type mismatches or unresolved references, trace the root cause to the first invalid identifier or declaration on the same line.",
+    "Use only visible AADL features or declared helpers in AGREE contracts to prevent 'named thing must be an expression with a type' errors.",
+    "Ensure AGREE scalar types match AADL expectations: int, real, bool for constants and equations.",
+    "Validate that all referenced features and properties exist in the component's scope before using them in contracts."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for bindings and assignments.",
+    "Assignments in implementation scope must reference existing output features or declared auxiliary variables."
+  ],
+  "anti_patterns": [
+    "Do not place assume or guarantee statements in component implementation scopes; they are only valid in component types.",
+    "Do not reference identifiers that are not declared or visible in the current AGREE annex or AADL scope.",
+    "Do not use invalid scalar type names like 'integer' or 'boolean' in AGREE declarations; use 'int', 'real', or 'bool' instead."
+  ],
+  "irrelevant_topics": [
+    "AADL structural extraction",
+    "Requirement semantics and traceability",
+    "Model fusion and owner/scope preservation",
+    "AGREE contract generation and clause assignment"
+  ]
+}

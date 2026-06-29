@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by ensuring all identifiers are visible in the current scope and properly declared before use.",
+    "Resolve type mismatches by aligning helper declarations with the correct AGREE scalar types (int, real, bool).",
+    "Address 'named thing must be an expression with a type' errors by tracing and correcting the first invalid reference on the same line."
+  ],
+  "generic_rules": [
+    "In AGREE contracts, always reference only visible AADL features or previously declared helpers within the same annex.",
+    "When generating AGREE code, avoid introducing package-qualified identifiers that are not present in the model's dependencies.",
+    "Use assign statements only for existing output features or declared auxiliary variables in implementation scopes.",
+    "Ensure type consistency in AGREE expressions by matching helper declarations with the actual types of their assigned values."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for bindings and assignments.",
+    "AGREE scalar types are int, real, and bool; avoid using AADL package-qualified names for these."
+  ],
+  "anti_patterns": [
+    "Do not introduce new package references or data types not defined in the AADL model or its configured dependencies.",
+    "Do not place guarantee statements in implementation scopes; use type scopes for output dependency contracts.",
+    "Do not reference subcomponent ports in component type annexes unless they are represented through valid variables or outputs."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "implementation scope output assign",
+    "type scope deterministic dependency guarantee"
+  ]
+}

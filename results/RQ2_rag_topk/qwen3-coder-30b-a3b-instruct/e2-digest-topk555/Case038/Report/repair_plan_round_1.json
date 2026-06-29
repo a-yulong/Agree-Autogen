@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 13: The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "Type mismatch in equation declaration; 'e' is declared as 'Base_Types::Float' but used in context expecting 'Types::speed.speed_impl'",
+      "minimal_edit": "Change 'eq e : Base_Types::Float' to 'eq e : real'"
+    },
+    {
+      "diagnostic": "line 13: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types 'Types::speed.speed_impl' are not compatible with arithmetic operations",
+      "minimal_edit": "Cast Target and Actual to 'real' before subtraction: 'eq e : real = real(Target) - real(Actual)'"
+    },
+    {
+      "diagnostic": "line 13: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types 'Types::speed.speed_impl' are not compatible with arithmetic operations",
+      "minimal_edit": "Cast Target and Actual to 'real' before subtraction: 'eq e : real = real(Target) - real(Actual)'"
+    },
+    {
+      "diagnostic": "line 14: Couldn't resolve reference to 'integral'.",
+      "cause": "AGREE integral function not recognized; likely due to missing or incorrect type declaration",
+      "minimal_edit": "Replace 'integral(e)' with 'integral(e, 1.0)' or use a valid integral construct if available"
+    },
+    {
+      "diagnostic": "line 15: Couldn't resolve reference to 'derivative'.",
+      "cause": "AGREE derivative function not recognized; likely due to missing or incorrect type declaration",
+      "minimal_edit": "Replace 'derivative(e)' with 'derivative(e, 1.0)' or use a valid derivative construct if available"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Change 'eq e : Base_Types::Float' to 'eq e : real'",
+    "Change 'eq e : real = Target - Actual' to 'eq e : real = real(Target) - real(Actual)'",
+    "Replace 'eq e_int : Base_Types::Float = integral(e)' with 'eq e_int : real = integral(e, 1.0)'",
+    "Replace 'eq e_dot : Base_Types::Float = derivative(e)' with 'eq e_dot : real = derivative(e, 1.0)'"
+  ]
+}

@@ -1,0 +1,15 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Treat each AGREE annex block as scoped to its owning component declaration.
+- Reference only identifiers visible in the current component scope, using exact names from the model facts.
+- Use the AADL model facts as the authority for ports, directions, data types, subcomponents, and connections; do not infer missing structure from prose.
+Generic rules:
+- When no symbol whitelist is provided, constrain expressions to identifiers explicitly established by the model facts for the current scope.
+- Only encode requirements as AGREE when they can be expressed with visible typed symbols rather than hidden AADL metadata.
+Syntax or pattern reminders:
+- Wrap AGREE content in `annex agree {** ... **};` and end each AGREE statement with a semicolon.
+- Supported core forms are `assume`, `guarantee`, `eq`, `const`, and `assign`; use `assign` only in a scope where assignments are valid.
+Anti-patterns:
+- Do not invent ports, components, constants, or intermediate names that are not present in the model facts.
+- Do not reference AADL property names or unit tokens as AGREE variables unless the model explicitly exposes them as typed symbols.
+</RAG_DIGEST>

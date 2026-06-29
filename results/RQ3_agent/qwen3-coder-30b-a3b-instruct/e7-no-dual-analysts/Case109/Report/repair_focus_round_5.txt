@@ -1,0 +1,142 @@
+round=5
+
+[TARGET INTERFACE]
+Exact expression symbols: acc2out, acc2_command_in
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc2out | out | data | int | SHM_DataType::accData
+acc2_command_in | in | data | int | SHM_DataType::actionData
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: acc2_dataOutput | lines 62-66
+annex agree {**
+            assume "signal_routing_impl": acc2_dataOutput_emv2 = acc2_dataOutput_emv2;
+            guarantee "data_flow_routing": acc2out = acc2out;
+            guarantee "control_signal_routing": acc2_command_in = acc2_command_in;
+          **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   59:     Period => 4000 ms;
+   60:     Compute_Execution_Time => 400 ms .. 500 ms;
+   61:     Deadline => 500 ms;
+   62:   annex agree {**
+>> 63:             assume "signal_routing_impl": acc2_dataOutput_emv2 = acc2_dataOutput_emv2;
+   64:             guarantee "data_flow_routing": acc2out = acc2out;
+   65:             guarantee "control_signal_routing": acc2_command_in = acc2_command_in;
+   66:           **};
+   67:   end acc2_dataOutput;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: acc2_dataOutput
+thread  acc2_dataOutput
+  features
+    acc2out: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+    acc2_command_in: in event data port SHM_DataType::actionData;
+  properties
+    --Reference_Processor=>classifier(ACC_Module::powerpc_acc);
+    --Initialize_Entrypoint => classifier (ACC_Module::acc_dataOutput_spg);
+    Dispatch_Protocol => Periodic;
+    Priority => 1;
+    Stack_Size => 20 KByte;
+    Code_Size => 100 KByte;
+    Data_Size => 1 KByte;
+    Period => 4000 ms;
+    Compute_Execution_Time => 400 ms .. 500 ms;
+    Deadline => 500 ms;
+  end acc2_dataOutput;
+
+-- TARGET DECLARATION: acc2_dataOutput.impl
+thread implementation  acc2_dataOutput.impl
+  calls
+    sub1: { spg: subprogram subprograms::acc2_dataOutput_spg;};
+
+  connections
+    C1: parameter spg.acc2DataOut->acc2out;
+    C2: parameter acc2_command_in->spg.event_in;
+  end  acc2_dataOutput.impl;
+
+-- RELATED MODEL LINES
+thread acc1_dataOutput
+acc1out: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc1_command_in: in event data port SHM_DataType::actionData;
+end acc1_dataOutput;
+thread implementation acc1_dataOutput.impl
+C1: parameter spg.acc1DataOut->acc1out;
+C2: parameter acc1_command_in->spg.event_in;
+end  acc1_dataOutput.impl;
+thread acc1_dataOutput_emv2 extends acc1_dataOutput
+acc1_input: in data port SHM_DataType::accData;
+end acc1_dataOutput_emv2;
+thread implementation acc1_dataOutput_emv2.impl extends acc1_dataOutput.impl
+end acc1_dataOutput_emv2.impl;
+thread  acc2_dataOutput
+acc2out: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc2_command_in: in event data port SHM_DataType::actionData;
+end acc2_dataOutput;
+thread implementation  acc2_dataOutput.impl
+C1: parameter spg.acc2DataOut->acc2out;
+C2: parameter acc2_command_in->spg.event_in;
+end  acc2_dataOutput.impl;
+thread acc2_dataOutput_emv2 extends acc2_dataOutput
+acc2_input: in data port SHM_DataType::accData;
+end acc2_dataOutput_emv2;
+thread implementation acc2_dataOutput_emv2.impl extends acc2_dataOutput.impl
+end acc2_dataOutput_emv2.impl;
+thread acc3_dataOutput
+accout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc_command_in: in event data port SHM_DataType::actionData;
+end acc3_dataOutput;
+thread implementation acc3_dataOutput.impl
+C1: parameter spg.accDataOut->accout;
+C2: parameter acc_command_in->spg.event_in;
+end  acc3_dataOutput.impl;
+thread acc3_dataOutput_emv2 extends acc3_dataOutput
+acc3_input: in data port SHM_DataType::accData;
+end acc3_dataOutput_emv2;
+thread implementation acc3_dataOutput_emv2.impl extends acc3_dataOutput.impl
+end acc3_dataOutput_emv2.impl;
+thread acc4_dataOutput
+end acc4_dataOutput;
+thread implementation acc4_dataOutput.impl
+end  acc4_dataOutput.impl;
+thread acc4_dataOutput_emv2 extends acc4_dataOutput
+acc4_input: in data port SHM_DataType::accData;
+end acc4_dataOutput_emv2;
+thread implementation acc4_dataOutput_emv2.impl extends acc4_dataOutput.impl
+end acc4_dataOutput_emv2.impl;
+thread acc5_dataOutput
+end acc5_dataOutput;
+thread implementation acc5_dataOutput.impl
+end acc5_dataOutput.impl;
+thread acc5_dataOutput_emv2 extends acc5_dataOutput
+acc5_input: in data port SHM_DataType::accData;
+end acc5_dataOutput_emv2;
+thread implementation acc5_dataOutput_emv2.impl extends acc5_dataOutput.impl
+end acc5_dataOutput_emv2.impl;
+thread acc6_dataOutput
+end acc6_dataOutput;
+thread implementation acc6_dataOutput.impl
+end acc6_dataOutput.impl;
+thread acc6_dataOutput_emv2 extends acc6_dataOutput
+acc6_input: in data port SHM_DataType::accData;
+end acc6_dataOutput_emv2;
+thread implementation acc6_dataOutput_emv2.impl extends acc6_dataOutput.impl
+end acc6_dataOutput_emv2.impl;
+thread acc_HM
+acc1_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc2_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc3_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc4_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc5_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc6_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc1_validated_dataout:out data port SHM_DataType::accData;
+acc2_validated_dataout:out data port SHM_DataType::accData;
+acc3_validated_dataout:out data port SHM_DataType::accData;
+acc4_validated_dataout:out data port SHM_DataType::accData;
+acc5_validated_dataout:out data port SHM_DataType::accData;
+acc6_validated_dataout:out data port SHM_DataType::accData;
+acc_error_action: in event data port SHM_DataType::actionData;

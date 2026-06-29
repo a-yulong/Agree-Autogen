@@ -1,0 +1,174 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: diagnosis_in, diagnosis_out
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+diagnosis_in | in | data | int | SHM_DataType::errorData
+diagnosis_out | out | data | int | SHM_DataType::errorData
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "diagnosisEngine.impl routes data flow from diagnosis_in to diagnosisEngine.inData_para through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "diagnosis_in",
+        "diagnosisEngine.inData_para",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "diagnosisEngine.impl routes data flow from diagnosisEngine.outData_para to diagnosis_out through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "diagnosisEngine.outData_para",
+        "diagnosis_out",
+        "C2"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: diagnosisEngine | lines 427-430
+annex agree {**
+      assume "signal_flow_in": diagnosis_in = inData_para;
+      assume "signal_flow_out": outData_para = diagnosis_out;
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   424:     Period => 3000 ms;
+   425:     Compute_Execution_Time => 400 ms .. 500 ms;
+   426:     Deadline => 500 ms;
+   427:   annex agree {**
+>> 428:       assume "signal_flow_in": diagnosis_in = inData_para;
+   429:       assume "signal_flow_out": outData_para = diagnosis_out;
+   430:     **};
+   431:   end diagnosisEngine;
+   432: 
+
+   425:     Compute_Execution_Time => 400 ms .. 500 ms;
+   426:     Deadline => 500 ms;
+   427:   annex agree {**
+   428:       assume "signal_flow_in": diagnosis_in = inData_para;
+>> 429:       assume "signal_flow_out": outData_para = diagnosis_out;
+   430:     **};
+   431:   end diagnosisEngine;
+   432: 
+   433:   thread implementation diagnosisEngine.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: diagnosisEngine
+thread diagnosisEngine
+  features
+    diagnosis_in: in event data port SHM_DataType::errorData;
+    diagnosis_out: out event data port SHM_DataType::errorData;
+  properties
+    Priority => 7;
+    Stack_Size => 20 KByte;
+    Code_Size => 100 KByte;
+    Data_Size => 1 KByte;
+    Dispatch_Protocol => Periodic;
+    Period => 3000 ms;
+    Compute_Execution_Time => 400 ms .. 500 ms;
+    Deadline => 500 ms;
+  end diagnosisEngine;
+
+-- TARGET DECLARATION: diagnosisEngine.impl
+thread implementation diagnosisEngine.impl
+  calls
+    sub1: { diagnosisEngine: subprogram subprograms::diagnosisEngine_spg; };
+
+  connections
+    C1: parameter  diagnosis_in->diagnosisEngine.inData_para;
+    C2: parameter  diagnosisEngine.outData_para->diagnosis_out;
+  end diagnosisEngine.impl;
+
+-- RELATED MODEL LINES
+thread acc1_dataOutput
+acc1out: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc1_command_in: in event data port SHM_DataType::actionData;
+end acc1_dataOutput;
+thread implementation acc1_dataOutput.impl
+C1: parameter spg.acc1DataOut->acc1out;
+C2: parameter acc1_command_in->spg.event_in;
+end  acc1_dataOutput.impl;
+thread acc1_dataOutput_emv2 extends acc1_dataOutput
+acc1_input: in data port SHM_DataType::accData;
+end acc1_dataOutput_emv2;
+thread implementation acc1_dataOutput_emv2.impl extends acc1_dataOutput.impl
+end acc1_dataOutput_emv2.impl;
+thread  acc2_dataOutput
+acc2out: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc2_command_in: in event data port SHM_DataType::actionData;
+end acc2_dataOutput;
+thread implementation  acc2_dataOutput.impl
+C1: parameter spg.acc2DataOut->acc2out;
+C2: parameter acc2_command_in->spg.event_in;
+end  acc2_dataOutput.impl;
+thread acc2_dataOutput_emv2 extends acc2_dataOutput
+acc2_input: in data port SHM_DataType::accData;
+end acc2_dataOutput_emv2;
+thread implementation acc2_dataOutput_emv2.impl extends acc2_dataOutput.impl
+end acc2_dataOutput_emv2.impl;
+thread acc3_dataOutput
+accout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc_command_in: in event data port SHM_DataType::actionData;
+end acc3_dataOutput;
+thread implementation acc3_dataOutput.impl
+C1: parameter spg.accDataOut->accout;
+C2: parameter acc_command_in->spg.event_in;
+end  acc3_dataOutput.impl;
+thread acc3_dataOutput_emv2 extends acc3_dataOutput
+acc3_input: in data port SHM_DataType::accData;
+end acc3_dataOutput_emv2;
+thread implementation acc3_dataOutput_emv2.impl extends acc3_dataOutput.impl
+end acc3_dataOutput_emv2.impl;
+thread acc4_dataOutput
+end acc4_dataOutput;
+thread implementation acc4_dataOutput.impl
+end  acc4_dataOutput.impl;
+thread acc4_dataOutput_emv2 extends acc4_dataOutput
+acc4_input: in data port SHM_DataType::accData;
+end acc4_dataOutput_emv2;
+thread implementation acc4_dataOutput_emv2.impl extends acc4_dataOutput.impl
+end acc4_dataOutput_emv2.impl;
+thread acc5_dataOutput
+end acc5_dataOutput;
+thread implementation acc5_dataOutput.impl
+end acc5_dataOutput.impl;
+thread acc5_dataOutput_emv2 extends acc5_dataOutput
+acc5_input: in data port SHM_DataType::accData;
+end acc5_dataOutput_emv2;
+thread implementation acc5_dataOutput_emv2.impl extends acc5_dataOutput.impl
+end acc5_dataOutput_emv2.impl;
+thread acc6_dataOutput
+end acc6_dataOutput;
+thread implementation acc6_dataOutput.impl
+end acc6_dataOutput.impl;
+thread acc6_dataOutput_emv2 extends acc6_dataOutput
+acc6_input: in data port SHM_DataType::accData;
+end acc6_dataOutput_emv2;
+thread implementation acc6_dataOutput_emv2.impl extends acc6_dataOutput.impl
+end acc6_dataOutput_emv2.impl;
+thread acc_HM
+acc1_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc2_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc3_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc4_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc5_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc6_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc1_validated_dataout:out data port SHM_DataType::accData;
+acc2_validated_dataout:out data port SHM_DataType::accData;
+acc3_validated_dataout:out data port SHM_DataType::accData;
+acc4_validated_dataout:out data port SHM_DataType::accData;
+acc5_validated_dataout:out data port SHM_DataType::accData;
+acc6_validated_dataout:out data port SHM_DataType::accData;
+acc_error_action: in event data port SHM_DataType::actionData;

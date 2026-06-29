@@ -1,0 +1,208 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: telecommand, nominal_attitude, nominal_orbit, power_status_FSS, power_status_CSS, power_status_SPS, power_status_ES, power_status_MGM, power_status_GYR, power_status_STR, power_status_GPS, power_status_TRU, power_status_RW, power_status_MGT, manoeuvre_command, attitude_window, check_thresholds, Force_mode_to_NM, Force_mode_to_SM
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+telecommand | in | data | real | dataaocs::telecommand
+nominal_attitude | out | data | real | dataaocs::attitude
+nominal_orbit | out | data | real | dataaocs::orbit
+power_status_FSS | out | data | bool | dataaocs::power_status
+power_status_CSS | out | data | bool | dataaocs::power_status
+power_status_SPS | out | data | bool | dataaocs::power_status
+power_status_ES | out | data | bool | dataaocs::power_status
+power_status_MGM | out | data | bool | dataaocs::power_status
+power_status_GYR | out | data | bool | dataaocs::power_status
+power_status_STR | out | data | bool | dataaocs::power_status
+power_status_GPS | out | data | bool | dataaocs::power_status
+power_status_TRU | out | data | bool | dataaocs::power_status
+power_status_RW | out | data | bool | dataaocs::power_status
+power_status_MGT | out | data | bool | dataaocs::power_status
+manoeuvre_command | out | data | opaque | dataaocs::manoeuvre_command
+attitude_window | out | data | real | dataaocs::attitude_window
+check_thresholds | out | data | opaque | dataaocs::check_thresholds
+Force_mode_to_NM | out | event | event | 
+Force_mode_to_SM | out | event | event | 
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Telecommand_Processing shall complete compute execution within 0 ms .. 100 us",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Telecommand_Processing"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Telecommand_Processing shall execute according to the scheduling and timing constraints defined for Telecommand_Processing.impl",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Telecommand_Processing"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Telecommand_Processing shall use the Aperiodic dispatch protocol",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "Telecommand_Processing"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Telecommand_Processing | lines 53-57
+annex agree {**
+      guarantee "timing_constraint": forall t (0 ms <= t and t <= 100 us);
+      assume "scheduling_constraint": forall t (telecommand(t) => nominal_attitude(t) and nominal_orbit(t));
+      guarantee "protocol_constraint": forall t (telecommand(t) => (power_status_FSS(t) or power_status_CSS(t) or power_status_SPS(t) or power_status_ES(t) or power_status_MGM(t) or power_status_GYR(t) or power_status_STR(t) or power_status_GPS(t) or power_status_TRU(t) or power_status_RW(t) or power_status_MGT(t)));
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   51:     
+   52:     -- To be continued : Command reconfigurations
+   53:   annex agree {**
+   54:       guarantee "timing_constraint": forall t (0 ms <= t and t <= 100 us);
+>> 55:       assume "scheduling_constraint": forall t (telecommand(t) => nominal_attitude(t) and nominal_orbit(t));
+   56:       guarantee "protocol_constraint": forall t (telecommand(t) => (power_status_FSS(t) or power_status_CSS(t) or power_status_SPS(t) or power_status_ES(t) or power_status_MGM(t) or power_status_GYR(t) or power_status_STR(t) or power_status_GPS(t) or power_status_TRU(t) or power_status_RW(t) or power_status_MGT(t)));
+   57:     **};
+   58:   end Telecommand_Processing;
+   59:   
+
+   52:     -- To be continued : Command reconfigurations
+   53:   annex agree {**
+   54:       guarantee "timing_constraint": forall t (0 ms <= t and t <= 100 us);
+   55:       assume "scheduling_constraint": forall t (telecommand(t) => nominal_attitude(t) and nominal_orbit(t));
+>> 56:       guarantee "protocol_constraint": forall t (telecommand(t) => (power_status_FSS(t) or power_status_CSS(t) or power_status_SPS(t) or power_status_ES(t) or power_status_MGM(t) or power_status_GYR(t) or power_status_STR(t) or power_status_GPS(t) or power_status_TRU(t) or power_status_RW(t) or power_status_MGT(t)));
+   57:     **};
+   58:   end Telecommand_Processing;
+   59:   
+   60:   thread Telemetry_Processing
+
+   53:   annex agree {**
+   54:       guarantee "timing_constraint": forall t (0 ms <= t and t <= 100 us);
+   55:       assume "scheduling_constraint": forall t (telecommand(t) => nominal_attitude(t) and nominal_orbit(t));
+   56:       guarantee "protocol_constraint": forall t (telecommand(t) => (power_status_FSS(t) or power_status_CSS(t) or power_status_SPS(t) or power_status_ES(t) or power_status_MGM(t) or power_status_GYR(t) or power_status_STR(t) or power_status_GPS(t) or power_status_TRU(t) or power_status_RW(t) or power_status_MGT(t)));
+>> 57:     **};
+   58:   end Telecommand_Processing;
+   59:   
+   60:   thread Telemetry_Processing
+   61:   features
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Telecommand_Processing
+thread Telecommand_Processing
+  features
+    telecommand : in data port dataaocs::telecommand;
+    nominal_attitude : out data port dataaocs::attitude;
+    nominal_orbit : out data port dataaocs::orbit;
+    
+    -- Command to power up/down sensor/actuator --
+    power_status_FSS : out data port dataaocs::power_status; 
+    power_status_CSS : out data port dataaocs::power_status; 
+    power_status_SPS : out data port dataaocs::power_status; 
+    power_status_ES : out data port dataaocs::power_status; 
+    power_status_MGM : out data port dataaocs::power_status; 
+    power_status_GYR : out data port dataaocs::power_status; 
+    power_status_STR : out data port dataaocs::power_status;  
+    power_status_GPS : out data port dataaocs::power_status;
+    power_status_TRU : out data port dataaocs::power_status; 
+    power_status_RW : out data port dataaocs::power_status;  
+    power_status_MGT : out data port dataaocs::power_status;
+    
+    manoeuvre_command : out data port dataaocs::manoeuvre_command;
+    
+    -- Failure detection and isolation parameters --
+    attitude_window : out data port dataaocs::attitude_window;
+    check_thresholds : out data port dataaocs::check_thresholds;
+    
+    -- Ground station requests for mode switching
+    Force_mode_to_NM : out event port;
+    Force_mode_to_SM : out event port;
+    
+    -- To be continued : Command reconfigurations
+  end Telecommand_Processing;
+
+-- TARGET DECLARATION: Telecommand_Processing.impl
+thread implementation Telecommand_Processing.impl
+  properties
+    Dispatch_Protocol => Aperiodic; -- Aperiodic telecommand messages from ground station
+    Compute_Execution_Time => 0 ms .. 100 us;
+  end Telecommand_Processing.impl;
+
+-- RELATED MODEL LINES
+thread Attitude_Control_Function
+nominal_attitude : in data port dataaocs::attitude;
+sensored_attitude : in data port dataaocs::GYR_data;
+sun_direction : in data port dataaocs::FSS_data;
+reference_torque : out data port dataaocs::RW_data;
+end Attitude_Control_Function;
+thread Orbit_Control_Function
+nominal_orbit : in data port dataaocs::orbit;
+reference_force : out data port dataaocs::THU_data;
+end Orbit_Control_Function;
+thread Telecommand_Processing
+telecommand : in data port dataaocs::telecommand;
+nominal_attitude : out data port dataaocs::attitude;
+nominal_orbit : out data port dataaocs::orbit;
+power_status_FSS : out data port dataaocs::power_status;
+power_status_CSS : out data port dataaocs::power_status;
+power_status_SPS : out data port dataaocs::power_status;
+power_status_ES : out data port dataaocs::power_status;
+power_status_MGM : out data port dataaocs::power_status;
+power_status_GYR : out data port dataaocs::power_status;
+power_status_STR : out data port dataaocs::power_status;
+power_status_GPS : out data port dataaocs::power_status;
+power_status_TRU : out data port dataaocs::power_status;
+power_status_RW : out data port dataaocs::power_status;
+power_status_MGT : out data port dataaocs::power_status;
+manoeuvre_command : out data port dataaocs::manoeuvre_command;
+attitude_window : out data port dataaocs::attitude_window;
+check_thresholds : out data port dataaocs::check_thresholds;
+Force_mode_to_NM : out event port;
+Force_mode_to_SM : out event port;
+end Telecommand_Processing;
+thread Telemetry_Processing
+torque_command : in data port dataaocs::RW_data;
+force_command : out data port dataaocs::THU_data;
+sensor_data1 : in data port dataaocs::FSS_data;
+sensor_data2 : in data port dataaocs::CSS_data;
+sensor_data3 : in data port dataaocs::SPS_data;
+sensor_data4 : in data port dataaocs::ES_data;
+sensor_data5 : in data port dataaocs::MGM_data;
+sensor_data6 : in data port dataaocs::GYR_data;
+sensor_data7 : in data port dataaocs::STR_data;
+sensor_data8 : in data port dataaocs::GPS_data;
+telemetry : out data port dataaocs::telemetry;
+end Telemetry_Processing;
+thread Failure_Detection_Isolation
+attitude_window : in data port dataaocs::attitude_window;
+check_thresholds : in data port dataaocs::check_thresholds;
+watchdog_event : out event port;
+anomaly_detected : in event port;
+end Failure_Detection_Isolation;
+thread Failure_Recovery
+reset : in data port dataaocs::reset; -- reset AOCS software
+Changing_mode_to_SM : out event port;
+Changing_mode_to_NM : out event port;
+reconfiguration_command :out data port dataaocs::reconfiguration_command; -- command for reconfiguring a sensor or actuator sent to Reconfiguration thread
+end Failure_Recovery;
+thread Reconfigurations
+command : in data port dataaocs::reconfiguration_command;
+FSS_reconfiguration : out data port dataaocs::reconfigure_sensor;
+CSS_reconfiguration : out data port dataaocs::reconfigure_sensor;
+SPS_reconfiguration : out data port dataaocs::reconfigure_sensor;
+ES_reconfiguration : out data port dataaocs::reconfigure_sensor;
+MGM_reconfiguration : out data port dataaocs::reconfigure_sensor;
+GYR_reconfiguration : out data port dataaocs::reconfigure_sensor;
+STR_reconfiguration : out data port dataaocs::reconfigure_sensor;
+
+-- [target model context truncated]

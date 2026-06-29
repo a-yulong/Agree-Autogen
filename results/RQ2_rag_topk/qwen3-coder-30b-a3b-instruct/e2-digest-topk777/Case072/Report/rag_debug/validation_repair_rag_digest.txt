@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE contracts should be placed in appropriate annex scopes based on whether they are type-level or implementation-level
+- Generated AGREE expressions must preserve type safety and avoid unresolved references
+- Repair diagnostics by aligning AGREE clauses with visible AADL identifiers and valid scopes
+- Do not introduce new package-qualified identifiers unless they are present in the model
+Syntax or pattern reminders:
+- AGREE annexes use `annex agree {** ... **};` syntax with valid statements like assume, guarantee, eq, const, and assign
+- Implementation-level bindings use assign statements only for valid output features or declared variables
+- Type declarations in AGREE use int, real, and bool; avoid package-qualified or undefined scalar types
+- Ensure all identifiers in AGREE expressions are resolvable within the current component scope
+Anti-patterns:
+- Placing assume/guarantee statements in implementation scopes instead of component types
+- Using unresolved or package-qualified identifiers that are not present in the model
+- Introducing mismatched types in AGREE expressions such as assigning int to bool
+- Adding new identifiers or types that do not exist in the visible AADL model
+Irrelevant retrieved material:
+- AGREE validator diagnostics
+- Model fusion and insertion location decisions
+- Requirement traceability and compact semantics
+- AADL package reference resolution beyond model dependencies
+</RAG_DIGEST>

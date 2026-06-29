@@ -1,0 +1,20 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- In AGREE contracts, always reference only visible identifiers from the current scope to prevent type resolution failures.
+- Use assign statements only for implementation-level output bindings or declared auxiliary variables.
+- Avoid placing implementation-specific subcomponent paths in component type annexes; move to implementation scope instead.
+- When diagnostics point to invalid expressions, trace root causes like unresolved identifiers or incorrect types and fix them directly.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks within valid AADL scopes.
+- AGREE scalar type declarations must use int, real, or bool; avoid package-qualified or unknown types.
+- Left-hand side of assign statements must be an existing output feature or declared auxiliary variable.
+Anti-patterns:
+- Do not introduce package-qualified identifiers or types not present in the AADL model's configured dependencies.
+- Do not place implementation-level guarantees in component type annexes; move to implementation scope or remove.
+- Do not attempt to fix type errors by adding new architecture; instead, resolve root causes in existing visible identifiers.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics
+- AGREE validator diagnostics
+- Component type annexes for implementation-level bindings
+- AGREE syntax for assume/guarantee contracts
+</RAG_DIGEST>

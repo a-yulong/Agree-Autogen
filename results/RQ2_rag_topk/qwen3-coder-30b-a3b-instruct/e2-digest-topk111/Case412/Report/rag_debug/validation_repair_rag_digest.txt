@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- In AGREE contracts, only use identifiers that are visible in the current scope or declared as helpers within the same annex.
+- When repairing AGREE diagnostics, prioritize fixing root causes like missing property definitions or invalid references over adding new architecture.
+- For property term errors, ensure all referenced property definitions and constants are correctly declared and accessible in the model.
+- Validate that binary expressions in guarantees use operands of compatible types (e.g., int or real).
+Syntax or pattern reminders:
+- AGREE guarantees must reference valid expressions with known types; avoid using '<error>' types from unresolved references.
+- Property associations must point to valid property definitions or constants; otherwise, remove or correct the association.
+- Use only visible AADL features or declared helpers in AGREE annexes to prevent type resolution failures.
+Anti-patterns:
+- Do not attempt to add new architecture or components when AGREE diagnostics indicate unresolved references or type errors; instead, fix the root cause or remove the problematic clause.
+- Avoid introducing new property definitions or constants in AGREE annexes without ensuring they are properly declared in the AADL model.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about unreachable or non-existent property terms
+- AGREE validator diagnostics about missing property constants or definitions
+- Property association errors not related to the current component's scope
+</RAG_DIGEST>

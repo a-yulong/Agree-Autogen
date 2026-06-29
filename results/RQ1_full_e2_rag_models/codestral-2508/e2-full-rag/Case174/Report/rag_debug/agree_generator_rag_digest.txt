@@ -1,0 +1,24 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks inside component implementation scopes when the requirement item is an input assumption and the target is an implementation
+- Use 'assume' clauses for input assumptions when the requirement item kind is 'input_assumption'
+- Place 'assume' clauses inside the annex agree block with the syntax 'assume "label": expression;'
+- Use visible identifiers from the current target component and visible symbols when available
+- Avoid using subcomponent ports in component type contracts unless represented through valid variables or outputs
+Generic rules:
+- Use concrete bounds, named constants, or visible relations for assumptions and guarantees
+- Place implementation-level bindings such as assignments in component implementation annexes
+- Treat each annex agree block as scoped to its owning component declaration
+- Avoid encoding AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for them
+Syntax or pattern reminders:
+- Use 'assume "label": expression;' syntax for assumptions
+- Use 'guarantee "label": expression;' syntax for guarantees
+- Use 'eq name : type = expression;' syntax for equations
+- Use 'const name : type = value;' syntax for constants
+- Use 'assign output = expression;' syntax for assignments
+Anti-patterns:
+- Do not place assume/guarantee/eq/const clauses in component implementation scopes
+- Do not use subcomponent ports in component type contracts unless represented through valid variables or outputs
+- Do not encode AADL timing properties as AGREE expressions without explicit typed ports or constants
+- Do not redesign architecture during fusion/repair
+</RAG_DIGEST>

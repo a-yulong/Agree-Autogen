@@ -1,0 +1,66 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 13: The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "Type mismatch in equation declaration: 'e' declared as real but used in context expecting speed_impl type",
+      "minimal_edit": "Change 'eq e : real = Target - Actual;' to 'eq e : Types::speed.speed_impl = Target - Actual;'"
+    },
+    {
+      "diagnostic": "line 13: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Incompatible types in subtraction operation: speed_impl cannot be subtracted directly",
+      "minimal_edit": "Change 'eq e : real = Target - Actual;' to 'eq e : Types::speed.speed_impl = Target - Actual;'"
+    },
+    {
+      "diagnostic": "line 13: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Incompatible types in subtraction operation: speed_impl cannot be subtracted directly",
+      "minimal_edit": "Change 'eq e : real = Target - Actual;' to 'eq e : Types::speed.speed_impl = Target - Actual;'"
+    },
+    {
+      "diagnostic": "line 14: Couldn't resolve reference to 'e_dot'.",
+      "cause": "e_dot is not defined in the AGREE annex",
+      "minimal_edit": "Add definition for e_dot as derivative of e: 'eq e_dot : real = derivative(e, time);'"
+    },
+    {
+      "diagnostic": "line 14: Couldn't resolve reference to 'e_int'.",
+      "cause": "e_int is not defined in the AGREE annex",
+      "minimal_edit": "Add definition for e_int as integral of e: 'eq e_int : real = integral(e, time);'"
+    },
+    {
+      "diagnostic": "line 14: left and right sides of binary expression '*' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Expression contains undefined variables causing type resolution failure",
+      "minimal_edit": "Add definitions for e_dot and e_int before the guarantee statement"
+    },
+    {
+      "diagnostic": "line 14: named thing must be an expression with a type",
+      "cause": "Expression contains undefined variables causing type resolution failure",
+      "minimal_edit": "Add definitions for e_dot and e_int before the guarantee statement"
+    },
+    {
+      "diagnostic": "line 14: right side of binary expression '*' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Expression contains undefined variables causing type resolution failure",
+      "minimal_edit": "Add definitions for e_dot and e_int before the guarantee statement"
+    },
+    {
+      "diagnostic": "line 15: left and right sides of binary expression '=' are of type 'real' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "Type mismatch in guarantee statement: e is declared as real but should be speed_impl",
+      "minimal_edit": "Change 'guarantee \"error definition\": e = Target - Actual;' to 'guarantee \"error definition\": e = Target - Actual;' (but ensure e is properly typed)"
+    },
+    {
+      "diagnostic": "line 15: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Incompatible types in subtraction operation: speed_impl cannot be subtracted directly",
+      "minimal_edit": "Ensure e is declared with correct type to support subtraction"
+    },
+    {
+      "diagnostic": "line 15: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Incompatible types in subtraction operation: speed_impl cannot be subtracted directly",
+      "minimal_edit": "Ensure e is declared with correct type to support subtraction"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add definition for e_dot as derivative of e: 'eq e_dot : real = derivative(e, time);'",
+    "Add definition for e_int as integral of e: 'eq e_int : real = integral(e, time);'",
+    "Change 'eq e : real = Target - Actual;' to 'eq e : Types::speed.speed_impl = Target - Actual;'",
+    "Ensure the guarantee statement remains as 'guarantee \"actuator input follows PID control law\": Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int;'"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 56: Couldn't resolve reference to 'tempin1'.",
+      "cause": "tempin1 is not visible in the temp_control component type scope; it is a port of voter, not temp_control",
+      "minimal_edit": "remove the entire annex block under owner temp_control"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 84: Couldn't resolve reference to 'tempin1'.",
+      "cause": "voter.tempin1 is not a valid identifier in the voter component type annex; tempin1 is a port of voter and must be referenced without qualification",
+      "minimal_edit": "replace 'voter.tempin1' with 'tempin1' in all expressions in voter's annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the annex block under owner temp_control (lines 55-60) because temp_control is not the component type defining tempin1/tempin2 and those ports are not visible there",
+    "In the voter component type annex (lines 83-88), replace all occurrences of 'voter.tempin1' with 'tempin1' and 'voter.tempin2' with 'tempin2' to use only visible port identifiers"
+  ]
+}

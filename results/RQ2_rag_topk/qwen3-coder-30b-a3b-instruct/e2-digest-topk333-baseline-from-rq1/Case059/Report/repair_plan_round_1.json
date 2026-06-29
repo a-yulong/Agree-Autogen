@@ -1,0 +1,60 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 26: Couldn't resolve reference to 'COM1'.",
+      "cause": "Reference to COM1 component not visible in BSCU component type scope",
+      "minimal_edit": "Remove the assumption 'panel_to_COM1_signal_flow' which references COM1"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 26: Couldn't resolve reference to 'Panel'.",
+      "cause": "Reference to Panel component not visible in BSCU component type scope",
+      "minimal_edit": "Remove the assumption 'panel_to_COM1_signal_flow' which references Panel"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 27: Couldn't resolve reference to 'CMD'.",
+      "cause": "Reference to CMD component not visible in BSCU component type scope",
+      "minimal_edit": "Remove the assumption 'COM1_to_MON1_signal_flow' which references CMD"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 27: Couldn't resolve reference to 'CMD_From_COM'.",
+      "cause": "Reference to CMD_From_COM component not visible in BSCU component type scope",
+      "minimal_edit": "Remove the assumption 'COM1_to_MON1_signal_flow' which references CMD_From_COM"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 27: Couldn't resolve reference to 'COM1'.",
+      "cause": "Reference to COM1 component not visible in BSCU component type scope",
+      "minimal_edit": "Remove the assumption 'COM1_to_MON1_signal_flow' which references COM1"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 27: Couldn't resolve reference to 'MON1'.",
+      "cause": "Reference to MON1 component not visible in BSCU component type scope",
+      "minimal_edit": "Remove the assumption 'COM1_to_MON1_signal_flow' which references MON1"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 28: guarantee \"panel_to_COM1_timing\": true;",
+      "cause": "Timing guarantee references non-existent connection 'panel_to_COM1'",
+      "minimal_edit": "Remove the guarantee 'panel_to_COM1_timing'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 29: guarantee \"COM1_to_MON1_timing\": true;",
+      "cause": "Timing guarantee references non-existent connection 'COM1_to_MON1'",
+      "minimal_edit": "Remove the guarantee 'COM1_to_MON1_timing'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 30: guarantee \"pedal_to_COM1_timing\": true;",
+      "cause": "Timing guarantee references non-existent connection 'pedal_to_COM1'",
+      "minimal_edit": "Remove the guarantee 'pedal_to_COM1_timing'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 31: guarantee \"fail_to_COM1_timing\": true;",
+      "cause": "Timing guarantee references non-existent connection 'fail_to_COM1'",
+      "minimal_edit": "Remove the guarantee 'fail_to_COM1_timing'"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire annex agree block at lines 25-32 from the BSCU component type",
+    "Move the signal flow and timing assumptions/guarantees to the BSCU_Impl implementation annex",
+    "Ensure that the moved assumptions/guarantees reference only visible identifiers from the BSCU component type"
+  ]
+}

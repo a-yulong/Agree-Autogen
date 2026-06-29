@@ -1,0 +1,46 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "text": "acc6_dataOutput.impl routes data from spg.accDataOut to accout through C1",
+      "evidence": ["acc6_dataOutput.impl.sub1", "acc6_dataOutput.impl.C1", "accout"]
+    },
+    {
+      "id": "R2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "text": "acc6_dataOutput.impl routes control signal from acc_command_in to spg.event_in through C2",
+      "evidence": ["acc6_dataOutput.impl.C2", "acc_command_in", "sub1.event_in"]
+    },
+    {
+      "id": "R3",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "text": "acc6_dataOutput.impl uses subcomponent sub1 with classifier subprograms::acc6_dataOutput_spg",
+      "evidence": ["acc6_dataOutput.impl.sub1", "subprograms::acc6_dataOutput_spg"]
+    },
+    {
+      "id": "R4",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "text": "acc6_dataOutput.impl has Sampling_Refresh_Period=50 ms",
+      "evidence": ["acc6_dataOutput.impl", "ARINC653::Sampling_Refresh_Period"]
+    },
+    {
+      "id": "R5",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "text": "acc_command_in is an input signal of type SHM_DataType::actionData",
+      "evidence": ["acc_command_in", "SHM_DataType::actionData"]
+    },
+    {
+      "id": "R6",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "text": "accout is an output signal of type SHM_DataType::accData",
+      "evidence": ["accout", "SHM_DataType::accData"]
+    }
+  ]
+}

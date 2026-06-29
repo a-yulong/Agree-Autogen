@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'gps_pos'.",
+      "cause": "AGREE annex is in thread type scope but references implementation-level subcomponent port",
+      "minimal_edit": "Move annex to thread implementation scope"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "AGREE annex is in thread type scope but references implementation-level subcomponent",
+      "minimal_edit": "Move annex to thread implementation scope"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Ardupilot_Software::GPS_Position.i' and '<error>', but must be of the same type",
+      "cause": "AGREE annex is in thread type scope but references implementation-level subcomponent port",
+      "minimal_edit": "Move annex to thread implementation scope"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE annex is in thread type scope but references implementation-level subcomponent port",
+      "minimal_edit": "Move annex to thread implementation scope"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'speed'.",
+      "cause": "AGREE annex is in thread type scope but references implementation-level subcomponent port",
+      "minimal_edit": "Move annex to thread implementation scope"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from thread type thr_mgmt",
+    "Add a new AGREE annex block to thread implementation thr_mgmt.i",
+    "In the new annex block, replace the assume statements with valid implementation-level expressions using only visible identifiers",
+    "Ensure the new annex block uses only features and ports visible in the implementation scope"
+  ]
+}

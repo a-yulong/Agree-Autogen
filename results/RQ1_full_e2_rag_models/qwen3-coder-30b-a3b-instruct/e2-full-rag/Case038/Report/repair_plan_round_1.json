@@ -1,0 +1,68 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 13: left and right sides of binary expression '*' are of type 'real' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "multiplication of real and opaque type 'Types::speed.speed_impl'",
+      "minimal_edit": "Change '1.0 * (Target - Actual)' to '(Target - Actual)'"
+    },
+    {
+      "diagnostic": "line 13: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "subtraction of opaque types 'Types::speed.speed_impl'",
+      "minimal_edit": "Change 'Target - Actual' to '(Target - Actual)'"
+    },
+    {
+      "diagnostic": "line 13: right side of binary expression '*' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "multiplication of real and opaque type 'Types::speed.speed_impl'",
+      "minimal_edit": "Change '0.0 * e_dot' to '0.0 * e_dot'"
+    },
+    {
+      "diagnostic": "line 13: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "subtraction of opaque types 'Types::speed.speed_impl'",
+      "minimal_edit": "Change 'Target - Actual' to '(Target - Actual)'"
+    },
+    {
+      "diagnostic": "line 14: Couldn't resolve reference to 'e'",
+      "cause": "undefined variable 'e' in assume statement",
+      "minimal_edit": "Change 'e = Target - Actual' to 'e = (Target - Actual)'"
+    },
+    {
+      "diagnostic": "line 14: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "subtraction of opaque types 'Types::speed.speed_impl'",
+      "minimal_edit": "Change 'Target - Actual' to '(Target - Actual)'"
+    },
+    {
+      "diagnostic": "line 14: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "subtraction of opaque types 'Types::speed.speed_impl'",
+      "minimal_edit": "Change 'Target - Actual' to '(Target - Actual)'"
+    },
+    {
+      "diagnostic": "line 15: Couldn't resolve reference to 'e'",
+      "cause": "undefined variable 'e' in integral declaration",
+      "minimal_edit": "Change 'e_int : real = integral(e)' to 'e_int : real = integral((Target - Actual))'"
+    },
+    {
+      "diagnostic": "line 15: Couldn't resolve reference to 'integral'",
+      "cause": "undefined function 'integral' in AGREE",
+      "minimal_edit": "Change 'e_int : real = integral(e)' to 'e_int : real = integral((Target - Actual))'"
+    },
+    {
+      "diagnostic": "line 16: Couldn't resolve reference to 'derivative'",
+      "cause": "undefined function 'derivative' in AGREE",
+      "minimal_edit": "Change 'e_dot : real = derivative(e)' to 'e_dot : real = derivative((Target - Actual))'"
+    },
+    {
+      "diagnostic": "line 16: Couldn't resolve reference to 'e'",
+      "cause": "undefined variable 'e' in derivative declaration",
+      "minimal_edit": "Change 'e_dot : real = derivative(e)' to 'e_dot : real = derivative((Target - Actual))'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace '1.0 * (Target - Actual)' with '(Target - Actual)' in guarantee statement",
+    "Replace 'Target - Actual' with '(Target - Actual)' in assume statement",
+    "Replace '0.0 * e_dot' with '0.0 * e_dot' in guarantee statement",
+    "Replace 'e = Target - Actual' with 'e = (Target - Actual)' in assume statement",
+    "Replace 'e_int : real = integral(e)' with 'e_int : real = integral((Target - Actual))' in equation declaration",
+    "Replace 'e_dot : real = derivative(e)' with 'e_dot : real = derivative((Target - Actual))' in equation declaration"
+  ]
+}

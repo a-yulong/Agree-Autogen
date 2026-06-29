@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 80: named thing must be an expression with a type",
+      "cause": "assume statement compares port to itself instead of using a valid boolean expression",
+      "minimal_edit": "replace `Forcing_Safe_Mode = Forcing_Safe_Mode` with `Forcing_Safe_Mode = true`"
+    },
+    {
+      "diagnostic": "line 84: named thing must be an expression with a type",
+      "cause": "assume statement compares port to itself instead of using a valid boolean expression",
+      "minimal_edit": "replace `Getting_Back_To_Normal_Mode = Getting_Back_To_Normal_Mode` with `Getting_Back_To_Normal_Mode = true`"
+    },
+    {
+      "diagnostic": "line 144: named thing must be an expression with a type",
+      "cause": "assume statement compares port to itself instead of using a valid boolean expression",
+      "minimal_edit": "replace `anomaly_detected = anomaly_detected` with `anomaly_detected = true`"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace line 80: 'assume \"mode_transition_SM\": Forcing_Safe_Mode = Forcing_Safe_Mode;' with 'assume \"mode_transition_SM\": Forcing_Safe_Mode = true;'",
+    "Replace line 84: 'assume \"mode_transition_NM\": Getting_Back_To_Normal_Mode = Getting_Back_To_Normal_Mode;' with 'assume \"mode_transition_NM\": Getting_Back_To_Normal_Mode = true;'",
+    "Replace line 144: 'assume \"anomaly_handling\": anomaly_detected = anomaly_detected;' with 'assume \"anomaly_handling\": anomaly_detected = true;'"
+  ]
+}

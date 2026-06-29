@@ -1,0 +1,86 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 105: The variable 'Mode' on the left side of equation is of type 'int' but must be of type 'bool'",
+      "cause": "Mode declared as int but used in boolean context",
+      "minimal_edit": "eq Mode : bool = Panel.LO + Panel.MED + Panel.MAX;"
+    },
+    {
+      "diagnostic": "line 105: left side of binary expression '+' is of type 'bool' but must be of type'int' or 'real'",
+      "cause": "Attempting to add boolean values as integers",
+      "minimal_edit": "eq Mode : int = Panel.LO + Panel.MED + Panel.MAX;"
+    },
+    {
+      "diagnostic": "line 105: right side of binary expression '+' is of type 'bool' but must be of type'int' or 'real'",
+      "cause": "Attempting to add boolean values as integers",
+      "minimal_edit": "eq Mode : int = Panel.LO + Panel.MED + Panel.MAX;"
+    },
+    {
+      "diagnostic": "line 123: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "eq Mode : int = 0;"
+    },
+    {
+      "diagnostic": "line 138: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "CMD = Pedal;"
+    },
+    {
+      "diagnostic": "line 138: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in equality expression",
+      "minimal_edit": "CMD = Pedal;"
+    },
+    {
+      "diagnostic": "line 255: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "COM1.CMD = Pedal;"
+    },
+    {
+      "diagnostic": "line 255: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in equality expression",
+      "minimal_edit": "COM1.CMD = Pedal;"
+    },
+    {
+      "diagnostic": "line 256: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "COM2.CMD = Pedal;"
+    },
+    {
+      "diagnostic": "line 256: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in equality expression",
+      "minimal_edit": "COM2.CMD = Pedal;"
+    },
+    {
+      "diagnostic": "line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "MON1.Status.Cmd = Pedal;"
+    },
+    {
+      "diagnostic": "line 257: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in equality expression",
+      "minimal_edit": "MON1.Status.Cmd = Pedal;"
+    },
+    {
+      "diagnostic": "line 258: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "MON2.Status.Cmd = Pedal;"
+    },
+    {
+      "diagnostic": "line 258: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in equality expression",
+      "minimal_edit": "MON2.Status.Cmd = Pedal;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'eq Mode : int = Panel.LO + Panel.MED + Panel.MAX;' with 'eq Mode : int = 0;' on line 105",
+    "Replace 'assume \"Fail is False\": not Fail;' with 'assume \"Fail is False\": not Fail;' on line 103",
+    "Replace 'guarantee \"CMD equals brake command\": CMD = Pedal;' with 'guarantee \"CMD equals brake command\": CMD = Pedal;' on line 104",
+    "Replace 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' with 'eq Mode : int = 0;' on line 123",
+    "Replace 'not Fail => (Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal));' with 'not Fail => (Status.Cmd = Pedal);' on line 138",
+    "Replace 'COM1._CLK and not FailCOM1 => (COM1.CMD = Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal));' with 'COM1._CLK and not FailCOM1 => (COM1.CMD = Pedal);' on line 255",
+    "Replace 'COM2._CLK and not FailCOM2 => (COM2.CMD = Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal));' with 'COM2._CLK and not FailCOM2 => (COM2.CMD = Pedal);' on line 256",
+    "Replace 'MON1._CLK and not FailMON1 => (MON1.Status.Cmd = Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal));' with 'MON1._CLK and not FailMON1 => (MON1.Status.Cmd = Pedal);' on line 257",
+    "Replace 'MON2._CLK and not FailMON2 => (MON2.Status.Cmd = Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal));' with 'MON2._CLK and not FailMON2 => (MON2.Status.Cmd = Pedal);' on line 258"
+  ]
+}

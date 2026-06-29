@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 285: Couldn't resolve reference to 'door1'.",
+      "cause": "AGREE annex in component type scope cannot reference subcomponent ports (door1.handle_position) that are only visible in implementation scope.",
+      "minimal_edit": "Remove the entire annex block from doors_process, as it incorrectly references implementation-level subcomponent ports."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 286: Couldn't resolve reference to 'door1'.",
+      "cause": "AGREE annex in component type scope cannot reference subcomponent ports (door1.closed) that are only visible in implementation scope.",
+      "minimal_edit": "Remove the entire annex block from doors_process, as it incorrectly references implementation-level subcomponent ports."
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the annex agree block from the component type doors_process (lines 284-287) because it incorrectly references subcomponent ports (door1.handle_position, door1.closed) which are not visible in component type scope.",
+    "Create a new annex agree block in the implementation doors_process.imp to express the signal flow contracts using only visible port identifiers (D1_handle_position, D1_closed) and connection semantics, but since AGREE cannot express connection routing directly without implementation variables, no new assumptions are added — the signal flows are already correctly declared in AADL connections and do not require AGREE assertions."
+  ]
+}

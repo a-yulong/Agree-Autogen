@@ -1,0 +1,114 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.
+- Place input envelope assumptions and output range guarantees in annex agree only when concrete bounds or visible relations are provided.
+Generic rules:
+- Generated AGREE contracts must use logical operators (and, or, not, =>) and follow valid syntax for temporal and Boolean expressions.
+- Ensure type consistency between helper declarations and expressions; use appropriate types (bool, int, real) for comparisons and arithmetic.
+- Formalize output envelopes with clamping logic and corresponding guarantees that the bounded output remains within legal ranges.
+Syntax or pattern reminders:
+- Use `0.0 -> pre(t) + step` for stateful recurrence; use nested `if ... then ... else` for conditional logic.
+- Define bounded outputs with clamping and ensure guarantees reflect the clamped value and limit flag.
+Anti-patterns:
+- Avoid placing assumptions or guarantees in AGREE annex without concrete bounds or visible relations.
+- Do not mismatch helper declaration types with expression types; ensure bool, int, and real types align with usage.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- inpGCASM
+- inpGCASImpact
+- inpGCASRecovery
+- inpSAM
+- inpACASM
+- inpACASImpact
+- inpACASRecovery
+- inpGFM
+- inpWxM
+- inpFLS
+- outDec
+
+Target interface:
+Exact expression symbols: inpGCASM, inpGCASImpact, inpGCASRecovery, inpSAM, inpACASM, inpACASImpact, inpACASRecovery, inpGFM, inpWxM, inpFLS, outDec
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+inpGCASM | in | data | bool | Base_Types::boolean
+inpGCASImpact | in | data | real | Base_Types::float
+inpGCASRecovery | in | data | real | Base_Types::float
+inpSAM | in | data | bool | Base_Types::boolean
+inpACASM | in | data | bool | Base_Types::boolean
+inpACASImpact | in | data | real | Base_Types::float
+inpACASRecovery | in | data | real | Base_Types::float
+inpGFM | in | data | bool | Base_Types::boolean
+inpWxM | in | data | bool | Base_Types::boolean
+inpFLS | in | data | bool | Base_Types::boolean
+outDec | out | data | int | Base_Types::integer
+
+Raw requirement:
+The Aviate_Decider component shall maintain an internal variable numberServicesTrue that counts the total number of currently active service requests, where an active request is defined as a true value among the following inputs: inpGCASM, inpSAM, inpACASM, inpGFM, inpWxM, and inpFLS. The component shall implement dynamicDecide logic such that when inpGCASImpact is greater than inpACASImpact and the sum of inpGCASRecovery and inpACASRecovery is sufficient to prevent a secondary collision, the decision shall be ACAS; otherwise, the decision shall be GCAS. The final output outDec shall be set to the dynamic decision result when numberServicesTrue is greater than or equal to 2; otherwise, outDec shall default to a static priority-based value.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "numberServicesTrue counts true values among inpGCASM, inpSAM, inpACASM, inpGFM, inpWxM, inpFLS",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "inpGCASM",
+        "inpSAM",
+        "inpACASM",
+        "inpGFM",
+        "inpWxM",
+        "inpFLS"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "outDec = ACAS if inpGCASImpact > inpACASImpact and (inpGCASRecovery + inpACASRecovery) >= threshold; otherwise outDec = GCAS",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "inpGCASImpact",
+        "inpACASImpact",
+        "inpGCASRecovery",
+        "inpACASRecovery",
+        "outDec"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "outDec = dynamic decision result when numberServicesTrue >= 2; otherwise outDec = static priority-based value",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "outDec",
+        "numberServicesTrue"
+      ]
+    }
+  ]
+}

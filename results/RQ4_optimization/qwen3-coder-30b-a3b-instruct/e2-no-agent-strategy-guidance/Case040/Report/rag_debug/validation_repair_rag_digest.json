@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "When AGREE diagnostics reference unresolved identifiers or invalid types, trace the root cause to a missing AADL feature or incorrect type declaration and fix it by aligning with visible identifiers or removing the invalid clause.",
+    "If AGREE reports type mismatches in expressions, ensure that the left and right sides of binary expressions are of the same type, and that helper declarations match the types of their assigned expressions."
+  ],
+  "generic_rules": [
+    "In AGREE contracts, always reference only visible AADL features or previously declared helpers within the same annex scope.",
+    "Use assign statements in implementation scope only for existing output features or declared auxiliary variables.",
+    "AGREE scalar type declarations must use int, real, or bool; avoid package-qualified or invalid type names.",
+    "When a guarantee expression evaluates to <error>, remove the clause or resolve the underlying reference issue."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks and must be placed in valid component type or implementation scopes.",
+    "Ensure that all identifiers in AGREE expressions are resolvable within the current AADL scope and that types match in binary comparisons."
+  ],
+  "anti_patterns": [
+    "Do not introduce new package-qualified identifiers or types that are not present in the AADL model or its dependencies.",
+    "Avoid placing guarantee statements in implementation scope; use only assign for implementation-level bindings."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about unreachable ports or inadequate kinds",
+    "AGREE validator diagnostics about annex placement or assume/guarantee syntax",
+    "Model traceability and requirement semantics"
+  ]
+}

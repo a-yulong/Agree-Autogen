@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Use `guarantee` for timing constraints like period, deadline, and execution time bounds in component type annexes.",
+    "Place `assign` statements in implementation annexes only for output features or declared auxiliary variables.",
+    "Generate `eq` declarations for helper boolean expressions that check value ranges in component type contracts."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are for assumptions and guarantees; implementation annexes are for assignments.",
+    "Only include assumptions and guarantees when concrete bounds or visible relations are provided.",
+    "Ensure type consistency between helper declarations and expressions (bool, int, real)."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` for input constraints and `guarantee \"label\": expression;` for output guarantees.",
+    "Use `eq name : type = expression;` for helper boolean or numeric definitions.",
+    "Use `assign output = expression;` for binding implementation outputs to computed values."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope; use `assign` for output bindings instead.",
+    "Do not encode AADL timing properties as AGREE variables unless typed ports or constants are explicitly exposed.",
+    "Do not generate range checks for Boolean or opaque data types without numeric scalar representation."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and their mapping to AGREE variables",
+    "Model fusion and owner/scope preservation rules",
+    "Validator diagnostics and repair patterns"
+  ]
+}

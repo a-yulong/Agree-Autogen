@@ -1,0 +1,21 @@
+{
+  "problems": [
+    {
+      "diagnostic": "The variable 'heating_request' on the left side of equation is of type '<error>' but must be of type 'bool'",
+      "cause": "heating_request is not declared as a variable in the AGREE annex",
+      "minimal_edit": "declare heating_request as a boolean variable using 'var' keyword"
+    },
+    {
+      "diagnostic": "The variable 'cooling_request' on the left side of equation is of type '<error>' but must be of type 'bool'",
+      "cause": "cooling_request is not declared as a variable in the AGREE annex",
+      "minimal_edit": "declare cooling_request as a boolean variable using 'var' keyword"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add 'var heating_request : bool;' declaration after the opening '**' in the AGREE annex",
+    "Add 'var cooling_request : bool;' declaration after the heating_request declaration",
+    "Replace 'eq heating_request = user_request.heater_on and not user_request.cooler_on;' with 'heating_request = user_request.heater_on and not user_request.cooler_on;' (remove 'eq')",
+    "Replace 'eq cooling_request = user_request.cooler_on and not user_request.heater_on;' with 'cooling_request = user_request.cooler_on and not user_request.heater_on;' (remove 'eq')"
+  ]
+}

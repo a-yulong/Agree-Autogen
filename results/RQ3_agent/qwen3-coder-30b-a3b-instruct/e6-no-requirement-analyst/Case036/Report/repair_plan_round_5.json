@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::state_sig.impl' and 'int', but must be of the same type",
+      "cause": "Type mismatch in equality comparison between port and integer literal",
+      "minimal_edit": "Change `State_Signal = 1` to `State_Signal = true` or `State_Signal = false` depending on intended boolean semantics"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block for Car, locate the equation 'eq const_tar_speed : bool = State_Signal = 1;'",
+    "Replace the literal '1' with a boolean value that matches the expected type of State_Signal",
+    "Since State_Signal is an opaque data port, determine if it should be compared to a boolean or another compatible type based on its semantic meaning in the system"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 304: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "solver_in1 and acc1_dataOutput are mismatched types (port vs component)",
+      "minimal_edit": "Remove the assumption statement for solver_in1"
+    },
+    {
+      "diagnostic": "line 305: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "solver_in2 and acc2_dataOutput are mismatched types (port vs component)",
+      "minimal_edit": "Remove the assumption statement for solver_in2"
+    },
+    {
+      "diagnostic": "line 306: Couldn't resolve reference to 'acc1out'",
+      "cause": "acc1out is not visible in component type scope",
+      "minimal_edit": "Remove the guarantee statement for ADIRUp_solve.inData_para1"
+    },
+    {
+      "diagnostic": "line 307: Couldn't resolve reference to 'acc2out'",
+      "cause": "acc2out is not visible in component type scope",
+      "minimal_edit": "Remove the guarantee statement for ADIRUp_solve.inData_para2"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the assume statement on line 304: assume \"solver_in1 routed through C1\": solver_in1 = acc1_dataOutput;",
+    "Remove the assume statement on line 305: assume \"solver_in2 routed through C2\": solver_in2 = acc2_dataOutput;",
+    "Remove the guarantee statement on line 306: guarantee \"ADIRUp_solve.inData_para1 defined\": acc1_dataOutput = acc1out;",
+    "Remove the guarantee statement on line 307: guarantee \"ADIRUp_solve.inData_para2 defined\": acc2_dataOutput = acc2out;"
+  ]
+}

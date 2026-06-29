@@ -1,0 +1,165 @@
+{
+  "component_types": [
+    {
+      "name": "SBC_32F411EDISCOVERY",
+      "kind": "system"
+    },
+    {
+      "name": "LSM303DLHC",
+      "kind": "device"
+    },
+    {
+      "name": "L3GD20",
+      "kind": "device"
+    },
+    {
+      "name": "Buses::I2C::I2C",
+      "kind": "bus"
+    },
+    {
+      "name": "Buses::SPI::SPI",
+      "kind": "bus"
+    },
+    {
+      "name": "Flash",
+      "kind": "memory"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "SBC_32F411EDISCOVERY.impl",
+      "kind": "system implementation",
+      "type_name": "SBC_32F411EDISCOVERY"
+    },
+    {
+      "name": "SBC_32F411EDISCOVERY.RTOS",
+      "kind": "system implementation",
+      "type_name": "SBC_32F411EDISCOVERY"
+    },
+    {
+      "name": "SBC_32F411EDISCOVERY.v2",
+      "kind": "system implementation",
+      "type_name": "SBC_32F411EDISCOVERY"
+    },
+    {
+      "name": "Flash.IMPL",
+      "kind": "memory implementation",
+      "type_name": "Flash"
+    },
+    {
+      "name": "Buses::I2C::I2C.IMPL",
+      "kind": "bus implementation",
+      "type_name": "Buses::I2C::I2C"
+    },
+    {
+      "name": "Buses::SPI::SPI.IMPL",
+      "kind": "bus implementation",
+      "type_name": "Buses::SPI::SPI"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "SBC_32F411EDISCOVERY.impl",
+      "name": "RAM",
+      "category": "memory",
+      "classifier": "Flash.IMPL"
+    },
+    {
+      "owner": "SBC_32F411EDISCOVERY.impl",
+      "name": "LSM303DLHC",
+      "category": "device",
+      "classifier": "LSM303DLHC"
+    },
+    {
+      "owner": "SBC_32F411EDISCOVERY.impl",
+      "name": "L3GD20",
+      "category": "device",
+      "classifier": "L3GD20"
+    },
+    {
+      "owner": "SBC_32F411EDISCOVERY.impl",
+      "name": "i2c_bus",
+      "category": "bus",
+      "classifier": "Buses::I2C::I2C.IMPL"
+    },
+    {
+      "owner": "SBC_32F411EDISCOVERY.impl",
+      "name": "spi_bus",
+      "category": "bus",
+      "classifier": "Buses::SPI::SPI.IMPL"
+    }
+  ],
+  "features": [
+    {
+      "owner": "SBC_32F411EDISCOVERY.impl",
+      "name": "i2c_bus",
+      "direction": "in",
+      "category": "bus access",
+      "type": "Buses::I2C::I2C",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "SBC_32F411EDISCOVERY.impl",
+      "name": "spi_bus",
+      "direction": "in",
+      "category": "bus access",
+      "type": "Buses::SPI::SPI",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "LSM303DLHC",
+      "name": "i2c_bus",
+      "direction": "in",
+      "category": "bus access",
+      "type": "Buses::I2C::I2C",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "L3GD20",
+      "name": "spi_bus",
+      "direction": "in",
+      "category": "bus access",
+      "type": "Buses::SPI::SPI",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "SBC_32F411EDISCOVERY.impl",
+      "name": "I2C_ACC_MAG_BA",
+      "kind": "bus access",
+      "source": "i2c_bus",
+      "destination": "LSM303DLHC.i2c_bus"
+    },
+    {
+      "owner": "SBC_32F411EDISCOVERY.impl",
+      "name": "I2C_ARM_BA",
+      "kind": "bus access",
+      "source": "i2c_bus",
+      "destination": "CPU.i2c_bus"
+    },
+    {
+      "owner": "SBC_32F411EDISCOVERY.impl",
+      "name": "SPI_GYRO_BA",
+      "kind": "bus access",
+      "source": "spi_bus",
+      "destination": "L3GD20.spi_bus"
+    },
+    {
+      "owner": "SBC_32F411EDISCOVERY.impl",
+      "name": "SPI_ARM_BA",
+      "kind": "bus access",
+      "source": "spi_bus",
+      "destination": "CPU.spi_bus"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "SBC_32F411EDISCOVERY",
+      "owner_kind": "system",
+      "name": "Data_Sheet::UUID",
+      "value": "http://www.st.com/en/evaluation-tools/32f411ediscovery.html",
+      "applies_to": "SBC_32F411EDISCOVERY"
+    }
+  ]
+}

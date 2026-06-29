@@ -1,0 +1,74 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assume/guarantee declarations in component type scopes for interface behavior, and assignments in implementation scopes for subcomponent bindings.
+- Use `annex agree {** ... **};` blocks to contain AGREE contracts, with type scopes for constants and equations, and implementation scopes for assignments.
+Generic rules:
+- AGREE contracts must be scoped to the owning component declaration and respect AADL structural boundaries between types and implementations.
+- Avoid using AADL property names directly as AGREE variables; instead, expose them via typed ports or constants.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for behavioral contracts.
+- Use `assign output = expression;` for implementation-level bindings in valid scopes.
+Anti-patterns:
+- Do not place implementation-level assignments in component type scopes or interface assumptions in implementation scopes.
+- Do not reference AADL timing properties like Deadline or Period directly in AGREE expressions without explicit model exposure.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- GPS_Position
+- GPS_Position.i
+- latitude
+- longitude
+- altitude
+- thr_gps_simulation
+- gps_pos
+- thr_gps_simulation.i
+- thr_mgmt
+- speed
+- angle
+- thr_mgmt.i
+- thr_throttle_simulation
+- thr_throttle_simulation.i
+- thr_yaw_simulation
+- thr_yaw_simulation.i
+- Ardupilot_Code
+- Ardupilot_Code.impl
+- prs_gps
+- prs_mgmt
+- prs_throttle
+- prs_yaw
+
+Target interface:
+Exact expression symbols: speed
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+speed | in | data | int | Base_Types::Integer
+
+Raw requirement:
+The thr_throttle_simulation component shall operate under a bounded input condition for speed. The environment shall keep speed greater than or equal to -100 and less than or equal to 100.
+
+Requirement items:
+DISABLED

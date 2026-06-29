@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 73: missing EOF at 'var'",
+      "cause": "AGREE syntax error: 'var' declarations must be preceded by a valid annex block start and cannot appear after invalid content; likely caused by truncation or malformed preceding lines",
+      "minimal_edit": "Remove the entire annex block and rewrite it with only valid, complete AGREE syntax using visible identifiers, avoiding any reference to non-existent subcomponent ports"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 122: Couldn't resolve reference to ConnectionEnd 'attitude_window'.",
+      "cause": "ConnectionEnd 'attitude_window' is referenced in connection Cnx5 but is not a declared port on TCP or FDR; not in the list of valid identifiers",
+      "minimal_edit": "Remove the assumption 'signal_flow_attitude' and 'signal_flow_orbit' that incorrectly use telecommand to compare with sensored_attitude and sun_direction, since these signal flows are not expressed via visible ports and violate AGREE's restriction on subcomponent port references"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 123: Couldn't resolve reference to ConnectionEnd 'check_thresholds'.",
+      "cause": "ConnectionEnd 'check_thresholds' is referenced in connection Cnx6 but is not a declared port on TCP or FDR; not in the list of valid identifiers",
+      "minimal_edit": "Remove any AGREE clause that references 'check_thresholds' or 'attitude_window' — these are not visible identifiers and cannot be used in AGREE contracts"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the entire current annex agree block from AOCSprocessing",
+    "Rewrite the annex agree block in AOCSprocessing using only visible identifiers from the interface",
+    "Remove all assumptions that reference non-existent subcomponent ports (attitude_window, check_thresholds, nominal_attitude, nominal_orbit)",
+    "Retain only the mode state variables and transitions that use visible event ports (Forcing_Safe_Mode, Getting_Back_To_Normal_Mode)",
+    "Remove the invalid signal flow assumptions (sensored_attitude = telecommand, sun_direction = telecommand) because they misrepresent the actual signal flow defined in R1 and R2 and use non-visible ports",
+    "Retain the guarantee statements 'route_attitude' and 'route_orbit' only if they use visible ports — but since they depend on invalid assumptions, remove them too",
+    "Do not introduce new variables or operators; use only the 43 visible identifiers provided",
+    "Final annex must contain only: mode state variables, assume clauses for mode transitions using visible event ports, and no references to any subcomponent ports or non-declared connections"
+  ]
+}

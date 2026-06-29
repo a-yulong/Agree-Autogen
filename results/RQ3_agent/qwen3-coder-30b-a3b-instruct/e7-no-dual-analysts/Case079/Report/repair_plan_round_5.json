@@ -1,0 +1,45 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'door1'.",
+      "cause": "door1 is a subcomponent in the implementation, not accessible in the component type annex",
+      "minimal_edit": "Remove the reference to door1 from the assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'handle_position'.",
+      "cause": "handle_position is a subcomponent port, not directly accessible in component type scope",
+      "minimal_edit": "Remove the reference to handle_position from the assume statement"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'bool' and '<error>', but must be of the same type",
+      "cause": "Expression contains unresolved identifiers leading to type mismatch",
+      "minimal_edit": "Remove the entire assume statement due to unresolved references"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression due to unresolved identifiers",
+      "minimal_edit": "Remove the entire assume statement due to unresolved references"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'closed'.",
+      "cause": "closed is a subcomponent port, not directly accessible in component type scope",
+      "minimal_edit": "Remove the reference to closed from the assume statement"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'bool' and '<error>', but must be of the same type",
+      "cause": "Expression contains unresolved identifiers leading to type mismatch",
+      "minimal_edit": "Remove the entire assume statement due to unresolved references"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression due to unresolved identifiers",
+      "minimal_edit": "Remove the entire assume statement due to unresolved references"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire annex agree block from doors_process",
+    "Move any valid assume/guarantee statements to the appropriate implementation scope if needed",
+    "Ensure no references to subcomponent ports or subcomponents exist in component type contracts"
+  ]
+}

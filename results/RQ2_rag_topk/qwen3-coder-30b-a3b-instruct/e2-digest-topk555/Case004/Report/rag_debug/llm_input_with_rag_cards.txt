@@ -1,0 +1,114 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `assume` and `guarantee` labels to structure contract statements with clear, descriptive names
+- Place component type contracts in component type scopes with valid feature references
+- Declare initialized state for temporal recurrence using `->` and guard previous-value comparisons with `initialized` flag
+- Use `pre()` expressions for history comparisons and ensure proper initialization before use
+Generic rules:
+- AGREE annex blocks must be enclosed in `annex agree {** ... **};` syntax
+- Constants and equations should be declared in component type annexes unless implementation-specific bindings are required
+- Logical operators like `and`, `or`, `not`, and implication `=>` are preferred for expressing complex conditions
+- Avoid referencing AADL properties directly as AGREE variables unless explicitly exposed as typed features
+Syntax or pattern reminders:
+- Use `eq name : type = expression;` for helper declarations and `const name : type = value;` for constants
+- Stateful equations should use initialized temporal recurrence with `0.0 -> pre(t) + step` pattern
+- Branching logic should use nested `if ... then ... else` expressions
+- Assignments should be placed in implementation scopes after relevant subcomponents and connections
+Anti-patterns:
+- Do not reference AADL timing properties like Deadline or Period directly in AGREE expressions
+- Do not place implementation-level bindings in component type scopes
+- Do not use invalid AGREE scalar type names such as 'integer' or 'boolean'
+- Do not generate guarantees or assumptions that reference unresolved identifiers
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- timeToRecovery
+- timeToFailure
+
+Target interface:
+Exact expression symbols: timeToRecovery, timeToFailure
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+timeToRecovery | out | data | opaque | real
+timeToFailure | out | data | opaque | real
+
+Raw requirement:
+The GeoFence_singleton component shall establish a recursive variable t with an initial value of 0.1, declare the variable distanceFromFence, and calculate it by calling the circleLinearization function from the geofence_nodes library with the variable t as a parameter. The component shall ensure that after the time value exceeds the recovery time of 1.7, the value of distanceFromFence must be greater than the value of the previous time step's distanceFromFence. The system failure time shall be set to 9.5.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "component shall establish recursive variable t with initial value 0.1",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "t"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "component shall declare variable distanceFromFence",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "distanceFromFence"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "component shall calculate distanceFromFence by calling circleLinearization function with parameter t",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "distanceFromFence",
+        "circleLinearization",
+        "t"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "after time value exceeds recovery time of 1.7, distanceFromFence must be greater than previous time step's distanceFromFence",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "timeToRecovery",
+        "distanceFromFence"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "system failure time shall be set to 9.5",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "timeToFailure"
+      ]
+    }
+  ]
+}

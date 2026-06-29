@@ -1,0 +1,19 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks within `annex agree {** ... **};` and place assumptions/guarantees in component type annexes and assignments in implementation annexes.
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` syntax as per AGREE specification.
+Generic rules:
+- Component names, ports, and types are sourced from the AADL model and must be referenced by their full qualified names.
+- Do not treat AADL property names as AGREE variables unless explicitly typed or exposed as ports.
+- Avoid encoding event ports as numeric or Boolean values unless model provides explicit data values.
+- Each AGREE annex is scoped to its owning component and should not reference symbols outside that scope.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Use `assume "label": expression;` for system assumptions and `guarantee "label": expression;` for system guarantees.
+- Equations and constants are declared with `eq name : type = expression;` and `const name : type = value;`.
+- Assignments are made with `assign output = expression;` in implementation contexts.
+Anti-patterns:
+- Do not reference AADL property names like Period, Deadline, Priority as AGREE variables without explicit model exposure.
+- Do not encode event ports as numeric or Boolean values unless the model provides an explicit data value.
+- Do not place implementation-level assignments in component type annexes or assumptions in implementation annexes.
+</RAG_DIGEST>

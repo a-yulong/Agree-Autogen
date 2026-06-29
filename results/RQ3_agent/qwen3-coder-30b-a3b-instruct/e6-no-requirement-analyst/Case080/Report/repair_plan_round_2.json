@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "assume \"scheduling_constraint\": sched_constraint = Task.sched_constraint;",
+      "cause": "Assume statements are allowed only in component types",
+      "minimal_edit": "Remove the assume statement"
+    },
+    {
+      "diagnostic": "assume \"timing_constraint\": timing_constraint = Task.timing_constraint;",
+      "cause": "Assume statements are allowed only in component types",
+      "minimal_edit": "Remove the assume statement"
+    },
+    {
+      "diagnostic": "guarantee \"dispatch_protocol\": dispatch_protocol = Background;",
+      "cause": "Guarantee statements are allowed only in component types",
+      "minimal_edit": "Remove the guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from Task.impl_1 to Task",
+    "Remove the assume and guarantee statements from the annex block in Task.impl_1"
+  ]
+}

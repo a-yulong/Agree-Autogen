@@ -1,0 +1,108 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place component-level contracts in component type scopes and implementation-level bindings in implementation scopes.
+- Use visible identifiers and case-provided thresholds when defining assumptions and guarantees.
+- Relate visible outputs to visible inputs in output dependency guarantees.
+Generic rules:
+- Use AGREE logical operators (and, or, not, =>) for branching and complex conditions.
+- Stateful equations require initialized temporal recurrence (e.g., 0.0 -> pre(t) + step).
+- Ensure AGREE type declarations use 'int', 'real', or 'bool'.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for assumptions and guarantees.
+- Define constants and equations with `const name : type = value;` and `eq name : type = expression;`.
+Anti-patterns:
+- Do not use AADL property names (e.g., Compute_Execution_Time) directly as AGREE variables.
+- Avoid using implementation-only subcomponent paths in component type contracts.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- altitude
+- verticalVelocity
+- outImpact
+- outRecovery
+- gcasRequested
+
+Target interface:
+Exact expression symbols: altitude, verticalVelocity, outImpact, outRecovery, gcasRequested
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+altitude | in | data | real | Base_Types::float
+verticalVelocity | in | data | real | Base_Types::float
+outImpact | out | data | real | Base_Types::float
+outRecovery | out | data | real | Base_Types::float
+gcasRequested | out | data | bool | Base_Types::boolean
+
+Raw requirement:
+The GCAS_Monitor component shall define vertical acceleration as 100.0, expected impact time as 15.0, and recovery time as 5.0. The GCAS_Monitor_impl implementation shall calculate the altitudeFromGround variable by invoking the Agree_Nodes::height function using the values of the altitude input port, the verticalVelocity input port, and a minimum height time of 0.5 seconds. Furthermore, the implementation shall guarantee that when the altitude input port value is less than or equal to 30.0 or the calculated altitudeFromGround value is less than or equal to 500.0, the gcasRequested output signal must be true.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "vertical acceleration is 100.0",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R2",
+      "text": "expected impact time is 15.0",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R3",
+      "text": "recovery time is 5.0",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R4",
+      "text": "altitudeFromGround = Agree_Nodes::height(altitude, verticalVelocity, 0.5)",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "altitude",
+        "verticalVelocity"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "altitude <= 30.0 or altitudeFromGround <= 500.0 implies gcasRequested == true",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "altitude",
+        "altitudeFromGround",
+        "gcasRequested"
+      ]
+    }
+  ]
+}

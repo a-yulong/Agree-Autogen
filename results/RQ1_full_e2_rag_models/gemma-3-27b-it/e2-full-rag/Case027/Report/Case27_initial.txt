@@ -1,0 +1,39 @@
+package gcas_single
+public
+	with base_types;
+	with gcas_nodes;
+	
+	system GCAS_singleton
+		features
+			altitude: in data port real;
+			timeToRecovery: out data port real;
+	annex agree {**
+	annex agree {
+	  const minHeightAllowed : real = 200.0;
+	  const recoveryTime : real = 3.7;
+
+	  assume "t_initial": t = 0.0;
+	  assume "t_step": pre(t) + 0.1 = t;
+	  guarantee "timeToRecovery_set": timeToRecovery = recoveryTime;
+	  guarantee "height_above_min": (t >= recoveryTime) => height > minHeightAllowed;
+	  guarantee "height_increasing": (t >= recoveryTime) => height > pre(height);
+	}
+	**};
+	end GCAS_singleton;
+	
+	system implementation GCAS_singleton.impl
+	end GCAS_singleton.impl;
+	
+	
+	-- Type Aliases
+	
+	data int extends base_types::Integer
+	end int;
+	
+	data real extends base_types::Float
+	end real;
+	
+	data bool extends base_types::Boolean
+	end bool;
+	
+end gcas_single;

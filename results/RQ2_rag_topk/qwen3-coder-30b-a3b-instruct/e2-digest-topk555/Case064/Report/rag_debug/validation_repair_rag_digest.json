@@ -1,0 +1,33 @@
+{
+  "rag_rules": [
+    "Fix unresolved references in AGREE contracts by ensuring all identifiers are valid AADL features or declared helpers in the same scope.",
+    "Do not generate AGREE expressions that reference AADL property names like 'Period', 'Deadline', or 'Priority' directly; remove such clauses instead.",
+    "Move implementation-level bindings from component type annexes to implementation annexes when they reference subcomponents or outputs.",
+    "Ensure type consistency in AGREE expressions: numeric variables must be assigned numeric expressions, and Boolean variables must be assigned Boolean expressions."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, only reference identifiers that are explicitly visible in the current AADL scope.",
+    "Validate that all AGREE expressions have consistent types and do not introduce type errors from unresolved references.",
+    "Avoid placing implementation-specific guarantees or assignments in component type annexes unless they refer to visible ports or features.",
+    "Do not assume that AADL property associations are automatically available as AGREE variables; they must be explicitly declared or mapped."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use only declared constants, equations, or visible AADL features in AGREE expressions.",
+    "Numeric types in AGREE are int, real, and bool; avoid using AADL property names as variable names.",
+    "Implementation-level guarantees should be placed in implementation annexes, not component type annexes."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL property names like 'Period', 'Deadline', or 'Dispatch_Protocol' directly in AGREE expressions without explicit model support.",
+    "Avoid generating AGREE clauses that reference subcomponent paths or outputs in component type scopes.",
+    "Do not attempt to resolve type errors by adding new architecture; instead, fix or remove invalid clauses.",
+    "Do not assume that all AADL identifiers are automatically available in AGREE scope without explicit declaration or visibility."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE annex placement in component types vs. implementations",
+    "Model Analyst agent's role in extracting AADL structure",
+    "Requirement Analyst agent's role in traceability",
+    "Model Fusion agent's role in owner/scope preservation"
+  ]
+}

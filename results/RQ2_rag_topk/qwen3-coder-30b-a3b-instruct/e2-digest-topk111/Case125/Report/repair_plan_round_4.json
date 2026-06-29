@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE guarantee statements reference port names as both left and right sides of equality, which is invalid syntax",
+      "minimal_edit": "Replace each port name with a fresh variable declaration and use that variable in the guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Declare new variables gyro_out_data_x_var, gyro_out_data_y_var, gyro_out_data_z_var in the AGREE annex",
+    "Rewrite each guarantee to reference the new variable instead of the port name",
+    "Ensure the variable declarations are placed before the guarantee statements"
+  ]
+}

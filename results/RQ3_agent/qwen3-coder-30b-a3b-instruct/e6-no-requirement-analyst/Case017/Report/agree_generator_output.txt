@@ -1,0 +1,23 @@
+annex agree {**
+  const MAX_SERVICES = 6;
+  
+  guarantee "service_count_bounds": 
+    (inpGCASM = true => 1) + (inpSAM = true => 1) + (inpACASM = true => 1) + 
+    (inpGFM = true => 1) + (inpWxM = true => 1) + (inpFLS = true => 1) >= 0 and
+    (inpGCASM = true => 1) + (inpSAM = true => 1) + (inpACASM = true => 1) + 
+    (inpGFM = true => 1) + (inpWxM = true => 1) + (inpFLS = true => 1) <= MAX_SERVICES;
+  
+  guarantee "decision_logic": 
+    (inpGCASImpact > inpACASImpact and 
+     (inpGCASRecovery + inpACASRecovery) >= 0.5) => 
+    (outDec = 1) and 
+    not (inpGCASImpact > inpACASImpact and 
+         (inpGCASRecovery + inpACASRecovery) >= 0.5) => 
+    (outDec = 0);
+  
+  guarantee "output_condition": 
+    ((inpGCASM = true or inpSAM = true or inpACASM = true or inpGFM = true or inpWxM = true or inpFLS = true) and 
+     ((inpGCASM = true => 1) + (inpSAM = true => 1) + (inpACASM = true => 1) + 
+      (inpGFM = true => 1) + (inpWxM = true => 1) + (inpFLS = true => 1)) >= 2) => 
+    (outDec = 1 or outDec = 0);
+**};

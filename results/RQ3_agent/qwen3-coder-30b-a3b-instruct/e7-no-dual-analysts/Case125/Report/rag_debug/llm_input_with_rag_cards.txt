@@ -1,0 +1,94 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` syntax within `annex agree {** ... **};` blocks as per KSYN-1 and KSYN-2.
+- Place implementation-level `assign` statements only in component implementation annexes, and avoid `guarantee` in those scopes (KEXP-1).
+- For component type contracts, include assumptions and guarantees only when concrete bounds or visible relations are provided (KEXP-2).
+Generic rules:
+- AGREE annex blocks are scoped to their owning component and must reference only visible identifiers from that scope.
+- Use visible feature names and constants from the AADL model for AGREE expressions.
+- Do not encode AADL properties like timing or unit tokens directly in AGREE expressions unless explicitly exposed as typed ports or constants.
+- Component type contracts should relate visible inputs to visible outputs without relying on implementation-only subcomponents.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Use `assign` only for output features or declared auxiliary variables in implementation scope.
+- Guarantees in type scope should express deterministic dependencies between visible features.
+Anti-patterns:
+- Avoid referencing AADL property names like Compute_Execution_Time or unit tokens (ms, Hz) as AGREE variables.
+- Do not copy identifiers from examples or invent new ports/components not present in the AADL model.
+- Do not place `guarantee` statements in component implementation annexes.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- ACCELERO
+- acc_in_data_x
+- acc_in_data_y
+- acc_in_data_z
+- acc_out_data_x
+- acc_out_data_y
+- acc_out_data_z
+- ACCELERO.IMPL
+- MAGNETO
+- mag_in_data_x
+- mag_in_data_y
+- mag_in_data_z
+- mag_out_data_x
+- mag_out_data_y
+- mag_out_data_z
+- MAGNETO.IMPL
+- GYRO
+- gyro_in_data_x
+- gyro_in_data_y
+- gyro_in_data_z
+- gyro_out_data_x
+- gyro_out_data_y
+- gyro_out_data_z
+- GYRO.IMPL
+- ATTITUDE_CALCULATION
+- ATTITUDE_CALCULATION.IMPL
+- ATTITUDE
+- ATTITUDE.IMPL
+- accelero_thread
+- magneto_thread
+- gyro_thread
+- attitude_calculation_thread
+
+Target interface:
+Exact expression symbols: gyro_in_data_x, gyro_in_data_y, gyro_in_data_z, gyro_out_data_x, gyro_out_data_y, gyro_out_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+gyro_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_out_data_x | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_out_data_y | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_out_data_z | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+Raw requirement:
+The GYRO component shall define the implementation-level signal routing for GYRO.IMPL. In the implementation layer, GYRO.IMPL shall route data flow from gyro_sub.gyro_out_data_x to gyro_out_data_x through GYRO_PC1 and data flow from gyro_sub.gyro_out_data_y to gyro_out_data_y through GYRO_PC2.
+
+Requirement items:
+DISABLED

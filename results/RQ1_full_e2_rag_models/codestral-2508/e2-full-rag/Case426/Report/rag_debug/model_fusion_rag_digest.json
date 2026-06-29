@@ -1,0 +1,34 @@
+{
+  "rag_rules": [
+    "Preserve AADL architecture by inserting AGREE annex blocks only in valid component type or implementation scopes",
+    "Place component type annexes in the component type scope, and implementation annexes in the implementation scope after subcomponents and connections",
+    "Use only visible identifiers in AGREE contracts, avoiding subcomponent paths in component type annexes",
+    "For output dependency contracts, write guarantees that relate visible outputs to visible inputs"
+  ],
+  "generic_rules": [
+    "Use valid AGREE scalar types (int, real, bool) in declarations",
+    "Align helper declaration types with the expression types they represent",
+    "Move implementation-level bindings to the implementation annex when they reference subcomponents or implementation-only features"
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are written inside `annex agree {** ... **};` blocks",
+    "Use `guarantee` for output dependency contracts that relate visible outputs to visible inputs"
+  ],
+  "anti_patterns": [
+    "Avoid using subcomponent paths in component type annexes",
+    "Do not place implementation-level bindings in component type annexes"
+  ],
+  "irrelevant_topics": [
+    "AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes",
+    "Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections",
+    "Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs",
+    "AGREE contracts are written inside `annex agree {** ... **};` blocks",
+    "Component type annexes are the normal location for assumptions, guarantees, constants, and equation declarations",
+    "Component implementation annexes are used for implementation-level bindings such as assignments when they are valid in that scope",
+    "For output dependency contracts, write a guarantee that relates visible outputs to visible inputs",
+    "Do not use implementation-only subcomponent paths in a component type annex",
+    "If AGREE reports \"Couldn't resolve reference to 'integer'\" or \"Couldn't resolve reference to 'boolean'\" in a const or eq declaration, the generated AGREE type name is invalid",
+    "If AGREE reports \"The assumed type ... is ... but the actual type is ...\", align the helper declaration type with the expression",
+    "If diagnostics point to implementation-level references or subcomponent paths in a component type annex, move only valid implementation bindings to the implementation annex or delete the invalid guarantee"
+  ]
+}

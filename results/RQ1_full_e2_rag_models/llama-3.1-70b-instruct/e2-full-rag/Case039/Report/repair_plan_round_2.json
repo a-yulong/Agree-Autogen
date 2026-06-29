@@ -1,0 +1,14 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 22: The first and second arguments of the 'prev' function are of non-matching types 'com.rockwellcollins.atc.agree.AgreeTypeSystem$RecordTypeDef@16117d9' and 'ErrorTypeDef'",
+      "cause": "prev() function type mismatch",
+      "minimal_edit": "declare an initialized state variable to guard previous-value comparisons"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "declare an initialized state variable, e.g., initialized : bool = false -> true",
+    "guard previous-value comparisons on initialized, e.g., if initialized then prev(Actual) else 0.0"
+  ]
+}

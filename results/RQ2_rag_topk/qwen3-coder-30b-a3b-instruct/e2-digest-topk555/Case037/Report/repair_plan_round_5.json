@@ -1,0 +1,37 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to DataSubcomponentType 'Types::speed.speed_impl'.",
+      "cause": "AADL type reference not resolvable in context",
+      "minimal_edit": "Replace 'Types::speed.speed_impl' with 'real' in all expressions"
+    },
+    {
+      "diagnostic": "Argument of real cast is of type '<error>' but must be of type 'int'",
+      "cause": "Invalid type casting in AGREE expression",
+      "minimal_edit": "Remove 'real()' casts and use direct port references"
+    },
+    {
+      "diagnostic": "The variable 'e' on the left side of equation is of type '<error>' but must be of type 'real'",
+      "cause": "Type mismatch in equation declaration",
+      "minimal_edit": "Change type of 'e' from '<error>' to 'real'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'integral_of'.",
+      "cause": "AGREE integral_of function not recognized",
+      "minimal_edit": "Replace 'integral_of(e)' with 'integral(e)'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'derivative_of'.",
+      "cause": "AGREE derivative_of function not recognized",
+      "minimal_edit": "Replace 'derivative_of(e)' with 'derivative(e)'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace all instances of 'Types::speed.speed_impl' with 'real' in the AGREE annex",
+    "Remove 'real()' casts from Target and Actual port references",
+    "Change the type declaration of 'e' from '<error>' to 'real'",
+    "Replace 'integral_of(e)' with 'integral(e)'",
+    "Replace 'derivative_of(e)' with 'derivative(e)'"
+  ]
+}

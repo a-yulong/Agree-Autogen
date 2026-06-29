@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 73: missing EOF at 'annex'",
+      "cause": "Nested `annex agree` block",
+      "minimal_edit": "Remove the inner `annex agree` block starting at line 73."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 108: Couldn't resolve reference to ConnectionEnd 'attitude_window'.",
+      "cause": "Connection end not visible in AGREE scope",
+      "minimal_edit": "Remove the assumption/guarantee referencing 'TCP.attitude_window'."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 109: Couldn't resolve reference to ConnectionEnd 'check_thresholds'.",
+      "cause": "Connection end not visible in AGREE scope",
+      "minimal_edit": "Remove the assumption/guarantee referencing 'TCP.check_thresholds'."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the inner `annex agree` block starting at line 73.",
+    "Remove any AGREE clauses referencing 'TCP.attitude_window'.",
+    "Remove any AGREE clauses referencing 'TCP.check_thresholds'."
+  ]
+}

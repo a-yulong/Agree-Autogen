@@ -1,0 +1,23 @@
+{
+  "rag_rules": [
+    "AGREE contracts must be placed in the correct AADL scope: component type annexes for assumptions/guarantees/constants/equations, implementation annexes for bindings/assignments.",
+    "Implementation-level contracts should only reference visible outputs or declared auxiliary variables; avoid guarantee statements in implementation scope."
+  ],
+  "generic_rules": [
+    "Use `annex agree {** ... **};` syntax to encapsulate AGREE contracts within AADL components.",
+    "Ensure all identifiers in AGREE expressions are visible in the current AADL component scope.",
+    "Do not reference subcomponent ports or implementation-only paths in component type annexes."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE statements follow the pattern: `assume \"label\": expression;`, `guarantee \"label\": expression;`, `eq name : type = expression;`, `const name : type = value;`, `assign output = expression;`."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level bindings in component type scopes unless they are valid outputs or auxiliary variables.",
+    "Do not reference AADL properties like Period or Deadline as AGREE variables without explicit typed ports or constants."
+  ],
+  "irrelevant_topics": [
+    "AGREE validator diagnostics and repair actions",
+    "Requirement traceability and compact semantics",
+    "Model analyst extraction of AADL structural elements"
+  ]
+}

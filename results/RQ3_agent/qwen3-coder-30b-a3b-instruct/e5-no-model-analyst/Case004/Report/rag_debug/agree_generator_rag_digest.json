@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Use `eq` for initialized recursive variables like `t : real = 0.1` and `distanceFromFence : real` for data constraints.",
+    "Use `assign` to link function calls like `distanceFromFence = circleLinearization(t)` for behavior relations.",
+    "Use `guarantee` for output constraints such as `distanceFromFence > pre(distanceFromFence)` after time exceeds 1.7.",
+    "Use `assume` for timing constraints like `timeToFailure = 9.5` when placed in valid component type scope."
+  ],
+  "generic_rules": [
+    "Initialize temporal recurrence with `0.0 -> pre(t) + step` for stateful equations.",
+    "Guard previous-value comparisons using an initialized boolean flag like `initialized : bool = false -> true`.",
+    "Use logical operators `and`, `or`, `not(...)`, and implication `=>` for complex AGREE expressions.",
+    "Place component type assumptions and guarantees only in valid component type scopes with visible feature names."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for formal contracts.",
+    "Use `eq name : type = expression;` for initialized variables and helper declarations.",
+    "Use `assign output = expression;` for output assignments from function calls.",
+    "Use `if ... then ... else` for branching logic in AGREE."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL property names like Deadline or Period as AGREE variables.",
+    "Do not use subcomponent ports in component type contracts unless represented through variables.",
+    "Do not generate guarantees with unresolved identifiers or invalid helper declarations.",
+    "Do not place implementation-level bindings in component type scopes."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing properties not exposed as typed ports or constants",
+    "Model traceability and requirement semantics",
+    "Validator diagnostics and repair patterns",
+    "Component type vs implementation scope boundaries"
+  ]
+}

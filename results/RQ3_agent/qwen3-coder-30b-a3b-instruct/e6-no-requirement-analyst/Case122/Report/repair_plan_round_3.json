@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 43: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name without proper expression context",
+      "minimal_edit": "Replace acc_out_data_x = acc_out_data_x with acc_out_data_x = acc_out_data_x"
+    },
+    {
+      "diagnostic": "line 44: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name without proper expression context",
+      "minimal_edit": "Replace acc_out_data_y = acc_out_data_y with acc_out_data_y = acc_out_data_y"
+    },
+    {
+      "diagnostic": "line 45: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name without proper expression context",
+      "minimal_edit": "Replace acc_out_data_z = acc_out_data_z with acc_out_data_z = acc_out_data_z"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify the AGREE annex block in ACCELERO_SUB_wrapper component type",
+    "For each guarantee statement, ensure the left-hand side and right-hand side are valid AGREE expressions",
+    "Replace each self-reference guarantee with a valid expression that relates the output to a known input or constant",
+    "Since the component type does not have inputs, these guarantees are semantically meaningless and should be removed or replaced with valid contracts"
+  ]
+}

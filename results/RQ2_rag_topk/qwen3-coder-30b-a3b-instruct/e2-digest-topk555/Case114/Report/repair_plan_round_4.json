@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 255: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "invalid comparison between port and error type",
+      "minimal_edit": "Replace acc_error_action =/= 0 with acc_error_action /= 0"
+    },
+    {
+      "diagnostic": "line 255: left side of binary expression '/' is of type '<error>' but must be of type 'real'",
+      "cause": "invalid division operation on error type",
+      "minimal_edit": "Remove the invalid division expression"
+    },
+    {
+      "diagnostic": "line 255: no viable alternative at input '/'",
+      "cause": "syntax error from invalid division",
+      "minimal_edit": "Remove the invalid division expression"
+    },
+    {
+      "diagnostic": "line 255: no viable alternative at input '='",
+      "cause": "syntax error from invalid comparison",
+      "minimal_edit": "Replace acc_error_action =/= 0 with acc_error_action /= 0"
+    },
+    {
+      "diagnostic": "line 255: right side of binary expression '/' is of type '<error>' but must be of type 'real'",
+      "cause": "invalid division operation on error type",
+      "minimal_edit": "Remove the invalid division expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the guarantee statement on line 255 to remove invalid division operations and fix the comparison operator",
+    "Replace acc_error_action =/= 0 => acc_error_out =/= 0 with acc_error_action /= 0 => acc_error_out /= 0",
+    "Remove any invalid division expressions that are part of the guarantee statement"
+  ]
+}

@@ -1,0 +1,82 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks inside `annex agree {** ... **};`
+- Place assumptions and guarantees in component type annexes when referring to ports
+- Use `assign` only in implementation annexes for output features or auxiliary variables
+- Use concrete bounds, named constants, or visible relations for input assumptions and output guarantees
+- Use `eq` for boolean expressions and `const` for named constants
+- Use valid AGREE scalar types: `int`, `real`, and `bool`
+Generic rules:
+- Use visible identifiers when available to maintain traceability
+- Avoid using AADL property names directly in AGREE expressions
+- Align helper declaration types with expression types
+- Use boolean expressions for comparisons and arithmetic for numeric operations
+Syntax or pattern reminders:
+- `assume "label": expression;` and `guarantee "label": expression;`
+- `eq name : type = expression;` and `const name : type = value;`
+- `assign output = expression;`
+Anti-patterns:
+- Do not place guarantees in implementation scope
+- Do not use subcomponent ports in component type contracts
+- Do not encode AADL timing properties as AGREE expressions
+- Do not use invalid AGREE scalar type names
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Alpha1
+- Alpha2
+- Alpha3
+
+Target interface:
+Exact expression symbols: Alpha1, Alpha1.All_elems, Alpha1.elem, Alpha2, Alpha2.All_elems, Alpha2.elem, Alpha3
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Alpha1 | out | data | opaque | A_Struct.impl
+Alpha1.All_elems | out | data_field | opaque | One_Dimension_Array
+Alpha1.elem | out | data_field | int | Base_Types::Integer
+Alpha2 | out | data | opaque | A_Struct.impl
+Alpha2.All_elems | out | data_field | opaque | One_Dimension_Array
+Alpha2.elem | out | data_field | int | Base_Types::Integer
+Alpha3 | out | data | int | Base_Types::Integer
+
+Raw requirement:
+The A component shall bound the Alpha3 output at every evaluation step. The Alpha3 value shall be greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Alpha3 >= 0 and Alpha3 <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Alpha3"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Argument of event expression must be an event port or event data port",
+      "cause": "Invalid use of event triggered syntax in AGREE",
+      "minimal_edit": "Replace `Forcing_Safe_Mode = event triggered` with `Forcing_Safe_Mode` and `Getting_Back_To_Normal_Mode = event triggered` with `Getting_Back_To_Normal_Mode`"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'triggered'",
+      "cause": "Invalid syntax for event expressions in AGREE",
+      "minimal_edit": "Remove the `= event triggered` part from both assumptions"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "Invalid comparison between event and data port",
+      "minimal_edit": "Replace `sensored_attitude = telecommand` with `sensored_attitude = telecommand` (this is a type mismatch issue, but the actual fix is to remove the invalid event syntax)"
+    },
+    {
+      "diagnostic": "left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid event expression syntax",
+      "minimal_edit": "Remove the invalid event syntax from both assumptions"
+    },
+    {
+      "diagnostic": "missing '(' at 'triggered'",
+      "cause": "Invalid syntax for event expressions",
+      "minimal_edit": "Remove the invalid event syntax"
+    },
+    {
+      "diagnostic": "missing ')' at ';'",
+      "cause": "Invalid syntax for event expressions",
+      "minimal_edit": "Remove the invalid event syntax"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid event expression syntax",
+      "minimal_edit": "Remove the invalid event syntax"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'Forcing_Safe_Mode = event triggered => sensored_attitude = telecommand' with 'Forcing_Safe_Mode => sensored_attitude = telecommand'",
+    "Replace 'Getting_Back_To_Normal_Mode = event triggered => sun_direction = telecommand' with 'Getting_Back_To_Normal_Mode => sun_direction = telecommand'"
+  ]
+}

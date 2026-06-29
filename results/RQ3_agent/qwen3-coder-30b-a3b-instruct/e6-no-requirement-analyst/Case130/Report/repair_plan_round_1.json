@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'impl'.",
+      "cause": "Invalid reference to 'impl' in AGREE expression",
+      "minimal_edit": "Replace 'hello.impl' with 'node_a' in deployment_binding assumption"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'cpu_rm'.",
+      "cause": "Invalid reference to 'cpu_rm' in AGREE expression",
+      "minimal_edit": "Replace 'cpu_rm.p0' with 'cpu_rm' in processor_binding assumption"
+    },
+    {
+      "diagnostic": "line 109: Couldn't resolve reference to 'mem'.",
+      "cause": "Invalid reference to 'mem' in AGREE expression",
+      "minimal_edit": "Replace 'mem.segment1' with 'mem' in memory_binding assumption"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'hello.impl = node_a' with 'node_a = node_a' in the deployment_binding assumption",
+    "Replace 'node_a.impl = cpu_rm.p0' with 'node_a = cpu_rm' in the processor_binding assumption",
+    "Replace 'node_a.impl = mem.segment1' with 'node_a = mem' in the memory_binding assumption"
+  ]
+}

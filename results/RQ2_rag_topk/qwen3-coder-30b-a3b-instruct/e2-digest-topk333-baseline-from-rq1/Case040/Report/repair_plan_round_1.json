@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'SSM'.",
+      "cause": "SSM is a subcomponent, not directly accessible in component type scope",
+      "minimal_edit": "Remove SSM reference from guarantee"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'State_Out'.",
+      "cause": "State_Out is a port of the component type, not directly accessible in component type scope",
+      "minimal_edit": "Remove State_Out reference from guarantee"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::state_sig.impl' and '<error>', but must be of the same type",
+      "cause": "Invalid expression due to unresolved identifiers",
+      "minimal_edit": "Replace invalid expression with valid AGREE expression"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Expression contains unresolved references",
+      "minimal_edit": "Replace with valid AGREE expression or remove"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from State_Machine component type to State_Machine.Impl component implementation",
+    "Remove the guarantee statement that references unresolved identifiers SSM and State_Out",
+    "Add a new guarantee statement in the implementation annex that correctly expresses the signal flow constraint using only visible identifiers"
+  ]
+}

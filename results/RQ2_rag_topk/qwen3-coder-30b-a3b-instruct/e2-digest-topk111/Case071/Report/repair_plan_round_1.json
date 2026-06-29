@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent, not visible in component type scope",
+      "minimal_edit": "Remove reference to pspg from guarantee"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'speed'.",
+      "cause": "speed is a port, not visible in component type scope",
+      "minimal_edit": "Remove reference to speed from guarantee"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Invalid expression due to unresolved references",
+      "minimal_edit": "Replace invalid expression with valid type-matching expression"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Expression contains unresolved references",
+      "minimal_edit": "Replace with valid expression using only visible identifiers"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex from thr_mgmt component type to thr_mgmt.i component implementation",
+    "Remove the guarantee statements that reference pspg and speed",
+    "Replace the invalid guarantee with a valid expression using only visible identifiers"
+  ]
+}

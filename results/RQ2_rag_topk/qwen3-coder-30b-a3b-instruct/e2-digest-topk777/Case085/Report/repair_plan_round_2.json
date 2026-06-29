@@ -1,0 +1,46 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Mix_1'.",
+      "cause": "Mix_1 is a subcomponent, not a port; AGREE cannot reference subcomponents directly in guarantees",
+      "minimal_edit": "Replace Mix_1.Port_1 with a valid port expression or remove the reference"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Port_1'.",
+      "cause": "Port_1 is not directly accessible in the component type's AGREE annex context",
+      "minimal_edit": "Use only visible port identifiers from the component type's feature list"
+    },
+    {
+      "diagnostic": "left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression on left side of implication operator",
+      "minimal_edit": "Ensure both sides of '=>' are valid boolean expressions"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid reference to non-port identifier",
+      "minimal_edit": "Replace invalid identifiers with valid port references"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression on right side of implication operator",
+      "minimal_edit": "Ensure both sides of '=>' are valid boolean expressions"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Mix_2'.",
+      "cause": "Mix_2 is a subcomponent, not a port; AGREE cannot reference subcomponents directly in guarantees",
+      "minimal_edit": "Replace Mix_2.Port_2 with a valid port expression or remove the reference"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Port_2'.",
+      "cause": "Port_2 is not directly accessible in the component type's AGREE annex context",
+      "minimal_edit": "Use only visible port identifiers from the component type's feature list"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Move the AGREE annex from component type Mixin to component implementation Mixin.impl",
+    "Replace references to subcomponents Mix_1 and Mix_2 with valid port expressions",
+    "Ensure all identifiers in the AGREE annex are visible in the implementation context",
+    "Rewrite the guarantees to reference only the component's own ports"
+  ]
+}

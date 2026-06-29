@@ -1,0 +1,99 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE contracts in annex agree blocks scoped to their owning component declaration
+- Use assign statements in implementation scope only for existing output features or declared auxiliary variables
+Generic rules:
+- Component type contracts should use visible inputs and outputs to define assumptions and guarantees
+- Implementation contracts may include assignments for subcomponent bindings
+- AGREE annexes must be syntactically valid and scoped to their component type or implementation
+Syntax or pattern reminders:
+- AGREE contracts use assume/guarantee syntax with labeled expressions
+- Component type annexes are for assumptions, guarantees, constants, and equations
+- Implementation annexes are for assignments and implementation-level bindings
+Anti-patterns:
+- Do not place guarantee statements in implementation scope
+- Do not reference AADL properties as AGREE variables without explicit typed ports or constants
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- gyro_in_data_x
+- gyro_in_data_y
+- gyro_in_data_z
+- gyro_out_data_x
+- gyro_out_data_y
+- gyro_out_data_z
+
+Target interface:
+Exact expression symbols: gyro_in_data_x, gyro_in_data_y, gyro_in_data_z, gyro_out_data_x, gyro_out_data_y, gyro_out_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+gyro_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_out_data_x | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_out_data_y | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_out_data_z | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+Raw requirement:
+The GYRO component shall define the implementation-level signal routing for GYRO.IMPL. In the implementation layer, GYRO.IMPL shall route data flow from gyro_sub.gyro_out_data_x to gyro_out_data_x through GYRO_PC1 and data flow from gyro_sub.gyro_out_data_y to gyro_out_data_y through GYRO_PC2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data flow from gyro_sub.gyro_out_data_x to gyro_out_data_x through GYRO_PC1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "gyro_sub.gyro_out_data_x",
+        "gyro_out_data_x",
+        "GYRO_PC1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Data flow from gyro_sub.gyro_out_data_y to gyro_out_data_y through GYRO_PC2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "gyro_sub.gyro_out_data_y",
+        "gyro_out_data_y",
+        "GYRO_PC2"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "GYRO.IMPL shall define implementation-level signal routing",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "GYRO.IMPL"
+      ]
+    }
+  ]
+}

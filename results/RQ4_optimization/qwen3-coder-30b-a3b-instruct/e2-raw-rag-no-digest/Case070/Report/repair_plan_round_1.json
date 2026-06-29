@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 55: Couldn't resolve reference to 'Aperiodic'.",
+      "cause": "Aperiodic is a property value, not a variable",
+      "minimal_edit": "Replace Aperiodic with the property value literal 'Aperiodic' in the assume statement"
+    },
+    {
+      "diagnostic": "line 55: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "Dispatch_Protocol is a property, not a variable",
+      "minimal_edit": "Replace Dispatch_Protocol with the property reference 'Dispatch_Protocol' in the assume statement"
+    },
+    {
+      "diagnostic": "line 56: Couldn't resolve reference to 'Compute_Execution_Time'.",
+      "cause": "Compute_Execution_Time is a property, not a variable",
+      "minimal_edit": "Replace Compute_Execution_Time with the property reference 'Compute_Execution_Time' in the guarantee statement"
+    },
+    {
+      "diagnostic": "line 56: left and right sides of binary expression '>=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in comparison expression",
+      "minimal_edit": "Ensure both sides of the comparison use compatible types (e.g., use 'ms' unit consistently)"
+    },
+    {
+      "diagnostic": "line 56: mismatched input 'ms' expecting ';'",
+      "cause": "Invalid syntax in time unit expression",
+      "minimal_edit": "Correct the time unit syntax to use valid AGREE expressions"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'Dispatch_Protocol = Aperiodic' with 'Dispatch_Protocol = Aperiodic' in the assume statement",
+    "Replace 'Compute_Execution_Time >= 0 ms and Compute_Execution_Time <= 100 us' with 'Compute_Execution_Time >= 0 ms and Compute_Execution_Time <= 100 us' in the guarantee statement",
+    "Ensure the time unit syntax is valid in AGREE expressions"
+  ]
+}

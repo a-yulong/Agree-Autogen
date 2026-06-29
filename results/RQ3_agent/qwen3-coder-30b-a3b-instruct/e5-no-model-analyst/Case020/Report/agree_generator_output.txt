@@ -1,0 +1,17 @@
+annex agree {**
+  eq k : int = 10;
+  eq k_prev : int = 10;
+  eq initialized : bool = false;
+  
+  guarantee "dataout_in_range": (0 <= dataout) and (dataout <= 20);
+  
+  assume "k_update_rule": 
+    (pre(k_prev) >= 20 => k = pre(k_prev) - 1) and
+    (pre(k_prev) <= 0 => k = pre(k_prev) + 1) and
+    (not((pre(k_prev) >= 20) or (pre(k_prev) <= 0)) => k = pre(k_prev));
+  
+  guarantee "dataout_equals_k": dataout = k;
+  
+  eq k_update : bool = initialized;
+  assume "initialization_guard": initialized => (k_prev = 10);
+**};

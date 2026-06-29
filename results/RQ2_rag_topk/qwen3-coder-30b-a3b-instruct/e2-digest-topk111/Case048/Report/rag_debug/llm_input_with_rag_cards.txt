@@ -1,0 +1,77 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `assume` and `guarantee` clauses with descriptive labels for input assumptions and output guarantees.
+- Express bounds and relations using visible identifiers and concrete values or named constants.
+Generic rules:
+- Place assumptions and guarantees in the AGREE annex only when concrete thresholds or visible feature names are provided.
+- Ensure type consistency between helper declarations and expressions in AGREE contracts.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` for input constraints and `guarantee "label": expression;` for output constraints.
+- Define helper equations with `eq name : type = expression;` for complex logical or arithmetic relations.
+Anti-patterns:
+- Avoid placing assumptions or guarantees in AGREE annex without concrete bounds or visible identifiers.
+- Do not mismatch types in helper declarations and their associated expressions.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Input
+- Output
+
+Target interface:
+Exact expression symbols: Input, Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Input | in | data | int | Base_Types::Integer
+Output | out | data | int | Base_Types::Integer
+
+Raw requirement:
+The environmental assumption for Component A specifies that the input signal Input must be strictly less than 20. The system guarantee ensures that the output signal Output's value is always less than twice the value of the input signal Input, i.e., Output < 2 * Input.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Input < 20",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "Input"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Output < 2 * Input",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Output",
+        "Input"
+      ]
+    }
+  ]
+}

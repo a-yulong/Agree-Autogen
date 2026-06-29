@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE assumptions in component type scopes when referring to ports, and in implementation scopes for subcomponent bindings.
+- Use valid AADL identifiers and types from the model; do not introduce package-qualified or undefined references.
+Generic rules:
+- Ensure AGREE expressions match the declared types of variables (int, real, bool) and avoid mismatched assumed vs. actual types.
+- Only generate constraints that are explicitly stated in requirements and compatible with the AADL model's data types.
+- Do not encode AADL properties like Compute_Execution_Time or unit tokens as AGREE variables unless exposed via typed ports or constants.
+- Avoid inventing numeric bounds (like x >= 0) unless explicitly required by the requirement and supported by the model.
+Syntax or pattern reminders:
+- AGREE annex blocks must be enclosed in `annex agree {** ... **};` and follow valid AGREE syntax for assumptions, guarantees, and equations.
+- Boolean expressions should only be used for actual Boolean ports; do not map event ports or opaque data to numeric values.
+Anti-patterns:
+- Do not assume that all numeric AADL ports can be treated as integers or reals in AGREE without checking their actual types.
+- Do not introduce undefined or package-qualified identifiers that are not present in the AADL model.
+</RAG_DIGEST>

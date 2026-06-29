@@ -1,0 +1,21 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink is a port of Q type, not visible in Q.Impl scope",
+      "minimal_edit": "Replace Data_Sink with Q_Spg.Data_Sink on the left side of the equation"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg is a subprogram, not a port or variable in the current scope",
+      "minimal_edit": "Remove Q_Spg from the expression and replace with a valid port reference"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that Data_Sink is a port of Q type and not directly accessible in Q.Impl",
+    "Replace the left side of the equation with a valid port reference from Q.Impl",
+    "Remove or rewrite the Q_Spg reference which is not a port or variable in the current scope",
+    "Ensure the resulting expression only uses visible identifiers from the current scope"
+  ]
+}

@@ -1,0 +1,8 @@
+annex agree {**
+  eq t : real = 0.0 -> pre(t) + 0.1;
+  const minHeightAllowed : real = 200.0;
+  guarantee "initial_time": t >= 0.0;
+  guarantee "time_bound": t <= 3.7 or altitude > minHeightAllowed;
+  guarantee "pull_up_trend": (t >= 3.7 and altitude > pre(altitude)) => (altitude > minHeightAllowed);
+  guarantee "output_assignment": timeToRecovery = 3.7;
+**};

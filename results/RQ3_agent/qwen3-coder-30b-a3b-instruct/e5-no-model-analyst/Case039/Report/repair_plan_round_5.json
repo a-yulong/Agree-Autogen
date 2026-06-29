@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "missing EOF at 'let'",
+      "cause": "AGREE syntax error due to invalid expression or missing semicolon",
+      "minimal_edit": "Replace `let actual_prev : real = 0.0;` with `let actual_prev : real = 0.0;` and ensure the guarantee uses valid port references"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Correct the AGREE syntax by ensuring the guarantee clause references valid port names and expressions",
+    "Replace the invalid expression `actual_prev = actual_prev + 0.1 * Actuator_Input` with a valid AGREE temporal recurrence using `pre()` for previous values",
+    "Ensure all identifiers used in the AGREE annex are visible in the component type scope"
+  ]
+}

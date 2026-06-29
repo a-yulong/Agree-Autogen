@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 102: Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "Using output port 'warn_diff_pres' in a latched expression context",
+      "minimal_edit": "Remove or rewrite the expression involving 'warn_diff_pres' to not use output port in latched context"
+    },
+    {
+      "diagnostic": "line 102: Latched expressions can appear only in component implementations",
+      "cause": "Guarantee statement in component type annex references output port",
+      "minimal_edit": "Move guarantee involving output port 'warn_diff_pres' to implementation annex"
+    },
+    {
+      "diagnostic": "line 102: left side of binary expression 'and' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid use of output port in boolean expression",
+      "minimal_edit": "Replace 'warn_diff_pres' on left side with a valid boolean expression"
+    },
+    {
+      "diagnostic": "line 102: mismatched input 'and' expecting '('",
+      "cause": "Syntax error due to invalid expression structure",
+      "minimal_edit": "Fix expression syntax by removing invalid port reference"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove guarantee statement 'warn_diff_pres_logic' from component type annex",
+    "Move the guarantee statement involving 'warn_diff_pres' to the implementation annex",
+    "Replace the invalid expression 'warn_diff_pres = (warn_diff_pres and not de_arrest)' with a valid boolean expression or remove it",
+    "Ensure all guarantees in component type annex only reference input ports or valid component type variables"
+  ]
+}

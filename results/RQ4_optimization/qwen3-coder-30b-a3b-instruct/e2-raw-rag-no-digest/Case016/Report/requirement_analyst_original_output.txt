@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "outDec = ACAS when inpGCASImpact > inpACASImpact and inpGCASRecovery + inpACASRecovery >= 0",
+      "evidence": ["inpGCASImpact", "inpACASImpact", "inpGCASRecovery", "inpACASRecovery", "outDec"]
+    },
+    {
+      "id": "R2",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "outDec = GCAS when inpGCASImpact <= inpACASImpact or inpGCASRecovery + inpACASRecovery < 0",
+      "evidence": ["inpGCASImpact", "inpACASImpact", "inpGCASRecovery", "inpACASRecovery", "outDec"]
+    },
+    {
+      "id": "R3",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "numberServicesTrue >= 2 implies outDec = dynamic_decision_result",
+      "evidence": ["numberServicesTrue", "outDec"]
+    },
+    {
+      "id": "R4",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "numberServicesTrue < 2 implies outDec = static_priority_decision",
+      "evidence": ["numberServicesTrue", "outDec"]
+    }
+  ]
+}

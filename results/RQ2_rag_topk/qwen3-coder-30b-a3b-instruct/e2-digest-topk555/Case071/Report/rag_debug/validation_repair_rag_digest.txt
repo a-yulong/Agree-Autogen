@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE contracts must be placed in valid scopes: assumptions and guarantees in component types, assignments in implementations.
+- Generated AGREE code should not introduce package-qualified identifiers not present in the model.
+- Helper functions and variables must be declared before use and match the expected types.
+- Validator diagnostics pointing to invalid references should be resolved by removing or rewriting clauses to use existing identifiers.
+Syntax or pattern reminders:
+- Use `assign output = expression;` only for valid output features or declared auxiliary variables in implementation scope.
+- Guarantee statements are only allowed in component type annexes, not in implementation annexes.
+- AGREE scalar types are int, real, and bool; avoid package-qualified or invalid type names.
+- Expressions in AGREE must maintain type consistency: e.g., bool expressions for Boolean variables.
+Anti-patterns:
+- Do not attempt to resolve missing identifiers by inventing new declarations in the AGREE annex.
+- Do not place guarantee statements in implementation-level scopes unless they reference valid outputs or declared variables.
+- Avoid introducing package-qualified identifiers that are not present in the model or its dependencies.
+- Do not assume that unresolved references can be fixed by adding architecture; instead, remove or rewrite clauses.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics
+- Model traceability
+- Component type structural extraction
+- Requirement semantics
+</RAG_DIGEST>

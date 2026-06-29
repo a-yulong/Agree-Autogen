@@ -1,0 +1,20 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 36: named thing must be an expression with a type",
+      "cause": "assume statement uses port names as expressions without proper type context",
+      "minimal_edit": "replace each port name with a fresh AGREE variable declaration and use that in the assumption"
+    },
+    {
+      "diagnostic": "line 37: named thing must be an expression with a type",
+      "cause": "guarantee statement uses port names as expressions without proper type context",
+      "minimal_edit": "replace each port name with a fresh AGREE variable declaration and use that in the guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "declare new AGREE variables for each input and output port in the annex",
+    "replace the port names in the assume statement with the new variable names",
+    "replace the port names in the guarantee statement with the new variable names"
+  ]
+}

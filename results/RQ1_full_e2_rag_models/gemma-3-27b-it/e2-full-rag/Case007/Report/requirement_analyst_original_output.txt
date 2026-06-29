@@ -1,0 +1,41 @@
+```json
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "timeToFailure = min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure)",
+      "evidence": ["gcas_timeToFailure", "tcas_timeToFailure", "geof_timeToFailure", "timeToFailure"]
+    },
+    {
+      "id": "R2",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "p1 = concurrencyFactor(gcas_timeToRecovery, timeToFailure)",
+      "evidence": ["p1", "gcas_timeToRecovery", "timeToFailure"]
+    },
+    {
+      "id": "R3",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "p2 = concurrencyFactor(tcas_timeToRecovery, timeToFailure)",
+      "evidence": ["p2", "tcas_timeToRecovery", "timeToFailure"]
+    },
+    {
+      "id": "R4",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "p3 = concurrencyFactor(geof_timeToRecovery, timeToFailure)",
+      "evidence": ["p3", "geof_timeToRecovery", "timeToFailure"]
+    },
+    {
+      "id": "R5",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "timeToFailure > gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery",
+      "evidence": ["timeToFailure", "gcas_timeToRecovery", "tcas_timeToRecovery", "geof_timeToRecovery"]
+    }
+  ]
+}
+```

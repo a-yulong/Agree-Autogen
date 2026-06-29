@@ -46,7 +46,7 @@ configure_utf8_stdio()
 RESULT_ROOT = os.environ.get("AGREE_RESULT_ROOT", os.path.abspath("results"))
 DEFAULT_MODEL_API_KEY = ""
 DEFAULT_MODEL_BASE_URL = os.environ.get("AGREE_MODEL_BASE_URL", "https://api.openai.com/v1")
-DEFAULT_MODEL_NAME = os.environ.get("AGREE_MODEL_NAME", "gpt-4o-mini")
+DEFAULT_MODEL_NAME = os.environ.get("AGREE_MODEL_NAME", "qwen3-coder-30b-a3b-instruct")
 MODEL_API_KEY = os.environ.get("AGREE_MODEL_API_KEY", DEFAULT_MODEL_API_KEY)
 MODEL_BASE_URL = DEFAULT_MODEL_BASE_URL
 MODEL_NAME = DEFAULT_MODEL_NAME

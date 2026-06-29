@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in component type scopes when they refer to component ports, and in implementation scopes for subcomponent bindings.",
+    "Use only visible identifiers from the AADL model in AGREE annexes; do not introduce package-qualified names not present in the model."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be placed inside `annex agree {** ... **};` blocks within valid AADL component type or implementation scopes.",
+    "Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for assignments and bindings.",
+    "Ensure all identifiers used in AGREE expressions are visible in the current AADL scope and properly typed (int, real, bool)."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract statements.",
+    "Use `eq name : type = expression;` for helper declarations and `const name : type = value;` for constants."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level subcomponent paths or bindings in component type annexes; move them to implementation scopes.",
+    "Do not reference AADL properties like Deadline or Period as AGREE variables unless explicitly exposed as typed ports or constants."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing parameters not directly exposed as ports or constants",
+    "AGREE validator diagnostics and repair decisions",
+    "Model Analyst Agent's structural extraction tasks",
+    "Requirement Analyst Agent's traceability concerns"
+  ]
+}

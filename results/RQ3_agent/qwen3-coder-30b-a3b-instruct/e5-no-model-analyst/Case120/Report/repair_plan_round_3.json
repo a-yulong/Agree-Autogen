@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "assume statement compares component to itself instead of using valid deployment binding expression",
+      "minimal_edit": "replace SBC_32F411EDISCOVERY = SBC_32F411EDISCOVERY with valid deployment binding expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify the deployment binding requirement R1: SBC_32F411EDISCOVERY shall use deployment bindings defined for SBC_32F411EDISCOVERY.RTOS",
+    "Replace the invalid assume statement with a valid AGREE expression that references the RTOS extension and Software binding",
+    "Use the existing property Actual_Processor_Binding => (reference(cpu)) applies to Software from the RTOS implementation as the basis for the AGREE assumption"
+  ]
+}

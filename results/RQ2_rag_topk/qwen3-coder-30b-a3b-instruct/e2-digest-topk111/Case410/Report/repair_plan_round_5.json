@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 218: Guarantee statements are allowed only in component types",
+      "cause": "AGREE guarantee statement placed in process implementation annex",
+      "minimal_edit": "Move the guarantee statement from partition1_process.impl annex to partition1_process annex"
+    },
+    {
+      "diagnostic": "line 198: named thing must be an expression with a type",
+      "cause": "AGREE expression references invalid or unresolved symbol 'samplingout' in component type context",
+      "minimal_edit": "Remove or rewrite the guarantee in partition1_process annex to use only valid visible symbols"
+    },
+    {
+      "diagnostic": "line 218: named thing must be an expression with a type",
+      "cause": "AGREE expression references invalid or unresolved symbol 'samplingout' in implementation context",
+      "minimal_edit": "Remove the guarantee statement from partition1_process.impl annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee statement from the partition1_process.impl annex block",
+    "Verify that the guarantee statement in partition1_process annex references only valid visible symbols",
+    "Ensure the guarantee statement in partition1_process annex is syntactically valid and type-correct"
+  ]
+}

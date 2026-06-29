@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 285: Couldn't resolve reference to 'door1'.",
+      "cause": "door1 is a subcomponent of doors_process.imp, not visible in the component type doors_process annex",
+      "minimal_edit": "remove the assume clauses from doors_process annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 285: left and right sides of binary expression '=' are of type 'bool' and '<error>', but must be of the same type",
+      "cause": "door1.handle_position is not a valid symbol in component type scope; AGREE cannot resolve subcomponent ports in component type contracts",
+      "minimal_edit": "remove the assume clauses from doors_process annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 286: Couldn't resolve reference to 'door1'.",
+      "cause": "door1 is not a visible identifier in the component type scope where the annex is placed",
+      "minimal_edit": "remove the assume clauses from doors_process annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "delete the annex agree block from the component type doors_process (lines 284-287)",
+    "add a new annex agree block to the implementation doors_process.imp that uses assign statements to express signal flow based on connections",
+    "in the implementation annex, use assign statements: assign \"D1_handle_position routing\" : D1_handle_position = door1.handle_position; assign \"D1_closed routing\" : D1_closed = door1.closed;"
+  ]
+}

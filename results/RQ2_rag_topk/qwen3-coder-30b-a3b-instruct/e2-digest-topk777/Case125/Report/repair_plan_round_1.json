@@ -1,0 +1,27 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 133: named thing must be an expression with a type",
+      "cause": "gyro_out_data_x and gyro_in_data_x are incompatible port kinds: output is event data port, input is data port",
+      "minimal_edit": "change gyro_in_data_x to out event data port in GYRO interface to match gyro_out_data_x"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 134: named thing must be an expression with a type",
+      "cause": "gyro_out_data_y and gyro_in_data_y are incompatible port kinds: output is event data port, input is data port",
+      "minimal_edit": "change gyro_in_data_y to out event data port in GYRO interface to match gyro_out_data_y"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 135: named thing must be an expression with a type",
+      "cause": "gyro_out_data_z and gyro_in_data_z are incompatible port kinds: output is event data port, input is data port",
+      "minimal_edit": "change gyro_in_data_z to out event data port in GYRO interface to match gyro_out_data_z"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Change gyro_in_data_x in GYRO interface from 'in data port' to 'in event data port'",
+    "Change gyro_in_data_y in GYRO interface from 'in data port' to 'in event data port'",
+    "Change gyro_in_data_z in GYRO interface from 'in data port' to 'in event data port'",
+    "Verify all connections in GYRO.IMPL remain valid after port kind alignment",
+    "Retain original AGREE annex in GYRO type as-is since port types now match"
+  ]
+}

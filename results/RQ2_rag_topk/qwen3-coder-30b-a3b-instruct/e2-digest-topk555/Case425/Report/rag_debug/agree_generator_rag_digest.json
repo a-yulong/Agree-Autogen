@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Generate AGREE assumptions using `assume \"label\": expression;` syntax for input envelope conditions.",
+    "Place component type assumptions and guarantees in the component type annex scope only.",
+    "Use `eq` declarations for helper expressions and `const` for named constants in AGREE contracts.",
+    "Avoid encoding AADL timing properties as AGREE variables unless explicit typed ports or constants are available."
+  ],
+  "generic_rules": [
+    "Use valid visible identifiers from the AADL model scope in AGREE expressions.",
+    "Ensure all AGREE contracts are placed in the correct annex scope (type vs. implementation).",
+    "Prefer `if-then-else` for branching logic and `and/or/not` for logical combinations.",
+    "Do not generate clauses that reference unresolved identifiers or invalid model features."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks must be enclosed in `annex agree {** ... **};`.",
+    "Assumptions and guarantees must be labeled with quoted strings.",
+    "Use initialized temporal recurrence for stateful equations.",
+    "Assignments in AGREE use `assign output = expression;` syntax."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level bindings in component type annexes.",
+    "Do not encode event ports as numeric or Boolean values without model support.",
+    "Do not reference AADL properties like Deadline or Period as AGREE variables.",
+    "Do not invent new identifiers or declarations for unresolved references."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing parameters not directly tied to visible model features",
+    "Model fusion and component implementation insertion locations",
+    "Validator diagnostics and repair strategies for AGREE syntax errors",
+    "Requirement traceability and compact semantics"
+  ]
+}

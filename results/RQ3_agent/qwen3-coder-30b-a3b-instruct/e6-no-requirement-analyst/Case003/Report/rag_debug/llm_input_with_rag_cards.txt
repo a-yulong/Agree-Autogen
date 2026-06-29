@@ -1,0 +1,56 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- AGREE contracts must be placed inside annex agree blocks scoped to their owning component declaration
+- Use assign statements only for implementation-level bindings with existing output features or declared auxiliary variables
+Generic rules:
+- Assumptions and guarantees should reference only visible identifiers from the current component scope
+- Component type contracts should relate inputs to outputs using visible features and constants
+- Only include concrete bounds or named constants in assumptions and guarantees
+Syntax or pattern reminders:
+- AGREE syntax uses assume/guarantee labels with expressions, eq for equations, const for constants, and assign for output bindings
+- Component type annexes are for structural assumptions and guarantees, implementation annexes for assignments
+Anti-patterns:
+- Do not reference AADL properties like Compute_Execution_Time as AGREE variables
+- Do not place guarantee statements in implementation scope
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- timeToRecovery
+- timeToFailure
+
+Target interface:
+Exact expression symbols: timeToRecovery, timeToFailure
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+timeToRecovery | out | data | opaque | real
+timeToFailure | out | data | opaque | real
+
+Raw requirement:
+The GeoFence_singleton component shall establish a recursive variable t with a time step of 0.1, declare the variable distanceFromFence, and compute distanceFromFence by invoking the circleLinearization function from the geofence_nodes library with the time variable t as its input parameter. The component must guarantee that, once the time t exceeds the recovery time value of 1.7, the computed distanceFromFence shall remain greater than its preceding time-step value. Additionally, the system failure time shall be set to 9.5.
+
+Requirement items:
+DISABLED

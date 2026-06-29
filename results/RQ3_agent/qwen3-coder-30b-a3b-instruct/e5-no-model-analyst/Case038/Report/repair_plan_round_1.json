@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 13: The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "type mismatch in equation declaration",
+      "minimal_edit": "Change 'eq e : real' to 'eq e : Types::speed.speed_impl'"
+    },
+    {
+      "diagnostic": "line 13: left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "invalid type for arithmetic operation",
+      "minimal_edit": "Remove the type annotation from 'e' and let it infer from the expression"
+    },
+    {
+      "diagnostic": "line 13: right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "invalid type for arithmetic operation",
+      "minimal_edit": "Remove the type annotation from 'e' and let it infer from the expression"
+    },
+    {
+      "diagnostic": "line 14: Couldn't resolve reference to 'integral'.",
+      "cause": "integral function not recognized in current scope",
+      "minimal_edit": "Replace 'integral(e)' with 'integral(e, 0.0)' to specify initial value"
+    },
+    {
+      "diagnostic": "line 15: Couldn't resolve reference to 'derivative'.",
+      "cause": "derivative function not recognized in current scope",
+      "minimal_edit": "Replace 'derivative(e)' with 'derivative(e, 0.0)' to specify initial value"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Change 'eq e : real = Target - Actual;' to 'eq e = Target - Actual;'",
+    "Change 'eq e_int : real = integral(e);' to 'eq e_int = integral(e, 0.0);'",
+    "Change 'eq e_dot : real = derivative(e);' to 'eq e_dot = derivative(e, 0.0);'"
+  ]
+}

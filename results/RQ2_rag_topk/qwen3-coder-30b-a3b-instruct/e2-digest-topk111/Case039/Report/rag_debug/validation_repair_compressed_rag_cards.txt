@@ -1,0 +1,35 @@
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes. Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections. Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs.
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+[KEXP-1]
+Source: distilled pattern library
+Topic: type scope range assumption and guarantee
+For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation. Use case-provided thresholds and legal visible feature names.
+
+[KEXP-2]
+Source: processed\kexp\agree_code_knowledge_dataset.txt
+Topic: mode transition chunk 2
+mode : int = mode_zero -> if reset_mode then mode_zero else if advance_mode and pre(mode) = mode_zero then mode_one else if advance_mode and pre(mode) = mode_one then mode_two else pre(mode); guarantee "mode output mirrors internal mode": mode_out = mode; guarantee "mode remains in the declared range": mode >= mode_zero and mode <= mode_two; **}; end ModeTransitionExample; system implementation ModeTransitionExample.impl end ModeTransitionExample.impl; end agre
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Named Thing Has No Type
+If AGREE reports "named thing must be an expression with a type" or a guarantee expression has type <error>, trace the first unresolved identifier or invalid helper declaration on the same line. Fix the root unresolved reference, or delete the invalid clause instead of adding architecture. Recommended pattern: Use only visible AADL features or eq helpers declared in the same annex; otherwise remove the guarantee.
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>

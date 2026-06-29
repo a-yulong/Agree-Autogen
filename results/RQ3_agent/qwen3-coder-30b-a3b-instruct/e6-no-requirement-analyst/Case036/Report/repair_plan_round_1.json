@@ -1,0 +1,61 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 19: Couldn't resolve reference to 'abs'.",
+      "cause": "AGREE does not support the 'abs' function directly in expressions",
+      "minimal_edit": "Replace 'abs(Actual_Speed.val - Actual_Speed.val{prev})' with 'if Actual_Speed.val > Actual_Speed.val{prev} then Actual_Speed.val - Actual_Speed.val{prev} else Actual_Speed.val{prev} - Actual_Speed.val'"
+    },
+    {
+      "diagnostic": "line 19: Couldn't resolve reference to 'val'.",
+      "cause": "AGREE does not support the '.val' attribute on port references",
+      "minimal_edit": "Replace 'Actual_Speed.val' with 'Actual_Speed' and 'Actual_Speed.val{prev}' with 'Actual_Speed{prev}'"
+    },
+    {
+      "diagnostic": "line 19: Expression for guarantee statement is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression due to unresolved references and incorrect syntax",
+      "minimal_edit": "Rewrite the entire guarantee expression using valid AGREE syntax with correct port references and temporal operators"
+    },
+    {
+      "diagnostic": "line 19: left and right sides of binary expression '-' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved 'val' and 'prev' references",
+      "minimal_edit": "Fix the expression to use valid AGREE temporal syntax and consistent types"
+    },
+    {
+      "diagnostic": "line 19: no viable alternative at input 'prev'",
+      "cause": "Invalid temporal operator syntax in AGREE",
+      "minimal_edit": "Replace 'Actual_Speed.val{prev}' with 'Actual_Speed{prev}'"
+    },
+    {
+      "diagnostic": "line 19: no viable alternative at input '{'",
+      "cause": "Invalid temporal syntax in AGREE",
+      "minimal_edit": "Replace '{prev}' with proper AGREE temporal syntax"
+    },
+    {
+      "diagnostic": "line 19: right side of binary expression '-' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Type error from unresolved references",
+      "minimal_edit": "Fix the expression to use valid AGREE syntax with correct types"
+    },
+    {
+      "diagnostic": "line 33: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "Port connection mismatch in implementation",
+      "minimal_edit": "Ensure port types match between subcomponent and component interface"
+    },
+    {
+      "diagnostic": "line 35: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "Port connection type mismatch in implementation",
+      "minimal_edit": "Ensure port types match between subcomponent and component interface"
+    },
+    {
+      "diagnostic": "line 40: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "Port connection type mismatch in implementation",
+      "minimal_edit": "Ensure port types match between subcomponent and component interface"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'abs(Actual_Speed.val - Actual_Speed.val{prev}) < max_accel' with 'if Actual_Speed > Actual_Speed{prev} then Actual_Speed - Actual_Speed{prev} else Actual_Speed{prev} - Actual_Speed < max_accel'",
+    "Replace 'Actual_Speed.val' with 'Actual_Speed' and 'Actual_Speed.val{prev}' with 'Actual_Speed{prev}'",
+    "Ensure all port connections in implementation match the component interface types",
+    "Verify that the AGREE annex expressions use only visible identifiers and valid AGREE syntax"
+  ]
+}

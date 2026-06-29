@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by using only visible identifiers from the current component scope; do not introduce new architecture.",
+    "Move implementation-level bindings to implementation annexes; avoid placing assign or guarantee statements in component type scopes when they reference subcomponents or implementation-specific features.",
+    "Ensure AGREE scalar types match AADL expectations: int, real, bool; avoid invalid type references like 'integer' or 'boolean'."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, always validate that referenced identifiers exist in the current scope and match expected types.",
+    "Use only declared variables or features in AGREE expressions; avoid referencing undefined or misnamed identifiers.",
+    "Place component type contracts in type scopes and implementation bindings in implementation scopes to maintain model integrity."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Assignments in AGREE must reference valid output features or declared auxiliary variables.",
+    "Constants and equations in AGREE must use valid scalar types: int, real, bool."
+  ],
+  "anti_patterns": [
+    "Do not add new package or data type references that are not present in the input AADL model.",
+    "Do not place implementation-level guarantees in component type annexes; move them to implementation scopes or remove them."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about missing subcomponents",
+    "AGREE validator diagnostics about connection end resolution",
+    "Model fusion or component type/implementation scope boundaries"
+  ]
+}

@@ -1,0 +1,126 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE assumptions and guarantees in component type annexes when they refer to visible ports and features.
+- Use visible identifiers from the AADL model to define assumptions and guarantees.
+Generic rules:
+- Use type-safe expressions in AGREE: align helper declaration types with actual expression types.
+- Avoid encoding AADL properties as AGREE variables unless explicit typed ports or constants are available.
+- Write guarantees that relate visible outputs to visible inputs in component type contracts.
+- Generate range assumptions using named constants or visible feature names when bounds are provided.
+Syntax or pattern reminders:
+- AGREE annex blocks must be enclosed in `annex agree {** ... **};`.
+- Assumptions and guarantees should reference valid component ports and features from the AADL model.
+- Boolean expressions in AGREE must match the actual data types of the referenced features.
+- Do not use implementation-only subcomponent paths in component type annexes.
+Anti-patterns:
+- Do not generate AGREE clauses that reference AADL properties like Compute_Execution_Time or unit tokens directly.
+- Avoid creating range assumptions or guarantees that rely on opaque Boolean or enumeration data without numeric scalar representation.
+- Do not place implementation-level bindings in component type annexes unless they are valid in that scope.
+- Do not use subcomponent ports in component type contracts unless represented through valid variables or outputs.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- door_management
+- door_management.imp
+- door1
+- door2
+- lgs
+- dps
+- ocu
+- fws
+- ecam
+- process_door
+- door
+- handle_position
+- closed
+- latched
+- locked
+- swivel
+- de_arrest
+- lock
+- warn_diff_pres
+- warn_slide
+- door.imp
+- LGS
+- in_flight1
+- on_ground1
+- engine_running1
+- emergency_evacuation1
+- in_flight2
+- on_ground2
+- engine_running2
+- emergency_evacuation2
+- LGS.imp
+- DPS
+- dps1
+- dps2
+- DPS.imp
+- OCU
+- cll
+- OCU.imp
+- FWS
+- wrn_door1
+
+Target interface:
+Exact expression symbols: handle_position, closed, latched, locked, swivel, de_arrest, lock, warn_diff_pres, warn_slide, in_flight, on_ground, engine_running, emergency_evacuation, dps, door_locked, warning_info, ecam_info
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+handle_position | in | data | bool | Base_Types::boolean
+closed | in | data | bool | Base_Types::boolean
+latched | in | data | bool | Base_Types::boolean
+locked | in | data | bool | Base_Types::boolean
+swivel | out | data | bool | Base_Types::boolean
+de_arrest | out | data | bool | Base_Types::boolean
+lock | out | data | bool | Base_Types::boolean
+warn_diff_pres | out | data | bool | Base_Types::boolean
+warn_slide | out | data | bool | Base_Types::boolean
+in_flight | in | data | bool | Base_Types::boolean
+on_ground | in | data | bool | Base_Types::boolean
+engine_running | in | data | bool | Base_Types::boolean
+emergency_evacuation | in | data | bool | Base_Types::boolean
+dps | in | data | int | Base_Types::integer
+door_locked | out | data | bool | Base_Types::boolean
+warning_info | out | data | bool | Base_Types::boolean
+ecam_info | out | data | bool | Base_Types::boolean
+
+Raw requirement:
+The door_handler component shall operate under a bounded input condition for dps. The environment shall keep dps greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "dps >= 0 and dps <= 100",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "dps"
+      ]
+    }
+  ]
+}

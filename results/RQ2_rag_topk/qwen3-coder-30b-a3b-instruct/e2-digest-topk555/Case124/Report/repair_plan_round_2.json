@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 91: Couldn't resolve reference to 'Spg'.",
+      "cause": "Spg is an implementation-local subcomponent not visible in the component type annex",
+      "minimal_edit": "Remove the guarantee clauses referencing Spg.mag_out_data_x, Spg.mag_out_data_Y, and Spg.mag_out_data_Z"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 91: Couldn't resolve reference to 'mag_out_data_x'.",
+      "cause": "mag_out_data_x is visible, but the expression attempts to equate it to an invisible implementation port",
+      "minimal_edit": "Remove the entire guarantee clause since it incorrectly references implementation internals"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 91: named thing must be an expression with a type",
+      "cause": "Spg.mag_out_data_x is not a valid expression in the component type scope",
+      "minimal_edit": "Remove the entire guarantee clause"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the entire annex agree block from MAGNETO_SUB_wrapper type (lines 90-94)",
+    "No replacement is needed because the signal flow is already correctly modeled in the implementation connections (P1, P2, P3), and component type contracts must not reference implementation subcomponents"
+  ]
+}

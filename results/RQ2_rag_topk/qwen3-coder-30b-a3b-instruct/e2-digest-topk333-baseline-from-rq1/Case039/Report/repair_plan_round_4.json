@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Actual_prev'.",
+      "cause": "State variable Actual_prev is not properly declared in the AGREE annex scope",
+      "minimal_edit": "Move the state declaration to the beginning of the annex block and ensure it's properly initialized"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::speed.speed_impl' and '<error>', but must be of the same type",
+      "cause": "The expression references an opaque port type 'Types::speed.speed_impl' which cannot be used in arithmetic operations",
+      "minimal_edit": "Replace 'Actual' with a real-valued variable that represents the actual value in the AGREE context"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "The port 'Actual' is not a valid expression in AGREE context due to its opaque type",
+      "minimal_edit": "Introduce a real-valued variable to represent the actual value and use that in the guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Create a new real-valued variable to represent the actual value in the AGREE annex",
+    "Replace all references to 'Actual' in the guarantee with the new real-valued variable",
+    "Move the state declaration to the beginning of the annex block and initialize it properly",
+    "Ensure the guarantee uses only valid real-valued expressions"
+  ]
+}

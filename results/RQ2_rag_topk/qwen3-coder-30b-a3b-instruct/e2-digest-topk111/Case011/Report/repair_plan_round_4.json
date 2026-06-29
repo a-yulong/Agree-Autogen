@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'altitudeFromGround'.",
+      "cause": "altitudeFromGround is not declared as a variable in the AGREE annex",
+      "minimal_edit": "Replace 'altitudeFromGround = altitudeFromGround' with 'altitudeFromGround = Agree_Nodes::height(altitude, verticalVelocity, 0.5)'"
+    },
+    {
+      "diagnostic": "line 32: Couldn't resolve reference to 'altitudeFromGround'.",
+      "cause": "altitudeFromGround is not declared as a variable in the AGREE annex",
+      "minimal_edit": "Replace 'altitudeFromGround <= 500.0' with 'Agree_Nodes::height(altitude, verticalVelocity, 0.5) <= 500.0'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex for GCAS_Monitor, replace the guarantee statement on line 30 with: 'altitudeFromGround = Agree_Nodes::height(altitude, verticalVelocity, 0.5);'",
+    "In the AGREE annex for GCAS_Monitor, replace the guarantee statement on line 32 with: '(altitude <= 30.0 or Agree_Nodes::height(altitude, verticalVelocity, 0.5) <= 500.0) => gcasRequested = true;'"
+  ]
+}

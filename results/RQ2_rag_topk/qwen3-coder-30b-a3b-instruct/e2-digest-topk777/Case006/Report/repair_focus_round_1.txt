@@ -1,0 +1,317 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure, timeToFailure, gcas_timeToRecovery, tcas_timeToRecovery, geof_timeToRecovery, timeToRecovery, p1, p2, p3
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+gcas_timeToFailure | in | data | opaque | real
+tcas_timeToFailure | in | data | opaque | real
+geof_timeToFailure | in | data | opaque | real
+timeToFailure | out | data | opaque | real
+gcas_timeToRecovery | in | data | opaque | real
+tcas_timeToRecovery | in | data | opaque | real
+geof_timeToRecovery | in | data | opaque | real
+timeToRecovery | out | data | opaque | real
+p1 | out | data | opaque | bool
+p2 | out | data | opaque | bool
+p3 | out | data | opaque | bool
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "timeToFailure = min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure)",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "timeToFailure",
+        "gcas_timeToFailure",
+        "tcas_timeToFailure",
+        "geof_timeToFailure"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "concurrencyFactor(gcas_timeToRecovery, timeToFailure) -> p1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "gcas_timeToRecovery",
+        "timeToFailure",
+        "p1"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "concurrencyFactor(tcas_timeToRecovery, timeToFailure) -> p2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "tcas_timeToRecovery",
+        "timeToFailure",
+        "p2"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "concurrencyFactor(geof_timeToRecovery, timeToFailure) -> p3",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "geof_timeToRecovery",
+        "timeToFailure",
+        "p3"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "timeToFailure > (gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery)",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "timeToFailure",
+        "gcas_timeToRecovery",
+        "tcas_timeToRecovery",
+        "geof_timeToRecovery"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Supervisor | lines 99-105
+annex agree {**
+	  guarantee "timeToFailure_min": timeToFailure = min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure);
+	  guarantee "timeToFailure_greater_than_recovery_sum": timeToFailure > (gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery);
+	  assume "p1_assignment": p1 = concurrencyFactor(gcas_timeToRecovery, timeToFailure);
+	  assume "p2_assignment": p2 = concurrencyFactor(tcas_timeToRecovery, timeToFailure);
+	  assume "p3_assignment": p3 = concurrencyFactor(geof_timeToRecovery, timeToFailure);
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   96: 			p1: out data port bool;
+   97: 			p2: out data port bool;
+   98: 			p3: out data port bool;
+   99: 	annex agree {**
+>> 100: 	  guarantee "timeToFailure_min": timeToFailure = min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure);
+   101: 	  guarantee "timeToFailure_greater_than_recovery_sum": timeToFailure > (gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery);
+   102: 	  assume "p1_assignment": p1 = concurrencyFactor(gcas_timeToRecovery, timeToFailure);
+   103: 	  assume "p2_assignment": p2 = concurrencyFactor(tcas_timeToRecovery, timeToFailure);
+   104: 	  assume "p3_assignment": p3 = concurrencyFactor(geof_timeToRecovery, timeToFailure);
+
+   98: 			p3: out data port bool;
+   99: 	annex agree {**
+   100: 	  guarantee "timeToFailure_min": timeToFailure = min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure);
+   101: 	  guarantee "timeToFailure_greater_than_recovery_sum": timeToFailure > (gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery);
+>> 102: 	  assume "p1_assignment": p1 = concurrencyFactor(gcas_timeToRecovery, timeToFailure);
+   103: 	  assume "p2_assignment": p2 = concurrencyFactor(tcas_timeToRecovery, timeToFailure);
+   104: 	  assume "p3_assignment": p3 = concurrencyFactor(geof_timeToRecovery, timeToFailure);
+   105: 	**};
+   106: 	end Supervisor;
+
+   99: 	annex agree {**
+   100: 	  guarantee "timeToFailure_min": timeToFailure = min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure);
+   101: 	  guarantee "timeToFailure_greater_than_recovery_sum": timeToFailure > (gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery);
+   102: 	  assume "p1_assignment": p1 = concurrencyFactor(gcas_timeToRecovery, timeToFailure);
+>> 103: 	  assume "p2_assignment": p2 = concurrencyFactor(tcas_timeToRecovery, timeToFailure);
+   104: 	  assume "p3_assignment": p3 = concurrencyFactor(geof_timeToRecovery, timeToFailure);
+   105: 	**};
+   106: 	end Supervisor;
+   107: 	
+
+   100: 	  guarantee "timeToFailure_min": timeToFailure = min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure);
+   101: 	  guarantee "timeToFailure_greater_than_recovery_sum": timeToFailure > (gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery);
+   102: 	  assume "p1_assignment": p1 = concurrencyFactor(gcas_timeToRecovery, timeToFailure);
+   103: 	  assume "p2_assignment": p2 = concurrencyFactor(tcas_timeToRecovery, timeToFailure);
+>> 104: 	  assume "p3_assignment": p3 = concurrencyFactor(geof_timeToRecovery, timeToFailure);
+   105: 	**};
+   106: 	end Supervisor;
+   107: 	
+   108: 	system implementation Supervisor.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Supervisor
+system Supervisor
+		features
+			gcas_timeToFailure: in data port real;
+			tcas_timeToFailure: in data port real;
+			geof_timeToFailure: in data port real;
+			
+			timeToFailure: out data port real;
+			
+			gcas_timeToRecovery: in data port real;
+			tcas_timeToRecovery: in data port real;
+			geof_timeToRecovery: in data port real;
+			
+			timeToRecovery: out data port real;
+			p1: out data port bool;
+			p2: out data port bool;
+			p3: out data port bool;
+	end Supervisor;
+
+-- TARGET DECLARATION: Supervisor.impl
+system implementation Supervisor.impl
+	end Supervisor.impl;
+
+-- RELATED MODEL LINES
+timeToFailure: out data port real;
+timeToRecovery: out data port real;
+p1: out data port bool;
+p2: out data port bool;
+p3: out data port bool;
+supervisor: system Supervisor;
+gcas_ttr: port gcas.timeToRecovery -> Supervisor.gcas_timeToRecovery	{Communication_Properties::Timing => immediate;};
+tcas_ttr: port tcas.timeToRecovery -> Supervisor.tcas_timeToRecovery	{Communication_Properties::Timing => immediate;};
+geof_ttr: port geof.timeToRecovery -> Supervisor.geof_timeToRecovery	{Communication_Properties::Timing => immediate;};
+gcas_ttf: port gcas.timeToFailure -> Supervisor.gcas_timeToFailure	{Communication_Properties::Timing => immediate;};
+tcas_ttf: port tcas.timeToFailure -> Supervisor.tcas_timeToFailure	{Communication_Properties::Timing => immediate;};
+geof_ttf: port geof.timeToFailure -> Supervisor.geof_timeToFailure	{Communication_Properties::Timing => immediate;};
+ttf_to_top: port supervisor.timeToFailure -> timeToFailure	{Communication_Properties::Timing => immediate;};
+ttr_to_top: port supervisor.timeToRecovery -> timeToRecovery;
+p1_port: port supervisor.p1 -> p1;
+p2_port: port supervisor.p2 -> p2;
+p3_port: port supervisor.p3 -> p3;
+system Supervisor
+gcas_timeToFailure: in data port real;
+tcas_timeToFailure: in data port real;
+geof_timeToFailure: in data port real;
+gcas_timeToRecovery: in data port real;
+tcas_timeToRecovery: in data port real;
+geof_timeToRecovery: in data port real;
+end Supervisor;
+system implementation Supervisor.impl
+end Supervisor.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Supervisor",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Supervisor.impl",
+      "kind": "system implementation",
+      "type_name": "Supervisor"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Supervisor",
+      "name": "gcas_timeToFailure",
+      "direction": "in",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Supervisor",
+      "name": "tcas_timeToFailure",
+      "direction": "in",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Supervisor",
+      "name": "geof_timeToFailure",
+      "direction": "in",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Supervisor",
+      "name": "timeToFailure",
+      "direction": "out",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Supervisor",
+      "name": "gcas_timeToRecovery",
+      "direction": "in",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Supervisor",
+      "name": "tcas_timeToRecovery",
+      "direction": "in",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Supervisor",
+      "name": "geof_timeToRecovery",
+      "direction": "in",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Supervisor",
+      "name": "timeToRecovery",
+      "direction": "out",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Supervisor",
+      "name": "p1",
+      "direction": "out",
+      "category": "data port",
+      "type": "bool",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Supervisor",
+      "name": "p2",
+      "direction": "out",
+      "category": "data port",
+      "type": "bool",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Supervisor",
+      "name": "p3",
+      "direction": "out",
+      "category": "data port",
+      "type": "bool",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "Supervisor.impl",
+      "name": "gcas_ttr",
+      "kind": "port",
+      "source": "gcas.timeToRecovery",
+      "destination": "Supervisor.gcas_timeToRecovery"
+    },
+    {
+      "owner": "Supervisor.impl",
+      "name": "tcas_ttr",
+      "kind": "port",
+      "source": "tcas.timeToRecovery",
+      "destination": "Supervisor.tcas_timeToRecovery"
+    },
+    {
+      "owner": "Supervisor.impl",
+      "name": "geof_ttr",
+      "kind": "port",
+      "source": "geof.timeToRecovery",
+      "destination": "Supervisor.geof_timeToRecovery"
+    },
+    {
+      "owner": "Supervisor.impl",
+      "name": "gcas_ttf"
+-- [target model context truncated]

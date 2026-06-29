@@ -1,0 +1,87 @@
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+AGREE contracts are written inside `annex agree {** ... **};` blocks. Component type annexes are the normal location for assumptions, guarantees, constants, and equation declarations. Component implementation annexes are used for implementation-level bindings such as assignments when they are valid in that scope.
+
+[KSYN-2]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+The authoritative source for component names, ports, directions, data types, subcomponents, and connections is the input AADL model. The Model Analyst Agent extracts this structure before AGREE generation and fusion.
+
+[KSYN-3]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes. Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections. Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs.
+
+[KSYN-4]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+This Ksyn note summarizes AADL scope knowledge used by AGREE-AutoGen during architecture grounding and fusion. The AADL AS5506C standard is recorded as a local source through `raw/ksyn/AADL_AS5506C.local_source.md` and `local_sources.example.yaml`.
+
+[KSYN-5]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+## Temporal and Expression Patterns
+
+[KSYN-6]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+AADL package references require matching `with` clauses. Generated AGREE code should not introduce package-qualified identifiers, data types, or property references that are absent from the analyzed model and its configured dependencies.
+
+[KSYN-7]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+This Ksyn note summarizes AGREE syntax and semantic knowledge used by AGREE-AutoGen. It is aligned with `raw/ksyn/AGREE_knowledge_dataset_en.pdf`, `raw/ksyn/AGREE_Users_Guide.pdf`, the Kdef rules, and the code examples in Kexp.
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Assumed Type vs Actual Type
+If AGREE reports "The assumed type ... is ... but the actual type is ...", align the helper declaration type with the expression. Comparison expressions are bool; integer literals and integer arithmetic are int; real literals and real arithmetic are real. Recommended pattern: eq range_value : bool = x >= min_value and x <= max_value;
+
+[KDEF-2]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Opaque Boolean Data Range Comparison
+If diagnostics point to range comparisons or 0/1 equality over Boolean, enumeration-like, or opaque data ports, remove the generated clause unless the requirement and AADL data representation provide a numeric scalar. Do not convert Boolean domain values into integers. Recommended pattern: Use exact Boolean expressions only when the port is an AGREE bool in scope; otherwise omit the unsafe clause.
+
+[KDEF-3]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AADL Property Names Are Not AGREE Variables chunk 1
+If diagnostics report unresolved references to Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens such as ms/us/Hz/Bytes inside an AGREE annex, delete the generated clause. AADL property associations are not automatically in AGREE expression scope as variables. Recommended pattern: Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for the
+
+[KDEF-4]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Invented Non-Negative Constraint
+If the requirement does not explicitly state non-negative, positive, minimum, maximum, or a numeric interval, do not create a generic x >= 0 assumption for a port just because it looks numeric. Delete invented bounds during repair. Recommended pattern: Keep only bounds directly stated by the requirement and compatible with a numeric AGREE type.
+
+[KDEF-5]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AADL Property Names Are Not AGREE Variables chunk 2
+E expressions unless the model exposes explicit typed ports or constants for them.
+
+[KDEF-6]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Event Port Numeric Encoding
+If diagnostics involve an event port in a numeric or Boolean comparison, delete the clause unless the model provides an explicit data value for the event. Plain AADL event ports are not AGREE numeric values and should not be encoded as 0, 1, true, or false. Recommended pattern: Omit the event-port activation clause or use a model-provided data/event-data value if one exists in the current scope.
+
+[KDEF-7]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AGREE Scalar Type Names
+If AGREE reports "Couldn't resolve reference to 'integer'" or "Couldn't resolve reference to 'boolean'" in a const or eq declaration, the generated AGREE type name is invalid. AGREE scalar declaration types are int, real, and bool. Recommended pattern: const lower_limit : int = 0; eq ok : bool = x >= lower_limit;
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>

@@ -1,0 +1,35 @@
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes. Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections. Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs.
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+[KEXP-1]
+Source: distilled pattern library
+Topic: implementation scope output assign
+For implementation contracts, use assign only when the left-hand side is an existing output feature or declared auxiliary variable. Do not place guarantee statements in implementation scope.
+
+[KEXP-2]
+Source: processed\kexp\agree_code_knowledge_dataset.txt
+Topic: boolean logic chunk 1
+package agree_kexp_boolean_logic public with Base_Types; data bool extends Base_Types::Boolean end bool; system BooleanLogicExample features condition_a : in data port bool; condition_b : in data port bool; condition_c : in data port bool; decision : out data port bool; annex agree {** eq two_conditions_hold : bool = (condition_a and condition_b) or (condition_a and condition_c) or (condition_b and condition_c); guarantee "decision requires at least two active
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Named Thing Has No Type
+If AGREE reports "named thing must be an expression with a type" or a guarantee expression has type <error>, trace the first unresolved identifier or invalid helper declaration on the same line. Fix the root unresolved reference, or delete the invalid clause instead of adding architecture. Recommended pattern: Use only visible AADL features or eq helpers declared in the same annex; otherwise remove the guarantee.
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>

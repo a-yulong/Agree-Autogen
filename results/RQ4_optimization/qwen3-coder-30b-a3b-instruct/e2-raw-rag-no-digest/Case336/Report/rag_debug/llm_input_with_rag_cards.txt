@@ -1,0 +1,130 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+- `assume "label": expression;` - `guarantee "label": expression;` - `eq name : type = expression;` - `const name : type = value;` - `assign output = expression;`
+
+[KSYN-2]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+AGREE contracts are written inside `annex agree {** ... **};` blocks. Component type annexes are the normal location for assumptions, guarantees, constants, and equation declarations. Component implementation annexes are used for implementation-level bindings such as assignments when they are valid in that scope.
+
+[KSYN-3]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+The authoritative source for component names, ports, directions, data types, subcomponents, and connections is the input AADL model. The Model Analyst Agent extracts this structure before AGREE generation and fusion.
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+[KEXP-1]
+Source: distilled pattern library
+Topic: implementation scope output assign
+For implementation contracts, use assign only when the left-hand side is an existing output feature or declared auxiliary variable. Do not place guarantee statements in implementation scope.
+
+[KEXP-2]
+Source: distilled pattern library
+Topic: type scope range assumption and guarantee
+For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation. Use case-provided thresholds and legal visible feature names.
+
+[KEXP-3]
+Source: distilled pattern library
+Topic: type scope deterministic dependency guarantee
+For output dependency contracts, write a guarantee that relates visible outputs to visible inputs. Do not use implementation-only subcomponent paths in a component type annex.
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Annex Scope
+Treat each annex agree block as scoped to its owning component declaration.
+
+[KDEF-2]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AADL Property Names Are Not AGREE Variables chunk 1
+If diagnostics report unresolved references to Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens such as ms/us/Hz/Bytes inside an AGREE annex, delete the generated clause. AADL property associations are not automatically in AGREE expression scope as variables. Recommended pattern: Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for the
+
+[KDEF-3]
+Source: built-in defensive rule
+Topic: Scope & Naming
+Rule: AGREE expressions may only reference identifiers visible in the current component scope. Must: use exact current-case names from the model index. Forbid: copying identifiers from examples or inventing ports/components.
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>
+
+Visible target-interface symbols:
+- MCU1_Data_Input
+- MCU1_Send_Output
+- Radio_Ok_Input
+- Radio_Really_Lost_Input
+
+Target interface:
+Exact expression symbols: MCU1_Data_Input, MCU1_Data_Input.data_0, MCU1_Data_Input.data_1, MCU1_Data_Input.data_2, MCU1_Data_Input.data_3, MCU1_Data_Input.data_4, MCU1_Data_Input.data_5, MCU1_Data_Input.data_6, MCU1_Data_Input.data_7, MCU1_Send_Output, MCU1_Send_Output.channels, MCU1_Send_Output.ppm_cpt, MCU1_Send_Output.satus, MCU1_Send_Output.nb_err, MCU1_Send_Output.vsupply, Radio_Ok_Input, Radio_Really_Lost_Input
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+MCU1_Data_Input | in | data | opaque | Papa_Types::Tableau.Generic
+MCU1_Data_Input.data_0 | in | data_field | opaque | Base_Types::Integer_16
+MCU1_Data_Input.data_1 | in | data_field | opaque | Base_Types::Integer_16
+MCU1_Data_Input.data_2 | in | data_field | opaque | Base_Types::Integer_16
+MCU1_Data_Input.data_3 | in | data_field | opaque | Base_Types::Integer_16
+MCU1_Data_Input.data_4 | in | data_field | opaque | Base_Types::Integer_16
+MCU1_Data_Input.data_5 | in | data_field | opaque | Base_Types::Integer_16
+MCU1_Data_Input.data_6 | in | data_field | opaque | Base_Types::Integer_16
+MCU1_Data_Input.data_7 | in | data_field | opaque | Base_Types::Integer_16
+MCU1_Send_Output | out | data | opaque | Papa_Types::Inter_mcu_msg.Generic
+MCU1_Send_Output.channels | out | data_field | opaque | Tableau.Generic
+MCU1_Send_Output.ppm_cpt | out | data_field | opaque | Base_Types::Integer_8
+MCU1_Send_Output.satus | out | data_field | opaque | Base_Types::Integer_8
+MCU1_Send_Output.nb_err | out | data_field | opaque | Base_Types::Integer_8
+MCU1_Send_Output.vsupply | out | data_field | opaque | Base_Types::Integer_8
+Radio_Ok_Input | in | data | bool | Base_Types::Boolean
+Radio_Really_Lost_Input | in | data | bool | Base_Types::Boolean
+
+Raw requirement:
+The send_data_to_autopilot_task component shall operate under a Boolean input condition on Radio_Ok_Input. The environment shall provide Radio_Ok_Input as true whenever this contract is evaluated.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Radio_Ok_Input is true",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "Radio_Ok_Input"
+      ]
+    }
+  ]
+}

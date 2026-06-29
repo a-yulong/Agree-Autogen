@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "Place input envelope assumptions in component type annexes using visible feature names and concrete bounds from the requirement.",
+    "Use AGREE 'assume' for input constraints and 'guarantee' for output behavior, ensuring type alignment with AADL data types.",
+    "Generate syntactically valid AGREE annex blocks with proper 'annex agree {** ... **};' structure and scope placement."
+  ],
+  "generic_rules": [
+    "Only include assumptions and guarantees that directly reflect requirement semantics and are traceable to visible AADL identifiers.",
+    "Avoid introducing package-qualified identifiers or types not present in the analyzed AADL model.",
+    "Ensure all AGREE expressions use valid scalar types (int, real, bool) and align with AADL port data types.",
+    "Do not invent numeric bounds or encode AADL properties as AGREE variables unless explicitly exposed in the model."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use 'const' for named limits and 'eq' for boolean range expressions in AGREE contracts.",
+    "Place implementation-level assignments in component implementation scopes, not type scopes.",
+    "AGREE contracts must be enclosed in 'annex agree {** ... **};' blocks with valid AADL scope context."
+  ],
+  "anti_patterns": [
+    "Do not assume numeric bounds for ports unless explicitly stated in the requirement and compatible with AADL types.",
+    "Do not encode AADL event ports or timing properties as numeric or Boolean expressions in AGREE."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing attributes not exposed in the model",
+    "Implementation-level bindings not tied to visible subcomponents or connections",
+    "Boolean domain values converted to integers or event ports treated as numeric"
+  ]
+}

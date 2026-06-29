@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "When AGREE diagnostics report unresolved references or type mismatches, trace the root cause to invalid feature names or incorrect helper declarations in the implementation scope and remove or correct the offending clauses.",
+    "If AGREE reports 'named thing must be an expression with a type' or '<error>' types, ensure all identifiers are visible AADL features or properly declared helpers in the same annex block.",
+    "For AGREE type resolution errors, use only valid scalar types (int, real, bool) in const and eq declarations, and align helper types with the actual expression types."
+  ],
+  "generic_rules": [
+    "In AGREE contracts, always validate that referenced identifiers are visible in the current scope and that expression types match on both sides of assignments or guarantees.",
+    "When generating AGREE code, avoid introducing package-qualified identifiers or types that are not present in the original AADL model.",
+    "Use only declared constants or visible features in AGREE equations and guarantees to prevent 'Couldn't resolve reference' errors.",
+    "Ensure that AGREE helper declarations (const, eq) match the expected scalar types (int, real, bool) to avoid type mismatch diagnostics."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be placed inside `annex agree {** ... **};` blocks, with component type annexes for assumptions/guarantees and implementation annexes for assignments.",
+    "Assignments in implementation scope must reference existing output features or declared auxiliary variables; guarantees are not allowed in implementation scope.",
+    "AGREE type declarations must use int, real, or bool; avoid package-qualified or non-standard scalar type names."
+  ],
+  "anti_patterns": [
+    "Do not introduce new identifiers or types in AGREE that are not already defined in the AADL model or its dependencies.",
+    "Do not place guarantee statements in implementation scope; use only assign for implementation-level bindings.",
+    "Do not attempt to fix unresolved references by adding new architecture; instead, remove or correct clauses that reference invalid identifiers."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "type scope range assumption and guarantee",
+    "implementation scope output assign",
+    "Assumed Type vs Actual Type",
+    "Named Thing Has No Type",
+    "AGREE Scalar Type Names"
+  ]
+}

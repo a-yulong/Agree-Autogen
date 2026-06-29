@@ -1,0 +1,10 @@
+annex agree {**
+  assume "tcas_altitude_eq_intruder": TCAS_singleton.ownAltitude_in = TCAS_singleton.nearestIntruderAltitude;
+  assume "tcas_altitude_lt_intruder": TCAS_singleton.ownAltitude_in < TCAS_singleton.nearestIntruderAltitude;
+  assume "tcas_altitude_gt_intruder": TCAS_singleton.ownAltitude_in > TCAS_singleton.nearestIntruderAltitude;
+  assume "tcas_longitude_gt_intruder": TCAS_singleton.ownLongitude > TCAS_singleton.nearestIntruderLongitude;
+  guarantee "req_vel_eq_intruder": TCAS_singleton.ownAltitude_in = TCAS_singleton.nearestIntruderAltitude => (TCAS_singleton.ownLongitude > TCAS_singleton.nearestIntruderLongitude => TCAS_singleton.requiredVerticalVelocity = 50);
+  guarantee "req_vel_lt_intruder": TCAS_singleton.ownAltitude_in < TCAS_singleton.nearestIntruderAltitude => TCAS_singleton.requiredVerticalVelocity = 10;
+  guarantee "req_vel_gt_intruder": TCAS_singleton.ownAltitude_in > TCAS_singleton.nearestIntruderAltitude => TCAS_singleton.requiredVerticalVelocity = -10;
+  guarantee "own_aircraft_goes_up_on_tie": TCAS_singleton.ownLongitude > TCAS_singleton.nearestIntruderLongitude <=> TCAS_singleton.requiredVerticalVelocity = 50;
+**};

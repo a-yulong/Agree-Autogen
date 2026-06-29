@@ -1,0 +1,25 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "numberServicesTrue counts true values among inpGCASM, inpSAM, inpACASM, inpGFM, inpWxM, inpFLS",
+      "evidence": ["inpGCASM", "inpSAM", "inpACASM", "inpGFM", "inpWxM", "inpFLS"]
+    },
+    {
+      "id": "R2",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "outDec = ACAS if inpGCASImpact > inpACASImpact and (inpGCASRecovery + inpACASRecovery) >= threshold; otherwise outDec = GCAS",
+      "evidence": ["inpGCASImpact", "inpACASImpact", "inpGCASRecovery", "inpACASRecovery", "outDec"]
+    },
+    {
+      "id": "R3",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "outDec = dynamic decision result when numberServicesTrue >= 2; otherwise outDec = static priority-based value",
+      "evidence": ["outDec", "numberServicesTrue"]
+    }
+  ]
+}

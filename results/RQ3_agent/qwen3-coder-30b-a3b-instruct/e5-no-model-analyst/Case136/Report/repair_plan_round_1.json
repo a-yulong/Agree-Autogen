@@ -1,0 +1,20 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 187: Couldn't resolve reference to 'i'.",
+      "cause": "AGREE annex is in component type scope but references implementation identifier",
+      "minimal_edit": "Move the guarantee statement to the implementation annex"
+    },
+    {
+      "diagnostic": "line 187: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Invalid type comparison due to unresolved reference",
+      "minimal_edit": "Remove the guarantee statement or rewrite to valid AGREE expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Move the entire annex block from thr_yaw_simulation to thr_yaw_simulation.i",
+    "Remove the guarantee statement from the moved annex block",
+    "Keep only the assume statement in the component type annex"
+  ]
+}

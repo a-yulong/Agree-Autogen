@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place signal flow assumptions in component type scopes using visible feature names and valid AADL ports.",
+    "Use assign statements in implementation scopes for output bindings only when the left-hand side is an existing output feature.",
+    "Generate range assumptions and guarantees using visible constants or named thresholds from the AADL model.",
+    "Avoid encoding AADL timing properties as AGREE expressions unless explicit typed ports or constants are available."
+  ],
+  "generic_rules": [
+    "AGREE annex blocks must be syntactically valid and scoped to their owning component.",
+    "Assumptions and guarantees should reference only visible identifiers from the AADL model.",
+    "Use eq declarations for helper variables and const declarations for named constants in AGREE contracts.",
+    "Do not include clauses that reference unresolved or non-typed AADL properties in AGREE expressions."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract statements.",
+    "Use `eq name : type = expression;` for helper variable definitions.",
+    "Use `const name : type = value;` for constant declarations.",
+    "Use `assign output = expression;` for output assignments in implementation scopes."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level guarantees in component type annexes.",
+    "Do not reference AADL property names like Period or Deadline directly in AGREE expressions.",
+    "Do not use invalid AGREE scalar type names such as 'integer' or 'boolean'.",
+    "Do not generate range checks for Boolean or opaque data without numeric scalar representation."
+  ],
+  "irrelevant_topics": [
+    "AADL AS5506C standard references",
+    "Model fusion and owner/scope preservation rules",
+    "Validator-driven repair patterns",
+    "Requirement traceability and compact semantics"
+  ]
+}

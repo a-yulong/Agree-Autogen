@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Generate assume/guarantee clauses only from visible input/output features, not AADL properties or subcomponent paths.",
+    "Use AGREE logical operators (and, or, not, =>) and nested if-then-else for branching in expressions.",
+    "Declare helper equations with explicit types (int, real, bool) to ensure type consistency."
+  ],
+  "generic_rules": [
+    "Assumptions should define input envelopes using concrete bounds from visible features.",
+    "Guarantees must relate visible outputs to visible inputs without implementation-level dependencies.",
+    "All variables in expressions must be either AADL-visible ports or locally declared eq/const helpers."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use annex agree {** ... **}; for component type contracts.",
+    "Format: assume \"label\": expression; or guarantee \"label\": expression;",
+    "Use eq name : type = expression; to define intermediate boolean or numeric helpers."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL properties (e.g., Period, Deadline) as if they are AGREE variables.",
+    "Do not use subcomponent ports or internal implementation paths in component type annexes.",
+    "Avoid type names like 'integer' or 'boolean' — use 'int' or 'bool'."
+  ],
+  "irrelevant_topics": [
+    "validator diagnostics",
+    "repair patterns",
+    "AGREE annex placement decisions",
+    "fusion rules",
+    "assign statements",
+    "model traceability"
+  ]
+}

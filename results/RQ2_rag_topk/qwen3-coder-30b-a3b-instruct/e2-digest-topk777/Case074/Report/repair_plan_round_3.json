@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'gps_pos'.",
+      "cause": "AGREE annex in thread type references implementation-level port directly",
+      "minimal_edit": "Replace 'gps_pos' with 'pspg.gps_pos' on left side of equality"
+    },
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'pspg'.",
+      "cause": "AGREE annex in thread type references implementation-level subcomponent directly",
+      "minimal_edit": "Remove 'pspg.' prefix from left side of equality"
+    },
+    {
+      "diagnostic": "line 107: left and right sides of binary expression '=' are of type 'Ardupilot_Software::GPS_Position.i' and '<error>', but must be of the same type",
+      "cause": "Invalid type comparison due to unresolved references",
+      "minimal_edit": "Replace 'gps_pos = pspg.gps_pos' with 'gps_pos = pspg.gps_pos'"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'pspg'.",
+      "cause": "AGREE annex in thread type references implementation-level subcomponent directly",
+      "minimal_edit": "Remove 'pspg.' prefix from left side of equality"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'speed'.",
+      "cause": "AGREE annex in thread type references implementation-level port directly",
+      "minimal_edit": "Replace 'speed' with 'pspg.speed' on right side of equality"
+    },
+    {
+      "diagnostic": "line 108: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Invalid type comparison due to unresolved references",
+      "minimal_edit": "Replace 'pspg.speed = speed' with 'pspg.speed = speed'"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from thread type 'thr_mgmt' to thread implementation 'thr_mgmt.i'",
+    "In the implementation annex, replace 'assume \"signal_flow_gps_pos_to_pspg_gps_pos\": gps_pos = pspg.gps_pos;' with 'assume \"signal_flow_gps_pos_to_pspg_gps_pos\": gps_pos = pspg.gps_pos;'",
+    "In the implementation annex, replace 'assume \"signal_flow_pspg_speed_to_speed\": pspg.speed = speed;' with 'assume \"signal_flow_pspg_speed_to_speed\": pspg.speed = speed;'"
+  ]
+}

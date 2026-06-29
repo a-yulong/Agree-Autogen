@@ -1,0 +1,19 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Use only visible identifiers and declared helpers within AGREE annexes to avoid resolution errors.
+- Align helper declaration types with the expression types to prevent type mismatch diagnostics.
+- Write deterministic dependency guarantees that relate visible inputs to visible outputs, avoiding implementation-only paths.
+- For range contracts, define constants for bounds and express range checks as boolean equations.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Assumptions and guarantees must be labeled with quoted strings and follow the syntax: `assume "label": expression;` or `guarantee "label": expression;`.
+- Constants and equations are declared with `const name : type = value;` and `eq name : type = expression;` respectively.
+- Assignments are used in implementation scopes with `assign output = expression;`.
+Anti-patterns:
+- Do not reference identifiers that are not visible in the current AADL scope, as this leads to resolution errors.
+- Do not mix invalid scalar type names like 'integer' or 'boolean' in AGREE declarations; use 'int', 'real', or 'bool' instead.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about packages or property sets
+- AGREE validator diagnostics about missing with clauses
+- Model unit resolution errors in AADL specifications
+</RAG_DIGEST>

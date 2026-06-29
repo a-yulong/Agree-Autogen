@@ -1,0 +1,125 @@
+round=5
+
+[TARGET INTERFACE]
+Exact expression symbols: Actuator_Input, Actual
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Actuator_Input | in | data | real | Base_Types::Float
+Actual | out | data | opaque | Types::speed.speed_impl
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Actual(current_time) = Actual(previous_time) + 0.1 * Actuator_Input",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Actual",
+        "Actuator_Input"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Implementation executes first-order lag link numerical calculation through structured assignment",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R3",
+      "text": "Physical output of the actuator conforms to preset acceleration response characteristics",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": []
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Throttle | lines 21-25
+annex agree {**
+		guarantee "behavioral_relation": actual_value = actual_prev + 0.1 * Actuator_Input;
+		state actual_prev: real;
+		var actual_value: real;
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   18: 		features
+   19: 			Actuator_Input: in data port Base_Types::Float;
+   20: 			Actual: out data port Types::speed.speed_impl;
+   21: 	annex agree {**
+>> 22: 		guarantee "behavioral_relation": actual_value = actual_prev + 0.1 * Actuator_Input;
+   23: 		state actual_prev: real;
+   24: 		var actual_value: real;
+   25: 	**};
+   26: 	end Throttle;
+
+   19: 			Actuator_Input: in data port Base_Types::Float;
+   20: 			Actual: out data port Types::speed.speed_impl;
+   21: 	annex agree {**
+   22: 		guarantee "behavioral_relation": actual_value = actual_prev + 0.1 * Actuator_Input;
+>> 23: 		state actual_prev: real;
+   24: 		var actual_value: real;
+   25: 	**};
+   26: 	end Throttle;
+   27: 
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Throttle
+system Throttle
+		features
+			Actuator_Input: in data port Base_Types::Float;
+			Actual: out data port Types::speed.speed_impl;
+	end Throttle;
+
+-- TARGET DECLARATION: Throttle.Throttle_Impl
+system implementation Throttle.Throttle_Impl
+	end Throttle.Throttle_Impl;
+
+-- RELATED MODEL LINES
+Actuator_Input: out data port Base_Types::Float;
+Actual: in data port Types::speed.speed_impl;
+system Throttle
+Actuator_Input: in data port Base_Types::Float;
+Actual: out data port Types::speed.speed_impl;
+end Throttle;
+system implementation Throttle.Throttle_Impl
+end Throttle.Throttle_Impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Throttle",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Throttle.Throttle_Impl",
+      "kind": "system implementation",
+      "type_name": "Throttle"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Throttle",
+      "name": "Actuator_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Throttle",
+      "name": "Actual",
+      "direction": "out",
+      "category": "data port",
+      "type": "Types::speed.speed_impl",
+      "scalar": "opaque"
+    }
+  ]
+}

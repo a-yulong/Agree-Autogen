@@ -1,0 +1,9 @@
+annex agree {**
+  assume "roll_rate_bounds": 10.0 <= 15.0;
+  guarantee "impact_initialization": outImpact = 0.0;
+  guarantee "recovery_initialization": outRecovery = 0.0;
+  guarantee "impact_constancy": always (outImpact = 0.0);
+  guarantee "recovery_constancy": always (outRecovery = 0.0);
+  guarantee "collision_avoidance_condition": 
+    (altitude <= 30.0 or verticalVelocity <= 30.0) => gcasRequested = true;
+**};

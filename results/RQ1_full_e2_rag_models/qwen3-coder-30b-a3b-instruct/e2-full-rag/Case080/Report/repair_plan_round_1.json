@@ -1,0 +1,46 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 21: Couldn't resolve reference to 'execute'.",
+      "cause": "AGREE cannot resolve 'execute' as a valid port or signal in the component type scope",
+      "minimal_edit": "Replace 'Task.impl_1.execute' with 'Task1.execute' to reference the subcomponent port"
+    },
+    {
+      "diagnostic": "line 21: Couldn't resolve reference to 'impl_1'.",
+      "cause": "AGREE cannot resolve 'impl_1' as a valid identifier in the component type scope",
+      "minimal_edit": "Replace 'Task.impl_1.execute' with 'Task1.execute' to reference the subcomponent port"
+    },
+    {
+      "diagnostic": "line 21: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression on left side of implication due to unresolved references",
+      "minimal_edit": "Replace 'Task.impl_1.execute => Task.execute' with 'Task1.execute => Task.execute' to use valid port references"
+    },
+    {
+      "diagnostic": "line 21: right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression on right side of implication due to unresolved references",
+      "minimal_edit": "Replace 'Task.impl_1.execute => Task.execute' with 'Task1.execute => Task.execute' to use valid port references"
+    },
+    {
+      "diagnostic": "line 22: Couldn't resolve reference to 'Background'.",
+      "cause": "AGREE cannot resolve 'Background' as a valid property value in the component type scope",
+      "minimal_edit": "Replace 'Background' with a valid property reference or remove the reference"
+    },
+    {
+      "diagnostic": "line 22: Couldn't resolve reference to 'dispatch'.",
+      "cause": "AGREE cannot resolve 'dispatch' as a valid port or signal in the component type scope",
+      "minimal_edit": "Replace 'Task.impl_1.dispatch' with 'Task1.dispatch' to reference the subcomponent port"
+    },
+    {
+      "diagnostic": "line 22: Couldn't resolve reference to 'impl_1'.",
+      "cause": "AGREE cannot resolve 'impl_1' as a valid identifier in the component type scope",
+      "minimal_edit": "Replace 'Task.impl_1.dispatch' with 'Task1.dispatch' to reference the subcomponent port"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'Task.impl_1.execute' with 'Task1.execute' in the guarantee statement",
+    "Replace 'Task.impl_1.dispatch' with 'Task1.dispatch' in the assume statement",
+    "Remove or replace 'Background' with a valid property reference in the assume statement",
+    "Ensure all references in the AGREE annex are valid within the component type scope"
+  ]
+}

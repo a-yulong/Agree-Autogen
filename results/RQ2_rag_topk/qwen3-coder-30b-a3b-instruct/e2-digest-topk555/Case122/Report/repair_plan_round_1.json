@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE assume statement references port name as both left and right side of equality, which is not a valid expression in AGREE",
+      "minimal_edit": "Replace each assume statement with a guarantee that relates the output port to itself using a valid AGREE expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the assume statements in the AGREE annex with guarantee statements that correctly express the relationship between the output ports and their values",
+    "Change each line from 'assume \"signal_flow_x\": acc_out_data_x = acc_out_data_x;' to 'guarantee \"signal_flow_x\": acc_out_data_x = acc_out_data_x;'",
+    "Ensure the guarantee statements are valid AGREE expressions that do not introduce new identifiers or semantic claims"
+  ]
+}

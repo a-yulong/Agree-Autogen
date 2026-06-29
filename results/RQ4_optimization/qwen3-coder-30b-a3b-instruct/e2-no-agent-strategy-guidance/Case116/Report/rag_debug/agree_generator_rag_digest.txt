@@ -1,0 +1,14 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE clauses only for visible features or explicitly declared constants; avoid AADL properties as direct variables.
+- Use annex agree {** ... **} in component type scope for assumptions and guarantees; use implementation scope only for assign statements with valid outputs.
+Generic rules:
+- Express constraints using named constants or visible port references, not implicit AADL property names.
+- Declare helper equations with explicit type annotations to prevent type mismatches.
+Syntax or pattern reminders:
+- Use 'assume' and 'guarantee' for type-scoped contracts; use 'assign' only in implementation scope with an output feature or auxiliary variable on the left.
+- Equality and range comparisons must return bool; use eq name: bool = ... for helper predicates.
+Anti-patterns:
+- Do not map AADL properties like Period, Deadline, or Priority directly into AGREE expressions as if they are variables.
+- Do not convert Boolean or opaque data ports into numeric range comparisons without explicit scalar typing.
+</RAG_DIGEST>

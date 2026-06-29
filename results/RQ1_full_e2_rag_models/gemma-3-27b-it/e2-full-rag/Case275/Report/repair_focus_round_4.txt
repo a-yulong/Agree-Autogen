@@ -1,0 +1,137 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: MethaneLevel
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+MethaneLevel | out | data | int | int
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "0 <= MethaneLevel <= 100",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "MethaneLevel"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: MethaneMonitoring | lines 45-47
+annex agree {**
+      guarantee "MethaneLevel_Bounded": 0 <= MethaneLevel <= 100;
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   42:     -- Source_Language => (C);                --  Link to code source
+   43:     Compute_Entrypoint_Source_Text => "methanemonitoring_body";
+   44:     Source_Text => ("minepump.c");
+   45:   annex agree {**
+>> 46:       guarantee "MethaneLevel_Bounded": 0 <= MethaneLevel <= 100;
+   47:     **};
+   48:   end MethaneMonitoring;
+   49: 
+   50:   thread PumpCtrl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: MethaneMonitoring
+thread MethaneMonitoring
+  features
+    MethaneLevel : out data port int;
+  properties
+    Dispatch_Protocol => Periodic;         --  Concurrency configuration
+    Period => 100 ms;
+    Compute_Execution_Time => 1 ms .. 2 ms;
+    Priority => 2;
+
+    -- Source_Language => (C);                --  Link to code source
+    Compute_Entrypoint_Source_Text => "methanemonitoring_body";
+    Source_Text => ("minepump.c");
+  end MethaneMonitoring;
+
+-- RELATED MODEL LINES
+--  MethaneMonitoring task
+thread MethaneMonitoring
+MethaneLevel : out data port int;
+end MethaneMonitoring;
+MethaneLevel : in event data port int;
+MethaneMonitoring_Thread    : thread MethaneMonitoring;
+C1 : port MethaneMonitoring_Thread.MethaneLevel
+-> PumpCtrl_Thread.MethaneLevel;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "MethaneMonitoring",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "MethaneMonitoring_Thread",
+      "kind": "thread_implementation",
+      "type_name": "MethaneMonitoring"
+    }
+  ],
+  "features": [
+    {
+      "owner": "MethaneMonitoring",
+      "name": "MethaneLevel",
+      "direction": "out",
+      "category": "data_port",
+      "type": "int",
+      "scalar": "opaque"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "MethaneMonitoring",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": null
+    },
+    {
+      "owner": "MethaneMonitoring",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "100 ms",
+      "applies_to": null
+    },
+    {
+      "owner": "MethaneMonitoring",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "1 ms .. 2 ms",
+      "applies_to": null
+    },
+    {
+      "owner": "MethaneMonitoring",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "2",
+      "applies_to": null
+    },
+    {
+      "owner": "MethaneMonitoring",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "methanemonitoring_body",
+      "applies_to": null
+    },
+    {
+      "owner": "MethaneMonitoring",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "minepump.c",
+      "applies_to": null
+    }
+  ]
+}

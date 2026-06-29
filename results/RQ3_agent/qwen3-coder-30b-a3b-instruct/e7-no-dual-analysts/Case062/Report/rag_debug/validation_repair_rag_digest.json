@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Fix unresolved references in AGREE contracts by ensuring all identifiers are visible in the current scope or declared as helpers.",
+    "Move implementation-level bindings from component type annexes to implementation annexes when diagnostics indicate scope mismatches.",
+    "Avoid generating AGREE clauses that reference opaque Boolean or enumeration data types in numeric comparisons."
+  ],
+  "generic_rules": [
+    "Validate that all AGREE expressions reference only visible identifiers or declared helpers within the same annex scope.",
+    "Ensure AGREE assumptions and guarantees are placed in the correct AADL component scope (type vs. implementation).",
+    "Remove AGREE clauses that reference invalid or inaccessible AADL features, especially those with type errors or scope mismatches.",
+    "Do not introduce package-qualified identifiers in AGREE code unless they are explicitly declared in the model's dependencies."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks within AADL component types or implementations.",
+    "Implementation-level bindings in AGREE should only reference subcomponents and connections that are valid in the implementation scope.",
+    "Boolean or opaque data types in AGREE should not be used in numeric comparisons or range checks unless their scalar representation is explicitly defined."
+  ],
+  "anti_patterns": [
+    "Do not generate AGREE assumptions or guarantees that reference identifiers not visible in the current AADL scope.",
+    "Do not place implementation-level bindings in component type annexes unless they are valid outputs or variables.",
+    "Do not attempt to convert Boolean or opaque data types into numeric values for AGREE expressions."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about property associations",
+    "AGREE validator diagnostics",
+    "Requirement traceability and compact semantics",
+    "Model fusion and owner/scope preservation rules"
+  ]
+}

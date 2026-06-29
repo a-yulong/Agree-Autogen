@@ -1,0 +1,99 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assume/guarantee statements in component type annexes; use assign only in implementation annexes for output features or auxiliary variables
+- Use only visible identifiers from the current component scope in AGREE expressions
+Generic rules:
+- AGREE contracts must be scoped to their owning component and use only visible symbols
+- Component type contracts should express input assumptions and output guarantees with concrete bounds or relations
+- Implementation contracts may use assign for output bindings but not guarantee statements
+Syntax or pattern reminders:
+- AGREE annex blocks are enclosed in `annex agree {** ... **};`
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements
+- Use `assign output = expression;` for implementation-level output bindings
+- Constants and equations are declared with `const name : type = value;` and `eq name : type = expression;`
+Anti-patterns:
+- Do not reference AADL properties like Deadline or Period as AGREE variables
+- Do not place guarantee statements in implementation scope
+- Do not use identifiers not present in the current component's visible scope
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Attitude_Control_Function
+- nominal_attitude
+- sensored_attitude
+- sun_direction
+- reference_torque
+- Orbit_Control_Function
+- nominal_orbit
+- reference_force
+- Telecommand_Processing
+- telecommand
+- power_status_FSS
+- power_status_CSS
+- power_status_SPS
+- power_status_ES
+- power_status_MGM
+- power_status_GYR
+- power_status_STR
+- power_status_GPS
+- power_status_TRU
+- power_status_RW
+- power_status_MGT
+- manoeuvre_command
+- attitude_window
+- check_thresholds
+- Force_mode_to_NM
+- Force_mode_to_SM
+- Telemetry_Processing
+- torque_command
+- force_command
+- sensor_data1
+- sensor_data2
+- sensor_data3
+- sensor_data4
+- sensor_data5
+- sensor_data6
+- sensor_data7
+- sensor_data8
+- telemetry
+- Failure_Detection_Isolation
+- watchdog_event
+
+Target interface:
+Exact expression symbols: nominal_attitude, sensored_attitude, sun_direction, reference_torque
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+nominal_attitude | in | data | real | dataaocs::attitude
+sensored_attitude | in | data | real | dataaocs::GYR_data
+sun_direction | in | data | real | dataaocs::FSS_data
+reference_torque | out | data | real | dataaocs::RW_data
+
+Raw requirement:
+The Attitude_Control_Function component shall execute according to the scheduling and timing constraints defined for Attitude_Control_Function.impl. The implementation shall use the Periodic dispatch protocol, execute with a period of 500 us, meet a deadline of 500 us, complete compute execution within 0 ms .. 250 us, and run at priority 1.
+
+Requirement items:
+DISABLED

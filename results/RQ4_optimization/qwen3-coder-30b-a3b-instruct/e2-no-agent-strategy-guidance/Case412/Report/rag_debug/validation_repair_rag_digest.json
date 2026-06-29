@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "Fix unresolved property references by ensuring all property definitions and constants are properly declared in the AADL model or its dependencies before use in AGREE contracts.",
+    "When AGREE reports type errors like '<error>' or 'named thing must be an expression with a type', trace the root cause to invalid identifiers or helper declarations and correct or remove them.",
+    "Use only visible AADL features or declared helpers in AGREE contracts; avoid introducing new identifiers not present in the model or its configured dependencies."
+  ],
+  "generic_rules": [
+    "In AGREE contracts, ensure all expressions have consistent types (e.g., int, real, bool) to prevent type mismatch errors.",
+    "Place assume/guarantee clauses in appropriate scopes: component types for port envelopes, implementations for output assignments.",
+    "Validate that all referenced property definitions and constants exist in the AADL model before generating AGREE contracts."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE expressions must be typed; use eq for boolean conditions and const for typed constants.",
+    "Assign statements in implementation scope must reference existing output features or declared auxiliary variables.",
+    "Use visible AADL identifiers and avoid package-qualified names unless explicitly allowed by the model's with clauses."
+  ],
+  "anti_patterns": [
+    "Do not introduce new identifiers or types in AGREE contracts that are not declared in the AADL model or its dependencies.",
+    "Do not place guarantee statements in implementation scope; use assign for output bindings instead.",
+    "Do not assume types without verifying that the expression matches the expected scalar type (int, real, bool)."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about property associations not pointing to anything",
+    "AGREE validator diagnostics about property definitions not being resolvable",
+    "Property term resolution errors in AADL model"
+  ]
+}

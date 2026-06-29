@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'distanceFromFence'.",
+      "cause": "distanceFromFence is not declared or visible in the AGREE annex scope",
+      "minimal_edit": "Remove or replace the reference to 'distanceFromFence' with a valid expression or variable"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'recovery_time'.",
+      "cause": "recovery_time is not declared or visible in the AGREE annex scope",
+      "minimal_edit": "Remove or replace the reference to 'recovery_time' with a valid expression or constant"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '>=' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Invalid type resolution for 'recovery_time' causing type mismatch",
+      "minimal_edit": "Replace 'recovery_time' with a valid real-valued expression or constant"
+    },
+    {
+      "diagnostic": "left side of binary expression '>' is of type '<error>' but must be of type 'real'",
+      "cause": "Invalid type resolution for 'distanceFromFence' causing type mismatch",
+      "minimal_edit": "Replace 'distanceFromFence' with a valid real-valued expression or variable"
+    },
+    {
+      "diagnostic": "right side of binary expression '>' is of type '<error>' but must be of type 'real'",
+      "cause": "Invalid type resolution for 'pre(distanceFromFence)' causing type mismatch",
+      "minimal_edit": "Replace 'pre(distanceFromFence)' with a valid real-valued expression or variable"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee statement referencing 'distanceFromFence' and 'recovery_time' since these identifiers are not defined or visible in the AGREE annex scope",
+    "Ensure that all identifiers used in AGREE expressions are either declared in the annex or are valid component features",
+    "If the requirement implies a temporal behavior, define the necessary variables or constants explicitly in the AGREE annex"
+  ]
+}

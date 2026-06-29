@@ -1,0 +1,14 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assume/guarantee clauses in component type annexes when referencing visible interface features; use implementation annexes only for assign clauses tied to subcomponent bindings.
+- Use only named visible identifiers from the model as variables in AGREE expressions; avoid AADL property names or implementation-only subcomponent paths.
+Generic rules:
+- Assumptions should define input envelopes using concrete bounds or visible constants; guarantees should express output constraints in terms of visible outputs and inputs.
+- Prefer direct logical relations between visible ports over derived or inferred values unless explicitly modeled as equations.
+Syntax or pattern reminders:
+- Use 'assume "label": expression;' and 'guarantee "label": expression;' with AGREE logical operators: and, or, not, =>.
+- Define numeric bounds using const declarations and compare with real or int literals matching the port type.
+Anti-patterns:
+- Do not reference AADL properties (e.g., Period, Deadline) as if they are AGREE variables; they are not in scope unless explicitly exposed as ports or constants.
+- Do not generate range comparisons or Boolean logic over opaque, enumeration, or non-numeric ports unless their AGREE type is confirmed as bool or numeric scalar.
+</RAG_DIGEST>

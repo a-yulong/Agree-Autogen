@@ -1,0 +1,95 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE contracts in component type scopes for assumptions and guarantees involving visible ports.
+- Use valid AGREE logical operators and temporal recurrence for stateful equations.
+- Generate guarantees that relate visible outputs to visible inputs without referencing implementation-only paths.
+Generic rules:
+- AGREE annex blocks must be syntactically valid and use only visible identifiers from the component scope.
+- Assumptions and guarantees should reference component ports and features that are explicitly declared in the AADL model.
+- Equation declarations and constant definitions must use correct AGREE scalar types: int, real, bool.
+- Avoid referencing AADL properties directly as AGREE variables unless they are exposed as typed ports or constants.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements.
+- Use `eq name : type = expression;` for helper equations and `const name : type = value;` for constants.
+- Use nested `if ... then ... else` for branching logic in AGREE contracts.
+Anti-patterns:
+- Do not reference subcomponent ports or implementation-level paths in component type annexes.
+- Do not encode AADL timing properties as AGREE expressions unless explicitly exposed as typed features.
+- Do not invent new identifiers or types not present in the visible AADL scope.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Input1
+- Input2
+- Output
+
+Target interface:
+Exact expression symbols: Input1, Input2, Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Input1 | in | data | int | Base_Types::Integer
+Input2 | in | data | int | Base_Types::Integer
+Output | out | data | int | Base_Types::Integer
+
+Raw requirement:
+The C component must maintain an internal integer state variable named mode, where the initial value of mode is greater than or equal to 0, and at each subsequent time step, the value of mode must be strictly greater than its previous value, ensuring a monotonically increasing sequence. Additionally, the C component must guarantee that the output signal Output equals the sum of the input signals Input1 and Input2 if and only if the internal state variable mode equals 3; otherwise, the output signal Output must be forced to 0.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "C.mode >= 0",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "mode"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "C.mode > prev(C.mode)",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "mode"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Output = Input1 + Input2 if C.mode = 3 else Output = 0",
+      "kind": "signal_flow",
+      "intent": "guarantee",
+      "evidence": [
+        "Output",
+        "Input1",
+        "Input2",
+        "C.mode"
+      ]
+    }
+  ]
+}

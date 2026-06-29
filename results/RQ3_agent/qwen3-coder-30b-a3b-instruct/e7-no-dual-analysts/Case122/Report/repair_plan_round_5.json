@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 43: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port names as both left and right hand side of equality, which is not valid AGREE syntax",
+      "minimal_edit": "Replace each port name with a fresh AGREE variable name that is declared in the annex and then assigned to the port value"
+    },
+    {
+      "diagnostic": "line 44: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port names as both left and right hand side of equality, which is not valid AGREE syntax",
+      "minimal_edit": "Replace each port name with a fresh AGREE variable name that is declared in the annex and then assigned to the port value"
+    },
+    {
+      "diagnostic": "line 45: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port names as both left and right hand side of equality, which is not valid AGREE syntax",
+      "minimal_edit": "Replace each port name with a fresh AGREE variable name that is declared in the annex and then assigned to the port value"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex for ACCELERO_SUB_wrapper, declare three new variables: var acc_out_data_x_var : real; var acc_out_data_y_var : real; var acc_out_data_z_var : real;",
+    "In the AGREE annex, add three assign statements: assign acc_out_data_x_var = acc_out_data_x; assign acc_out_data_y_var = acc_out_data_y; assign acc_out_data_z_var = acc_out_data_z;",
+    "In the AGREE annex, replace the guarantees with: guarantee \"signal_routing_x\": acc_out_data_x = acc_out_data_x_var; guarantee \"signal_routing_y\": acc_out_data_y = acc_out_data_y_var; guarantee \"signal_routing_z\": acc_out_data_z = acc_out_data_z_var;"
+  ]
+}

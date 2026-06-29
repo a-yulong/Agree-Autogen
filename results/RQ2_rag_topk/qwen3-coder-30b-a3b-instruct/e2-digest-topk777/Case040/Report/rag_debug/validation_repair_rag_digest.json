@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by using only visible identifiers from the current component scope; do not introduce new architecture.",
+    "When AGREE reports type mismatches, ensure expressions match the expected type (int, real, bool) and avoid <error> types.",
+    "Do not place implementation-level guarantees in component type scopes; move valid bindings to implementation annexes.",
+    "Delete invalid AGREE clauses that reference undefined or inaccessible identifiers rather than attempting to define them."
+  ],
+  "generic_rules": [
+    "AGREE expressions must preserve type consistency and use only declared or visible identifiers.",
+    "Component type contracts should reference only features available at that scope; implementation bindings go in implementation annexes.",
+    "Validator diagnostics pointing to unresolved identifiers should be resolved by removing or rewriting clauses, not by adding new architecture.",
+    "Avoid introducing package-qualified names or types not present in the input AADL model."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts use `assume`, `guarantee`, `eq`, `const`, and `assign` with proper type annotations.",
+    "Assignments in implementation scope must target valid output features or declared auxiliary variables.",
+    "Helper functions and variables must be declared within the same annex or imported from valid packages.",
+    "Type consistency is required: numeric expressions for int/real, Boolean for bool."
+  ],
+  "anti_patterns": [
+    "Do not attempt to define new identifiers or types not present in the AADL model when resolving validator errors.",
+    "Do not place implementation-level guarantees in component type annexes; this causes scope resolution errors.",
+    "Do not assume that AADL property names (e.g., Period, Deadline) are automatically available as AGREE variables.",
+    "Do not generate AGREE code that introduces package-qualified references without matching `with` clauses."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and `with` clause requirements",
+    "AGREE annex placement in component types vs. implementations",
+    "Model fusion and owner/scope preservation rules",
+    "Requirement traceability and compact semantics"
+  ]
+}

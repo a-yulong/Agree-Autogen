@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'SSM'.",
+      "cause": "SSM is a subcomponent, not a visible AGREE identifier in the component type scope",
+      "minimal_edit": "Remove SSM from the guarantee expression"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'State_Out'.",
+      "cause": "State_Out is a port, not a visible AGREE identifier in the component type scope",
+      "minimal_edit": "Remove State_Out from the guarantee expression"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::state_sig.impl' and '<error>', but must be of the same type",
+      "cause": "Invalid expression due to unresolved identifiers",
+      "minimal_edit": "Replace the entire guarantee with a valid AGREE expression or remove it"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'SMToSSM'.",
+      "cause": "SMToSSM is a connection, not a visible AGREE identifier in the component type scope",
+      "minimal_edit": "Remove SMToSSM from the assume expression"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'immediate'.",
+      "cause": "immediate is a property value, not a visible AGREE identifier",
+      "minimal_edit": "Remove immediate from the assume expression"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from State_Machine to State_Machine.Impl",
+    "Remove the guarantee statement referencing SSM and State_Out",
+    "Remove the assume statement referencing SMToSSM and immediate",
+    "Add a new assume statement in State_Machine.Impl annex for timing constraint if needed, or remove the assume"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 't'.",
+      "cause": "Variable 't' is not declared in the AGREE annex scope",
+      "minimal_edit": "Declare 't' as a recursive variable using 't = 0.0 -> pre(t) + step' in the AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'step'.",
+      "cause": "Variable 'step' is not declared in the AGREE annex scope",
+      "minimal_edit": "Replace 'step' with the literal value '0.1' in the AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'distanceFromFence'.",
+      "cause": "Variable 'distanceFromFence' is not declared in the AGREE annex scope",
+      "minimal_edit": "Remove or rewrite the guarantee statement involving 'distanceFromFence' to use only visible symbols"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'recovery_time'.",
+      "cause": "Variable 'recovery_time' is not declared in the AGREE annex scope",
+      "minimal_edit": "Remove or rewrite the guarantee statement involving 'recovery_time' to use only visible symbols"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add a recursive variable declaration for 't' using 't = 0.0 -> pre(t) + 0.1' in the AGREE annex",
+    "Replace all references to 'step' with the literal value '0.1' in the AGREE annex",
+    "Remove or rewrite the guarantee statement 'recovery_condition' that references 'distanceFromFence' and 'recovery_time'",
+    "Keep the existing 'output_assignment' guarantee as it references only the visible 'timeToRecovery' port"
+  ]
+}

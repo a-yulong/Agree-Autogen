@@ -1,0 +1,86 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 118: Assume statements are allowed only in component types",
+      "cause": "AGREE assume statements in thread implementation annex",
+      "minimal_edit": "Move the assume statements from thr_mgmt.i annex to thr_mgmt type annex"
+    },
+    {
+      "diagnostic": "line 118: Couldn't resolve reference to 'gps_pos'",
+      "cause": "Reference to port not visible in implementation context",
+      "minimal_edit": "Remove the reference to gps_pos in implementation annex"
+    },
+    {
+      "diagnostic": "line 118: Couldn't resolve reference to 'pspg'",
+      "cause": "Reference to subcomponent not visible in implementation context",
+      "minimal_edit": "Remove the reference to pspg in implementation annex"
+    },
+    {
+      "diagnostic": "line 118: left and right sides of binary expression '=' are of type 'Ardupilot_Software::GPS_Position.i' and '<error>'",
+      "cause": "Type mismatch in expression due to unresolved references",
+      "minimal_edit": "Remove the invalid expression"
+    },
+    {
+      "diagnostic": "line 118: named thing must be an expression with a type",
+      "cause": "Invalid expression syntax in assume",
+      "minimal_edit": "Remove the invalid expression"
+    },
+    {
+      "diagnostic": "line 119: Assume statements are allowed only in component types",
+      "cause": "AGREE assume statements in thread implementation annex",
+      "minimal_edit": "Move the assume statements from thr_mgmt.i annex to thr_mgmt type annex"
+    },
+    {
+      "diagnostic": "line 119: Couldn't resolve reference to 'pspg'",
+      "cause": "Reference to subcomponent not visible in implementation context",
+      "minimal_edit": "Remove the reference to pspg in implementation annex"
+    },
+    {
+      "diagnostic": "line 119: Couldn't resolve reference to 'speed'",
+      "cause": "Reference to port not visible in implementation context",
+      "minimal_edit": "Remove the reference to speed in implementation annex"
+    },
+    {
+      "diagnostic": "line 119: left and right sides of binary expression '=' are of type '<error>' and 'int'",
+      "cause": "Type mismatch in expression due to unresolved references",
+      "minimal_edit": "Remove the invalid expression"
+    },
+    {
+      "diagnostic": "line 119: named thing must be an expression with a type",
+      "cause": "Invalid expression syntax in assume",
+      "minimal_edit": "Remove the invalid expression"
+    },
+    {
+      "diagnostic": "line 120: Assume statements are allowed only in component types",
+      "cause": "AGREE assume statements in thread implementation annex",
+      "minimal_edit": "Move the assume statements from thr_mgmt.i annex to thr_mgmt type annex"
+    },
+    {
+      "diagnostic": "line 120: Couldn't resolve reference to 'angle'",
+      "cause": "Reference to port not visible in implementation context",
+      "minimal_edit": "Remove the reference to angle in implementation annex"
+    },
+    {
+      "diagnostic": "line 120: Couldn't resolve reference to 'pspg'",
+      "cause": "Reference to subcomponent not visible in implementation context",
+      "minimal_edit": "Remove the reference to pspg in implementation annex"
+    },
+    {
+      "diagnostic": "line 120: left and right sides of binary expression '=' are of type '<error>' and 'int'",
+      "cause": "Type mismatch in expression due to unresolved references",
+      "minimal_edit": "Remove the invalid expression"
+    },
+    {
+      "diagnostic": "line 120: named thing must be an expression with a type",
+      "cause": "Invalid expression syntax in assume",
+      "minimal_edit": "Remove the invalid expression"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from thr_mgmt.i",
+    "Add a new AGREE annex block to the thr_mgmt component type",
+    "In the new annex block, add assumptions that reference only visible identifiers: gps_pos, speed, angle",
+    "Ensure the assumptions correctly express the signal flow relationships using only valid port references"
+  ]
+}

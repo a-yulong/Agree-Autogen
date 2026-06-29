@@ -1,0 +1,17 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE assumptions and guarantees in component type annexes when they refer to visible ports, and in implementation annexes for subcomponent bindings.
+- Write guarantees that relate visible outputs to visible inputs, avoiding implementation-only subcomponent paths in type contracts.
+Generic rules:
+- Use const and eq declarations with valid AGREE scalar types: int, real, bool.
+- Ensure type consistency between assumed types and actual AADL data types in expressions.
+- Only include assumptions and guarantees in AGREE annexes when concrete bounds or visible relations are provided.
+- Avoid generating clauses that compare Boolean domain values to integers unless the port is explicitly an AGREE bool.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Component type contracts should reference component ports directly, not subcomponent ports unless represented through variables.
+- Use exact Boolean expressions for Boolean ports; avoid numeric comparisons on opaque data.
+Anti-patterns:
+- Do not place implementation-level bindings in component type annexes.
+- Do not generate range assumptions or guarantees without concrete bounds or visible relations.
+</RAG_DIGEST>

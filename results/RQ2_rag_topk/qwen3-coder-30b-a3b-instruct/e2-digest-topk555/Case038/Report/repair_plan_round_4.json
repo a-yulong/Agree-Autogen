@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "AGREE equation attempts to assign a real-valued expression to a port of opaque type",
+      "minimal_edit": "Change 'eq e : real = Target - Actual;' to 'eq e : real = Target - Actual;' and ensure Target and Actual are properly typed for arithmetic"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types 'Types::speed.speed_impl' are not arithmetic types and cannot be used in subtraction",
+      "minimal_edit": "Remove or rewrite the expression involving Target and Actual to use valid arithmetic types"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types 'Types::speed.speed_impl' are not arithmetic types and cannot be used in subtraction",
+      "minimal_edit": "Remove or rewrite the expression involving Target and Actual to use valid arithmetic types"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that Target and Actual are ports of opaque type 'Types::speed.speed_impl' which cannot be used in arithmetic expressions",
+    "Replace the equation 'eq e : real = Target - Actual;' with a valid expression using only visible symbols that are arithmetic types",
+    "Since the requirement defines e = Target - Actual, and Target/Actual are not arithmetic, remove or replace this equation with a valid AGREE construct",
+    "Ensure that the AGREE annex remains valid by removing or rewriting the invalid expression"
+  ]
+}

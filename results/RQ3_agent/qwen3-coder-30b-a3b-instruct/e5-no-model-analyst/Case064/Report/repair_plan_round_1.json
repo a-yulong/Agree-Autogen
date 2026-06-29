@@ -1,0 +1,57 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink is a port, not a variable in the component type scope",
+      "minimal_edit": "Remove the assumption about Data_Sink equality"
+    },
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg is a subprogram, not a variable in the component type scope",
+      "minimal_edit": "Remove the assumption about Q_Spg equality"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Impl'.",
+      "cause": "Q.Impl is an implementation, not a variable in the component type scope",
+      "minimal_edit": "Replace Q.Impl with a valid component type reference or remove"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'Impl'.",
+      "cause": "Q.Impl is an implementation, not a variable in the component type scope",
+      "minimal_edit": "Replace Q.Impl with a valid component type reference or remove"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'period'.",
+      "cause": "period() is not a valid AGREE function in this context",
+      "minimal_edit": "Replace period(Q.Impl) with a valid expression or remove"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'Impl'.",
+      "cause": "Q.Impl is an implementation, not a variable in the component type scope",
+      "minimal_edit": "Replace Q.Impl with a valid component type reference or remove"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'deadline'.",
+      "cause": "deadline() is not a valid AGREE function in this context",
+      "minimal_edit": "Replace deadline(Q.Impl) with a valid expression or remove"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'Impl'.",
+      "cause": "Q.Impl is an implementation, not a variable in the component type scope",
+      "minimal_edit": "Replace Q.Impl with a valid component type reference or remove"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'priority'.",
+      "cause": "priority() is not a valid AGREE function in this context",
+      "minimal_edit": "Replace priority(Q.Impl) with a valid expression or remove"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the assumption 'assume \"data_flow_routing\": Data_Sink = Q_Spg.Data_Sink;' from the AGREE annex",
+    "Remove the guarantee 'guarantee \"sporadic_protocol\": Q.Impl = Sporadic;' from the AGREE annex",
+    "Remove the guarantee 'guarantee \"execution_period\": period(Q.Impl) = 10;' from the AGREE annex",
+    "Remove the guarantee 'guarantee \"deadline_constraint\": deadline(Q.Impl) = 10;' from the AGREE annex",
+    "Remove the guarantee 'guarantee \"priority_level\": priority(Q.Impl) = 1;' from the AGREE annex"
+  ]
+}

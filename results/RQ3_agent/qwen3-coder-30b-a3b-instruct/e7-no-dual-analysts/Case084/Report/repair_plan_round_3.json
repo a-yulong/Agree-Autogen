@@ -1,0 +1,14 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Expression for assume statement is of type '<error>' but must be of type 'bool'",
+      "cause": "AGREE assumes require boolean expressions but Port_1 and Port_2 are event ports, not boolean values",
+      "minimal_edit": "Replace Port_1 and Port_2 with boolean expressions that represent their activation, such as 'Port_1' and 'Port_2' being true when received"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block, replace 'assume \"signal_routing_from_Port_1\": Port_1;' with 'assume \"signal_routing_from_Port_1\": Port_1 = true;'",
+    "In the AGREE annex block, replace 'assume \"signal_routing_from_Port_2\": Port_2;' with 'assume \"signal_routing_from_Port_2\": Port_2 = true;'"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'SSM'.",
+      "cause": "SSM is a subcomponent in implementation scope, not accessible in component type annex",
+      "minimal_edit": "Remove SSM reference from AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'State_Out'.",
+      "cause": "State_Out is a port in implementation scope, not accessible in component type annex",
+      "minimal_edit": "Remove State_Out reference from AGREE annex"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::state_sig.impl' and '<error>', but must be of the same type",
+      "cause": "Invalid expression due to unresolved references",
+      "minimal_edit": "Replace invalid expression with valid AGREE syntax"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from State_Machine component type to State_Machine.Impl implementation",
+    "Remove references to SSM and State_Out from the AGREE annex",
+    "Replace the invalid expressions with valid AGREE constructs or remove them"
+  ]
+}

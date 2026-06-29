@@ -1,0 +1,38 @@
+{
+  "rag_rules": [
+    "When repairing AGREE diagnostics, ensure that syntax errors like missing EOF are resolved by correcting the AGREE annex structure and placement of clauses.",
+    "If a diagnostic points to an invalid identifier or type, verify that all referenced names are visible in the current scope and match expected AGREE types (int, real, bool).",
+    "Do not introduce package-qualified identifiers or types that are not present in the AADL model's configured dependencies."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or declared helpers in AGREE annexes; avoid referencing undefined or inaccessible symbols.",
+    "Place assumptions and guarantees in component type scopes, and assignments in implementation scopes, respecting the AADL scoping rules.",
+    "Ensure that AGREE expressions use valid logical operators (and, or, not, =>) and proper temporal recurrence for stateful equations.",
+    "Validate that all declared constants and equations have matching types (int, real, bool) to prevent type mismatch errors."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct syntax and scope placement.",
+    "Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.",
+    "Branching logic should be nested using `if ... then ... else`."
+  ],
+  "anti_patterns": [
+    "Avoid placing implementation-level guarantees or assignments in component type annexes.",
+    "Do not reference AADL property names like Compute_Execution_Time directly in AGREE expressions.",
+    "Do not introduce package-qualified identifiers or types not defined in the AADL model."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "implementation scope output assign",
+    "type scope range assumption and guarantee",
+    "integrated pattern chunk 1",
+    "output envelope chunk 2",
+    "pairwise consistency chunk 1",
+    "Assumed Type vs Actual Type",
+    "Named Thing Has No Type",
+    "AGREE Scalar Type Names",
+    "Implementation Scope Guarantee Error",
+    "AADL Property Names Are Not AGREE Variables chunk 1"
+  ]
+}

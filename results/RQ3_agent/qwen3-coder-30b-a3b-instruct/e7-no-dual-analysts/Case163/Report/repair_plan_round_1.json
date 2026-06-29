@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 151: Couldn't resolve reference to 'i'.",
+      "cause": "AGREE references component implementation name 'thr_throttle_simulation.i' which is not a valid AGREE expression",
+      "minimal_edit": "Replace 'thr_throttle_simulation.i' with 'speed' on the right side of the equality"
+    },
+    {
+      "diagnostic": "line 151: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Invalid reference to implementation name 'thr_throttle_simulation.i' causes type mismatch",
+      "minimal_edit": "Replace 'thr_throttle_simulation.i' with 'speed' on the right side of the equality"
+    },
+    {
+      "diagnostic": "line 151: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid reference to implementation name 'thr_throttle_simulation.i' causes boolean expression type error",
+      "minimal_edit": "Replace 'thr_throttle_simulation.i' with 'speed' on the right side of the equality"
+    },
+    {
+      "diagnostic": "line 151: named thing must be an expression with a type",
+      "cause": "Invalid reference to implementation name 'thr_throttle_simulation.i' causes expression type error",
+      "minimal_edit": "Replace 'thr_throttle_simulation.i' with 'speed' on the right side of the equality"
+    },
+    {
+      "diagnostic": "line 151: no viable alternative at input '['",
+      "cause": "Invalid syntax from malformed interval expression",
+      "minimal_edit": "Replace '[-100, 100]' with '(-100 <= speed and speed <= 100)'"
+    },
+    {
+      "diagnostic": "line 151: no viable alternative at input 'in'",
+      "cause": "Invalid syntax from malformed membership expression",
+      "minimal_edit": "Replace 'speed in [-100, 100]' with '(-100 <= speed and speed <= 100)'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'thr_throttle_simulation.i' with 'speed' on the right side of the equality in the guarantee",
+    "Replace 'speed in [-100, 100]' with '(-100 <= speed and speed <= 100)' in the guarantee",
+    "Replace '[-100, 100]' with '(-100 <= speed and speed <= 100)' in the guarantee"
+  ]
+}

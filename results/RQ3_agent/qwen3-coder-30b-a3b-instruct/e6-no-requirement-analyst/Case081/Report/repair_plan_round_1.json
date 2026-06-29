@@ -1,0 +1,62 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'impl'.",
+      "cause": "AGREE references component implementation properties using component type names, not implementation names.",
+      "minimal_edit": "Replace 'Consumer.impl' with 'Consumer' in all references."
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'sched_period'.",
+      "cause": "Property 'sched_period' is not accessible via component type 'Consumer'.",
+      "minimal_edit": "Remove or replace 'sched_period' reference with valid property."
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'deadline'.",
+      "cause": "Property 'deadline' is not accessible via component type 'Consumer'.",
+      "minimal_edit": "Remove or replace 'deadline' reference with valid property."
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'compute_time'.",
+      "cause": "Property 'compute_time' is not accessible via component type 'Consumer'.",
+      "minimal_edit": "Remove or replace 'compute_time' reference with valid property."
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'priority'.",
+      "cause": "Property 'priority' is not accessible via component type 'Consumer'.",
+      "minimal_edit": "Remove or replace 'priority' reference with valid property."
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'dispatch_protocol'.",
+      "cause": "Property 'dispatch_protocol' is not accessible via component type 'Consumer'.",
+      "minimal_edit": "Remove or replace 'dispatch_protocol' reference with valid property."
+    },
+    {
+      "diagnostic": "no viable alternative at input '\"Periodic\"'",
+      "cause": "String literal comparison is invalid; AGREE uses enum values or direct property access.",
+      "minimal_edit": "Replace string literal with valid enum or property value."
+    },
+    {
+      "diagnostic": "extraneous input 'ms' expecting ';'",
+      "cause": "Invalid time unit syntax in AGREE expression.",
+      "minimal_edit": "Remove 'ms' units from expressions."
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch due to unresolved references.",
+      "minimal_edit": "Fix type mismatches by ensuring valid property references."
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Unresolved identifiers result in invalid expressions.",
+      "minimal_edit": "Ensure all identifiers resolve to valid component properties."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify all references to 'Consumer.impl' and replace with 'Consumer'.",
+    "Remove or replace 'sched_period', 'deadline', 'compute_time', 'priority', and 'dispatch_protocol' with valid properties accessible from component type 'Consumer'.",
+    "Remove 'ms' units from all time-based expressions.",
+    "Replace string literal '\"Periodic\"' with valid enum or property value.",
+    "Ensure all remaining expressions have consistent types."
+  ]
+}

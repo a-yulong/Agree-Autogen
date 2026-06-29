@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use only visible model symbols from the authoritative AADL structure when writing AGREE clauses.
+- Keep assumptions/guarantees in component type scope and avoid implementation-only paths in contract expressions.
+- Generate range constraints only when the requirement provides concrete bounds or visible named limits.
+- Ensure every helper or comparison expression has the correct AGREE type, especially bool for relational range checks.
+Generic rules:
+- Prefer direct constraints over introducing unnecessary helper equations.
+- Write dependency relations only between symbols that are valid and visible in the current contract scope.
+- Omit numeric range logic for ports unless their data is clearly numeric in the model/requirement.
+Syntax or pattern reminders:
+- AGREE contracts use an `annex agree {** ... **};` block.
+- Range checks are typically boolean comparisons combined with `and`.
+Anti-patterns:
+- Do not reference subcomponent ports or implementation-only names from a component contract.
+- Do not use AADL property names or unit tokens as if they were AGREE variables.
+- Do not force Boolean or opaque values into numeric comparisons such as 0/1 range checks.
+</RAG_DIGEST>

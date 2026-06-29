@@ -1,0 +1,221 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: acc1_input, acc2_input, acc3_input, acc4_input, acc5_input, acc6_input
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc1_input | in | data | int | SHM_DataType::accData
+acc2_input | in | data | int | SHM_DataType::accData
+acc3_input | in | data | int | SHM_DataType::accData
+acc4_input | in | data | int | SHM_DataType::accData
+acc5_input | in | data | int | SHM_DataType::accData
+acc6_input | in | data | int | SHM_DataType::accData
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "acc_process_emv2.impl routes signal flow from acc1_input to acc1.acc1_input through C21",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc_process_emv2.impl",
+        "acc1_input",
+        "acc1.acc1_input",
+        "C21"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "acc_process_emv2.impl routes signal flow from acc2_input to acc2.acc2_input through C22",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc_process_emv2.impl",
+        "acc2_input",
+        "acc2.acc2_input",
+        "C22"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: acc_process_emv2.impl | lines 100-107
+annex agree {**
+    assume "signal_flow_acc1": C21.source = C21.sink;
+    assume "signal_flow_acc2": C22.source = C22.sink;
+    assume "signal_flow_acc3": C23.source = C23.sink;
+    assume "signal_flow_acc4": C24.source = C24.sink;
+    assume "signal_flow_acc5": C25.source = C25.sink;
+    assume "signal_flow_acc6": C26.source = C26.sink;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   97:     C25 : port acc5_input -> acc5.acc5_input;
+   98:     C26 : port acc6_input -> acc6.acc6_input;
+   99: 
+   100:   annex agree {**
+>> 101:     assume "signal_flow_acc1": C21.source = C21.sink;
+   102:     assume "signal_flow_acc2": C22.source = C22.sink;
+   103:     assume "signal_flow_acc3": C23.source = C23.sink;
+   104:     assume "signal_flow_acc4": C24.source = C24.sink;
+   105:     assume "signal_flow_acc5": C25.source = C25.sink;
+
+   98:     C26 : port acc6_input -> acc6.acc6_input;
+   99: 
+   100:   annex agree {**
+   101:     assume "signal_flow_acc1": C21.source = C21.sink;
+>> 102:     assume "signal_flow_acc2": C22.source = C22.sink;
+   103:     assume "signal_flow_acc3": C23.source = C23.sink;
+   104:     assume "signal_flow_acc4": C24.source = C24.sink;
+   105:     assume "signal_flow_acc5": C25.source = C25.sink;
+   106:     assume "signal_flow_acc6": C26.source = C26.sink;
+
+   99: 
+   100:   annex agree {**
+   101:     assume "signal_flow_acc1": C21.source = C21.sink;
+   102:     assume "signal_flow_acc2": C22.source = C22.sink;
+>> 103:     assume "signal_flow_acc3": C23.source = C23.sink;
+   104:     assume "signal_flow_acc4": C24.source = C24.sink;
+   105:     assume "signal_flow_acc5": C25.source = C25.sink;
+   106:     assume "signal_flow_acc6": C26.source = C26.sink;
+   107:   **};
+
+   100:   annex agree {**
+   101:     assume "signal_flow_acc1": C21.source = C21.sink;
+   102:     assume "signal_flow_acc2": C22.source = C22.sink;
+   103:     assume "signal_flow_acc3": C23.source = C23.sink;
+>> 104:     assume "signal_flow_acc4": C24.source = C24.sink;
+   105:     assume "signal_flow_acc5": C25.source = C25.sink;
+   106:     assume "signal_flow_acc6": C26.source = C26.sink;
+   107:   **};
+   108:  end acc_process_emv2.impl;
+
+   101:     assume "signal_flow_acc1": C21.source = C21.sink;
+   102:     assume "signal_flow_acc2": C22.source = C22.sink;
+   103:     assume "signal_flow_acc3": C23.source = C23.sink;
+   104:     assume "signal_flow_acc4": C24.source = C24.sink;
+>> 105:     assume "signal_flow_acc5": C25.source = C25.sink;
+   106:     assume "signal_flow_acc6": C26.source = C26.sink;
+   107:   **};
+   108:  end acc_process_emv2.impl;
+   109: 
+
+   102:     assume "signal_flow_acc2": C22.source = C22.sink;
+   103:     assume "signal_flow_acc3": C23.source = C23.sink;
+   104:     assume "signal_flow_acc4": C24.source = C24.sink;
+   105:     assume "signal_flow_acc5": C25.source = C25.sink;
+>> 106:     assume "signal_flow_acc6": C26.source = C26.sink;
+   107:   **};
+   108:  end acc_process_emv2.impl;
+   109: 
+   110:   -----------------------------------------------------------------------------
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: acc_process_emv2
+process acc_process_emv2 extends acc_process
+    --  In this variant, we add incoming ports from actual accelerometer devices
+
+  features
+    acc1_input: in data port SHM_DataType::accData;
+    acc2_input: in data port SHM_DataType::accData;
+    acc3_input: in data port SHM_DataType::accData;
+    acc4_input: in data port SHM_DataType::accData;
+    acc5_input: in data port SHM_DataType::accData;
+    acc6_input: in data port SHM_DataType::accData;
+  end acc_process_emv2;
+
+-- TARGET DECLARATION: acc_process_emv2.impl
+process implementation acc_process_emv2.impl extends acc_process.impl
+  subcomponents
+    --  We extend the initial implementation, and add error modeling elements.
+
+    acc1: refined to thread threads::acc1_dataOutput_emv2.impl
+      { Classifier_Substitution_Rule => Type_Extension; };
+    acc2: refined to thread threads::acc2_dataOutput_emv2.impl
+      { Classifier_Substitution_Rule => Type_Extension; };
+    acc3: refined to thread threads::acc3_dataOutput_emv2.impl
+      { Classifier_Substitution_Rule => Type_Extension; };
+    acc4: refined to thread threads::acc4_dataOutput_emv2.impl
+      { Classifier_Substitution_Rule => Type_Extension; };
+    acc5: refined to thread threads::acc5_dataOutput_emv2.impl
+      { Classifier_Substitution_Rule => Type_Extension; };
+    acc6: refined to thread threads::acc6_dataOutput_emv2.impl
+      { Classifier_Substitution_Rule => Type_Extension; };
+
+  connections
+    C21 : port acc1_input -> acc1.acc1_input;
+    C22 : port acc2_input -> acc2.acc2_input;
+    C23 : port acc3_input -> acc3.acc3_input;
+    C24 : port acc4_input -> acc4.acc4_input;
+    C25 : port acc5_input -> acc5.acc5_input;
+    C26 : port acc6_input -> acc6.acc6_input;
+
+ end acc_process_emv2.impl;
+
+-- RELATED MODEL LINES
+process acc_process
+--  In this first variant, the acc_process emulates the device internally,
+acc1_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc2_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc3_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc4_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc5_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc6_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc1_event_in: in event data port SHM_DataType::actionData;
+acc2_event_in: in event data port SHM_DataType::actionData;
+acc3_event_in: in event data port SHM_DataType::actionData;
+acc4_event_in: in event data port SHM_DataType::actionData;
+acc5_event_in: in event data port SHM_DataType::actionData;
+acc6_event_in: in event data port SHM_DataType::actionData;
+end acc_process;
+process implementation acc_process.impl
+acc1: thread threads::acc1_dataOutput.impl;
+acc2: thread threads::acc2_dataOutput.impl;
+acc3: thread threads::acc3_dataOutput.impl;
+acc4: thread threads::acc4_dataOutput.impl;
+acc5: thread threads::acc5_dataOutput.impl;
+acc6: thread threads::acc6_dataOutput.impl;
+C1: port acc1_event_in->acc1.acc1_command_in;
+C2: port acc2_event_in->acc2.acc2_command_in;
+C3: port acc3_event_in->acc3.acc_command_in;
+C4: port acc4_event_in->acc4.acc_command_in;
+C5: port acc5_event_in->acc5.acc_command_in;
+C6: port acc6_event_in->acc6.acc_command_in;
+C7: port acc1.acc1out->acc1_output;
+C8: port acc2.acc2out->acc2_output;
+C9: port acc3.accout->acc3_output;
+C10: port acc4.accout->acc4_output;
+C11: port acc5.accout->acc5_output;
+C12: port acc6.accout->acc6_output;
+end acc_process.impl;
+process acc_process_emv2 extends acc_process
+acc1_input: in data port SHM_DataType::accData;
+acc2_input: in data port SHM_DataType::accData;
+acc3_input: in data port SHM_DataType::accData;
+acc4_input: in data port SHM_DataType::accData;
+acc5_input: in data port SHM_DataType::accData;
+acc6_input: in data port SHM_DataType::accData;
+end acc_process_emv2;
+process implementation acc_process_emv2.impl extends acc_process.impl
+acc1: refined to thread threads::acc1_dataOutput_emv2.impl
+acc2: refined to thread threads::acc2_dataOutput_emv2.impl
+acc3: refined to thread threads::acc3_dataOutput_emv2.impl
+acc4: refined to thread threads::acc4_dataOutput_emv2.impl
+acc5: refined to thread threads::acc5_dataOutput_emv2.impl
+acc6: refined to thread threads::acc6_dataOutput_emv2.impl
+C21 : port acc1_input -> acc1.acc1_input;
+C22 : port acc2_input -> acc2.acc2_input;
+C23 : port acc3_input -> acc3.acc3_input;
+C24 : port acc4_input -> acc4.acc4_input;
+C25 : port acc5_input -> acc5.acc5_input;
+C26 : port acc6_input -> acc6.acc6_input;
+end acc_process_emv2.impl;
+process acc_hm_process
+acc1_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc2_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc3_input: in data port SHM_DataType::accData {ARINC653::Sampling_R
+-- [target model context truncated]

@@ -1,0 +1,72 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 105: left side of binary expression '/' is of type 'int' but must be of type 'real'",
+      "cause": "integer division in AGREE expression",
+      "minimal_edit": "change 'Pedal / 2.0' to 'Pedal / 2.0 as real' and 'Pedal / 4.0' to 'Pedal / 4.0 as real'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 123: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "undefined function reference",
+      "minimal_edit": "remove or replace 'Agree_Nodes::Brake_Mode' with valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 138: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "undefined function reference",
+      "minimal_edit": "remove or replace 'Agree_Nodes::Brake_Cmd' with valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 138: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "type mismatch due to undefined function",
+      "minimal_edit": "remove or replace 'Agree_Nodes::Brake_Cmd' with valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 255: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "undefined function reference",
+      "minimal_edit": "remove or replace 'Agree_Nodes::Brake_Cmd' with valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 255: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "type mismatch due to undefined function",
+      "minimal_edit": "remove or replace 'Agree_Nodes::Brake_Cmd' with valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 256: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "undefined function reference",
+      "minimal_edit": "remove or replace 'Agree_Nodes::Brake_Cmd' with valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 256: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "type mismatch due to undefined function",
+      "minimal_edit": "remove or replace 'Agree_Nodes::Brake_Cmd' with valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "undefined function reference",
+      "minimal_edit": "remove or replace 'Agree_Nodes::Brake_Cmd' with valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 257: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "type mismatch due to undefined function",
+      "minimal_edit": "remove or replace 'Agree_Nodes::Brake_Cmd' with valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 258: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "undefined function reference",
+      "minimal_edit": "remove or replace 'Agree_Nodes::Brake_Cmd' with valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 258: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "type mismatch due to undefined function",
+      "minimal_edit": "remove or replace 'Agree_Nodes::Brake_Cmd' with valid expression using only visible symbols"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the COM component annex, replace 'eq Mode: int = if Panel.MAX then 2 else if Panel.MED then 1 else 0;' with 'eq Mode: int = if Panel.MAX then 2 else if Panel.MED then 1 else 0;' (no change needed, but ensure this is valid)",
+    "In the COM component annex, replace 'CMD = (if Mode = 2 then Pedal else if Mode = 1 then Pedal / 2.0 else Pedal / 4.0)' with 'CMD = (if Mode = 2 then Pedal else if Mode = 1 then Pedal / 2.0 as real else Pedal / 4.0 as real)'",
+    "In the MON component annex, remove or replace 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' with a valid expression using only visible symbols",
+    "In the MON component annex, remove or replace 'not Fail => (Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal));' with a valid expression using only visible symbols",
+    "In the BSCU_Impl annex, remove or replace all occurrences of 'Agree_Nodes::Brake_Cmd' with valid expressions using only visible symbols"
+  ]
+}

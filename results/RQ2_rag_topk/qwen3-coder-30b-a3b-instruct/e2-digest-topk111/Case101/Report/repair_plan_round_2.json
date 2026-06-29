@@ -1,0 +1,21 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assume statements are allowed only in component types",
+      "cause": "assume statements placed in thread implementation annex",
+      "minimal_edit": "Move the assume statements from acc_HM.impl annex to acc_HM type annex"
+    },
+    {
+      "diagnostic": "Guarantee statements are allowed only in component types",
+      "cause": "guarantee statements placed in thread implementation annex",
+      "minimal_edit": "Move the guarantee statements from acc_HM.impl annex to acc_HM type annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the annex agree block from acc_HM.impl",
+    "Add a new annex agree block to the acc_HM thread type",
+    "Move all assume and guarantee statements from the implementation annex to the component type annex",
+    "Ensure the moved statements reference only visible identifiers from the component type"
+  ]
+}

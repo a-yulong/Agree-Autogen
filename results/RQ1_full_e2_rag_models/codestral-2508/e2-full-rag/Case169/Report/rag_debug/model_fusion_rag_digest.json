@@ -1,0 +1,37 @@
+{
+  "rag_rules": [
+    "Preserve AADL architecture by inserting AGREE annex blocks only in valid component type or implementation scopes",
+    "Use component type annexes for assumptions, guarantees, constants, and equation declarations",
+    "Use implementation annexes for implementation-level bindings such as assignments when valid in that scope",
+    "Do not use subcomponent ports in component type contracts unless represented through valid variables or outputs"
+  ],
+  "generic_rules": [
+    "Insert AGREE annex blocks in the intended target component or implementation scope",
+    "Preserve existing AADL architecture by avoiding changes to component types, implementations, features, connections, or properties",
+    "Use visible identifiers when available to maintain traceability and avoid unresolved references",
+    "Avoid encoding AADL property associations as AGREE expressions unless explicitly exposed as ports or constants"
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are written inside `annex agree {** ... **};` blocks",
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for assumptions and guarantees",
+    "Use `eq name : type = expression;` for equations and `const name : type = value;` for constants"
+  ],
+  "anti_patterns": [
+    "Do not use subcomponent ports in component type contracts unless represented through valid variables or outputs",
+    "Avoid encoding AADL property associations as AGREE expressions unless explicitly exposed as ports or constants",
+    "Do not use implementation-only subcomponent paths in component type annexes"
+  ],
+  "irrelevant_topics": [
+    "AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes",
+    "Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections",
+    "Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs",
+    "AGREE contracts are written inside `annex agree {** ... **};` blocks",
+    "Component type annexes are the normal location for assumptions, guarantees, constants, and equation declarations",
+    "Component implementation annexes are used for implementation-level bindings such as assignments when they are valid in that scope",
+    "For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation",
+    "For output dependency contracts, write a guarantee that relates visible outputs to visible inputs",
+    "Do not use implementation-only subcomponent paths in a component type annex",
+    "If AGREE reports \"The assumed type ... is ... but the actual type is ...\", align the helper declaration type with the expression",
+    "If diagnostics report unresolved references to Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens such as ms/us/Hz/Bytes inside an AGREE annex, delete the generated clause"
+  ]
+}

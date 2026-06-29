@@ -1,0 +1,60 @@
+package gcas_single
+public
+	with base_types;
+	with gcas_nodes;
+	
+	system GCAS_singleton
+		features
+			altitude: in data port real;
+			timeToRecovery: out data port real;
+	end GCAS_singleton;
+	
+	system implementation GCAS_singleton.impl
+		annex agree {**
+			var
+				t: real := 0.0;
+				prev_height: real := 0.0;
+			const
+				minHeightAllowed: real = 200.0;
+				step_size: real = 0.1;
+				timeToRecovery_const: real = 3.7;
+			
+			flows
+				t' = step_size;
+			
+			assumes
+				t >= 0.0;
+			
+			guarantees
+				timeToRecovery = timeToRecovery_const,
+				(t >= timeToRecovery_const) => (kinematicLinearization(t) > minHeightAllowed),
+				(t >= step_size) => (kinematicLinearization(t) > prev_height);
+			
+			-- Update prev_height on each step to track trend
+			-- This is modeled by assuming prev_height is the value of height at previous step
+			-- Since AGREE does not have direct stateful memory, we use a logical recurrence
+			-- where prev_height is the value of height at t - step_size
+			-- This is enforced by the guarantee above, assuming continuous evolution
+			-- and discrete sampling at step_size intervals
+			-- The kinematicLinearization function is called with current t
+			height: real = kinematicLinearization(t);
+			prev_height' = if t = 0.0 then 0.0 else height;
+			
+			-- Ensure height is computed and bound to altitude port
+			altitude = height;
+		**};
+	end GCAS_singleton.impl;
+	
+	
+	-- Type Aliases
+	
+	data int extends base_types::Integer
+	end int;
+	
+	data real extends base_types::Float
+	end real;
+	
+	data bool extends base_types::Boolean
+	end bool;
+	
+end gcas_single;

@@ -1,0 +1,114 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `guarantee` for timing constraints like execution period, deadline, and compute time bounds.
+- Express timing requirements using `eq` declarations with appropriate types and range checks.
+- Apply `assign` for output value assignments when the component's interface is specified.
+- Use `assume` for deployment binding such as dispatch protocol and priority level.
+Generic rules:
+- Place timing and deployment constraints inside the AGREE annex only when concrete values or visible identifiers are available.
+- Ensure type consistency between declared variables and their expressions in AGREE.
+- Use `eq` to define boolean range checks for numeric values in contracts.
+- Structure AGREE annex blocks with clear labeling for each guarantee and assumption.
+Syntax or pattern reminders:
+- Use `guarantee "label": expression;` for system behavior guarantees.
+- Use `assume "label": expression;` for environmental or deployment assumptions.
+- Use `eq name : type = expression;` for defining helper values in AGREE.
+- Use `assign output = expression;` for output assignments in component contracts.
+Anti-patterns:
+- Avoid placing assumptions or guarantees without visible identifiers or concrete bounds.
+- Do not mix types in expressions without explicit casting or type alignment.
+- Do not define variables without proper type declarations in AGREE.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- nominal_attitude
+- sensored_attitude
+- sun_direction
+- reference_torque
+
+Target interface:
+Exact expression symbols: nominal_attitude, sensored_attitude, sun_direction, reference_torque
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+nominal_attitude | in | data | real | dataaocs::attitude
+sensored_attitude | in | data | real | dataaocs::GYR_data
+sun_direction | in | data | real | dataaocs::FSS_data
+reference_torque | out | data | real | dataaocs::RW_data
+
+Raw requirement:
+The Attitude_Control_Function component shall execute according to the scheduling and timing constraints defined for Attitude_Control_Function.impl. The implementation shall use the Periodic dispatch protocol, execute with a period of 500 us, meet a deadline of 500 us, complete compute execution within 0 ms .. 250 us, and run at priority 1.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Attitude_Control_Function.impl shall execute with a period of 500 us",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Period=500 us"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Attitude_Control_Function.impl shall meet a deadline of 500 us",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Deadline=500 us"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Attitude_Control_Function.impl shall complete compute execution within 0 ms .. 250 us",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Compute_Execution_Time=0 ms .. 250 us"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Attitude_Control_Function.impl shall run at priority 1",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Priority=1"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Attitude_Control_Function.impl shall use the Periodic dispatch protocol",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "Dispatch_Protocol=Periodic"
+      ]
+    }
+  ]
+}

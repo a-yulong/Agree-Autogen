@@ -1,0 +1,39 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 107: Couldn't resolve reference to 'gps_pos'.",
+      "cause": "gps_pos is a port of the component type thr_mgmt, but the annex is incorrectly placed in the component type scope while referencing subcomponent pspg.gps_pos, which is not visible in the type scope.",
+      "minimal_edit": "Remove the assume clause 'gps_pos = pspg.gps_pos' because pspg is not visible in the component type scope."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 107: Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent of the implementation thr_mgmt.i and is not accessible in the component type annex.",
+      "minimal_edit": "Remove the assume clause 'gps_pos = pspg.gps_pos' because pspg is not visible in the component type scope."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 107: left and right sides of binary expression '=' are of type 'Ardupilot_Software::GPS_Position.i' and '<error>'",
+      "cause": "The expression compares a component port (gps_pos) with a subcomponent port (pspg.gps_pos), which are not both visible in the same scope and cannot be compared in a type-level contract.",
+      "minimal_edit": "Remove the assume clause 'gps_pos = pspg.gps_pos' because this cross-scope comparison is invalid in type-level AGREE annex."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 108: Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent of the implementation, not visible in the component type annex.",
+      "minimal_edit": "Remove the assume clause 'pspg.speed = speed' because pspg is not visible in the component type scope."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 108: Couldn't resolve reference to 'speed'.",
+      "cause": "speed is a port of the component type, but the expression 'pspg.speed = speed' assumes pspg.speed is visible, which it is not in the component type scope.",
+      "minimal_edit": "Remove the assume clause 'pspg.speed = speed' because pspg.speed is not visible in the component type annex."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 108: left and right sides of binary expression '=' are of type '<error>' and 'int'",
+      "cause": "The left side references an invisible subcomponent port, so its type is unresolved, preventing type matching with the visible component port speed.",
+      "minimal_edit": "Remove the assume clause 'pspg.speed = speed' because the left operand is not resolvable in this scope."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the entire annex agree block from component type thr_mgmt because it contains illegal references to subcomponent ports (pspg.*) that are not visible in the component type scope.",
+    "Do not replace with any new clauses, as the referenced bindings are implementation-level and belong in the implementation annex, but no implementation annex currently exists for thr_mgmt.i and no valid contract remains for the type."
+  ]
+}

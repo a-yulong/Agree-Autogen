@@ -1,0 +1,172 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: tempin, user_request, user_request.heater_on, user_request.cooler_on, heater_on, cooler_on
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+tempin | in | data | opaque | temperature_type
+user_request | in | data | opaque | command.impl
+user_request.heater_on | in | data_field | bool | base_types::boolean
+user_request.cooler_on | in | data_field | bool | base_types::boolean
+heater_on | out | data | bool | base_types::boolean
+cooler_on | out | data | bool | base_types::boolean
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "heating_request is true if and only if user_request.heater_on is true and user_request.cooler_on is false",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "heating_request",
+        "user_request.heater_on",
+        "user_request.cooler_on"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "cooling_request is true if and only if user_request.cooler_on is true and user_request.heater_on is false",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "cooling_request",
+        "user_request.cooler_on",
+        "user_request.heater_on"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "heater_on is true only if heating_request is true and tempin is less than or equal to 20 degrees",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "heater_on",
+        "heating_request",
+        "tempin"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "cooler_on is true only if cooling_request is true and tempin is greater than 0 degrees",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "cooler_on",
+        "cooling_request",
+        "tempin"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: controller | lines 88-95
+annex agree {**
+  var heating_request : bool;
+  var cooling_request : bool;
+  eq heating_request = (user_request.heater_on and not user_request.cooler_on);
+  eq cooling_request = (user_request.cooler_on and not user_request.heater_on);
+  guarantee "heater_on_condition": heater_on => (heating_request and (tempin <= 20));
+  guarantee "cooler_on_condition": cooler_on => (cooling_request and (tempin > 0));
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   85:     user_request    : in data port command.impl;
+   86:     heater_on       : out data port base_types::boolean;
+   87:     cooler_on       : out data port base_types::boolean;
+   88: annex agree {**
+>> 89:   var heating_request : bool;
+   90:   var cooling_request : bool;
+   91:   eq heating_request = (user_request.heater_on and not user_request.cooler_on);
+   92:   eq cooling_request = (user_request.cooler_on and not user_request.heater_on);
+   93:   guarantee "heater_on_condition": heater_on => (heating_request and (tempin <= 20));
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: controller
+system controller
+features
+    tempin          : in data port temperature_type;
+    user_request    : in data port command.impl;
+    heater_on       : out data port base_types::boolean;
+    cooler_on       : out data port base_types::boolean;
+end controller;
+
+-- TARGET DECLARATION: controller.impl
+system implementation controller.impl
+end controller.impl;
+
+-- RELATED MODEL LINES
+data temperature_type extends base_types::unsigned_8
+end temperature_type;
+data command
+end command;
+data implementation command.impl
+heater_on : data base_types::boolean;
+cooler_on : data base_types::boolean;
+end command.impl;
+system temperature_sensor
+dataout : out data port temperature_type;
+end temperature_sensor;
+system implementation temperature_sensor.i1
+end temperature_sensor.i1;
+system implementation temperature_sensor.i2
+end temperature_sensor.i2;
+system control_panel
+cmd : out data port command.impl;
+end control_panel;
+system implementation control_panel.i
+end control_panel.i;
+system temp_control
+temp1           : in data port temperature_type;
+temp2           : in data port temperature_type;
+user_request    : in data port command.impl;
+end temp_control;
+system implementation temp_control.i
+heater      : system heater.impl;
+cooler      : system cooler.impl;
+controller  : system controller.impl;
+voter       : system voter.impl;
+c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+c1 : port temp2 -> voter.tempin2 {communication_properties::timing => immediate;};
+c2 : port user_request -> controller.user_request {communication_properties::timing => immediate;};
+c3 : port controller.heater_on -> heater.enabled {communication_properties::timing => immediate;};
+c4 : port controller.cooler_on -> cooler.enabled {communication_properties::timing => immediate;};
+c5 : port voter.tempout -> controller.tempin {communication_properties::timing => immediate;};
+end temp_control.i;
+system voter
+tempin1         : in data port temperature_type;
+tempin2         : in data port temperature_type;
+tempout         : out data port temperature_type;
+end voter;
+system implementation voter.impl
+end voter.impl;
+system controller
+tempin          : in data port temperature_type;
+heater_on       : out data port base_types::boolean;
+cooler_on       : out data port base_types::boolean;
+end controller;
+system implementation controller.impl
+end controller.impl;
+system heater
+enabled : in data port base_types::boolean;
+end heater;
+system implementation heater.impl
+end heater.impl;
+system cooler
+end cooler;
+system implementation cooler.impl
+end cooler.impl;
+system integration
+end integration;
+system implementation integration.impl
+temp_control   : system temp_control.i;
+user_panel     : system control_panel.i;
+sensor1     : system temperature_sensor.i1;
+sensor2     : system temperature_sensor.i2;
+sensor1_tc : port sensor1.dataout -> temp_control.temp1 {communication_properties::timing => immediate;};
+sensor2_tc : port sensor2.dataout -> temp_control.temp2 {communication_properties::timing => immediate;};
+up_to_tc   : port user_panel.cmd -> temp_control.user_request {communication_properties::timing => immediate;};
+end integration.impl;

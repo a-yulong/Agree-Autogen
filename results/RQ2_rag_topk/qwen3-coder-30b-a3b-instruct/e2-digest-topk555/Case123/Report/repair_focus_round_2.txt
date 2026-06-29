@@ -1,0 +1,333 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: mag_in_data_x, mag_in_data_y, mag_in_data_z, mag_out_data_x, mag_out_data_y, mag_out_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+mag_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_x | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_y | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_z | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data flow from magneto_sub.mag_out_data_x to mag_out_data_x through MAG_PC1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "magneto_sub.mag_out_data_x",
+        "mag_out_data_x",
+        "MAG_PC1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Data flow from magneto_sub.mag_out_data_y to mag_out_data_y through MAG_PC2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "magneto_sub.mag_out_data_y",
+        "mag_out_data_y",
+        "MAG_PC2"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Data flow from magneto_sub.mag_out_data_z to mag_out_data_z through MAG_PC3",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "magneto_sub.mag_out_data_z",
+        "mag_out_data_z",
+        "MAG_PC3"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "MAGNETO.IMPL.MAGNETO_CALL is classifier MAGNETO_SUB_wrapper.i",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO_CALL",
+        "MAGNETO_SUB_wrapper.i"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "MAGNETO Priority=4",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO",
+        "Priority"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "MAGNETO Dispatch_Protocol=Periodic",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO",
+        "Dispatch_Protocol"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "MAGNETO Period=80 ms",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO",
+        "Period"
+      ]
+    },
+    {
+      "id": "R8",
+      "text": "MAGNETO Compute_Execution_Time=0 ms .. 4 ms",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO",
+        "Compute_Execution_Time"
+      ]
+    },
+    {
+      "id": "R9",
+      "text": "MAGNETO Source_Stack_Size=512 Bytes",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO",
+        "Source_Stack_Size"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: MAGNETO | lines 83-90
+annex agree {**
+      assume "signal_flow_x": mag_out_data_x = mag_in_data_x;
+      assume "signal_flow_y": mag_out_data_y = mag_in_data_y;
+      assume "signal_flow_z": mag_out_data_z = mag_in_data_z;
+      guarantee "data_consistency_x": mag_out_data_x = mag_in_data_x;
+      guarantee "data_consistency_y": mag_out_data_y = mag_in_data_y;
+      guarantee "data_consistency_z": mag_out_data_z = mag_in_data_z;
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   80:     Period			       => 80 ms;
+   81:     Compute_Execution_Time => 0 ms .. 4 ms;
+   82:     Source_Stack_Size      => 512 Bytes;
+   83:   annex agree {**
+>> 84:       assume "signal_flow_x": mag_out_data_x = mag_in_data_x;
+   85:       assume "signal_flow_y": mag_out_data_y = mag_in_data_y;
+   86:       assume "signal_flow_z": mag_out_data_z = mag_in_data_z;
+   87:       guarantee "data_consistency_x": mag_out_data_x = mag_in_data_x;
+   88:       guarantee "data_consistency_y": mag_out_data_y = mag_in_data_y;
+
+   81:     Compute_Execution_Time => 0 ms .. 4 ms;
+   82:     Source_Stack_Size      => 512 Bytes;
+   83:   annex agree {**
+   84:       assume "signal_flow_x": mag_out_data_x = mag_in_data_x;
+>> 85:       assume "signal_flow_y": mag_out_data_y = mag_in_data_y;
+   86:       assume "signal_flow_z": mag_out_data_z = mag_in_data_z;
+   87:       guarantee "data_consistency_x": mag_out_data_x = mag_in_data_x;
+   88:       guarantee "data_consistency_y": mag_out_data_y = mag_in_data_y;
+   89:       guarantee "data_consistency_z": mag_out_data_z = mag_in_data_z;
+
+   82:     Source_Stack_Size      => 512 Bytes;
+   83:   annex agree {**
+   84:       assume "signal_flow_x": mag_out_data_x = mag_in_data_x;
+   85:       assume "signal_flow_y": mag_out_data_y = mag_in_data_y;
+>> 86:       assume "signal_flow_z": mag_out_data_z = mag_in_data_z;
+   87:       guarantee "data_consistency_x": mag_out_data_x = mag_in_data_x;
+   88:       guarantee "data_consistency_y": mag_out_data_y = mag_in_data_y;
+   89:       guarantee "data_consistency_z": mag_out_data_z = mag_in_data_z;
+   90:     **};
+
+   83:   annex agree {**
+   84:       assume "signal_flow_x": mag_out_data_x = mag_in_data_x;
+   85:       assume "signal_flow_y": mag_out_data_y = mag_in_data_y;
+   86:       assume "signal_flow_z": mag_out_data_z = mag_in_data_z;
+>> 87:       guarantee "data_consistency_x": mag_out_data_x = mag_in_data_x;
+   88:       guarantee "data_consistency_y": mag_out_data_y = mag_in_data_y;
+   89:       guarantee "data_consistency_z": mag_out_data_z = mag_in_data_z;
+   90:     **};
+   91:   end MAGNETO;
+
+   84:       assume "signal_flow_x": mag_out_data_x = mag_in_data_x;
+   85:       assume "signal_flow_y": mag_out_data_y = mag_in_data_y;
+   86:       assume "signal_flow_z": mag_out_data_z = mag_in_data_z;
+   87:       guarantee "data_consistency_x": mag_out_data_x = mag_in_data_x;
+>> 88:       guarantee "data_consistency_y": mag_out_data_y = mag_in_data_y;
+   89:       guarantee "data_consistency_z": mag_out_data_z = mag_in_data_z;
+   90:     **};
+   91:   end MAGNETO;
+   92: 
+
+   85:       assume "signal_flow_y": mag_out_data_y = mag_in_data_y;
+   86:       assume "signal_flow_z": mag_out_data_z = mag_in_data_z;
+   87:       guarantee "data_consistency_x": mag_out_data_x = mag_in_data_x;
+   88:       guarantee "data_consistency_y": mag_out_data_y = mag_in_data_y;
+>> 89:       guarantee "data_consistency_z": mag_out_data_z = mag_in_data_z;
+   90:     **};
+   91:   end MAGNETO;
+   92: 
+   93:   subprogram MAGNETO_SUB_wrapper
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: MAGNETO
+thread MAGNETO
+  features
+    --  Connections from the magnetometer device
+
+    mag_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    mag_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    mag_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+
+    --  Connections to the other software elements
+
+    mag_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    mag_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    mag_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+
+  properties
+    Priority               => 4;
+    Dispatch_Protocol      => Periodic;
+    Period			       => 80 ms;
+    Compute_Execution_Time => 0 ms .. 4 ms;
+    Source_Stack_Size      => 512 Bytes;
+  end MAGNETO;
+
+-- TARGET DECLARATION: MAGNETO.IMPL
+thread implementation MAGNETO.IMPL
+  calls
+    MAGNETO_CALL: { magneto_sub : subprogram MAGNETO_SUB_wrapper.i; };
+
+  connections
+    MAG_PC1 : parameter magneto_sub.mag_out_data_x -> mag_out_data_x;
+    MAG_PC2 : parameter magneto_sub.mag_out_data_y -> mag_out_data_y;
+    MAG_PC3 : parameter magneto_sub.mag_out_data_z -> mag_out_data_z;
+
+  end MAGNETO.IMPL;
+
+-- RELATED MODEL LINES
+thread MAGNETO
+mag_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+end MAGNETO;
+mag_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+P1: parameter Spg.mag_out_data_x -> Mag_Out_Data_X;
+thread implementation MAGNETO.IMPL
+MAG_PC1 : parameter magneto_sub.mag_out_data_x -> mag_out_data_x;
+MAG_PC2 : parameter magneto_sub.mag_out_data_y -> mag_out_data_y;
+MAG_PC3 : parameter magneto_sub.mag_out_data_z -> mag_out_data_z;
+end MAGNETO.IMPL;
+mag_in_data_x : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_y : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_z : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+MAG_PC1 : parameter mag_in_data_x	-> attitude_sub.mag_in_data_x;
+MAG_PC2 : parameter mag_in_data_y	-> attitude_sub.mag_in_data_y;
+MAG_PC3 : parameter mag_in_data_z	-> attitude_sub.mag_in_data_z;
+magneto_thread  : thread MAGNETO.IMPL;
+MAG_INPUT_PC1   : port mag_in_data_x	-> magneto_thread.mag_in_data_x;
+MAG_INPUT_PC2   : port mag_in_data_y	-> magneto_thread.mag_in_data_y;
+MAG_INPUT_PC3   : port mag_in_data_z	-> magneto_thread.mag_in_data_z;
+MAG_SUBMIT_PC1  : port magneto_thread.mag_out_data_x  -> attitude_calculation_thread.mag_in_data_x;
+MAG_SUBMIT_PC2  : port magneto_thread.mag_out_data_y  -> attitude_calculation_thread.mag_in_data_y;
+MAG_SUBMIT_PC3  : port magneto_thread.mag_out_data_z  -> attitude_calculation_thread.mag_in_data_z;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "MAGNETO",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "MAGNETO.IMPL",
+      "kind": "thread implementation",
+      "type_name": "MAGNETO"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "MAGNETO.IMPL",
+      "name": "MAGNETO_CALL",
+      "category": "call",
+      "classifier": "MAGNETO_SUB_wrapper.i"
+    }
+  ],
+  "features": [
+    {
+      "owner": "MAGNETO",
+      "name": "mag_in_data_x",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MAGNETO",
+      "name": "mag_in_data_y",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MAGNETO",
+      "name": "mag_in_data_z",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MAGNETO",
+      "name": "mag_out_data_x",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MAGNETO",
+      "name": "mag_out_data_y",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MAGNETO",
+      "name": "mag_out_data_z",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "MAGNETO.IMPL",
+      "name": "MAG_PC1",
+      "kind": "parameter",
+      "source": "MAGNETO_CALL.mag
+-- [target model context truncated]

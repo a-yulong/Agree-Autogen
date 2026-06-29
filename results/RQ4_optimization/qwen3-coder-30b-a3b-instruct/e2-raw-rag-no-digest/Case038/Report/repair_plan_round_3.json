@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "The variable 'e' on the left side of equation is of type 'real' but must be of type 'Types::speed.speed_impl'",
+      "cause": "AGREE equation attempts to assign a real-valued expression to a port type",
+      "minimal_edit": "Change 'eq e : real = Target - Actual;' to 'eq e : real = Target - Actual;' and ensure Target and Actual are properly typed as real or compatible scalar types"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types 'Types::speed.speed_impl' are not directly compatible with arithmetic operations",
+      "minimal_edit": "Ensure Target and Actual are treated as real-valued expressions in the context of the equation"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types 'Types::speed.speed_impl' are not directly compatible with arithmetic operations",
+      "minimal_edit": "Ensure Target and Actual are treated as real-valued expressions in the context of the equation"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'integral'.",
+      "cause": "AGREE integral function is not recognized in current context",
+      "minimal_edit": "Replace 'integral(e)' with a valid AGREE expression or remove the integral declaration if not supported"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'derivative'.",
+      "cause": "AGREE derivative function is not recognized in current context",
+      "minimal_edit": "Replace 'derivative(e)' with a valid AGREE expression or remove the derivative declaration if not supported"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex, replace 'eq e : real = Target - Actual;' with a valid expression that treats Target and Actual as real-valued",
+    "Remove or replace 'eq e_int : real = integral(e);' with a valid AGREE construct or remove it",
+    "Remove or replace 'eq e_dot : real = derivative(e);' with a valid AGREE construct or remove it",
+    "Ensure all referenced identifiers are visible and compatible with AGREE's type system"
+  ]
+}

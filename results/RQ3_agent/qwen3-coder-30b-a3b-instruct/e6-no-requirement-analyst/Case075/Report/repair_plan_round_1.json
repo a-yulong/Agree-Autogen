@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 107: Couldn't resolve reference to 'gps_pos'.",
+      "cause": "gps_pos is a port of the component type thr_mgmt, but the annex is incorrectly placed in the component type scope while referencing subcomponent pspg.gps_pos which is only visible in the implementation",
+      "minimal_edit": "Move the entire agree annex to the thr_mgmt.i implementation scope"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 107: Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent of thr_mgmt.i, not visible in thr_mgmt type scope",
+      "minimal_edit": "Move the entire agree annex to the thr_mgmt.i implementation scope"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 107: left and right sides of binary expression '=' are of type 'Ardupilot_Software::GPS_Position.i' and '<error>'",
+      "cause": "gps_pos (opaque port) cannot be directly compared to pspg.gps_pos (subcomponent port) in type scope; type mismatch due to visibility and scope",
+      "minimal_edit": "Move the entire agree annex to the thr_mgmt.i implementation scope"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 108: Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is not visible in thr_mgmt component type scope",
+      "minimal_edit": "Move the entire agree annex to the thr_mgmt.i implementation scope"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 108: Couldn't resolve reference to 'speed'.",
+      "cause": "speed is a port of thr_mgmt, but in AGREE, when referenced in implementation scope, must be accessed through its binding or declared variable; the expression speed = pspg.speed is valid only in implementation scope",
+      "minimal_edit": "Move the entire agree annex to the thr_mgmt.i implementation scope"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 108: left and right sides of binary expression '=' are of type 'int' and '<error>'",
+      "cause": "speed is an integer port, pspg.speed is its connected subcomponent port — type mismatch only because pspg is not resolved due to scope error",
+      "minimal_edit": "Move the entire agree annex to the thr_mgmt.i implementation scope"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the annex agree block from thr_mgmt (lines 106-109)",
+    "Add a new annex agree block inside thr_mgmt.i implementation scope, below the connections block",
+    "In the new annex, rewrite guarantees as: guarantee \"signal_routing_R2\": gps_pos = pspg.gps_pos; guarantee \"signal_routing_R3\": speed = pspg.speed; guarantee \"signal_routing_R4\": angle = pspg.angle;"
+  ]
+}

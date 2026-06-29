@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place signal flow assumptions and guarantees in component type scopes using visible port names and valid AADL feature references.
+- Use implementation-level assignments for subcomponent bindings when required, ensuring the left-hand side is a valid output in that scope.
+Generic rules:
+- AGREE annex blocks must be scoped to their owning component declaration and use only visible identifiers from that scope.
+- Assumptions and guarantees should reference component ports directly, not subcomponent paths, unless in implementation scope.
+- Constants and equations in AGREE must use valid scalar types: int, real, bool.
+- Avoid redeclaring AADL features as AGREE variables; they are already visible in legal scopes.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Assumptions and guarantees are written as `assume "label": expression;` and `guarantee "label": expression;`.
+Anti-patterns:
+- Do not reference subcomponent paths or implementation-only features in component type annexes.
+- Do not invent new identifiers; only use visible names from the current component scope.
+</RAG_DIGEST>

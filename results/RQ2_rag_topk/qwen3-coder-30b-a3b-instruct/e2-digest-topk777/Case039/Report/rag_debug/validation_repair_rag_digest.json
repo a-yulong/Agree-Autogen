@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix type mismatches in AGREE expressions by aligning helper declaration types with actual expression types.",
+    "Ensure AGREE variable assignments and guarantees reference only visible identifiers from the current component scope.",
+    "Resolve 'named thing must be an expression with a type' errors by tracing and fixing unresolved references or deleting invalid clauses.",
+    "Avoid introducing package-qualified identifiers or data types not present in the AADL model during AGREE repairs."
+  ],
+  "generic_rules": [
+    "Use initialized temporal recurrence for stateful AGREE equations.",
+    "Place component type contracts in component type scopes and implementation bindings in implementation scopes.",
+    "Generate AGREE expressions that preserve type consistency across all operands and variables.",
+    "Only reference visible AADL features or declared helpers in AGREE annexes."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `eq` for equation declarations and `assign` for output bindings.",
+    "Guard pre() comparisons with initialized state flags like `initialized : bool = false -> true`.",
+    "Binary expressions in AGREE must have operands of matching types."
+  ],
+  "anti_patterns": [
+    "Do not introduce new package references or data types not declared in the AADL model.",
+    "Do not attempt to fix unresolved identifiers by inventing new declarations.",
+    "Do not place implementation-level guarantees in component type annexes.",
+    "Do not mix AADL property names (e.g., Period, Deadline) directly into AGREE expressions."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about unreachable or inadequate port types",
+    "AGREE validator diagnostics about component type contracts",
+    "Requirements or model traceability patterns",
+    "Model fusion or owner/scope preservation rules"
+  ]
+}

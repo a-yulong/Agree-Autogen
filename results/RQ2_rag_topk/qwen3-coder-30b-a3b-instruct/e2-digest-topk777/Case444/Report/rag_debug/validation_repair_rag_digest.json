@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Repair AGREE diagnostics by ensuring all identifiers, types, and references are visible in the current AADL scope and match expected AADL property and feature definitions.",
+    "When fixing type mismatches, align helper declarations with their expressions using correct AGREE scalar types (int, real, bool).",
+    "Do not introduce new package-qualified identifiers or data types that are not present in the analyzed AADL model's configured dependencies."
+  ],
+  "generic_rules": [
+    "Validate that all AGREE expressions use only visible AADL features or previously declared helpers within the same annex block.",
+    "Ensure type consistency in AGREE constructs: numeric variables must have numeric expressions, boolean variables must have boolean expressions.",
+    "Place component type contracts in component type scopes and implementation-level bindings in implementation scopes to maintain architectural correctness."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks with proper syntax for assume, guarantee, eq, and const declarations.",
+    "Use only visible identifiers from the AADL model when writing AGREE clauses; avoid referencing undefined or non-existent elements."
+  ],
+  "anti_patterns": [
+    "Avoid introducing package-qualified identifiers or data types that are not part of the current AADL model’s dependencies.",
+    "Do not attempt to fix unresolved references by inventing new declarations; instead, remove or rewrite clauses to use existing visible identifiers."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about missing packages or property sets",
+    "AGREE validator diagnostics (none provided)",
+    "Model Analyst Agent tasks related to AADL structural extraction"
+  ]
+}

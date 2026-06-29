@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Preserve architecture by adding behavior only within the selected owner scope and leaving existing components, features, connections, and properties unchanged.",
+    "Keep type-level content attached only to symbols visible in that type scope; implementation-only references belong only in implementation scope when valid.",
+    "If retrieved guidance mixes type-scope and implementation-scope patterns, retain only the scope-compatible content for the chosen owner and discard invalid cross-scope references."
+  ],
+  "generic_rules": [
+    "Do not change structural AADL elements when inserting behavioral content; preserve owners and existing declarations exactly.",
+    "Respect owner boundaries: content added to a component type must use only names visible there, while implementation-scoped content may rely on implementation-local structure only when allowed.",
+    "Prefer the minimal insertion that satisfies scope rules and avoids moving unrelated declarations."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AADL scope validity matters more than behavioral intent during fusion; keep inserted blocks within the owner's legal scope.",
+    "When guidance refers to subcomponent paths or implementation-local names, treat them as invalid for type-owned content."
+  ],
+  "anti_patterns": [
+    "Do not insert content under the wrong owner or rewrite architecture to make a behavioral reference visible.",
+    "Do not copy example-specific equations, guarantees, or identifier paths from retrieved cards into the fused model."
+  ],
+  "irrelevant_topics": [
+    "Validator-specific type diagnostics and AGREE scalar type-name troubleshooting",
+    "Requirement semantics for specific signal relationships",
+    "Example contract patterns for selector logic or output clamping"
+  ]
+}

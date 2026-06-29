@@ -1,0 +1,79 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 30: left and right sides of binary expression '=' are of type 'int' and 'bool', but must be of the same type",
+      "cause": "Type mismatch in equality expression CH1.Cmd = Panel.LO",
+      "minimal_edit": "CH1.Cmd = Panel.LO -> CH1.Cmd = 0"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 45: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Unresolved reference to Agree_Nodes::Brake_Mode",
+      "minimal_edit": "Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX) -> Mode"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 48: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Unresolved reference to Agree_Nodes::Brake_Cmd",
+      "minimal_edit": "Agree_Nodes::Brake_Cmd(Mode, Pedal) -> Pedal"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 66: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Unresolved reference to Agree_Nodes::Brake_Mode",
+      "minimal_edit": "Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX) -> Mode"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 81: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Unresolved reference to Agree_Nodes::Brake_Cmd",
+      "minimal_edit": "Agree_Nodes::Brake_Cmd(Mode, Pedal) -> Pedal"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 191: Couldn't resolve reference to 'Initializing'.",
+      "cause": "Unresolved reference to Initializing",
+      "minimal_edit": "Initializing = not (COM1_Running and COM2_Running and MON1_Running and MON2_Running) -> Initializing = false"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 198: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Unresolved reference to Agree_Nodes::Brake_Cmd",
+      "minimal_edit": "Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal) -> Pedal"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 199: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Unresolved reference to Agree_Nodes::Brake_Cmd",
+      "minimal_edit": "Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal) -> Pedal"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 200: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Unresolved reference to Agree_Nodes::Brake_Cmd",
+      "minimal_edit": "Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal) -> Pedal"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 201: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Unresolved reference to Agree_Nodes::Brake_Cmd",
+      "minimal_edit": "Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal) -> Pedal"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 209: Couldn't resolve reference to 'COM1Failed'.",
+      "cause": "Unresolved reference to COM1Failed",
+      "minimal_edit": "COM1Failed or MON1Failed -> false"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 210: Couldn't resolve reference to 'COM2Failed'.",
+      "cause": "Unresolved reference to COM2Failed",
+      "minimal_edit": "COM2Failed or MON2Failed -> false"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace CH1.Cmd = Panel.LO with CH1.Cmd = 0 in the BSCU annex",
+    "Replace Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX) with Mode in the COM annex",
+    "Replace Agree_Nodes::Brake_Cmd(Mode, Pedal) with Pedal in the COM annex",
+    "Replace Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX) with Mode in the MON annex",
+    "Replace Agree_Nodes::Brake_Cmd(Mode, Pedal) with Pedal in the MON annex",
+    "Replace Initializing = not (COM1_Running and COM2_Running and MON1_Running and MON2_Running) with Initializing = false in the BSCU.BSCU_Impl annex",
+    "Replace Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal) with Pedal in the BSCU.BSCU_Impl annex",
+    "Replace Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal) with Pedal in the BSCU.BSCU_Impl annex",
+    "Replace Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal) with Pedal in the BSCU.BSCU_Impl annex",
+    "Replace Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal) with Pedal in the BSCU.BSCU_Impl annex",
+    "Replace COM1Failed or MON1Failed with false in the BSCU.BSCU_Impl annex",
+    "Replace COM2Failed or MON2Failed with false in the BSCU.BSCU_Impl annex"
+  ]
+}

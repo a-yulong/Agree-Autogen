@@ -1,0 +1,75 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 79: Assume statements are allowed only in component types",
+      "cause": "assume statement placed in thread implementation annex",
+      "minimal_edit": "move the assume statement to the component type Q"
+    },
+    {
+      "diagnostic": "line 79: Couldn't resolve reference to 'Data_Sink'",
+      "cause": "Data_Sink not visible in implementation scope",
+      "minimal_edit": "remove the assume statement referencing Data_Sink"
+    },
+    {
+      "diagnostic": "line 79: Couldn't resolve reference to 'Q_Spg'",
+      "cause": "Q_Spg not visible in implementation scope",
+      "minimal_edit": "remove the assume statement referencing Q_Spg"
+    },
+    {
+      "diagnostic": "line 80: Guarantee statements are allowed only in component types",
+      "cause": "guarantee statement placed in thread implementation annex",
+      "minimal_edit": "move the guarantee statement to the component type Q"
+    },
+    {
+      "diagnostic": "line 80: Couldn't resolve reference to 'Dispatch_Protocol'",
+      "cause": "Dispatch_Protocol not visible in implementation scope",
+      "minimal_edit": "remove the guarantee statement referencing Dispatch_Protocol"
+    },
+    {
+      "diagnostic": "line 81: Guarantee statements are allowed only in component types",
+      "cause": "guarantee statement placed in thread implementation annex",
+      "minimal_edit": "move the guarantee statement to the component type Q"
+    },
+    {
+      "diagnostic": "line 81: Couldn't resolve reference to 'Period'",
+      "cause": "Period not visible in implementation scope",
+      "minimal_edit": "remove the guarantee statement referencing Period"
+    },
+    {
+      "diagnostic": "line 81: Couldn't resolve reference to 'ms'",
+      "cause": "ms unit not visible in implementation scope",
+      "minimal_edit": "remove the guarantee statement referencing Period"
+    },
+    {
+      "diagnostic": "line 82: Guarantee statements are allowed only in component types",
+      "cause": "guarantee statement placed in thread implementation annex",
+      "minimal_edit": "move the guarantee statement to the component type Q"
+    },
+    {
+      "diagnostic": "line 82: Couldn't resolve reference to 'deadline'",
+      "cause": "deadline not visible in implementation scope",
+      "minimal_edit": "remove the guarantee statement referencing deadline"
+    },
+    {
+      "diagnostic": "line 82: Couldn't resolve reference to 'ms'",
+      "cause": "ms unit not visible in implementation scope",
+      "minimal_edit": "remove the guarantee statement referencing deadline"
+    },
+    {
+      "diagnostic": "line 83: Guarantee statements are allowed only in component types",
+      "cause": "guarantee statement placed in thread implementation annex",
+      "minimal_edit": "move the guarantee statement to the component type Q"
+    },
+    {
+      "diagnostic": "line 83: Couldn't resolve reference to 'Priority'",
+      "cause": "Priority not visible in implementation scope",
+      "minimal_edit": "remove the guarantee statement referencing Priority"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the assume and guarantee statements from Q.Impl annex to Q annex",
+    "Remove all references to Data_Sink, Q_Spg, Dispatch_Protocol, Period, deadline, and Priority from the Q.Impl annex",
+    "Ensure that the Q annex contains only valid assume/guarantee statements for the component type"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "guarantee \"route_gyro_x\": true;",
+      "cause": "AGREE guarantee refers to a data flow that is not expressible in the component type scope",
+      "minimal_edit": "Replace guarantee \"route_gyro_x\": true; with guarantee \"route_gyro_x\": gyro_out_data_x = Spg.gyro_out_data_x;"
+    },
+    {
+      "diagnostic": "guarantee \"route_gyro_y\": true;",
+      "cause": "AGREE guarantee refers to a data flow that is not expressible in the component type scope",
+      "minimal_edit": "Replace guarantee \"route_gyro_y\": true; with guarantee \"route_gyro_y\": gyro_out_data_y = Spg.gyro_out_data_y;"
+    },
+    {
+      "diagnostic": "guarantee \"route_gyro_z\": true;",
+      "cause": "AGREE guarantee refers to a data flow that is not expressible in the component type scope",
+      "minimal_edit": "Replace guarantee \"route_gyro_z\": true; with guarantee \"route_gyro_z\": gyro_out_data_z = Spg.gyro_out_data_z;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace each guarantee statement in the AGREE annex with a corresponding equality expression that relates the component's output to the subprogram's input",
+    "Ensure that the new guarantee expressions use only visible identifiers from the component type scope"
+  ]
+}

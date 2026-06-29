@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place input assumptions and output guarantees in component type scopes when they reference visible ports or features.
+- Use `assume` and `guarantee` statements with descriptive labels for requirement expressions.
+- Generate `eq` or `const` declarations for named constants or derived values used in contracts.
+Generic rules:
+- AGREE annex blocks must be enclosed in `annex agree {** ... **};`.
+- Component type contracts should define assumptions and guarantees for ports and features.
+- Implementation contracts may use `assign` for output bindings but not `guarantee` statements.
+- Visible identifiers must be declared or referenced from the model scope.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements.
+- Declare auxiliary variables with `eq name : type = expression;` and constants with `const name : type = value;`.
+- Assignments in implementation scope use `assign output = expression;`.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope unless they are derived from component type contracts.
+- Do not reference AADL property names like Period or Deadline as AGREE variables.
+</RAG_DIGEST>

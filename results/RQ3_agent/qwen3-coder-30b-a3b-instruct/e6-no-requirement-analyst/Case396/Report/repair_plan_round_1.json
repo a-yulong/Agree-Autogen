@@ -1,0 +1,20 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 96: Couldn't resolve reference to 'null'.",
+      "cause": "AGREE does not support null comparisons for opaque data types",
+      "minimal_edit": "Replace Data_Source1.All_elems /= null with a valid AGREE expression or remove the clause"
+    },
+    {
+      "diagnostic": "line 98: Couldn't resolve reference to 'null'.",
+      "cause": "AGREE does not support null comparisons for opaque data types",
+      "minimal_edit": "Replace Data_Source2.All_elems /= null with a valid AGREE expression or remove the clause"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove or rewrite the guarantee statements referencing Data_Source1.All_elems and Data_Source2.All_elems to use only visible symbols",
+    "Replace the null comparison expressions with valid AGREE constructs or remove them if no equivalent visible expression exists",
+    "Ensure all remaining expressions use only the provided feature names: Data_In, Data_Source1, Data_Source2, Pr_Index"
+  ]
+}

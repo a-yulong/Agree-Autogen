@@ -1,0 +1,45 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 118: Guarantee statements are allowed only in component types",
+      "cause": "AGREE guarantees in implementation annex are not permitted",
+      "minimal_edit": "Move the entire annex block to the component type 'thr_mgmt'"
+    },
+    {
+      "diagnostic": "line 118: Couldn't resolve reference to 'gps_pos'",
+      "cause": "Reference to port 'gps_pos' not visible in implementation scope",
+      "minimal_edit": "Remove the gps_pos guarantee from implementation annex"
+    },
+    {
+      "diagnostic": "line 118: Couldn't resolve reference to 'pspg'",
+      "cause": "Reference to subcomponent 'pspg' not visible in implementation scope",
+      "minimal_edit": "Remove the gps_pos guarantee from implementation annex"
+    },
+    {
+      "diagnostic": "line 119: Couldn't resolve reference to 'pspg'",
+      "cause": "Reference to subcomponent 'pspg' not visible in implementation scope",
+      "minimal_edit": "Remove the speed guarantee from implementation annex"
+    },
+    {
+      "diagnostic": "line 119: Couldn't resolve reference to 'speed'",
+      "cause": "Reference to port 'speed' not visible in implementation scope",
+      "minimal_edit": "Remove the speed guarantee from implementation annex"
+    },
+    {
+      "diagnostic": "line 120: Couldn't resolve reference to 'angle'",
+      "cause": "Reference to port 'angle' not visible in implementation scope",
+      "minimal_edit": "Remove the angle guarantee from implementation annex"
+    },
+    {
+      "diagnostic": "line 120: Couldn't resolve reference to 'pspg'",
+      "cause": "Reference to subcomponent 'pspg' not visible in implementation scope",
+      "minimal_edit": "Remove the angle guarantee from implementation annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from thr_mgmt.i",
+    "Add a new AGREE annex block to the thr_mgmt component type",
+    "In the new annex block, declare the three guarantees using only visible identifiers: gps_pos, speed, and angle"
+  ]
+}

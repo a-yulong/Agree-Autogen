@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Emit range assumptions or guarantees only when the requirement provides concrete bounds, constants, or another visible relation.
+- Write dependency guarantees over visible outputs, visible inputs, and any local helpers; avoid hidden implementation details.
+- Model stateful behavior with initialized temporal recurrence, and use explicit conditional structure for branching logic.
+Generic rules:
+- Use only identifiers confirmed visible in the active AGREE scope; do not invent names.
+- Prefer direct boolean contract statements, adding helper equations only for derived, repeated, or stateful expressions.
+Syntax or pattern reminders:
+- Use labeled assume/guarantee clauses, with const or eq helpers when needed.
+- Branching uses nested if-then-else, and temporal state uses the initialized -> pre(...) pattern.
+- AGREE scalar types are int, real, and bool; boolean logic uses and, or, not, and =>.
+Anti-patterns:
+- Do not reference out-of-scope names such as subcomponent paths, AADL property names, or unit tokens unless they are exposed as valid AGREE symbols.
+- Do not use invalid or mismatched types; helper declarations must match expression kinds.
+</RAG_DIGEST>

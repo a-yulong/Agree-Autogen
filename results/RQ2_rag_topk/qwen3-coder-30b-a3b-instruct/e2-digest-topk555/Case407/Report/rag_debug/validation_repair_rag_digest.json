@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "When repairing AGREE contracts, ensure that all identifiers used in assume/guarantee expressions are visible in the current AADL component scope and properly declared.",
+    "If a diagnostic reports unresolved references, do not introduce new declarations; instead, rewrite or delete the clause to use only existing visible identifiers."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be placed in valid AADL scopes: component types for assumptions/guarantees, implementations for bindings.",
+    "Generated AGREE code must not introduce package-qualified identifiers or types not present in the model's configured dependencies.",
+    "AGREE syntax requires specific keywords: assume, guarantee, eq, const, assign, and expressions must match declared types.",
+    "Repair actions should preserve the existing architecture and avoid introducing new component features or connections."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Use only visible identifiers from the current AADL scope; avoid referencing undefined or package-qualified names.",
+    "Ensure type consistency: eq helpers and const declarations must use AGREE scalar types (int, real, bool)."
+  ],
+  "anti_patterns": [
+    "Avoid adding new AADL features or modifying component structure during AGREE repair; focus only on correcting contract expressions.",
+    "Do not attempt to resolve missing identifiers by inventing new declarations; instead, remove or rewrite clauses using visible identifiers."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and `with` clauses",
+    "AGREE annex placement in component types vs. implementations",
+    "Model traceability and requirement semantics",
+    "Component type and implementation structure in AADL"
+  ]
+}

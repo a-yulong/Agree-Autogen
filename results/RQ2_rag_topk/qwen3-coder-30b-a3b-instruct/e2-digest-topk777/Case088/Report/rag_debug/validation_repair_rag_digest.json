@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by using only visible identifiers from the current component scope; do not invent new declarations.",
+    "Do not introduce package-qualified identifiers or property references not present in the model.",
+    "Ensure type consistency in AGREE expressions: numeric variables must have numeric expressions, Booleans must have Boolean expressions.",
+    "Move implementation-level bindings to the correct implementation annex scope; avoid placing implementation-level references in component type contracts."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, always validate that referenced identifiers are visible in the current scope.",
+    "AGREE expressions must preserve type integrity and avoid invalid scalar type names like 'integer' or 'boolean'.",
+    "Avoid encoding AADL property associations (e.g., Stack_Size) as AGREE variables unless explicitly exposed in the model.",
+    "If a guarantee or assumption references an unresolved identifier, remove the clause rather than attempt to add architecture."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be placed in valid annex scopes: component types for assumptions/guarantees, implementations for bindings.",
+    "Helper functions and constants in AGREE must be declared within the same annex and match available AADL types.",
+    "Use only visible AADL features or defined helpers in AGREE expressions; do not reference subcomponent ports in type-level contracts.",
+    "Generated AGREE code should not introduce new package dependencies or data types not present in the input model."
+  ],
+  "anti_patterns": [
+    "Do not attempt to resolve missing identifiers by adding new declarations or modifying unrelated architecture.",
+    "Do not assume AADL property associations are automatically available as AGREE variables.",
+    "Do not mix implementation-level references in component type contracts; move valid bindings to implementation scope.",
+    "Do not convert Boolean or opaque data types into numeric expressions without explicit scalar representation."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about property associations",
+    "AGREE validator diagnostics about annex placement",
+    "Model fusion or component type annexes",
+    "Requirement traceability or compact semantics"
+  ]
+}

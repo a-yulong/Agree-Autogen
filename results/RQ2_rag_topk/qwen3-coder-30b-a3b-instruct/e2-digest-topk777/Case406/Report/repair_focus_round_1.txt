@@ -1,0 +1,223 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: gps_pos, gps_pos.latitude, gps_pos.longitude, gps_pos.altitude, speed, angle
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+gps_pos | in | data | opaque | GPS_Position.i
+gps_pos.latitude | in | data_field | real | Base_Types::Float
+gps_pos.longitude | in | data_field | real | Base_Types::Float
+gps_pos.altitude | in | data_field | int | Base_Types::Integer
+speed | out | data | int | Base_Types::Integer
+angle | out | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "angle >= 0 and angle <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "angle"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: thr_mgmt | lines 106-108
+annex agree {**
+    guarantee "angle_bounds": 0 <= angle and angle <= 100;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+No validator line numbers were available.
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: thr_mgmt
+thread thr_mgmt
+  features
+    gps_pos : in data port GPS_Position.i;
+
+    speed       : out data port Base_Types::Integer;
+    angle       : out data port Base_Types::Integer;
+    
+  flows
+  	fs1 : flow sink gps_pos;
+  	fs2 : flow source speed;
+  	fs3 : flow source angle;  
+
+  properties
+    Dispatch_Protocol       => Periodic;
+    Period                  => 1000ms;
+    Deadline                => 1000ms;
+    Compute_Execution_Time  => 5ms .. 10ms;
+    
+    Initialize_Entrypoint => classifier (Ardupilot_Software::spg_flt_mgmt_init);
+  end thr_mgmt;
+
+-- TARGET DECLARATION: thr_mgmt.i
+thread implementation thr_mgmt.i
+  calls 
+    call1 : { pspg : subprogram spg_flt_mgmt_simulation;};
+
+  connections
+    R2:parameter gps_pos -> pspg.gps_pos;
+
+    R3:parameter pspg.speed -> speed;
+    R4:parameter pspg.angle -> angle;
+  end thr_mgmt.i;
+
+-- RELATED MODEL LINES
+gps_pos : out parameter GPS_Position.i;
+gps_pos : out data port GPS_Position.i;
+fs1 : flow source gps_pos;
+R1:parameter pspg.gps_pos -> gps_pos;
+gps_pos : in parameter GPS_Position.i;
+speed     : out parameter Base_Types::Integer;
+angle     : out parameter Base_Types::Integer;
+fs1 : flow sink gps_pos;
+fs2 : flow source speed;
+fs3 : flow source angle;
+thread thr_mgmt
+gps_pos : in data port GPS_Position.i;
+speed       : out data port Base_Types::Integer;
+angle       : out data port Base_Types::Integer;
+end thr_mgmt;
+thread implementation thr_mgmt.i
+R2:parameter gps_pos -> pspg.gps_pos;
+R3:parameter pspg.speed -> speed;
+R4:parameter pspg.angle -> angle;
+end thr_mgmt.i;
+speed : in parameter Base_Types::Integer;
+speed : in data port Base_Types::Integer;
+fs1 : flow sink speed;
+R5:parameter speed -> pspg.speed;
+angle : in parameter Base_Types::Integer;
+angle : in data port Base_Types::Integer;
+fs1 : flow sink angle;
+R6:parameter angle -> pspg.angle;
+prs_mgmt     : thread Ardupilot_Software::thr_mgmt.i;
+R7:port prs_gps.gps_pos -> prs_mgmt.gps_pos;
+R8:port prs_mgmt.speed    -> prs_throttle.speed;
+R9:port prs_mgmt.angle    -> prs_yaw.angle;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "thr_mgmt",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "thr_mgmt.i",
+      "kind": "thread implementation",
+      "type_name": "thr_mgmt"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "thr_mgmt.i",
+      "name": "pspg",
+      "category": "subprogram",
+      "classifier": "spg_flt_mgmt_simulation"
+    },
+    {
+      "owner": "thr_mgmt.i",
+      "name": "prs_mgmt",
+      "category": "thread",
+      "classifier": "Ardupilot_Software::thr_mgmt.i"
+    }
+  ],
+  "features": [
+    {
+      "owner": "thr_mgmt",
+      "name": "gps_pos",
+      "direction": "in",
+      "category": "data port",
+      "type": "GPS_Position.i",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "thr_mgmt",
+      "name": "speed",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "thr_mgmt",
+      "name": "angle",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "thr_mgmt.i",
+      "name": "R2",
+      "kind": "parameter",
+      "source": "gps_pos",
+      "destination": "pspg.gps_pos"
+    },
+    {
+      "owner": "thr_mgmt.i",
+      "name": "R3",
+      "kind": "parameter",
+      "source": "pspg.speed",
+      "destination": "speed"
+    },
+    {
+      "owner": "thr_mgmt.i",
+      "name": "R4",
+      "kind": "parameter",
+      "source": "pspg.angle",
+      "destination": "angle"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "thr_mgmt",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "thr_mgmt"
+    },
+    {
+      "owner": "thr_mgmt",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "1000ms",
+      "applies_to": "thr_mgmt"
+    },
+    {
+      "owner": "thr_mgmt",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "1000ms",
+      "applies_to": "thr_mgmt"
+    },
+    {
+      "owner": "thr_mgmt",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "5ms .. 10ms",
+      "applies_to": "thr_mgmt"
+    },
+    {
+      "owner": "thr_mgmt",
+      "owner_kind": "thread",
+      "name": "Initialize_Entrypoint",
+      "value": "classifier (Ardupilot_Software::spg_flt_mgmt_init)",
+      "applies_to": "thr_mgmt"
+    }
+  ]
+}

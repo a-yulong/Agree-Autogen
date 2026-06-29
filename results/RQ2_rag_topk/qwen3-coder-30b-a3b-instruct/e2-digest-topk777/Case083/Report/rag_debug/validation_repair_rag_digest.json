@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "Fix AGREE syntax errors by correcting missing EOF or invalid token sequences without altering AADL structure.",
+    "Ensure AGREE expressions use only visible identifiers from the current component scope and avoid package-qualified references not in model dependencies."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, validate that all identifiers and types are consistent with the AADL model's visible scope and declared properties.",
+    "Use only component-level features or helper functions defined within the same annex to avoid unresolved reference errors.",
+    "Avoid introducing new data types or package references that are not present in the input AADL model.",
+    "Ensure that assumptions and guarantees are placed in the correct AADL scope (type vs implementation) based on the referenced elements."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks and follow strict syntax for constants, equations, and expressions.",
+    "Helper functions and constants must match the expected scalar types (int, real, bool) as defined in AGREE documentation."
+  ],
+  "anti_patterns": [
+    "Do not attempt to resolve missing identifiers by adding new declarations or modifying unrelated architecture; instead, remove or rewrite clauses using only visible identifiers.",
+    "Do not assume that AADL property names like 'Deadline' or 'Period' are automatically available in AGREE scope; these must be explicitly declared or omitted."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics",
+    "Model Analyst Agent tasks",
+    "Requirement Analyst tasks",
+    "Model Fusion procedures",
+    "AGREE annex placement rules"
+  ]
+}

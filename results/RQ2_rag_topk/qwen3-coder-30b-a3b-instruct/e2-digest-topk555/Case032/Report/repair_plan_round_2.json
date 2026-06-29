@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 110: Duplicate Element 'intruderVerticalVelocity_calc'",
+      "cause": "Constant declared with same name as existing element in same scope",
+      "minimal_edit": "Rename 'intruderVerticalVelocity_calc' to 'intruderVerticalVelocity'"
+    },
+    {
+      "diagnostic": "line 111: Couldn't resolve reference to 'nearestIntruderAltitude_previous_time_step'",
+      "cause": "Invalid temporal reference syntax in AGREE",
+      "minimal_edit": "Replace 'nearestIntruderAltitude_previous_time_step' with 'pre(nearestIntruderAltitude)'"
+    },
+    {
+      "diagnostic": "line 113: left and right sides of binary expression '+' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Expression type mismatch due to previous error in declaration",
+      "minimal_edit": "Ensure all expressions use valid real types"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Rename 'intruderVerticalVelocity_calc' to 'intruderVerticalVelocity' on line 110",
+    "Replace 'nearestIntruderAltitude_previous_time_step' with 'pre(nearestIntruderAltitude)' on line 111",
+    "Ensure the equation syntax is correct with proper type resolution"
+  ]
+}

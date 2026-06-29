@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Place component type contracts in valid component type scopes; use visible identifiers for assumptions and guarantees.",
+    "Generate syntactically valid AGREE clauses using assume/guarantee syntax with proper labeling and expressions."
+  ],
+  "generic_rules": [
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic.",
+    "Relate visible outputs to visible inputs in dependency guarantees; avoid implementation-only subcomponent paths.",
+    "Encode range assumptions and guarantees using named constants or visible feature names with proper type alignment.",
+    "Avoid referencing AADL properties as AGREE variables unless explicitly exposed as typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract clauses.",
+    "Use `eq name : type = expression;` for stateful equations and `const name : type = value;` for constants.",
+    "Apply logical operators like `and`, `or`, `not(...)`, and implication `=>` in expressions.",
+    "Ensure type consistency between helper declarations and expressions (e.g., bool for comparisons, int for arithmetic)."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL timing properties (e.g., Deadline, Period) as AGREE variables unless explicitly typed in the model.",
+    "Do not place implementation-level bindings in component type scopes; use implementation scopes instead.",
+    "Do not use subcomponent ports in component type contracts unless represented through valid variables or outputs.",
+    "Do not generate clauses without concrete bounds or visible relations for range assumptions/guarantees."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing tokens (e.g., ms, Hz, Bytes)",
+    "Implementation-level bindings and subcomponent port usage in type contracts",
+    "Validator diagnostics and repair actions"
+  ]
+}

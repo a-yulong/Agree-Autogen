@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "When AGREE diagnostics report 'named thing must be an expression with a type', trace and fix the root unresolved identifier or invalid helper declaration on the same line by using only visible AADL features or declared helpers.",
+    "If diagnostics reference AADL property names like Stack_Size, delete the generated AGREE clause since property associations are not automatically in AGREE scope.",
+    "For implementation-level contracts, use assign only for existing output features or declared auxiliary variables; do not place guarantee statements in implementation scope.",
+    "When AGREE reports type mismatches, align helper declaration types with expressions: bool for comparisons, int for integers, real for reals."
+  ],
+  "generic_rules": [
+    "Generated AGREE expressions must preserve type consistency and use only visible identifiers from the current scope.",
+    "AGREE annexes should be placed in valid component type or implementation scopes based on the nature of the contract.",
+    "Do not introduce package-qualified identifiers or types that are not present in the input AADL model.",
+    "Validator diagnostics pointing to invalid references should be resolved by removing or rewriting clauses to use existing visible identifiers."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct expression types.",
+    "Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes for bindings.",
+    "Helper functions and variables must be declared within the same annex or imported."
+  ],
+  "anti_patterns": [
+    "Do not add architecture elements or invent new identifiers when resolving AGREE diagnostics.",
+    "Avoid placing implementation-level guarantees in component type annexes.",
+    "Do not encode AADL property associations like Stack_Size as AGREE variables.",
+    "Do not generate AGREE code with types or identifiers not present in the AADL model."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about property associations",
+    "AGREE validator diagnostics about annex placement",
+    "Model Analyst Agent's role in extracting AADL structure",
+    "Requirement Analyst Agent's role in traceability"
+  ]
+}

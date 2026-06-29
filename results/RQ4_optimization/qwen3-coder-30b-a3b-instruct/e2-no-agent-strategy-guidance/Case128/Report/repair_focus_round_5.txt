@@ -1,0 +1,220 @@
+round=5
+
+[TARGET INTERFACE]
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- ATTITUDE
+- ATTITUDE.IMPL
+- accelero_thread
+- magneto_thread
+- gyro_thread
+- attitude_calculation_thread
+- ACC_INPUT_PC1
+- ACC_INPUT_PC2
+- ACC_INPUT_PC3
+- MAG_INPUT_PC1
+- MAG_INPUT_PC2
+- MAG_INPUT_PC3
+- GYRO_INPUT_PC1
+- GYRO_INPUT_PC2
+- GYRO_INPUT_PC3
+- ACC_SUBMIT_PC1
+- ACC_SUBMIT_PC2
+- ACC_SUBMIT_PC3
+- MAG_SUBMIT_PC1
+- MAG_SUBMIT_PC2
+- MAG_SUBMIT_PC3
+- GYRO_SUBMIT_PC1
+- GYRO_SUBMIT_PC2
+- GYRO_SUBMIT_PC3
+- acc_in_data_x
+- acc_in_data_y
+- acc_in_data_z
+- mag_in_data_x
+- mag_in_data_y
+- mag_in_data_z
+- gyro_in_data_x
+- gyro_in_data_y
+- gyro_in_data_z
+- acc_out_data_x
+- acc_out_data_y
+- acc_out_data_z
+- mag_out_data_x
+- mag_out_data_y
+- mag_out_data_z
+- gyro_out_data_x
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "ATTITUDE.IMPL routes data flow from acc_in_data_x to accelero_thread.acc_in_data_x through ACC_INPUT_PC1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "ATTITUDE.IMPL.ACC_INPUT_PC1",
+        "acc_in_data_x",
+        "accelero_thread.acc_in_data_x"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "ATTITUDE.IMPL routes data flow from acc_in_data_y to accelero_thread.acc_in_data_y through ACC_INPUT_PC2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "ATTITUDE.IMPL.ACC_INPUT_PC2",
+        "acc_in_data_y",
+        "accelero_thread.acc_in_data_y"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: ATTITUDE | lines 209-214
+annex agree {**
+            assume "acc_input_pc1_mapping": ACC_INPUT_PC1 = accelero_thread.acc_in_data_x;
+            assume "acc_input_pc2_mapping": ACC_INPUT_PC2 = accelero_thread.acc_in_data_y;
+            guarantee "acc_input_pc1_data_flow": acc_in_data_x = accelero_thread.acc_in_data_x;
+            guarantee "acc_input_pc2_data_flow": acc_in_data_y = accelero_thread.acc_in_data_y;
+        **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   206:   ---------------
+   207: 
+   208:   process ATTITUDE extends AHRS::AHRS_Process
+   209:   annex agree {**
+>> 210:             assume "acc_input_pc1_mapping": ACC_INPUT_PC1 = accelero_thread.acc_in_data_x;
+   211:             assume "acc_input_pc2_mapping": ACC_INPUT_PC2 = accelero_thread.acc_in_data_y;
+   212:             guarantee "acc_input_pc1_data_flow": acc_in_data_x = accelero_thread.acc_in_data_x;
+   213:             guarantee "acc_input_pc2_data_flow": acc_in_data_y = accelero_thread.acc_in_data_y;
+   214:         **};
+
+   207: 
+   208:   process ATTITUDE extends AHRS::AHRS_Process
+   209:   annex agree {**
+   210:             assume "acc_input_pc1_mapping": ACC_INPUT_PC1 = accelero_thread.acc_in_data_x;
+>> 211:             assume "acc_input_pc2_mapping": ACC_INPUT_PC2 = accelero_thread.acc_in_data_y;
+   212:             guarantee "acc_input_pc1_data_flow": acc_in_data_x = accelero_thread.acc_in_data_x;
+   213:             guarantee "acc_input_pc2_data_flow": acc_in_data_y = accelero_thread.acc_in_data_y;
+   214:         **};
+   215:   end ATTITUDE;
+
+   208:   process ATTITUDE extends AHRS::AHRS_Process
+   209:   annex agree {**
+   210:             assume "acc_input_pc1_mapping": ACC_INPUT_PC1 = accelero_thread.acc_in_data_x;
+   211:             assume "acc_input_pc2_mapping": ACC_INPUT_PC2 = accelero_thread.acc_in_data_y;
+>> 212:             guarantee "acc_input_pc1_data_flow": acc_in_data_x = accelero_thread.acc_in_data_x;
+   213:             guarantee "acc_input_pc2_data_flow": acc_in_data_y = accelero_thread.acc_in_data_y;
+   214:         **};
+   215:   end ATTITUDE;
+   216: 
+
+   209:   annex agree {**
+   210:             assume "acc_input_pc1_mapping": ACC_INPUT_PC1 = accelero_thread.acc_in_data_x;
+   211:             assume "acc_input_pc2_mapping": ACC_INPUT_PC2 = accelero_thread.acc_in_data_y;
+   212:             guarantee "acc_input_pc1_data_flow": acc_in_data_x = accelero_thread.acc_in_data_x;
+>> 213:             guarantee "acc_input_pc2_data_flow": acc_in_data_y = accelero_thread.acc_in_data_y;
+   214:         **};
+   215:   end ATTITUDE;
+   216: 
+   217:   process implementation ATTITUDE.IMPL
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: ATTITUDE
+process ATTITUDE extends AHRS::AHRS_Process
+  end ATTITUDE;
+
+-- TARGET DECLARATION: ATTITUDE.IMPL
+process implementation ATTITUDE.IMPL
+  subcomponents
+    accelero_thread : thread ACCELERO.IMPL;
+    magneto_thread  : thread MAGNETO.IMPL;
+    gyro_thread	    : thread GYRO.IMPL;
+
+    attitude_calculation_thread	: thread ATTITUDE_CALCULATION.IMPL;
+
+  connections
+    ACC_INPUT_PC1   : port acc_in_data_x	-> accelero_thread.acc_in_data_x;
+    ACC_INPUT_PC2   : port acc_in_data_y	-> accelero_thread.acc_in_data_y;
+    ACC_INPUT_PC3   : port acc_in_data_z	-> accelero_thread.acc_in_data_z;
+
+    MAG_INPUT_PC1   : port mag_in_data_x	-> magneto_thread.mag_in_data_x;
+    MAG_INPUT_PC2   : port mag_in_data_y	-> magneto_thread.mag_in_data_y;
+    MAG_INPUT_PC3   : port mag_in_data_z	-> magneto_thread.mag_in_data_z;
+
+    GYRO_INPUT_PC1  : port gyro_in_data_x	-> gyro_thread.gyro_in_data_x;
+    GYRO_INPUT_PC2  : port gyro_in_data_y	-> gyro_thread.gyro_in_data_y;
+    GYRO_INPUT_PC3  : port gyro_in_data_z	-> gyro_thread.gyro_in_data_z;
+
+    ACC_SUBMIT_PC1  : port accelero_thread.acc_out_data_x -> attitude_calculation_thread.acc_in_data_x;
+    ACC_SUBMIT_PC2  : port accelero_thread.acc_out_data_y -> attitude_calculation_thread.acc_in_data_y;
+    ACC_SUBMIT_PC3  : port accelero_thread.acc_out_data_z -> attitude_calculation_thread.acc_in_data_z;
+
+    MAG_SUBMIT_PC1  : port magneto_thread.mag_out_data_x  -> attitude_calculation_thread.mag_in_data_x;
+    MAG_SUBMIT_PC2  : port magneto_thread.mag_out_data_y  -> attitude_calculation_thread.mag_in_data_y;
+    MAG_SUBMIT_PC3  : port magneto_thread.mag_out_data_z  -> attitude_calculation_thread.mag_in_data_z;
+
+    GYRO_SUBMIT_PC1 : port gyro_thread.gyro_out_data_x	 -> attitude_calculation_thread.gyro_in_data_x;
+    GYRO_SUBMIT_PC2 : port gyro_thread.gyro_out_data_y	 -> attitude_calculation_thread.gyro_in_data_y;
+    GYRO_SUBMIT_PC3 : port gyro_thread.gyro_out_data_z	 -> attitude_calculation_thread.gyro_in_data_z;
+  flows
+    f1 : flow sink acc_in_data_x -> ACC_INPUT_PC1 -> accelero_thread.f1;
+  end ATTITUDE.IMPL;
+
+-- RELATED MODEL LINES
+thread ACCELERO
+acc_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+f1 : flow sink acc_in_data_x { latency => 10 ms .. 20 ms;};
+end ACCELERO;
+acc_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+P1: parameter Spg.acc_out_data_x -> Acc_Out_Data_X;
+thread implementation ACCELERO.IMPL
+ACC_PC1 : parameter accelero_sub.acc_out_data_x -> acc_out_data_x;
+ACC_PC2 : parameter accelero_sub.acc_out_data_y -> acc_out_data_y;
+ACC_PC3 : parameter accelero_sub.acc_out_data_z -> acc_out_data_z;
+end ACCELERO.IMPL;
+thread MAGNETO
+mag_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+end MAGNETO;
+mag_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+P1: parameter Spg.mag_out_data_x -> Mag_Out_Data_X;
+thread implementation MAGNETO.IMPL
+MAG_PC1 : parameter magneto_sub.mag_out_data_x -> mag_out_data_x;
+MAG_PC2 : parameter magneto_sub.mag_out_data_y -> mag_out_data_y;
+MAG_PC3 : parameter magneto_sub.mag_out_data_z -> mag_out_data_z;
+end MAGNETO.IMPL;
+thread GYRO
+gyro_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+end GYRO;
+gyro_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+P1: parameter Spg.gyro_out_data_x -> Gyro_Out_Data_X;
+thread implementation GYRO.IMPL
+GYRO_PC1 : parameter gyro_sub.gyro_out_data_x -> gyro_out_data_x;
+GYRO_PC2 : parameter gyro_sub.gyro_out_data_y -> gyro_out_data_y;
+GYRO_PC3 : parameter gyro_
+-- [target model context truncated]

@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'SSM'.",
+      "cause": "SSM is a subcomponent, not a visible AGREE identifier in the system type scope",
+      "minimal_edit": "Remove SSM from the guarantee statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'State_Out'.",
+      "cause": "State_Out is a port, not a visible AGREE identifier in the system type scope",
+      "minimal_edit": "Remove State_Out from the guarantee statement"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::state_sig.impl' and '<error>', but must be of the same type",
+      "cause": "Invalid expression due to unresolved identifiers",
+      "minimal_edit": "Replace the entire guarantee with a comment explaining the signal flow is handled by AADL connections"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'SMToSSM'.",
+      "cause": "SMToSSM is a connection, not a visible AGREE identifier in the system type scope",
+      "minimal_edit": "Remove SMToSSM from the assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'immediate'.",
+      "cause": "immediate is a property value, not a visible AGREE identifier",
+      "minimal_edit": "Remove immediate from the assume statement"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex from State_Machine to State_Machine.Impl",
+    "Remove the guarantee statement referencing SSM and State_Out",
+    "Remove the assume statement referencing SMToSSM and immediate",
+    "Add a comment explaining that signal flow and timing are specified in AADL connections"
+  ]
+}

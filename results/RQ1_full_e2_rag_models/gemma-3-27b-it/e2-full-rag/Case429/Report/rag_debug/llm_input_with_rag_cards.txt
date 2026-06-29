@@ -1,0 +1,72 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `annex agree { ... };` blocks to contain AGREE contracts.
+- Place assumptions and guarantees in the component type scope.
+Generic rules:
+- Use visible symbols (ports, constants) in AGREE expressions.
+- Ensure AGREE expressions align with the expected data types (bool, int, real).
+- Formulate guarantees to relate visible outputs to visible inputs.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contracts.
+- Define constants with `const name : type = value;`
+- Define equations with `eq name : type = expression;`
+Anti-patterns:
+- Do not include AADL properties (e.g., Compute_Execution_Time) directly in AGREE expressions without corresponding ports or constants.
+- Avoid using implementation-specific subcomponent paths in component type annexes.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- door1
+- door2
+- cll
+
+Target interface:
+Exact expression symbols: door1, door2, cll
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+door1 | in | data | bool | Base_Types::boolean
+door2 | in | data | bool | Base_Types::boolean
+cll | out | data | bool | Base_Types::boolean
+
+Raw requirement:
+The doors_int component shall propagate the Boolean control state from door1 to cll. The cll output shall be true exactly when door1 is true.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "cll == door1",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "door1",
+        "cll"
+      ]
+    }
+  ]
+}

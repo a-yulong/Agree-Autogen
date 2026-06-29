@@ -1,0 +1,199 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: altitude, verticalVelocity, outImpact, outRecovery, gcasRequested
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+altitude | in | data | real | Base_Types::float
+verticalVelocity | in | data | real | Base_Types::float
+outImpact | out | data | real | Base_Types::float
+outRecovery | out | data | real | Base_Types::float
+gcasRequested | out | data | bool | Base_Types::boolean
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "When altitude <= 30.0 or verticalVelocity <= 30.0, transition to collision avoidance state.",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "altitude",
+        "verticalVelocity"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Roll rate is between 10.0 and 15.0.",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": []
+    },
+    {
+      "id": "R3",
+      "text": "outImpact is initialized to 0.0 and remains constant.",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "outImpact"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "outRecovery is initialized to 0.0 and remains constant.",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "outRecovery"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GCAS_Monitor | lines 25-34
+annex agree {**
+		const init_impact : real = 0.0;
+		const init_recovery : real = 0.0;
+
+		eq outImpact : real = init_impact;
+		eq outRecovery : real = init_recovery;
+
+		guarantee "terrain_clearance": (altitude <= 30.0) or (verticalVelocity <= 30.0) => gcasRequested;
+		assume "roll_rate_bounds": 10.0 <= 15.0;
+		**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   18: 		features
+   19: 			altitude: in data port Base_Types::float;
+   20: 			verticalVelocity: in data port Base_Types::float;
+   21: 			--Output from the GCAS monitor
+>> 22: 			outImpact: out data port Base_Types::float;
+   23: 			outRecovery: out data port Base_Types::float;
+   24: 			gcasRequested: out data port Base_Types::boolean;
+   25: 	annex agree {**
+   26: 		const init_impact : real = 0.0;
+
+   19: 			altitude: in data port Base_Types::float;
+   20: 			verticalVelocity: in data port Base_Types::float;
+   21: 			--Output from the GCAS monitor
+   22: 			outImpact: out data port Base_Types::float;
+>> 23: 			outRecovery: out data port Base_Types::float;
+   24: 			gcasRequested: out data port Base_Types::boolean;
+   25: 	annex agree {**
+   26: 		const init_impact : real = 0.0;
+   27: 		const init_recovery : real = 0.0;
+
+   25: 	annex agree {**
+   26: 		const init_impact : real = 0.0;
+   27: 		const init_recovery : real = 0.0;
+   28: 
+>> 29: 		eq outImpact : real = init_impact;
+   30: 		eq outRecovery : real = init_recovery;
+   31: 
+   32: 		guarantee "terrain_clearance": (altitude <= 30.0) or (verticalVelocity <= 30.0) => gcasRequested;
+   33: 		assume "roll_rate_bounds": 10.0 <= 15.0;
+
+   26: 		const init_impact : real = 0.0;
+   27: 		const init_recovery : real = 0.0;
+   28: 
+   29: 		eq outImpact : real = init_impact;
+>> 30: 		eq outRecovery : real = init_recovery;
+   31: 
+   32: 		guarantee "terrain_clearance": (altitude <= 30.0) or (verticalVelocity <= 30.0) => gcasRequested;
+   33: 		assume "roll_rate_bounds": 10.0 <= 15.0;
+   34: 		**};
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: GCAS_Monitor
+process GCAS_Monitor
+		features
+			altitude: in data port Base_Types::float;
+			verticalVelocity: in data port Base_Types::float;
+			--Output from the GCAS monitor
+			outImpact: out data port Base_Types::float;
+			outRecovery: out data port Base_Types::float;
+			gcasRequested: out data port Base_Types::boolean;
+	end GCAS_Monitor;
+
+-- TARGET DECLARATION: GCAS_Monitor.GCAS_Monitor_impl
+Process implementation GCAS_Monitor.GCAS_Monitor_impl
+	end GCAS_Monitor.GCAS_Monitor_impl;
+
+-- RELATED MODEL LINES
+process GCAS_Monitor
+altitude: in data port Base_Types::float;
+verticalVelocity: in data port Base_Types::float;
+outImpact: out data port Base_Types::float;
+outRecovery: out data port Base_Types::float;
+gcasRequested: out data port Base_Types::boolean;
+end GCAS_Monitor;
+Process implementation GCAS_Monitor.GCAS_Monitor_impl
+end GCAS_Monitor.GCAS_Monitor_impl;
+gcasm: process GCAS_Monitor;
+gcasm_to_decider: port gcasm.gcasRequested -> dmc.inpGCASM;
+gcasmimp_to_decider: port gcasm.outImpact -> dmc.inpGCASImpact;
+gcasrec_to_decider: port gcasm.outRecovery -> dmc.inpGCASRecovery;
+acasmimp_to_decider: port acasm.outImpact -> dmc.inpACASImpact;
+acasrec_to_decider: port acasm.outRecovery -> dmc.inpACASRecovery;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "GCAS_Monitor",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "GCAS_Monitor.GCAS_Monitor_impl",
+      "kind": "process",
+      "type_name": "GCAS_Monitor"
+    }
+  ],
+  "features": [
+    {
+      "owner": "GCAS_Monitor",
+      "name": "altitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GCAS_Monitor",
+      "name": "verticalVelocity",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GCAS_Monitor",
+      "name": "outImpact",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GCAS_Monitor",
+      "name": "outRecovery",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GCAS_Monitor",
+      "name": "gcasRequested",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    }
+  ]
+}

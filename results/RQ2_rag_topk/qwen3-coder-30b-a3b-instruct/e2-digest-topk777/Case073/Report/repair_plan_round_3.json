@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'gps_pos'.",
+      "cause": "AGREE annex in thread type references implementation-level port 'gps_pos' which is not visible in thread type scope",
+      "minimal_edit": "Replace 'gps_pos' with 'pspg.gps_pos' on left side of equality"
+    },
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'pspg'.",
+      "cause": "AGREE annex in thread type references implementation-level subcomponent 'pspg' which is not visible in thread type scope",
+      "minimal_edit": "Remove 'pspg' from left side of equality"
+    },
+    {
+      "diagnostic": "line 107: left and right sides of binary expression '=' are of type 'Ardupilot_Software::GPS_Position.i' and '<error>', but must be of the same type",
+      "cause": "AGREE annex in thread type references implementation-level port 'gps_pos' which is not visible in thread type scope",
+      "minimal_edit": "Replace 'gps_pos' with 'pspg.gps_pos' on left side of equality"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'pspg'.",
+      "cause": "AGREE annex in thread type references implementation-level subcomponent 'pspg' which is not visible in thread type scope",
+      "minimal_edit": "Remove 'pspg' from left side of equality"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'speed'.",
+      "cause": "AGREE annex in thread type references implementation-level port 'speed' which is not visible in thread type scope",
+      "minimal_edit": "Replace 'speed' with 'pspg.speed' on right side of equality"
+    },
+    {
+      "diagnostic": "line 108: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "AGREE annex in thread type references implementation-level port 'speed' which is not visible in thread type scope",
+      "minimal_edit": "Replace 'speed' with 'pspg.speed' on right side of equality"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the AGREE annex block from thread type thr_mgmt",
+    "Add a new AGREE annex block to thread implementation thr_mgmt.i",
+    "In the new annex block, declare constants for the signal flow relationships",
+    "In the new annex block, add assume statements using only visible identifiers"
+  ]
+}

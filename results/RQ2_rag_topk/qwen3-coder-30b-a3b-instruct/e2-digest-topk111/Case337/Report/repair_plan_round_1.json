@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 213: missing EOF at 'annex'",
+      "cause": "Nested annex blocks: an annex agree is incorrectly placed inside another annex agree block, causing parser failure due to malformed syntax",
+      "minimal_edit": "Remove the outer 'annex agree {**' and '**};' wrappers, leaving only the inner annex agree block"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the outer 'annex agree {**' line (line 212)",
+    "Delete the outer '**};' line (line 216)",
+    "Leave the inner 'annex agree { guarantee \"aileronl_output_bounds\": Cde_AileronL_Output >= 0 and Cde_AileronL_Output <= 100; };' as the sole annex block"
+  ]
+}

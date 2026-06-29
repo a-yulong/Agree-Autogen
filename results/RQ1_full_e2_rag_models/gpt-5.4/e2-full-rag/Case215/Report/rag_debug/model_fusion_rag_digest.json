@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "Preserve the existing AADL structure and insert only into a valid owner scope for the annex block.",
+    "Use the authoritative model structure to match the correct owner kind and scope before merging content.",
+    "Keep component-type contract content with component types, and keep implementation-level bindings with implementations.",
+    "Do not introduce references that are invalid for the chosen owner scope, such as implementation-only paths in a type-owned annex."
+  ],
+  "generic_rules": [
+    "Perform minimal structural edits: add the annex block without changing unrelated features, connections, properties, or hierarchy.",
+    "Maintain owner consistency so inserted content stays attached to the intended component or implementation declaration.",
+    "Preserve ordering and surrounding architecture text unless scope rules require placement after relevant declarations."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE content is enclosed in an `annex agree {** ... **};` block.",
+    "Implementation-scope content belongs in an implementation owner and may need to appear after relevant subcomponents or connections."
+  ],
+  "anti_patterns": [
+    "Do not move or rewrite unrelated architectural elements while fusing generated content.",
+    "Do not place type-scope contract content into an implementation owner or vice versa.",
+    "Do not rely on AADL property names or unit tokens as if they were in-scope AGREE variables during fusion."
+  ],
+  "irrelevant_topics": [
+    "validator-specific type repair tactics",
+    "numeric range clause design details beyond owner/scope placement",
+    "requirement-level semantic interpretation"
+  ]
+}

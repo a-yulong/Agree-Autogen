@@ -1,0 +1,23 @@
+{
+  "rag_rules": [
+    "Fix unresolved identifiers or invalid helpers before adding AGREE clauses; remove invalid clauses if root cause cannot be resolved.",
+    "Place assumption/guarantee contracts in valid component type scopes, not implementation scopes, unless binding existing outputs or features."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or declared auxiliary variables in AGREE annexes; avoid referencing undefined or inaccessible identifiers.",
+    "Ensure AGREE guarantees are placed in appropriate scopes: component types for structural contracts, implementations for binding or output-specific logic.",
+    "Assign statements in implementation contracts must reference existing output features or declared auxiliary variables."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annexes must reference only identifiers visible in the current scope; avoid using subcomponent ports directly in type contracts.",
+    "When using 'eq' helpers in guarantees, ensure the helper is declared in the same annex and resolves to a valid expression."
+  ],
+  "anti_patterns": [
+    "Do not add AGREE clauses referencing identifiers that are not visible or declared in the same annex; this leads to validation errors.",
+    "Do not place guarantee statements in implementation scope unless they bind to an existing output or feature."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about package or property set visibility",
+    "AGREE validator diagnostics (none present)"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Papa_Types::Inter_mcu_msg.Generic' and 'Papa_Types::Tableau.Generic', but must be of the same type",
+      "cause": "type mismatch in data port assignment",
+      "minimal_edit": "remove guarantee \"data_output_validity\": MCU1_Send_Output = MCU1_Data_Input;"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and 'bool', but must be of the same type",
+      "cause": "type mismatch in field assignment",
+      "minimal_edit": "remove guarantee \"status_output_validity\": MCU1_Send_Output.satus = Radio_Ok_Input;"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and 'bool', but must be of the same type",
+      "cause": "type mismatch in field assignment",
+      "minimal_edit": "remove guarantee \"error_count_validity\": MCU1_Send_Output.nb_err = not Radio_Really_Lost_Input;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "remove the guarantee statement on line 44 that compares incompatible types",
+    "remove the guarantee statement on line 45 that compares incompatible types",
+    "remove the guarantee statement on line 46 that compares incompatible types"
+  ]
+}

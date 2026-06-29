@@ -1,0 +1,66 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- AGREE assumptions and guarantees referring to component ports must be placed in valid component type scopes, not implementation scopes.
+- When defining range constraints, use boolean helper declarations to match the actual types of expressions (e.g., bool for comparisons).
+Generic rules:
+- AGREE annex blocks must be syntactically valid and use visible symbols from the component's scope.
+- Assumptions and guarantees should align with the component's port and feature definitions.
+- Helper declarations in AGREE should match the type of the expressions they represent.
+Syntax or pattern reminders:
+- Use boolean helper declarations for range checks (e.g., `range_value : bool = x >= min and x <= max`).
+- Place component-level contracts in component type scopes, not implementation scopes.
+Anti-patterns:
+- Avoid placing implementation-level bindings or subcomponent port references in component type contracts.
+- Do not mismatch types in helper declarations (e.g., declare a real variable for an integer comparison).
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- speed
+
+Target interface:
+Exact expression symbols: speed
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+speed | in | data | int | Base_Types::Integer
+
+Raw requirement:
+The thr_throttle_simulation component shall operate under a bounded input condition for speed. The environment shall keep speed greater than or equal to -100 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "speed >= -100 and speed <= 100",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "speed"
+      ]
+    }
+  ]
+}

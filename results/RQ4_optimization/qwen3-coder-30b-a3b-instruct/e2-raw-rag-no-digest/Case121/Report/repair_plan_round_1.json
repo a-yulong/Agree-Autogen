@@ -1,0 +1,33 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 36: named thing must be an expression with a type",
+      "cause": "AGREE assume/guarantee statements reference port names that are not valid expressions in the component type scope",
+      "minimal_edit": "Move the annex block from component type ACCELERO to component implementation ACCELERO.IMPL"
+    },
+    {
+      "diagnostic": "line 37: named thing must be an expression with a type",
+      "cause": "AGREE assume/guarantee statements reference port names that are not valid expressions in the component type scope",
+      "minimal_edit": "Move the annex block from component type ACCELERO to component implementation ACCELERO.IMPL"
+    },
+    {
+      "diagnostic": "line 38: named thing must be an expression with a type",
+      "cause": "AGREE assume/guarantee statements reference port names that are not valid expressions in the component type scope",
+      "minimal_edit": "Move the annex block from component type ACCELERO to component implementation ACCELERO.IMPL"
+    },
+    {
+      "diagnostic": "line 39: named thing must be an expression with a type",
+      "cause": "AGREE assume/guarantee statements reference port names that are not valid expressions in the component type scope",
+      "minimal_edit": "Move the annex block from component type ACCELERO to component implementation ACCELERO.IMPL"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the annex agree block from the ACCELERO component type",
+    "Add a new annex agree block to the ACCELERO.IMPL component implementation",
+    "In the new annex block, replace acc_out_data_x = acc_in_data_x with acc_out_data_x = accelero_sub.acc_out_data_x",
+    "In the new annex block, replace acc_out_data_y = acc_in_data_y with acc_out_data_y = accelero_sub.acc_out_data_y",
+    "In the new annex block, replace guarantee statements with assign statements for the output dependencies",
+    "Ensure the assign statements reference only visible symbols in the implementation scope"
+  ]
+}

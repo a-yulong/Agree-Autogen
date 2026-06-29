@@ -1,0 +1,24 @@
+{
+  "rag_rules": [
+    "Place AGREE contracts in the appropriate AADL scope: component type annexes for interface behavior, implementation annexes for subcomponent bindings.",
+    "Use assign statements only for implementation-level output features or declared auxiliary variables in implementation scope."
+  ],
+  "generic_rules": [
+    "Ensure all identifiers in AGREE annexes are visible in the current AADL scope and match the model's component structure.",
+    "Do not introduce package-qualified names or data types not present in the analyzed AADL model.",
+    "Avoid placing implementation-specific guarantees in component type annexes; use type-level guarantees over visible ports instead."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks are enclosed in `annex agree {** ... **};` and must be placed in valid AADL component type or implementation scopes.",
+    "Implementation-level bindings like assign should only reference outputs or auxiliary variables declared in the same implementation scope."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-only subcomponent paths or output dependencies in component type contracts; move them to implementation scope or rewrite as type-level guarantees.",
+    "Do not introduce new package references or data types not defined in the input AADL model."
+  ],
+  "irrelevant_topics": [
+    "assume/guarantee syntax and validator diagnostics",
+    "requirement traceability and compact semantics",
+    "model repair and minimal fix patterns"
+  ]
+}

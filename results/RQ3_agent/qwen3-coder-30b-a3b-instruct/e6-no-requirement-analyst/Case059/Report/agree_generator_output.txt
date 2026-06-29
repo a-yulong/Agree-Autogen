@@ -1,0 +1,14 @@
+annex agree {**
+  assume "panel_signal_flow": Panel.MAX or Panel.MED or Panel.LO;
+  assume "fail_com1_valid": FailCOM1 = true or FailCOM1 = false;
+  assume "fail_mon1_valid": FailMON1 = true or FailMON1 = false;
+  assume "fail_com2_valid": FailCOM2 = true or FailCOM2 = false;
+  assume "fail_mon2_valid": FailMON2 = true or FailMON2 = false;
+  guarantee "com1_panel_routing": CH1.Error = Panel.MAX;
+  guarantee "com1_cmd_routing": CH1.Cmd = Pedal;
+  guarantee "mon1_cmd_routing": CH2.Cmd = CH1.Cmd;
+  guarantee "com1_active": CH1.Active = not FailCOM1;
+  guarantee "mon1_active": CH2.Active = not FailMON1;
+  guarantee "com1_error": CH1.Error = FailCOM1;
+  guarantee "mon1_error": CH2.Error = FailMON1;
+**};

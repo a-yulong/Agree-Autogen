@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 182: Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "AGREE annex is attached to the component type ATTITUDE_CALCULATION, but acc_in_data_x and attitude_sub.acc_in_data_x are not both visible in the component type scope; attitude_sub is a subcomponent only visible in the implementation.",
+      "minimal_edit": "Move the annex agree block from ATTITUDE_CALCULATION to ATTITUDE_CALCULATION.IMPL"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 182: Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "attitude_sub is a subcomponent declaration within ATTITUDE_CALCULATION.IMPL, not visible in the component type ANNEX scope.",
+      "minimal_edit": "Move the annex agree block from ATTITUDE_CALCULATION to ATTITUDE_CALCULATION.IMPL"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 182: named thing must be an expression with a type",
+      "cause": "The expression acc_in_data_x = attitude_sub.acc_in_data_x fails because attitude_sub.acc_in_data_x is not a valid symbol in the component type context.",
+      "minimal_edit": "Move the annex agree block from ATTITUDE_CALCULATION to ATTITUDE_CALCULATION.IMPL"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 183: Couldn't resolve reference to 'acc_in_data_y'.",
+      "cause": "Same as line 182: acc_in_data_y is visible, but attitude_sub.acc_in_data_y is not resolvable in component type annex.",
+      "minimal_edit": "Move the annex agree block from ATTITUDE_CALCULATION to ATTITUDE_CALCULATION.IMPL"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 183: Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "attitude_sub is not visible in component type scope; only visible in implementation.",
+      "minimal_edit": "Move the annex agree block from ATTITUDE_CALCULATION to ATTITUDE_CALCULATION.IMPL"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 183: named thing must be an expression with a type",
+      "cause": "Expression fails due to invalid symbol attitude_sub.acc_in_data_y in component type context.",
+      "minimal_edit": "Move the annex agree block from ATTITUDE_CALCULATION to ATTITUDE_CALCULATION.IMPL"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the annex agree block from ATTITUDE_CALCULATION (lines 181-184)",
+    "Insert a new annex agree block inside ATTITUDE_CALCULATION.IMPL after the connections block",
+    "In the new annex block, retain the exact assume statements: assume \"acc_x_route\": acc_in_data_x = attitude_sub.acc_in_data_x; and assume \"acc_y_route\": acc_in_data_y = attitude_sub.acc_in_data_y;"
+  ]
+}

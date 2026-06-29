@@ -1,0 +1,12 @@
+annex agree {**
+  assume "inpGCASImpact greater than inpACASImpact": inpGCASImpact > inpACASImpact;
+  assume "inpGCASRecovery plus inpACASRecovery ensures no secondary collision": inpGCASRecovery + inpACASRecovery > 0.0;
+  guarantee "dynamicDecide is ACAS when inpGCASImpact greater than inpACASImpact and no secondary collision": 
+    (inpGCASImpact > inpACASImpact and inpGCASRecovery + inpACASRecovery > 0.0) => dynamicDecide = 1;
+  guarantee "dynamicDecide is GCAS when not (inpGCASImpact greater than inpACASImpact and no secondary collision)": 
+    not (inpGCASImpact > inpACASImpact and inpGCASRecovery + inpACASRecovery > 0.0) => dynamicDecide = 2;
+  guarantee "outDec is dynamicDecide when numberServicesTrue greater than or equal to 2": 
+    numberServicesTrue >= 2 => outDec = dynamicDecide;
+  guarantee "outDec is static priority-based decision when numberServicesTrue less than 2": 
+    numberServicesTrue < 2 => outDec = 3;
+**};

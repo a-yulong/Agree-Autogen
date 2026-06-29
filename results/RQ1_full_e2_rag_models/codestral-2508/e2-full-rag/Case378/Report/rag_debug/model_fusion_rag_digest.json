@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Place AGREE annex blocks in the correct scope: component type annexes for assumptions, guarantees, constants, and equations, and implementation annexes for implementation-level bindings",
+    "Use only visible identifiers in AGREE expressions, avoiding subcomponent paths in component type annexes"
+  ],
+  "generic_rules": [
+    "Preserve the existing AADL architecture when inserting AGREE annex blocks",
+    "Ensure AGREE annex blocks are placed in valid scopes according to the component type or implementation context",
+    "Use only visible identifiers in AGREE expressions to maintain consistency with the AADL model"
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are written inside `annex agree {** ... **};` blocks",
+    "Use `assume`, `guarantee`, `eq`, `const`, and `assign` for AGREE syntax"
+  ],
+  "anti_patterns": [
+    "Avoid placing assumptions and guarantees that refer to subcomponent ports in component type annexes",
+    "Do not use AADL property names directly in AGREE expressions without explicit typed ports or constants"
+  ],
+  "irrelevant_topics": [
+    "AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes",
+    "Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections",
+    "Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs",
+    "For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation",
+    "For output dependency contracts, write a guarantee that relates visible outputs to visible inputs",
+    "If AGREE reports \"The assumed type ... is ... but the actual type is ...\", align the helper declaration type with the expression",
+    "If diagnostics report unresolved references to Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens such as ms/us/Hz/Bytes inside an AGREE annex, delete the generated clause"
+  ]
+}

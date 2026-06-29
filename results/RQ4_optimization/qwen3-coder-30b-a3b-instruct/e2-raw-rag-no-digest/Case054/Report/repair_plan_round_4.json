@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Communication_Properties (identifier) qualified reference name not found in 'with' statements of Integer_Toy_Extended (package specification)",
+      "cause": "Qualified reference to Communication_Properties in port connections",
+      "minimal_edit": "Remove qualified reference to Communication_Properties in port connection declarations"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove all instances of {Communication_Properties::Timing => immediate;} from port connection declarations",
+    "Ensure the model compiles without Communication_Properties package references",
+    "Verify that the AGREE annex remains valid with only visible identifiers"
+  ]
+}

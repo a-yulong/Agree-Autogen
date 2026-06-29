@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Treat each AGREE block as scoped to its owning component declaration, and use only identifiers visible there.
+- When generating a component type contract, use only visible inputs, outputs, or parameters; do not reference implementation-only subcomponent paths.
+- Visible subprogram in/out parameters are legal AGREE identifiers in the owning subprogram scope.
+- Take names, directions, and data types from the AADL model facts rather than inferring them.
+Generic rules:
+- Express dependency requirements as direct relations between visible outputs and visible inputs when possible.
+- Add range assumptions or guarantees only when concrete bounds, constants, or explicit visible relations are supplied.
+Syntax or pattern reminders:
+- Core forms: assume "label": expr; guarantee "label": expr; eq name : type = expr; const name : type = value; assign output = expr;
+- AGREE scalar types are int, real, and bool; helper declaration types must match the expression type.
+Anti-patterns:
+- Do not invent identifiers, feature paths, or data types that are not supported by the model facts.
+- Do not mix scopes by using implementation-only names inside a component type contract.
+</RAG_DIGEST>

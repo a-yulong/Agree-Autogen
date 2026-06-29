@@ -1,8 +1,8 @@
-# Reproducibility
+﻿# Reproducibility
 
-This repository supports three reproducibility levels:
+This repository supports three reproduction levels:
 
-1. offline inspection of benchmark inputs, prompts, knowledge sources, code, and released aggregate results;
+1. offline inspection of benchmark inputs, prompts, knowledge sources, code, aggregate tables, and per-case results;
 2. dry-run execution without model-provider calls or external validators;
 3. full generation and validation with an OpenAI-compatible model endpoint, JDK 17, OSATE/AGREE, and the standalone validator.
 
@@ -27,9 +27,9 @@ These tests use the released benchmark files and do not call an LLM provider.
 
 ```powershell
 python scripts/run_files.py `
-  --requirement data/benchmark/cases/Case01/Case01_Req.txt `
-  --aadl data/benchmark/cases/Case01/Case01_Base.aadl `
-  --output-dir outputs/case01_dry `
+  --requirement data/benchmark/cases/Case001/Case001_Req.txt `
+  --aadl data/benchmark/cases/Case001/Case001_Base.aadl `
+  --output-dir outputs/Case001_dry `
   --setting E2 `
   --skip-validation `
   --dry-run
@@ -38,7 +38,7 @@ python scripts/run_files.py `
 Expected files:
 
 ```text
-outputs/case01_dry/
+outputs/Case001_dry/
   dry_run_report.json
   input.aadl
   requirement.txt
@@ -91,4 +91,5 @@ Aggregate per-case reports:
 python scripts/aggregate_experiment_results.py --result-root outputs/e2_cases_1_5
 ```
 
-The released aggregate result files under `results/` were computed from per-case JSON reports using this reporting schema. The complete per-case result tree is distributed as an external archive artifact because it is too large and file-heavy for the main Git history.
+The released aggregate result files under `results/` were computed from the per-case JSON reports stored in the same result tree.
+

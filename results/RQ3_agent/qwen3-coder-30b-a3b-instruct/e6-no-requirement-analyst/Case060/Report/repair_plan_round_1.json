@@ -1,0 +1,65 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 122: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the equation that references Agree_Nodes::Brake_Mode"
+    },
+    {
+      "diagnostic": "line 137: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the guarantee that references Agree_Nodes::Brake_Cmd"
+    },
+    {
+      "diagnostic": "line 254: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the lemma that references Agree_Nodes::Brake_Cmd"
+    },
+    {
+      "diagnostic": "line 254: Couldn't resolve reference to 'Mode'.",
+      "cause": "Reference to undefined variable",
+      "minimal_edit": "Remove the lemma that references undefined Mode"
+    },
+    {
+      "diagnostic": "line 255: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the lemma that references Agree_Nodes::Brake_Cmd"
+    },
+    {
+      "diagnostic": "line 255: Couldn't resolve reference to 'Mode'.",
+      "cause": "Reference to undefined variable",
+      "minimal_edit": "Remove the lemma that references undefined Mode"
+    },
+    {
+      "diagnostic": "line 256: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the lemma that references Agree_Nodes::Brake_Cmd"
+    },
+    {
+      "diagnostic": "line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the lemma that references Agree_Nodes::Brake_Cmd"
+    },
+    {
+      "diagnostic": "line 259: Couldn't resolve reference to 'Mode'.",
+      "cause": "Reference to undefined variable",
+      "minimal_edit": "Remove the lemma that references undefined Mode"
+    },
+    {
+      "diagnostic": "line 260: Couldn't resolve reference to 'Mode'.",
+      "cause": "Reference to undefined variable",
+      "minimal_edit": "Remove the lemma that references undefined Mode"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the MON annex, remove the equation 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' on line 122",
+    "In the MON annex, remove the guarantee 'not Fail => (Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal));' on line 137",
+    "In the BSCU_Impl annex, remove the lemma 'lemma L1 \"COM1 Consistency\" : COM1._CLK and not FailCOM1 => (COM1.CMD = Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal));' on line 254",
+    "In the BSCU_Impl annex, remove the lemma 'lemma L2 \"COM2 Consistency\" : COM2._CLK and not FailCOM2 => (COM2.CMD = Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal));' on line 255",
+    "In the BSCU_Impl annex, remove the lemma 'lemma L3 \"MON1 Consistency\" : MON1._CLK and not FailMON1 => (MON1.Status.Cmd = Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal));' on line 256",
+    "In the BSCU_Impl annex, remove the lemma 'lemma L4 \"MON2 Consistency\" : MON2._CLK and not FailMON2 => (MON2.Status.Cmd = Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal));' on line 257",
+    "In the BSCU_Impl annex, remove the lemma 'lemma L5 \"CH1 Consistency\" : (MON1_Running and COM1_Running) => Agree_Nodes::Duration(MON1.Mode != COM1.Mode) < 7;' on line 259",
+    "In the BSCU_Impl annex, remove the lemma 'lemma L6 \"CH2 Consistency\" : (MON2_Running and COM2_Running) => Agree_Nodes::Duration(MON2.Mode != COM2.Mode) < 7;' on line 260"
+  ]
+}

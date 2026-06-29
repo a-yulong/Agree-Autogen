@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 24: Duplicate Element 'k'",
+      "cause": "Variable 'k' declared in component type contract and referenced in implementation annex",
+      "minimal_edit": "Move the declaration and update rule for 'k' into the implementation annex"
+    },
+    {
+      "diagnostic": "line 25: Duplicate Element 'k'",
+      "cause": "Variable 'k' declared in component type contract and referenced in implementation annex",
+      "minimal_edit": "Move the declaration and update rule for 'k' into the implementation annex"
+    },
+    {
+      "diagnostic": "line 35: The left hand side of the assignment statement is of type 'int' but the right hand side is of type '<error>'",
+      "cause": "Assignment to 'dataout' references undefined variable 'k' in implementation scope",
+      "minimal_edit": "Remove the assignment to 'dataout' from implementation annex and move it to component type contract"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove 'eq k : int = 10;' and 'eq k' = if k >= 20 then k - 1 else if k <= 0 then k + 1 else k;' from temperature_sensor annex",
+    "Add 'eq k : int = 10;' and 'eq k' = if k >= 20 then k - 1 else if k <= 0 then k + 1 else k;' to temperature_sensor.i2 annex",
+    "Remove 'assign dataout = k;' from temperature_sensor.i2 annex",
+    "Add 'assign dataout = k;' to temperature_sensor annex"
+  ]
+}

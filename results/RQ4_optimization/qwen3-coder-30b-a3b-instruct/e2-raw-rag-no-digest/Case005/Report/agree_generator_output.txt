@@ -1,0 +1,6 @@
+annex agree {**
+  assume "timeToRecovery is set to 8.7": timeToRecovery = 8.7;
+  assume "timeToFailure is set to 16.0": timeToFailure = 16.0;
+  guarantee "altitude remains above 200.0 after recovery": timeToRecovery <= time => altitude > 200.0;
+  guarantee "altitude increases continuously after recovery": timeToRecovery <= time => altitude > pre(altitude);
+**};

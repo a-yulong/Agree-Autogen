@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::state_sig.impl' and 'int', but must be of the same type",
+      "cause": "Type mismatch in equality comparison between opaque type and integer",
+      "minimal_edit": "Replace State_Signal = 0 or State_Signal = 1 with a boolean variable that represents the valid states"
+    },
+    {
+      "diagnostic": "left side of binary expression '<=' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Invalid comparison between opaque type and real type",
+      "minimal_edit": "Remove or rewrite the speed limit guarantee to use valid comparable types"
+    },
+    {
+      "diagnostic": "right side of binary expression '<=' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Invalid comparison between opaque type and real type",
+      "minimal_edit": "Remove or rewrite the speed limit guarantee to use valid comparable types"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Create a boolean variable to represent valid state signal values",
+    "Rewrite the state signal bounds assumption using the boolean variable",
+    "Remove or rewrite the speed limit guarantee to avoid opaque type comparisons",
+    "Ensure all expressions in the annex use only visible symbols and compatible types"
+  ]
+}

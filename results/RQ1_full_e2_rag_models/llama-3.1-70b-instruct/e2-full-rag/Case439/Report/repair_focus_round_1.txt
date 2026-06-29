@@ -1,0 +1,84 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: T_Output, Dev_Bus
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+T_Output | out | data | opaque | Base_Types::Integer_8
+Dev_Bus | requires | access | opaque | 
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "T_Output >= 0 and T_Output <= 100",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "T_Output",
+        "Tension component"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Tension | lines 39-41
+annex agree {**
+    guarantee "T_Output bounds": T_Output >= 0 and T_Output <= 100;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+No validator line numbers were available.
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Tension
+device Tension -- Alimentation
+  features
+    T_Output : out data port Base_Types::Integer_8;
+    Dev_Bus : requires bus access Device_Bus.MCU0;
+  end Tension;
+
+-- RELATED MODEL LINES
+Dev_Bus : requires bus access Device_Bus.MCU0;
+device Tension -- Alimentation
+T_Output : out data port Base_Types::Integer_8;
+end Tension;
+Dev_Bus : requires bus access Device_bus.MCU0;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Tension",
+      "kind": "device"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Tension",
+      "kind": "device",
+      "type_name": "Tension"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Tension",
+      "name": "T_Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer_8",
+      "scalar": "Integer_8"
+    },
+    {
+      "owner": "Tension",
+      "name": "Dev_Bus",
+      "direction": "requires",
+      "category": "bus access",
+      "type": "Device_Bus.MCU0",
+      "scalar": "opaque"
+    }
+  ]
+}

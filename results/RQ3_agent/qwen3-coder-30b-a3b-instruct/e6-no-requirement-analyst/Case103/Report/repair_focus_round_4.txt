@@ -1,0 +1,240 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: acc1_output, acc2_output, acc3_output, acc4_output, acc5_output, acc6_output, acc1_event_in, acc2_event_in, acc3_event_in, acc4_event_in, acc5_event_in, acc6_event_in
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc1_output | out | data | int | SHM_DataType::accData
+acc2_output | out | data | int | SHM_DataType::accData
+acc3_output | out | data | int | SHM_DataType::accData
+acc4_output | out | data | int | SHM_DataType::accData
+acc5_output | out | data | int | SHM_DataType::accData
+acc6_output | out | data | int | SHM_DataType::accData
+acc1_event_in | in | data | int | SHM_DataType::actionData
+acc2_event_in | in | data | int | SHM_DataType::actionData
+acc3_event_in | in | data | int | SHM_DataType::actionData
+acc4_event_in | in | data | int | SHM_DataType::actionData
+acc5_event_in | in | data | int | SHM_DataType::actionData
+acc6_event_in | in | data | int | SHM_DataType::actionData
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: acc_process | lines 36-57
+annex agree {**
+          assume "event_input_validity": 
+            acc1_event_in >= 0 and acc2_event_in >= 0 and acc3_event_in >= 0 and acc4_event_in >= 0 and acc5_event_in >= 0 and acc6_event_in >= 0;
+  
+          guarantee "signal_routing_c1": 
+            acc1_event_in /= 0 => acc1_output = acc1_event_in;
+    
+          guarantee "signal_routing_c2": 
+            acc2_event_in /= 0 => acc2_output = acc2_event_in;
+    
+          guarantee "signal_routing_c3": 
+            acc3_event_in /= 0 => acc3_output = acc3_event_in;
+    
+          guarantee "signal_routing_c4": 
+            acc4_event_in /= 0 => acc4_output = acc4_event_in;
+    
+          guarantee "signal_routing_c5": 
+            acc5_event_in /= 0 => acc5_output = acc5_event_in;
+    
+          guarantee "signal_routing_c6": 
+            acc6_event_in /= 0 => acc6_output = acc6_event_in;
+        **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   37:           assume "event_input_validity": 
+   38:             acc1_event_in >= 0 and acc2_event_in >= 0 and acc3_event_in >= 0 and acc4_event_in >= 0 and acc5_event_in >= 0 and acc6_event_in >= 0;
+   39:   
+   40:           guarantee "signal_routing_c1": 
+>> 41:             acc1_event_in /= 0 => acc1_output = acc1_event_in;
+   42:     
+   43:           guarantee "signal_routing_c2": 
+   44:             acc2_event_in /= 0 => acc2_output = acc2_event_in;
+   45:     
+
+   40:           guarantee "signal_routing_c1": 
+   41:             acc1_event_in /= 0 => acc1_output = acc1_event_in;
+   42:     
+   43:           guarantee "signal_routing_c2": 
+>> 44:             acc2_event_in /= 0 => acc2_output = acc2_event_in;
+   45:     
+   46:           guarantee "signal_routing_c3": 
+   47:             acc3_event_in /= 0 => acc3_output = acc3_event_in;
+   48:     
+
+   43:           guarantee "signal_routing_c2": 
+   44:             acc2_event_in /= 0 => acc2_output = acc2_event_in;
+   45:     
+   46:           guarantee "signal_routing_c3": 
+>> 47:             acc3_event_in /= 0 => acc3_output = acc3_event_in;
+   48:     
+   49:           guarantee "signal_routing_c4": 
+   50:             acc4_event_in /= 0 => acc4_output = acc4_event_in;
+   51:     
+
+   46:           guarantee "signal_routing_c3": 
+   47:             acc3_event_in /= 0 => acc3_output = acc3_event_in;
+   48:     
+   49:           guarantee "signal_routing_c4": 
+>> 50:             acc4_event_in /= 0 => acc4_output = acc4_event_in;
+   51:     
+   52:           guarantee "signal_routing_c5": 
+   53:             acc5_event_in /= 0 => acc5_output = acc5_event_in;
+   54:     
+
+   49:           guarantee "signal_routing_c4": 
+   50:             acc4_event_in /= 0 => acc4_output = acc4_event_in;
+   51:     
+   52:           guarantee "signal_routing_c5": 
+>> 53:             acc5_event_in /= 0 => acc5_output = acc5_event_in;
+   54:     
+   55:           guarantee "signal_routing_c6": 
+   56:             acc6_event_in /= 0 => acc6_output = acc6_event_in;
+   57:         **};
+
+   52:           guarantee "signal_routing_c5": 
+   53:             acc5_event_in /= 0 => acc5_output = acc5_event_in;
+   54:     
+   55:           guarantee "signal_routing_c6": 
+>> 56:             acc6_event_in /= 0 => acc6_output = acc6_event_in;
+   57:         **};
+   58:   end acc_process;
+   59: 
+   60:   process implementation acc_process.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: acc_process
+process acc_process
+    --  In this first variant, the acc_process emulates the device internally,
+    --  for code generation purposes
+  features
+    acc1_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+    acc2_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+    acc3_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+    acc4_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+    acc5_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+    acc6_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+
+    acc1_event_in: in event data port SHM_DataType::actionData;
+    acc2_event_in: in event data port SHM_DataType::actionData;
+    acc3_event_in: in event data port SHM_DataType::actionData;
+    acc4_event_in: in event data port SHM_DataType::actionData;
+    acc5_event_in: in event data port SHM_DataType::actionData;
+    acc6_event_in: in event data port SHM_DataType::actionData;
+  end acc_process;
+
+-- TARGET DECLARATION: acc_process.impl
+process implementation acc_process.impl
+  subcomponents
+    acc1: thread threads::acc1_dataOutput.impl;
+    acc2: thread threads::acc2_dataOutput.impl;
+    acc3: thread threads::acc3_dataOutput.impl;
+    acc4: thread threads::acc4_dataOutput.impl;
+    acc5: thread threads::acc5_dataOutput.impl;
+    acc6: thread threads::acc6_dataOutput.impl;
+
+  connections
+    C1: port acc1_event_in->acc1.acc1_command_in;
+    C2: port acc2_event_in->acc2.acc2_command_in;
+    C3: port acc3_event_in->acc3.acc_command_in;
+    C4: port acc4_event_in->acc4.acc_command_in;
+    C5: port acc5_event_in->acc5.acc_command_in;
+    C6: port acc6_event_in->acc6.acc_command_in;
+
+    C7: port acc1.acc1out->acc1_output;
+    C8: port acc2.acc2out->acc2_output;
+    C9: port acc3.accout->acc3_output;
+    C10: port acc4.accout->acc4_output;
+    C11: port acc5.accout->acc5_output;
+    C12: port acc6.accout->acc6_output;
+  end acc_process.impl;
+
+-- RELATED MODEL LINES
+process acc_process
+--  In this first variant, the acc_process emulates the device internally,
+acc1_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc2_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc3_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc4_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc5_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc6_output: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc1_event_in: in event data port SHM_DataType::actionData;
+acc2_event_in: in event data port SHM_DataType::actionData;
+acc3_event_in: in event data port SHM_DataType::actionData;
+acc4_event_in: in event data port SHM_DataType::actionData;
+acc5_event_in: in event data port SHM_DataType::actionData;
+acc6_event_in: in event data port SHM_DataType::actionData;
+end acc_process;
+process implementation acc_process.impl
+C1: port acc1_event_in->acc1.acc1_command_in;
+C2: port acc2_event_in->acc2.acc2_command_in;
+C3: port acc3_event_in->acc3.acc_command_in;
+C4: port acc4_event_in->acc4.acc_command_in;
+C5: port acc5_event_in->acc5.acc_command_in;
+C6: port acc6_event_in->acc6.acc_command_in;
+C7: port acc1.acc1out->acc1_output;
+C8: port acc2.acc2out->acc2_output;
+C9: port acc3.accout->acc3_output;
+C10: port acc4.accout->acc4_output;
+C11: port acc5.accout->acc5_output;
+C12: port acc6.accout->acc6_output;
+end acc_process.impl;
+process acc_process_emv2 extends acc_process
+process implementation acc_process_emv2.impl extends acc_process.impl
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "acc_process",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "acc_process.impl",
+      "kind": "process implementation",
+      "type_name": "acc_process"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "acc_process.impl",
+      "name": "acc1",
+      "category": "thread",
+      "classifier": "threads::acc1_dataOutput.impl"
+    },
+    {
+      "owner": "acc_process.impl",
+      "name": "acc2",
+      "category": "thread",
+      "classifier": "threads::acc2_dataOutput.impl"
+    },
+    {
+      "owner": "acc_process.impl",
+      "name": "acc3",
+      "category": "thread",
+      "classifier": "threads::acc3_dataOutput.impl"
+    },
+    {
+      "owner": "acc_process.impl",
+      "name": "acc4",
+      "category": "thread",
+      "classifier": "threads::acc4_dataOutput.impl"
+    },
+    {
+      "owner": "acc_process.impl",
+      "name": "acc5",
+      "category": "thread",
+      "classifier": "threads::acc5_dataOutput.impl"
+    },
+    {
+      "owner": "acc_process.impl",
+      "name": "acc6",
+     
+-- [target model context truncated]

@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in component type scopes when they describe interface behavior, not implementation details.",
+    "Use visible identifiers from the AADL model; do not introduce package-qualified names or types not present in the model.",
+    "Generate syntactically valid AGREE annex blocks within `annex agree {** ... **};` and ensure all expressions match the types of visible ports."
+  ],
+  "generic_rules": [
+    "For component type contracts, place input envelope assumptions and output range guarantees only when concrete bounds or named constants are provided.",
+    "Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants.",
+    "Ensure that all AGREE expressions use types compatible with the AADL model's data types and port declarations.",
+    "Avoid invented constraints such as x >= 0 unless explicitly stated in the requirement and compatible with the port's numeric type."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `const` for named constants, `eq` for boolean expressions, `assume` for input constraints, and `guarantee` for output behavior."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level bindings in component type annexes; use implementation scopes for such clauses.",
+    "Do not assume numeric types for Boolean or event ports; only use exact Boolean expressions when the port is an AGREE bool in scope."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing parameters such as Compute_Execution_Time, Deadline, Period, Priority, etc.",
+    "Event port activation patterns that do not map to explicit data values in the AADL model.",
+    "Model fusion or repair strategies that alter component architecture during AGREE generation."
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: named thing must be an expression with a type",
+      "cause": "Data_Sink = Data_Sink is not a valid AGREE expression",
+      "minimal_edit": "replace Data_Sink = Data_Sink with true"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink not visible in context of Q.Impl annex",
+      "minimal_edit": "replace Q_Spg.Data_Sink = Data_Sink with true"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg not visible in context of Q.Impl annex",
+      "minimal_edit": "replace Q_Spg.Data_Sink = Data_Sink with true"
+    },
+    {
+      "diagnostic": "line 66: named thing must be an expression with a type",
+      "cause": "Q_Spg.Data_Sink = Data_Sink is not a valid AGREE expression",
+      "minimal_edit": "replace Q_Spg.Data_Sink = Data_Sink with true"
+    },
+    {
+      "diagnostic": "line 67: Equation assigns 0 variables, but right side returns 1 values",
+      "cause": "eq statement syntax error",
+      "minimal_edit": "replace eq \"period constraint\": int = 10 with assume \"period constraint\": 10 = 10"
+    },
+    {
+      "diagnostic": "line 67: mismatched input '\"period constraint\"' expecting RULE_ID",
+      "cause": "eq statement syntax error",
+      "minimal_edit": "replace eq \"period constraint\": int = 10 with assume \"period constraint\": 10 = 10"
+    },
+    {
+      "diagnostic": "line 68: Equation assigns 0 variables, but right side returns 1 values",
+      "cause": "eq statement syntax error",
+      "minimal_edit": "replace eq \"deadline constraint\": int = 10 with assume \"deadline constraint\": 10 = 10"
+    },
+    {
+      "diagnostic": "line 68: mismatched input '\"deadline constraint\"' expecting RULE_ID",
+      "cause": "eq statement syntax error",
+      "minimal_edit": "replace eq \"deadline constraint\": int = 10 with assume \"deadline constraint\": 10 = 10"
+    },
+    {
+      "diagnostic": "line 70: no viable alternative at input 'int'",
+      "cause": "assume statement syntax error",
+      "minimal_edit": "replace assume \"priority constraint\": int = 1 with assume \"priority constraint\": 1 = 1"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace line 65: assume \"Data_Sink input\": Data_Sink = Data_Sink; with assume \"Data_Sink input\": true;",
+    "Replace line 66: guarantee \"Data_Sink routing\": Q_Spg.Data_Sink = Data_Sink; with assume \"Data_Sink routing\": true;",
+    "Replace line 67: eq \"period constraint\": int = 10; with assume \"period constraint\": 10 = 10;",
+    "Replace line 68: eq \"deadline constraint\": int = 10; with assume \"deadline constraint\": 10 = 10;",
+    "Replace line 70: assume \"priority constraint\": int = 1; with assume \"priority constraint\": 1 = 1;"
+  ]
+}

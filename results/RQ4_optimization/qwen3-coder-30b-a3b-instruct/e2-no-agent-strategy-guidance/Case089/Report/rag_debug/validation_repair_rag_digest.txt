@@ -1,0 +1,17 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- When generating AGREE contracts, ensure all referenced identifiers are declared or visible in the same annex or component scope.
+- Validate that AGREE scalar type names match AADL expectations (int, real, bool) to prevent resolution errors.
+- Align helper declaration types with the types of their assigned expressions to avoid assumed vs actual type mismatches.
+- Remove invalid AGREE clauses instead of adding architecture when references cannot be resolved.
+Syntax or pattern reminders:
+- AGREE contracts must be placed in valid AADL component scopes: type annexes for assumptions/guarantees, implementation annexes for bindings.
+- AGREE property associations and references must not introduce identifiers not declared in the AADL model or its configured dependencies.
+Anti-patterns:
+- Do not add new architecture elements to resolve AGREE reference errors; instead, correct or remove invalid clauses.
+- Do not use invalid scalar type names like 'integer' or 'boolean' in AGREE const/eq declarations.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about property associations
+- AGREE validator diagnostics about component type annexes
+- Model traceability and requirement semantics
+</RAG_DIGEST>

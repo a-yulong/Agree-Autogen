@@ -1,0 +1,127 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `annex agree { ... };` to enclose AGREE contracts.
+- Place assumptions and guarantees in the component type annex.
+- Ensure AGREE expressions use valid types: `int`, `real`, and `bool`.
+Generic rules:
+- Relate visible outputs to visible inputs in guarantees.
+- Use case-provided constants and relations in contracts.
+- Avoid using implementation-level details in component type contracts.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contracts.
+- Declare constants with `const name : type = value;`.
+- Define equations with `eq name : type = expression;`.
+Anti-patterns:
+- Do not include AADL property names (e.g., Compute_Execution_Time) directly in AGREE expressions.
+- Avoid unresolved references to 'integer' or 'boolean'; use `int` or `bool` instead.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Target
+- Actuator_Input
+- Actual
+
+Target interface:
+Exact expression symbols: Target, Actuator_Input, Actual
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Target | in | data | opaque | Types::speed.speed_impl
+Actuator_Input | out | data | real | Base_Types::Float
+Actual | in | data | opaque | Types::speed.speed_impl
+
+Raw requirement:
+The Speed_Control component shall implement PID control logic using proportional gain P = 1.0, derivative gain D = 0.0, and integral gain I = 0.0. The component shall compute the error e as the difference between the target speed input and the actual speed input. It shall calculate the error integration term e_int as the integral of e over time and the error derivative term e_dot as the derivative of e with respect to time. The Speed_Control implementation shall ensure that the Actuator_Input output is strictly equal to the control law result P * e + D * e_dot + I * e_int.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "P = 1.0",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R2",
+      "text": "D = 0.0",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R3",
+      "text": "I = 0.0",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R4",
+      "text": "e = Target - Actual",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "Target",
+        "Actual"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "e_int is the integral of e",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "e"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "e_dot is the derivative of e",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "e"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "Actuator_Input = P * e + D * e_dot + I * e_int",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Actuator_Input",
+        "P",
+        "e",
+        "D",
+        "e_dot",
+        "I",
+        "e_int"
+      ]
+    }
+  ]
+}

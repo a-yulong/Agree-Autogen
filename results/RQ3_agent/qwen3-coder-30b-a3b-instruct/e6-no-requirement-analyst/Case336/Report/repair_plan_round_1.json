@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 44: Couldn't resolve reference to 'null'.",
+      "cause": "AGREE does not support null comparisons for opaque types",
+      "minimal_edit": "Remove the null comparison for MCU1_Send_Output"
+    },
+    {
+      "diagnostic": "line 44: left and right sides of binary expression '<>' are of type 'Papa_Types::Inter_mcu_msg.Generic' and '<error>', but must be of the same type",
+      "cause": "Invalid null comparison syntax in AGREE",
+      "minimal_edit": "Remove the null comparison for MCU1_Send_Output"
+    },
+    {
+      "diagnostic": "line 49: Couldn't resolve reference to 'null'.",
+      "cause": "AGREE does not support null comparisons for opaque types",
+      "minimal_edit": "Remove the null comparison for MCU1_Send_Output.channels"
+    },
+    {
+      "diagnostic": "line 49: left and right sides of binary expression '<>' are of type 'Papa_Types::Tableau.Generic' and '<error>', but must be of the same type",
+      "cause": "Invalid null comparison syntax in AGREE",
+      "minimal_edit": "Remove the null comparison for MCU1_Send_Output.channels"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee statement 'guarantee \"data_output_validity\": MCU1_Send_Output <> null;' from the AGREE annex",
+    "Remove the guarantee statement 'guarantee \"channels_field_valid\": MCU1_Send_Output.channels <> null;' from the AGREE annex"
+  ]
+}

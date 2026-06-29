@@ -1,0 +1,14 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 19: Expression for guarantee statement is of type 'real' but must be of type 'bool'",
+      "cause": "The expression in the guarantee is not a boolean condition",
+      "minimal_edit": "Change the guarantee to use absolute difference and proper boolean comparison: guarantee \"acceleration_limit\": abs(Actual_Speed.val - prev(Actual_Speed.val)) < max_accel;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the guarantee statement on line 19 to use abs() and a single comparison",
+    "Remove the redundant second part of the conjunction that was causing type mismatch"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Generate assume clauses for input envelope constraints using only explicitly stated numeric bounds and visible feature names from the AADL model.",
+    "Place component-type assumptions in the component type annex, not implementation scope.",
+    "Use const declarations for named numeric thresholds, and eq declarations for boolean expressions derived from numeric ranges."
+  ],
+  "generic_rules": [
+    "Only reference identifiers that are explicitly present in the AADL model as ports, constants, or data types.",
+    "Express numeric range conditions as boolean equations using real or int types, never as direct property references or event port encodings."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE types must be int, real, or bool — never integer, boolean, or AADL property names.",
+    "Use 'eq' to define intermediate boolean conditions from numeric comparisons; use 'assume' only for top-level input constraints in type scope."
+  ],
+  "anti_patterns": [
+    "Do not infer non-negative bounds unless explicitly stated in the requirement.",
+    "Do not encode AADL properties (e.g., Period, Deadline) or event ports as numeric or boolean expressions.",
+    "Do not use package-qualified names unless explicitly declared in the model with matching 'with' clauses.",
+    "Do not place guarantee clauses in implementation scope."
+  ],
+  "irrelevant_topics": [
+    "AADL_AS5506C.local_source.md",
+    "AGREE_Users_Guide.pdf",
+    "validation_repair",
+    "model_fusion",
+    "requirement_traceability",
+    "assign statements",
+    "validator diagnostics"
+  ]
+}

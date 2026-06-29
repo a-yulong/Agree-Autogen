@@ -1,0 +1,23 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Ensure AGREE expressions preserve type consistency and use only visible identifiers from the current scope.
+- When generating AGREE contracts, validate that all referenced features and types exist in the AADL model.
+- Use only declared constants or visible ports in AGREE expressions; avoid creating new identifiers.
+- Place implementation-level assignments in implementation scopes and type-level guarantees in type scopes.
+Syntax or pattern reminders:
+- AGREE scalar types are int, real, and bool; avoid using AADL property names directly in expressions.
+- Assignments in implementation scope must target valid output features or declared auxiliary variables.
+- Guarantee statements should relate visible inputs to visible outputs; avoid subcomponent paths in type contracts.
+- Helper functions and constants must be declared within the same AGREE annex or imported from valid packages.
+Anti-patterns:
+- Do not attempt to resolve missing identifiers by adding new architecture elements; instead, remove or rewrite invalid clauses.
+- Do not mix implementation-level references in component type annexes; move valid bindings to implementation scopes.
+- Do not assume that AADL property names like 'ms' or 'Hz' are automatically available in AGREE expressions.
+- Do not convert Boolean domain values into integers for range comparisons unless the data type is explicitly numeric.
+Irrelevant retrieved material:
+- AADL package references and with clauses
+- AGREE annex placement in component types vs implementations
+- Model Analyst Agent's role in extracting AADL structure
+- Requirement Analyst Agent's role in traceability
+- Model Fusion Agent's role in owner/scope preservation
+</RAG_DIGEST>

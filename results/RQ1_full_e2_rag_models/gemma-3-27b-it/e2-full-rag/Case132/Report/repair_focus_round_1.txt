@@ -1,0 +1,220 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- hello
+- node_a
+- cpurm
+- myram
+- hello.impl
+- node_a.impl
+- cpurm.impl
+- myram.sdram
+- node_b
+- cpu_rm
+- mem
+- Task
+- Task.impl_1
+- Task1
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "hello.impl is bound to cpu_rm.p0 for node_a",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "hello.impl Actual_Processor_Binding=(reference (cpu_rm.p0))",
+        "node_a"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "hello.impl is bound to mem.segment1 for Node_A",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "hello.impl actual_memory_binding=(reference (mem.segment1))",
+        "Node_A"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "hello.impl is bound to cpu_rm.p1 for node_b",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "hello.impl Actual_Processor_Binding=(reference (cpu_rm.p1))",
+        "node_b"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "hello.impl is bound to mem.segment2 for Node_b",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "hello.impl actual_memory_binding=(reference (mem.segment2))",
+        "Node_b"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: hello | lines 115-127
+annex agree {**
+  annex agree {
+    const node_a_cpu : bool = false;
+    const node_a_mem : bool = false;
+    const node_b_cpu : bool = false;
+    const node_b_mem : bool = false;
+
+    assume "node_a_cpu_binding": node_a_cpu;
+    assume "node_a_mem_binding": node_a_mem;
+    assume "node_b_cpu_binding": node_b_cpu;
+    assume "node_b_mem_binding": node_b_mem;
+  };
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   112:   ------------
+   113: 
+   114:   system hello
+   115:   annex agree {**
+>> 116:   annex agree {
+   117:     const node_a_cpu : bool = false;
+   118:     const node_a_mem : bool = false;
+   119:     const node_b_cpu : bool = false;
+   120:     const node_b_mem : bool = false;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: hello
+system hello
+  end hello;
+
+-- TARGET DECLARATION: hello.impl
+system implementation hello.impl
+  subcomponents
+    node_a : process node_a.impl;
+    node_b : process node_a.impl;
+    cpu_rm : processor cpurm.impl;
+
+    mem    :  memory myram.sdram;
+  properties
+    Actual_Processor_Binding => (reference (cpu_rm.p0)) applies to node_a;
+    actual_memory_binding => (reference (mem.segment1)) applies to Node_A;
+
+    Actual_Processor_Binding => (reference (cpu_rm.p1)) applies to node_b;
+    actual_memory_binding => (reference (mem.segment2)) applies to Node_b;
+  end hello.impl;
+
+-- RELATED MODEL LINES
+Source_Text     => ("hello.c");
+thread Task
+end Task;
+thread implementation Task.impl_1
+end Task.impl_1;
+process node_a
+end node_a;
+process implementation node_a.impl
+Task1 : thread Task.impl_1;
+end node_a.impl;
+processor cpurm
+end cpurm;
+processor implementation cpurm.impl
+end cpurm.impl;
+memory myram end myram;
+memory implementation  myram.stram
+end myram.stram;
+memory implementation myram.sdram
+end myram.sdram;
+system hello
+end hello;
+system implementation hello.impl
+node_a : process node_a.impl;
+node_b : process node_a.impl;
+cpu_rm : processor cpurm.impl;
+mem    :  memory myram.sdram;
+Actual_Processor_Binding => (reference (cpu_rm.p0)) applies to node_a;
+actual_memory_binding => (reference (mem.segment1)) applies to Node_A;
+Actual_Processor_Binding => (reference (cpu_rm.p1)) applies to node_b;
+actual_memory_binding => (reference (mem.segment2)) applies to Node_b;
+end hello.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "hello",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "hello.impl",
+      "kind": "system",
+      "type_name": "hello"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "hello.impl",
+      "name": "node_a",
+      "category": "thread",
+      "classifier": "node_a.impl"
+    },
+    {
+      "owner": "hello.impl",
+      "name": "node_b",
+      "category": "thread",
+      "classifier": "node_a.impl"
+    },
+    {
+      "owner": "hello.impl",
+      "name": "cpu_rm",
+      "category": "processor",
+      "classifier": "cpurm.impl"
+    },
+    {
+      "owner": "hello.impl",
+      "name": "mem",
+      "category": "memory",
+      "classifier": "myram.sdram"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "hello.impl",
+      "owner_kind": "system implementation",
+      "name": "Actual_Processor_Binding",
+      "value": "(reference (cpu_rm.p0))",
+      "applies_to": "node_a"
+    },
+    {
+      "owner": "hello.impl",
+      "owner_kind": "system implementation",
+      "name": "actual_memory_binding",
+      "value": "(reference (mem.segment1))",
+      "applies_to": "Node_A"
+    },
+    {
+      "owner": "hello.impl",
+      "owner_kind": "system implementation",
+      "name": "Actual_Processor_Binding",
+      "value": "(reference (cpu_rm.p1))",
+      "applies_to": "node_b"
+    },
+    {
+      "owner": "hello.impl",
+      "owner_kind": "system implementation",
+      "name": "actual_memory_binding",
+      "value": "(reference (mem.segment2))",
+      "applies_to": "Node_b"
+    }
+  ]
+}

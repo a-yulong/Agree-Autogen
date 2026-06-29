@@ -1,0 +1,19 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place input range assumptions in component type annexes using visible feature names and concrete bounds.
+- Use assign statements only for implementation-level output bindings with existing output features.
+- Declare helper variables with explicit types matching the expression, e.g., bool = int >= min and int <= max.
+Generic rules:
+- AGREE contracts must be syntactically valid within annex agree blocks.
+- Assumptions and guarantees should reference only visible identifiers from the AADL model.
+- Avoid encoding AADL properties like timing or resource units directly in AGREE expressions.
+- Do not use Boolean data ports in numeric range comparisons unless explicitly represented as scalars.
+Syntax or pattern reminders:
+- AGREE annex blocks are enclosed in `annex agree {** ... **};`.
+- Use `eq` for helper variable declarations with explicit type annotations.
+- Guarantee statements must be placed in valid component type scopes unless binding implementation features.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope unless binding to output features.
+- Do not reference AADL property names (e.g., Period, Deadline) as AGREE variables.
+- Do not convert Boolean domain values into integer comparisons without scalar representation.
+</RAG_DIGEST>

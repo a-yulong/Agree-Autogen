@@ -1,0 +1,140 @@
+package agree_temperature
+
+public
+
+with base_types;
+with Communication_Properties;
+
+data temperature_type extends base_types::unsigned_8
+end temperature_type;
+
+data command
+end command;
+
+data implementation command.impl
+subcomponents
+    heater_on : data base_types::boolean;
+    cooler_on : data base_types::boolean;
+end command.impl;
+
+system temperature_sensor
+features
+    dataout : out data port temperature_type;
+end temperature_sensor;
+
+system implementation temperature_sensor.i1
+end temperature_sensor.i1;
+
+system implementation temperature_sensor.i2
+end temperature_sensor.i2;
+
+--
+--  The control panel that shows the temperature
+--  and has two buttons to activate the cooling system.
+--
+
+system control_panel
+features
+    cmd : out data port command.impl;
+end control_panel;
+
+system implementation control_panel.i
+end control_panel.i;
+
+--
+--  Regulate the system according
+--  to the user request but keep the temperature
+--  within 0 to 20 degrees.
+--
+
+system temp_control
+features
+    temp1           : in data port temperature_type;
+    temp2           : in data port temperature_type;
+    user_request    : in data port command.impl;
+annex agree {**
+  guarantee "signal_flow_temp1_to_voter_tempin1": tempout = tempin1;
+  guarantee "signal_flow_temp2_to_voter_tempin2": tempout = tempin2;
+**};
+end temp_control;
+
+system implementation temp_control.i
+subcomponents
+    heater      : system heater.impl;
+    cooler      : system cooler.impl;
+    controller  : system controller.impl;
+    voter       : system voter.impl;
+connections
+    c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+    c1 : port temp2 -> voter.tempin2 {communication_properties::timing => immediate;};
+    c2 : port user_request -> controller.user_request {communication_properties::timing => immediate;};
+    c3 : port controller.heater_on -> heater.enabled {communication_properties::timing => immediate;};
+    c4 : port controller.cooler_on -> cooler.enabled {communication_properties::timing => immediate;};
+    c5 : port voter.tempout -> controller.tempin {communication_properties::timing => immediate;};
+end temp_control.i;
+
+system voter
+features
+    tempin1         : in data port temperature_type;
+    tempin2         : in data port temperature_type;
+    tempout         : out data port temperature_type;
+annex agree {**
+  guarantee "signal_flow_temp1_to_voter_tempin1": tempout = tempin1;
+  guarantee "signal_flow_temp2_to_voter_tempin2": tempout = tempin2;
+**};
+end voter;
+
+system implementation voter.impl
+end voter.impl;
+ 
+system controller
+features
+    tempin          : in data port temperature_type;
+    user_request    : in data port command.impl;
+    heater_on       : out data port base_types::boolean;
+    cooler_on       : out data port base_types::boolean;
+end controller;
+
+system implementation controller.impl
+end controller.impl;
+
+--
+-- Heater to warm the place
+--
+
+system heater
+features
+    enabled : in data port base_types::boolean;
+end heater;
+
+system implementation heater.impl
+end heater.impl;
+
+--
+--  Cooler to lower the temperature
+--
+
+system cooler
+features 
+    enabled : in data port base_types::boolean;
+end cooler;
+
+system implementation cooler.impl
+end cooler.impl;
+
+system integration
+end integration;
+
+system implementation integration.impl
+subcomponents
+    temp_control   : system temp_control.i;
+    user_panel     : system control_panel.i;        
+    sensor1     : system temperature_sensor.i1;
+    sensor2     : system temperature_sensor.i2;
+connections
+    sensor1_tc : port sensor1.dataout -> temp_control.temp1 {communication_properties::timing => immediate;};
+    sensor2_tc : port sensor2.dataout -> temp_control.temp2 {communication_properties::timing => immediate;};
+    up_to_tc   : port user_panel.cmd -> temp_control.user_request {communication_properties::timing => immediate;};
+end integration.impl;
+
+end agree_temperature;

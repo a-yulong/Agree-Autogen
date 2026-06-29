@@ -1,0 +1,105 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: dps1, dps2
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+dps1 | out | data | int | Base_Types::integer
+dps2 | out | data | int | Base_Types::integer
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "0 <= dps1 <= 100",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "dps1"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: DPS | lines 126-133
+annex agree {**
+  annex agree {
+    const min_dps1 : int = 0;
+    const max_dps1 : int = 100;
+
+    guarantee "dps1_range": min_dps1 <= dps1 and dps1 <= max_dps1;
+  };
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   123:     features
+   124:       dps1: out data port Base_Types::integer;
+   125:       dps2: out data port Base_Types::integer;
+   126:   annex agree {**
+>> 127:   annex agree {
+   128:     const min_dps1 : int = 0;
+   129:     const max_dps1 : int = 100;
+   130: 
+   131:     guarantee "dps1_range": min_dps1 <= dps1 and dps1 <= max_dps1;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: DPS
+device DPS
+    features
+      dps1: out data port Base_Types::integer;
+      dps2: out data port Base_Types::integer;
+  end DPS;
+
+-- TARGET DECLARATION: DPS.imp
+device implementation DPS.imp
+  end DPS.imp;
+
+-- RELATED MODEL LINES
+dps: device DPS.imp;
+connPD116: port dps.dps1 ->  process_door.D1_dps;
+connPD216: port dps.dps2 ->  process_door.D2_dps;
+device DPS
+dps1: out data port Base_Types::integer;
+dps2: out data port Base_Types::integer;
+end DPS;
+device implementation DPS.imp
+end DPS.imp;
+-- DPS device
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "DPS",
+      "kind": "device"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "DPS.imp",
+      "kind": "device",
+      "type_name": "DPS"
+    }
+  ],
+  "features": [
+    {
+      "owner": "DPS",
+      "name": "dps1",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DPS",
+      "name": "dps2",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::integer",
+      "scalar": "opaque"
+    }
+  ]
+}

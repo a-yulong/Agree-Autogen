@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in component type scopes when they refer to ports or features defined at the type level.",
+    "Use `assume` for input constraints and `guarantee` for output constraints or system behavior.",
+    "Generate `assign` statements in implementation scopes only for output features or declared auxiliary variables."
+  ],
+  "generic_rules": [
+    "AGREE annex blocks must be enclosed in `annex agree {** ... **};`.",
+    "Constants and equations in AGREE should use valid scalar types: int, real, bool.",
+    "Avoid referencing AADL properties directly in AGREE expressions unless explicitly exposed as typed ports or constants.",
+    "Ensure that all visible identifiers used in AGREE expressions are declared or available in the current scope."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` for assumptions and `guarantee \"label\": expression;` for guarantees.",
+    "Declare auxiliary variables with `eq name : type = expression;` and constants with `const name : type = value;`.",
+    "Assign output values using `assign output = expression;` in implementation scopes.",
+    "Place component-level contracts in component type annexes; implementation bindings in implementation annexes."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope; use only assumptions and assignments there.",
+    "Do not reference AADL timing or unit properties (e.g., ms, Hz) directly in AGREE expressions.",
+    "Do not use invalid AGREE scalar types like 'integer' or 'boolean'; use 'int', 'real', or 'bool' instead."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and their automatic scope in AGREE",
+    "Validator diagnostics and repair strategies",
+    "Model fusion and owner/scope preservation rules"
+  ]
+}

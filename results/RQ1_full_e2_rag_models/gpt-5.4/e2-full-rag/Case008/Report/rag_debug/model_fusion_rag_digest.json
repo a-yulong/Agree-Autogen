@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Preserve the existing AADL architecture and insert only annex content without changing component declarations, features, subcomponents, or connections.",
+    "Respect owner and scope boundaries: contracts over component ports belong with the component type, while implementation-only content belongs with the implementation owner.",
+    "Use the input AADL model as the authority for valid owners, names, and available structure before merging any generated annex block."
+  ],
+  "generic_rules": [
+    "Do not move, rename, or recreate existing architectural elements during fusion.",
+    "Keep added content attached to the correct owning declaration and preserve surrounding model text and structure.",
+    "If generated content references symbols not valid for the chosen owner scope, defer rather than forcing insertion."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Annex content is wrapped as an AADL annex block attached to a component or implementation declaration.",
+    "Implementation-scope content must remain within an implementation owner; type-scope content must remain within a type owner."
+  ],
+  "anti_patterns": [
+    "Do not place content that refers to implementation-only structure under a component type owner.",
+    "Do not infer owner scope from requirement text alone; rely on the model structure and the generated block's intended scope.",
+    "Do not introduce architectural edits as a side effect of annex insertion."
+  ],
+  "irrelevant_topics": [
+    "Validator-specific type-repair tactics",
+    "Numeric range expression details",
+    "AADL property names as AGREE variables"
+  ]
+}

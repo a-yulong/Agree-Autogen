@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Validate that all AGREE identifiers are declared or visible in the current scope before generating contracts.
+- Ensure generated AGREE code aligns with AADL scope rules and does not introduce invalid cross-package references.
+- Use only helper functions and constants that are explicitly defined in the model or imported packages.
+- Avoid encoding AADL property associations directly into AGREE expressions without explicit typed ports.
+Syntax or pattern reminders:
+- AGREE contracts must be placed in the correct annex scope: component type for assumptions/guarantees, implementation for bindings.
+- Numeric variables in AGREE must be assigned numeric expressions; Boolean variables must be assigned Boolean expressions.
+- AGREE scalar types are int, real, and bool; avoid using AADL type names directly in declarations.
+- Helper functions should only be used if they are defined in the same annex or imported.
+Anti-patterns:
+- Do not generate AGREE clauses that reference AADL properties such as Period, Deadline, or Priority as variables.
+- Do not introduce package-qualified identifiers that are not present in the AADL model or its dependencies.
+- Do not attempt to resolve missing identifiers by inventing new declarations; instead, remove or rewrite the clause.
+- Do not use opaque data types in range comparisons or numeric equality checks without explicit scalar representation.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about property associations
+- AGREE validator diagnostics
+- Component type annexes for implementation-level bindings
+- Model Analyst Agent's structural extraction tasks
+</RAG_DIGEST>

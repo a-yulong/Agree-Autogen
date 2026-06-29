@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 16: mismatched input '=' expecting ':'",
+      "cause": "Invalid AGREE constant declaration syntax",
+      "minimal_edit": "Change 'const max_accel = 40.0;' to 'const max_accel : real = 40.0;'"
+    },
+    {
+      "diagnostic": "line 18: Couldn't resolve reference to 'const_tar_speed'",
+      "cause": "Undeclared variable 'const_tar_speed' used in guarantee",
+      "minimal_edit": "Remove or replace 'const_tar_speed' with a valid boolean expression or declare it as a variable"
+    },
+    {
+      "diagnostic": "line 20: Couldn't resolve reference to 'abs'",
+      "cause": "Undefined function 'abs' in AGREE context",
+      "minimal_edit": "Replace 'abs(...)' with 'abs_real(...)' or equivalent AGREE-compatible absolute value function"
+    },
+    {
+      "diagnostic": "line 20: Couldn't resolve reference to 'val_previous'",
+      "cause": "Invalid reference to non-existent 'val_previous' attribute",
+      "minimal_edit": "Replace 'Actual_Speed.val_previous' with a valid previous value reference or remove the expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add type annotation to max_accel declaration: 'const max_accel : real = 40.0;'",
+    "Replace 'const_tar_speed' with a valid boolean expression or declare it as a variable",
+    "Replace 'abs(...)' with 'abs_real(...)' or equivalent AGREE-compatible function",
+    "Replace 'Actual_Speed.val_previous' with a valid previous value reference or remove the expression"
+  ]
+}

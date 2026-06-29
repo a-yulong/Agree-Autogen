@@ -1,0 +1,217 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: gyro_in_data_x, gyro_in_data_y, gyro_in_data_z, gyro_out_data_x, gyro_out_data_y, gyro_out_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+gyro_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_out_data_x | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_out_data_y | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_out_data_z | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "gyro_sub.gyro_out_data_x is routed to gyro_out_data_x through GYRO_PC1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "GYRO.IMPL.GYRO_PC1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "gyro_sub.gyro_out_data_y is routed to gyro_out_data_y through GYRO_PC2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "GYRO.IMPL.GYRO_PC2"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GYRO | lines 132-135
+annex agree {**
+    guarantee "gyro_out_data_x_routing": gyro_out_data_x = gyro_sub.gyro_out_data_x;
+    guarantee "gyro_out_data_y_routing": gyro_out_data_y = gyro_sub.gyro_out_data_y;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   129:     Period                 => 80 ms;
+   130:     Compute_Execution_Time => 0 ms .. 4 ms;
+   131:     Source_Stack_Size      => 512 Bytes;
+   132:   annex agree {**
+>> 133:     guarantee "gyro_out_data_x_routing": gyro_out_data_x = gyro_sub.gyro_out_data_x;
+   134:     guarantee "gyro_out_data_y_routing": gyro_out_data_y = gyro_sub.gyro_out_data_y;
+   135:   **};
+   136:   end GYRO;
+   137: 
+
+   130:     Compute_Execution_Time => 0 ms .. 4 ms;
+   131:     Source_Stack_Size      => 512 Bytes;
+   132:   annex agree {**
+   133:     guarantee "gyro_out_data_x_routing": gyro_out_data_x = gyro_sub.gyro_out_data_x;
+>> 134:     guarantee "gyro_out_data_y_routing": gyro_out_data_y = gyro_sub.gyro_out_data_y;
+   135:   **};
+   136:   end GYRO;
+   137: 
+   138:   subprogram GYRO_SUB_wrapper
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: GYRO
+thread GYRO
+  features
+    --  Connections from the gyrometer device
+
+    gyro_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    gyro_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    gyro_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+
+    --  Connections to the other software elements
+
+    gyro_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    gyro_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    gyro_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+
+  properties
+    Priority               => 3;
+    Dispatch_Protocol      => Periodic;
+    Period                 => 80 ms;
+    Compute_Execution_Time => 0 ms .. 4 ms;
+    Source_Stack_Size      => 512 Bytes;
+  end GYRO;
+
+-- TARGET DECLARATION: GYRO.IMPL
+thread implementation GYRO.IMPL
+  calls
+    GYRO_CALL: { gyro_sub : subprogram GYRO_SUB_wrapper.i; };
+
+  connections
+    GYRO_PC1 : parameter gyro_sub.gyro_out_data_x -> gyro_out_data_x;
+    GYRO_PC2 : parameter gyro_sub.gyro_out_data_y -> gyro_out_data_y;
+    GYRO_PC3 : parameter gyro_sub.gyro_out_data_z -> gyro_out_data_z;
+
+  end GYRO.IMPL;
+
+-- RELATED MODEL LINES
+thread GYRO
+gyro_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+end GYRO;
+gyro_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+P1: parameter Spg.gyro_out_data_x -> Gyro_Out_Data_X;
+thread implementation GYRO.IMPL
+GYRO_PC1 : parameter gyro_sub.gyro_out_data_x -> gyro_out_data_x;
+GYRO_PC2 : parameter gyro_sub.gyro_out_data_y -> gyro_out_data_y;
+GYRO_PC3 : parameter gyro_sub.gyro_out_data_z -> gyro_out_data_z;
+end GYRO.IMPL;
+gyro_in_data_x : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_y : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_z : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+GYRO_PC1 : parameter gyro_in_data_x -> attitude_sub.gyro_in_data_x;
+GYRO_PC2 : parameter gyro_in_data_y -> attitude_sub.gyro_in_data_y;
+GYRO_PC3 : parameter gyro_in_data_z -> attitude_sub.gyro_in_data_z;
+gyro_thread	    : thread GYRO.IMPL;
+GYRO_INPUT_PC1  : port gyro_in_data_x	-> gyro_thread.gyro_in_data_x;
+GYRO_INPUT_PC2  : port gyro_in_data_y	-> gyro_thread.gyro_in_data_y;
+GYRO_INPUT_PC3  : port gyro_in_data_z	-> gyro_thread.gyro_in_data_z;
+GYRO_SUBMIT_PC1 : port gyro_thread.gyro_out_data_x	 -> attitude_calculation_thread.gyro_in_data_x;
+GYRO_SUBMIT_PC2 : port gyro_thread.gyro_out_data_y	 -> attitude_calculation_thread.gyro_in_data_y;
+GYRO_SUBMIT_PC3 : port gyro_thread.gyro_out_data_z	 -> attitude_calculation_thread.gyro_in_data_z;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "GYRO",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "GYRO.IMPL",
+      "kind": "thread",
+      "type_name": "GYRO"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "GYRO.IMPL",
+      "name": "gyro_sub",
+      "category": "subprogram",
+      "classifier": "GYRO_SUB_wrapper.i"
+    }
+  ],
+  "features": [
+    {
+      "owner": "GYRO",
+      "name": "gyro_in_data_x",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO",
+      "name": "gyro_in_data_y",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO",
+      "name": "gyro_in_data_z",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO",
+      "name": "gyro_out_data_x",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO",
+      "name": "gyro_out_data_y",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO",
+      "name": "gyro_out_data_z",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "GYRO.IMPL",
+      "name": "GYRO_PC1",
+      "kind": "parameter",
+      "source": "gyro_sub.gyro_out_data_x",
+      "destination": "gyro_out_data_x"
+    },
+
+-- [target model context truncated]

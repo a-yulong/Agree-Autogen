@@ -1,0 +1,197 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: Data_Elev_Input, Data_AilL_Input, Data_AilR_Input, Data_MotorL_Input, Data_MotorR_Input, Data_Rudder_Input, Data_Elev_Output, Data_AilL_Output, Data_AilR_Output, Data_MotorL_Output, Data_MotorR_Output, Data_Rudder_Output, Dev_Bus
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_Elev_Input | in | data | opaque | Base_Types::Integer_16
+Data_AilL_Input | in | data | opaque | Base_Types::Integer_16
+Data_AilR_Input | in | data | opaque | Base_Types::Integer_16
+Data_MotorL_Input | in | data | opaque | Base_Types::Integer_16
+Data_MotorR_Input | in | data | opaque | Base_Types::Integer_16
+Data_Rudder_Input | in | data | opaque | Base_Types::Integer_16
+Data_Elev_Output | out | data | opaque | Base_Types::Integer_16
+Data_AilL_Output | out | data | opaque | Base_Types::Integer_16
+Data_AilR_Output | out | data | opaque | Base_Types::Integer_16
+Data_MotorL_Output | out | data | opaque | Base_Types::Integer_16
+Data_MotorR_Output | out | data | opaque | Base_Types::Integer_16
+Data_Rudder_Output | out | data | opaque | Base_Types::Integer_16
+Dev_Bus | requires | access | opaque | 
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data_AilL_Output = Data_AilL_Input",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Data_AilL_Input",
+        "Data_AilL_Output"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Compteur | lines 38-40
+annex agree {**
+    guarantee "ail_l_preserve": Data_AilL_Output = Data_AilL_Input;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+No validator line numbers were available.
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Compteur
+device Compteur
+  features
+    Data_Elev_Input : in data port Base_Types::Integer_16;
+    Data_AilL_Input : in data port Base_Types::Integer_16;
+    Data_AilR_Input : in data port Base_Types::Integer_16;
+    Data_MotorL_Input : in data port Base_Types::Integer_16;
+    Data_MotorR_Input : in data port Base_Types::Integer_16;
+    Data_Rudder_Input : in data port Base_Types::Integer_16;
+    Data_Elev_Output : out data port Base_Types::Integer_16;
+    Data_AilL_Output : out data port Base_Types::Integer_16;
+    Data_AilR_Output : out data port Base_Types::Integer_16;
+    Data_MotorL_Output : out data port Base_Types::Integer_16;
+    Data_MotorR_Output : out data port Base_Types::Integer_16;
+    Data_Rudder_Output : out data port Base_Types::Integer_16;
+    Dev_Bus : requires bus access Device_Bus.MCU1;
+  end Compteur;
+
+-- RELATED MODEL LINES
+device Compteur
+Data_Elev_Input : in data port Base_Types::Integer_16;
+Data_AilL_Input : in data port Base_Types::Integer_16;
+Data_AilR_Input : in data port Base_Types::Integer_16;
+Data_MotorL_Input : in data port Base_Types::Integer_16;
+Data_MotorR_Input : in data port Base_Types::Integer_16;
+Data_Rudder_Input : in data port Base_Types::Integer_16;
+Data_Elev_Output : out data port Base_Types::Integer_16;
+Data_AilL_Output : out data port Base_Types::Integer_16;
+Data_AilR_Output : out data port Base_Types::Integer_16;
+Data_MotorL_Output : out data port Base_Types::Integer_16;
+Data_MotorR_Output : out data port Base_Types::Integer_16;
+Data_Rudder_Output : out data port Base_Types::Integer_16;
+Dev_Bus : requires bus access Device_Bus.MCU1;
+end Compteur;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Compteur",
+      "kind": "device"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Compteur",
+      "name": "Data_Elev_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer_16",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Compteur",
+      "name": "Data_AilL_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer_16",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Compteur",
+      "name": "Data_AilR_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer_16",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Compteur",
+      "name": "Data_MotorL_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer_16",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Compteur",
+      "name": "Data_MotorR_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer_16",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Compteur",
+      "name": "Data_Rudder_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer_16",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Compteur",
+      "name": "Data_Elev_Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer_16",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Compteur",
+      "name": "Data_AilL_Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer_16",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Compteur",
+      "name": "Data_AilR_Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer_16",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Compteur",
+      "name": "Data_MotorL_Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer_16",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Compteur",
+      "name": "Data_MotorR_Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer_16",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Compteur",
+      "name": "Data_Rudder_Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer_16",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Compteur",
+      "name": "Dev_Bus",
+      "direction": "requires",
+      "category": "bus access",
+      "type": "Device_Bus.MCU1",
+      "scalar": "opaque"
+    }
+  ]
+}

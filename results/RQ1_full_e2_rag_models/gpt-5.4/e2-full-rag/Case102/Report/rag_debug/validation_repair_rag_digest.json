@@ -1,0 +1,24 @@
+{
+  "rag_rules": [
+    "Use validator diagnostics to identify the smallest syntactic or scope fix and avoid changing unrelated architecture.",
+    "When parsing fails before semantic validation, repair package/file syntax first so the model is parseable before attempting any higher-level fixes.",
+    "If a clause or reference is invalid in its scope, prefer deleting or relocating only that invalid content rather than introducing new structure.",
+    "Use only names and references that are already visible in the parsed model scope; do not invent identifiers or dependencies during repair."
+  ],
+  "generic_rules": [
+    "Apply minimal, local edits that directly address the reported error path.",
+    "Treat the input model as the authority for valid identifiers, ownership, and dependencies.",
+    "Fix root-cause parse errors before acting on downstream validator patterns."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AADL packages must be non-empty and package references require matching dependencies.",
+    "Scope rules matter: references must be valid in the local owning context."
+  ],
+  "anti_patterns": [
+    "Do not add unrelated architecture or new declarations just to silence a diagnostic.",
+    "Do not use unresolved package-qualified names, properties, or helper references that are not already supported by the model."
+  ],
+  "irrelevant_topics": [
+    "Detailed contract-generation guidance for assumptions, guarantees, or implementation bindings is not needed until the model parses successfully."
+  ]
+}

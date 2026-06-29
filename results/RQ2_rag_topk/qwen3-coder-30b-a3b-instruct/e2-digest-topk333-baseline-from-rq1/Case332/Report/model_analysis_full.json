@@ -1,0 +1,272 @@
+{
+  "component_types": [
+    {
+      "name": "Nav_Stab_Control_Proc",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Nav_Stab_Control_Proc.Impl",
+      "kind": "process",
+      "type_name": "Nav_Stab_Control_Proc"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Data_Acq_Filt_Th",
+      "category": "thread",
+      "classifier": "receive_gps_data_task.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Alt_Ctrl_Th",
+      "category": "thread",
+      "classifier": "altitude_control_task.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Nav_Th",
+      "category": "thread",
+      "classifier": "navigation_task.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Climb_Ctrl_Th",
+      "category": "thread",
+      "classifier": "climb_control_task.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Stab_Th",
+      "category": "thread",
+      "classifier": "stabilisation_task.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Send_MCU1_Th",
+      "category": "thread",
+      "classifier": "link_fbw_send.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Send_Grd_Station_Th",
+      "category": "thread",
+      "classifier": "reporting_task.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Interrupt_SPI_Th1",
+      "category": "thread",
+      "classifier": "Interruption_SPI_MCU0_1.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Interrupt_SPI_Th2",
+      "category": "thread",
+      "classifier": "Interruption_SPI_MCU0_2.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Interrupt_Modem_Th",
+      "category": "thread",
+      "classifier": "Interruption_Modem.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Interrupt_GPS_Th",
+      "category": "thread",
+      "classifier": "Interruption_GPS.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Ctrl_By_RC_Th",
+      "category": "thread",
+      "classifier": "radio_control_task.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "AP_Data",
+      "category": "data",
+      "classifier": "Papa_Types::Inter_mcu_msg.Generic"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "MCU1_Data_Input",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "GPS_Input",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Papa_Types::Stream_Element.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "GPS_Evt_Input",
+      "direction": "in",
+      "category": "event port",
+      "type": "event port",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "IR_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Papa_Types::Stream_Element.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "P_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Float_32",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "T_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer_8",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "Compas_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Float_32",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "V_Air_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer_8",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "Trans_MCU0_Output",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "Trans_Sol_Output",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c1",
+      "kind": "port",
+      "source": "GPS_Input",
+      "destination": "Interrupt_GPS_Th.GPS_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c2",
+      "kind": "port",
+      "source": "Data_Acq_Filt_Th.GPS_Output",
+      "destination": "Nav_Th.GPS_Data_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c3",
+      "kind": "port",
+      "source": "Nav_Th.Altitude_Desiree_Output",
+      "destination": "Alt_Ctrl_Th.Altitude_Desiree_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c4",
+      "kind": "port",
+      "source": "Alt_Ctrl_Th.Montee_Desiree_Output",
+      "destination": "Climb_Ctrl_Th.Montee_Desiree_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c5",
+      "kind": "port",
+      "source": "IR_Input",
+      "destination": "Stab_Th.IR_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c6",
+      "kind": "port",
+      "source": "Send_MCU1_Th.MCU0_Send_Output",
+      "destination": "Interrupt_SPI_Th1.Evt_Send_SPI_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c7",
+      "kind": "port",
+      "source": "Interrupt_SPI_Th1.Data_Send_SPI_Output",
+      "destination": "Interrupt_SPI_Th2.Data_Send_SPI_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c8",
+      "kind": "port",
+      "source": "Interrupt_SPI_Th2.Data_Send_SPI_Output",
+      "destination": "Trans_MCU0_Output"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c9",
+      "kind": "port",
+      "source": "MCU1_Data_Input",
+      "destination": "Interrupt_SPI_Th1.Evt_Rec_SPI_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c10",
+      "kind": "port",
+      "source": "Interrupt_SPI_Th1.Data_Rec_MCU0_Output",
+      "destination": "Interrupt_SPI_Th2.Data_Rec_MCU0_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c11",
+      "kind": "port",
+      "source": "Send_Grd_Station_Th.Data_Output",
+      "destination": "Interrupt_Modem_Th.Data_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c12",
+      "kind": "port",
+      "source": "Interrupt_Modem_Th.Data_Output",
+      "destination": "Trans_Sol_Output"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "owner_kind": "process implementation",
+      "name": "Source_Text",
+      "value": "(\"autopilot/mainloop.c\")",
+      "applies_to": ""
+    }
+  ]
+}

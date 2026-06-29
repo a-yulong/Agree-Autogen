@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Resolve all AGREE references to built-in functions like 'min' and 'concurrencyFactor' using visible AADL features or declared helpers.",
+    "Ensure type consistency in AGREE equations and guarantees by aligning assumed types with actual expression types.",
+    "Place AGREE contracts in valid scopes: component type annexes for assumptions/guarantees, implementation annexes for assignments.",
+    "Avoid introducing package-qualified identifiers or types not present in the AADL model's configured dependencies."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or declared helpers in AGREE annexes to prevent 'Couldn't resolve reference' errors.",
+    "Match declared types in AGREE with the actual types of expressions to avoid type mismatch diagnostics.",
+    "Place AGREE annexes in component type scopes for assumptions/guarantees and implementation scopes for assignments.",
+    "Validate that all identifiers used in AGREE are either AADL features or previously declared helpers in the same annex."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use 'eq' for equations and 'gua' for guarantees, ensuring proper type alignment.",
+    "Constants and equations in AGREE must reference only visible identifiers or previously declared helpers.",
+    "Assignments in AGREE implementation scopes must target existing output features or declared auxiliary variables."
+  ],
+  "anti_patterns": [
+    "Do not reference undefined or unqualified identifiers like 'min' or 'concurrencyFactor' without proper declaration or visibility.",
+    "Do not mix incompatible types in binary expressions, such as comparing 'real' and '<error>' types.",
+    "Do not place guarantee statements in implementation scope; use only assign for output bindings.",
+    "Do not introduce package-qualified names or types not defined in the AADL model or its dependencies."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics",
+    "AGREE validator diagnostics",
+    "Component type vs implementation scope boundaries",
+    "Model traceability and requirement semantics"
+  ]
+}

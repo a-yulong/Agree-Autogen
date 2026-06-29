@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 100: Couldn't resolve reference to 'min'.",
+      "cause": "AGREE does not recognize 'min' as a built-in function without explicit declaration or import",
+      "minimal_edit": "remove the 'min' function call and replace with explicit conditional logic using visible ports"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 100: left and right sides of binary expression '=' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Type error caused by unresolved 'min' function making right-hand side invalid",
+      "minimal_edit": "replace 'min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure)' with an equivalent AGREE-compliant expression using only visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: Couldn't resolve reference to 'concurrencyFactor'.",
+      "cause": "AGREE does not recognize 'concurrencyFactor' as a built-in or declared function",
+      "minimal_edit": "remove the 'concurrencyFactor' function calls and replace with valid boolean expressions using only visible ports"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: left and right sides of binary expression '=' are of type 'bool' and '<error>', but must be of the same type",
+      "cause": "Type error caused by unresolved 'concurrencyFactor' function making right-hand side invalid",
+      "minimal_edit": "remove all 'concurrencyFactor' uses and replace with valid boolean logic using only visible ports"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee 'min_timeToFailure' entirely because 'min' is not a valid AGREE function and cannot be replaced without introducing new logic not implied by the requirement",
+    "Remove the guarantee 'concurrency_factors' entirely because 'concurrencyFactor' is not a valid AGREE function and cannot be replaced without introducing new semantic claims",
+    "Preserve the guarantee 'timeToFailure_bound' as it uses only visible port symbols and valid arithmetic operators"
+  ]
+}

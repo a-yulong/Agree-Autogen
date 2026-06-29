@@ -1,0 +1,8 @@
+annex agree {**
+  const vertical_acceleration : real = 100.0;
+  const expected_impact_time : real = 15.0;
+  const recovery_time : real = 5.0;
+  const min_height_time : real = 0.5;
+  eq altitudeFromGround : real = altitude + verticalVelocity * min_height_time;
+  guarantee "gcas requested when low altitude or low ground clearance": (altitude <= 30.0 or altitudeFromGround <= 500.0) => gcasRequested;
+**};

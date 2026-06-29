@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Only reference visible AADL features or helper declarations within the same annex scope to avoid unresolved references.
+- Place assumptions and guarantees in valid component type scopes, avoiding implementation-level subcomponent paths in type annexes.
+- Use only AGREE scalar types (int, real, bool) for constants and equations; avoid invalid or ambiguous type names.
+- When repairing contracts, ensure that generated clauses align with the actual data types of referenced features.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks within component type or implementation scopes.
+- Helper functions and constants should be declared in the same annex where they are used, and must match the expected types.
+Anti-patterns:
+- Do not place implementation-level bindings or subcomponent references in component type annexes unless they are valid variables or outputs.
+- Avoid introducing package-qualified identifiers or types that are not declared in the model or its dependencies.
+Irrelevant retrieved material:
+- aadl_scope_notes
+- agree_syntax_notes
+</RAG_DIGEST>

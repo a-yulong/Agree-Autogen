@@ -1,0 +1,108 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- AGREE annex blocks must be scoped to their owning component and use only visible identifiers from the AADL model
+- Deployment binding requirements translate to `assign` statements in implementation annexes
+Generic rules:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks
+- Assumptions and guarantees must be syntactically valid expressions with proper labeling
+- Constants and equations in AGREE are declared with type annotations and initial values
+- Assignments in AGREE refer to output ports or properties visible in the current scope
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements
+- Use `assign output = expression;` for deployment binding assignments in implementations
+- Component scopes in AGREE are limited to identifiers declared or inherited in the owning AADL component
+Anti-patterns:
+- Do not reference AADL properties like Period or Priority directly in AGREE expressions without explicit model exposure
+- Do not copy identifiers from examples or invent new ports/components not present in the AADL model
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- SBC_32F411EDISCOVERY
+- SBC_32F411EDISCOVERY.RTOS
+- Software
+- SBC_32F411EDISCOVERY.impl
+- LSM303DLHC
+- L3GD20
+- SBC_32F411EDISCOVERY.v2
+- acc_out_data_x
+- acc_out_data_y
+- acc_out_data_z
+- mag_out_data_x
+- mag_out_data_y
+- mag_out_data_z
+- gyro_out_data_x
+- gyro_out_data_y
+- gyro_out_data_z
+
+Target interface:
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- SBC_32F411EDISCOVERY
+- SBC_32F411EDISCOVERY.RTOS
+- Software
+- SBC_32F411EDISCOVERY.impl
+- LSM303DLHC
+- L3GD20
+- SBC_32F411EDISCOVERY.v2
+- acc_out_data_x
+- acc_out_data_y
+- acc_out_data_z
+- mag_out_data_x
+- mag_out_data_y
+- mag_out_data_z
+- gyro_out_data_x
+- gyro_out_data_y
+- gyro_out_data_z
+
+Raw requirement:
+The SBC_32F411EDISCOVERY component shall use the deployment bindings defined for SBC_32F411EDISCOVERY.RTOS. The deployment mapping shall bind Software to processor cpu.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "SBC_32F411EDISCOVERY shall use deployment bindings defined for SBC_32F411EDISCOVERY.RTOS",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "SBC_32F411EDISCOVERY",
+        "SBC_32F411EDISCOVERY.RTOS"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Software shall be bound to processor cpu",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "Software",
+        "cpu"
+      ]
+    }
+  ]
+}

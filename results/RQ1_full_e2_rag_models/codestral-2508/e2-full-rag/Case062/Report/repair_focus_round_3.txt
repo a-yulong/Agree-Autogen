@@ -1,0 +1,181 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: Data_Sink
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_Sink | in | data | int | Simple_Type
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Q.Impl uses Sporadic dispatch protocol",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl Dispatch_Protocol=Sporadic"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Q.Impl has period of 10 Ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl Period=10 Ms"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Q.Impl has deadline of 10 Ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl deadline=10 Ms"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Q.Impl has priority 1",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl Priority=1"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Q.Impl routes data flow from Data_Sink to Q_Spg.Data_Sink through P1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl.P1 source=Data_Sink destination=Q_Spg.Data_Sink"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Q | lines 64-66
+annex agree {**
+      guarantee "data flow": Data_Sink = Data_Sink;
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   61:   thread Q
+   62:   features
+   63:     Data_Sink : in event data port Simple_Type;
+   64:   annex agree {**
+>> 65:       guarantee "data flow": Data_Sink = Data_Sink;
+   66:     **};
+   67:   end Q;
+   68: 
+   69:   thread implementation Q.Impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Q
+thread Q
+  features
+    Data_Sink : in event data port Simple_Type;
+  end Q;
+
+-- TARGET DECLARATION: Q.Impl
+thread implementation Q.Impl
+  calls
+    Mycalls: {
+    Q_Spg : subprogram Ping_Spg;
+    };
+  connections
+    P1 : parameter Data_Sink -> Q_Spg.Data_Sink;
+  properties
+    Dispatch_Protocol                  => Sporadic;
+    Period                             => 10 Ms;
+    deadline                           => 10 Ms;
+    Priority                           => 1;
+  end Q.Impl;
+
+-- RELATED MODEL LINES
+Data_Sink : in parameter Simple_Type;
+thread Q
+Data_Sink : in event data port Simple_Type;
+end Q;
+thread implementation Q.Impl
+P1 : parameter Data_Sink -> Q_Spg.Data_Sink;
+end Q.Impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Q",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Q.Impl",
+      "kind": "thread",
+      "type_name": "Q"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "Q.Impl",
+      "name": "Mycalls",
+      "category": "calls",
+      "classifier": "subprogram group"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Q",
+      "name": "Data_Sink",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Simple_Type",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "Q.Impl",
+      "name": "P1",
+      "kind": "parameter",
+      "source": "Data_Sink",
+      "destination": "Q_Spg.Data_Sink"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Q.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Sporadic",
+      "applies_to": null
+    },
+    {
+      "owner": "Q.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Period",
+      "value": "10 Ms",
+      "applies_to": null
+    },
+    {
+      "owner": "Q.Impl",
+      "owner_kind": "thread implementation",
+      "name": "deadline",
+      "value": "10 Ms",
+      "applies_to": null
+    },
+    {
+      "owner": "Q.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": null
+    }
+  ]
+}

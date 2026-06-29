@@ -1,0 +1,25 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE expressions must maintain type consistency; boolean, integer, and real types must align with their usage.
+- Guarantee statements should reference only visible features or declared helpers within the same annex scope.
+- Implementation-level contracts should use assign for output features or auxiliary variables, not for guarantees.
+- Do not introduce package-qualified identifiers or types that are not present in the AADL model or its dependencies.
+Syntax or pattern reminders:
+- Use `eq` for stateful equations with initialized recurrence like `0.0 -> pre(t) + step`.
+- Use `assume` and `guarantee` with proper boolean expressions inside `annex agree {** ... **};` blocks.
+- Place component type contracts in type scopes and implementation bindings in implementation scopes.
+- Ensure all references in AGREE are resolvable within the current scope or declared in the same annex.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope unless the left-hand side is a valid output or auxiliary variable.
+- Do not reference undefined or non-visible identifiers in guarantee expressions.
+- Do not mix incompatible types in binary comparisons or expressions, such as real vs <error>.
+- Do not assume AADL property names (e.g., Period, Deadline) are automatically available as AGREE variables.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics
+- AGREE validator diagnostics
+- Component type annexes vs implementation annexes
+- AGREE logical operators and syntax
+- Helper function definitions and usage
+- Package-qualified references and imports
+- Model traceability and requirement semantics
+</RAG_DIGEST>

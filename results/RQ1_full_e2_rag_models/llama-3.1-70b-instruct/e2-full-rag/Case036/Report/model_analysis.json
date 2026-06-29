@@ -1,0 +1,249 @@
+{
+  "component_types": [
+    {
+      "name": "Car",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Car_Impl",
+      "kind": "system implementation",
+      "type_name": "Car"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "Car.Car_Impl",
+      "name": "THROT",
+      "category": "system",
+      "classifier": "Transmission::Throttle.Throttle_Impl"
+    },
+    {
+      "owner": "Car.Car_Impl",
+      "name": "CNTRL",
+      "category": "system",
+      "classifier": "Transmission::Speed_Control.Speed_Control_Impl"
+    },
+    {
+      "owner": "Car.Car_Impl",
+      "name": "AXL",
+      "category": "system",
+      "classifier": "Steering::Axle.Axle_Impl"
+    },
+    {
+      "owner": "Car.Car_Impl",
+      "name": "SM",
+      "category": "system",
+      "classifier": "Transmission::State_Machine.Impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Car",
+      "name": "Target_Speed",
+      "direction": "in",
+      "category": "data port",
+      "type": "Types::speed.speed_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Car",
+      "name": "Actual_Speed",
+      "direction": "out",
+      "category": "data port",
+      "type": "Types::speed.speed_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Car",
+      "name": "Target_Tire_Pitch",
+      "direction": "in",
+      "category": "data port",
+      "type": "Types::pitch.pitch_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Car",
+      "name": "Actual_Tire_Pitch",
+      "direction": "out",
+      "category": "data port",
+      "type": "Types::pitch.pitch_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Car",
+      "name": "State_Signal",
+      "direction": "out",
+      "category": "data port",
+      "type": "Types::state_sig.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "THROT",
+      "name": "Actuator_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Types::actuator_input_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "THROT",
+      "name": "Actual",
+      "direction": "out",
+      "category": "data port",
+      "type": "Types::actual_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "CNTRL",
+      "name": "Actuator_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Types::actuator_input_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "CNTRL",
+      "name": "Actual",
+      "direction": "in",
+      "category": "data port",
+      "type": "Types::actual_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "CNTRL",
+      "name": "Target",
+      "direction": "in",
+      "category": "data port",
+      "type": "Types::target_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AXL",
+      "name": "Target_Tire_Direction",
+      "direction": "in",
+      "category": "data port",
+      "type": "Types::target_tire_direction_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AXL",
+      "name": "Actual_Tire_Direction",
+      "direction": "out",
+      "category": "data port",
+      "type": "Types::actual_tire_direction_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "SM",
+      "name": "State_Out",
+      "direction": "out",
+      "category": "data port",
+      "type": "Types::state_out_impl",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "Car.Car_Impl",
+      "name": "SpeedToThrot",
+      "kind": "port",
+      "source": "CNTRL.Actuator_Input",
+      "destination": "THROT.Actuator_Input"
+    },
+    {
+      "owner": "Car.Car_Impl",
+      "name": "AcSpeedToTop",
+      "kind": "port",
+      "source": "THROT.Actual",
+      "destination": "Actual_Speed"
+    },
+    {
+      "owner": "Car.Car_Impl",
+      "name": "AcSpeedToCntrl",
+      "kind": "port",
+      "source": "THROT.Actual",
+      "destination": "CNTRL.Actual"
+    },
+    {
+      "owner": "Car.Car_Impl",
+      "name": "TgSpeedToCntrl",
+      "kind": "port",
+      "source": "Target_Speed",
+      "destination": "CNTRL.Target"
+    },
+    {
+      "owner": "Car.Car_Impl",
+      "name": "TgPtichToAxl",
+      "kind": "port",
+      "source": "Target_Tire_Pitch",
+      "destination": "AXL.Target_Tire_Direction"
+    },
+    {
+      "owner": "Car.Car_Impl",
+      "name": "AcPtichToCar",
+      "kind": "port",
+      "source": "AXL.Actual_Tire_Direction",
+      "destination": "Actual_Tire_Pitch"
+    },
+    {
+      "owner": "Car.Car_Impl",
+      "name": "SSToSM",
+      "kind": "port",
+      "source": "SM.State_Out",
+      "destination": "State_Signal"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Car.Car_Impl.SpeedToThrot",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": "SpeedToThrot"
+    },
+    {
+      "owner": "Car.Car_Impl.AcSpeedToTop",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": "AcSpeedToTop"
+    },
+    {
+      "owner": "Car.Car_Impl.AcSpeedToCntrl",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": "AcSpeedToCntrl"
+    },
+    {
+      "owner": "Car.Car_Impl.TgSpeedToCntrl",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": "TgSpeedToCntrl"
+    },
+    {
+      "owner": "Car.Car_Impl.TgPtichToAxl",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": "TgPtichToAxl"
+    },
+    {
+      "owner": "Car.Car_Impl.AcPtichToCar",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": "AcPtichToCar"
+    },
+    {
+      "owner": "Car.Car_Impl.SSToSM",
+      "owner_kind": "connection",
+      "name": "Communication_Properties::Timing",
+      "value": "immediate",
+      "applies_to": "SSToSM"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+annex agree {**
+  assume "bounded_input_d1_dps": (0 <= D1_dps) and (D1_dps <= 100);
+  guarantee "output_consistency": D1_swivel => D1_latched;
+  guarantee "lock_activation": D1_lock => D1_locked;
+  guarantee "warning_logic": D1_warn_diff_pres or D1_warn_slide;
+  guarantee "emergency_handling": D1_emergency_evacuation => (D1_closed or D1_latched);
+  guarantee "flight_condition": D1_in_flight => D1_engine_running;
+  guarantee "ground_condition": D1_on_ground => not D1_in_flight;
+  guarantee "dps_range": (0 <= D1_dps) and (D1_dps <= 100) => (D1_dps >= 0);
+  guarantee "mix_cll_logic": Mix_cll => (D1_closed and D2_closed);
+**};

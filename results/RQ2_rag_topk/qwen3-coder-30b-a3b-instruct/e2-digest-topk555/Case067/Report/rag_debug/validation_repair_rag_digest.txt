@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- When generating AGREE contracts, always reference only identifiers that are explicitly declared or visible in the current AADL scope.
+- Use assign statements only for output features or declared auxiliary variables in implementation-level contracts.
+- Validate that all AGREE expressions resolve to valid types (int, real, bool) and avoid type mismatches in assumptions and guarantees.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks within component type or implementation scopes.
+- Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for assignments and bindings.
+Anti-patterns:
+- Do not introduce package-qualified identifiers or data types not present in the AADL model's configured dependencies.
+- Do not place implementation-specific guarantees in component type scopes; move them to implementation annexes or remove them.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about missing entity references
+- AGREE validator diagnostics about unresolved connection ends
+- Model Analyst Agent's role in extracting AADL structure
+</RAG_DIGEST>

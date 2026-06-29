@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'impl_1'.",
+      "cause": "AGREE cannot resolve 'Task.impl_1' as a valid symbol in the context",
+      "minimal_edit": "Replace 'Task.impl_1' with 'Task1' which is a valid reference to the thread instance in the process implementation"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'p0'.",
+      "cause": "AGREE cannot resolve 'cpu_rm.p0' as a valid symbol in the context",
+      "minimal_edit": "Replace 'cpu_rm.p0' with 'cpu_rm' which is the valid reference to the processor subcomponent"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'segment1'.",
+      "cause": "AGREE cannot resolve 'mem.segment1' as a valid symbol in the context",
+      "minimal_edit": "Replace 'mem.segment1' with 'mem' which is the valid reference to the memory subcomponent"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'Task.impl_1 in hello.impl' with 'Task1 in node_a' in the assume statement",
+    "Replace 'node_a in cpu_rm.p0' with 'node_a in cpu_rm' in the first guarantee",
+    "Replace 'Node_A in mem.segment1' with 'node_a in mem' in the second guarantee"
+  ]
+}

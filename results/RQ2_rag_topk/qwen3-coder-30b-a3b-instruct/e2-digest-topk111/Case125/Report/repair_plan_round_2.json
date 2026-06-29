@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'gyro_out_data_x'.",
+      "cause": "Reference to port 'gyro_out_data_x' in AGREE annex is not visible in component type scope",
+      "minimal_edit": "Replace 'gyro_out_data_x' with 'gyro_sub.gyro_out_data_x' in the guarantee statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'gyro_out_data_y'.",
+      "cause": "Reference to port 'gyro_out_data_y' in AGREE annex is not visible in component type scope",
+      "minimal_edit": "Replace 'gyro_out_data_y' with 'gyro_sub.gyro_out_data_y' in the guarantee statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'gyro_out_data_z'.",
+      "cause": "Reference to port 'gyro_out_data_z' in AGREE annex is not visible in component type scope",
+      "minimal_edit": "Replace 'gyro_out_data_z' with 'gyro_sub.gyro_out_data_z' in the guarantee statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'gyro_sub'.",
+      "cause": "Reference to subcomponent 'gyro_sub' in AGREE annex is not visible in component type scope",
+      "minimal_edit": "Move the AGREE annex to the component implementation scope where 'gyro_sub' is visible"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire AGREE annex block from the GYRO component type to the GYRO.IMPL component implementation",
+    "Update the guarantee statements to reference the correct port names relative to the implementation scope",
+    "Ensure that the guarantee statements reference 'gyro_sub.gyro_out_data_x', 'gyro_sub.gyro_out_data_y', and 'gyro_sub.gyro_out_data_z' instead of 'gyro_out_data_x', 'gyro_out_data_y', and 'gyro_out_data_z'"
+  ]
+}

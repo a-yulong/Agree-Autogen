@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- For dependency contracts, write guarantees that relate visible outputs to visible inputs and avoid hidden implementation paths.
+- Only generate envelope or range assumptions/guarantees when concrete bounds, constants, or visible threshold relations are supplied.
+- Encode piecewise logic with nested `if ... then ... else`; use initialized `-> pre(...)` only for genuinely stateful behavior.
+Generic rules:
+- Prefer the simplest valid contract form; add helper `eq` or `const` declarations only when they clarify the expression.
+- Keep clauses deterministic and feature-level so every referenced symbol is available in the annex scope.
+Syntax or pattern reminders:
+- Core forms are `assume "label": expr;`, `guarantee "label": expr;`, `eq x : type = expr;`, `const c : type = value;`, and `assign out = expr;`.
+- Valid scalar types are `bool`, `int`, and `real`; use `and`, `or`, `not(...)`, and `=>` for logical composition.
+Anti-patterns:
+- Do not reference subcomponent ports or implementation-only paths when only feature-level symbols are visible.
+- Do not treat AADL property names or unit tokens as AGREE variables unless they are exposed as typed symbols.
+- Do not use invalid type names such as `integer` or `boolean`, and do not declare a helper with a type that disagrees with its expression.
+</RAG_DIGEST>

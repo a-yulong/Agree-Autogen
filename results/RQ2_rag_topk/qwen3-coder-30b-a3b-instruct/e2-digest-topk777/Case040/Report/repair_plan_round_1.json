@@ -1,0 +1,45 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'SSM'.",
+      "cause": "SSM is a subcomponent, not a visible AGREE symbol",
+      "minimal_edit": "Replace SSM.State_Out with State_Out"
+    },
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'State_Out'.",
+      "cause": "State_Out is a port, not a visible AGREE symbol in this scope",
+      "minimal_edit": "Replace State_Out with State_Out"
+    },
+    {
+      "diagnostic": "line 30: left and right sides of binary expression '=' are of type 'Types::state_sig.impl' and '<error>', but must be of the same type",
+      "cause": "Invalid expression due to unresolved references",
+      "minimal_edit": "Remove the invalid expression"
+    },
+    {
+      "diagnostic": "line 30: named thing must be an expression with a type",
+      "cause": "Expression is malformed due to unresolved references",
+      "minimal_edit": "Remove the invalid expression"
+    },
+    {
+      "diagnostic": "line 31: Couldn't resolve reference to 'SMToSSM'.",
+      "cause": "SMToSSM is a connection, not a visible AGREE symbol",
+      "minimal_edit": "Remove the invalid expression"
+    },
+    {
+      "diagnostic": "line 31: Couldn't resolve reference to 'immediate'.",
+      "cause": "immediate is a property value, not a visible AGREE symbol",
+      "minimal_edit": "Remove the invalid expression"
+    },
+    {
+      "diagnostic": "line 31: named thing must be an expression with a type",
+      "cause": "Expression is malformed due to unresolved references",
+      "minimal_edit": "Remove the invalid expression"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from State_Machine to State_Machine.Impl",
+    "Remove the invalid expressions from the AGREE annex in State_Machine.Impl",
+    "Ensure only valid, visible symbols are used in AGREE expressions"
+  ]
+}

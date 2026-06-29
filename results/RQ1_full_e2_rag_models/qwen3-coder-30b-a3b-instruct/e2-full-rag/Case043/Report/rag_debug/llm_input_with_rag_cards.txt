@@ -1,0 +1,79 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE assumptions and guarantees in component type scopes when they refer to visible ports or features.
+- Use `assume` and `guarantee` statements with descriptive labels and valid expressions.
+Generic rules:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for assignments.
+- Ensure that all referenced identifiers are visible in the current scope.
+- Avoid using implementation-specific subcomponent paths in component type contracts.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` for input assumptions and `guarantee "label": expression;` for output guarantees.
+- Declare constants with `const name : type = value;` and equations with `eq name : type = expression;`.
+Anti-patterns:
+- Do not reference AADL property names like Compute_Execution_Time directly in AGREE expressions.
+- Do not use invalid scalar type names such as 'integer' or 'boolean' in AGREE declarations.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Input
+- Output
+
+Target interface:
+Exact expression symbols: Input, Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Input | in | data | int | Base_Types::Integer
+Output | out | data | int | Base_Types::Integer
+
+Raw requirement:
+The component A must satisfy the following environmental assumptions and guarantees: Assume that the input signal Input has a value strictly less than 20. Guarantee that the output signal Output has a value less than twice the value of the input signal Input (i.e., Output < 2 * Input).
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Input < 20",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "Input"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Output < 2 * Input",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Output",
+        "Input"
+      ]
+    }
+  ]
+}

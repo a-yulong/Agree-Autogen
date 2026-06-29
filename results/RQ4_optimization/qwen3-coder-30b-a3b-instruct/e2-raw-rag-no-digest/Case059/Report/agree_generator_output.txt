@@ -1,0 +1,13 @@
+annex agree {**
+  assume "panel_mode_valid": Panel.MAX or Panel.MED or Panel.LO;
+  guarantee "ch1_cmd_in_range": CH1.Cmd >= 0 and CH1.Cmd <= 100;
+  guarantee "ch2_cmd_in_range": CH2.Cmd >= 0 and CH2.Cmd <= 100;
+  guarantee "ch1_active_requires_error": CH1.Active => not CH1.Error;
+  guarantee "ch2_active_requires_error": CH2.Active => not CH2.Error;
+  guarantee "panel_to_com1_signal_flow": Panel.MAX => CH1.Active;
+  guarantee "com1_to_mon1_signal_flow": CH1.Cmd > 0 => CH2.Active;
+  assume "fail_com1_active": FailCOM1 => not CH1.Error;
+  assume "fail_mon1_active": FailMON1 => not CH1.Error;
+  assume "fail_com2_active": FailCOM2 => not CH2.Error;
+  assume "fail_mon2_active": FailMON2 => not CH2.Error;
+**};

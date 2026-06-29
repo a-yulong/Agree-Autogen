@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "AGREE assumes/guarantees cannot reference component implementation features directly",
+      "minimal_edit": "Remove the signal flow assumption referencing Q_Spg.Data_Sink"
+    },
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "AGREE assumes/guarantees cannot reference subcomponents directly",
+      "minimal_edit": "Remove the signal flow assumption referencing Q_Spg.Data_Sink"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "AGREE assumes/guarantees cannot reference component implementation properties directly",
+      "minimal_edit": "Move dispatch protocol guarantee to implementation annex"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'Period'.",
+      "cause": "AGREE assumes/guarantees cannot reference component implementation properties directly",
+      "minimal_edit": "Move period guarantee to implementation annex"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'deadline'.",
+      "cause": "AGREE assumes/guarantees cannot reference component implementation properties directly",
+      "minimal_edit": "Move deadline guarantee to implementation annex"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'Priority'.",
+      "cause": "AGREE assumes/guarantees cannot reference component implementation properties directly",
+      "minimal_edit": "Move priority guarantee to implementation annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Move the dispatch protocol, period, deadline, and priority guarantees from the component type annex to the component implementation annex",
+    "Remove the signal flow assumption from the component type annex since it references implementation-specific elements",
+    "Place the remaining valid assumption about Data_Sink in the component implementation annex"
+  ]
+}

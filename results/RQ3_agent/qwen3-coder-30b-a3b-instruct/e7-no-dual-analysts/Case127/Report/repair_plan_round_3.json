@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "Reference to port 'acc_in_data_x' is not visible in the AGREE annex context of component type 'ATTITUDE_CALCULATION'",
+      "minimal_edit": "Remove the reference to 'acc_in_data_x' from the AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "Reference to subcomponent 'attitude_sub' is not visible in the AGREE annex context of component type 'ATTITUDE_CALCULATION'",
+      "minimal_edit": "Remove the reference to 'attitude_sub' from the AGREE annex"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE expression references are not valid in component type context",
+      "minimal_edit": "Remove the entire AGREE annex block from component type 'ATTITUDE_CALCULATION'"
+    },
+    {
+      "diagnostic": "Expression for guarantee statement is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression due to unresolved references in guarantee statements",
+      "minimal_edit": "Remove the entire AGREE annex block from component type 'ATTITUDE_CALCULATION'"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire annex agree block from the ATTITUDE_CALCULATION component type",
+    "Place a new annex agree block in the ATTITUDE_CALCULATION.IMPL component implementation",
+    "In the new implementation annex, define only valid AGREE expressions using visible identifiers"
+  ]
+}

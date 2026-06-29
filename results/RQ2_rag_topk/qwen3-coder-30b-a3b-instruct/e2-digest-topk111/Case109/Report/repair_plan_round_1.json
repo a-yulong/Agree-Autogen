@@ -1,0 +1,71 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 63: Couldn't resolve reference to 'acc2DataOut'.",
+      "cause": "Reference to subcomponent port 'spg.acc2DataOut' not visible in component type scope",
+      "minimal_edit": "Remove or rewrite assumption 'signal_flow_data' to reference only visible identifiers"
+    },
+    {
+      "diagnostic": "line 63: Couldn't resolve reference to 'spg'.",
+      "cause": "Reference to subcomponent 'spg' not visible in component type scope",
+      "minimal_edit": "Remove or rewrite assumption 'signal_flow_data' to reference only visible identifiers"
+    },
+    {
+      "diagnostic": "line 64: Couldn't resolve reference to 'event_in'.",
+      "cause": "Reference to subcomponent port 'spg.event_in' not visible in component type scope",
+      "minimal_edit": "Remove or rewrite assumption 'signal_flow_control' to reference only visible identifiers"
+    },
+    {
+      "diagnostic": "line 64: Couldn't resolve reference to 'spg'.",
+      "cause": "Reference to subcomponent 'spg' not visible in component type scope",
+      "minimal_edit": "Remove or rewrite assumption 'signal_flow_control' to reference only visible identifiers"
+    },
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "Reference to property 'Dispatch_Protocol' not visible in component type scope",
+      "minimal_edit": "Remove or rewrite guarantee 'periodic_dispatch' to reference only visible identifiers"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Period'.",
+      "cause": "Reference to property 'Period' not visible in component type scope",
+      "minimal_edit": "Remove or rewrite guarantee 'timing_period' to reference only visible identifiers"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'Deadline'.",
+      "cause": "Reference to property 'Deadline' not visible in component type scope",
+      "minimal_edit": "Remove or rewrite guarantee 'timing_deadline' to reference only visible identifiers"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'Compute_Execution_Time'.",
+      "cause": "Reference to property 'Compute_Execution_Time' not visible in component type scope",
+      "minimal_edit": "Remove or rewrite guarantee 'timing_execution' to reference only visible identifiers"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'Priority'.",
+      "cause": "Reference to property 'Priority' not visible in component type scope",
+      "minimal_edit": "Remove or rewrite guarantee 'priority' to reference only visible identifiers"
+    },
+    {
+      "diagnostic": "line 70: Couldn't resolve reference to 'Stack_Size'.",
+      "cause": "Reference to property 'Stack_Size' not visible in component type scope",
+      "minimal_edit": "Remove or rewrite guarantee 'stack_size' to reference only visible identifiers"
+    },
+    {
+      "diagnostic": "line 71: Couldn't resolve reference to 'Code_Size'.",
+      "cause": "Reference to property 'Code_Size' not visible in component type scope",
+      "minimal_edit": "Remove or rewrite guarantee 'code_size' to reference only visible identifiers"
+    },
+    {
+      "diagnostic": "line 72: Couldn't resolve reference to 'Data_Size'.",
+      "cause": "Reference to property 'Data_Size' not visible in component type scope",
+      "minimal_edit": "Remove or rewrite guarantee 'data_size' to reference only visible identifiers"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove all guarantee statements from the AGREE annex that reference component properties or subcomponent ports",
+    "Remove all assume statements from the AGREE annex that reference subcomponent ports",
+    "Move any necessary signal flow assumptions to the implementation annex if needed for implementation-specific contracts",
+    "Ensure that only visible identifiers (acc2out, acc2_command_in) are referenced in the AGREE annex"
+  ]
+}

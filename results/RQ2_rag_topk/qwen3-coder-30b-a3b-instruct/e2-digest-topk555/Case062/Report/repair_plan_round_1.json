@@ -1,0 +1,66 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink is a port in component type Q, not visible in the implementation annex scope",
+      "minimal_edit": "Remove the assumption 'data_flow_routing' that references Data_Sink from the component type annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg is a subcomponent in implementation Q.Impl, not visible in component type annex",
+      "minimal_edit": "Remove the assumption 'data_flow_routing' that references Q_Spg from the component type annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "Dispatch_Protocol is a property of implementation Q.Impl, not visible in component type annex",
+      "minimal_edit": "Move guarantee 'sporadic_dispatch' to implementation annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Impl'.",
+      "cause": "Impl is a component implementation name, not a valid AGREE expression",
+      "minimal_edit": "Replace Q.Impl with Q_Spg in the guarantee 'sporadic_dispatch'"
+    },
+    {
+      "diagnostic": "no viable alternative at input '\"Sporadic\"'",
+      "cause": "Invalid string literal syntax in AGREE expression",
+      "minimal_edit": "Remove quotes from 'Sporadic' in guarantee 'sporadic_dispatch'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Period'.",
+      "cause": "Period is a property of implementation Q.Impl, not visible in component type annex",
+      "minimal_edit": "Move guarantee 'execution_period' to implementation annex"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in property comparison due to unresolved references",
+      "minimal_edit": "Move guarantee 'execution_period' to implementation annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'deadline'.",
+      "cause": "deadline is a property of implementation Q.Impl, not visible in component type annex",
+      "minimal_edit": "Move guarantee 'deadline_constraint' to implementation annex"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in property comparison due to unresolved references",
+      "minimal_edit": "Move guarantee 'deadline_constraint' to implementation annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Priority'.",
+      "cause": "Priority is a property of implementation Q.Impl, not visible in component type annex",
+      "minimal_edit": "Move guarantee 'priority_level' to implementation annex"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in property comparison due to unresolved references",
+      "minimal_edit": "Move guarantee 'priority_level' to implementation annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Move the guarantee statements 'sporadic_dispatch', 'execution_period', 'deadline_constraint', and 'priority_level' from the component type annex to the component implementation annex",
+    "Remove the assumption 'data_flow_routing' from the component type annex",
+    "Update the guarantee 'sporadic_dispatch' to reference the correct property value without quotes",
+    "Update the guarantee 'sporadic_dispatch' to reference Q_Spg instead of Q.Impl"
+  ]
+}

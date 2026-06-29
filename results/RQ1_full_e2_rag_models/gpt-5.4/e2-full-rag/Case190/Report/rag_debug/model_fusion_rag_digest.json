@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Preserve the existing AADL structure and insert only an AGREE annex block within a valid owner scope.",
+    "Keep contract-style assumptions and guarantees in component type scope; keep implementation-level bindings only in implementation scope.",
+    "Use the analyzed model as the authority for valid owners, visible features, and implementation contents before attaching any annex."
+  ],
+  "generic_rules": [
+    "Do not move, rename, or alter unrelated architectural elements when adding an annex.",
+    "Respect owner boundaries: type-level contracts must not rely on implementation-only paths or subcomponent references.",
+    "If required scope or visible symbols are not confirmed by the model structure, avoid speculative placement or cross-scope content."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE content is wrapped in an `annex agree {** ... **};` block.",
+    "Implementation-scope annex content should appear in a valid implementation owner and after relevant structural declarations when scope depends on them."
+  ],
+  "anti_patterns": [
+    "Do not place type-scope contract content into an implementation owner unless it is truly implementation-scoped.",
+    "Do not fuse annex content in a way that changes connections, features, properties, or other existing architecture."
+  ],
+  "irrelevant_topics": [
+    "Validator-specific type repair tactics",
+    "Data-range expression typing details",
+    "AADL property names as AGREE expression variables"
+  ]
+}

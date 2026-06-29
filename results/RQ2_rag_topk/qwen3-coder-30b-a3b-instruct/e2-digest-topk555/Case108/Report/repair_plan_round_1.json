@@ -1,0 +1,51 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 29: Couldn't resolve reference to 'acc1DataOut'.",
+      "cause": "Reference to subcomponent port 'spg.acc1DataOut' not resolvable in component type scope",
+      "minimal_edit": "Replace 'spg.acc1DataOut' with 'acc1DataOut' and move the assume statement to the implementation annex"
+    },
+    {
+      "diagnostic": "line 29: Couldn't resolve reference to 'spg'.",
+      "cause": "Reference to subcomponent 'spg' not resolvable in component type scope",
+      "minimal_edit": "Remove reference to 'spg' and use direct feature names"
+    },
+    {
+      "diagnostic": "line 29: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved reference causing type inference failure",
+      "minimal_edit": "Replace 'spg.acc1DataOut' with 'acc1DataOut' and move to implementation annex"
+    },
+    {
+      "diagnostic": "line 29: named thing must be an expression with a type",
+      "cause": "Unresolved reference results in invalid expression",
+      "minimal_edit": "Replace with valid expression in implementation scope"
+    },
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'event_in'.",
+      "cause": "Reference to subcomponent port 'spg.event_in' not resolvable in component type scope",
+      "minimal_edit": "Replace 'spg.event_in' with 'event_in' and move the assume statement to the implementation annex"
+    },
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'spg'.",
+      "cause": "Reference to subcomponent 'spg' not resolvable in component type scope",
+      "minimal_edit": "Remove reference to 'spg' and use direct feature names"
+    },
+    {
+      "diagnostic": "line 30: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch due to unresolved reference causing type inference failure",
+      "minimal_edit": "Replace 'spg.event_in' with 'event_in' and move to implementation annex"
+    },
+    {
+      "diagnostic": "line 30: named thing must be an expression with a type",
+      "cause": "Unresolved reference results in invalid expression",
+      "minimal_edit": "Replace with valid expression in implementation scope"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex from acc1_dataOutput component type",
+    "Add a new AGREE annex to acc1_dataOutput.impl component implementation",
+    "In the new implementation annex, declare assume statements using direct feature names: assume \"signal_flow_data\": acc1out = acc1DataOut; assume \"signal_flow_control\": event_in = acc1_command_in;",
+    "Ensure the subcomponent 'sub1' is properly declared in the implementation before referencing its ports"
+  ]
+}

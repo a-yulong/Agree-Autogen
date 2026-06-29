@@ -1,0 +1,35 @@
+package geofence_single
+public
+	
+	with geofence_nodes;
+	with base_types;
+	
+	system GeoFence_singleton
+		features
+			timeToRecovery: out data port real;
+	end GeoFence_singleton;
+	
+	system implementation GeoFence_singleton.impl
+		annex agree {**
+			var t: real = 0.0;
+			var distanceFromFence: real;
+			let
+				distanceFromFence = circleLinearization(t);
+				t' = 0.1;
+			guard
+				t >= 1.7 implies distanceFromFence > distanceFromFence previous;
+			**};
+		
+		features
+			timeToRecovery: out data port real;
+		end GeoFence_singleton.impl;
+	
+	-- Type Aliases
+	
+	data int extends base_types::Integer
+	end int;
+	
+	data real extends base_types::Float
+	end real;
+	
+end geofence_single;

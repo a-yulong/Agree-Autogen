@@ -1,0 +1,198 @@
+round=5
+
+[TARGET INTERFACE]
+Exact expression symbols: nominal_attitude, sensored_attitude, sun_direction, reference_torque
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+nominal_attitude | in | data | real | dataaocs::attitude
+sensored_attitude | in | data | real | dataaocs::GYR_data
+sun_direction | in | data | real | dataaocs::FSS_data
+reference_torque | out | data | real | dataaocs::RW_data
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Dispatch Protocol is Periodic",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Attitude_Control_Function.impl Dispatch_Protocol=Periodic"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Period is 500 us",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Attitude_Control_Function.impl Period=500 us"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Deadline is 500 us",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Attitude_Control_Function.impl Deadline=500 us"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Compute Execution Time is 0 ms .. 250 us",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Attitude_Control_Function.impl Compute_Execution_Time=0 ms .. 250 us"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Priority is 1",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Attitude_Control_Function.impl Priority=1"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Attitude_Control_Function | lines 15-17
+annex agree {**
+          guarantee "period": every 500 us;
+        **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   12:     sensored_attitude : in data port dataaocs::GYR_data;
+   13:     sun_direction : in data port dataaocs::FSS_data;
+   14:     reference_torque : out data port dataaocs::RW_data;
+   15:   annex agree {**
+>> 16:           guarantee "period": every 500 us;
+   17:         **};
+   18:   end Attitude_Control_Function;
+   19:   
+   20:   thread Orbit_Control_Function
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Attitude_Control_Function
+thread Attitude_Control_Function
+  features
+    nominal_attitude : in data port dataaocs::attitude;
+    sensored_attitude : in data port dataaocs::GYR_data;
+    sun_direction : in data port dataaocs::FSS_data;
+    reference_torque : out data port dataaocs::RW_data;
+  end Attitude_Control_Function;
+
+-- TARGET DECLARATION: Attitude_Control_Function.impl
+thread implementation Attitude_Control_Function.impl
+  properties
+    Dispatch_Protocol => Periodic;
+    Compute_Execution_Time => 0 ms .. 250 us; -- about half the period time
+    Period => 500 us;
+    Deadline => 500 us;
+    Priority => 1;
+  end Attitude_Control_Function.impl;
+
+-- RELATED MODEL LINES
+thread Attitude_Control_Function
+nominal_attitude : in data port dataaocs::attitude;
+sensored_attitude : in data port dataaocs::GYR_data;
+sun_direction : in data port dataaocs::FSS_data;
+reference_torque : out data port dataaocs::RW_data;
+end Attitude_Control_Function;
+nominal_attitude : out data port dataaocs::attitude;
+thread implementation Attitude_Control_Function.impl
+end Attitude_Control_Function.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Attitude_Control_Function",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Attitude_Control_Function.impl",
+      "kind": "thread implementation",
+      "type_name": "Attitude_Control_Function"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Attitude_Control_Function",
+      "name": "nominal_attitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::attitude",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Attitude_Control_Function",
+      "name": "sensored_attitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::GYR_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Attitude_Control_Function",
+      "name": "sun_direction",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::FSS_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Attitude_Control_Function",
+      "name": "reference_torque",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::RW_data",
+      "scalar": "opaque"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Attitude_Control_Function.impl",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": null
+    },
+    {
+      "owner": "Attitude_Control_Function.impl",
+      "owner_kind": "thread implementation",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 250 us",
+      "applies_to": null
+    },
+    {
+      "owner": "Attitude_Control_Function.impl",
+      "owner_kind": "thread implementation",
+      "name": "Period",
+      "value": "500 us",
+      "applies_to": null
+    },
+    {
+      "owner": "Attitude_Control_Function.impl",
+      "owner_kind": "thread implementation",
+      "name": "Deadline",
+      "value": "500 us",
+      "applies_to": null
+    },
+    {
+      "owner": "Attitude_Control_Function.impl",
+      "owner_kind": "thread implementation",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": null
+    }
+  ]
+}

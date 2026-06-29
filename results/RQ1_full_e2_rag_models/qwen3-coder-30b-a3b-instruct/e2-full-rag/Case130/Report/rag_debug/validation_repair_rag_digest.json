@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Fix unresolved references in AGREE contracts by ensuring all identifiers are visible in the current scope or declared as helpers.",
+    "Move implementation-level bindings from component type annexes to implementation annexes to avoid scope errors.",
+    "Avoid introducing package-qualified identifiers in AGREE code that are not present in the model's configured dependencies."
+  ],
+  "generic_rules": [
+    "When AGREE diagnostics report '<error>' types, trace and resolve the first unresolved identifier on the same line.",
+    "Use only visible AADL features or declared helpers in AGREE contracts to prevent reference errors.",
+    "Validate that AGREE scalar type names match supported types: int, real, bool.",
+    "Ensure AGREE contracts are placed in the correct AADL scope: type annexes for component-level contracts, implementation annexes for bindings."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Assumptions and guarantees referencing ports must be in valid component type scopes.",
+    "Implementation-level bindings must be in implementation annexes after relevant subcomponents.",
+    "AGREE expressions must resolve to valid boolean types for assume/guarantee statements."
+  ],
+  "anti_patterns": [
+    "Do not add new architecture elements to fix AGREE reference errors; instead, correct or remove invalid clauses.",
+    "Do not place implementation-level references in component type annexes; move them to implementation annexes.",
+    "Do not use invalid scalar type names in AGREE declarations; use only int, real, bool."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about property associations",
+    "AGREE validator diagnostics about missing annex placement",
+    "Requirement traceability and compact semantics"
+  ]
+}

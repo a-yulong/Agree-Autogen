@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'altitudeFromGround'.",
+      "cause": "altitudeFromGround is not declared as a variable or output in the component type",
+      "minimal_edit": "Remove the altitudeFromGround reference from the guarantee and replace with a direct expression using visible inputs"
+    },
+    {
+      "diagnostic": "line 30: Function definition 'height' requires 4 arguments, but this function call provides 3 arguments",
+      "cause": "The Agree_Nodes::height function signature does not match the provided arguments",
+      "minimal_edit": "Remove the function call to Agree_Nodes::height and replace with a direct expression or remove the guarantee"
+    },
+    {
+      "diagnostic": "line 32: Couldn't resolve reference to 'altitudeFromGround'.",
+      "cause": "altitudeFromGround is not declared as a variable or output in the component type",
+      "minimal_edit": "Remove the altitudeFromGround reference from the guarantee and replace with a direct expression using visible inputs"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee 'altitude_from_ground_computation' that references undefined 'altitudeFromGround'",
+    "Remove the function call to Agree_Nodes::height which has incorrect argument count",
+    "Replace the undefined 'altitudeFromGround' reference in the second guarantee with a direct expression using visible inputs",
+    "Ensure all expressions in the annex use only visible identifiers from the component interface"
+  ]
+}

@@ -1,0 +1,217 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- SBC_32F411EDISCOVERY
+- SBC_32F411EDISCOVERY.impl
+- RAM
+- LSM303DLHC
+- L3GD20
+- i2c_bus
+- spi_bus
+- I2C_ACC_MAG_BA
+- I2C_ARM_BA
+- SPI_GYRO_BA
+- SPI_ARM_BA
+- SBC_32F411EDISCOVERY.RTOS
+- Software
+- SBC_32F411EDISCOVERY.v2
+- acc_out_data_x
+- acc_out_data_y
+- acc_out_data_z
+- mag_out_data_x
+- mag_out_data_y
+- mag_out_data_z
+- gyro_out_data_x
+- gyro_out_data_y
+- gyro_out_data_z
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "SBC_32F411EDISCOVERY uses deployment bindings defined for SBC_32F411EDISCOVERY.RTOS",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "SBC_32F411EDISCOVERY",
+        "SBC_32F411EDISCOVERY.RTOS"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Software is bound to processor cpu",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "Software",
+        "cpu"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: SBC_32F411EDISCOVERY | lines 26-29
+annex agree {**
+    assume "deployment_binding": SBC_32F411EDISCOVERY.RTOS;
+    guarantee "software_binding": Software => cpu;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   23:   properties
+   24:     Data_Sheet::UUID =>
+   25:     "http://www.st.com/en/evaluation-tools/32f411ediscovery.html";
+   26:   annex agree {**
+>> 27:     assume "deployment_binding": SBC_32F411EDISCOVERY.RTOS;
+   28:     guarantee "software_binding": Software => cpu;
+   29:   **};
+   30:   end SBC_32F411EDISCOVERY;
+   31: 
+
+   24:     Data_Sheet::UUID =>
+   25:     "http://www.st.com/en/evaluation-tools/32f411ediscovery.html";
+   26:   annex agree {**
+   27:     assume "deployment_binding": SBC_32F411EDISCOVERY.RTOS;
+>> 28:     guarantee "software_binding": Software => cpu;
+   29:   **};
+   30:   end SBC_32F411EDISCOVERY;
+   31: 
+   32:   -- Bare version: only hardware elements are presented
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: SBC_32F411EDISCOVERY
+system SBC_32F411EDISCOVERY
+  properties
+    Data_Sheet::UUID =>
+    "http://www.st.com/en/evaluation-tools/32f411ediscovery.html";
+  end SBC_32F411EDISCOVERY;
+
+-- TARGET DECLARATION: SBC_32F411EDISCOVERY.impl
+system implementation SBC_32F411EDISCOVERY.impl
+    extends SBC_32F411EDISCOVERY.RTOS
+  subcomponents
+    RAM : memory Flash.IMPL;
+
+    LSM303DLHC : device LSM303DLHC;
+    L3GD20     : device L3GD20;
+
+    i2c_bus  : bus Buses::I2C::I2C.IMPL;
+    spi_bus  : bus Buses::SPI::SPI.IMPL;
+
+  connections
+    I2C_ACC_MAG_BA : bus access i2c_bus <-> LSM303DLHC.i2c_bus;
+    I2C_ARM_BA	   : bus access i2c_bus <-> CPU.i2c_bus;
+
+    SPI_GYRO_BA	: bus access spi_bus <-> L3GD20.spi_bus;
+    SPI_ARM_BA	: bus access spi_bus <-> CPU.spi_bus;
+
+  end SBC_32F411EDISCOVERY.impl;
+
+-- RELATED MODEL LINES
+with AHRS::Software;
+system SBC_32F411EDISCOVERY
+end SBC_32F411EDISCOVERY;
+system implementation SBC_32F411EDISCOVERY.RTOS
+Software : process AHRS::Software::Attitude.impl;
+Actual_Processor_Binding => (reference(cpu)) applies to Software;
+end SBC_32F411EDISCOVERY.RTOS;
+system implementation SBC_32F411EDISCOVERY.impl
+extends SBC_32F411EDISCOVERY.RTOS
+RAM : memory Flash.IMPL;
+LSM303DLHC : device LSM303DLHC;
+L3GD20     : device L3GD20;
+i2c_bus  : bus Buses::I2C::I2C.IMPL;
+spi_bus  : bus Buses::SPI::SPI.IMPL;
+I2C_ACC_MAG_BA : bus access i2c_bus <-> LSM303DLHC.i2c_bus;
+I2C_ARM_BA	   : bus access i2c_bus <-> CPU.i2c_bus;
+SPI_GYRO_BA	: bus access spi_bus <-> L3GD20.spi_bus;
+SPI_ARM_BA	: bus access spi_bus <-> CPU.spi_bus;
+end SBC_32F411EDISCOVERY.impl;
+system implementation SBC_32F411EDISCOVERY.v2
+extends SBC_32F411EDISCOVERY.impl
+ACC_PC1 : port LSM303DLHC.acc_out_data_x -> Software.acc_in_data_x;
+ACC_PC2 : port LSM303DLHC.acc_out_data_y -> Software.acc_in_data_y;
+ACC_PC3 : port LSM303DLHC.acc_out_data_z -> Software.acc_in_data_z;
+MAG_PC1 : port LSM303DLHC.mag_out_data_x -> Software.mag_in_data_x;
+MAG_PC2 : port LSM303DLHC.mag_out_data_y -> Software.mag_in_data_y;
+MAG_PC3 : port LSM303DLHC.mag_out_data_z -> Software.mag_in_data_z;
+GYRO_PC1 : port L3GD20.gyro_out_data_x -> Software.gyro_in_data_x;
+GYRO_PC2 : port L3GD20.gyro_out_data_y -> Software.gyro_in_data_y;
+GYRO_PC3 : port L3GD20.gyro_out_data_z -> Software.gyro_in_data_z;
+etef1 : end to end flow LSM303DLHC.f1 -> ACC_PC1 -> Software.f1 { latency => 40 ms .. 90 ms;};
+Actual_Connection_Binding => (reference (i2c_bus)) applies to ACC_PC1;
+Actual_Connection_Binding => (reference (i2c_bus)) applies to ACC_PC2;
+Actual_Connection_Binding => (reference (i2c_bus)) applies to ACC_PC3;
+Actual_Connection_Binding => (reference (i2c_bus)) applies to MAG_PC1;
+Actual_Connection_Binding => (reference (i2c_bus)) applies to MAG_PC2;
+Actual_Connection_Binding => (reference (i2c_bus)) applies to MAG_PC3;
+Actual_Connection_Binding => (reference (spi_bus)) applies to GYRO_PC1;
+Actual_Connection_Binding => (reference (spi_bus)) applies to GYRO_PC2;
+Actual_Connection_Binding => (reference (spi_bus)) applies to GYRO_PC3;
+end SBC_32F411EDISCOVERY.V2;
+device LSM303DLHC
+acc_out_data_x  : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_y  : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_z  : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+i2c_bus   : requires bus access Buses::I2C::I2C.impl;
+f1 : flow source acc_out_data_x  { latency => 10 ms .. 20 ms;}; -- XXX: consolidate to all ports
+end LSM303DLHC;
+device L3GD20
+gyro_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+spi_bus   : requires bus access Buses::SPI::SPI.impl; --  XXX
+end L3GD20;
+i2c_bus   : requires bus access Buses::I2C::I2C.IMPL;
+spi_bus   : requires bus access Buses::SPI::SPI.IMPL;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "SBC_32F411EDISCOVERY",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "SBC_32F411EDISCOVERY.impl",
+      "kind": "system",
+      "type_name": "SBC_32F411EDISCOVERY"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "SBC_32F411EDISCOVERY.impl",
+      "name": "RAM",
+      "category": "memory",
+      "classifier": "Flash.IMPL"
+    },
+    {
+      "owner": "SBC_32F411EDISCOVERY.impl",
+      "name": "LSM303DLHC",
+      "category": "device",
+      "classifier": "LSM303DLHC"
+    },
+    {
+      "owner": "SBC_32F411EDISCOVERY.impl",
+      "name": "L3GD20",
+      "category": "device",
+      "classifier": "L3GD20"
+    },
+    {
+      "owner": "SBC_32F411EDISCOVERY.impl",
+      "name": "i2c_bus",
+      "category": "bus",
+      "classifier": "Buses::I2C::I2C.IMPL"
+    },
+    {
+      
+-- [target model context truncated]

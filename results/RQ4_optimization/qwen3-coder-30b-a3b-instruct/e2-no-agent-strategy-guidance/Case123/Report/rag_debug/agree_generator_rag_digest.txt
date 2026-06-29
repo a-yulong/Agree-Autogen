@@ -1,0 +1,19 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE contracts in annex agree blocks within valid component type or implementation scopes.
+- Use assume/guarantee syntax for behavioral contracts, eq for helper declarations, and assign for implementation-level output bindings.
+Generic rules:
+- Component type contracts should use visible feature names and declared constants for assumptions and guarantees.
+- Implementation contracts should only use assign for existing output features or declared auxiliary variables.
+- Do not encode AADL timing properties directly as AGREE expressions unless typed ports or constants are explicitly exposed.
+- Ensure AGREE scalar types match AADL expectations: int, real, bool.
+Syntax or pattern reminders:
+- AGREE annex blocks must be enclosed in `annex agree {** ... **};`
+- Assumptions and guarantees must reference valid visible identifiers or declared variables
+- Constants and equations are declared with `const name : type = value;` and `eq name : type = expression;`
+- Assignments in implementation scope must target existing output features or auxiliary variables
+Anti-patterns:
+- Do not place guarantee statements in implementation scope
+- Do not reference AADL property names like Period or Priority directly in AGREE expressions
+- Do not use invalid scalar types like 'integer' or 'boolean' in AGREE declarations
+</RAG_DIGEST>

@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Generate AGREE annex blocks within `annex agree {** ... **};` syntax for the target component.",
+    "Use `assume`, `guarantee`, `eq`, `const`, and `assign` statements to express requirement semantics.",
+    "Place component type annexes for assumptions and guarantees; use implementation annexes for assignments."
+  ],
+  "generic_rules": [
+    "Align helper declaration types with actual expression types to avoid type mismatch diagnostics.",
+    "Avoid encoding AADL timing properties as AGREE expressions unless explicit typed ports or constants are available.",
+    "Omit Boolean range comparisons unless the data type is explicitly AGREE bool in scope.",
+    "Do not generate clauses for unresolved or opaque data types that do not map to AGREE expressions."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract assertions.",
+    "Use `eq name : type = expression;` for equation declarations and `const name : type = value;` for constants."
+  ],
+  "anti_patterns": [
+    "Do not assume AADL property names are automatically available as AGREE variables.",
+    "Do not generate range comparisons or Boolean equality over opaque or non-bool data types.",
+    "Do not include clauses that reference undefined or untyped identifiers in AGREE scope."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and their mapping to AGREE variables",
+    "Signal flow routing through specific connections in AADL",
+    "Deployment binding of subcomponents to classifiers",
+    "Classifier substitution rules and their implications"
+  ]
+}

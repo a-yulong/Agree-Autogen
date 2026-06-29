@@ -1,0 +1,13 @@
+annex agree {**
+  assume "signal_routing_input": mitigation_in = acc1_input or mitigation_in = acc2_input or mitigation_in = acc3_input or mitigation_in = acc4_input or mitigation_in = acc5_input or mitigation_in = acc6_input;
+  assume "signal_routing_output": mitigation_command = acc1out or mitigation_command = acc2out or mitigation_command = accout or mitigation_command = acc1_dataOutput or mitigation_command = acc2_dataOutput or mitigation_command = acc3_dataOutput or mitigation_command = acc4_dataOutput or mitigation_command = acc5_dataOutput or mitigation_command = acc6_dataOutput;
+  guarantee "data_flow_routing": mitigation_in = acc1_input => acc1_dataOutput = acc1_dataOutput_emv2.impl;
+  guarantee "data_flow_routing": mitigation_in = acc2_input => acc2_dataOutput = acc2_dataOutput_emv2.impl;
+  guarantee "data_flow_routing": mitigation_in = acc3_input => acc3_dataOutput = acc3_dataOutput_emv2.impl;
+  guarantee "data_flow_routing": mitigation_in = acc4_input => acc4_dataOutput = acc4_dataOutput_emv2.impl;
+  guarantee "data_flow_routing": mitigation_in = acc5_input => acc5_dataOutput = acc5_dataOutput_emv2.impl;
+  guarantee "data_flow_routing": mitigation_in = acc6_input => acc6_dataOutput = acc6_dataOutput_emv2.impl;
+  guarantee "control_signal_routing": acc1_data_monitor = acc1out => mitigation_command = acc1_command_in;
+  guarantee "control_signal_routing": acc2_data_monitor = acc2out => mitigation_command = acc2_command_in;
+  guarantee "control_signal_routing": acc3_data_monitor = accout => mitigation_command = acc_command_in;
+**};

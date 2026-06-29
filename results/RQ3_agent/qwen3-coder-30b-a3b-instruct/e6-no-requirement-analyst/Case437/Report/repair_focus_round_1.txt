@@ -1,0 +1,64 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: Compas_Output, Dev_Bus
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Compas_Output | out | data | opaque | Base_Types::Float_32
+Dev_Bus | requires | access | opaque | 
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Compas | lines 45-48
+annex agree {**
+    guarantee "output_bound": 
+      (Compas_Output >= 0.0) and (Compas_Output <= 100.0);
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+No validator line numbers were available.
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Compas
+device Compas
+  features
+    Compas_Output : out data port Base_Types::Float_32;
+    Dev_Bus : requires bus access Device_Bus.MCU0;
+  end compas;
+
+-- RELATED MODEL LINES
+Dev_Bus : requires bus access Device_Bus.MCU0;
+device Compas
+Compas_Output : out data port Base_Types::Float_32;
+Dev_Bus : requires bus access Device_bus.MCU0;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Compas",
+      "kind": "device"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Compas",
+      "name": "Compas_Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Float_32",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Compas",
+      "name": "Dev_Bus",
+      "direction": "requires",
+      "category": "bus access",
+      "type": "Device_Bus::MCU0",
+      "scalar": "opaque"
+    }
+  ]
+}

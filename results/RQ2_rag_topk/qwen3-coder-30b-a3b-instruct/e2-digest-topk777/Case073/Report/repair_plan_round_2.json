@@ -1,0 +1,51 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'gps_pos'.",
+      "cause": "Reference to 'gps_pos' is not visible in the component type scope",
+      "minimal_edit": "Replace 'gps_pos' with 'pspg.gps_pos' in the assumption"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "Reference to 'pspg' is not visible in the component type scope",
+      "minimal_edit": "Remove 'pspg' from the assumption"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Ardupilot_Software::GPS_Position.i' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in assumption expression",
+      "minimal_edit": "Remove the assumption as it cannot be resolved"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in assumption",
+      "minimal_edit": "Remove the assumption"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "Reference to 'pspg' is not visible in the component type scope",
+      "minimal_edit": "Remove 'pspg' from the assumption"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'speed'.",
+      "cause": "Reference to 'speed' is not visible in the component type scope",
+      "minimal_edit": "Replace 'speed' with 'pspg.speed' in the assumption"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in assumption expression",
+      "minimal_edit": "Remove the assumption as it cannot be resolved"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in assumption",
+      "minimal_edit": "Remove the assumption"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire annex agree block from thr_mgmt component type",
+    "Add a new annex agree block to thr_mgmt.i component implementation",
+    "In the new annex, declare auxiliary variables for the signal flow relationships",
+    "Use assign statements to bind the signal flow relationships in the implementation scope"
+  ]
+}

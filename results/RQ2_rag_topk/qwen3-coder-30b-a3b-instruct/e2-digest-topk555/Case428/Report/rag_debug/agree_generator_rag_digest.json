@@ -1,0 +1,24 @@
+{
+  "rag_rules": [
+    "AGREE annex blocks must be placed in component type scopes for assumptions and guarantees involving visible ports, and in implementation scopes for subcomponent bindings.",
+    "Assumptions and guarantees must reference only visible identifiers from the AADL model, avoiding package-qualified names not present in the analyzed model."
+  ],
+  "generic_rules": [
+    "Use AGREE's const, eq, and g.ua syntax to define constants and relationships in valid component type scopes.",
+    "Ensure type declarations in AGREE match AADL scalar types: int, real, bool; avoid invalid references like 'integer' or 'boolean'.",
+    "Do not reference implementation-only subcomponents or ports in component type contracts; move such bindings to implementation annexes."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Guarantees should relate visible outputs to visible inputs, not subcomponent paths in type scopes."
+  ],
+  "anti_patterns": [
+    "Avoid placing implementation-level bindings in component type annexes unless they are valid assignments to outputs.",
+    "Do not assume numeric or Boolean encodings for event ports unless explicitly defined in the AADL model."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "Model fusion and scope preservation rules",
+    "Validator diagnostics and repair patterns"
+  ]
+}

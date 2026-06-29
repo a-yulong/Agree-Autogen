@@ -1,0 +1,200 @@
+round=5
+
+[TARGET INTERFACE]
+Exact expression symbols: Data_Sink
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_Sink | in | data | int | Simple_Type
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data_Sink is routed through P1 to Q_Spg.Data_Sink",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "Data_Sink",
+        "P1",
+        "Q_Spg.Data_Sink"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Q.Impl uses Sporadic dispatch protocol",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl Dispatch_Protocol=Sporadic"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Q.Impl executes with period 10 Ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl Period=10 Ms"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Q.Impl meets deadline of 10 Ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl deadline=10 Ms"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Data_Sink is provided as input",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "Data_Sink"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "Q_Spg.Data_Sink receives data from Data_Sink via P1",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Q_Spg.Data_Sink",
+        "Data_Sink",
+        "P1"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "Q.Impl runs at priority 1",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl Priority=1"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Q | lines 64-71
+annex agree {**
+          assume "Data_Sink_input": true;
+          guarantee "signal_flow": true;
+          assume "sporadic_protocol": true;
+          guarantee "period_constraint": true;
+          guarantee "deadline_constraint": true;
+          assume "priority_assignment": true;
+        **};
+
+[DIAGNOSTIC LINE CONTEXT]
+No validator line numbers were available.
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Q
+thread Q
+  features
+    Data_Sink : in event data port Simple_Type;
+  end Q;
+
+-- TARGET DECLARATION: Q.Impl
+thread implementation Q.Impl
+  calls
+    Mycalls: {
+    Q_Spg : subprogram Ping_Spg;
+    };
+  connections
+    P1 : parameter Data_Sink -> Q_Spg.Data_Sink;
+  properties
+    Dispatch_Protocol                  => Sporadic;
+    Period                             => 10 Ms;
+    deadline                           => 10 Ms;
+    Priority                           => 1;
+  end Q.Impl;
+
+-- RELATED MODEL LINES
+Data_Sink : in parameter Simple_Type;
+thread Q
+Data_Sink : in event data port Simple_Type;
+end Q;
+thread implementation Q.Impl
+P1 : parameter Data_Sink -> Q_Spg.Data_Sink;
+end Q.Impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Q",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Q.Impl",
+      "kind": "thread implementation",
+      "type_name": "Q"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "Q.Impl",
+      "name": "Mycalls",
+      "category": "calls",
+      "classifier": "Q_Spg"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Q",
+      "name": "Data_Sink",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Simple_Type",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "Q.Impl",
+      "name": "P1",
+      "kind": "parameter",
+      "source": "Data_Sink",
+      "destination": "Q_Spg.Data_Sink"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Q.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Sporadic",
+      "applies_to": ""
+    },
+    {
+      "owner": "Q.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Period",
+      "value": "10 Ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "Q.Impl",
+      "owner_kind": "thread implementation",
+      "name": "deadline",
+      "value": "10 Ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "Q.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": ""
+    }
+  ]
+}

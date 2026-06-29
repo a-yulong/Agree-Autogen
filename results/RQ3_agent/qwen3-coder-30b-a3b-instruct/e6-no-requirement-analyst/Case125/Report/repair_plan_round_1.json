@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 133: named thing must be an expression with a type",
+      "cause": "assume statement references port names that are not visible in component type scope",
+      "minimal_edit": "move the annex block to the component implementation scope"
+    },
+    {
+      "diagnostic": "line 134: named thing must be an expression with a type",
+      "cause": "assume statement references port names that are not visible in component type scope",
+      "minimal_edit": "move the annex block to the component implementation scope"
+    },
+    {
+      "diagnostic": "line 135: named thing must be an expression with a type",
+      "cause": "guarantee statement references port names that are not visible in component type scope",
+      "minimal_edit": "move the annex block to the component implementation scope"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the current AGREE annex block from the GYRO component type",
+    "Add a new AGREE annex block to the GYRO.IMPL component implementation",
+    "In the new annex block, rewrite the assumptions and guarantee using only visible symbols from the implementation scope",
+    "Ensure the new annex block contains only valid implementation-level expressions"
+  ]
+}

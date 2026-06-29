@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 56: Couldn't resolve reference to 'i'.",
+      "cause": "temp_control.i is an implementation, not a component type; tempin1 is not visible in temp_control type scope",
+      "minimal_edit": "remove 'temp_control.i.' prefix from tempin1 and tempin2 references"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 56: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "temp1 is a port in temp_control type, but temp_control.i.tempin1 is invalid; tempin1 is not directly visible in temp_control type",
+      "minimal_edit": "replace 'temp_control.i.tempin1 = temp1' with 'tempin1 = temp1'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 58: right side of binary expression 'or' is of type '<error>' but must be of type 'bool'",
+      "cause": "tempin1 and tempin2 are temperature_type (non-boolean), but 'or' requires boolean operands",
+      "minimal_edit": "remove 'voter.tempin1 or voter.tempin2' clause; it is semantically invalid"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 83: Couldn't resolve reference to 'temp1'.",
+      "cause": "temp1 and temp2 are ports of temp_control type, not visible inside voter type scope",
+      "minimal_edit": "remove 'temp1 = temp1' and 'temp2 = temp2' assumptions"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 85: left side of binary expression 'or' is of type 'int' but must be of type 'bool'",
+      "cause": "tempin1 and tempin2 are temperature_type, not boolean; 'or' operator requires boolean operands",
+      "minimal_edit": "replace 'tempin1 or tempin2' with 'false' to preserve valid syntax, as no valid boolean relation exists"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the entire annex agree block in temp_control (lines 55-59) because it references implementation ports and uses invalid type comparisons",
+    "Delete the entire annex agree block in voter (lines 82-86) because it references external ports (temp1, temp2) not visible in voter scope and uses invalid boolean operations on temperature_type",
+    "Add a new annex agree block to voter.impl (implementation) with valid assign statements if needed, but no valid output contract remains — so leave empty unless port binding is required",
+    "Confirm that no assume/guarantee statements remain in component types that reference non-visible ports or use operators on incompatible types"
+  ]
+}

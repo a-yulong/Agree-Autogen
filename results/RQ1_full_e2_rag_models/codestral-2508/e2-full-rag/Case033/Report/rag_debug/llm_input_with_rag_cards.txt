@@ -1,0 +1,93 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `annex agree {** ... **};` blocks for AGREE contracts
+- Place assumptions, guarantees, constants, and equations in component type annexes
+- Use implementation annexes for implementation-level bindings like assignments
+- For output dependency contracts, write guarantees relating visible outputs to visible inputs
+- Use `assign` only when the left-hand side is an existing output feature or declared auxiliary variable
+- Place input envelope assumptions and output range guarantees in type scope when concrete bounds or visible relations are available
+Generic rules:
+- Treat each annex agree block as scoped to its owning component declaration
+- Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants
+- Use implementation-level assignments to bind subcomponent outputs when needed
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contracts
+- Use `eq name : type = expression;` for equations and `const name : type = value;` for constants
+- Use `assign output = expression;` for implementation-level bindings
+Anti-patterns:
+- Do not place guarantee statements in implementation scope
+- Do not use implementation-only subcomponent paths in a component type annex
+- Do not encode AADL property names as AGREE variables without explicit model exposure
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- nearestIntruderAltitude
+- projectedIntruderAltitude
+
+Target interface:
+Exact expression symbols: nearestIntruderAltitude, projectedIntruderAltitude
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+nearestIntruderAltitude | in | data | real | base_types::Float
+projectedIntruderAltitude | out | data | real | base_types::Float
+
+Raw requirement:
+The TrajectoryExtrapolation component shall compute the intruder's vertical velocity as the difference between the current nearestIntruderAltitude and its value at the previous time step. Using this computed vertical velocity, the component shall predict the future intruder altitude by adding the vertical velocity to the current nearestIntruderAltitude. The resulting projected intruder altitude shall be assigned to the projectedIntruderAltitude output port.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "nearestIntruderAltitude is a real number",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "nearestIntruderAltitude"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "projectedIntruderAltitude is a real number",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "projectedIntruderAltitude"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "projectedIntruderAltitude is computed from nearestIntruderAltitude",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "nearestIntruderAltitude",
+        "projectedIntruderAltitude"
+      ]
+    }
+  ]
+}

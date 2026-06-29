@@ -1,0 +1,21 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE contracts must be placed in valid scopes: component types for assumptions/guarantees, implementations for assignments.
+- Generated AGREE expressions must preserve type consistency and use only visible identifiers from the current scope.
+- Repair clauses should only reference identifiers that are explicitly visible or declared within the same annex.
+- When diagnostics report unresolved references, avoid inventing new declarations; instead, remove or rewrite clauses to use existing identifiers.
+Syntax or pattern reminders:
+- AGREE annexes are enclosed in `annex agree {** ... **};` blocks.
+- Guarantee statements are allowed only in component type scopes.
+- Use `assign output = expression;` for implementation-level output bindings.
+- Constants and equations in AGREE must declare valid types: int, real, bool.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope unless the left-hand side is a valid output feature.
+- Do not attempt to resolve AADL property references (e.g., Stack_Size) by creating new AGREE variables.
+- Do not generate AGREE expressions that reference identifiers not visible in the current component scope.
+Irrelevant retrieved material:
+- AADL property associations and their resolution in AGREE
+- ARINC653-specific property definitions and recovery actions
+- Model unit and package qualification in AGREE
+- Component type vs. implementation scope for feature visibility
+</RAG_DIGEST>

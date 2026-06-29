@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Use `assign` for implementation-level output bindings only when the left-hand side is an existing output feature or declared auxiliary variable.",
+    "Place timing constraints as `assume` statements using visible connection names from the AADL model."
+  ],
+  "generic_rules": [
+    "AGREE annex blocks must be scoped to their owning component and reference only visible identifiers.",
+    "Component type annexes should contain assumptions and guarantees that relate visible inputs to outputs.",
+    "Use `assume` for timing constraints and `guarantee` for behavioral properties in component type annexes.",
+    "Avoid encoding AADL properties like Compute_Execution_Time or Deadline as AGREE variables unless explicitly exposed in the model."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Use `assume \"label\": expression;` for timing and environmental constraints.",
+    "Use `guarantee \"label\": expression;` for behavioral or output properties.",
+    "Use `assign output = expression;` only in implementation annexes for output bindings."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope.",
+    "Do not reference identifiers not present in the current component's visible scope.",
+    "Do not encode AADL timing properties as AGREE expressions unless they are explicitly typed ports or constants."
+  ],
+  "irrelevant_topics": [
+    "AADL property names as AGREE variables",
+    "Model fusion and owner/scope preservation",
+    "Validator-driven repair patterns"
+  ]
+}

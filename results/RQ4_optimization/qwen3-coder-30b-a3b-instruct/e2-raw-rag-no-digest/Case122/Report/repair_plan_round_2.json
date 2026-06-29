@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 43: named thing must be an expression with a type",
+      "cause": "AGREE requires expressions to refer to valid typed symbols; the guarantee 'acc_out_data_x = acc_out_data_x' is trivially true but uses port names in a component type annex without relating them to any actual source or flow from subcomponents",
+      "minimal_edit": "replace 'acc_out_data_x = acc_out_data_x' with 'acc_out_data_x = Spg.acc_out_data_x' but only if Spg.acc_out_data_x is visible; since it is not, remove the clause as it cannot be meaningfully expressed in component type scope"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 44: named thing must be an expression with a type",
+      "cause": "Same as above: acc_out_data_y = acc_out_data_y is a tautology and cannot reference subcomponent source Spg.acc_out_data_Y due to scope and visibility rules in component type annex",
+      "minimal_edit": "remove 'acc_out_data_y = acc_out_data_y' because it cannot be rewritten to a valid expression using only visible symbols in component type scope"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 45: named thing must be an expression with a type",
+      "cause": "Same as above: acc_out_data_z = acc_out_data_z is a tautology and cannot reference subcomponent source Spg.acc_out_data_Z due to scope and visibility rules in component type annex",
+      "minimal_edit": "remove 'acc_out_data_z = acc_out_data_z' because it cannot be rewritten to a valid expression using only visible symbols in component type scope"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the entire annex agree block from ACCELERO_SUB_wrapper (lines 42-46)",
+    "Add a new annex agree block in ACCELERO_SUB_wrapper.i implementation scope to express the signal flow guarantees using visible subcomponent connections"
+  ]
+}

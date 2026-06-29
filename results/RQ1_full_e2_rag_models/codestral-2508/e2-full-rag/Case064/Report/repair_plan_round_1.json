@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '>' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "AGREE cannot resolve Data_Sink as a valid expression",
+      "minimal_edit": "Remove the expression 'Data_Sink > 0' from the assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Data_Sink'",
+      "cause": "AGREE cannot resolve Data_Sink as a valid expression",
+      "minimal_edit": "Remove the expression 'Data_Sink > 0' from the guarantee statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Q_Spg'",
+      "cause": "AGREE cannot resolve Q_Spg as a valid expression",
+      "minimal_edit": "Remove the expression 'Q_Spg.Data_Sink > 0' from the guarantee statement"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '>' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "AGREE cannot resolve Q_Spg.Data_Sink as a valid expression",
+      "minimal_edit": "Remove the expression 'Q_Spg.Data_Sink > 0' from the guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the expression 'Data_Sink > 0' from the assume statement",
+    "Remove the expression 'Data_Sink > 0 => Q_Spg.Data_Sink > 0' from the guarantee statement"
+  ]
+}

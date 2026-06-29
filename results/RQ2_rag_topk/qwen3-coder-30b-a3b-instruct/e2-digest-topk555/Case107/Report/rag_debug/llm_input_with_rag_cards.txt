@@ -1,0 +1,85 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assume/guarantee declarations in component type scopes when describing interface behavior, and use implementation scopes for subcomponent bindings and assignments.
+- Use assign statements only for implementation-level output bindings to existing features or declared auxiliary variables.
+Generic rules:
+- AGREE annex blocks must be scoped to their owning component declaration and reference only visible identifiers from that scope.
+- Component type contracts should include input assumptions and output guarantees that describe interface behavior using concrete bounds or named constants.
+- Implementation contracts may include assignments that bind subcomponent outputs, but must not redefine architecture elements.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks and use `assume`, `guarantee`, `eq`, `const`, and `assign` syntax.
+- Use exact AADL model names for ports, components, and features when writing AGREE expressions.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope; use type scope for behavioral contracts.
+- Do not reference AADL properties like Period or Deadline as AGREE variables unless explicitly exposed as typed ports or constants.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- arlarm_acc_in
+- arlarm_adirup_in
+- systemHM_action_acc_hm
+- systemHM_action_adirup
+
+Target interface:
+Exact expression symbols: arlarm_acc_in, arlarm_adirup_in, systemHM_action_acc_hm, systemHM_action_adirup
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+arlarm_acc_in | in | data | int | SHM_DataType::errorData
+arlarm_adirup_in | in | data | int | SHM_DataType::errorData
+systemHM_action_acc_hm | out | data | int | SHM_DataType::actionData
+systemHM_action_adirup | out | data | int | SHM_DataType::actionData
+
+Raw requirement:
+The systemHM_process component shall define the implementation-level signal routing for systemHM_process.impl. In the implementation layer, systemHM_process.impl shall route signal flow from arlarm_acc_in< to alarmAggregator.arlarm_acc_in through C1 and signal flow from arlarm_adirup_in< to alarmAggregator.arlarm_adirup_in through C2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "signal flow from arlarm_acc_in to alarmAggregator.arlarm_acc_in through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "arlarm_acc_in",
+        "alarmAggregator.arlarm_acc_in",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "signal flow from arlarm_adirup_in to alarmAggregator.arlarm_adirup_in through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "arlarm_adirup_in",
+        "alarmAggregator.arlarm_adirup_in",
+        "C2"
+      ]
+    }
+  ]
+}

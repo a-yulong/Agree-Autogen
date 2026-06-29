@@ -1,0 +1,8 @@
+annex agree {**
+  eq ownAircraftGoesUpOnTie : bool = ownLongitude > nearestIntruderLongitude;
+
+  guarantee "tie climb": (ownAltitude_in = nearestIntruderAltitude and ownAircraftGoesUpOnTie) => (requiredVerticalVelocity = 50);
+  guarantee "tie descend": (ownAltitude_in = nearestIntruderAltitude and not ownAircraftGoesUpOnTie) => (requiredVerticalVelocity = -50);
+  guarantee "below intruder": (ownAltitude_in < nearestIntruderAltitude) => (requiredVerticalVelocity = 10);
+  guarantee "above intruder": (ownAltitude_in > nearestIntruderAltitude) => (requiredVerticalVelocity = -10);
+**};

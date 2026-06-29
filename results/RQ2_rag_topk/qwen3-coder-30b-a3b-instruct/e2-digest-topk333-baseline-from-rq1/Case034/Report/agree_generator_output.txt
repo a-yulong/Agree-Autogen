@@ -1,0 +1,16 @@
+annex agree {**
+  assume "R5": threatDetected = true or threatDetected = false;
+  assume "R6": threatAltitude >= -10000.0 and threatAltitude <= 10000.0;
+  assume "R7": ownAltitude >= -10000.0 and ownAltitude <= 10000.0;
+  assume "R8": ownLongitude >= -2147483648 and ownLongitude <= 2147483647;
+  assume "R9": threatLongitude >= -2147483648 and threatLongitude <= 2147483647;
+  guarantee "R1": threatDetected = true and ownAltitude = threatAltitude and ownLongitude > threatLongitude => requiredVerticalVelocity = 50;
+  guarantee "R2": threatDetected = true and ownAltitude = threatAltitude and ownLongitude <= threatLongitude => requiredVerticalVelocity = -50;
+  guarantee "R3": threatDetected = true and ownAltitude < threatAltitude => requiredVerticalVelocity = -10;
+  guarantee "R4": threatDetected = true and ownAltitude > threatAltitude => requiredVerticalVelocity = 10;
+  guarantee "R10": (threatDetected = true and ownAltitude = threatAltitude and ownLongitude > threatLongitude) or
+                   (threatDetected = true and ownAltitude = threatAltitude and ownLongitude <= threatLongitude) or
+                   (threatDetected = true and ownAltitude < threatAltitude) or
+                   (threatDetected = true and ownAltitude > threatAltitude)
+                   => requiredVerticalVelocity = 50 or requiredVerticalVelocity = -50 or requiredVerticalVelocity = -10 or requiredVerticalVelocity = 10;
+**};

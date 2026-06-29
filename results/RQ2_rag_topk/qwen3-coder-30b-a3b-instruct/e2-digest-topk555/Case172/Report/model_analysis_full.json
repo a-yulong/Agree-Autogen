@@ -1,0 +1,72 @@
+{
+  "component_types": [
+    {
+      "name": "thr_yaw_simulation",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "thr_yaw_simulation.i",
+      "kind": "thread implementation",
+      "type_name": "thr_yaw_simulation"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "thr_yaw_simulation.i",
+      "name": "pspg",
+      "category": "subprogram",
+      "classifier": "spg_yaw_simulation"
+    }
+  ],
+  "features": [
+    {
+      "owner": "thr_yaw_simulation",
+      "name": "angle",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "thr_yaw_simulation.i",
+      "name": "R6",
+      "kind": "parameter",
+      "source": "angle",
+      "destination": "pspg.angle"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "thr_yaw_simulation",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "thr_yaw_simulation"
+    },
+    {
+      "owner": "thr_yaw_simulation",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "1000ms",
+      "applies_to": "thr_yaw_simulation"
+    },
+    {
+      "owner": "thr_yaw_simulation",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "1000ms",
+      "applies_to": "thr_yaw_simulation"
+    },
+    {
+      "owner": "thr_yaw_simulation",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "5ms .. 10ms",
+      "applies_to": "thr_yaw_simulation"
+    }
+  ]
+}

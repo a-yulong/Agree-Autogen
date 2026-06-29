@@ -1,0 +1,24 @@
+annex agree {**
+  const numberServicesTrue : int = 0;
+  
+  guarantee "service_count_init": numberServicesTrue = 0;
+  
+  assume "gcas_impact_bound": inpGCASImpact >= 0.0;
+  
+  assume "acas_impact_bound": inpACASImpact >= 0.0;
+  
+  assume "gcas_recovery_bound": inpGCASRecovery >= 0.0;
+  
+  assume "acas_recovery_bound": inpACASRecovery >= 0.0;
+  
+  guarantee "dynamic_decide_logic": 
+    (inpGCASImpact > inpACASImpact and 
+     (inpGCASRecovery + inpACASRecovery) >= 0.0) => 
+    (outDec = 1) or (outDec = 0);
+  
+  guarantee "fallback_to_static": 
+    numberServicesTrue < 2 => (outDec = 0 or outDec = 1);
+  
+  guarantee "service_count_update": 
+    numberServicesTrue = 0;
+**};

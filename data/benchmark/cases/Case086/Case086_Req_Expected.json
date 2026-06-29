@@ -1,0 +1,98 @@
+{
+  "case": 64,
+  "letter": "A",
+  "target": "ATTITUDE_CALCULATION",
+  "action": "rebuilt_from_aadl",
+  "old_quality": "vague",
+  "source_old_req": "The ACCELERO thread component and its implementation layer ACCELERO.IMPL must operate with a periodic schedule of 80 ms. The component's input data ports acc_in_data_x, acc_in_data_y, and acc_in_data_z shall receive three-axis raw acceleration values of type FLOAT32_TYPE_AADL that are within the physical safety range of the underlying platform. The component shall guarantee that the event data output ports acc_out_data_x, acc_out_data_y, and acc_out_data_z contain valid floating-point numbers, ensuring no overflow or anomalous physical signals are transmitted to downstream components.",
+  "natural_requirement": "The ATTITUDE_CALCULATION component shall define the implementation-level signal routing for ATTITUDE_CALCULATION.IMPL. In the implementation layer, ATTITUDE_CALCULATION.IMPL shall route data flow from acc_in_data_x to attitude_sub.acc_in_data_x through ACC_PC1 and data flow from acc_in_data_y to attitude_sub.acc_in_data_y through ACC_PC2.",
+  "requirement_items": [
+    {
+      "text": "The ATTITUDE_CALCULATION.IMPL implementation shall route the data flow from acc_in_data_x to attitude_sub.acc_in_data_x through connection ACC_PC1.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "ATTITUDE_CALCULATION.IMPL",
+        "ACC_PC1",
+        "acc_in_data_x",
+        "attitude_sub.acc_in_data_x"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "ATTITUDE_CALCULATION.IMPL",
+        "connection": "ACC_PC1",
+        "source": "acc_in_data_x",
+        "destination": "attitude_sub.acc_in_data_x"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The ATTITUDE_CALCULATION.IMPL implementation shall declare connection ACC_PC1 from acc_in_data_x to attitude_sub.acc_in_data_x.",
+      "rewrite_style": "front_110_inspired_requirement"
+    },
+    {
+      "text": "The ATTITUDE_CALCULATION.IMPL implementation shall route the data flow from acc_in_data_y to attitude_sub.acc_in_data_y through connection ACC_PC2.",
+      "requirement_class": "structural_check",
+      "expected_output_type": "structural_check",
+      "trace_refs": [
+        "ATTITUDE_CALCULATION.IMPL",
+        "ACC_PC2",
+        "acc_in_data_y",
+        "attitude_sub.acc_in_data_y"
+      ],
+      "expected_agree": "",
+      "expected_check": {
+        "kind": "connection",
+        "owner": "ATTITUDE_CALCULATION.IMPL",
+        "connection": "ACC_PC2",
+        "source": "acc_in_data_y",
+        "destination": "attitude_sub.acc_in_data_y"
+      },
+      "origin": "rebuilt",
+      "source_text_before_behavior_style_rewrite": "The ATTITUDE_CALCULATION.IMPL implementation shall declare connection ACC_PC2 from acc_in_data_y to attitude_sub.acc_in_data_y.",
+      "rewrite_style": "front_110_inspired_requirement"
+    }
+  ],
+  "quality_policy": {
+    "traceable": "Every item has trace_refs and expected_check metadata tied to AADL facts.",
+    "kept_vague_terms_out": [
+      "valid",
+      "correct",
+      "appropriate",
+      "normal operation",
+      "legal operational",
+      "legal boundary",
+      "legal boundaries",
+      "assumed environmental",
+      "environmental conditions",
+      "input constraints",
+      "communication envelope",
+      "consistency",
+      "consistent",
+      "robust",
+      "integrity",
+      "safe",
+      "proper",
+      "suitable"
+    ],
+    "principle": "Every generated sentence must name an explicit property assignment or structural connection; ordinary feature declarations are not used as rebuilt requirements."
+  },
+  "original_case": 94,
+  "original_label": "Case94_A",
+  "natural_requirement_before_behavior_style_rewrite": "The ATTITUDE_CALCULATION.IMPL implementation shall declare connection ACC_PC1 from acc_in_data_x to attitude_sub.acc_in_data_x. The ATTITUDE_CALCULATION.IMPL implementation shall declare connection ACC_PC2 from acc_in_data_y to attitude_sub.acc_in_data_y.",
+  "behavior_style_policy": {
+    "basis": "front-110 AGREE-derived requirements favor implementable behavior, constants, assumptions, guarantees, routing, and bounded properties.",
+    "excluded_property_names": [
+      "Compute_Entrypoint_Source_Text",
+      "Source_Language",
+      "Source_Name",
+      "Source_Text",
+      "compute_entrypoint_call_sequence"
+    ],
+    "rule": "Do not describe unsupported validity/legal-boundary semantics unless the AADL model exposes variables, values, or properties that can implement them."
+  },
+  "natural_requirement_before_paragraph_rewrite": "The ATTITUDE_CALCULATION.IMPL implementation shall route the data flow from acc_in_data_x to attitude_sub.acc_in_data_x through connection ACC_PC1. The ATTITUDE_CALCULATION.IMPL implementation shall route the data flow from acc_in_data_y to attitude_sub.acc_in_data_y through connection ACC_PC2.",
+  "paragraph_style_policy": {
+    "rule": "Req.txt is written as a natural-language requirement paragraph; per-item traceability stays in requirement_items.",
+    "basis": "Front-110 AGREE-derived requirements generally combine function, assumptions, guarantees, and implementation notes into 1-4 sentence paragraphs."
+  }
+}

@@ -1,0 +1,123 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks scoped to the owning component declaration.
+- Use `guarantee` for requirement intents and `assume` for descriptive statements.
+Generic rules:
+- Use `assign` for output bindings and `eq` for named expressions in AGREE.
+- Express deployment bindings with `assume` and `guarantee` based on intent.
+Syntax or pattern reminders:
+- AGREE annex blocks must use `assume`, `guarantee`, `eq`, `const`, and `assign` syntax.
+- Each annex block is scoped to its component's declaration.
+Anti-patterns:
+- Avoid using `assign` for non-output expressions or `guarantee` for descriptive statements.
+- Do not mix `assume` and `guarantee` syntax inappropriately.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- hello
+- hello.impl
+- node_a
+- node_b
+- cpu_rm
+- mem
+- Task
+- Task.impl_1
+- node_a.impl
+- Task1
+
+Target interface:
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- hello
+- hello.impl
+- node_a
+- node_b
+- cpu_rm
+- mem
+- Task
+- Task.impl_1
+- node_a.impl
+- Task1
+
+Raw requirement:
+The hello component shall use the deployment bindings defined for hello.impl. The deployment mapping shall bind node_a to processor cpu_rm.p0, bind Node_A to memory mem.segment1, bind node_b to processor cpu_rm.p1, and bind Node_b to memory mem.segment2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "The hello component shall use the deployment bindings defined for hello.impl",
+      "kind": "deployment_binding",
+      "intent": "guarantee",
+      "evidence": [
+        "hello",
+        "hello.impl"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Bind node_a to processor cpu_rm.p0",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "node_a",
+        "cpu_rm.p0"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Bind Node_A to memory mem.segment1",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "node_a",
+        "mem.segment1"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Bind node_b to processor cpu_rm.p1",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "node_b",
+        "cpu_rm.p1"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Bind Node_b to memory mem.segment2",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "node_b",
+        "mem.segment2"
+      ]
+    }
+  ]
+}

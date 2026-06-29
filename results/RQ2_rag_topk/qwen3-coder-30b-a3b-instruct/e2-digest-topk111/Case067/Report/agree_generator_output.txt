@@ -1,0 +1,29 @@
+annex agree {**
+  guarantee "nominal_attitude_signal_flow": 
+    sensored_attitude = reference_torque;
+  
+  guarantee "nominal_orbit_signal_flow": 
+    sun_direction = reference_force;
+  
+  assume "power_status_consistency": 
+    power_status_FSS and power_status_CSS and power_status_SPS and 
+    power_status_ES and power_status_MGM and power_status_GYR and 
+    power_status_STR and power_status_GPS and power_status_THU and 
+    power_status_RW and power_status_MGT;
+  
+  guarantee "mode_transition_signals": 
+    Forcing_Safe_Mode => Changing_mode_to_SM and 
+    Getting_Back_To_Normal_Mode => Changing_mode_to_NM;
+  
+  guarantee "command_routing": 
+    telecommand = torque_command or telecommand = force_command;
+  
+  guarantee "reconfiguration_signals": 
+    FSS_reconfiguration = CSS_reconfiguration = SPS_reconfiguration = 
+    ES_reconfiguration = MGM_reconfiguration = GYR_reconfiguration = 
+    STR_reconfiguration = GPS_reconfiguration = THU_reconfiguration = 
+    RW_reconfiguration = MGT_reconfiguration;
+  
+  guarantee "anomaly_handling": 
+    anomaly_detected => (watchdog_event or telemetry);
+**};

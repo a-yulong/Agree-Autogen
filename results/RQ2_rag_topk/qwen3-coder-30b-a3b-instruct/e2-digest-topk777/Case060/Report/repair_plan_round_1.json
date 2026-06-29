@@ -1,0 +1,72 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 104: Couldn't resolve reference to 'Mode'.",
+      "cause": "Mode is referenced before being declared in the same scope",
+      "minimal_edit": "Move the Mode declaration before its usage in the guarantee"
+    },
+    {
+      "diagnostic": "line 104: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "Expression contains unresolved references causing type mismatch",
+      "minimal_edit": "Replace the problematic guarantee with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "line 104: left side of binary expression '/' is of type 'int' but must be of type 'real'",
+      "cause": "Integer division in AGREE requires explicit real conversion",
+      "minimal_edit": "Convert integer division to real division using real literals"
+    },
+    {
+      "diagnostic": "line 104: right side of binary expression '/' is of type 'int' but must be of type 'real'",
+      "cause": "Integer division in AGREE requires explicit real conversion",
+      "minimal_edit": "Convert integer division to real division using real literals"
+    },
+    {
+      "diagnostic": "line 122: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes package not imported or referenced incorrectly",
+      "minimal_edit": "Remove or replace the reference to Agree_Nodes::Brake_Mode with a valid expression"
+    },
+    {
+      "diagnostic": "line 137: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package not imported or referenced incorrectly",
+      "minimal_edit": "Remove or replace the reference to Agree_Nodes::Brake_Cmd with a valid expression"
+    },
+    {
+      "diagnostic": "line 254: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package not imported or referenced incorrectly",
+      "minimal_edit": "Remove or replace the reference to Agree_Nodes::Brake_Cmd with a valid expression"
+    },
+    {
+      "diagnostic": "line 255: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package not imported or referenced incorrectly",
+      "minimal_edit": "Remove or replace the reference to Agree_Nodes::Brake_Cmd with a valid expression"
+    },
+    {
+      "diagnostic": "line 256: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package not imported or referenced incorrectly",
+      "minimal_edit": "Remove or replace the reference to Agree_Nodes::Brake_Cmd with a valid expression"
+    },
+    {
+      "diagnostic": "line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package not imported or referenced incorrectly",
+      "minimal_edit": "Remove or replace the reference to Agree_Nodes::Brake_Cmd with a valid expression"
+    },
+    {
+      "diagnostic": "line 259: Couldn't resolve reference to 'Mode'.",
+      "cause": "Mode is referenced before being declared in the same scope",
+      "minimal_edit": "Move the Mode declaration before its usage in the lemma"
+    },
+    {
+      "diagnostic": "line 260: Couldn't resolve reference to 'Mode'.",
+      "cause": "Mode is referenced before being declared in the same scope",
+      "minimal_edit": "Move the Mode declaration before its usage in the lemma"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the reference to Agree_Nodes::Brake_Mode from line 122",
+    "Remove the reference to Agree_Nodes::Brake_Cmd from lines 137, 254, 255, 256, 257, 259, 260",
+    "Move the Mode declaration to the beginning of the annex block before any references to it",
+    "Replace the problematic guarantee on line 104 with a valid expression using only visible symbols",
+    "Convert integer divisions to real divisions in the guarantee expression"
+  ]
+}

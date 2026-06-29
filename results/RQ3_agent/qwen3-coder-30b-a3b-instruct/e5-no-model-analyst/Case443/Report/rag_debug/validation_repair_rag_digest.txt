@@ -1,0 +1,19 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Use only visible identifiers and types in AGREE contracts to prevent resolution errors.
+- Ensure type declarations in AGREE match the scalar type names expected by the validator: int, real, bool.
+- Write guarantees that relate visible outputs to visible inputs, avoiding implementation-only references.
+- Place assumptions and guarantees in component type scopes when they refer to component ports.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Use `eq` declarations for helper expressions and `const` for named constants.
+- Ensure that all identifiers used in a guarantee or assumption are either visible features or previously declared helpers in the same annex.
+Anti-patterns:
+- Do not reference package-qualified identifiers or types that are not present in the analyzed model's dependencies.
+- Avoid placing implementation-level bindings in component type scopes; use implementation scopes instead.
+- Do not assume types without verifying that the declaration matches the expression's actual type.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about missing packages or property sets
+- AGREE validator diagnostics (none present)
+- Implementation-level bindings in component type annexes
+</RAG_DIGEST>

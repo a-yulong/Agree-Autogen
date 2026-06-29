@@ -1,0 +1,53 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 26: Synchrony statements can appear only in component implementations",
+      "cause": "Synchrony statement in component type annex",
+      "minimal_edit": "Remove 'synchrony : 2;' from the BSCU.BSCU_Impl annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 33: Mulitiple assignments to variable 'Initializing'",
+      "cause": "Variable 'Initializing' assigned twice in same annex",
+      "minimal_edit": "Remove 'eq Initializing : bool = not (COM1_Running and COM2_Running and MON1_Running and MON2_Running);' from BSCU.BSCU_Impl annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 35: Assert statements are allowed only in component implementations.",
+      "cause": "Assert statement in component type annex",
+      "minimal_edit": "Remove assert statements from BSCU.BSCU_Impl annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 40: Lemma statements are allowed only in component implementations and nodes",
+      "cause": "Lemma statement in component type annex",
+      "minimal_edit": "Remove lemma statements from BSCU.BSCU_Impl annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 205: COM1_Running already defined in component type contract",
+      "cause": "Duplicate variable definition in implementation annex",
+      "minimal_edit": "Remove duplicate variable definitions from BSCU.BSCU_Impl annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 210: Mulitiple assignments to variable 'Initializing'",
+      "cause": "Variable 'Initializing' assigned twice in same annex",
+      "minimal_edit": "Remove 'assign Initializing = not (COM1_Running and COM2_Running and MON1_Running and MON2_Running);' from BSCU.BSCU_Impl annex"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 228: Couldn't resolve reference to 'COM1Failed'.",
+      "cause": "Reference to undefined variable in implementation annex",
+      "minimal_edit": "Replace references to COM1Failed, MON1Failed with equivalent expressions using visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 229: Couldn't resolve reference to 'COM2Failed'.",
+      "cause": "Reference to undefined variable in implementation annex",
+      "minimal_edit": "Replace references to COM2Failed, MON2Failed with equivalent expressions using visible symbols"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the BSCU.BSCU_Impl annex to the BSCU_Impl implementation",
+    "Remove synchrony statement from BSCU.BSCU_Impl annex",
+    "Remove duplicate variable definitions from BSCU.BSCU_Impl annex",
+    "Remove assert statements from BSCU.BSCU_Impl annex",
+    "Remove lemma statements from BSCU.BSCU_Impl annex",
+    "Replace undefined variable references with visible symbol expressions"
+  ]
+}

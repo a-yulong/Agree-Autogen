@@ -1,0 +1,17 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- When generating AGREE contracts, validate that all referenced identifiers exist in the current AADL model or are properly declared.
+- Ensure AGREE scalar type declarations use valid types: int, real, bool.
+- Avoid introducing package-qualified identifiers in AGREE code that are not present in the model's configured dependencies.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Implementation-level bindings should be placed in component implementation scopes after relevant subcomponents and connections.
+- Guarantee statements should not be placed in implementation scope; use only assign for such bindings.
+Anti-patterns:
+- Do not reference non-existent AADL subcomponents or ports in AGREE contracts without first resolving them in the AADL model.
+- Do not use invalid scalar type names like 'integer' or 'boolean' in AGREE const or eq declarations.
+Irrelevant retrieved material:
+- AADL package references and with clauses
+- AGREE validator diagnostics for connection end resolution
+- Component type vs implementation scope distinctions for assume/guarantee syntax
+</RAG_DIGEST>

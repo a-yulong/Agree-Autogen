@@ -1,0 +1,95 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- AGREE contracts must be placed inside annex agree blocks scoped to their owning component declaration
+- Use assign statements only for implementation-level output bindings with existing features or declared auxiliary variables
+Generic rules:
+- Assumptions and guarantees should reference only visible identifiers from the current component scope
+- Component type contracts should express input assumptions and output guarantees using concrete bounds or visible relations
+- AGREE syntax requires explicit declaration of constants, equations, and assignments within valid scope
+Syntax or pattern reminders:
+- AGREE annex blocks use assume/guarantee/equation/constant/assign syntax with labeled expressions
+- Component type annexes are for structural assumptions and guarantees; implementation annexes for assignments
+Anti-patterns:
+- Do not reference AADL properties like Deadline or Period as AGREE variables without explicit model exposure
+- Do not place guarantee statements in implementation scope
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- acc1_dataOutput
+- acc1out
+- acc1_command_in
+- acc1_dataOutput.impl
+- acc1_dataOutput_emv2
+- acc1_input
+- acc1_dataOutput_emv2.impl
+- acc2_dataOutput
+- acc2out
+- acc2_command_in
+- acc2_dataOutput.impl
+- acc2_dataOutput_emv2
+- acc2_input
+- acc2_dataOutput_emv2.impl
+- acc3_dataOutput
+- accout
+- acc_command_in
+- acc3_dataOutput.impl
+- acc3_dataOutput_emv2
+- acc3_input
+- acc3_dataOutput_emv2.impl
+- acc4_dataOutput
+- acc4_dataOutput.impl
+- acc4_dataOutput_emv2
+- acc4_input
+- acc4_dataOutput_emv2.impl
+- acc5_dataOutput
+- acc5_dataOutput.impl
+- acc5_dataOutput_emv2
+- acc5_input
+- acc5_dataOutput_emv2.impl
+- acc6_dataOutput
+- acc6_dataOutput.impl
+- acc6_dataOutput_emv2
+- acc6_input
+- acc6_dataOutput_emv2.impl
+- acc_HM
+- acc1_data_monitor
+- acc2_data_monitor
+- acc3_data_monitor
+
+Target interface:
+Exact expression symbols: arlarm_acc_in, arlarm_adirup_in, alarmAggregator_out
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+arlarm_acc_in | in | data | int | SHM_DataType::errorData
+arlarm_adirup_in | in | data | int | SHM_DataType::errorData
+alarmAggregator_out | out | data | int | SHM_DataType::errorData
+
+Raw requirement:
+The alarmAggregator component shall define the implementation-level signal routing for alarmAggregator.impl. In the implementation layer, alarmAggregator.impl shall route data flow from arlarm_acc_in to alarmAggregator.inData_para1 through C1 and data flow from arlarm_adirup_in to alarmAggregator.inData_para2 through C2.
+
+Requirement items:
+DISABLED

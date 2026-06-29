@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "type mismatch in guarantee expression: Actual (speed_impl) vs Actuator_Input (Float)",
+      "minimal_edit": "Change guarantee to compare only the port names without type mismatch, ensuring both sides are of compatible types"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify the type mismatch in the guarantee statement: Actual is of type Types::speed.speed_impl while Actuator_Input is Base_Types::Float",
+    "Since the requirement is to maintain the exact port names and not introduce new semantics, rewrite the guarantee to use only visible port names without type comparison",
+    "Modify the guarantee statement to ensure both sides refer to the same type or are compatible expressions"
+  ]
+}

@@ -1,0 +1,140 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic.
+- Place assumptions and guarantees in valid component type scopes, avoiding subcomponent ports unless represented through variables.
+- Generate AGREE contracts using logical operators (and, or, not, =>) and valid syntax for assume, guarantee, eq, const, and assign.
+Generic rules:
+- Ensure type consistency between helper declarations and expressions; use int, real, bool for AGREE scalar types.
+- Relate visible outputs to visible inputs in guarantees; avoid implementation-only paths in component type contracts.
+- Encode concrete bounds or named constants in assumptions and guarantees; do not assume AADL property names are available in AGREE scope.
+- Use valid AGREE syntax for variable declarations and assignments, ensuring expressions are well-typed.
+Syntax or pattern reminders:
+- Use `0.0 -> pre(t) + step` for initialized temporal recurrence.
+- Use nested `if ... then ... else` for conditional logic.
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract clauses.
+Anti-patterns:
+- Do not reference AADL property names like Period or Deadline directly in AGREE expressions.
+- Do not use subcomponent ports in component type contracts unless they are represented through variables.
+- Do not assume that AGREE scalar types are named 'integer' or 'boolean'; use 'int' and 'bool' instead.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- inpGCASM
+- inpGCASImpact
+- inpGCASRecovery
+- inpSAM
+- inpACASM
+- inpACASImpact
+- inpACASRecovery
+- inpGFM
+- inpWxM
+- inpFLS
+- outDec
+
+Target interface:
+Exact expression symbols: inpGCASM, inpGCASImpact, inpGCASRecovery, inpSAM, inpACASM, inpACASImpact, inpACASRecovery, inpGFM, inpWxM, inpFLS, outDec
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+inpGCASM | in | data | bool | Base_Types::boolean
+inpGCASImpact | in | data | real | Base_Types::float
+inpGCASRecovery | in | data | real | Base_Types::float
+inpSAM | in | data | bool | Base_Types::boolean
+inpACASM | in | data | bool | Base_Types::boolean
+inpACASImpact | in | data | real | Base_Types::float
+inpACASRecovery | in | data | real | Base_Types::float
+inpGFM | in | data | bool | Base_Types::boolean
+inpWxM | in | data | bool | Base_Types::boolean
+inpFLS | in | data | bool | Base_Types::boolean
+outDec | out | data | int | Base_Types::integer
+
+Raw requirement:
+The Aviate_Decider component shall maintain an internal variable numberServicesTrue that counts the total number of currently active service requests, where an active request is defined as a true value among the following inputs: inpGCASM, inpSAM, inpACASM, inpGFM, inpWxM, and inpFLS. The component shall implement dynamicDecide logic such that when inpGCASImpact is greater than inpACASImpact and the sum of inpGCASRecovery and inpACASRecovery is sufficient to prevent a secondary collision, the decision shall be ACAS; otherwise, the decision shall be GCAS. The final output outDec shall be set to the dynamic decision result when numberServicesTrue is greater than or equal to 2; otherwise, outDec shall default to a static priority-based value.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "numberServicesTrue counts true values among inpGCASM, inpSAM, inpACASM, inpGFM, inpWxM, inpFLS",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "inpGCASM",
+        "inpSAM",
+        "inpACASM",
+        "inpGFM",
+        "inpWxM",
+        "inpFLS"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "outDec = ACAS when inpGCASImpact > inpACASImpact and (inpGCASRecovery + inpACASRecovery) >= threshold",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "inpGCASImpact",
+        "inpACASImpact",
+        "inpGCASRecovery",
+        "inpACASRecovery",
+        "outDec"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "outDec = GCAS when inpGCASImpact <= inpACASImpact or (inpGCASRecovery + inpACASRecovery) < threshold",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "inpGCASImpact",
+        "inpACASImpact",
+        "inpGCASRecovery",
+        "inpACASRecovery",
+        "outDec"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "outDec = priority_value when numberServicesTrue < 2",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "outDec",
+        "numberServicesTrue"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "numberServicesTrue updated on each input change",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "numberServicesTrue"
+      ]
+    }
+  ]
+}

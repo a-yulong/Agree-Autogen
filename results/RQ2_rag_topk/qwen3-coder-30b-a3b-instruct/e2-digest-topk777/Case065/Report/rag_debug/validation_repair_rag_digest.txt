@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE expressions must preserve type consistency: numeric variables get numeric expressions, Boolean variables get Boolean expressions.
+- Generated AGREE code should not introduce undefined or invalid helper functions or types.
+- Component type contracts should reference only features visible at that scope; implementation bindings go in implementation scopes.
+- When AGREE diagnostics point to missing identifiers, trace the root cause and fix it by using existing visible identifiers.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Use `assign output = expression;` for implementation-level bindings to valid outputs.
+- Ensure all constants and equations have correct scalar types: int, real, bool.
+- Avoid referencing AADL properties like Period, Deadline, or unit tokens directly in AGREE expressions.
+Anti-patterns:
+- Do not add new package references or data types that are not already in the model.
+- Do not place implementation-level guarantees in component type annexes.
+- Do not generate AGREE clauses that reference identifiers not visible in the current component scope.
+- Do not attempt to resolve missing identifiers by inventing new declarations in the AGREE annex.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about missing subcomponents
+- AGREE validator diagnostics about missing RULE_STRING or named thing type errors
+- Model Analyst Agent's role in extracting AADL structure
+- Requirement Analyst's role in compact requirement semantics
+</RAG_DIGEST>

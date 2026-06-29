@@ -1,0 +1,65 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assume/guarantee declarations in component type scopes for interface behavior, and assignments in implementation scopes for subcomponent bindings.
+- Use `annex agree {** ... **};` blocks to contain AGREE contract elements, with type scopes for constants, equations, and assumptions/guarantees.
+Generic rules:
+- Use visible identifiers and feature names from the component scope when writing AGREE expressions.
+- Encode assumptions and guarantees only when concrete bounds or relations are provided.
+- Constants and equations in AGREE should reference valid AADL data types and feature ports.
+- Avoid referencing AADL properties like Compute_Execution_Time or unit tokens directly in AGREE expressions.
+Syntax or pattern reminders:
+- AGREE syntax uses `assume "label": expression;` and `guarantee "label": expression;` for contracts.
+- Use `eq name : type = expression;` for defining equations and `const name : type = value;` for constants.
+Anti-patterns:
+- Do not place implementation-level assignments in component type annexes.
+- Do not reference AADL timing properties or unit tokens as AGREE variables.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- latitude
+- longitude
+- distance
+- outImpact
+- outRecovery
+- acasRequested
+
+Target interface:
+Exact expression symbols: latitude, longitude, distance, outImpact, outRecovery, acasRequested
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+latitude | in | data | real | Base_Types::float
+longitude | in | data | real | Base_Types::float
+distance | in | data | real | Base_types::float
+outImpact | out | data | real | Base_Types::float
+outRecovery | out | data | real | Base_Types::float
+acasRequested | out | data | bool | Base_Types::Boolean
+
+Raw requirement:
+The ACAS_Monitor component shall set the system collision time constant to 8.0 and the recovery time constant to 5.0. When the value of the distance input port is less than or equal to 10.0 feet, the ACAS_Monitor component shall ensure that the acasRequested output port is true. During simulation, the value of the outImpact output port shall transition from 0.0 to the constant collision time constant value of 8.0, and the value of the outRecovery output port shall transition from 0.0 to the constant recovery time constant value of 5.0.
+
+Requirement items:
+DISABLED

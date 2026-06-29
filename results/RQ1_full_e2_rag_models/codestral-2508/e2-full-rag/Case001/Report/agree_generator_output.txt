@@ -1,0 +1,9 @@
+annex agree {
+  assume "altitude equality": ownAltitude_in = nearestIntruderAltitude;
+  guarantee "vertical velocity on tie": ownAltitude_in = nearestIntruderAltitude => (if ownLongitude > nearestIntruderLongitude then requiredVerticalVelocity = 50 else requiredVerticalVelocity = -50);
+  assume "altitude less than": ownAltitude_in < nearestIntruderAltitude;
+  guarantee "vertical velocity less": ownAltitude_in < nearestIntruderAltitude => requiredVerticalVelocity = 10;
+  assume "altitude greater than": ownAltitude_in > nearestIntruderAltitude;
+  guarantee "vertical velocity greater": ownAltitude_in > nearestIntruderAltitude => requiredVerticalVelocity = -10;
+  eq ownAircraftGoesUpOnTie = ownLongitude > nearestIntruderLongitude;
+};

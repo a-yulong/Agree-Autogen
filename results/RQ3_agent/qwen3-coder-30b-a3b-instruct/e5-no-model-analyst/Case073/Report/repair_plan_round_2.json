@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'altitude'.",
+      "cause": "Reference to 'altitude' is not visible in the AGREE annex scope",
+      "minimal_edit": "Remove 'altitude' from the GPS signal flow assumptions and guarantees"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'gps_pos'.",
+      "cause": "Reference to 'gps_pos' is not visible in the AGREE annex scope",
+      "minimal_edit": "Replace 'gps_pos' with 'thr_gps_simulation.gps_pos' in the GPS signal flow assumptions and guarantees"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'latitude'.",
+      "cause": "Reference to 'latitude' is not visible in the AGREE annex scope",
+      "minimal_edit": "Remove 'latitude' from the GPS signal flow assumptions and guarantees"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'longitude'.",
+      "cause": "Reference to 'longitude' is not visible in the AGREE annex scope",
+      "minimal_edit": "Remove 'longitude' from the GPS signal flow assumptions and guarantees"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>'",
+      "cause": "Type mismatch in speed comparison expression",
+      "minimal_edit": "Replace 'thr_mgmt.speed = thr_mgmt.speed' with 'thr_mgmt.speed = thr_throttle_simulation.speed'"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid reference to 'speed' in AGREE expression",
+      "minimal_edit": "Replace 'thr_mgmt.speed = thr_mgmt.speed' with 'thr_mgmt.speed = thr_throttle_simulation.speed'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove 'altitude', 'latitude', and 'longitude' from the GPS signal flow assumptions and guarantees",
+    "Replace 'gps_pos' with 'thr_gps_simulation.gps_pos' in the GPS signal flow assumptions and guarantees",
+    "Replace 'thr_mgmt.speed = thr_mgmt.speed' with 'thr_mgmt.speed = thr_throttle_simulation.speed' in both assumptions and guarantees"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "problems": [
+    {
+      "diagnostic": "State_Out (port spec) points to Types  state_sig.impl (entity reference), which is not of an adequate kind",
+      "cause": "AGREE annex references port 'State_Out' which is not visible in the component type scope",
+      "minimal_edit": "Remove the guarantee statement referencing 'State_Out' in the AGREE annex block"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee statement 'guarantee \"immediate_communication\": State_Out = State_Out;' from the AGREE annex block",
+    "Keep the assume statement 'assume \"signal_flow_routing\": true;' in the AGREE annex block"
+  ]
+}

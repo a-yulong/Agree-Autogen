@@ -1,0 +1,210 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: latitude, longitude, distance, outImpact, outRecovery, acasRequested
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+latitude | in | data | real | Base_Types::float
+longitude | in | data | real | Base_Types::float
+distance | in | data | real | Base_types::float
+outImpact | out | data | real | Base_Types::float
+outRecovery | out | data | real | Base_Types::float
+acasRequested | out | data | bool | Base_Types::Boolean
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "acasRequested = true when distance <= 10.0",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "distance",
+        "acasRequested"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "outImpact transitions from 0.0 to 8.0",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "outImpact"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "outRecovery transitions from 0.0 to 5.0",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "outRecovery"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "collision time constant = 8.0",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "outImpact"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "recovery time constant = 5.0",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "outRecovery"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: ACAS_Monitor | lines 39-50
+annex agree {**
+	  const collision_time_constant : real = 8.0;
+	  const recovery_time_constant : real = 5.0;
+
+	  guarantee "acas_requested_on_close_distance": distance <= 10.0 => acasRequested;
+
+	  eq impact_transition : real = if initial then 0.0 else collision_time_constant;
+	  eq recovery_transition : real = if initial then 0.0 else recovery_time_constant;
+
+	  guarantee "outImpact_matches_collision_constant": outImpact = impact_transition;
+	  guarantee "outRecovery_matches_recovery_constant": outRecovery = recovery_transition;
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   41: 	  const recovery_time_constant : real = 5.0;
+   42: 
+   43: 	  guarantee "acas_requested_on_close_distance": distance <= 10.0 => acasRequested;
+   44: 
+>> 45: 	  eq impact_transition : real = if initial then 0.0 else collision_time_constant;
+   46: 	  eq recovery_transition : real = if initial then 0.0 else recovery_time_constant;
+   47: 
+   48: 	  guarantee "outImpact_matches_collision_constant": outImpact = impact_transition;
+   49: 	  guarantee "outRecovery_matches_recovery_constant": outRecovery = recovery_transition;
+
+   42: 
+   43: 	  guarantee "acas_requested_on_close_distance": distance <= 10.0 => acasRequested;
+   44: 
+   45: 	  eq impact_transition : real = if initial then 0.0 else collision_time_constant;
+>> 46: 	  eq recovery_transition : real = if initial then 0.0 else recovery_time_constant;
+   47: 
+   48: 	  guarantee "outImpact_matches_collision_constant": outImpact = impact_transition;
+   49: 	  guarantee "outRecovery_matches_recovery_constant": outRecovery = recovery_transition;
+   50: 	**};
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: ACAS_Monitor
+Process ACAS_Monitor
+		features
+			latitude: in data port Base_Types::float;
+			longitude: in data port Base_Types::float;
+			distance: in data port Base_types::float;
+			outImpact: out data port Base_Types::float;
+			outRecovery: out data port Base_Types::float;
+			acasRequested: out data port Base_Types::Boolean;
+	end ACAS_Monitor;
+
+-- TARGET DECLARATION: ACAS_Monitor.ACAS_Monitor_impl
+Process implementation ACAS_Monitor.ACAS_Monitor_impl
+	end ACAS_Monitor.ACAS_Monitor_impl;
+
+-- RELATED MODEL LINES
+outImpact: out data port Base_Types::float;
+outRecovery: out data port Base_Types::float;
+Process ACAS_Monitor
+latitude: in data port Base_Types::float;
+longitude: in data port Base_Types::float;
+distance: in data port Base_types::float;
+acasRequested: out data port Base_Types::Boolean;
+end ACAS_Monitor;
+Process implementation ACAS_Monitor.ACAS_Monitor_impl
+end ACAS_Monitor.ACAS_Monitor_impl;
+acasm: process ACAS_Monitor;
+gcasmimp_to_decider: port gcasm.outImpact -> dmc.inpGCASImpact;
+gcasrec_to_decider: port gcasm.outRecovery -> dmc.inpGCASRecovery;
+acasm_to_decider: port acasm.acasRequested -> dmc.inpACASM;
+acasmimp_to_decider: port acasm.outImpact -> dmc.inpACASImpact;
+acasrec_to_decider: port acasm.outRecovery -> dmc.inpACASRecovery;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "ACAS_Monitor",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "ACAS_Monitor.ACAS_Monitor_impl",
+      "kind": "process implementation",
+      "type_name": "ACAS_Monitor"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "ACAS_Monitor.ACAS_Monitor_impl",
+      "name": "acasm",
+      "category": "process",
+      "classifier": "ACAS_Monitor"
+    }
+  ],
+  "features": [
+    {
+      "owner": "ACAS_Monitor",
+      "name": "latitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACAS_Monitor",
+      "name": "longitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACAS_Monitor",
+      "name": "distance",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACAS_Monitor",
+      "name": "outImpact",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACAS_Monitor",
+      "name": "outRecovery",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACAS_Monitor",
+      "name": "acasRequested",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Boolean",
+      "scalar": "opaque"
+    }
+  ]
+}

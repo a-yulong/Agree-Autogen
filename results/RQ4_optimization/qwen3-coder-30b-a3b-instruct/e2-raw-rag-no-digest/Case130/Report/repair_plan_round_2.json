@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE assumes require valid expressions, not just identifiers",
+      "minimal_edit": "Replace 'node_a = node_a' with 'node_a = node_a.impl'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'cpu_rm'",
+      "cause": "AGREE cannot resolve 'cpu_rm' as a valid expression in this context",
+      "minimal_edit": "Remove the assumption 'assume \"deployment_binding_node_a_to_cpu_rm\": node_a = cpu_rm;'"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE assumes require valid expressions, not just identifiers",
+      "minimal_edit": "Replace 'node_a = mem' with 'node_a = mem' (this is a duplicate of previous issue)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the expression 'node_a = node_a' with 'node_a = node_a.impl' in the first assume statement",
+    "Remove the second assume statement that references 'cpu_rm'",
+    "Remove the third assume statement that references 'mem'"
+  ]
+}

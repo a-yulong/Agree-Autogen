@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- AGREE contracts must be placed in valid AADL component type or implementation scopes based on the scope of the referenced ports and bindings.
+- AGREE annex blocks are enclosed in `annex agree {** ... **};` syntax and should reference only visible identifiers from the AADL model.
+Generic rules:
+- Assumptions and guarantees should align with the data types and port directions defined in the AADL model.
+- Boolean expressions in AGREE should only use explicit Boolean ports or variables; avoid converting opaque data types to integers.
+- Constants and equation declarations belong in component type annexes unless they are implementation-specific bindings.
+- Do not include AADL property names (e.g., Period, Priority) as AGREE variables unless explicitly exposed as typed ports or constants.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Use `eq` declarations for range comparisons with proper type alignment (e.g., bool = x >= min and x <= max).
+Anti-patterns:
+- Do not reference AADL property names like Period or Priority as AGREE variables unless they are explicitly typed in the model.
+- Avoid generating clauses that assume Boolean ports are numeric unless the AADL model defines them as such.
+</RAG_DIGEST>

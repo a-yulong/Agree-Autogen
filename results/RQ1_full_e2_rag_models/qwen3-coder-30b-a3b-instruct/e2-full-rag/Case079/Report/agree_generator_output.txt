@@ -1,0 +1,19 @@
+annex agree {**
+  assume "D1_handle_position routing": D1_handle_position => door1.handle_position;
+  assume "D1_closed routing": D1_closed => door1.closed;
+  guarantee "D1_swivel logic": D1_swivel <=> (D1_latched and not D1_locked);
+  guarantee "D1_de_arrest logic": D1_de_arrest <=> (D1_closed and not D1_latched);
+  guarantee "D1_lock logic": D1_lock <=> (D1_latched and D1_closed);
+  guarantee "D1_warn_diff_pres logic": D1_warn_diff_pres <=> (D1_dps > 100);
+  guarantee "D1_warn_slide logic": D1_warn_slide <=> (D1_handle_position and not D1_closed);
+  guarantee "D1_warning_info logic": D1_warning_info <=> (D1_warn_diff_pres or D1_warn_slide);
+  guarantee "D1_ecam_info logic": D1_ecam_info <=> (D1_emergency_evacuation or D1_engine_running);
+  guarantee "D2_swivel logic": D2_swivel <=> (D2_latched and not D2_locked);
+  guarantee "D2_de_arrest logic": D2_de_arrest <=> (D2_closed and not D2_latched);
+  guarantee "D2_lock logic": D2_lock <=> (D2_latched and D2_closed);
+  guarantee "D2_warn_diff_pres logic": D2_warn_diff_pres <=> (D2_dps > 100);
+  guarantee "D2_warn_slide logic": D2_warn_slide <=> (D2_handle_position and not D2_closed);
+  guarantee "D2_warning_info logic": D2_warning_info <=> (D2_warn_diff_pres or D2_warn_slide);
+  guarantee "D2_ecam_info logic": D2_ecam_info <=> (D2_emergency_evacuation or D2_engine_running);
+  guarantee "Mix_cll logic": Mix_cll <=> (D1_closed and D2_closed);
+**};

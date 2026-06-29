@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Target (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "AGREE guarantee references port 'Actual' which is not visible in the component type scope",
+      "minimal_edit": "Change 'Actual' to 'Actuator_Input' in the guarantee expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that the guarantee references 'Actual' which is an output port in the component type but not visible in the AGREE annex context",
+    "Replace 'Actual' with 'Actuator_Input' in the guarantee expression to match the visible input port",
+    "Ensure the expression correctly reflects the intended behavior: actual_state = pre(actual_state) + 0.1 * Actuator_Input"
+  ]
+}

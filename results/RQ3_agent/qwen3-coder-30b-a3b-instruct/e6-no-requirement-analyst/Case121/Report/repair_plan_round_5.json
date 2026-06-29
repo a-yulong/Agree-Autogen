@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: Assignment statements are allowed only in component implementations",
+      "cause": "assign statements in component type annex (ACCELERO) are invalid; AGREE only permits assign in implementation annexes",
+      "minimal_edit": "move the entire annex agree block from ACCELERO to ACCELERO.IMPL"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: mismatched input '\"signal_routing_x\"' expecting RULE_ID",
+      "cause": "AGREE syntax does not allow quoted string literals as assign statement identifiers; must use plain identifiers",
+      "minimal_edit": "replace '\"signal_routing_x\": acc_out_data_x' with 'acc_out_data_x = acc_in_data_x' (remove quotes and label)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: Couldn't resolve reference to '\"signal_routing_x\": acc_out_data_x'.",
+      "cause": "invalid syntax prevents symbol resolution; fixing syntax will resolve this",
+      "minimal_edit": "replace '\"signal_routing_x\": acc_out_data_x' with 'acc_out_data_x = acc_in_data_x'"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "delete the annex agree block from ACCELERO (lines 35-39)",
+    "add a new annex agree block inside ACCELERO.IMPL after the connections section",
+    "in the new annex, write three assignment statements without quoted labels: acc_out_data_x = acc_in_data_x; acc_out_data_y = acc_in_data_y; acc_out_data_z = acc_in_data_z;"
+  ]
+}

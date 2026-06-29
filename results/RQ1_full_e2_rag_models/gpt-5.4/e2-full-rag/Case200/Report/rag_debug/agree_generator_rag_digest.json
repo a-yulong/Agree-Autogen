@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Use guarantees to relate visible outputs to visible inputs or helper equations with valid AGREE syntax.",
+    "Keep component-type contracts restricted to symbols visible at that scope; avoid implementation-only paths in such contracts."
+  ],
+  "generic_rules": [
+    "Express deterministic output behavior as a direct equality between an output and the corresponding visible condition or helper value.",
+    "Introduce an eq helper for intermediate logic when it makes a guarantee simpler and clearer.",
+    "Choose helper declaration types that match their expressions exactly; boolean expressions require bool.",
+    "Use AGREE scalar types int, real, and bool in declarations."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Clause forms include assume \"label\": expr; guarantee \"label\": expr; eq name : type = expr; const name : type = value; assign output = expr;",
+    "Boolean equivalence can be written as direct equality between bool expressions or signals; logical operators include and, or, not(...), and =>.",
+    "For conditional logic, use if ... then ... else; for stateful logic, use initialized recurrence with -> and pre only when needed."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent ports or implementation-only names when writing a component-scope contract.",
+    "Do not use invalid scalar type names like integer or boolean in AGREE declarations.",
+    "Do not declare a helper with a type that conflicts with the expression it computes."
+  ],
+  "irrelevant_topics": [
+    "Validator-driven repair actions are not relevant without active diagnostics.",
+    "Implementation insertion decisions based on target-specific names should not be inferred from these cards."
+  ]
+}

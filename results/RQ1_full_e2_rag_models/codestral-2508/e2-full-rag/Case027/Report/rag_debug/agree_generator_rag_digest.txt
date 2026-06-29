@@ -1,0 +1,21 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use initialized temporal recurrence for stateful equations: `0.0 -> pre(t) + step`
+- Use nested `if ... then ... else` for branching logic
+- Use AGREE logical operators: `and`, `or`, `not(...)`, and implication `=>`
+- Place assumptions and guarantees in valid component type scopes
+- Use `assign` only for existing output features or declared auxiliary variables in implementation scope
+- Do not place guarantee statements in implementation scope
+Generic rules:
+- Use concrete bounds, named constants, or visible relations for input envelope assumptions and output range guarantees
+- Align helper declaration types with expression types
+- Do not encode AADL timing properties as AGREE expressions unless explicitly exposed as ports or constants
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contracts
+- Use `eq name : type = expression;` for equations and `const name : type = value;` for constants
+- Use `assign output = expression;` for implementation scope assignments
+Anti-patterns:
+- Avoid placing guarantee statements in implementation scope
+- Do not use subcomponent ports in component type contracts unless represented through variables or outputs
+- Do not encode AADL properties as AGREE expressions without explicit ports or constants
+</RAG_DIGEST>

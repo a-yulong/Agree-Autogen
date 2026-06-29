@@ -1,0 +1,21 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Ensure AGREE expressions reference only visible identifiers or previously declared helpers.
+- Use correct AGREE scalar types: int, real, bool for constants and equations.
+- Avoid encoding AADL property values (e.g., timing, units) directly in AGREE expressions.
+- Do not introduce new package or data type references not present in the AADL model.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Assumptions use `assume "label": expression;`, guarantees use `guarantee "label": expression;`.
+- Equations and constants are declared with `eq name : type = expression;` and `const name : type = value;`.
+Anti-patterns:
+- Do not place implementation-level bindings like `assign` in component type contracts.
+- Do not reference identifiers or types that are not visible in the current AADL scope.
+- Do not assume that AADL property values (e.g., Period, Deadline) are automatically available in AGREE.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about package or property set visibility
+- AGREE validator diagnostics
+- Model Analyst's extraction of component structure
+- Requirement Analyst's traceability rules
+- Model Fusion's owner/scope preservation rules
+</RAG_DIGEST>

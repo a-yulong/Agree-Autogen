@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE expressions must reference only visible identifiers or helper declarations within the same annex.
+- AGREE scalar types are int, real, and bool; ensure type consistency in const and eq declarations.
+- Do not encode AADL property associations (e.g., Stack_Size) as AGREE variables unless explicitly exposed as typed ports or constants.
+- If a guarantee references an invalid or unresolved identifier, either fix the root cause or remove the clause.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` with valid AADL identifiers and types.
+Anti-patterns:
+- Do not place implementation-level bindings in component type annexes unless they are valid outputs or variables.
+- Do not reference AADL property names like Stack_Size directly in AGREE expressions.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about property associations
+- AGREE validator diagnostics about missing EOF
+</RAG_DIGEST>

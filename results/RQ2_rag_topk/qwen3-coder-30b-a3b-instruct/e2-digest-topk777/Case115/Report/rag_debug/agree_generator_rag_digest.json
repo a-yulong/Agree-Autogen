@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in component type scopes for port-based contracts, and in implementation scopes for subcomponent bindings.",
+    "Use visible AADL identifiers and types in AGREE expressions; avoid introducing unqualified package references.",
+    "Generate AGREE contracts only when requirement evidence maps to valid AADL features or properties with known types.",
+    "Do not encode AADL timing or resource properties (e.g., Period, Deadline, Compute_Execution_Time) as AGREE expressions unless model exposes typed ports or constants."
+  ],
+  "generic_rules": [
+    "Use AGREE constants and equations to express numeric ranges and boolean conditions derived from requirement bounds.",
+    "Ensure AGREE variable types match AADL data types (int, real, bool) to avoid resolution errors.",
+    "Avoid assumptions or guarantees that reference non-numeric or opaque data unless the model provides scalar representations.",
+    "Do not assume non-negative or interval bounds unless explicitly stated in the requirement."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks must be enclosed in `annex agree {** ... **};`.",
+    "Use `assume` for input constraints and `guarantee` for output behavior in component type contracts.",
+    "Use `assign` only for implementation-level output bindings to existing features or declared variables.",
+    "Declare constants and equations with explicit scalar types (int, real, bool) matching AADL semantics."
+  ],
+  "anti_patterns": [
+    "Do not generate AGREE expressions for AADL properties like Period or Priority unless they are explicitly exposed as typed ports or constants.",
+    "Do not assume numeric bounds or ranges for Boolean or event ports unless the model provides scalar representations.",
+    "Do not introduce package-qualified identifiers or types not present in the AADL model.",
+    "Do not encode event ports as numeric or Boolean values unless the model provides a data representation."
+  ],
+  "irrelevant_topics": [
+    "AADL annex placement rules",
+    "AGREE validator diagnostics",
+    "Model fusion insertion points",
+    "Requirement traceability"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Generate guarantees using visible AADL features or equivalent eq helpers declared in the same annex.",
+    "Use AGREE logical operators (and, or, not, =>) and nested if-then-else for branching logic in contract expressions.",
+    "Place guarantees in component type annexes unless the left-hand side is an output feature requiring implementation-level binding.",
+    "Use const declarations for numeric thresholds and eq declarations for derived boolean conditions to ensure type consistency."
+  ],
+  "generic_rules": [
+    "Map requirement conditions directly to AGREE expressions using only symbols visible in the model scope.",
+    "Ensure all variables in contract expressions are either AADL features or explicitly declared helpers with correct scalar types (int, real, bool).",
+    "Prefer type-level contracts for input/output behavior; reserve implementation-level assigns for output clamping or derived bindings."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use 'guarantee \"label\": expression;' syntax with valid AGREE boolean expressions.",
+    "Declare constants and equations before guarantees that reference them.",
+    "Use 'eq name : bool = condition;' to encapsulate complex predicates for readability and type safety."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL properties (e.g., Period, Deadline) as if they are AGREE variables.",
+    "Do not place guarantee clauses in implementation annexes unless binding to an output feature via assign.",
+    "Do not use integer or boolean literals without declaring corresponding scalar types (int, bool)."
+  ],
+  "irrelevant_topics": [
+    "AADL scope notes about subcomponent ports and connections",
+    "Validator diagnostics and repair patterns",
+    "Model fusion rules for owner/scope preservation",
+    "Requirement traceability or compact semantics"
+  ]
+}

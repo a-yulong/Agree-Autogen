@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assignment statements are allowed only in component implementations",
+      "cause": "Assign statements are in component type annex",
+      "minimal_edit": "Move assign statements to ATTITUDE.IMPL annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'ACC_INPUT_PC1'",
+      "cause": "ACC_INPUT_PC1 is not visible in component type annex",
+      "minimal_edit": "Remove ACC_INPUT_PC1 reference"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'accelero_thread.acc_in_data_x'",
+      "cause": "accelero_thread.acc_in_data_x is not visible in component type annex",
+      "minimal_edit": "Remove accelero_thread.acc_in_data_x reference"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'accelero_thread.acc_in_data_y'",
+      "cause": "accelero_thread.acc_in_data_y is not visible in component type annex",
+      "minimal_edit": "Remove accelero_thread.acc_in_data_y reference"
+    },
+    {
+      "diagnostic": "LHS of assignment must be an AGREE 'eq' variable or an output port of this component",
+      "cause": "accelero_thread.acc_in_data_x is not an output port of ATTITUDE.IMPL",
+      "minimal_edit": "Remove accelero_thread.acc_in_data_x reference"
+    },
+    {
+      "diagnostic": "LHS of assignment must be an AGREE 'eq' variable or an output port of this component",
+      "cause": "accelero_thread.acc_in_data_y is not an output port of ATTITUDE.IMPL",
+      "minimal_edit": "Remove accelero_thread.acc_in_data_y reference"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move assign statements from ATTITUDE annex to ATTITUDE.IMPL annex",
+    "Remove ACC_INPUT_PC1 reference from assign statements",
+    "Remove accelero_thread.acc_in_data_x reference from assign statements",
+    "Remove accelero_thread.acc_in_data_y reference from assign statements"
+  ]
+}

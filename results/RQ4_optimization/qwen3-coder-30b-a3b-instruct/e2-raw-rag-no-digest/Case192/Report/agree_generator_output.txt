@@ -1,0 +1,13 @@
+annex agree {**
+  assume "D1_engine_running is true": D1_engine_running = true;
+  guarantee "doors_process operates when D1_engine_running is true": D1_swivel = (D1_handle_position and D1_closed and D1_latched and D1_locked) or (D1_de_arrest and D1_lock);
+  guarantee "D1 warning outputs depend on engine status": D1_warn_diff_pres = (D1_dps > 100) and D1_engine_running;
+  guarantee "D1 warning outputs depend on engine status": D1_warn_slide = (D1_dps > 50) and D1_engine_running;
+  guarantee "D1 warning outputs depend on engine status": D1_warning_info = (D1_dps > 200) and D1_engine_running;
+  guarantee "D1 ecam info depends on engine status": D1_ecam_info = (D1_dps > 150) and D1_engine_running;
+  guarantee "D2 warning outputs depend on engine status": D2_warn_diff_pres = (D2_dps > 100) and D1_engine_running;
+  guarantee "D2 warning outputs depend on engine status": D2_warn_slide = (D2_dps > 50) and D1_engine_running;
+  guarantee "D2 warning outputs depend on engine status": D2_warning_info = (D2_dps > 200) and D1_engine_running;
+  guarantee "D2 ecam info depends on engine status": D2_ecam_info = (D2_dps > 150) and D1_engine_running;
+  guarantee "Mix_cll output logic": Mix_cll = (D1_handle_position and D2_handle_position) and D1_engine_running;
+**};

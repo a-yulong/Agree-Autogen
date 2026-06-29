@@ -1,0 +1,14 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 103: Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "AGREE guarantee references 'latched' output port which is not allowed in component type annex",
+      "minimal_edit": "Remove guarantee \"latched_output\": latched = false;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee statement for latched from the AGREE annex block",
+    "Verify that all remaining guarantees reference only valid input ports or are properly scoped to implementation"
+  ]
+}

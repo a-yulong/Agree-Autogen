@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "no viable alternative at input '['",
+      "cause": "AGREE does not support the '[->' temporal operator syntax",
+      "minimal_edit": "replace '[->' with '->' in the guarantee statement"
+    },
+    {
+      "diagnostic": "no viable alternative at input '->'",
+      "cause": "AGREE does not support the '->' temporal operator syntax in this context",
+      "minimal_edit": "replace '->' with '[->' in the guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the PumpCtrl annex, change line 63 from 'guarantee \"every_step_bounded\": [-> (WaterAlarm >= 0) and (WaterAlarm <= 100)];' to 'guarantee \"every_step_bounded\": -> (WaterAlarm >= 0) and (WaterAlarm <= 100);'",
+    "In the WaterAlarm annex, change line 82 from 'guarantee \"every_step_bounded\": -> (WaterAlarm >= 0) and (WaterAlarm <= 100);' to 'guarantee \"every_step_bounded\": [-> (WaterAlarm >= 0) and (WaterAlarm <= 100)];'"
+  ]
+}

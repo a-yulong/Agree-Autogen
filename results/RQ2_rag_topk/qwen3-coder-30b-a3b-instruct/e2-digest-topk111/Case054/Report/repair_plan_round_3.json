@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 33: Couldn't resolve reference to 'Input1'.",
+      "cause": "Input1 is not a direct feature of top_level; it is a feature of component C. The annex on top_level references Input1, which is not visible in top_level's scope.",
+      "minimal_edit": "Remove the entire annex block from top_level, as Input1 and Output are not top_level features."
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the annex block on lines 32-35 attached to top_level because it references Input1 and Output, which are not features of top_level.",
+    "Retain the annex block on lines 22-25 attached to C, as it correctly references C's own features Input1 and Output, which are visible in C's scope.",
+    "Verify that no other annexes reference non-visible identifiers outside their owning component's feature list."
+  ]
+}

@@ -1,0 +1,260 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: Target, Actuator_Input, Actual
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Target | in | data | opaque | Types::speed.speed_impl
+Actuator_Input | out | data | real | Base_Types::Float
+Actual | in | data | opaque | Types::speed.speed_impl
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Actuator_Input = P * e + D * e_dot + I * e_int",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Speed_Control",
+        "Actuator_Input",
+        "P",
+        "D",
+        "I",
+        "e",
+        "e_dot",
+        "e_int"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "P = 1.0, D = 0.0, I = 0.0",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "P",
+        "D",
+        "I"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "e = Target - Actual",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Speed_Control",
+        "Target",
+        "Actual",
+        "e"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "e_int = integral of e over time",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Speed_Control",
+        "e",
+        "e_int"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "e_dot = derivative of e with respect to time",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Speed_Control",
+        "e",
+        "e_dot"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Speed_Control | lines 12-23
+annex agree {**
+	  const "P": 1.0;
+	  const "D": 0.0;
+	  const "I": 0.0;
+	  const "e": 0.0;
+	  const "e_dot": 0.0;
+	  const "e_int": 0.0;
+	  guarantee "error_calculation": Actual = Target - e;
+	  guarantee "control_law": Actuator_Input = P * e + D * e_dot + I * e_int;
+	  guarantee "error_integration": e_int = integral(e);
+	  guarantee "error_derivative": e_dot = derivative(e);
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   9: 			Target: in data port Types::speed.speed_impl;
+   10: 			Actuator_Input: out data port Base_Types::Float;
+   11: 			Actual: in data port Types::speed.speed_impl;
+   12: 	annex agree {**
+>> 13: 	  const "P": 1.0;
+   14: 	  const "D": 0.0;
+   15: 	  const "I": 0.0;
+   16: 	  const "e": 0.0;
+   17: 	  const "e_dot": 0.0;
+
+   10: 			Actuator_Input: out data port Base_Types::Float;
+   11: 			Actual: in data port Types::speed.speed_impl;
+   12: 	annex agree {**
+   13: 	  const "P": 1.0;
+>> 14: 	  const "D": 0.0;
+   15: 	  const "I": 0.0;
+   16: 	  const "e": 0.0;
+   17: 	  const "e_dot": 0.0;
+   18: 	  const "e_int": 0.0;
+
+   11: 			Actual: in data port Types::speed.speed_impl;
+   12: 	annex agree {**
+   13: 	  const "P": 1.0;
+   14: 	  const "D": 0.0;
+>> 15: 	  const "I": 0.0;
+   16: 	  const "e": 0.0;
+   17: 	  const "e_dot": 0.0;
+   18: 	  const "e_int": 0.0;
+   19: 	  guarantee "error_calculation": Actual = Target - e;
+
+   12: 	annex agree {**
+   13: 	  const "P": 1.0;
+   14: 	  const "D": 0.0;
+   15: 	  const "I": 0.0;
+>> 16: 	  const "e": 0.0;
+   17: 	  const "e_dot": 0.0;
+   18: 	  const "e_int": 0.0;
+   19: 	  guarantee "error_calculation": Actual = Target - e;
+   20: 	  guarantee "control_law": Actuator_Input = P * e + D * e_dot + I * e_int;
+
+   13: 	  const "P": 1.0;
+   14: 	  const "D": 0.0;
+   15: 	  const "I": 0.0;
+   16: 	  const "e": 0.0;
+>> 17: 	  const "e_dot": 0.0;
+   18: 	  const "e_int": 0.0;
+   19: 	  guarantee "error_calculation": Actual = Target - e;
+   20: 	  guarantee "control_law": Actuator_Input = P * e + D * e_dot + I * e_int;
+   21: 	  guarantee "error_integration": e_int = integral(e);
+
+   14: 	  const "D": 0.0;
+   15: 	  const "I": 0.0;
+   16: 	  const "e": 0.0;
+   17: 	  const "e_dot": 0.0;
+>> 18: 	  const "e_int": 0.0;
+   19: 	  guarantee "error_calculation": Actual = Target - e;
+   20: 	  guarantee "control_law": Actuator_Input = P * e + D * e_dot + I * e_int;
+   21: 	  guarantee "error_integration": e_int = integral(e);
+   22: 	  guarantee "error_derivative": e_dot = derivative(e);
+
+   15: 	  const "I": 0.0;
+   16: 	  const "e": 0.0;
+   17: 	  const "e_dot": 0.0;
+   18: 	  const "e_int": 0.0;
+>> 19: 	  guarantee "error_calculation": Actual = Target - e;
+   20: 	  guarantee "control_law": Actuator_Input = P * e + D * e_dot + I * e_int;
+   21: 	  guarantee "error_integration": e_int = integral(e);
+   22: 	  guarantee "error_derivative": e_dot = derivative(e);
+   23: 	**};
+
+   16: 	  const "e": 0.0;
+   17: 	  const "e_dot": 0.0;
+   18: 	  const "e_int": 0.0;
+   19: 	  guarantee "error_calculation": Actual = Target - e;
+>> 20: 	  guarantee "control_law": Actuator_Input = P * e + D * e_dot + I * e_int;
+   21: 	  guarantee "error_integration": e_int = integral(e);
+   22: 	  guarantee "error_derivative": e_dot = derivative(e);
+   23: 	**};
+   24: 	end Speed_Control;
+
+   17: 	  const "e_dot": 0.0;
+   18: 	  const "e_int": 0.0;
+   19: 	  guarantee "error_calculation": Actual = Target - e;
+   20: 	  guarantee "control_law": Actuator_Input = P * e + D * e_dot + I * e_int;
+>> 21: 	  guarantee "error_integration": e_int = integral(e);
+   22: 	  guarantee "error_derivative": e_dot = derivative(e);
+   23: 	**};
+   24: 	end Speed_Control;
+   25: 
+
+   18: 	  const "e_int": 0.0;
+   19: 	  guarantee "error_calculation": Actual = Target - e;
+   20: 	  guarantee "control_law": Actuator_Input = P * e + D * e_dot + I * e_int;
+   21: 	  guarantee "error_integration": e_int = integral(e);
+>> 22: 	  guarantee "error_derivative": e_dot = derivative(e);
+   23: 	**};
+   24: 	end Speed_Control;
+   25: 
+   26: 	system implementation Speed_Control.Speed_Control_Impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Speed_Control
+system Speed_Control
+		features
+			Target: in data port Types::speed.speed_impl;
+			Actuator_Input: out data port Base_Types::Float;
+			Actual: in data port Types::speed.speed_impl;
+	end Speed_Control;
+
+-- TARGET DECLARATION: Speed_Control.Speed_Control_Impl
+system implementation Speed_Control.Speed_Control_Impl
+	end Speed_Control.Speed_Control_Impl;
+
+-- RELATED MODEL LINES
+system Speed_Control
+Target: in data port Types::speed.speed_impl;
+Actuator_Input: out data port Base_Types::Float;
+Actual: in data port Types::speed.speed_impl;
+end Speed_Control;
+system implementation Speed_Control.Speed_Control_Impl
+end Speed_Control.Speed_Control_Impl;
+Actuator_Input: in data port Base_Types::Float;
+Actual: out data port Types::speed.speed_impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Speed_Control",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Speed_Control.Speed_Control_Impl",
+      "kind": "system implementation",
+      "type_name": "Speed_Control"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Speed_Control",
+      "name": "Target",
+      "direction": "in",
+      "category": "data port",
+      "type": "Types::speed.speed_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Speed_Control",
+      "name": "Actuator_Input",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Float",
+      "scalar": "Float"
+    },
+    {
+      "owner": "Speed_Control",
+      "name": "Actual",
+      "direction": "in",
+      "category": "data port",
+      "type": "Types::speed.speed_impl",
+      "scalar": "opaque"
+    }
+  ]
+}

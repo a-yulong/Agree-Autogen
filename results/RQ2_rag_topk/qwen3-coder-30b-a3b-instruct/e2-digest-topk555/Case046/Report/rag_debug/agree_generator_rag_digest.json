@@ -1,0 +1,33 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in component type scopes when they refer to component ports; use implementation scopes for assignments and bindings.",
+    "Use `assume` for input constraints and `guarantee` for output constraints, ensuring visible identifiers are properly declared or referenced.",
+    "Generate `eq` declarations for helper variables and `const` for named thresholds, ensuring type alignment with AADL feature types.",
+    "Insert AGREE annex blocks within `annex agree {** ... **};` and place them in appropriate component type or implementation scopes."
+  ],
+  "generic_rules": [
+    "Use `assume \"label\": expression;` for preconditions and `guarantee \"label\": expression;` for postconditions in AGREE contracts.",
+    "Declare auxiliary variables with `eq name : type = expression;` and constants with `const name : type = value;`.",
+    "Assign output values using `assign output = expression;` only in implementation scopes with valid output features.",
+    "Ensure all identifiers in AGREE expressions are visible in the current scope or declared as helpers."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type contracts are for assumptions and guarantees; implementation contracts are for assignments.",
+    "Use `eq` for helper declarations and `const` for named constants in AGREE.",
+    "Assumptions and guarantees must reference valid AADL features or declared variables."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope; use only `assign` for output bindings.",
+    "Do not reference AADL property names (e.g., Deadline, Period) as AGREE variables unless explicitly exposed.",
+    "Do not use invalid scalar type names like 'integer' or 'boolean' in AGREE declarations; use 'int', 'real', or 'bool'.",
+    "Do not generate AGREE clauses with unresolved identifiers or invalid helper declarations."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing-related tokens such as ms/us/Hz/Bytes",
+    "Model fusion and insertion location decisions",
+    "Validator diagnostics and repair patterns",
+    "Requirement traceability and compact semantics",
+    "AADL structural extraction details"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Task1'.",
+      "cause": "Task1 is not visible in the Task component type scope",
+      "minimal_edit": "Replace 'Task1' with 'Task.impl_1' in the guarantee statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'impl_1'.",
+      "cause": "impl_1 is not a valid identifier in this context",
+      "minimal_edit": "Replace 'Task1 = Task.impl_1' with 'Task1 = Task.impl_1' (no change needed, but the reference should be to the component type)"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "The guarantee statement uses an invalid assignment expression",
+      "minimal_edit": "Rewrite the guarantee to use a valid AGREE expression or remove the invalid clause"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the invalid guarantee statement from the Task component type annex",
+    "Add a valid guarantee statement in the Task.impl_1 component implementation annex that references the subcomponent Task1",
+    "Ensure the guarantee uses only visible identifiers and valid AGREE syntax"
+  ]
+}

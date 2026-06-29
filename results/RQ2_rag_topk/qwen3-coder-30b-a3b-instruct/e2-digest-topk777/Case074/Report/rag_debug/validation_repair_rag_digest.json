@@ -1,0 +1,33 @@
+{
+  "rag_rules": [
+    "When AGREE diagnostics report unresolved references or type errors, trace the root cause to invalid identifiers or mismatched types in the current component scope and fix by using only visible identifiers or deleting invalid clauses.",
+    "If AGREE reports 'named thing must be an expression with a type', resolve the first unresolved identifier or invalid helper on the same line by correcting the reference or removing the clause.",
+    "For implementation-level signal routing, use assign statements only for valid output features or declared auxiliary variables in implementation scopes, not in component type contracts.",
+    "Do not introduce package-qualified identifiers or data types in AGREE annexes that are not present in the input AADL model and its configured dependencies."
+  ],
+  "generic_rules": [
+    "AGREE contracts must preserve type consistency; expressions must match the declared types of variables and features.",
+    "Generated AGREE code should only reference identifiers that are explicitly visible in the current component scope.",
+    "Component type annexes should not contain implementation-level bindings or guarantees that reference subcomponents or implementation-specific features.",
+    "When fixing AGREE diagnostics, prioritize removing invalid clauses over adding new architecture elements."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks and must follow strict syntax for assume, guarantee, eq, const, and assign statements.",
+    "Use only valid AADL feature names and types in AGREE expressions; avoid package-qualified names unless explicitly imported.",
+    "Helper functions and variables in AGREE must be declared within the same annex and match the expected types of the expressions they are used in.",
+    "Implementation-level assignments should only reference outputs or declared auxiliary variables in the implementation scope."
+  ],
+  "anti_patterns": [
+    "Avoid generating AGREE expressions that reference identifiers not present in the current component's visible scope.",
+    "Do not attempt to resolve missing identifiers by inventing new declarations; instead, remove or rewrite clauses that reference invalid names.",
+    "Do not place implementation-level guarantees or bindings in component type annexes; move them to implementation scopes or remove them.",
+    "Do not assume that AADL property names like 'Period' or 'Deadline' are automatically available as AGREE variables; they must be explicitly exposed in the model."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "implementation scope output assign",
+    "integrated pattern chunk 1",
+    "input validity chunk 1"
+  ]
+}

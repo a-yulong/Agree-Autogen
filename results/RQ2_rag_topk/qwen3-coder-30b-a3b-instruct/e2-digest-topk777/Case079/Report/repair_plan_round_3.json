@@ -1,0 +1,21 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assume statements are allowed only in component types",
+      "cause": "AGREE assume statements are placed in process implementation annex instead of process type annex",
+      "minimal_edit": "Move the annex block from process implementation to the corresponding process type"
+    },
+    {
+      "diagnostic": "Guarantee statements are allowed only in component types",
+      "cause": "AGREE guarantee statements are placed in process implementation annex instead of process type annex",
+      "minimal_edit": "Move the annex block from process implementation to the corresponding process type"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Identify the process type 'doors_process' in the model",
+    "Move the entire AGREE annex block from 'doors_process.imp' to 'doors_process'",
+    "Ensure the annex block is placed after the process features declaration but before the 'end doors_process;' statement",
+    "Verify that all referenced identifiers remain valid in the new context"
+  ]
+}

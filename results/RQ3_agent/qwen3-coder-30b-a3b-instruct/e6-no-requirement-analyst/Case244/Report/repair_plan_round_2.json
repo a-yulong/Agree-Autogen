@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assume statements are allowed only in component types",
+      "cause": "Assume statement in implementation annex block",
+      "minimal_edit": "Move assume statement to component type"
+    },
+    {
+      "diagnostic": "Guarantee statements are allowed only in component types",
+      "cause": "Guarantee statement in implementation annex block",
+      "minimal_edit": "Move guarantee statement to component type"
+    },
+    {
+      "diagnostic": "Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "Use of latched in output expression",
+      "minimal_edit": "Remove or rewrite latched expression"
+    },
+    {
+      "diagnostic": "Latched expressions can appear only in component implementations that contain a latched synchrony statement",
+      "cause": "Missing latched synchrony in implementation",
+      "minimal_edit": "Remove latched expression or add synchrony"
+    },
+    {
+      "diagnostic": "left side of binary expression 'and' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression due to latched use",
+      "minimal_edit": "Fix or remove invalid expression"
+    },
+    {
+      "diagnostic": "mismatched input 'and' expecting '('",
+      "cause": "Syntax error from invalid latched expression",
+      "minimal_edit": "Fix or remove invalid expression"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire AGREE annex block from door.imp to door",
+    "Remove or rewrite the guarantee involving latched expression",
+    "Remove or rewrite the invalid expression with 'and' operator"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Target (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "AGREE annex references port type 'Types::speed.speed_impl' which is not a valid AADL type for AGREE expressions",
+      "minimal_edit": "Replace 'Actual_previous' declaration with 'Actual_previous: Types::speed.speed_impl' to match port type"
+    },
+    {
+      "diagnostic": "Actual (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "AGREE guarantee references port type 'Types::speed.speed_impl' which is not a valid AADL type for AGREE expressions",
+      "minimal_edit": "Rewrite guarantee to use 'Actual' directly instead of comparing 'Actual_previous' to 'Actual_previous + 0.1 * Actuator_Input'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Change 'Actual_previous: real;' to 'Actual_previous: Types::speed.speed_impl;' in the AGREE annex",
+    "Replace the guarantee statement with 'Actual = Actual_previous + 0.1 * Actuator_Input' to directly reference the port"
+  ]
+}

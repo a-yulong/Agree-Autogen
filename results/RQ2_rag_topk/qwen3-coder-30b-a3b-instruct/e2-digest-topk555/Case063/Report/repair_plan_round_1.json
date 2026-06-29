@@ -1,0 +1,43 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink is a port in component type Q, not visible in implementation scope",
+      "minimal_edit": "Remove the signal flow assumption from the component type annex"
+    },
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg is a subcomponent, not visible in component type scope",
+      "minimal_edit": "Remove the signal flow assumption from the component type annex"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "Dispatch_Protocol is a property of implementation Q.Impl, not visible in component type scope",
+      "minimal_edit": "Move the dispatch protocol assumption to implementation annex"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'Period'.",
+      "cause": "Period is a property of implementation Q.Impl, not visible in component type scope",
+      "minimal_edit": "Move the period guarantee to implementation annex"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'deadline'.",
+      "cause": "deadline is a property of implementation Q.Impl, not visible in component type scope",
+      "minimal_edit": "Move the deadline guarantee to implementation annex"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'Priority'.",
+      "cause": "Priority is a property of implementation Q.Impl, not visible in component type scope",
+      "minimal_edit": "Move the priority guarantee to implementation annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the dispatch protocol assumption to Q.Impl annex",
+    "Move the period guarantee to Q.Impl annex",
+    "Move the deadline guarantee to Q.Impl annex",
+    "Move the priority guarantee to Q.Impl annex",
+    "Remove the signal flow assumption from Q annex",
+    "Add a new annex block to Q.Impl with the moved properties"
+  ]
+}

@@ -1,0 +1,102 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: info_door1, info_door2
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+info_door1 | in | data | bool | Base_Types::boolean
+info_door2 | in | data | bool | Base_Types::boolean
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "info_door1 is true",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "info_door1"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: ECAM | lines 152-156
+annex agree {**
+  annex agree {
+    assume "info_door1_is_true": info_door1;
+  };
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   149:     features
+   150:       info_door1: in data port Base_Types::boolean;
+   151:       info_door2: in data port Base_Types::boolean;
+   152:   annex agree {**
+>> 153:   annex agree {
+   154:     assume "info_door1_is_true": info_door1;
+   155:   };
+   156:   **};
+   157:   end ECAM;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: ECAM
+device ECAM
+    features
+      info_door1: in data port Base_Types::boolean;
+      info_door2: in data port Base_Types::boolean;
+  end ECAM;
+
+-- TARGET DECLARATION: ECAM.imp
+device implementation ECAM.imp
+  end ECAM.imp;
+
+-- RELATED MODEL LINES
+ecam: device ECAM.imp;
+connPD113 : port process_door.D1_ecam_info  -> ecam.info_door1;
+connPD214 : port process_door.D2_ecam_info -> ecam.info_door2;
+device ECAM
+info_door1: in data port Base_Types::boolean;
+info_door2: in data port Base_Types::boolean;
+end ECAM;
+device implementation ECAM.imp
+end ECAM.imp;
+-- ECAM device
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "ECAM",
+      "kind": "device"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "ECAM.imp",
+      "kind": "device implementation",
+      "type_name": "ECAM"
+    }
+  ],
+  "features": [
+    {
+      "owner": "ECAM",
+      "name": "info_door1",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ECAM",
+      "name": "info_door2",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    }
+  ]
+}

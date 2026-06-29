@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use only visible identifiers from the model; assumptions and guarantees should reference component-level features, not implementation-only paths.
+- Generate AGREE clauses only when the requirement provides concrete bounds or relations that can be expressed with in-scope names.
+- Treat the AADL model as the source of truth for names, directions, and data types before writing expressions.
+Generic rules:
+- Input envelope constraints are a standard assumption pattern when concrete lower and upper bounds are provided.
+- Output or dependency contracts should relate visible outputs to visible inputs only when both sides are in scope.
+- If a helper is introduced, ensure its declared type matches the expression type, especially for boolean comparisons.
+Syntax or pattern reminders:
+- AGREE contracts use an `annex agree {** ... **};` block.
+- Range checks are commonly expressed as a conjunction of lower-bound and upper-bound comparisons.
+- Comparison expressions evaluate to `bool`; integer arithmetic yields `int`, and real arithmetic yields `real`.
+Anti-patterns:
+- Do not reference subcomponent ports or implementation-only names from a component-level contract.
+- Do not assume AADL property names or unit tokens are available as AGREE variables.
+- Do not generate numeric range clauses for boolean, enumeration-like, or opaque ports unless the model exposes a numeric scalar type.
+</RAG_DIGEST>

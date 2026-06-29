@@ -1,0 +1,58 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink is a port in component type Q, not visible in implementation annex",
+      "minimal_edit": "Move the data flow assumption to Q.Impl annex and reference the connection P1"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg is a subcomponent in implementation, not visible in type annex",
+      "minimal_edit": "Move the data flow assumption to Q.Impl annex and reference the connection P1"
+    },
+    {
+      "diagnostic": "left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression syntax for data flow assumption",
+      "minimal_edit": "Replace with valid AGREE expression using connection P1"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "Property not visible in component type annex",
+      "minimal_edit": "Move property guarantees to Q.Impl annex"
+    },
+    {
+      "diagnostic": "no viable alternative at input 'Sporadic'",
+      "cause": "Invalid property value syntax in AGREE",
+      "minimal_edit": "Use quoted string for property value"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Period'.",
+      "cause": "Property not visible in component type annex",
+      "minimal_edit": "Move property guarantees to Q.Impl annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'ms'.",
+      "cause": "Unit not recognized in AGREE context",
+      "minimal_edit": "Use standard AGREE time unit syntax"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'deadline'.",
+      "cause": "Property not visible in component type annex",
+      "minimal_edit": "Move property guarantees to Q.Impl annex"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch in property comparison",
+      "minimal_edit": "Ensure property values match expected types"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Move the entire AGREE annex block from component type Q to component implementation Q.Impl",
+    "Replace the data flow assumption with a valid AGREE expression using the connection P1",
+    "Move all property guarantees to the implementation annex",
+    "Correct the property value syntax to use quoted strings",
+    "Replace time units with standard AGREE syntax (e.g., 10_ms instead of 10 Ms)",
+    "Ensure all referenced identifiers are visible in the implementation context"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place AGREE contracts in annex agree blocks within component type scopes for assumptions and guarantees, and in implementation scopes for assignments.",
+    "Use eq declarations for helper variables and const declarations for named constants in component type contracts.",
+    "Generate guarantees for behavior relations and data constraints using visible identifiers from the AADL model.",
+    "Ensure all expressions in guarantees and assumptions reference valid AADL features or previously declared helpers."
+  ],
+  "generic_rules": [
+    "AGREE annex blocks must be syntactically valid with proper scoping for component types and implementations.",
+    "Assumptions and guarantees should reference only visible identifiers or declared helpers within the same annex.",
+    "Use appropriate AGREE scalar types (int, real, bool) for constants and equation declarations.",
+    "Avoid encoding AADL property names directly as AGREE variables unless explicitly exposed as typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract statements.",
+    "Declare helper variables with `eq name : type = expression;` and constants with `const name : type = value;`.",
+    "Assign output values using `assign output = expression;` only in implementation scope.",
+    "Wrap AGREE annex content in `annex agree {** ... **};` blocks."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope; use only assumptions and assignments there.",
+    "Do not reference AADL property names like Deadline or Period directly in AGREE expressions.",
+    "Do not use invalid AGREE scalar types such as 'integer' or 'boolean' in declarations.",
+    "Do not reference identifiers that are not visible in the current AADL component scope."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing properties",
+    "Model fusion and component insertion locations",
+    "Validator diagnostics and repair patterns",
+    "Requirement traceability and compact semantics"
+  ]
+}

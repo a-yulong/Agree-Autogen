@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 150: mismatched input '\"speed_min\"' expecting RULE_ID",
+      "cause": "Constants must be declared with valid identifiers.",
+      "minimal_edit": "Rename constant 'speed_min' to 'min_speed'."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 153: mismatched input '\"speed_max\"' expecting RULE_ID",
+      "cause": "Constants must be declared with valid identifiers.",
+      "minimal_edit": "Rename constant 'speed_max' to 'max_speed'."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 156: Couldn't resolve reference to 'speed_max'.",
+      "cause": "Constant 'speed_max' is not visible.",
+      "minimal_edit": "Replace 'speed_max' with 'max_speed'."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 156: Couldn't resolve reference to 'speed_min'.",
+      "cause": "Constant 'speed_min' is not visible.",
+      "minimal_edit": "Replace 'speed_min' with 'min_speed'."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Rename constant 'speed_min' to 'min_speed'.",
+    "Rename constant 'speed_max' to 'max_speed'.",
+    "Replace 'speed_max' with 'max_speed' in the 'speed_range' assumption.",
+    "Replace 'speed_min' with 'min_speed' in the 'speed_range' assumption."
+  ]
+}

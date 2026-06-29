@@ -1,0 +1,161 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: Input, Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Input | in | data | int | Base_Types::Integer
+Output | out | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Input < 10",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "Input"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Output < 55",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Output"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: above_top | lines 47-53
+annex agree {**
+  const max_input : int = 10;
+  const max_output : int = 55;
+
+  assume "input_bound": Input < max_input;
+  guarantee "output_bound": Output < max_output;
+};**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   49:   const max_output : int = 55;
+   50: 
+   51:   assume "input_bound": Input < max_input;
+   52:   guarantee "output_bound": Output < max_output;
+>> 53: };**};
+   54: end above_top; 
+   55: 
+   56: system implementation above_top.Impl
+   57: 	subcomponents
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: above_top
+system above_top
+	features
+		Input: in data port Base_Types::Integer;
+		Output: out data port Base_Types::Integer;
+end above_top;
+
+-- TARGET DECLARATION: above_top.Impl
+system implementation above_top.Impl
+	subcomponents
+		A_sub : system A ; 
+		top_sub : system top_level.Impl;
+	connections
+		IN_TO_TOP : port Input -> top_sub.Input {Communication_Properties::Timing => immediate;};
+		TOP_TO_A : port top_sub.Output -> A_sub.Input {Communication_Properties::Timing => immediate;};
+		A_TO_OUT : port A_sub.Output -> Output {Communication_Properties::Timing => immediate;};
+end above_top.Impl;
+
+-- RELATED MODEL LINES
+Input: in data port Base_Types::Integer;
+Output: out data port Base_Types::Integer;
+IN_TO_A : port Input -> A_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_B : port A_sub.Output -> B_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_C : port A_sub.Output -> C_sub.Input1 {Communication_Properties::Timing => immediate;};
+B_TO_C : port B_sub.Output -> C_sub.Input2 {Communication_Properties::Timing => immediate;};
+C_TO_Output : port C_sub.Output -> Output {Communication_Properties::Timing => immediate;};
+system above_top
+end above_top;
+system implementation above_top.Impl
+IN_TO_TOP : port Input -> top_sub.Input {Communication_Properties::Timing => immediate;};
+TOP_TO_A : port top_sub.Output -> A_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_OUT : port A_sub.Output -> Output {Communication_Properties::Timing => immediate;};
+end above_top.Impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "above_top",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "above_top.Impl",
+      "kind": "system implementation",
+      "type_name": "above_top"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "above_top.Impl",
+      "name": "A_sub",
+      "category": "subcomponent",
+      "classifier": "A"
+    },
+    {
+      "owner": "above_top.Impl",
+      "name": "top_sub",
+      "category": "subcomponent",
+      "classifier": "top_level.Impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "above_top",
+      "name": "Input",
+      "direction": "in",
+      "category": "port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "above_top",
+      "name": "Output",
+      "direction": "out",
+      "category": "port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "above_top.Impl",
+      "name": "IN_TO_TOP",
+      "kind": "port",
+      "source": "Input",
+      "destination": "top_sub.Input"
+    },
+    {
+      "owner": "above_top.Impl",
+      "name": "TOP_TO_A",
+      "kind": "port",
+      "source": "top_sub.Output",
+      "destination": "A_sub.Input"
+    },
+    {
+      "owner": "above_top.Impl",
+      "name": "A_TO_OUT",
+      "kind": "port",
+      "source": "A_sub.Output",
+      "destination": "Output"
+    }
+  ]
+}

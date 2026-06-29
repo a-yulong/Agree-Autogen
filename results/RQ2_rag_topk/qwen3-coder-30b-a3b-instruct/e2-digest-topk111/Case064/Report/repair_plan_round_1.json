@@ -1,0 +1,47 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'P1'.",
+      "cause": "P1 is a connection, not a boolean expression; AGREE cannot use connection names directly in assume/guarantee",
+      "minimal_edit": "Remove the data_flow_routing assumption"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "AGREE cannot reference property names directly; must use property values or expressions",
+      "minimal_edit": "Rewrite to use property value directly: \"Sporadic\""
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'Impl'.",
+      "cause": "AGREE cannot reference component implementation names directly in expressions",
+      "minimal_edit": "Remove Q.Impl. prefix from Period property reference"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'ms'.",
+      "cause": "AGREE does not support unit suffixes like 'ms' in expressions",
+      "minimal_edit": "Use numeric value 10 for Period"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'Impl'.",
+      "cause": "AGREE cannot reference component implementation names directly in expressions",
+      "minimal_edit": "Remove Q.Impl. prefix from deadline property reference"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'ms'.",
+      "cause": "AGREE does not support unit suffixes like 'ms' in expressions",
+      "minimal_edit": "Use numeric value 10 for deadline"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'Impl'.",
+      "cause": "AGREE cannot reference component implementation names directly in expressions",
+      "minimal_edit": "Remove Q.Impl. prefix from Priority property reference"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the data_flow_routing assumption from the AGREE annex",
+    "Change Q.Impl.Dispatch_Protocol = \"Sporadic\" to Dispatch_Protocol = \"Sporadic\"",
+    "Change Q.Impl.Period = 10_ms to Period = 10",
+    "Change Q.Impl.deadline = 10_ms to deadline = 10",
+    "Change Q.Impl.Priority = 1 to Priority = 1"
+  ]
+}

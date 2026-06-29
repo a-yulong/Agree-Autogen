@@ -1,0 +1,226 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: acc1_data_monitor, acc2_data_monitor, acc3_data_monitor, acc4_data_monitor, acc5_data_monitor, acc6_data_monitor, acc1_validated_dataout, acc2_validated_dataout, acc3_validated_dataout, acc4_validated_dataout, acc5_validated_dataout, acc6_validated_dataout, acc_error_action, acc_error_out, event_to_acc1, event_to_acc2, event_to_acc3, event_to_acc4, event_to_acc5, event_to_acc6
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc1_data_monitor | in | data | int | SHM_DataType::accData
+acc2_data_monitor | in | data | int | SHM_DataType::accData
+acc3_data_monitor | in | data | int | SHM_DataType::accData
+acc4_data_monitor | in | data | int | SHM_DataType::accData
+acc5_data_monitor | in | data | int | SHM_DataType::accData
+acc6_data_monitor | in | data | int | SHM_DataType::accData
+acc1_validated_dataout | out | data | int | SHM_DataType::accData
+acc2_validated_dataout | out | data | int | SHM_DataType::accData
+acc3_validated_dataout | out | data | int | SHM_DataType::accData
+acc4_validated_dataout | out | data | int | SHM_DataType::accData
+acc5_validated_dataout | out | data | int | SHM_DataType::accData
+acc6_validated_dataout | out | data | int | SHM_DataType::accData
+acc_error_action | in | data | int | SHM_DataType::actionData
+acc_error_out | out | data | int | SHM_DataType::errorData
+event_to_acc1 | out | data | int | SHM_DataType::actionData
+event_to_acc2 | out | data | int | SHM_DataType::actionData
+event_to_acc3 | out | data | int | SHM_DataType::actionData
+event_to_acc4 | out | data | int | SHM_DataType::actionData
+event_to_acc5 | out | data | int | SHM_DataType::actionData
+event_to_acc6 | out | data | int | SHM_DataType::actionData
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: acc_HM | lines 252-267
+annex agree {**
+    assume "data_monitor_valid": acc1_data_monitor >= 0 and acc2_data_monitor >= 0 and acc3_data_monitor >= 0 and acc4_data_monitor >= 0 and acc5_data_monitor >= 0 and acc6_data_monitor >= 0;
+    guarantee "route_acc1_to_spg": acc1_validated_dataout = acc1_data_monitor;
+    guarantee "route_acc2_to_spg": acc2_validated_dataout = acc2_data_monitor;
+    guarantee "route_acc3_to_spg": acc3_validated_dataout = acc3_data_monitor;
+    guarantee "route_acc4_to_spg": acc4_validated_dataout = acc4_data_monitor;
+    guarantee "route_acc5_to_spg": acc5_validated_dataout = acc5_data_monitor;
+    guarantee "route_acc6_to_spg": acc6_validated_dataout = acc6_data_monitor;
+    guarantee "error_action_propagation": acc_error_out = acc_error_action;
+    guarantee "event_routing_acc1": event_to_acc1 = acc1_command_in;
+    guarantee "event_routing_acc2": event_to_acc2 = acc2_command_in;
+    guarantee "event_routing_acc3": event_to_acc3 = acc3_command_in;
+    guarantee "event_routing_acc4": event_to_acc4 = acc4_command_in;
+    guarantee "event_routing_acc5": event_to_acc5 = acc5_command_in;
+    guarantee "event_routing_acc6": event_to_acc6 = acc6_command_in;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   257:     guarantee "route_acc4_to_spg": acc4_validated_dataout = acc4_data_monitor;
+   258:     guarantee "route_acc5_to_spg": acc5_validated_dataout = acc5_data_monitor;
+   259:     guarantee "route_acc6_to_spg": acc6_validated_dataout = acc6_data_monitor;
+   260:     guarantee "error_action_propagation": acc_error_out = acc_error_action;
+>> 261:     guarantee "event_routing_acc1": event_to_acc1 = acc1_command_in;
+   262:     guarantee "event_routing_acc2": event_to_acc2 = acc2_command_in;
+   263:     guarantee "event_routing_acc3": event_to_acc3 = acc3_command_in;
+   264:     guarantee "event_routing_acc4": event_to_acc4 = acc4_command_in;
+   265:     guarantee "event_routing_acc5": event_to_acc5 = acc5_command_in;
+
+   258:     guarantee "route_acc5_to_spg": acc5_validated_dataout = acc5_data_monitor;
+   259:     guarantee "route_acc6_to_spg": acc6_validated_dataout = acc6_data_monitor;
+   260:     guarantee "error_action_propagation": acc_error_out = acc_error_action;
+   261:     guarantee "event_routing_acc1": event_to_acc1 = acc1_command_in;
+>> 262:     guarantee "event_routing_acc2": event_to_acc2 = acc2_command_in;
+   263:     guarantee "event_routing_acc3": event_to_acc3 = acc3_command_in;
+   264:     guarantee "event_routing_acc4": event_to_acc4 = acc4_command_in;
+   265:     guarantee "event_routing_acc5": event_to_acc5 = acc5_command_in;
+   266:     guarantee "event_routing_acc6": event_to_acc6 = acc6_command_in;
+
+   259:     guarantee "route_acc6_to_spg": acc6_validated_dataout = acc6_data_monitor;
+   260:     guarantee "error_action_propagation": acc_error_out = acc_error_action;
+   261:     guarantee "event_routing_acc1": event_to_acc1 = acc1_command_in;
+   262:     guarantee "event_routing_acc2": event_to_acc2 = acc2_command_in;
+>> 263:     guarantee "event_routing_acc3": event_to_acc3 = acc3_command_in;
+   264:     guarantee "event_routing_acc4": event_to_acc4 = acc4_command_in;
+   265:     guarantee "event_routing_acc5": event_to_acc5 = acc5_command_in;
+   266:     guarantee "event_routing_acc6": event_to_acc6 = acc6_command_in;
+   267:   **};
+
+   260:     guarantee "error_action_propagation": acc_error_out = acc_error_action;
+   261:     guarantee "event_routing_acc1": event_to_acc1 = acc1_command_in;
+   262:     guarantee "event_routing_acc2": event_to_acc2 = acc2_command_in;
+   263:     guarantee "event_routing_acc3": event_to_acc3 = acc3_command_in;
+>> 264:     guarantee "event_routing_acc4": event_to_acc4 = acc4_command_in;
+   265:     guarantee "event_routing_acc5": event_to_acc5 = acc5_command_in;
+   266:     guarantee "event_routing_acc6": event_to_acc6 = acc6_command_in;
+   267:   **};
+   268:   end acc_HM;
+
+   261:     guarantee "event_routing_acc1": event_to_acc1 = acc1_command_in;
+   262:     guarantee "event_routing_acc2": event_to_acc2 = acc2_command_in;
+   263:     guarantee "event_routing_acc3": event_to_acc3 = acc3_command_in;
+   264:     guarantee "event_routing_acc4": event_to_acc4 = acc4_command_in;
+>> 265:     guarantee "event_routing_acc5": event_to_acc5 = acc5_command_in;
+   266:     guarantee "event_routing_acc6": event_to_acc6 = acc6_command_in;
+   267:   **};
+   268:   end acc_HM;
+   269: 
+
+   262:     guarantee "event_routing_acc2": event_to_acc2 = acc2_command_in;
+   263:     guarantee "event_routing_acc3": event_to_acc3 = acc3_command_in;
+   264:     guarantee "event_routing_acc4": event_to_acc4 = acc4_command_in;
+   265:     guarantee "event_routing_acc5": event_to_acc5 = acc5_command_in;
+>> 266:     guarantee "event_routing_acc6": event_to_acc6 = acc6_command_in;
+   267:   **};
+   268:   end acc_HM;
+   269: 
+   270:   thread implementation acc_HM.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: acc_HM
+thread acc_HM
+  features
+    acc1_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+    acc2_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+    acc3_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+    acc4_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+    acc5_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+    acc6_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+
+    acc1_validated_dataout:out data port SHM_DataType::accData;
+    acc2_validated_dataout:out data port SHM_DataType::accData;
+    acc3_validated_dataout:out data port SHM_DataType::accData;
+    acc4_validated_dataout:out data port SHM_DataType::accData;
+    acc5_validated_dataout:out data port SHM_DataType::accData;
+    acc6_validated_dataout:out data port SHM_DataType::accData;
+
+    acc_error_action: in event data port SHM_DataType::actionData;
+    acc_error_out: out event data port SHM_DataType::errorData;
+
+    event_to_acc1: out event data port SHM_DataType::actionData;
+    event_to_acc2: out event data port SHM_DataType::actionData;
+    event_to_acc3: out event data port SHM_DataType::actionData;
+    event_to_acc4: out event data port SHM_DataType::actionData;
+    event_to_acc5: out event data port SHM_DataType::actionData;
+    event_to_acc6: out event data port SHM_DataType::actionData;
+  properties
+    Dispatch_Protocol => Periodic;
+    Priority => 3;
+    Stack_Size => 20 KByte;
+    Code_Size => 100 KByte;
+    Data_Size => 1 KByte;
+    Period => 4000 ms;
+    Compute_Execution_Time => 400 ms .. 500 ms;
+    Deadline => 500 ms;
+  end acc_HM;
+
+-- TARGET DECLARATION: acc_HM.impl
+thread implementation acc_HM.impl
+  calls
+    sub1: { spg: subprogram subprograms::acc_HM_spg;};
+
+  connections
+    C1: parameter acc1_data_monitor->spg.in_para1;
+    C2: parameter acc2_data_monitor->spg.in_para2;
+    C3: parameter acc3_data_monitor->spg.in_para3;
+    C4: parameter acc4_data_monitor->spg.in_para4;
+    C5: parameter acc5_data_monitor->spg.in_para5;
+    C6: parameter acc6_data_monitor->spg.in_para6;
+
+    C7: parameter spg.out_para1->acc1_validated_dataout;
+    C8: parameter spg.out_para2->acc2_validated_dataout;
+    C9: parameter spg.out_para3->acc3_validated_dataout;
+    C10: parameter spg.out_para4->acc4_validated_dataout;
+    C11: parameter spg.out_para5->acc5_validated_dataout;
+    C12: parameter spg.out_para6->acc6_validated_dataout;
+
+    C13: parameter spg.event_to_acc1->event_to_acc1;
+    C14: parameter spg.event_to_acc2->event_to_acc2;
+    C15: parameter spg.event_to_acc3->event_to_acc3;
+    C16: parameter spg.event_to_acc4->event_to_acc4;
+    C17: parameter spg.event_to_acc5->event_to_acc5;
+    C18: parameter spg.event_to_acc6->event_to_acc6;
+
+    C19: parameter acc_error_action->spg.in_action_command;
+    C20: parameter spg.out_error_data->acc_error_out;
+  end acc_HM.impl;
+
+-- RELATED MODEL LINES
+thread acc1_dataOutput
+acc1out: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc1_command_in: in event data port SHM_DataType::actionData;
+end acc1_dataOutput;
+thread implementation acc1_dataOutput.impl
+C1: parameter spg.acc1DataOut->acc1out;
+C2: parameter acc1_command_in->spg.event_in;
+end  acc1_dataOutput.impl;
+thread acc1_dataOutput_emv2 extends acc1_dataOutput
+acc1_input: in data port SHM_DataType::accData;
+end acc1_dataOutput_emv2;
+thread implementation acc1_dataOutput_emv2.impl extends acc1_dataOutput.impl
+end acc1_dataOutput_emv2.impl;
+thread  acc2_dataOutput
+acc2out: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc2_command_in: in event data port SHM_DataType::actionData;
+end acc2_dataOutput;
+thread implementation  acc2_dataOutput.impl
+C1: parameter spg.acc2DataOut->acc2out;
+C2: parameter acc2_command_in->spg.event_in;
+end  acc2_dataOutput.impl;
+thread acc2_dataOutput_emv2 extends acc2_dataOutput
+acc2_input: in data port SHM_DataType::accData;
+end acc2_dataOutput_emv2;
+thread implementation acc2_dataOutput_emv2.impl extends acc2_dataOutput.impl
+end acc2_dataOutput_emv2.impl;
+thread acc3_dataOutput
+accout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc_command_in: in event data port SHM_DataType::actionData;
+end acc3_dataOutput;
+thread implementation acc3_dataOutput.impl
+C1: parameter spg.accDataOut->accout;
+C2: parameter acc_command_in->spg.event_in;
+end  acc3_dataOutput.impl;
+thread acc3_dataOutput_emv2 extends acc3_dataOutput
+acc3_input: in data port SHM_DataType::accData;
+end acc3_dataOutput_emv2;
+thread implementation acc3_dataOutput_emv2.impl extends acc3_dataOutput.impl
+end acc3_dataOutput_emv2.impl;
+thread acc4_dataOutput
+end acc4_dataOutput;
+thread implementation acc4_dataOutput.impl
+end  acc4_dataOutput.impl;
+
+-- [target model context truncated]

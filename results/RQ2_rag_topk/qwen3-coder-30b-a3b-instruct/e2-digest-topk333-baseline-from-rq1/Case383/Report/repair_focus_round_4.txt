@@ -1,0 +1,126 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: Data_Out
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_Out | out | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data_Out >= 0 and Data_Out <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Data_Out"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Data_Out is bounded at every evaluation step",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Data_Out"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Computation_Th | lines 78-87
+annex agree {**
+
+
+          guarantee "output_bounds": (Data_Out >= 0) and (Data_Out <= 100);
+
+
+          guarantee "bounded_every_step": always (Data_Out >= 0) and (Data_Out <= 100);
+
+
+        **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   80: 
+   81:           guarantee "output_bounds": (Data_Out >= 0) and (Data_Out <= 100);
+   82: 
+   83: 
+>> 84:           guarantee "bounded_every_step": always (Data_Out >= 0) and (Data_Out <= 100);
+   85: 
+   86: 
+   87:         **};
+   88: 
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Computation_Th
+thread Computation_Th
+  features
+    Data_Out : out data port Base_Types::Integer;
+  properties
+    Dispatch_Protocol => Periodic;
+    Period => 500 ms;
+    Compute_Execution_Time => 1 ms .. 5 ms;
+    Priority => 1;
+
+  end Computation_Th;
+
+-- RELATED MODEL LINES
+thread Computation_Th
+Data_Out : out data port Base_Types::Integer;
+end Computation_Th;
+Computation : thread Computation_Th;
+Z12:port Computation.Data_Out -> Producer.Data_In;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Computation_Th",
+      "kind": "thread"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Computation_Th",
+      "name": "Data_Out",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Computation_Th",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "Computation_Th"
+    },
+    {
+      "owner": "Computation_Th",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "500 ms",
+      "applies_to": "Computation_Th"
+    },
+    {
+      "owner": "Computation_Th",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "1 ms .. 5 ms",
+      "applies_to": "Computation_Th"
+    },
+    {
+      "owner": "Computation_Th",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": "Computation_Th"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.",
+    "Place assumption and guarantee statements in valid component type or implementation scopes based on the target component and visible identifiers."
+  ],
+  "generic_rules": [
+    "AGREE contracts must use logical operators (and, or, not, =>) and follow syntax: assume/guarantee \"label\": expression;",
+    "Declare auxiliary variables with eq name : type = expression; and constants with const name : type = value;",
+    "Use assign only for output features or declared auxiliary variables in implementation scope; avoid placing guarantees in implementation scope.",
+    "Ensure type consistency between declarations and expressions: bool for comparisons, int for integer arithmetic, real for real arithmetic."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts use `assume \"label\": expression;` and `guarantee \"label\": expression;` syntax.",
+    "Use `eq name : type = expression;` for defining auxiliary variables and `const name : type = value;` for constants.",
+    "Branching logic in AGREE requires nested `if ... then ... else` expressions.",
+    "Temporal recurrence in AGREE should use initialized patterns like `0.0 -> pre(t) + step`."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope; use only assume or eq declarations there.",
+    "Avoid referencing AADL property names (e.g., Deadline, Period) directly in AGREE expressions unless explicitly exposed as typed ports or constants.",
+    "Do not use invalid scalar type names like 'integer' or 'boolean' in AGREE declarations; use 'int', 'real', or 'bool'."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing constraints not directly tied to visible model features",
+    "Component type vs. implementation scope boundaries beyond AGREE annex placement",
+    "Validator diagnostics or repair actions not directly related to syntax generation"
+  ]
+}

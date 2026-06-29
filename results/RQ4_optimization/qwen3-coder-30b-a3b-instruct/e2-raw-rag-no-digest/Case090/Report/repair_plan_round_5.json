@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: Couldn't resolve reference to 'acc_out_data_x'.",
+      "cause": "AGREE annex is attached to component type ACCELERO, but references subcomponent port 'accelero_sub.acc_out_data_x' which is not visible in type scope",
+      "minimal_edit": "Move the agree annex from ACCELERO to ACCELERO.IMPL"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: Couldn't resolve reference to 'accelero_sub'.",
+      "cause": "subcomponent 'accelero_sub' is only visible in implementation scope, not in component type scope",
+      "minimal_edit": "Move the agree annex from ACCELERO to ACCELERO.IMPL"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: named thing must be an expression with a type",
+      "cause": "Invalid expression due to unresolved references to subcomponent ports in type-level annex",
+      "minimal_edit": "Move the agree annex from ACCELERO to ACCELERO.IMPL"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the annex agree block from ACCELERO (line 35-39)",
+    "Add a new annex agree block inside ACCELERO.IMPL after the connections section",
+    "In the new annex, rewrite guarantees using only visible implementation-scope identifiers: acc_out_data_x, acc_out_data_y, acc_out_data_z, and accelero_sub.acc_out_data_x, accelero_sub.acc_out_data_y, accelero_sub.acc_out_data_z"
+  ]
+}

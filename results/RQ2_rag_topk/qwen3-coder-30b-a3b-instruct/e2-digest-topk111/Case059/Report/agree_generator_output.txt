@@ -1,0 +1,10 @@
+annex agree {**
+  assume "panel_to_COM1_signal_flow": Panel.MAX => CH1.Active and Panel.MED => CH1.Active and Panel.LO => CH1.Active;
+  assume "COM1_to_MON1_signal_flow": CH1.Error => CH2.Error and CH1.Active => CH2.Active;
+  assume "pedal_to_COM1_timing": Pedal = CH1.Cmd;
+  assume "fail_to_COM1_timing": FailCOM1 = CH1.Error;
+  guarantee "panel_to_COM1_immediate": CH1.Active = Panel.MAX or Panel.MED or Panel.LO;
+  guarantee "COM1_to_MON1_immediate": CH2.Active = CH1.Active;
+  guarantee "pedal_to_COM1_immediate": CH1.Cmd = Pedal;
+  guarantee "fail_to_COM1_immediate": CH1.Error = FailCOM1;
+**};

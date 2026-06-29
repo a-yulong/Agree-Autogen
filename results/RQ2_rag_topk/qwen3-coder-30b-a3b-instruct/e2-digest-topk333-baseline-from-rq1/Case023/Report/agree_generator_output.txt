@@ -1,0 +1,6 @@
+annex agree {**
+  eq "heating_request_def": heating_request = (user_request.heater_on and not user_request.cooler_on);
+  eq "cooling_request_def": cooling_request = (user_request.cooler_on and not user_request.heater_on);
+  guarantee "heater_on_guarantee": heater_on => (heating_request and tempin <= 20);
+  guarantee "cooler_on_guarantee": cooler_on => (cooling_request and tempin > 0);
+**};

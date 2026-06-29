@@ -1,0 +1,8 @@
+annex agree {**
+  const "initial_mode_bound": int = 0;
+  eq "mode_initial": int = 0;
+  eq "mode_next": int = if mode' = mode + 1 then mode + 1 else mode;
+  guarantee "R1_mode_non_negative": mode >= "initial_mode_bound";
+  guarantee "R2_mode_monotonic": mode > prev(mode);
+  guarantee "R3_output_condition": (mode = 3 => Output = Input1 + Input2) and (mode /= 3 => Output = 0);
+**};

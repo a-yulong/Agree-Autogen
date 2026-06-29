@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'C_sub'.",
+      "cause": "AGREE annex is in component type scope but references implementation subcomponent 'C_sub'",
+      "minimal_edit": "Remove 'C_sub.' prefix from port references"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Input1'.",
+      "cause": "AGREE annex references non-visible identifier 'Input1' in component type scope",
+      "minimal_edit": "Replace 'Input1' with 'C_sub.Input1' or remove if not visible"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Output'.",
+      "cause": "AGREE annex references non-visible identifier 'Output' in component type scope",
+      "minimal_edit": "Replace 'Output' with 'C_sub.Output' or remove if not visible"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '<' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Expression operands have unresolved types due to failed references",
+      "minimal_edit": "Fix operand references to resolve to valid types"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex for component C, replace 'C_sub.Input1' with 'Input1' and 'C_sub.Output' with 'Output'",
+    "In the AGREE annex for component top_level, replace 'Input1' with 'C_sub.Input1' and 'Output' with 'C_sub.Output'",
+    "Ensure all references resolve to visible identifiers in their respective scopes"
+  ]
+}

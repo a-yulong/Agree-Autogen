@@ -1,0 +1,8 @@
+annex agree {**
+  const recoveryTime : real = 1.7;
+  const failureTime : real = 9.5;
+  eq t : real = 0.1 -> pre(t) + 0.1;
+  eq distanceFromFence : real = circleLinearization(t);
+  guarantee "distanceIncreaseAfterRecovery": timeToRecovery > recoveryTime => distanceFromFence > pre(distanceFromFence);
+  guarantee "failureTimeConstraint": timeToFailure = failureTime;
+**};

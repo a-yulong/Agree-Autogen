@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 27: Couldn't resolve reference to 'RTOS'.",
+      "cause": "RTOS is not a visible identifier in the SBC_32F411EDISCOVERY.impl scope; it is a system implementation defined in a separate declaration, not accessible as a direct symbol in this annex context.",
+      "minimal_edit": "Remove the entire 'deployment_binding' assumption clause."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 28: Couldn't resolve reference to 'Software'.",
+      "cause": "Software is a subcomponent of SBC_32F411EDISCOVERY.RTOS, not directly visible in SBC_32F411EDISCOVERY.impl; AGREE cannot resolve subcomponent references across implementation boundaries in type-level annexes.",
+      "minimal_edit": "Remove the entire 'software_processor_binding' assumption clause."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 28: Couldn't resolve reference to 'v2'.",
+      "cause": "SBC_32F411EDISCOVERY.v2 is a separate system implementation, not a member or subtype of SBC_32F411EDISCOVERY.impl; comparing Software to v2 is semantically invalid and symbolically unresolved.",
+      "minimal_edit": "Remove the entire 'software_processor_binding' assumption clause."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the 'assume \"deployment_binding\": SBC_32F411EDISCOVERY.RTOS = SBC_32F411EDISCOVERY.RTOS;' line from the annex.",
+    "Delete the 'assume \"software_processor_binding\": Software = SBC_32F411EDISCOVERY.v2;' line from the annex.",
+    "Leave the annex block empty if no other valid clauses remain."
+  ]
+}

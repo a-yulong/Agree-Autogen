@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.",
+    "Place component type assumptions and guarantees in valid component type scopes, and implementation bindings in implementation scopes."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be enclosed in annex agree {** ... **}; blocks.",
+    "Assumptions and guarantees should reference visible component ports and features from the AADL model.",
+    "Output dependency guarantees must relate visible outputs to visible inputs without using implementation-only paths.",
+    "Use AGREE logical operators (and, or, not, =>) for expressing relationships in contracts."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Declare constants with `const name : type = value;` and equations with `eq name : type = expression;`.",
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract statements.",
+    "Ensure type consistency: use int, real, bool for scalar declarations; avoid AADL property names as AGREE variables."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent ports in component type annexes unless represented through valid variables or outputs.",
+    "Avoid generating clauses that reference AADL timing properties (e.g., Deadline, Period) as AGREE variables unless explicitly exposed."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing attributes not directly exposed as typed ports or constants",
+    "Model fusion and component implementation insertion locations",
+    "Validator diagnostics and repair strategies"
+  ]
+}

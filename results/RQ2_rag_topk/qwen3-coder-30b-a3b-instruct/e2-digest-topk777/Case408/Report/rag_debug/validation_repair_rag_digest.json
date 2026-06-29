@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix AGREE diagnostics by aligning types and using only visible identifiers from the current component scope.",
+    "Do not introduce package-qualified identifiers or property references not present in the model.",
+    "Delete invalid AGREE clauses that reference unresolved ports, data types, or AADL properties.",
+    "Ensure generated expressions preserve type consistency and use valid AGREE scalar types (int, real, bool)."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be placed in valid AADL scopes: component types for assumptions/guarantees, implementations for bindings.",
+    "Generated AGREE code should only reference identifiers visible in the current model scope.",
+    "Helper functions and equations must be declared within the same annex and match the expected types.",
+    "Validator diagnostics pointing to invalid identifiers or types should be resolved by deletion or refactoring, not architecture changes."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annexes use `annex agree {** ... **};` syntax with valid clauses: assume, guarantee, eq, const, assign.",
+    "Component type contracts should reference only visible ports and features; implementation bindings go in implementation scopes.",
+    "Numeric variables require numeric expressions; Boolean variables require Boolean expressions; type mismatches must be corrected.",
+    "Package-qualified identifiers must be imported via `with` clauses and must exist in the model dependencies."
+  ],
+  "anti_patterns": [
+    "Do not add new architecture elements or assume new identifiers not present in the AADL model.",
+    "Do not attempt to resolve package or property references by inventing new declarations.",
+    "Do not place implementation-level guarantees or assignments in component type annexes.",
+    "Do not generate AGREE expressions using invalid or unresolved identifiers."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about missing packages or property sets",
+    "AGREE validator diagnostics (none present)",
+    "Model Analyst's role in extracting component structure",
+    "Requirement Analyst's role in traceability"
+  ]
+}

@@ -1,0 +1,20 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Place AGREE assumptions and guarantees in component type scopes only when they reference visible ports or constants.
+- Use assign statements in implementation scopes only for output features or declared auxiliary variables.
+- Avoid introducing package-qualified identifiers or data types not present in the model's configured dependencies.
+- Generate expressions that preserve type consistency: numeric variables must receive numeric expressions.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct syntax and valid identifiers.
+- Helper functions should only be used if they are defined in the model or imported via `with` clauses.
+Anti-patterns:
+- Do not introduce new identifiers or types that are not visible in the current AADL component scope.
+- Do not place implementation-level guarantees in component type annexes; move them to implementation annexes instead.
+- Do not encode AADL property names (e.g., Period, Deadline) as AGREE variables unless explicitly exposed as typed ports or constants.
+Irrelevant retrieved material:
+- AADL package references and `with` clauses
+- AGREE validator diagnostics beyond identifier resolution
+- Model traceability and requirement semantics
+- Component type vs. implementation scope boundaries for non-AGREE constructs
+</RAG_DIGEST>

@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 16: The variable 'e' on the left side of equation is of type '<error>' but must be of type 'Types::speed.speed_impl'",
+      "cause": "Type mismatch on left side of equation",
+      "minimal_edit": "Remove equation 'eq e = Target - Actual;'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 17: left and right sides of binary expression '*' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in guarantee expression",
+      "minimal_edit": "Remove guarantee 'guarantee \"control_law\": Actuator_Input = P * e + D * 0.0 + I * 0.0;'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove line 16: 'eq e = Target - Actual;'",
+    "Remove line 17: 'guarantee \"control_law\": Actuator_Input = P * e + D * 0.0 + I * 0.0;'"
+  ]
+}

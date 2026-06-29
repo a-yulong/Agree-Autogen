@@ -1,0 +1,88 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `assign` only for implementation-level bindings to existing output features or auxiliary variables
+- Place assumptions and guarantees in component type annexes for input envelopes and output ranges
+- Write output dependency guarantees in component type annexes using visible inputs and outputs
+- Avoid using subcomponent paths in component type annexes
+- Do not encode AADL timing properties as AGREE expressions unless explicitly exposed as ports or constants
+Generic rules:
+- Use `assume` and `guarantee` for component type contracts, `assign` for implementation-level bindings
+- Place AGREE annexes in the appropriate component scope (type or implementation)
+- Use visible identifiers and avoid subcomponent paths in component type annexes
+- Avoid AADL property names in AGREE expressions unless explicitly exposed as ports or constants
+Syntax or pattern reminders:
+- AGREE annexes use `annex agree {** ... **};` syntax
+- Use `eq` for equations, `const` for constants, `assign` for implementation-level bindings
+- Component type annexes are for assumptions, guarantees, constants, and equations
+- Implementation annexes are for implementation-level bindings
+Anti-patterns:
+- Do not place guarantees in implementation annexes
+- Avoid using subcomponent ports in component type annexes
+- Do not encode AADL timing properties directly in AGREE expressions
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- mitigation_in
+- mitigation_command
+
+Target interface:
+Exact expression symbols: mitigation_in, mitigation_command
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+mitigation_in | in | data | int | SHM_DataType::errorData
+mitigation_command | out | data | int | SHM_DataType::actionData
+
+Raw requirement:
+The mitigationActor_th component shall define the implementation-level signal routing for mitigationActor_th.impl. In the implementation layer, mitigationActor_th.impl shall route data flow from mitigation_in to mitigationActor.inData_para through C1 and control signal from mitigationActor.outData_para to mitigation_command through C2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "mitigation_in is routed to mitigationActor.inData_para through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "mitigation_in",
+        "mitigationActor.inData_para",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "mitigationActor.outData_para is routed to mitigation_command through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "mitigationActor.outData_para",
+        "mitigation_command",
+        "C2"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+annex agree {**
+  assume "recovery_time_set": timeToRecovery = 8.7;
+  assume "failure_time_set": timeToFailure = 16.0;
+  guarantee "height_above_min_after_recovery": 
+    (altitude > 200.0) or (timeToRecovery <= 8.7);
+  guarantee "continuous_pull_up": 
+    (altitude > pre(altitude)) or (timeToRecovery <= 8.7);
+**};

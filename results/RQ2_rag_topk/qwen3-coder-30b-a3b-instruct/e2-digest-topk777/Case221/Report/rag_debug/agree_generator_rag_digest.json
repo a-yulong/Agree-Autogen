@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in component type scopes when they describe interface behavior, not implementation details.",
+    "Use visible identifiers from the AADL model; do not introduce package-qualified names or undefined types.",
+    "Generate syntactically valid AGREE annex blocks within `annex agree {** ... **};`.",
+    "Ensure that data constraints like range checks are expressed using valid AGREE boolean expressions with matching types."
+  ],
+  "generic_rules": [
+    "Assumptions and guarantees should reference only visible ports and features in the component type scope.",
+    "Constants and equations in AGREE contracts must align with the AADL model's data types and structure.",
+    "Avoid introducing invented bounds or assumptions not explicitly stated in the requirement.",
+    "Do not encode AADL properties such as timing or resource usage directly into AGREE expressions unless exposed as typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `assume` for preconditions and `guarantee` for postconditions in component type contracts.",
+    "Boolean expressions in AGREE require explicit type matching (e.g., `eq range_value : bool = x >= min_value and x <= max_value;`).",
+    "Component implementation annexes are for bindings like `assign` or `assert`, not for general assumptions or guarantees."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-specific assignments or subcomponent references in component type annexes.",
+    "Do not assume numeric types for Boolean or event ports without explicit model support.",
+    "Do not invent bounds or constraints not directly stated in the requirement.",
+    "Do not reference AADL properties like Period or Deadline as AGREE variables unless they are typed ports."
+  ],
+  "irrelevant_topics": [
+    "Model fusion and architecture redesign patterns",
+    "Validator diagnostics and repair strategies",
+    "Requirement traceability and semantic compactness",
+    "AADL package and dependency resolution beyond visible scope"
+  ]
+}

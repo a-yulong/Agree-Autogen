@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Use `assume`, `guarantee`, `eq`, `const`, and `assign` syntax within `annex agree {** ... **};` blocks as per KSYN-1 and KSYN-2.",
+    "Place implementation-level `assign` statements only in component implementation annexes, and avoid `guarantee` statements there (KEXP-1).",
+    "For component type contracts, include assumptions and guarantees only when concrete bounds or visible relations are provided (KEXP-2)."
+  ],
+  "generic_rules": [
+    "AGREE annex blocks are scoped to their owning component and must reference only visible identifiers from that scope.",
+    "Component type annexes are for structural and behavioral assumptions/guarantees; implementation annexes are for bindings and assignments.",
+    "Do not encode AADL properties like timing or unit tokens directly in AGREE expressions unless explicitly exposed as typed ports or constants.",
+    "Output dependency guarantees must relate visible outputs to visible inputs, not implementation-only subcomponents."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for logical constraints.",
+    "Use `assign output = expression;` for output bindings in implementation scope only.",
+    "Use `eq name : type = expression;` and `const name : type = value;` for equations and constants in type scope."
+  ],
+  "anti_patterns": [
+    "Do not reference identifiers not visible in the current component scope.",
+    "Do not place `guarantee` statements in implementation annexes.",
+    "Do not encode AADL timing or unit properties as AGREE variables without explicit model exposure."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and their scope in AGREE",
+    "Model fusion and component merging",
+    "Validator diagnostics and repair patterns",
+    "Requirement traceability and compact semantics"
+  ]
+}

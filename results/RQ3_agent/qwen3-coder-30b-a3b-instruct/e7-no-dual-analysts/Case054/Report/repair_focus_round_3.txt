@@ -1,0 +1,90 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: Input1, Input2, Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Input1 | in | data | int | Base_Types::Integer
+Input2 | in | data | int | Base_Types::Integer
+Output | out | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: C | lines 22-26
+annex agree {**
+  assume "input_bound": Input1 < 10;
+  assume "input2_bound": Input2 < 10;
+  guarantee "output_bound": Output < 55;
+**};
+
+-- owner: top_level | lines 33-37
+annex agree {**
+  assume "input_bound": Input1 < 10;
+  assume "input2_bound": Input2 < 10;
+  guarantee "output_bound": Output < 55;
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   30: 	features
+   31: 		Input: in data port Base_Types::Integer;
+   32: 		Output: out data port Base_Types::Integer;
+   33: annex agree {**
+>> 34:   assume "input_bound": Input1 < 10;
+   35:   assume "input2_bound": Input2 < 10;
+   36:   guarantee "output_bound": Output < 55;
+   37: **};
+   38: end top_level;
+
+   31: 		Input: in data port Base_Types::Integer;
+   32: 		Output: out data port Base_Types::Integer;
+   33: annex agree {**
+   34:   assume "input_bound": Input1 < 10;
+>> 35:   assume "input2_bound": Input2 < 10;
+   36:   guarantee "output_bound": Output < 55;
+   37: **};
+   38: end top_level;
+   39: 
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: C
+system C
+	features
+		Input1: in data port Base_Types::Integer;
+		Input2: in data port Base_Types::Integer;
+		Output: out data port Base_Types::Integer;
+end C ;
+
+-- RELATED MODEL LINES
+system A
+Input: in data port Base_Types::Integer;
+Output: out data port Base_Types::Integer;
+end A ;
+system B
+end B ;
+system C
+Input1: in data port Base_Types::Integer;
+Input2: in data port Base_Types::Integer;
+end C ;
+system top_level
+end top_level;
+system implementation top_level.Impl
+A_sub : system A ;
+B_sub : system B ;
+C_sub : system C ;
+IN_TO_A : port Input -> A_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_B : port A_sub.Output -> B_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_C : port A_sub.Output -> C_sub.Input1 {Communication_Properties::Timing => immediate;};
+B_TO_C : port B_sub.Output -> C_sub.Input2 {Communication_Properties::Timing => immediate;};
+C_TO_Output : port C_sub.Output -> Output {Communication_Properties::Timing => immediate;};
+end top_level.Impl;
+system above_top
+end above_top;
+system implementation above_top.Impl
+top_sub : system top_level.Impl;
+IN_TO_TOP : port Input -> top_sub.Input {Communication_Properties::Timing => immediate;};
+TOP_TO_A : port top_sub.Output -> A_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_OUT : port A_sub.Output -> Output {Communication_Properties::Timing => immediate;};
+end above_top.Impl;

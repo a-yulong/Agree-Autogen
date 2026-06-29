@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'tempin1'.",
+      "cause": "Reference to port 'tempin1' is not visible in the current annex scope",
+      "minimal_edit": "Replace 'tempin1' with 'tempout' in the assumption and guarantee expressions"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'tempin2'.",
+      "cause": "Reference to port 'tempin2' is not visible in the current annex scope",
+      "minimal_edit": "Replace 'tempin2' with 'tempout' in the assumption and guarantee expressions"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'tempout'.",
+      "cause": "Reference to port 'tempout' is not visible in the current annex scope",
+      "minimal_edit": "Remove 'tempout' from the assumption and guarantee expressions"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex from the 'temp_control' component to the 'voter' component type",
+    "Remove the invalid references to 'tempin1', 'tempin2', and 'tempout' in the AGREE annex",
+    "Ensure that the AGREE annex only contains valid references to features defined in the 'voter' component type"
+  ]
+}

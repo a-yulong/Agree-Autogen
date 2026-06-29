@@ -1,0 +1,210 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure, timeToFailure, gcas_timeToRecovery, tcas_timeToRecovery, geof_timeToRecovery, timeToRecovery, p1, p2, p3
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+gcas_timeToFailure | in | data | opaque | real
+tcas_timeToFailure | in | data | opaque | real
+geof_timeToFailure | in | data | opaque | real
+timeToFailure | out | data | opaque | real
+gcas_timeToRecovery | in | data | opaque | real
+tcas_timeToRecovery | in | data | opaque | real
+geof_timeToRecovery | in | data | opaque | real
+timeToRecovery | out | data | opaque | real
+p1 | out | data | opaque | bool
+p2 | out | data | opaque | bool
+p3 | out | data | opaque | bool
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "timeToFailure = min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure)",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "timeToFailure",
+        "gcas_timeToFailure",
+        "tcas_timeToFailure",
+        "geof_timeToFailure"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "p1 = concurrencyFactor(gcas_timeToRecovery, timeToFailure)",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "p1",
+        "gcas_timeToRecovery",
+        "timeToFailure"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "p2 = concurrencyFactor(tcas_timeToRecovery, timeToFailure)",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "p2",
+        "tcas_timeToRecovery",
+        "timeToFailure"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "p3 = concurrencyFactor(geof_timeToRecovery, timeToFailure)",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "p3",
+        "geof_timeToRecovery",
+        "timeToFailure"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "timeToFailure > gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "timeToFailure",
+        "gcas_timeToRecovery",
+        "tcas_timeToRecovery",
+        "geof_timeToRecovery"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Supervisor | lines 99-105
+annex agree {**
+	  guarantee "timeToFailure_min": timeToFailure = if gcas_timeToFailure <= tcas_timeToFailure and gcas_timeToFailure <= geof_timeToFailure then gcas_timeToFailure else if tcas_timeToFailure <= geof_timeToFailure then tcas_timeToFailure else geof_timeToFailure;
+	  guarantee "p1_concurrency": p1 = gcas_timeToRecovery < timeToFailure;
+	  guarantee "p2_concurrency": p2 = tcas_timeToRecovery < timeToFailure;
+	  guarantee "p3_concurrency": p3 = geof_timeToRecovery < timeToFailure;
+	  guarantee "timeToFailure_bound": timeToFailure > gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery;
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   97: 			p2: out data port bool;
+   98: 			p3: out data port bool;
+   99: 	annex agree {**
+   100: 	  guarantee "timeToFailure_min": timeToFailure = if gcas_timeToFailure <= tcas_timeToFailure and gcas_timeToFailure <= geof_timeToFailure then gcas_timeToFailure else if tcas_timeToFailure <= geof_timeToFailure then tcas_timeToFailure else geof_timeToFailure;
+>> 101: 	  guarantee "p1_concurrency": p1 = gcas_timeToRecovery < timeToFailure;
+   102: 	  guarantee "p2_concurrency": p2 = tcas_timeToRecovery < timeToFailure;
+   103: 	  guarantee "p3_concurrency": p3 = geof_timeToRecovery < timeToFailure;
+   104: 	  guarantee "timeToFailure_bound": timeToFailure > gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery;
+   105: 	**};
+
+   98: 			p3: out data port bool;
+   99: 	annex agree {**
+   100: 	  guarantee "timeToFailure_min": timeToFailure = if gcas_timeToFailure <= tcas_timeToFailure and gcas_timeToFailure <= geof_timeToFailure then gcas_timeToFailure else if tcas_timeToFailure <= geof_timeToFailure then tcas_timeToFailure else geof_timeToFailure;
+   101: 	  guarantee "p1_concurrency": p1 = gcas_timeToRecovery < timeToFailure;
+>> 102: 	  guarantee "p2_concurrency": p2 = tcas_timeToRecovery < timeToFailure;
+   103: 	  guarantee "p3_concurrency": p3 = geof_timeToRecovery < timeToFailure;
+   104: 	  guarantee "timeToFailure_bound": timeToFailure > gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery;
+   105: 	**};
+   106: 	end Supervisor;
+
+   99: 	annex agree {**
+   100: 	  guarantee "timeToFailure_min": timeToFailure = if gcas_timeToFailure <= tcas_timeToFailure and gcas_timeToFailure <= geof_timeToFailure then gcas_timeToFailure else if tcas_timeToFailure <= geof_timeToFailure then tcas_timeToFailure else geof_timeToFailure;
+   101: 	  guarantee "p1_concurrency": p1 = gcas_timeToRecovery < timeToFailure;
+   102: 	  guarantee "p2_concurrency": p2 = tcas_timeToRecovery < timeToFailure;
+>> 103: 	  guarantee "p3_concurrency": p3 = geof_timeToRecovery < timeToFailure;
+   104: 	  guarantee "timeToFailure_bound": timeToFailure > gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery;
+   105: 	**};
+   106: 	end Supervisor;
+   107: 	
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Supervisor
+system Supervisor
+		features
+			gcas_timeToFailure: in data port real;
+			tcas_timeToFailure: in data port real;
+			geof_timeToFailure: in data port real;
+			
+			timeToFailure: out data port real;
+			
+			gcas_timeToRecovery: in data port real;
+			tcas_timeToRecovery: in data port real;
+			geof_timeToRecovery: in data port real;
+			
+			timeToRecovery: out data port real;
+			p1: out data port bool;
+			p2: out data port bool;
+			p3: out data port bool;
+	end Supervisor;
+
+-- TARGET DECLARATION: Supervisor.impl
+system implementation Supervisor.impl
+	end Supervisor.impl;
+
+-- RELATED MODEL LINES
+system Supervised_System
+timeToFailure: out data port real;
+timeToRecovery: out data port real;
+p1: out data port bool;
+p2: out data port bool;
+p3: out data port bool;
+end Supervised_System;
+system implementation Supervised_System.impl
+gcas: system GCAS_singleton;
+tcas: system TCAS_singleton;
+geof: system GeoFence_singleton;
+supervisor: system Supervisor;
+gcas_ttr: port gcas.timeToRecovery -> Supervisor.gcas_timeToRecovery	{Communication_Properties::Timing => immediate;};
+tcas_ttr: port tcas.timeToRecovery -> Supervisor.tcas_timeToRecovery	{Communication_Properties::Timing => immediate;};
+geof_ttr: port geof.timeToRecovery -> Supervisor.geof_timeToRecovery	{Communication_Properties::Timing => immediate;};
+gcas_ttf: port gcas.timeToFailure -> Supervisor.gcas_timeToFailure	{Communication_Properties::Timing => immediate;};
+tcas_ttf: port tcas.timeToFailure -> Supervisor.tcas_timeToFailure	{Communication_Properties::Timing => immediate;};
+geof_ttf: port geof.timeToFailure -> Supervisor.geof_timeToFailure	{Communication_Properties::Timing => immediate;};
+ttf_to_top: port supervisor.timeToFailure -> timeToFailure	{Communication_Properties::Timing => immediate;};
+ttr_to_top: port supervisor.timeToRecovery -> timeToRecovery;
+p1_port: port supervisor.p1 -> p1;
+p2_port: port supervisor.p2 -> p2;
+p3_port: port supervisor.p3 -> p3;
+end Supervised_System.impl;
+system GeoFence_singleton
+end GeoFence_singleton;
+system implementation GeoFence_singleton.impl
+end GeoFence_singleton.impl;
+system TCAS_singleton
+nearestIntruderAltitude: in data port int;
+nearestIntruderGroundDistance: in data port int;
+nearestIntruderLongitude: in data port int;
+ownAltitude_in: in data port int;
+ownHeading: in data port int;
+ownVerticalVelocity: in data port int;
+ownLatitude: in data port int;
+ownLongitude: in data port int;
+requiredVerticalVelocity: out data port int;
+end TCAS_singleton;
+system implementation TCAS_singleton.impl
+end TCAS_singleton.impl;
+system GCAS_singleton
+altitude: in data port real;
+end GCAS_singleton;
+system implementation GCAS_singleton.impl
+end GCAS_singleton.impl;
+system Supervisor
+gcas_timeToFailure: in data port real;
+tcas_timeToFailure: in data port real;
+geof_timeToFailure: in data port real;
+gcas_timeToRecovery: in data port real;
+tcas_timeToRecovery: in data port real;
+geof_timeToRecovery: in data port real;
+end Supervisor;
+system implementation Supervisor.impl
+end Supervisor.impl;
+data int extends base_types::Integer
+end int;
+data real extends base_types::Float
+end real;
+data bool extends base_types::Boolean
+end bool;

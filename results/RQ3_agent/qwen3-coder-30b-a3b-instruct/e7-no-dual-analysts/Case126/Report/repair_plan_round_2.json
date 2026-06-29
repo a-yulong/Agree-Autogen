@@ -1,0 +1,20 @@
+{
+  "problems": [
+    {
+      "diagnostic": "assume \"gyro_data_flow\": true;",
+      "cause": "assume statement in component type annex references implementation-specific subcomponent paths",
+      "minimal_edit": "replace with visible port-based guarantee"
+    },
+    {
+      "diagnostic": "guarantee \"gyro_signal_routing\": true;",
+      "cause": "guarantee statement in component type annex references implementation-specific subcomponent paths",
+      "minimal_edit": "replace with visible port-based guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the assume statement with a guarantee that relates gyro_out_data_x, gyro_out_data_y, and gyro_out_data_z to their corresponding inputs in the component type contract",
+    "Replace the guarantee statement with a more specific guarantee that expresses the expected behavior of the gyro outputs in terms of visible ports",
+    "Ensure all expressions use only visible identifiers from the component type scope"
+  ]
+}

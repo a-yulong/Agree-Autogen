@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'gps_pos'.",
+      "cause": "AGREE annex in thread type references subcomponent port directly",
+      "minimal_edit": "Replace 'gps_pos = pspg.gps_pos' with 'gps_pos = pspg.gps_pos' (no change needed, but reference must be valid)"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "AGREE annex in thread type references subcomponent directly",
+      "minimal_edit": "Move annex to thread implementation scope"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Ardupilot_Software::GPS_Position.i' and '<error>'",
+      "cause": "Type mismatch in AGREE expression due to invalid reference resolution",
+      "minimal_edit": "Remove invalid AGREE contract from thread type"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE expression references invalid identifiers",
+      "minimal_edit": "Remove invalid AGREE contract from thread type"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from thread type 'thr_mgmt'",
+    "Add a new AGREE annex block to thread implementation 'thr_mgmt.i'",
+    "In the new annex block, declare the required connections as assignments using visible identifiers",
+    "Replace the invalid expressions with valid AGREE assignments that reference only visible symbols"
+  ]
+}

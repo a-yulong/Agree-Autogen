@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Match annex ownership to scope: type-scope contract content belongs on component types, while implementation-only bindings belong on implementations.",
+    "When fusing into an implementation, keep annex text after the relevant subcomponents and connections, and preserve all existing structural declarations.",
+    "Do not place references to subcomponent ports in a component-type annex unless those values are exposed through owner-visible names."
+  ],
+  "generic_rules": [
+    "Select the owner by symbol visibility and scope, not by naming similarity or example structure.",
+    "Keep every inserted reference grounded in identifiers visible from the chosen owner.",
+    "Merge annex text without renaming, deleting, or reordering unrelated AADL elements."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE text must remain inside a valid `annex agree {** ... **};` block attached to the owning declaration.",
+    "Implementation-scoped annex content should follow the implementation's structural section rather than being embedded inside feature declarations."
+  ],
+  "anti_patterns": [
+    "Do not move generated text into a broader or narrower owner if that change breaks identifier scope.",
+    "Do not let clause-generation examples or requirement patterns dictate fusion scope; use only owner/scope compatibility."
+  ],
+  "irrelevant_topics": [
+    "Clause-level behavioral patterns such as conditional selection examples.",
+    "Requirement-generation heuristics for assumptions, guarantees, thresholds, or ranges.",
+    "Validator-specific advice about deleting unresolved AADL property-name expressions."
+  ]
+}

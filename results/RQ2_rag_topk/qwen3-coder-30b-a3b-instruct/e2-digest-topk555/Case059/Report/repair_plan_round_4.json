@@ -1,0 +1,88 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 30: left and right sides of binary expression '=' are of type 'BSCU::ChannelStatus.ChannelStatusImpl' and 'BSCU::PanelMsg.PanelMsgImpl', but must be of the same type",
+      "cause": "Type mismatch in signal flow guarantee",
+      "minimal_edit": "Change CH1 = Panel to CH1.Cmd = Panel.LO or similar field-level assignment"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 45: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Unresolved package reference",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Mode with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 48: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Unresolved package reference",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 66: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Unresolved package reference",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Mode with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 81: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Unresolved package reference",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 191: Couldn't resolve reference to 'Initializing'.",
+      "cause": "Unresolved variable reference",
+      "minimal_edit": "Remove or replace Initializing with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 191: LHS of assignment must be an AGREE 'eq' variable or an output port of this component",
+      "cause": "Invalid assignment target",
+      "minimal_edit": "Change assign Initializing = ... to eq Initializing = ..."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 198: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Unresolved package reference",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 199: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Unresolved package reference",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 200: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Unresolved package reference",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 201: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Unresolved package reference",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 209: Couldn't resolve reference to 'COM1Failed'.",
+      "cause": "Unresolved variable reference",
+      "minimal_edit": "Remove or replace COM1Failed with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 209: Couldn't resolve reference to 'MON1Failed'.",
+      "cause": "Unresolved variable reference",
+      "minimal_edit": "Remove or replace MON1Failed with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 210: Couldn't resolve reference to 'COM2Failed'.",
+      "cause": "Unresolved variable reference",
+      "minimal_edit": "Remove or replace COM2Failed with valid expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 210: Couldn't resolve reference to 'MON2Failed'.",
+      "cause": "Unresolved variable reference",
+      "minimal_edit": "Remove or replace MON2Failed with valid expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In BSCU.BSCU_Impl annex, change 'CH1 = Panel' to 'CH1.Cmd = Panel.LO' or equivalent field assignment",
+    "In COM annex, remove or replace 'Agree_Nodes::Brake_Mode' and 'Agree_Nodes::Brake_Cmd' with valid expressions",
+    "In MON annex, remove or replace 'Agree_Nodes::Brake_Mode' and 'Agree_Nodes::Brake_Cmd' with valid expressions",
+    "In BSCU.BSCU_Impl annex, change 'assign Initializing = ...' to 'eq Initializing = ...'",
+    "In BSCU.BSCU_Impl annex, remove or replace 'Agree_Nodes::Brake_Cmd' references in lemmas L1-L4",
+    "In BSCU.BSCU_Impl annex, remove or replace 'COM1Failed', 'MON1Failed', 'COM2Failed', 'MON2Failed' references in lemmas L11-L12"
+  ]
+}

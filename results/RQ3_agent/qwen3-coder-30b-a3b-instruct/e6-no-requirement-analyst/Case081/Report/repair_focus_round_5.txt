@@ -1,0 +1,199 @@
+round=5
+
+[TARGET INTERFACE]
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- Consumer
+- Consumer.impl
+- Consumer1
+- Init
+- Producer
+- Init.impl
+- Producer.impl
+- prodcons_soft
+- prodcons_soft.impl
+- Init1
+- Producer1
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Consumer.impl | lines 85-91
+annex agree {**
+          assume "scheduling_constraints": Period = 1000;
+          assume "deadline_constraint": Deadline = 1000;
+          assume "compute_time_bounds": Compute_Execution_Time >= 0 and Compute_Execution_Time <= 3;
+          assume "priority_level": Priority = 101;
+          guarantee "dispatch_protocol": Dispatch_Protocol = "periodic";
+        **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   82:     Priority               => 101;
+   83:     Stack_Size      => 5000 Bytes;
+   84:     Code_Size       => 678 Bytes;
+   85:   annex agree {**
+>> 86:           assume "scheduling_constraints": Period = 1000;
+   87:           assume "deadline_constraint": Deadline = 1000;
+   88:           assume "compute_time_bounds": Compute_Execution_Time >= 0 and Compute_Execution_Time <= 3;
+   89:           assume "priority_level": Priority = 101;
+   90:           guarantee "dispatch_protocol": Dispatch_Protocol = "periodic";
+
+   83:     Stack_Size      => 5000 Bytes;
+   84:     Code_Size       => 678 Bytes;
+   85:   annex agree {**
+   86:           assume "scheduling_constraints": Period = 1000;
+>> 87:           assume "deadline_constraint": Deadline = 1000;
+   88:           assume "compute_time_bounds": Compute_Execution_Time >= 0 and Compute_Execution_Time <= 3;
+   89:           assume "priority_level": Priority = 101;
+   90:           guarantee "dispatch_protocol": Dispatch_Protocol = "periodic";
+   91:         **};
+
+   84:     Code_Size       => 678 Bytes;
+   85:   annex agree {**
+   86:           assume "scheduling_constraints": Period = 1000;
+   87:           assume "deadline_constraint": Deadline = 1000;
+>> 88:           assume "compute_time_bounds": Compute_Execution_Time >= 0 and Compute_Execution_Time <= 3;
+   89:           assume "priority_level": Priority = 101;
+   90:           guarantee "dispatch_protocol": Dispatch_Protocol = "periodic";
+   91:         **};
+   92:   end Consumer.impl;
+
+   85:   annex agree {**
+   86:           assume "scheduling_constraints": Period = 1000;
+   87:           assume "deadline_constraint": Deadline = 1000;
+   88:           assume "compute_time_bounds": Compute_Execution_Time >= 0 and Compute_Execution_Time <= 3;
+>> 89:           assume "priority_level": Priority = 101;
+   90:           guarantee "dispatch_protocol": Dispatch_Protocol = "periodic";
+   91:         **};
+   92:   end Consumer.impl;
+   93: 
+
+   86:           assume "scheduling_constraints": Period = 1000;
+   87:           assume "deadline_constraint": Deadline = 1000;
+   88:           assume "compute_time_bounds": Compute_Execution_Time >= 0 and Compute_Execution_Time <= 3;
+   89:           assume "priority_level": Priority = 101;
+>> 90:           guarantee "dispatch_protocol": Dispatch_Protocol = "periodic";
+   91:         **};
+   92:   end Consumer.impl;
+   93: 
+   94:   ---------------
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Consumer
+thread Consumer
+  end Consumer;
+
+-- TARGET DECLARATION: Consumer.impl
+thread implementation Consumer.impl
+  calls 
+    Mycalls: {
+    C_Spg : subprogram Consumer_Spg;
+    };
+  properties
+    Dispatch_Protocol      => periodic;
+    Period                 => 1000 ms;
+    Compute_Execution_Time => 0 ms .. 3 ms;
+    Deadline               => 1000 ms;
+    Priority               => 101;
+    Stack_Size      => 5000 Bytes;
+    Code_Size       => 678 Bytes;
+  end Consumer.impl;
+
+-- RELATED MODEL LINES
+thread Init
+end Init;
+thread Producer
+end Producer;
+thread Consumer
+end Consumer;
+thread implementation Init.impl
+end Init.impl;
+thread implementation Producer.impl
+end Producer.impl;
+thread implementation Consumer.impl
+end Consumer.impl;
+process prodcons_soft
+end prodcons_soft;
+process implementation prodcons_soft.impl
+Init1     : thread Init.impl;
+Producer1 : thread Producer.impl;
+Consumer1 : thread Consumer.impl;
+end prodcons_soft.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Consumer",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Consumer.impl",
+      "kind": "thread implementation",
+      "type_name": "Consumer"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "Consumer.impl",
+      "name": "Consumer1",
+      "category": "thread",
+      "classifier": "Consumer.impl"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Consumer.impl",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "periodic",
+      "applies_to": "Consumer.impl"
+    },
+    {
+      "owner": "Consumer.impl",
+      "owner_kind": "thread implementation",
+      "name": "Period",
+      "value": "1000 ms",
+      "applies_to": "Consumer.impl"
+    },
+    {
+      "owner": "Consumer.impl",
+      "owner_kind": "thread implementation",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 3 ms",
+      "applies_to": "Consumer.impl"
+    },
+    {
+      "owner": "Consumer.impl",
+      "owner_kind": "thread implementation",
+      "name": "Deadline",
+      "value": "1000 ms",
+      "applies_to": "Consumer.impl"
+    },
+    {
+      "owner": "Consumer.impl",
+      "owner_kind": "thread implementation",
+      "name": "Priority",
+      "value": "101",
+      "applies_to": "Consumer.impl"
+    },
+    {
+      "owner": "Consumer.impl",
+      "owner_kind": "thread implementation",
+      "name": "Stack_Size",
+      "value": "5000 Bytes",
+      "applies_to": "Consumer.impl"
+    },
+    {
+      "owner": "Consumer.impl",
+      "owner_kind": "thread implementation",
+      "name": "Code_Size",
+      "value": "678 Bytes",
+      "applies_to": "Consumer.impl"
+    }
+  ]
+}

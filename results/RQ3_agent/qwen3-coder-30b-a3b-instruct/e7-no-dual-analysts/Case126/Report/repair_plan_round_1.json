@@ -1,0 +1,37 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 141: named thing must be an expression with a type",
+      "cause": "AGREE assumes/guarantees reference component ports directly, but the component type does not define these ports as variables or outputs in the annex context",
+      "minimal_edit": "Replace each port reference with a valid AGREE expression using visible identifiers or remove the self-equality clauses"
+    },
+    {
+      "diagnostic": "line 142: named thing must be an expression with a type",
+      "cause": "Same issue as line 141"
+    },
+    {
+      "diagnostic": "line 143: named thing must be an expression with a type",
+      "cause": "Same issue as line 141"
+    },
+    {
+      "diagnostic": "line 145: named thing must be an expression with a type",
+      "cause": "Same issue as line 141"
+    },
+    {
+      "diagnostic": "line 146: named thing must be an expression with a type",
+      "cause": "Same issue as line 141"
+    },
+    {
+      "diagnostic": "line 147: named thing must be an expression with a type",
+      "cause": "Same issue as line 141"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that the AGREE annex in GYRO_SUB_wrapper refers to port names directly without proper variable declarations",
+    "Replace each self-equality clause with a valid AGREE expression that does not reference the port names directly",
+    "Since the ports are defined in the component type, rewrite the assume/guarantee to use valid AGREE constructs",
+    "Remove or replace the self-equality expressions with a meaningful contract or remove them if they are redundant",
+    "Ensure that the final AGREE annex only uses identifiers that are visible in the component type scope"
+  ]
+}

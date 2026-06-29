@@ -1,0 +1,43 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 123: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the equation that references Agree_Nodes::Brake_Mode"
+    },
+    {
+      "diagnostic": "line 138: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the guarantee that references Agree_Nodes::Brake_Cmd"
+    },
+    {
+      "diagnostic": "line 255: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the lemma that references Agree_Nodes::Brake_Cmd"
+    },
+    {
+      "diagnostic": "line 256: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the lemma that references Agree_Nodes::Brake_Cmd"
+    },
+    {
+      "diagnostic": "line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the lemma that references Agree_Nodes::Brake_Cmd"
+    },
+    {
+      "diagnostic": "line 258: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package qualified identifier",
+      "minimal_edit": "Remove the lemma that references Agree_Nodes::Brake_Cmd"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the COM component type annex, remove the equation 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' on line 123",
+    "In the COM component type annex, remove the guarantee 'guarantee G_COM_1 \"Valve Command\" : not Fail => CMD = Agree_Nodes::Brake_Cmd(Mode, Pedal);' on line 138",
+    "In the BSCU.BSCU_Impl component implementation annex, remove the lemma 'lemma L1 \"COM1 Consistency\" : COM1._CLK and not FailCOM1 => (COM1.CMD = Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal));' on line 255",
+    "In the BSCU.BSCU_Impl component implementation annex, remove the lemma 'lemma L2 \"COM2 Consistency\" : COM2._CLK and not FailCOM2 => (COM2.CMD = Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal));' on line 256",
+    "In the BSCU.BSCU_Impl component implementation annex, remove the lemma 'lemma L3 \"MON1 Consistency\" : MON1._CLK and not FailMON1 => (MON1.Status.Cmd = Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal));' on line 257",
+    "In the BSCU.BSCU_Impl component implementation annex, remove the lemma 'lemma L4 \"MON2 Consistency\" : MON2._CLK and not FailMON2 => (MON2.Status.Cmd = Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal));' on line 258"
+  ]
+}

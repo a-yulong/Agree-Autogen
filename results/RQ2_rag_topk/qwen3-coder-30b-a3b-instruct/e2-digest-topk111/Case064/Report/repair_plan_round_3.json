@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assume statements are allowed only in component types",
+      "cause": "AGREE annex in thread implementation attempts to use assume statement",
+      "minimal_edit": "Move the assume statement to the component type Q"
+    },
+    {
+      "diagnostic": "Guarantee statements are allowed only in component types",
+      "cause": "AGREE annex in thread implementation attempts to use guarantee statement",
+      "minimal_edit": "Move the guarantee statements to the component type Q"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Dispatch_Protocol'",
+      "cause": "AGREE annex in thread implementation cannot reference implementation properties",
+      "minimal_edit": "Remove reference to Dispatch_Protocol from AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Period'",
+      "cause": "AGREE annex in thread implementation cannot reference implementation properties",
+      "minimal_edit": "Remove reference to Period from AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'deadline'",
+      "cause": "AGREE annex in thread implementation cannot reference implementation properties",
+      "minimal_edit": "Remove reference to deadline from AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Priority'",
+      "cause": "AGREE annex in thread implementation cannot reference implementation properties",
+      "minimal_edit": "Remove reference to Priority from AGREE annex"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire AGREE annex block from Q.Impl to Q",
+    "Remove all property references (Dispatch_Protocol, Period, deadline, Priority) from the AGREE annex",
+    "Add a new AGREE annex to Q.Impl that only contains valid implementation-level contracts"
+  ]
+}

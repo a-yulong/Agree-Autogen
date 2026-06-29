@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place input range assumptions in component type annexes using visible feature names and concrete bounds.
+- Use AGREE 'assume' statements for input constraints and 'guarantee' for output behavior.
+- Declare constants and equations in AGREE annex blocks with proper type alignment.
+- Avoid introducing package-qualified identifiers not present in the AADL model.
+Generic rules:
+- AGREE contracts must be syntactically valid and use only visible identifiers from the AADL model.
+- Component type contracts should use feature names and data types as declared in the AADL model.
+- Implementation-level AGREE bindings must reference valid subcomponents and connections.
+- Do not assume numeric types for Boolean or event ports without explicit model support.
+Syntax or pattern reminders:
+- AGREE annex blocks are enclosed in `annex agree {** ... **};`
+- Assumptions use 'assume' keyword, guarantees use 'guarantee'
+- Constants are declared with 'const' and equations with 'eq'
+- Use valid AGREE scalar types: int, real, bool
+Anti-patterns:
+- Do not generate assumptions for ports without explicit numeric bounds in the requirement
+- Do not reference AADL properties like Period or Deadline as AGREE variables
+- Do not assume non-negative bounds unless explicitly stated in the requirement
+- Do not encode event ports as numeric values without model-provided data
+</RAG_DIGEST>

@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "text": "dataout shall be within the closed interval [0, 20]",
+      "evidence": ["dataout"]
+    },
+    {
+      "id": "R2",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "text": "temperature_sensor shall define an internal variable k, initially set to 10",
+      "evidence": ["temperature_sensor"]
+    },
+    {
+      "id": "R3",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "For each execution cycle, if previous k >= 20 then k := k - 1; if previous k <= 0 then k := k + 1; otherwise k remains unchanged",
+      "evidence": ["temperature_sensor"]
+    },
+    {
+      "id": "R4",
+      "kind": "signal_flow",
+      "intent": "guarantee",
+      "text": "dataout shall be equal to the current value of internal variable k",
+      "evidence": ["dataout", "k"]
+    }
+  ]
+}

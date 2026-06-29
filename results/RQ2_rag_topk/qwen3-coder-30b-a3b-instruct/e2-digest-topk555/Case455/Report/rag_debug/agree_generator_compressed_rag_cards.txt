@@ -1,0 +1,75 @@
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+- `assume "label": expression;` - `guarantee "label": expression;` - `eq name : type = expression;` - `const name : type = value;` - `assign output = expression;`
+
+[KSYN-2]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+AGREE contracts are written inside `annex agree {** ... **};` blocks. Component type annexes are the normal location for assumptions, guarantees, constants, and equation declarations. Component implementation annexes are used for implementation-level bindings such as assignments when they are valid in that scope.
+
+[KSYN-3]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+The authoritative source for component names, ports, directions, data types, subcomponents, and connections is the input AADL model. The Model Analyst Agent extracts this structure before AGREE generation and fusion.
+
+[KSYN-4]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+AGREE assumptions and guarantees that refer to component ports should be placed in valid component type scopes. Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections. Subcomponent ports should not be used in a component type contract unless represented through valid variables or outputs.
+
+[KSYN-5]
+Source: processed\ksyn\aadl_scope_notes.md
+Topic: aadl_scope_notes
+This Ksyn note summarizes AADL scope knowledge used by AGREE-AutoGen during architecture grounding and fusion. The AADL AS5506C standard is recorded as a local source through `raw/ksyn/AADL_AS5506C.local_source.md` and `local_sources.example.yaml`.
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+[KEXP-1]
+Source: distilled pattern library
+Topic: implementation scope output assign
+For implementation contracts, use assign only when the left-hand side is an existing output feature or declared auxiliary variable. Do not place guarantee statements in implementation scope.
+
+[KEXP-2]
+Source: distilled pattern library
+Topic: type scope range assumption and guarantee
+For component type contracts, place input envelope assumptions and output range guarantees inside annex agree only when the case supplies concrete bounds, named constants, or a visible relation. Use case-provided thresholds and legal visible feature names.
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Annex Scope
+Treat each annex agree block as scoped to its owning component declaration.
+
+[KDEF-2]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AADL Property Names Are Not AGREE Variables chunk 1
+If diagnostics report unresolved references to Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens such as ms/us/Hz/Bytes inside an AGREE annex, delete the generated clause. AADL property associations are not automatically in AGREE expression scope as variables. Recommended pattern: Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for the
+
+[KDEF-3]
+Source: built-in defensive rule
+Topic: Scope & Naming
+Rule: AGREE expressions may only reference identifiers visible in the current component scope. Must: use exact current-case names from the model index. Forbid: copying identifiers from examples or inventing ports/components.
+
+[KDEF-4]
+Source: built-in defensive rule
+Topic: Structural Binding
+Rule: component types and implementations have different legal scopes. Must: place assume/guarantee/eq/const in the component type when they describe interface behavior, and implementation-oriented assign/assert clauses in the matching implementation. Forbid: redesigning architecture during fusion/repair.
+
+[KDEF-5]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Subcomponent Binding
+Use implementation-level assignments to bind subcomponent outputs when needed.
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>

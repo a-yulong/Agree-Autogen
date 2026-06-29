@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 140: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is not valid syntax for a contract guarantee",
+      "minimal_edit": "Replace `gyro_out_data_x = gyro_out_data_x` with `gyro_out_data_x = gyro_out_data_x` (no change needed, but the expression is syntactically invalid as a guarantee)"
+    },
+    {
+      "diagnostic": "line 141: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is not valid syntax for a contract guarantee",
+      "minimal_edit": "Replace `gyro_out_data_y = gyro_out_data_y` with `gyro_out_data_y = gyro_out_data_y` (no change needed, but the expression is syntactically invalid as a guarantee)"
+    },
+    {
+      "diagnostic": "line 142: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is not valid syntax for a contract guarantee",
+      "minimal_edit": "Replace `gyro_out_data_z = gyro_out_data_z` with `gyro_out_data_z = gyro_out_data_z` (no change needed, but the expression is syntactically invalid as a guarantee)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the AGREE annex from GYRO_SUB_wrapper component type",
+    "Add a new AGREE annex to GYRO_SUB_wrapper.i implementation with correct signal flow guarantees using visible identifiers only",
+    "Replace each guarantee with a valid expression that relates the output to an input or constant, or remove the guarantee if no valid relation exists"
+  ]
+}

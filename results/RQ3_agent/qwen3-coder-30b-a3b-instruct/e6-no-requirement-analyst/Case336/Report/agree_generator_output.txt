@@ -1,0 +1,17 @@
+annex agree {**
+  assume "radio_ok_condition": Radio_Ok_Input = true;
+  guarantee "data_output_validity": MCU1_Send_Output <> null;
+  guarantee "status_field_valid": MCU1_Send_Output.satus >= 0 and MCU1_Send_Output.satus <= 255;
+  guarantee "error_count_valid": MCU1_Send_Output.nb_err >= 0 and MCU1_Send_Output.nb_err <= 100;
+  guarantee "voltage_supply_valid": MCU1_Send_Output.vsupply >= 0 and MCU1_Send_Output.vsupply <= 500;
+  guarantee "ppm_counter_valid": MCU1_Send_Output.ppm_cpt >= 0 and MCU1_Send_Output.ppm_cpt <= 255;
+  guarantee "channels_field_valid": MCU1_Send_Output.channels <> null;
+  guarantee "data_fields_valid": MCU1_Data_Input.data_0 >= -32768 and MCU1_Data_Input.data_0 <= 32767 and
+                                MCU1_Data_Input.data_1 >= -32768 and MCU1_Data_Input.data_1 <= 32767 and
+                                MCU1_Data_Input.data_2 >= -32768 and MCU1_Data_Input.data_2 <= 32767 and
+                                MCU1_Data_Input.data_3 >= -32768 and MCU1_Data_Input.data_3 <= 32767 and
+                                MCU1_Data_Input.data_4 >= -32768 and MCU1_Data_Input.data_4 <= 32767 and
+                                MCU1_Data_Input.data_5 >= -32768 and MCU1_Data_Input.data_5 <= 32767 and
+                                MCU1_Data_Input.data_6 >= -32768 and MCU1_Data_Input.data_6 <= 32767 and
+                                MCU1_Data_Input.data_7 >= -32768 and MCU1_Data_Input.data_7 <= 32767;
+**};

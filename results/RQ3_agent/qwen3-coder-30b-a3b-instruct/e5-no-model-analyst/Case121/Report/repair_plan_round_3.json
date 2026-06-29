@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assignment statements are allowed only in component implementations",
+      "cause": "AGREE annex is placed in component type instead of implementation",
+      "minimal_edit": "Move the AGREE annex block from ACCELERO to ACCELERO.IMPL"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_out_data_x'",
+      "cause": "Port name not visible in current annex scope",
+      "minimal_edit": "Ensure port names are referenced correctly within implementation scope"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'accelero_sub'",
+      "cause": "Subcomponent not visible in current annex scope",
+      "minimal_edit": "Reference subcomponent through valid implementation connection"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire AGREE annex block from ACCELERO component type to ACCELERO.IMPL component implementation",
+    "Ensure that the AGREE annex in ACCELERO.IMPL references only visible identifiers from the implementation scope",
+    "Verify that the moved annex block uses correct port and subcomponent references within the implementation context"
+  ]
+}

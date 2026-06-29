@@ -1,0 +1,45 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Expression for guarantee statement is of type 'real' but must be of type 'bool'",
+      "cause": "The guarantee statement on line 13 uses a real-valued expression instead of a boolean condition",
+      "minimal_edit": "Replace `t -> pre(t) + 0.1` with `t = pre(t) + 0.1` to make it a boolean condition"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'distanceFromFence'",
+      "cause": "The symbol 'distanceFromFence' is not declared or visible in the AGREE annex context",
+      "minimal_edit": "Remove or rewrite the recovery condition that references 'distanceFromFence'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'recovery_time'",
+      "cause": "The symbol 'recovery_time' is not declared or visible in the AGREE annex context",
+      "minimal_edit": "Remove or rewrite the recovery condition that references 'recovery_time'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '>=' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "The expression 't >= recovery_time' involves an unresolved symbol 'recovery_time' causing type mismatch",
+      "minimal_edit": "Remove or rewrite the recovery condition that references 'recovery_time'"
+    },
+    {
+      "diagnostic": "left side of binary expression '>' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "The expression 'distanceFromFence > pre(distanceFromFence)' involves an unresolved symbol 'distanceFromFence' causing type error",
+      "minimal_edit": "Remove or rewrite the recovery condition that references 'distanceFromFence'"
+    },
+    {
+      "diagnostic": "right side of binary expression '>' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "The expression 'distanceFromFence > pre(distanceFromFence)' involves an unresolved symbol 'distanceFromFence' causing type error",
+      "minimal_edit": "Remove or rewrite the recovery condition that references 'distanceFromFence'"
+    },
+    {
+      "diagnostic": "right side of binary expression '>=' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "The expression 't >= recovery_time' involves an unresolved symbol 'recovery_time' causing type mismatch",
+      "minimal_edit": "Remove or rewrite the recovery condition that references 'recovery_time'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the guarantee statement on line 13 with 'guarantee \"step_size\": t = pre(t) + 0.1;'",
+    "Remove the assume statement on line 15 that references 'distanceFromFence' and 'recovery_time'",
+    "Ensure that all referenced symbols in AGREE annex are either declared variables, constants, or visible features"
+  ]
+}

@@ -1,0 +1,209 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: solver_in1, solver_in2, solver_in3, solver_in4, solver_in5, solver_in6
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+solver_in1 | in | data | int | SHM_DataType::accData
+solver_in2 | in | data | int | SHM_DataType::accData
+solver_in3 | in | data | int | SHM_DataType::accData
+solver_in4 | in | data | int | SHM_DataType::accData
+solver_in5 | in | data | int | SHM_DataType::accData
+solver_in6 | in | data | int | SHM_DataType::accData
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "solver_in1 is routed to ADIRUp_solve.inData_para1 through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "solver_in1",
+        "ADIRUp_solve.inData_para1",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "solver_in2 is routed to ADIRUp_solve.inData_para2 through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "solver_in2",
+        "ADIRUp_solve.inData_para2",
+        "C2"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: ADIRUp_solve | lines 303-308
+annex agree {**
+    assume "solver_in1 routed through C1": solver_in1 = acc1_dataOutput;
+    assume "solver_in2 routed through C2": solver_in2 = acc2_dataOutput;
+    guarantee "ADIRUp_solve.inData_para1 defined": acc1_dataOutput = acc1out;
+    guarantee "ADIRUp_solve.inData_para2 defined": acc2_dataOutput = acc2out;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   300:     Period => 4000 ms;
+   301:     Compute_Execution_Time => 400 ms .. 500 ms;
+   302:     Deadline => 500 ms;
+   303:   annex agree {**
+>> 304:     assume "solver_in1 routed through C1": solver_in1 = acc1_dataOutput;
+   305:     assume "solver_in2 routed through C2": solver_in2 = acc2_dataOutput;
+   306:     guarantee "ADIRUp_solve.inData_para1 defined": acc1_dataOutput = acc1out;
+   307:     guarantee "ADIRUp_solve.inData_para2 defined": acc2_dataOutput = acc2out;
+   308:   **};
+
+   301:     Compute_Execution_Time => 400 ms .. 500 ms;
+   302:     Deadline => 500 ms;
+   303:   annex agree {**
+   304:     assume "solver_in1 routed through C1": solver_in1 = acc1_dataOutput;
+>> 305:     assume "solver_in2 routed through C2": solver_in2 = acc2_dataOutput;
+   306:     guarantee "ADIRUp_solve.inData_para1 defined": acc1_dataOutput = acc1out;
+   307:     guarantee "ADIRUp_solve.inData_para2 defined": acc2_dataOutput = acc2out;
+   308:   **};
+   309:   end ADIRUp_solve;
+
+   302:     Deadline => 500 ms;
+   303:   annex agree {**
+   304:     assume "solver_in1 routed through C1": solver_in1 = acc1_dataOutput;
+   305:     assume "solver_in2 routed through C2": solver_in2 = acc2_dataOutput;
+>> 306:     guarantee "ADIRUp_solve.inData_para1 defined": acc1_dataOutput = acc1out;
+   307:     guarantee "ADIRUp_solve.inData_para2 defined": acc2_dataOutput = acc2out;
+   308:   **};
+   309:   end ADIRUp_solve;
+   310: 
+
+   303:   annex agree {**
+   304:     assume "solver_in1 routed through C1": solver_in1 = acc1_dataOutput;
+   305:     assume "solver_in2 routed through C2": solver_in2 = acc2_dataOutput;
+   306:     guarantee "ADIRUp_solve.inData_para1 defined": acc1_dataOutput = acc1out;
+>> 307:     guarantee "ADIRUp_solve.inData_para2 defined": acc2_dataOutput = acc2out;
+   308:   **};
+   309:   end ADIRUp_solve;
+   310: 
+   311:   thread implementation ADIRUp_solve.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: ADIRUp_solve
+thread ADIRUp_solve
+  features
+    solver_in1:  in data port SHM_DataType::accData;
+    solver_in2:  in data port SHM_DataType::accData;
+    solver_in3:  in data port SHM_DataType::accData;
+    solver_in4:  in data port SHM_DataType::accData;
+    solver_in5:  in data port SHM_DataType::accData;
+    solver_in6:  in data port SHM_DataType::accData;
+    --ADIRUpout: out data port SHM_DataType::accData;
+  properties
+    Priority => 4;
+    Stack_Size => 20 KByte;
+    Code_Size => 100 KByte;
+    Data_Size => 1 KByte;
+    Dispatch_Protocol => Periodic;
+    Period => 4000 ms;
+    Compute_Execution_Time => 400 ms .. 500 ms;
+    Deadline => 500 ms;
+  end ADIRUp_solve;
+
+-- TARGET DECLARATION: ADIRUp_solve.impl
+thread implementation ADIRUp_solve.impl
+  calls
+    sub1: { ADIRUp_solve: subprogram subprograms::ADIRUp_solve_spg; };
+  connections
+    C1: parameter solver_in1->ADIRUp_solve.inData_para1;
+    C2: parameter solver_in2->ADIRUp_solve.inData_para2;
+    C3: parameter solver_in3->ADIRUp_solve.inData_para3;
+    C4: parameter solver_in4->ADIRUp_solve.inData_para4;
+    C5: parameter solver_in5->ADIRUp_solve.inData_para5;
+    C6: parameter solver_in6->ADIRUp_solve.inData_para6;
+
+    --parameter ADIRUp_solve.outdata_para-> ADIRUpout;
+  end ADIRUp_solve.impl;
+
+-- RELATED MODEL LINES
+thread acc1_dataOutput
+acc1out: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc1_command_in: in event data port SHM_DataType::actionData;
+end acc1_dataOutput;
+thread implementation acc1_dataOutput.impl
+C1: parameter spg.acc1DataOut->acc1out;
+C2: parameter acc1_command_in->spg.event_in;
+end  acc1_dataOutput.impl;
+thread acc1_dataOutput_emv2 extends acc1_dataOutput
+acc1_input: in data port SHM_DataType::accData;
+end acc1_dataOutput_emv2;
+thread implementation acc1_dataOutput_emv2.impl extends acc1_dataOutput.impl
+end acc1_dataOutput_emv2.impl;
+thread  acc2_dataOutput
+acc2out: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc2_command_in: in event data port SHM_DataType::actionData;
+end acc2_dataOutput;
+thread implementation  acc2_dataOutput.impl
+C1: parameter spg.acc2DataOut->acc2out;
+C2: parameter acc2_command_in->spg.event_in;
+end  acc2_dataOutput.impl;
+thread acc2_dataOutput_emv2 extends acc2_dataOutput
+acc2_input: in data port SHM_DataType::accData;
+end acc2_dataOutput_emv2;
+thread implementation acc2_dataOutput_emv2.impl extends acc2_dataOutput.impl
+end acc2_dataOutput_emv2.impl;
+thread acc3_dataOutput
+accout: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc_command_in: in event data port SHM_DataType::actionData;
+end acc3_dataOutput;
+thread implementation acc3_dataOutput.impl
+C1: parameter spg.accDataOut->accout;
+C2: parameter acc_command_in->spg.event_in;
+end  acc3_dataOutput.impl;
+thread acc3_dataOutput_emv2 extends acc3_dataOutput
+acc3_input: in data port SHM_DataType::accData;
+end acc3_dataOutput_emv2;
+thread implementation acc3_dataOutput_emv2.impl extends acc3_dataOutput.impl
+end acc3_dataOutput_emv2.impl;
+thread acc4_dataOutput
+end acc4_dataOutput;
+thread implementation acc4_dataOutput.impl
+end  acc4_dataOutput.impl;
+thread acc4_dataOutput_emv2 extends acc4_dataOutput
+acc4_input: in data port SHM_DataType::accData;
+end acc4_dataOutput_emv2;
+thread implementation acc4_dataOutput_emv2.impl extends acc4_dataOutput.impl
+end acc4_dataOutput_emv2.impl;
+thread acc5_dataOutput
+end acc5_dataOutput;
+thread implementation acc5_dataOutput.impl
+end acc5_dataOutput.impl;
+thread acc5_dataOutput_emv2 extends acc5_dataOutput
+acc5_input: in data port SHM_DataType::accData;
+end acc5_dataOutput_emv2;
+thread implementation acc5_dataOutput_emv2.impl extends acc5_dataOutput.impl
+end acc5_dataOutput_emv2.impl;
+thread acc6_dataOutput
+end acc6_dataOutput;
+thread implementation acc6_dataOutput.impl
+end acc6_dataOutput.impl;
+thread acc6_dataOutput_emv2 extends acc6_dataOutput
+acc6_input: in data port SHM_DataType::accData;
+end acc6_dataOutput_emv2;
+thread implementation acc6_dataOutput_emv2.impl extends acc6_dataOutput.impl
+end acc6_dataOutput_emv2.impl;
+thread acc_HM
+acc1_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc2_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc3_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc4_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc5_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc6_data_monitor: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 20 ms;};
+acc1_validated_dataout:out data port SHM_DataType::accData;
+acc2_validated_dataout:out data port SHM_DataType::accData;
+acc3_validated_dataout:out data port SHM_DataType::accData;
+acc4_validated_dataout:out data port SHM_DataType::accData;
+acc5_validated_
+-- [target model context truncated]

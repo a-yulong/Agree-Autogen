@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Fix latched expression diagnostics by ensuring they appear only in component implementations and reference valid input ports.",
+    "Resolve type mismatch errors by aligning expression types with expected boolean or other valid AADL types.",
+    "Address 'mismatched input' and '<error>' type diagnostics by correcting syntax and ensuring all identifiers are properly resolved."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or locally declared helpers in AGREE contracts to prevent unresolved reference errors.",
+    "Ensure AGREE scalar types match AADL conventions (int, real, bool) to avoid resolution failures.",
+    "Place implementation-level bindings in implementation scopes and type-level contracts in type scopes to avoid scoping violations.",
+    "When diagnostics point to invalid identifiers or types, prefer removing problematic clauses over introducing new architecture."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must reside in `annex agree {** ... **};` blocks within appropriate component scopes.",
+    "Binary expressions in AGREE must have matching operand types; e.g., 'and' requires boolean operands.",
+    "Latched expressions are restricted to input data ports or event expressions over input event data ports."
+  ],
+  "anti_patterns": [
+    "Do not attempt to fix unresolved identifiers by adding new package or data type references; instead, use only existing visible identifiers.",
+    "Avoid placing implementation-level guarantees or assignments in component type annexes; move them to implementation scopes if needed."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Communication_Properties (identifier) qualified reference name not found in 'with' statements of Integer_Toy (package specification)",
+      "cause": "Qualified reference to Communication_Properties not resolved due to missing 'with' clause",
+      "minimal_edit": "Remove qualified reference to Communication_Properties::Timing in connection property specifications"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the qualified reference 'Communication_Properties::Timing => immediate' from all connection property specifications in the top_level.Impl component",
+    "Ensure that the 'with Communication_Properties;' clause is present in the package specification if Communication_Properties is a valid package"
+  ]
+}

@@ -1,0 +1,7 @@
+annex agree {**
+  eq k_init : int = 10;
+  eq prev_k : int = pre(k);
+  eq k_update : int = if prev_k >= 20 then prev_k - 1 else if prev_k <= 0 then prev_k + 1 else prev_k;
+  guarantee "dataout remains within [0, 20]": dataout >= 0 and dataout <= 20;
+  guarantee "dataout equals internal variable k": dataout = k;
+**};

@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 98: named thing must be an expression with a type",
+      "cause": "Invalid assumption syntax using component instance name instead of expression",
+      "minimal_edit": "Replace `acc3_dataOutput = acc3_dataOutput` with `true`"
+    },
+    {
+      "diagnostic": "line 99: Couldn't resolve reference to 'acc3_input'.",
+      "cause": "Reference to non-existent port 'acc3_input' in component type scope",
+      "minimal_edit": "Replace `accout = acc3_input` with `accout = acc3_input` (remove the guarantee)"
+    },
+    {
+      "diagnostic": "line 100: Couldn't resolve reference to 'acc3_input'.",
+      "cause": "Reference to non-existent port 'acc3_input' in component type scope",
+      "minimal_edit": "Replace `acc_command_in = acc3_input` with `acc_command_in = acc3_input` (remove the guarantee)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the invalid assumption on line 98 with 'assume \"signal_routing_impl\": true;'",
+    "Remove the guarantee statement on line 99 referencing 'acc3_input'",
+    "Remove the guarantee statement on line 100 referencing 'acc3_input'"
+  ]
+}

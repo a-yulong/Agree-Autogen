@@ -1,0 +1,45 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 55: Couldn't resolve reference to 'us'.",
+      "cause": "Invalid time unit 'us' in AGREE expression",
+      "minimal_edit": "Replace 'us' with 'microsecond' or use 'ms' consistently"
+    },
+    {
+      "diagnostic": "line 55: left and right sides of binary expression '<=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Type mismatch in time comparison due to invalid unit",
+      "minimal_edit": "Ensure consistent time unit usage (e.g., 'ms' throughout)"
+    },
+    {
+      "diagnostic": "line 55: left side of binary expression '<=' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "Invalid time unit causes type resolution failure",
+      "minimal_edit": "Replace 'us' with valid time unit like 'ms'"
+    },
+    {
+      "diagnostic": "line 56: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid time unit affects expression type resolution",
+      "minimal_edit": "Fix time unit in preceding expression to enable correct type inference"
+    },
+    {
+      "diagnostic": "line 56: left side of binary expression 'and' is of type '<error>' but must be of type 'bool'",
+      "cause": "Expression type resolution failure due to invalid time unit",
+      "minimal_edit": "Ensure consistent time unit usage in all expressions"
+    },
+    {
+      "diagnostic": "line 57: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Expression type resolution failure due to invalid time unit",
+      "minimal_edit": "Fix time unit in preceding expression to enable correct type inference"
+    },
+    {
+      "diagnostic": "line 57: left side of binary expression 'or' is of type '<error>' but must be of type 'bool'",
+      "cause": "Expression type resolution failure due to invalid time unit",
+      "minimal_edit": "Ensure consistent time unit usage in all expressions"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace '100.0 us' with '0.1 ms' in the timing constraint",
+    "Replace '0.0 ms' with '0.0 ms' (already correct, but ensure consistency)",
+    "Ensure all time units in the annex are consistent (prefer 'ms' for clarity)"
+  ]
+}

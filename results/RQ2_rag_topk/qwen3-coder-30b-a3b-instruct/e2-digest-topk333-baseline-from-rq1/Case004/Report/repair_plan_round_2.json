@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 50: Couldn't resolve reference to 't'.",
+      "cause": "Variable 't' is not declared in the AGREE annex scope",
+      "minimal_edit": "Declare 't' as a recursive variable with initial value 0.1 using 'eq t : real = 0.1 -> pre(t) + step;'"
+    },
+    {
+      "diagnostic": "line 51: Couldn't resolve reference to 'distanceFromFence'.",
+      "cause": "Variable 'distanceFromFence' is not declared in the AGREE annex scope",
+      "minimal_edit": "Declare 'distanceFromFence' as a recursive variable with initial value 0.0 using 'eq distanceFromFence : real = 0.0 -> pre(distanceFromFence) + step;'"
+    },
+    {
+      "diagnostic": "line 53: Couldn't resolve reference to 'distanceFromFence'.",
+      "cause": "Variable 'distanceFromFence' is not declared in the AGREE annex scope",
+      "minimal_edit": "Declare 'distanceFromFence' as a recursive variable with initial value 0.0 using 'eq distanceFromFence : real = 0.0 -> pre(distanceFromFence) + step;'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add 'eq t : real = 0.1 -> pre(t) + step;' to the AGREE annex",
+    "Add 'eq distanceFromFence : real = 0.0 -> pre(distanceFromFence) + step;' to the AGREE annex",
+    "Remove the original guarantee statements that reference undeclared variables"
+  ]
+}

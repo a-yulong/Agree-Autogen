@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 28: Couldn't resolve reference to 'nearestIntruderAltitude_in'.",
+      "cause": "AGREE annex in TCAS (component type) references subcomponent port 'surveillance.nearestIntruderAltitude_in', which is not visible in component type scope",
+      "minimal_edit": "Remove the assumption 'intruder_altitude_routing' because it incorrectly references a subcomponent port in the component type contract"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 30: Couldn't resolve reference to 'nearestIntruderGroundDistance_in'.",
+      "cause": "AGREE annex in TCAS (component type) references subcomponent port 'surveillance.nearestIntruderGroundDistance_in', which is not visible in component type scope",
+      "minimal_edit": "Remove the assumption 'intruder_ground_distance_routing' because it incorrectly references a subcomponent port in the component type contract"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 32: Couldn't resolve reference to 'nearestIntruderLongitude_in'.",
+      "cause": "AGREE annex in TCAS (component type) references subcomponent port 'surveillance.nearestIntruderLongitude_in', which is not visible in component type scope",
+      "minimal_edit": "Remove the assumption 'intruder_longitude_routing' because it incorrectly references a subcomponent port in the component type contract"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 34: Couldn't resolve reference to 'ownAltitude_in'.",
+      "cause": "AGREE annex in TCAS (component type) references subcomponent port 'surveillance.ownAltitude_in', which is not visible in component type scope",
+      "minimal_edit": "Remove the assumption 'own_altitude_routing' because it incorrectly references a subcomponent port in the component type contract"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete all four assume statements in the TCAS component type annex agree block that reference subcomponent ports (nearestIntruderAltitude_in, nearestIntruderGroundDistance_in, nearestIntruderLongitude_in, ownAltitude_in)",
+    "Preserve the guarantee statement 'required_vertical_velocity_computation' as it correctly uses only component-visible ports (requiredVerticalVelocity and ownVerticalVelocity)",
+    "Leave the TCAS annex block with only the valid guarantee statement"
+  ]
+}

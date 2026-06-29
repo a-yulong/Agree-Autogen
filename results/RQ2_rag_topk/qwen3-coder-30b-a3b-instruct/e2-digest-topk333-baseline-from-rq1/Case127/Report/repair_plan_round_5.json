@@ -1,0 +1,16 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 182: Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "attitude_sub is a subcomponent of the implementation, not visible in the component type annex",
+      "minimal_edit": "move the entire annex agree block from ATTITUDE_CALCULATION to ATTITUDE_CALCULATION.IMPL"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "delete the annex agree block from ATTITUDE_CALCULATION (lines 181-191)",
+    "insert the same annex agree block into ATTITUDE_CALCULATION.IMPL immediately after the connections section",
+    "replace all occurrences of port names (e.g., acc_in_data_x) in the annex with their implementation-visible equivalents as connected via connections (no change needed since symbols are already unqualified and correct in context)",
+    "verify that all identifiers in the annex are now resolvable in the implementation scope where attitude_sub and its ports are visible"
+  ]
+}

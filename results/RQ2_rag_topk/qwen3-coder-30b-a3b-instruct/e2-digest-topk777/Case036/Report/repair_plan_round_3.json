@@ -1,0 +1,46 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 19: Couldn't resolve reference to 'abs'.",
+      "cause": "abs function not recognized in AGREE context",
+      "minimal_edit": "Replace abs() with explicit conditional expression or remove if not essential"
+    },
+    {
+      "diagnostic": "line 19: Expression for guarantee statement is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression due to unresolved abs and type mismatches",
+      "minimal_edit": "Fix or remove the guarantee statement that uses invalid expression"
+    },
+    {
+      "diagnostic": "line 19: The first and second arguments of the 'prev' function are of non-matching types 'RealTypeDef' and 'ErrorTypeDef'",
+      "cause": "Type mismatch in prev() argument due to previous errors",
+      "minimal_edit": "Correct the expression to ensure matching types or remove the prev() usage"
+    },
+    {
+      "diagnostic": "line 19: left and right sides of binary expression '-' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Expression contains invalid types due to unresolved abs",
+      "minimal_edit": "Fix or remove the expression that causes type mismatch"
+    },
+    {
+      "diagnostic": "line 33: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "Port name mismatch in connection declaration",
+      "minimal_edit": "Change 'Actual' to 'THROT.Actual' in connection SpeedToThrot"
+    },
+    {
+      "diagnostic": "line 35: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "Port name mismatch in connection declaration",
+      "minimal_edit": "Change 'Target' to 'CNTRL.Target' in connection TgSpeedToCntrl"
+    },
+    {
+      "diagnostic": "line 40: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "Port name mismatch in connection declaration",
+      "minimal_edit": "Change 'State_Out' to 'SM.State_Out' in connection SSToSM"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove or rewrite the guarantee statement on line 19 that uses abs() and prev() functions",
+    "Fix connection SpeedToThrot by changing 'Actual' to 'THROT.Actual' on line 33",
+    "Fix connection TgSpeedToCntrl by changing 'Target' to 'CNTRL.Target' on line 35",
+    "Fix connection SSToSM by changing 'State_Out' to 'SM.State_Out' on line 40"
+  ]
+}

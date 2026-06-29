@@ -1,0 +1,21 @@
+{
+  "problems": [
+    {
+      "diagnostic": "parsing Package_Specification, Empty packages are not allowed",
+      "cause": "The focused package parses as empty because the only AGREE annex present contains no declarations or clauses.",
+      "minimal_edit": "Delete the empty `annex agree {** **};` block from `ADIRU.impl`."
+    },
+    {
+      "diagnostic": "Cannot parse AADL specifications",
+      "cause": "The empty AGREE annex contributes no valid content and should be removed as the smallest validator-driven change.",
+      "minimal_edit": "Remove the owner-level empty AGREE annex without adding any replacement code."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Locate the `annex agree {** **};` block owned by `ADIRU.impl` at lines 102-103.",
+    "Delete the entire empty AGREE annex block.",
+    "Leave all other AADL structure, connections, and property bindings unchanged.",
+    "Re-run the parser/validator to confirm the package no longer fails due to the empty annex."
+  ]
+}

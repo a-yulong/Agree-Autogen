@@ -1,0 +1,23 @@
+{
+  "rag_rules": [
+    "Only reference symbols that are legally visible in the AGREE scope, plus locally declared helpers.",
+    "Prefer deterministic guarantees that relate visible outputs to visible inputs, and use helper equations for intermediate derived values.",
+    "Add assumptions or range guarantees only when concrete bounds, constants, or explicit visible relations are provided."
+  ],
+  "generic_rules": [
+    "Match each helper declaration type to its expression domain: comparisons are `bool`, integer arithmetic is `int`, and real arithmetic is `real`.",
+    "Keep guarantees short by moving reusable calculations or flags into named `eq` helpers."
+  ],
+  "syntax_or_pattern_reminders": [
+    "`assume`, `guarantee`, `eq`, `const`, and `assign` are the core AGREE forms; valid scalar types are `int`, `real`, and `bool`.",
+    "Use nested `if ... then ... else` for branching, `and`/`or`/`not(...)`/`=>` for logic, and `init -> pre(...)` for stateful recurrence."
+  ],
+  "anti_patterns": [
+    "Do not use subcomponent ports, implementation-only names, or other out-of-scope identifiers in a contract expression.",
+    "Do not treat AADL property names, unit tokens, or invalid type names like `integer` and `boolean` as AGREE variables or declaration types."
+  ],
+  "irrelevant_topics": [
+    "Implementation binding placement details after subcomponents and connections.",
+    "Specific clamping/envelope example details beyond the generic helper-equation and range-pattern lesson."
+  ]
+}

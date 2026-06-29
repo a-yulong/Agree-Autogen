@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'accDataOut'.",
+      "cause": "sub1.accDataOut is not a valid AGREE expression; subcomponent ports cannot be referenced directly in component type contracts",
+      "minimal_edit": "Replace sub1.accDataOut with a valid AGREE variable or remove the guarantee"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'sub1'.",
+      "cause": "sub1 is a subcomponent, not a variable in the component type scope",
+      "minimal_edit": "Remove sub1 reference from the guarantee"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved subcomponent reference",
+      "minimal_edit": "Remove or correct the guarantee statement"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Reference to subcomponent port is invalid in this context",
+      "minimal_edit": "Remove the invalid guarantee"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'event_in'.",
+      "cause": "sub1.event_in is not a valid AGREE expression; subcomponent ports cannot be referenced directly in component type contracts",
+      "minimal_edit": "Replace sub1.event_in with a valid AGREE variable or remove the guarantee"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch due to unresolved subcomponent reference",
+      "minimal_edit": "Remove or correct the guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from acc3_dataOutput to acc3_dataOutput.impl",
+    "Remove the guarantees that reference subcomponent ports sub1.accDataOut and sub1.event_in",
+    "Add a new AGREE annex block to acc3_dataOutput.impl with only valid port assignments"
+  ]
+}

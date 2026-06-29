@@ -9,8 +9,7 @@ Configuration files define model access, retrieval behavior, validation settings
 | `model.yaml` | OpenAI-compatible model endpoint settings and environment-variable names. |
 | `rag.yaml` | Retrieval model, chunking, top-k, and knowledge-base paths. |
 | `validator.yaml` | External validator configuration. |
-| `experiments.yaml` | Lightweight experiment defaults. |
-| `excluded_cases_large_model.json` | Case exclusions used by selected large-model runs. |
+| `experiments.yaml` | Benchmark run defaults. |
 
 ## Model Configuration
 
@@ -22,33 +21,31 @@ Configuration files define model access, retrieval behavior, validation settings
 - request timeout;
 - environment-variable names for API key and base URL.
 
-Real credentials should be supplied through environment variables:
+Credentials are supplied through environment variables:
 
 ```powershell
 $env:AGREE_MODEL_BASE_URL = "https://api.example.com/v1"
 $env:AGREE_MODEL_API_KEY = "replace-with-your-key"
-$env:AGREE_MODEL_NAME = "model-name"
+$env:AGREE_MODEL_NAME = "qwen3-coder-30b-a3b-instruct"
 ```
-
-Do not commit `.env` files or concrete API keys.
 
 ## Retrieval Configuration
 
-`rag.yaml` controls:
+`rag.yaml` records the balanced retrieval setting used for the main RAG pipeline:
 
 - embedding model;
 - chunk size and overlap;
-- top-k retrieval count;
+- three knowledge-role retrieval counts;
 - similarity threshold;
 - knowledge-base directory;
 - local index/cache paths.
 
-The retrieval configuration should be recorded with every experiment result because it changes the information visible to downstream agents.
+The main setting retrieves three syntax/scope items, three example-pattern items, and three defensive-rule items before digesting them into compact guidance.
 
 ## Validator Configuration
 
-`validator.yaml` should identify how the Python pipeline calls external validation tools. Machine-specific paths should be supplied through environment variables or documented command-line parameters.
+`validator.yaml` records the validation and bounded repair settings used in the released pipeline.
 
 ## Experiment Configuration
 
-Experiment configuration files should use descriptive setting names in documentation and preserve machine-readable identifiers in manifests. Result folders should record the exact configuration used to generate them.
+`experiments.yaml` points to the released benchmark under `data/benchmark/cases` and enables the full AGREE-AutoGen pipeline.

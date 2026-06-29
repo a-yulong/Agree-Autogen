@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by ensuring all identifiers are declared or visible in the current scope before use.",
+    "Resolve type mismatches by aligning expression types with declared helper types or using correct AGREE scalar types (int, real, bool).",
+    "Avoid placing invalid guarantees or assignments in implementation scopes; use only valid output features or declared auxiliary variables.",
+    "Do not introduce package-qualified identifiers that are not present in the model's configured dependencies."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, ensure all referenced identifiers are properly declared or visible in the same annex.",
+    "Use only valid AGREE scalar types (int, real, bool) for constants and equation declarations.",
+    "Validate that binary expressions have matching operand types to prevent type errors.",
+    "Prevent invalid assignments by restricting them to output features or declared auxiliary variables."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for bindings.",
+    "Equation declarations must define expressions with valid types; avoid using <error> types from unresolved references.",
+    "Assignments in implementation scope must reference existing output features or declared auxiliary variables."
+  ],
+  "anti_patterns": [
+    "Do not attempt to resolve missing identifiers by adding new architecture; instead, correct or remove invalid clauses.",
+    "Avoid mixing package-qualified names without corresponding `with` clauses in the model.",
+    "Do not place guarantee statements in implementation scopes; they are only valid in component type annexes.",
+    "Do not use invalid scalar type names like 'integer' or 'boolean'; use 'int', 'real', or 'bool' instead."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes"
+  ]
+}

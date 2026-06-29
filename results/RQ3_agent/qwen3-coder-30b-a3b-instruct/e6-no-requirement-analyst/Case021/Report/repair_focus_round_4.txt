@@ -1,0 +1,110 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: dataout
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+dataout | out | data | opaque | temperature_type
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: temperature_sensor | lines 23-33
+annex agree {**
+  const k_init : int = 10;
+  const k : int = 10;
+  
+  assume "initial_k": k = k_init;
+  
+  guarantee "dataout_bounds": (0 <= dataout) and (dataout <= 20);
+  
+  guarantee "k_update_rule": 
+    (dataout = k) and (k' = (if k_prev >= 20 then k_prev - 1 else if k_prev <= 0 then k_prev + 1 else k_prev));
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   13: 
+   14: data implementation command.impl
+   15: subcomponents
+   16:     heater_on : data base_types::boolean
+>> 17:     cooler_on : data base_types::boolean;
+   18: end command.impl;
+   19: 
+   20: system temperature_sensor
+   21: features
+
+   28:   
+   29:   guarantee "dataout_bounds": (0 <= dataout) and (dataout <= 20);
+   30:   
+   31:   guarantee "k_update_rule": 
+>> 32:     (dataout = k) and (k' = (if k_prev >= 20 then k_prev - 1 else if k_prev <= 0 then k_prev + 1 else k_prev));
+   33: **};
+   34: end temperature_sensor;
+   35: 
+   36: system implementation temperature_sensor.i1
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: temperature_sensor
+system temperature_sensor
+features
+    dataout : out data port temperature_type;
+end temperature_sensor;
+
+-- TARGET DECLARATION: temperature_sensor.i2
+system implementation temperature_sensor.i2
+end temperature_sensor.i2;
+
+-- RELATED MODEL LINES
+system temperature_sensor
+dataout : out data port temperature_type;
+end temperature_sensor;
+system implementation temperature_sensor.i1
+end temperature_sensor.i1;
+system implementation temperature_sensor.i2
+end temperature_sensor.i2;
+sensor1     : system temperature_sensor.i1;
+sensor2     : system temperature_sensor.i2;
+sensor1_tc : port sensor1.dataout -> temp_control.temp1 {communication_properties::timing => immediate;};
+sensor2_tc : port sensor2.dataout -> temp_control.temp2 {communication_properties::timing => immediate;};
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "temperature_sensor",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "temperature_sensor.i1",
+      "kind": "system implementation",
+      "type_name": "temperature_sensor"
+    },
+    {
+      "name": "temperature_sensor.i2",
+      "kind": "system implementation",
+      "type_name": "temperature_sensor"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "temperature_sensor.i2",
+      "name": "sensor2",
+      "category": "system",
+      "classifier": "temperature_sensor.i2"
+    }
+  ],
+  "features": [
+    {
+      "owner": "temperature_sensor",
+      "name": "dataout",
+      "direction": "out",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    }
+  ]
+}

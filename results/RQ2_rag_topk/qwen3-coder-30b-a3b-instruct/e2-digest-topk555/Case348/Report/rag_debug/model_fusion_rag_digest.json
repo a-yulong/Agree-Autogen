@@ -1,0 +1,33 @@
+{
+  "rag_rules": [
+    "AGREE annex blocks must be placed in component type scopes for assumptions and guarantees that reference component ports, and in implementation scopes for bindings involving subcomponents or connections.",
+    "Implementation-level contracts should only use assign for existing output features or declared auxiliary variables, and should not include guarantee statements."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be scoped correctly to match the AADL component type or implementation, ensuring that referenced features and ports are valid in that scope.",
+    "Generated AGREE code should not introduce package-qualified identifiers or types that are not present in the analyzed AADL model.",
+    "Stateful equations should use initialized temporal recurrence, and branching logic should use nested if-then-else expressions.",
+    "Guarantees should relate visible outputs to visible inputs, avoiding implementation-only subcomponent paths in component type annexes."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Use AGREE logical operators such as `and`, `or`, `not(...)`, and implication `=>` for logical expressions.",
+    "Constants and equations should use scalar types `int`, `real`, and `bool` as per AGREE syntax.",
+    "Ensure that all identifiers used in AGREE contracts are declared or visible in the current AADL scope."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope; use type scope for such contracts unless binding to subcomponents.",
+    "Avoid referencing subcomponent ports or implementation-only paths in component type annexes.",
+    "Do not introduce package-qualified identifiers or types not present in the input AADL model.",
+    "Do not encode event ports as numeric or Boolean values unless explicitly defined as data/event-data in the model."
+  ],
+  "irrelevant_topics": [
+    "agree_syntax_notes",
+    "aadl_scope_notes",
+    "AGREE Scalar Type Names",
+    "Assumed Type vs Actual Type",
+    "Opaque Boolean Data Range Comparison",
+    "Implementation Scope Guarantee Error",
+    "Event Port Numeric Encoding"
+  ]
+}

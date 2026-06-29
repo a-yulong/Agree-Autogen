@@ -1,0 +1,44 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 29: Couldn't resolve reference to 'impl'.",
+      "cause": "acc1_dataOutput.impl is an implementation name, not a port or expression; AGREE cannot compare it to port acc1out",
+      "minimal_edit": "remove 'acc1_dataOutput.impl = acc1out' from assume and guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 29: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "acc1_dataOutput.impl has no type in AGREE context, while acc1out is of type int; invalid type comparison",
+      "minimal_edit": "remove 'acc1_dataOutput.impl = acc1out' from assume and guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 29: named thing must be an expression with a type",
+      "cause": "acc1_dataOutput.impl is not a valid AGREE expression; it's a component implementation reference",
+      "minimal_edit": "remove 'acc1_dataOutput.impl = acc1out' from assume and guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 30: Couldn't resolve reference to 'impl'.",
+      "cause": "acc1_dataOutput.impl is not a valid AGREE expression; AGREE only recognizes ports and declared variables",
+      "minimal_edit": "remove 'acc1_dataOutput.impl = acc1out' from assume and guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 30: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "acc1_dataOutput.impl lacks type, acc1out is int; invalid comparison",
+      "minimal_edit": "remove 'acc1_dataOutput.impl = acc1out' from assume and guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 30: named thing must be an expression with a type",
+      "cause": "acc1_dataOutput.impl is not a valid AGREE expression",
+      "minimal_edit": "remove 'acc1_dataOutput.impl = acc1out' from assume and guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 31: acc1_command_in = acc1_command_in",
+      "cause": "Trivial tautology; no semantic value and may indicate incorrect intent",
+      "minimal_edit": "remove 'acc1_command_in = acc1_command_in'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the entire annex agree block from acc1_dataOutput component type",
+    "Recreate a minimal valid annex agree block in acc1_dataOutput with no invalid references"
+  ]
+}

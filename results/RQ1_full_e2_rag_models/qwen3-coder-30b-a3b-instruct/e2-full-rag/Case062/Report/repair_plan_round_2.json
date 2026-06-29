@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 79: Assume statements are allowed only in component types",
+      "cause": "AGREE assume statements in implementation annex are not permitted",
+      "minimal_edit": "Move the entire annex block from Q.Impl to Q"
+    },
+    {
+      "diagnostic": "line 79: Couldn't resolve reference to 'Data_Sink'",
+      "cause": "Data_Sink is not visible in the component type context",
+      "minimal_edit": "Remove the signal flow assumption since it cannot be expressed in component type context"
+    },
+    {
+      "diagnostic": "line 80: Couldn't resolve reference to 'Dispatch_Protocol'",
+      "cause": "Property reference not resolvable in component type context",
+      "minimal_edit": "Remove the dispatch protocol assumption from component type"
+    },
+    {
+      "diagnostic": "line 81: Couldn't resolve reference to 'Period'",
+      "cause": "Property reference not resolvable in component type context",
+      "minimal_edit": "Remove the period assumption from component type"
+    },
+    {
+      "diagnostic": "line 82: Couldn't resolve reference to 'deadline'",
+      "cause": "Property reference not resolvable in component type context",
+      "minimal_edit": "Remove the deadline assumption from component type"
+    },
+    {
+      "diagnostic": "line 83: Couldn't resolve reference to 'Priority'",
+      "cause": "Property reference not resolvable in component type context",
+      "minimal_edit": "Remove the priority assumption from component type"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from Q.Impl",
+    "Move the AGREE annex block to Q component type",
+    "Remove signal flow assumption from the moved annex",
+    "Remove all property assumptions from the moved annex"
+  ]
+}

@@ -1,0 +1,121 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: angle
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+angle | in | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: thr_yaw_simulation.i | lines 192-196
+annex agree {**
+
+    guarantee "yaw_simulation_operates": angle = angle;
+
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   190:     R6:parameter angle -> pspg.angle;
+   191:     
+   192:   annex agree {**
+   193: 
+>> 194:     guarantee "yaw_simulation_operates": angle = angle;
+   195: 
+   196:   **};
+   197: 
+   198:   end thr_yaw_simulation.i;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: thr_yaw_simulation
+thread thr_yaw_simulation
+  features
+    angle : in data port Base_Types::Integer;
+  flows
+  	fs1 : flow sink angle;
+  properties
+    Dispatch_Protocol      => Periodic;
+    Period                 => 1000ms;
+    Deadline               => 1000ms;
+    Compute_Execution_Time => 5ms .. 10ms;
+
+  end thr_yaw_simulation;
+
+-- TARGET DECLARATION: thr_yaw_simulation.i
+thread implementation thr_yaw_simulation.i
+  calls 
+    call1 : { pspg : subprogram spg_yaw_simulation;};
+
+  connections
+    R6:parameter angle -> pspg.angle;
+  end thr_yaw_simulation.i;
+
+-- RELATED MODEL LINES
+data GPS_Position
+end GPS_Position;
+data implementation GPS_Position.i
+latitude : data Base_Types::Float;
+longitude : data Base_Types::Float;
+altitude : data Base_Types::Integer;
+end GPS_Position.i;
+gps_pos : out parameter GPS_Position.i;
+thread thr_gps_simulation
+gps_pos : out data port GPS_Position.i;
+fs1 : flow source gps_pos;
+end thr_gps_simulation;
+thread implementation thr_gps_simulation.i
+R1:parameter pspg.gps_pos -> gps_pos;
+end thr_gps_simulation.i;
+-- altitude  : in parameter Base_Types::Integer;
+-- latitude  : in parameter Base_Types::Float;
+-- longitude : in parameter Base_Types::Float;
+gps_pos : in parameter GPS_Position.i;
+speed     : out parameter Base_Types::Integer;
+angle     : out parameter Base_Types::Integer;
+fs1 : flow sink gps_pos;
+fs2 : flow source speed;
+fs3 : flow source angle;
+thread thr_mgmt
+gps_pos : in data port GPS_Position.i;
+speed       : out data port Base_Types::Integer;
+angle       : out data port Base_Types::Integer;
+end thr_mgmt;
+thread implementation thr_mgmt.i
+R2:parameter gps_pos -> pspg.gps_pos;
+R3:parameter pspg.speed -> speed;
+R4:parameter pspg.angle -> angle;
+end thr_mgmt.i;
+speed : in parameter Base_Types::Integer;
+thread thr_throttle_simulation
+speed : in data port Base_Types::Integer;
+fs1 : flow sink speed;
+end thr_throttle_simulation;
+thread implementation thr_throttle_simulation.i
+R5:parameter speed -> pspg.speed;
+end thr_throttle_simulation.i;
+angle : in parameter Base_Types::Integer;
+thread thr_yaw_simulation
+angle : in data port Base_Types::Integer;
+fs1 : flow sink angle;
+end thr_yaw_simulation;
+thread implementation thr_yaw_simulation.i
+R6:parameter angle -> pspg.angle;
+end thr_yaw_simulation.i;
+-- Ardupilot_Code --
+process Ardupilot_Code
+end Ardupilot_Code;
+process implementation Ardupilot_Code.impl
+prs_gps      : thread Ardupilot_Software::thr_gps_simulation.i;
+prs_mgmt     : thread Ardupilot_Software::thr_mgmt.i;
+prs_throttle : thread Ardupilot_Software::thr_throttle_simulation.i;
+prs_yaw      : thread Ardupilot_Software::thr_yaw_simulation.i;
+R7:port prs_gps.gps_pos -> prs_mgmt.gps_pos;
+R8:port prs_mgmt.speed    -> prs_throttle.speed;
+R9:port prs_mgmt.angle    -> prs_yaw.angle;
+--  	flow1 : end to end flow prs_gps.fs1 -> R7 -> prs_mgmt.fs1
+--  	flow2 : end to end flow prs_mgmt.fs2 -> R8 -> prs_throttle.fs1
+--  	flow3 : end to end flow prs_mgmt.fs3 -> R9 -> prs_yaw.fs1
+end Ardupilot_Code.impl;

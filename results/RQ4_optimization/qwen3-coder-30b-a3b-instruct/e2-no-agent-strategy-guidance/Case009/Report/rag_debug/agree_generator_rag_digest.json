@@ -1,0 +1,31 @@
+{
+  "rag_rules": [
+    "Use `assume \"label\": expression;` for input envelope assumptions and `guarantee \"label\": expression;` for output range guarantees in component type annexes.",
+    "Place AGREE contracts inside `annex agree {** ... **};` blocks within component type annexes for assumptions and guarantees.",
+    "Declare auxiliary variables with `eq name : type = expression;` for complex boolean conditions like range checks."
+  ],
+  "generic_rules": [
+    "Only generate AGREE clauses for visible identifiers present in the AADL model.",
+    "Use `assign output = expression;` only for output features or declared auxiliary variables in implementation scope.",
+    "Ensure type consistency between AGREE expressions and AADL data types; avoid mismatched types like bool vs int.",
+    "Avoid encoding AADL properties (e.g., Deadline, Period) as AGREE variables unless explicitly exposed as typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Assumptions and guarantees must be labeled with quoted strings.",
+    "Boolean expressions in AGREE should use `and` and `or` for logical composition.",
+    "Constants and equations are declared with `const name : type = value;` and `eq name : type = expression;`."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope; use only assumptions and assignments there.",
+    "Do not assume AADL property names (e.g., Period, Deadline) are automatically available in AGREE scope.",
+    "Do not convert Boolean domain values into integers unless the data type is explicitly numeric.",
+    "Do not generate clauses for identifiers not present in the visible symbol list or AADL model."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing constraints",
+    "Model fusion and component insertion locations",
+    "Validator diagnostics and repair strategies",
+    "Requirement traceability and compact semantics"
+  ]
+}

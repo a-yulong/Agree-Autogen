@@ -1,0 +1,36 @@
+annex agree {**
+  assume "timing_constraint": 
+    forall t: 
+      (telecommand(t) = 0) => 
+      (nominal_attitude(t) = 0 and nominal_orbit(t) = 0 and 
+       power_status_FSS(t) = false and power_status_CSS(t) = false and 
+       power_status_SPS(t) = false and power_status_ES(t) = false and 
+       power_status_MGM(t) = false and power_status_GYR(t) = false and 
+       power_status_STR(t) = false and power_status_GPS(t) = false and 
+       power_status_TRU(t) = false and power_status_RW(t) = false and 
+       power_status_MGT(t) = false and manoeuvre_command(t) = 0 and 
+       attitude_window(t) = 0 and check_thresholds(t) = 0 and 
+       Force_mode_to_NM(t) = false and Force_mode_to_SM(t) = false);
+  
+  guarantee "compute_execution_time": 
+    forall t: 
+      (telecommand(t) > 0) => 
+      (nominal_attitude(t) = telecommand(t) and 
+       nominal_orbit(t) = telecommand(t) and 
+       power_status_FSS(t) = (telecommand(t) > 0) and 
+       power_status_CSS(t) = (telecommand(t) > 0) and 
+       power_status_SPS(t) = (telecommand(t) > 0) and 
+       power_status_ES(t) = (telecommand(t) > 0) and 
+       power_status_MGM(t) = (telecommand(t) > 0) and 
+       power_status_GYR(t) = (telecommand(t) > 0) and 
+       power_status_STR(t) = (telecommand(t) > 0) and 
+       power_status_GPS(t) = (telecommand(t) > 0) and 
+       power_status_TRU(t) = (telecommand(t) > 0) and 
+       power_status_RW(t) = (telecommand(t) > 0) and 
+       power_status_MGT(t) = (telecommand(t) > 0) and 
+       manoeuvre_command(t) = telecommand(t) and 
+       attitude_window(t) = telecommand(t) and 
+       check_thresholds(t) = telecommand(t) and 
+       Force_mode_to_NM(t) = (telecommand(t) > 0) and 
+       Force_mode_to_SM(t) = (telecommand(t) > 0));
+**};

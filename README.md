@@ -1,4 +1,4 @@
-# AGREE-AutoGen
+﻿# AGREE-AutoGen
 
 AGREE-AutoGen is a multi-agent framework for generating and validating AGREE contracts from natural-language requirements and AADL architecture models. It treats contract generation as a sequence of constrained decisions: retrieved AGREE/AADL knowledge constrains the available formal patterns, architecture analysis constrains the visible model scope, requirement analysis constrains formalization intent, generation produces candidate AGREE clauses, model fusion inserts the clauses into the appropriate AADL owner, and validation-guided repair uses tool diagnostics to make bounded corrections.
 
@@ -21,7 +21,7 @@ knowledge_base/          Three retrieval sources: syntax/scope, examples, and de
 prompts/                 Agent prompts used by the pipeline
 src/agree_autogen/       Pipeline implementation
 tools/agree-validator/   Standalone AGREE validation interface and bundled AADL support files
-results/                 Released aggregate experiment results and result manifests
+results/                 Released aggregate and per-case experiment results
 scripts/                 Core run and aggregation entry points
 tests/                   Offline checks for the released artifact
 ```
@@ -39,13 +39,13 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-Run an offline dry run on the bundled example:
+Run an offline dry run on a bundled benchmark case:
 
 ```powershell
 python scripts/run_files.py `
-  --requirement data/benchmark/cases/Case01/Case01_Req.txt `
-  --aadl data/benchmark/cases/Case01/Case01_Base.aadl `
-  --output-dir outputs/case01_dry `
+  --requirement data/benchmark/cases/Case001/Case001_Req.txt `
+  --aadl data/benchmark/cases/Case001/Case001_Base.aadl `
+  --output-dir outputs/Case001_dry `
   --setting E2 `
   --skip-validation `
   --dry-run
@@ -65,7 +65,7 @@ $env:AGREE_MODEL_API_KEY = "replace-with-your-key"
 $env:AGREE_MODEL_NAME = "model-name"
 ```
 
-Use `.env.example` as a template. Do not commit real credentials.
+Use environment variables for credentials. Do not commit real keys.
 
 ## Validation Tool
 
@@ -88,11 +88,11 @@ The experiment scripts support:
 
 Experiment design is documented in `docs/experiment_design.md`. Result formats and metric definitions are documented in `docs/result_schema.md`.
 
-The repository includes released aggregate summaries under `results/`. The full per-case result tree contains hundreds of thousands of files and is distributed outside the Git working tree as an archive artifact; `results/FULL_RESULTS_RELEASE_MANIFEST.json` records its file count, size, and publication policy.
+The repository includes the released aggregate summaries and the per-case RQ1-RQ4 result tree under `results/`.
 
 ## Reproducibility
 
-The repository distinguishes three reproduction levels:
+The repository supports three reproduction levels:
 
 - offline inspection of code, prompts, configurations, and results;
 - local smoke execution with bundled examples and a local validator setup;
@@ -107,3 +107,4 @@ If you use AGREE-AutoGen in academic work, cite this repository. See `CITATION.c
 ## License
 
 The code is released under the MIT License. See `LICENSE`. Third-party tools and source documents may have their own licenses; see the relevant documentation and source manifests.
+

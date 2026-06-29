@@ -1,0 +1,55 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 14: left and right sides of binary expression '>=' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Port type 'Types::speed.speed_impl' compared to real literal",
+      "minimal_edit": "Remove the assumption 'non_negative_target_speed'"
+    },
+    {
+      "diagnostic": "line 15: left and right sides of binary expression '<' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "Port type 'Types::speed.speed_impl' compared to real literal",
+      "minimal_edit": "Remove the assumption 'upper_bound_target_speed'"
+    },
+    {
+      "diagnostic": "line 17: left and right sides of binary expression '=' are of type 'Types::state_sig.impl' and 'int', but must be of the same type",
+      "cause": "Port type 'Types::state_sig.impl' compared to integer literal",
+      "minimal_edit": "Change 'State_Signal = 1' to 'State_Signal = 1.0'"
+    },
+    {
+      "diagnostic": "line 18: left side of binary expression '<=' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port type 'Types::speed.speed_impl' used in comparison",
+      "minimal_edit": "Remove the guarantee 'speed_limit_when_constant'"
+    },
+    {
+      "diagnostic": "line 19: Expression for guarantee statement is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid temporal logic syntax and type mismatches in acceleration constraint",
+      "minimal_edit": "Remove the guarantee 'acceleration_constraint'"
+    },
+    {
+      "diagnostic": "line 33: 'Actual' and 'Actual_Speed' have incompatible classifiers",
+      "cause": "Port name mismatch in connection",
+      "minimal_edit": "Change 'THROT.Actual' to 'THROT.Actual_Speed' in connection 'AcSpeedToTop'"
+    },
+    {
+      "diagnostic": "line 35: The types of 'Target_Speed' and 'Target' do not match",
+      "cause": "Port name mismatch in connection",
+      "minimal_edit": "Change 'Target_Speed' to 'Target_Speed' in connection 'TgSpeedToCntrl'"
+    },
+    {
+      "diagnostic": "line 40: 'State_Out' and 'State_Signal' have incompatible classifiers",
+      "cause": "Port name mismatch in connection",
+      "minimal_edit": "Change 'SM.State_Out' to 'SM.State_Out' in connection 'SSToSM'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove assumption 'non_negative_target_speed' from the AGREE annex",
+    "Remove assumption 'upper_bound_target_speed' from the AGREE annex",
+    "Change 'State_Signal = 1' to 'State_Signal = 1.0' in the AGREE annex",
+    "Remove guarantee 'speed_limit_when_constant' from the AGREE annex",
+    "Remove guarantee 'acceleration_constraint' from the AGREE annex",
+    "In the system implementation, change 'THROT.Actual' to 'THROT.Actual_Speed' in connection 'AcSpeedToTop'",
+    "In the system implementation, ensure 'Target_Speed' matches in connection 'TgSpeedToCntrl'",
+    "In the system implementation, ensure 'SM.State_Out' matches in connection 'SSToSM'"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'RTOS'.",
+      "cause": "Reference to 'RTOS' is not a valid AGREE expression; 'SBC_32F411EDISCOVERY.RTOS' is a system implementation, not a port or variable",
+      "minimal_edit": "Replace 'SBC_32F411EDISCOVERY.RTOS' with 'SBC_32F411EDISCOVERY' in the assumption"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Software'.",
+      "cause": "Reference to 'Software' is not a valid AGREE expression; 'Software' is a process in the RTOS implementation, not a port or variable",
+      "minimal_edit": "Remove the assumption 'software_cpu_binding' as it references an invalid identifier"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'cpu'.",
+      "cause": "Reference to 'cpu' is not a valid AGREE expression; 'cpu' is not defined in the current scope",
+      "minimal_edit": "Remove the assumption 'software_cpu_binding' as it references an invalid identifier"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the annex block to replace 'SBC_32F411EDISCOVERY.RTOS = SBC_32F411EDISCOVERY.RTOS' with 'SBC_32F411EDISCOVERY = SBC_32F411EDISCOVERY'",
+    "Remove the assumption 'software_cpu_binding' from the annex block"
+  ]
+}

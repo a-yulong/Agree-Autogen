@@ -1,0 +1,59 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 56: Couldn't resolve reference to 'tempin1'.",
+      "cause": "Reference to 'tempin1' is not visible in temp_control's scope",
+      "minimal_edit": "Replace 'voter.tempin1' with 'tempin1' in the assume statement"
+    },
+    {
+      "diagnostic": "line 57: Couldn't resolve reference to 'tempin2'.",
+      "cause": "Reference to 'tempin2' is not visible in temp_control's scope",
+      "minimal_edit": "Replace 'voter.tempin2' with 'tempin2' in the assume statement"
+    },
+    {
+      "diagnostic": "line 58: Couldn't resolve reference to 'tempin1'.",
+      "cause": "Reference to 'tempin1' is not visible in temp_control's scope",
+      "minimal_edit": "Replace 'voter.tempin1' with 'tempin1' in the guarantee statement"
+    },
+    {
+      "diagnostic": "line 58: Couldn't resolve reference to 'tempin2'.",
+      "cause": "Reference to 'tempin2' is not visible in temp_control's scope",
+      "minimal_edit": "Replace 'voter.tempin2' with 'tempin2' in the guarantee statement"
+    },
+    {
+      "diagnostic": "line 58: Couldn't resolve reference to 'tempout'.",
+      "cause": "Reference to 'tempout' is not visible in temp_control's scope",
+      "minimal_edit": "Replace 'tempout' with 'voter.tempout' in the guarantee statement"
+    },
+    {
+      "diagnostic": "line 83: Couldn't resolve reference to 'temp1'.",
+      "cause": "Reference to 'temp1' is not visible in voter's scope",
+      "minimal_edit": "Replace 'temp1' with 'tempin1' in the assume statement"
+    },
+    {
+      "diagnostic": "line 84: Couldn't resolve reference to 'temp2'.",
+      "cause": "Reference to 'temp2' is not visible in voter's scope",
+      "minimal_edit": "Replace 'temp2' with 'tempin2' in the assume statement"
+    },
+    {
+      "diagnostic": "line 85: Couldn't resolve reference to 'tempout'.",
+      "cause": "Reference to 'tempout' is not visible in voter's scope",
+      "minimal_edit": "Replace 'voter.tempout' with 'tempout' in the guarantee statement"
+    },
+    {
+      "diagnostic": "line 85: right side of binary expression 'and' is of type 'int' but must be of type 'bool'",
+      "cause": "The expression 'tempin1 and tempin2' is invalid because tempin1 and tempin2 are of type 'int' not 'bool'",
+      "minimal_edit": "Replace 'tempin1 and tempin2' with 'tempin1 = tempin2' in the guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the temp_control annex block, change 'temp1 = voter.tempin1' to 'temp1 = tempin1'",
+    "In the temp_control annex block, change 'temp2 = voter.tempin2' to 'temp2 = tempin2'",
+    "In the temp_control annex block, change 'tempout = voter.tempin1 and voter.tempin2' to 'voter.tempout = tempin1 and tempin2'",
+    "In the voter annex block, change 'temp1 = tempin1' to 'temp1 = tempin1'",
+    "In the voter annex block, change 'temp2 = tempin2' to 'temp2 = tempin2'",
+    "In the voter annex block, change 'voter.tempout = tempin1 and tempin2' to 'tempout = tempin1 and tempin2'",
+    "In the voter annex block, change 'tempin1 and tempin2' to 'tempin1 = tempin2' in the guarantee statement"
+  ]
+}

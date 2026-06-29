@@ -1,0 +1,77 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: V_Air_Output, Dev_Bus
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+V_Air_Output | out | data | opaque | Base_Types::Integer_8
+Dev_Bus | requires | access | opaque | 
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "V_Air_Output >= 0 and V_Air_Output <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "V_Air_Output"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Vitesse_Air | lines 52-55
+annex agree {**
+    eq valid_range : bool = V_Air_Output >= 0 and V_Air_Output <= 100;
+    guarantee "bounded output range": valid_range;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+No validator line numbers were available.
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Vitesse_Air
+device Vitesse_Air
+  features
+    V_Air_Output : out data port Base_Types::Integer_8;
+    Dev_Bus : requires bus access Device_Bus.MCU0;
+  end Vitesse_Air;
+
+-- RELATED MODEL LINES
+Dev_Bus : requires bus access Device_Bus.MCU0;
+device Vitesse_Air
+V_Air_Output : out data port Base_Types::Integer_8;
+end Vitesse_Air;
+Dev_Bus : requires bus access Device_bus.MCU0;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Vitesse_Air",
+      "kind": "device"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Vitesse_Air",
+      "name": "V_Air_Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer_8",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Vitesse_Air",
+      "name": "Dev_Bus",
+      "direction": "requires",
+      "category": "bus access",
+      "type": "Device_Bus.MCU0",
+      "scalar": "opaque"
+    }
+  ]
+}

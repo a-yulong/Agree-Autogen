@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in component type scopes when they refer to ports or features visible at that level.",
+    "Use annex agree {** ... **}; blocks for all AGREE contracts, with type-level contracts in component type scopes and implementation-level bindings in implementation scopes."
+  ],
+  "generic_rules": [
+    "For component type contracts, assume input bounds and guarantee output ranges using visible feature names and concrete thresholds.",
+    "Write guarantees that relate visible outputs to visible inputs; avoid implementation-only subcomponent paths in type annexes.",
+    "Ensure type declarations in AGREE match the actual AADL data types of features and ports.",
+    "Do not encode AADL properties like timing or resource usage as AGREE expressions unless explicit typed ports or constants are available."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `eq` for boolean expressions in AGREE, e.g., `eq range_value : bool = x >= min_value and x <= max_value;`",
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type contracts should use visible identifiers from the component type, not implementation-specific subcomponents."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level bindings in component type scopes unless they are valid in that context.",
+    "Avoid generating range assumptions or guarantees for Boolean or opaque data ports without numeric scalar representations."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing parameters",
+    "Implementation-level subcomponent paths in type contracts",
+    "Validator diagnostics and repair actions"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Repair AGREE diagnostics by ensuring visible identifiers match AADL scope and package references.",
+    "Place type-level assumptions and guarantees in component type annexes, not implementation scopes.",
+    "Use only visible AADL features or declared helpers in AGREE expressions to avoid unresolved references."
+  ],
+  "generic_rules": [
+    "Generated AGREE contracts must preserve type consistency and avoid introducing undefined identifiers.",
+    "AGREE annexes should use valid AADL package imports and avoid referencing non-existent model units.",
+    "Stateful equations should use initialized temporal recurrence; branching logic should use nested if-then-else.",
+    "Component type contracts should relate visible outputs to visible inputs, not implementation-only paths."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks with valid syntax like `assume`, `guarantee`, `eq`, and `assign`.",
+    "Constants and equations in AGREE must declare correct types: `int`, `real`, or `bool`.",
+    "Helper functions and variables must be defined in the same annex or imported from valid packages."
+  ],
+  "anti_patterns": [
+    "Do not introduce package-qualified identifiers or data types not present in the AADL model's configured dependencies.",
+    "Do not place implementation-level bindings in component type annexes; use implementation scopes instead.",
+    "Do not assume that AADL property names like Period or Deadline are automatically available as AGREE variables."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about missing packages or property sets",
+    "AGREE validator diagnostics (none present)",
+    "Model fusion or architecture insertion locations"
+  ]
+}

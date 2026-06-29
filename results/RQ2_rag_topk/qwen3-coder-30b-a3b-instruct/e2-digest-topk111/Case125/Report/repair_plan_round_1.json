@@ -1,0 +1,18 @@
+{
+  "problems": [
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE guarantees reference port names that are not visible in the component type scope",
+      "minimal_edit": "Move the AGREE annex block from GYRO to GYRO.IMPL and replace port references with subcomponent port references"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from the GYRO component type",
+    "Add a new AGREE annex block to the GYRO.IMPL component implementation",
+    "In the new AGREE annex block, reference the ports through the subcomponent gyro_sub",
+    "Change gyro_out_data_x = gyro_in_data_x to gyro_sub.gyro_out_data_x = gyro_in_data_x",
+    "Change gyro_out_data_y = gyro_in_data_y to gyro_sub.gyro_out_data_y = gyro_in_data_y",
+    "Change gyro_out_data_z = gyro_in_data_z to gyro_sub.gyro_out_data_z = gyro_in_data_z"
+  ]
+}

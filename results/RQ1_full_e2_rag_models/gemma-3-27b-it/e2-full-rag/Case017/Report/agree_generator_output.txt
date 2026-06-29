@@ -1,0 +1,8 @@
+annex agree {
+  eq numberServicesTrue : int = (inpGCASM + inpSAM + inpACASM + inpGFM + inpWxM + inpFLS);
+  assume "impact_recovery_sufficient": (inpGCASRecovery + inpACASRecovery) >= 1.0;
+  guarantee "dynamic_decision_acas": (inpGCASImpact > inpACASImpact) and (inpGCASRecovery + inpACASRecovery) >= 1.0 => outDec = 1;
+  guarantee "dynamic_decision_gcas": (inpGCASImpact <= inpACASImpact) or (inpGCASRecovery + inpACASRecovery) < 1.0 => outDec = 0;
+  guarantee "outdec_dynamic_when_sufficient_services": numberServicesTrue >= 2 => (outDec = 0 or outDec = 1);
+  guarantee "outdec_static_when_insufficient_services": numberServicesTrue < 2 => outDec = 0;
+};

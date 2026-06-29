@@ -1,0 +1,198 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use assume/guarantee syntax to express signal flow and binding constraints within the component scope.
+- Generate assign statements for signal flow connections between components.
+Generic rules:
+- Express component deployment bindings as assume statements with component-to-CPU mappings.
+- Model signal flow as guarantee statements linking output to input features through connections.
+- Use eq declarations for named signal flow expressions to improve readability.
+- Ensure all visible symbols referenced in AGREE annexes are properly scoped to the owning component.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` for preconditions and `guarantee "label": expression;` for postconditions.
+- Use `assign output = expression;` to define signal flow mappings between features.
+- Use `eq name : type = expression;` to define reusable named expressions for complex conditions.
+Anti-patterns:
+- Avoid referencing symbols or components outside the scope of the current component's annex.
+- Do not generate assume/guarantee statements without clear evidence from requirement items.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- ADIRU
+- ADIRU.impl
+- ADIRU.DeOS
+- ADIRU.VxWorks653
+- ADIRU.EMV2
+- main_mem
+- main_cpu
+- acc_pr
+- acc_hm_pr
+- ADIRUp_pr
+- SHM_pr
+- acc1
+- acc2
+- acc3
+- acc4
+- acc5
+- acc6
+- C1
+- C2
+- C3
+- C4
+- C5
+- C6
+- C7
+- C8
+- C9
+- C10
+- C11
+- C12
+- C13
+- C14
+- C15
+- C16
+- C17
+- C18
+- C19
+- C20
+- C21
+- C22
+- D1
+
+Target interface:
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- ADIRU
+- ADIRU.impl
+- ADIRU.DeOS
+- ADIRU.VxWorks653
+- ADIRU.EMV2
+- main_mem
+- main_cpu
+- acc_pr
+- acc_hm_pr
+- ADIRUp_pr
+- SHM_pr
+- acc1
+- acc2
+- acc3
+- acc4
+- acc5
+- acc6
+- C1
+- C2
+- C3
+- C4
+- C5
+- C6
+- C7
+- C8
+- C9
+- C10
+- C11
+- C12
+- C13
+- C14
+- C15
+- C16
+- C17
+- C18
+- C19
+- C20
+- C21
+- C22
+- D1
+
+Raw requirement:
+The ADIRU component shall define the implementation-level data routing and execution constraints for ADIRU.impl. In the implementation layer, ADIRU.impl shall route signal flow from acc_pr.acc1_output to acc_hm_pr.acc1_input through C1 and signal flow from acc_pr.acc2_output to acc_hm_pr.acc2_input through C2. The deployment mapping shall bind acc_pr to processor main_cpu.part1, bind acc_hm_pr to processor main_cpu.part2, bind ADIRUp_pr to processor main_cpu.part3, and bind SHM_pr to processor main_cpu.part4.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Signal flow from acc_pr.acc1_output to acc_hm_pr.acc1_input through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc_pr.acc1_output",
+        "acc_hm_pr.acc1_input",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Signal flow from acc_pr.acc2_output to acc_hm_pr.acc2_input through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc_pr.acc2_output",
+        "acc_hm_pr.acc2_input",
+        "C2"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "acc_pr bound to main_cpu.part1",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "acc_pr",
+        "main_cpu.part1"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "acc_hm_pr bound to main_cpu.part2",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "acc_hm_pr",
+        "main_cpu.part2"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "ADIRUp_pr bound to main_cpu.part3",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_pr",
+        "main_cpu.part3"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "SHM_pr bound to main_cpu.part4",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "SHM_pr",
+        "main_cpu.part4"
+      ]
+    }
+  ]
+}

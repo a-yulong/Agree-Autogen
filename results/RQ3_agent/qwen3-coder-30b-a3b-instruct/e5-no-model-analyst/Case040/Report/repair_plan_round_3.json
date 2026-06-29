@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'SSM'.",
+      "cause": "SSM is a subcomponent, not a visible identifier in the component type scope",
+      "minimal_edit": "Remove SSM from the AGREE contract"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'State_Out'.",
+      "cause": "State_Out is a port, not a visible identifier in the component type scope",
+      "minimal_edit": "Remove State_Out from the AGREE contract"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::state_sig.impl' and '<error>', but must be of the same type",
+      "cause": "Invalid expression due to unresolved identifiers",
+      "minimal_edit": "Replace the invalid expression with a valid AGREE contract"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the invalid AGREE annex block from State_Machine component type",
+    "Move the signal flow and timing requirements to State_Machine.Impl annex",
+    "Replace the invalid expressions with valid AGREE constructs using only visible identifiers"
+  ]
+}

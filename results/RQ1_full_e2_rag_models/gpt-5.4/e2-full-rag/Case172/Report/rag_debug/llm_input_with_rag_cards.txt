@@ -1,0 +1,101 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use only identifiers confirmed by the model facts or visible-symbol set; the AADL model is the authority on names, ports, directions, and types.
+- Keep assumptions, guarantees, constants, and equations in valid component type contract scope.
+- Use implementation annex content only for implementation-scoped bindings, and only when the referenced elements exist in that scope.
+- Do not reference subcomponent ports from a component type contract unless they are exposed through valid in-scope symbols.
+Generic rules:
+- Generate clauses only from symbols that are visible and typed; if visibility or type is unclear, prefer omission over invention.
+- Match any declared helper or equation type to the expression type: comparisons are bool, integer arithmetic is int, and real arithmetic is real.
+Syntax or pattern reminders:
+- Wrap AGREE content in a valid annex agree block and terminate contract statements consistently.
+- Use auxiliary equations or constants only when they are declared in the same annex and referenced with in-scope names.
+Anti-patterns:
+- Do not encode AADL property names or unit tokens as AGREE variables unless the model explicitly exposes them as typed symbols.
+- Do not turn Boolean, enumeration-like, or opaque data values into numeric range checks or 0/1 comparisons.
+- Do not use unresolved paths, subcomponent references, or invented helper names in expressions.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- angle
+
+Target interface:
+Exact expression symbols: angle
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+angle | in | data | int | Base_Types::Integer
+
+Raw requirement:
+The thr_yaw_simulation component shall operate under a bounded input condition for angle. The environment shall keep angle greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "angle >= 0 and angle <= 100",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": []
+    },
+    {
+      "id": "R2",
+      "text": "thr_yaw_simulation.i.R6 source=angle destination=pspg.angle",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R3",
+      "text": "thr_yaw_simulation Dispatch_Protocol=Periodic",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R4",
+      "text": "thr_yaw_simulation Period=1000ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R5",
+      "text": "thr_yaw_simulation Deadline=1000ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R6",
+      "text": "thr_yaw_simulation Compute_Execution_Time=5ms .. 10ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": []
+    }
+  ]
+}

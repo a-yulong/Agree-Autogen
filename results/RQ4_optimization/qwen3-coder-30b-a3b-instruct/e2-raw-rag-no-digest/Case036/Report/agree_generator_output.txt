@@ -1,0 +1,7 @@
+annex agree {**
+  assume "target speed bounds": Target_Speed >= 0 and Target_Speed < 150.0;
+  const max_accel : real = 40.0;
+  eq initialized : bool = false -> true;
+  guarantee "constant target speed guarantee": const_tar_speed => Actual_Speed <= Target_Speed;
+  guarantee "acceleration limit": initialized => abs(Actual_Speed - pre(Actual_Speed)) < max_accel;
+**};

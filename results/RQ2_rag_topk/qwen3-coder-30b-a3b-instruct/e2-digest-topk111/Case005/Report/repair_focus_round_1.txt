@@ -1,0 +1,150 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: altitude, timeToRecovery, timeToFailure
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+altitude | in | data | opaque | real
+timeToRecovery | out | data | opaque | real
+timeToFailure | out | data | opaque | real
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "height variable is declared and computed using kinematicLinearization function",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "altitude",
+        "gcas_nodes.kinematicLinearization"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "recovery time is set to 8.7 and failure time is set to 16.0",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "timeToRecovery",
+        "timeToFailure"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "once simulation time exceeds 8.7, height must always remain greater than 200.0",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "timeToRecovery",
+        "altitude"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "current height must be strictly greater than height from previous time step",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "altitude"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GCAS_singleton | lines 78-84
+annex agree {**
+	  assume "recovery_time_bound": timeToRecovery = 8.7;
+	  assume "failure_time_bound": timeToFailure = 16.0;
+	  guarantee "height_computed": altitude = gcas_nodes.kinematicLinearization();
+	  guarantee "min_height_after_recovery": (timeToRecovery < timeToRecovery) or (timeToRecovery >= 8.7 => altitude > 200.0);
+	  guarantee "continuous_pull_up": altitude > pre(altitude);
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   77: 			timeToFailure: out data port real;
+   78: 	annex agree {**
+   79: 	  assume "recovery_time_bound": timeToRecovery = 8.7;
+   80: 	  assume "failure_time_bound": timeToFailure = 16.0;
+>> 81: 	  guarantee "height_computed": altitude = gcas_nodes.kinematicLinearization();
+   82: 	  guarantee "min_height_after_recovery": (timeToRecovery < timeToRecovery) or (timeToRecovery >= 8.7 => altitude > 200.0);
+   83: 	  guarantee "continuous_pull_up": altitude > pre(altitude);
+   84: 	**};
+   85: 	end GCAS_singleton;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: GCAS_singleton
+system GCAS_singleton
+		features
+			altitude: in data port real;
+			timeToRecovery: out data port real;
+			timeToFailure: out data port real;
+	end GCAS_singleton;
+
+-- TARGET DECLARATION: GCAS_singleton.impl
+system implementation GCAS_singleton.impl
+	end GCAS_singleton.impl;
+
+-- RELATED MODEL LINES
+timeToFailure: out data port real;
+timeToRecovery: out data port real;
+gcas: system GCAS_singleton;
+gcas_ttr: port gcas.timeToRecovery -> Supervisor.gcas_timeToRecovery	{Communication_Properties::Timing => immediate;};
+tcas_ttr: port tcas.timeToRecovery -> Supervisor.tcas_timeToRecovery	{Communication_Properties::Timing => immediate;};
+geof_ttr: port geof.timeToRecovery -> Supervisor.geof_timeToRecovery	{Communication_Properties::Timing => immediate;};
+gcas_ttf: port gcas.timeToFailure -> Supervisor.gcas_timeToFailure	{Communication_Properties::Timing => immediate;};
+tcas_ttf: port tcas.timeToFailure -> Supervisor.tcas_timeToFailure	{Communication_Properties::Timing => immediate;};
+geof_ttf: port geof.timeToFailure -> Supervisor.geof_timeToFailure	{Communication_Properties::Timing => immediate;};
+ttf_to_top: port supervisor.timeToFailure -> timeToFailure	{Communication_Properties::Timing => immediate;};
+ttr_to_top: port supervisor.timeToRecovery -> timeToRecovery;
+system GCAS_singleton
+altitude: in data port real;
+end GCAS_singleton;
+system implementation GCAS_singleton.impl
+end GCAS_singleton.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "GCAS_singleton",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "GCAS_singleton.impl",
+      "kind": "system implementation",
+      "type_name": "GCAS_singleton"
+    }
+  ],
+  "features": [
+    {
+      "owner": "GCAS_singleton",
+      "name": "altitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GCAS_singleton",
+      "name": "timeToRecovery",
+      "direction": "out",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GCAS_singleton",
+      "name": "timeToFailure",
+      "direction": "out",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    }
+  ]
+}

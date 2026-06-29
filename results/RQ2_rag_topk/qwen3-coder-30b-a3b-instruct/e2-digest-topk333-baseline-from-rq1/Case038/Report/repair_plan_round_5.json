@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '*' are of type 'real' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "Port types 'Types::speed.speed_impl' used in arithmetic expressions without conversion to 'real'",
+      "minimal_edit": "Change Target and Actual to be of type 'real' in the AGREE equations"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type 'int' or 'real'",
+      "cause": "Port types 'Types::speed.speed_impl' used in arithmetic expressions without conversion to 'real'",
+      "minimal_edit": "Change Target and Actual to be of type 'real' in the AGREE equations"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'integral'.",
+      "cause": "AGREE integral function not properly supported in this context",
+      "minimal_edit": "Replace integral(e) with a valid AGREE expression or remove the equation"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'derivative'.",
+      "cause": "AGREE derivative function not properly supported in this context",
+      "minimal_edit": "Replace derivative(e) with a valid AGREE expression or remove the equation"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace Target and Actual in the AGREE guarantee with real-valued variables",
+    "Replace the integral(e) and derivative(e) expressions with valid AGREE constructs or remove them",
+    "Ensure all expressions use only visible symbols and compatible types"
+  ]
+}

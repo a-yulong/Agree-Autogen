@@ -1,0 +1,34 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'door1'.",
+      "cause": "door1 is a subcomponent in implementation scope, not accessible in component type annex",
+      "minimal_edit": "Remove reference to door1 and related port references"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'handle_position'.",
+      "cause": "handle_position is a subcomponent port, not directly accessible in component type scope",
+      "minimal_edit": "Remove reference to handle_position"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'bool' and '<error>', but must be of the same type",
+      "cause": "Invalid expression due to unresolved references",
+      "minimal_edit": "Remove invalid expression"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Expression contains unresolved identifiers",
+      "minimal_edit": "Remove invalid expression"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'closed'.",
+      "cause": "closed is a subcomponent port, not directly accessible in component type scope",
+      "minimal_edit": "Remove reference to closed"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire annex agree block from doors_process",
+    "Move the port correspondence assumptions to the implementation annex if needed, or remove them if they are not valid in component type scope"
+  ]
+}

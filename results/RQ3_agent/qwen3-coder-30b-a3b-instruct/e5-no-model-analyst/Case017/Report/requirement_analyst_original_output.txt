@@ -1,0 +1,25 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "Aviate_Decider maintains internal variable numberServicesTrue that counts true values among inpGCASM, inpSAM, inpACASM, inpGFM, inpWxM, and inpFLS",
+      "evidence": ["numberServicesTrue", "inpGCASM", "inpSAM", "inpACASM", "inpGFM", "inpWxM", "inpFLS"]
+    },
+    {
+      "id": "R2",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "Aviate_Decider implements dynamicDecide logic: when inpGCASImpact > inpACASImpact and (inpGCASRecovery + inpACASRecovery) is sufficient to prevent secondary collision, decision is ACAS; otherwise decision is GCAS",
+      "evidence": ["dynamicDecide", "inpGCASImpact", "inpACASImpact", "inpGCASRecovery", "inpACASRecovery"]
+    },
+    {
+      "id": "R3",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "text": "Aviate_Decider sets outDec to dynamic decision result when numberServicesTrue >= 2; otherwise outDec defaults to static priority-based value",
+      "evidence": ["outDec", "dynamicDecide", "numberServicesTrue"]
+    }
+  ]
+}

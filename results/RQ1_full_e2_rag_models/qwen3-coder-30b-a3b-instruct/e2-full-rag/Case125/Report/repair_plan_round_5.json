@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 134: named thing must be an expression with a type",
+      "cause": "guarantee statement references port names in component type scope where they are not valid expressions",
+      "minimal_edit": "move the annex block from GYRO type to GYRO.IMPL"
+    },
+    {
+      "diagnostic": "line 135: named thing must be an expression with a type",
+      "cause": "guarantee statement references port names in component type scope where they are not valid expressions",
+      "minimal_edit": "move the annex block from GYRO type to GYRO.IMPL"
+    },
+    {
+      "diagnostic": "line 136: named thing must be an expression with a type",
+      "cause": "guarantee statement references port names in component type scope where they are not valid expressions",
+      "minimal_edit": "move the annex block from GYRO type to GYRO.IMPL"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from the GYRO component type",
+    "Add a new AGREE annex block to the GYRO.IMPL component implementation",
+    "In the new annex block, replace each guarantee with an assign statement that binds the output port to the corresponding input port via the subcomponent connection",
+    "Ensure all referenced identifiers are visible in the implementation scope"
+  ]
+}

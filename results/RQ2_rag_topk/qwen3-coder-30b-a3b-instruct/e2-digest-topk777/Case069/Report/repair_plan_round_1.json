@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 55: Expression for assume statement is of type 'int' but must be of type 'bool'",
+      "cause": "Dispatch_Protocol is an AADL property of enum type, but AGREE treats it as int; comparison to Aperiodic is invalid without enum type visibility",
+      "minimal_edit": "Remove the entire assume clause for 'dispatch_protocol' since Aperiodic is not a visible symbol in AGREE and cannot be referenced legally"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 55: no viable alternative at input 'us'",
+      "cause": "Unit 'us' is not recognized in AGREE expression context; it was likely carried over from AADL property syntax",
+      "minimal_edit": "Replace '0 us' with '0' since AGREE uses unitless numeric literals and the bound is already numerically correct"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 56: Couldn't resolve reference to 'Aperiodic'.",
+      "cause": "Aperiodic is an AADL enum value not visible in AGREE scope; AGREE cannot resolve AADL property enumeration literals",
+      "minimal_edit": "Remove the entire assume clause for 'dispatch_protocol' since Aperiodic cannot be referenced legally"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 56: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "Dispatch_Protocol is an AADL property not exposed as a variable in AGREE scope; it cannot be used in assume/guarantee expressions",
+      "minimal_edit": "Remove the entire assume clause for 'dispatch_protocol' since Dispatch_Protocol is not a valid AGREE identifier"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 56: named thing must be an expression with a type",
+      "cause": "The entire expression 'Dispatch_Protocol = Aperiodic' fails because neither symbol is resolvable in AGREE, making it an ill-typed expression",
+      "minimal_edit": "Remove the entire assume clause for 'dispatch_protocol'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the annex agree block on line 53-56 to retain only the timing_constraint assume clause",
+    "Rewrite the timing_constraint assume clause to use unitless literal: replace '0 us' with '0'",
+    "Remove the entire assume clause for 'dispatch_protocol': 'Dispatch_Protocol = Aperiodic'",
+    "Ensure the resulting annex block contains only one valid assume statement: 'assume \"timing_constraint\": 0 <= Compute_Execution_Time <= 100;'"
+  ]
+}

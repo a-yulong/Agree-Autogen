@@ -1,0 +1,84 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assumptions and guarantees in component type annexes when they reference component ports
+- Use valid AGREE syntax for assumptions, guarantees, equations, constants, and assignments
+- Write output range guarantees using visible ports and concrete bounds
+- Use bool type for comparison expressions and int/real for numeric operations
+- Avoid using AADL property names directly in AGREE expressions
+Generic rules:
+- Use concrete bounds or visible relations for assumptions and guarantees
+- Relate outputs to inputs in component type contracts
+- Use valid AGREE scalar types (int, real, bool) in declarations
+- Place implementation-level bindings in implementation annexes
+- Avoid using subcomponent paths in component type contracts
+Syntax or pattern reminders:
+- AGREE annex blocks use `annex agree {** ... **};` syntax
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contracts
+- Declare equations with `eq name : type = expression;`
+- Declare constants with `const name : type = value;`
+- Use `assign output = expression;` for implementation-level bindings
+Anti-patterns:
+- Do not use subcomponent ports in component type contracts
+- Do not use AADL property names directly in AGREE expressions
+- Do not use invalid AGREE scalar type names like 'integer' or 'boolean'
+- Do not place implementation-level bindings in component type annexes
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Signal_Input
+- Data_Output
+
+Target interface:
+Exact expression symbols: Signal_Input, Signal_Input.MotorL, Signal_Input.MotorR, Signal_Input.AileronL, Signal_Input.AileronR, Signal_Input.Rudder, Signal_Input.Elevator, Data_Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Signal_Input | in | data | opaque | Papa_Types::TabServos.Impl
+Signal_Input.MotorL | in | data_field | opaque | Base_Types::Integer_16
+Signal_Input.MotorR | in | data_field | opaque | Base_Types::Integer_16
+Signal_Input.AileronL | in | data_field | opaque | Base_Types::Integer_16
+Signal_Input.AileronR | in | data_field | opaque | Base_Types::Integer_16
+Signal_Input.Rudder | in | data_field | opaque | Base_Types::Integer_16
+Signal_Input.Elevator | in | data_field | opaque | Base_Types::Integer_16
+Data_Output | out | data | opaque | Base_Types::Integer_16
+
+Raw requirement:
+The Interruption_Envoi_Servo component shall bound the Data_Output output at every evaluation step. The Data_Output value shall be greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data_Output >= 0 and Data_Output <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Data_Output"
+      ]
+    }
+  ]
+}

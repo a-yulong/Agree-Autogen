@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 84: named thing must be an expression with a type",
+      "cause": "mag_in_data_x is an in data port, but mag_out_data_x is an out event data port; AGREE requires matching port kinds for equality",
+      "minimal_edit": "change mag_out_data_x to mag_out_data_x' (event data port) and mag_in_data_x to mag_in_data_x' (data port) — but since AGREE doesn't allow direct port kind mixing, remove all assume/guarantee statements referencing port equality"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 85: named thing must be an expression with a type",
+      "cause": "mag_in_data_y is data port, mag_out_data_y is event data port; incompatible kinds for equality in AGREE",
+      "minimal_edit": "remove all assume/guarantee statements referencing port equality"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 86: named thing must be an expression with a type",
+      "cause": "mag_in_data_z is data port, mag_out_data_z is event data port; incompatible kinds for equality in AGREE",
+      "minimal_edit": "remove all assume/guarantee statements referencing port equality"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 87: named thing must be an expression with a type",
+      "cause": "same as above — port kind mismatch between in data and out event data ports",
+      "minimal_edit": "remove all assume/guarantee statements referencing port equality"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 88: named thing must be an expression with a type",
+      "cause": "same as above — port kind mismatch",
+      "minimal_edit": "remove all assume/guarantee statements referencing port equality"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 89: named thing must be an expression with a type",
+      "cause": "same as above — port kind mismatch",
+      "minimal_edit": "remove all assume/guarantee statements referencing port equality"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the entire annex agree {** ... **}; block from MAGNETO (lines 83-90)",
+    "Add a new annex agree {** } block to MAGNETO.IMPL (implementation scope) with assign statements that reflect the actual data flow via connections MAG_PC1, MAG_PC2, MAG_PC3",
+    "In MAGNETO.IMPL, declare assign statements: assign mag_out_data_x = MAGNETO_CALL.mag_out_data_x; assign mag_out_data_y = MAGNETO_CALL.mag_out_data_y; assign mag_out_data_z = MAGNETO_CALL.mag_out_data_z;"
+  ]
+}

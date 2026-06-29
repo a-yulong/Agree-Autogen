@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 13: The assumed type of constant statement 'minHeightAllowed' is 'ErrorTypeDef' but the actual type is 'RealTypeDef'",
+      "cause": "Incorrect type annotation in constant declaration",
+      "minimal_edit": "Remove the type annotation from the constant declaration: 'const minHeightAllowed: minHeightAllowed = 200.0;' -> 'const minHeightAllowed = 200.0;'"
+    },
+    {
+      "diagnostic": "line 15: The first and second arguments of the 'prev' function are of non-matching types 'RealTypeDef' and 'ErrorTypeDef'",
+      "cause": "Invalid use of 'prev' function with mismatched types due to previous error",
+      "minimal_edit": "Fix the guarantee statement to use valid expressions: 'guarantee \"pull_up_trend\": timeToRecovery >= timeToRecovery => altitude > prev(altitude);' -> 'guarantee \"pull_up_trend\": altitude > prev(altitude);'"
+    },
+    {
+      "diagnostic": "line 15: left and right sides of binary expression '>' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Expression contains invalid or undefined symbol causing type mismatch",
+      "minimal_edit": "Correct the guarantee statement to use valid expressions: 'guarantee \"pull_up_trend\": timeToRecovery >= timeToRecovery => altitude > prev(altitude);' -> 'guarantee \"pull_up_trend\": altitude > prev(altitude);'"
+    },
+    {
+      "diagnostic": "line 15: right side of binary expression '>' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Expression contains invalid or undefined symbol causing type mismatch",
+      "minimal_edit": "Correct the guarantee statement to use valid expressions: 'guarantee \"pull_up_trend\": timeToRecovery >= timeToRecovery => altitude > prev(altitude);' -> 'guarantee \"pull_up_trend\": altitude > prev(altitude);'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the type annotation from the constant declaration on line 13",
+    "Correct the guarantee statement on line 15 to use only valid identifiers and expressions",
+    "Ensure all expressions in the AGREE annex use only the visible symbols 'altitude' and 'timeToRecovery'"
+  ]
+}

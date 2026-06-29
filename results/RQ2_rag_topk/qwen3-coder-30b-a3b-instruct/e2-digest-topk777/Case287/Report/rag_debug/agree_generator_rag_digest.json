@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place input envelope assumptions in component type annexes using visible feature names and concrete bounds from the requirement.",
+    "Use AGREE's assume statement for input constraints and ensure the expression type matches the feature's AADL data type.",
+    "Generate constants for numeric limits in the same annex block as the assumption to support type-safe range checks.",
+    "Avoid introducing package-qualified identifiers or AADL properties that are not present in the analyzed model."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be syntactically valid and use only visible identifiers from the AADL model.",
+    "Assumptions and guarantees should be scoped to component types unless binding to implementation features.",
+    "Constants and equations in AGREE should align with the data types of referenced AADL features.",
+    "Do not encode AADL timing or resource properties as AGREE expressions unless explicitly exposed in the model."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"name\": expression;` for input constraints and `eq variable : type = expression;` for derived values.",
+    "AGREE annex blocks are enclosed in `annex agree {** ... **};` and must be placed in valid AADL component scopes.",
+    "Constants in AGREE are declared with `const name : type = value;` and must match the AADL feature's data type.",
+    "Boolean expressions in AGREE must use `bool` type and avoid numeric encodings of event ports or opaque data."
+  ],
+  "anti_patterns": [
+    "Do not assume numeric bounds for ports unless explicitly stated in the requirement and compatible with the AADL type.",
+    "Do not reference AADL properties like Period or Deadline as AGREE variables without model exposure.",
+    "Do not introduce package-qualified names or types not present in the AADL model's configured dependencies.",
+    "Do not convert Boolean or event ports into numeric values unless a data representation is explicitly provided."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "Implementation-level bindings and assignments",
+    "Model traceability and requirement semantics",
+    "Validator diagnostics and repair strategies"
+  ]
+}

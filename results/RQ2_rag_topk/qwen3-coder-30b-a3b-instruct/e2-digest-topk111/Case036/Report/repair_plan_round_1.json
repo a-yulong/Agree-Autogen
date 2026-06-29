@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 16: mismatched input '=' expecting ':'",
+      "cause": "Invalid AGREE syntax for constant declaration",
+      "minimal_edit": "Change 'const max_accel = 40.0;' to 'const max_accel : real = 40.0;'"
+    },
+    {
+      "diagnostic": "line 18: Couldn't resolve reference to 'const_tar_speed'",
+      "cause": "Undeclared variable used in guarantee",
+      "minimal_edit": "Remove or declare 'const_tar_speed' as a boolean variable in the annex"
+    },
+    {
+      "diagnostic": "line 20: Couldn't resolve reference to 'abs'",
+      "cause": "abs function not recognized in AGREE context",
+      "minimal_edit": "Replace 'abs(...)' with 'if ... >= 0 then ... else -...' or use a defined function"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit line 16 to use proper AGREE constant declaration syntax",
+    "Remove or declare 'const_tar_speed' variable in the annex",
+    "Replace 'abs(Actual_Speed.val - pre(Actual_Speed.val))' with equivalent AGREE expression"
+  ]
+}

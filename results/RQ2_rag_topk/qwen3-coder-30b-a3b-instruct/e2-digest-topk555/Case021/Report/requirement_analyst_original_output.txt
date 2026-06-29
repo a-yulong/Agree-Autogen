@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "text": "dataout in [0, 20]",
+      "evidence": ["dataout"]
+    },
+    {
+      "id": "R2",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "text": "k is an internal variable of temperature_sensor, initially set to 10",
+      "evidence": ["k", "temperature_sensor"]
+    },
+    {
+      "id": "R3",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "if prev(k) >= 20 then k := prev(k) - 1 else if prev(k) <= 0 then k := prev(k) + 1 else k := prev(k)",
+      "evidence": ["k", "prev(k)"]
+    },
+    {
+      "id": "R4",
+      "kind": "signal_flow",
+      "intent": "guarantee",
+      "text": "dataout = k",
+      "evidence": ["dataout", "k"]
+    }
+  ]
+}

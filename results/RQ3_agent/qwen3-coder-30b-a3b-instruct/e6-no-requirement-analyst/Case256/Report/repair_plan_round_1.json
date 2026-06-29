@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "latched is an output port, not an input port",
+      "minimal_edit": "Remove the guarantee statement for latched_output"
+    },
+    {
+      "diagnostic": "Latched expressions can appear only in component implementations",
+      "cause": "latched is referenced in a component type annex",
+      "minimal_edit": "Move the latched guarantee to the implementation annex"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "Invalid reference to latched in component type context",
+      "minimal_edit": "Remove the latched guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee statement for latched_output from the component type annex",
+    "Move the latched guarantee to the implementation annex if needed"
+  ]
+}

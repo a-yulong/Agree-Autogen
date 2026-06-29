@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by using only visible identifiers from the current component scope; do not invent new declarations.",
+    "Do not generate AGREE expressions that reference AADL properties like Stack_Size unless they are explicitly exposed as typed ports or constants.",
+    "Ensure type consistency in AGREE expressions: numeric variables must have numeric expressions, and Boolean variables must have Boolean expressions.",
+    "Move implementation-level bindings to the correct implementation annex and avoid placing them in component type contracts."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, always validate that referenced identifiers exist in the current scope.",
+    "Avoid introducing package-qualified identifiers that are not present in the model's configured dependencies.",
+    "Ensure all AGREE expressions conform to the expected scalar types (int, real, bool) as defined by the AADL model.",
+    "Prefer minimal repairs that preserve existing architecture and avoid adding new components or ports."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are for assumptions/guarantees involving ports; implementation annexes are for bindings.",
+    "Helper functions and constants must be declared before use and match the types of their expressions.",
+    "Use only visible AADL features or helper declarations within the same annex to avoid resolution errors."
+  ],
+  "anti_patterns": [
+    "Do not attempt to resolve missing identifiers by adding new architecture elements or property associations.",
+    "Avoid generating AGREE expressions that reference AADL property names like Stack_Size directly as variables.",
+    "Do not assume that all AADL identifiers are automatically available in AGREE scope without explicit declaration or visibility."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about property associations",
+    "AGREE validator diagnostics about missing package references",
+    "Requirements related to signal routing in implementation layer"
+  ]
+}

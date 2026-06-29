@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "guarantee \"gyro_x_signal_flow\": true;",
+      "cause": "AGREE guarantee refers to a constant true expression instead of a signal flow relation between visible ports",
+      "minimal_edit": "guarantee \"gyro_x_signal_flow\": gyro_out_data_x = Spg.gyro_out_data_x;"
+    },
+    {
+      "diagnostic": "guarantee \"gyro_y_signal_flow\": true;",
+      "cause": "AGREE guarantee refers to a constant true expression instead of a signal flow relation between visible ports",
+      "minimal_edit": "guarantee \"gyro_y_signal_flow\": gyro_out_data_y = Spg.gyro_out_data_Y;"
+    },
+    {
+      "diagnostic": "guarantee \"gyro_z_signal_flow\": true;",
+      "cause": "AGREE guarantee refers to a constant true expression instead of a signal flow relation between visible ports",
+      "minimal_edit": "guarantee \"gyro_z_signal_flow\": gyro_out_data_z = Spg.gyro_out_data_Z;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace each guarantee statement with a proper signal flow relation using visible identifiers",
+    "Ensure the left-hand side uses the component's output port names",
+    "Ensure the right-hand side uses the corresponding subprogram's input parameter names",
+    "Maintain exact symbol names as specified in the requirement analyst summary"
+  ]
+}

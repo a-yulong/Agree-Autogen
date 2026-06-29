@@ -1,0 +1,24 @@
+{
+  "rag_rules": [
+    "Insert AGREE annex blocks only into the component type or implementation scope that owns the relevant features.",
+    "Preserve AADL architecture by not introducing new ports, types, or package references not already visible in the target scope."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features (ports, constants, data types) in AGREE contracts; do not reference implementation-specific subcomponents in type-level annexes.",
+    "Ensure AGREE expressions use consistent scalar types: int, real, or bool; avoid mapping AADL properties or opaque types into numeric comparisons."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annexes must be enclosed in `annex agree {** ... **};` and contain only valid declarations: assume, guarantee, eq, const, or assign.",
+    "Range guarantees should use direct feature names (e.g., `output >= min and output <= max`) without intermediate subcomponent paths."
+  ],
+  "anti_patterns": [
+    "Do not inject AADL property names (e.g., Period, Deadline) as if they are AGREE variables; they are not in scope unless explicitly exposed as ports or constants.",
+    "Avoid type coercion: do not treat Boolean, enumeration, or opaque data ports as numeric values for range checks."
+  ],
+  "irrelevant_topics": [
+    "AGREE validator diagnostics",
+    "Repair strategies",
+    "Model fusion insertion location decisions",
+    "AGREE annex placement strategy for assume/guarantee splitting"
+  ]
+}

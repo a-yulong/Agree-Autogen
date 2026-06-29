@@ -1,0 +1,43 @@
+package geofence_single
+public
+	
+	with geofence_nodes;
+	with base_types;
+	
+	system GeoFence_singleton
+		features
+			timeToRecovery: out data port real;
+	end GeoFence_singleton;
+	
+	system implementation GeoFence_singleton.impl
+		annex agree {**
+			var t: real;
+			var distanceFromFence: real;
+			
+			-- Initialize t with 0.0 and step size 0.1
+			t = 0.0;
+			t' = 0.1;
+			
+			-- Invoke circleLinearization function
+			distanceFromFence = circleLinearization(t);
+			
+			-- Set output port
+			timeToRecovery = 1.7;
+			
+			-- Guarantee: when simulation time t reaches or exceeds recovery time,
+			-- distanceFromFence at current time instance must be greater than
+			-- distanceFromFence at previous time instance
+			guarantee "recovery_behavior"
+				(t >= 1.6) ==> (distanceFromFence > distanceFromFence' );
+		**};
+	end GeoFence_singleton.impl;
+	
+	-- Type Aliases
+	
+	data int extends base_types::Integer
+	end int;
+	
+	data real extends base_types::Float
+	end real;
+	
+end geofence_single;

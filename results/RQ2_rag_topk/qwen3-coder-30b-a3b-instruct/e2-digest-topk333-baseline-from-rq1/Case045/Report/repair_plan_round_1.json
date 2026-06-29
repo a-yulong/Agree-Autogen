@@ -1,0 +1,35 @@
+{
+  "problems": [
+    {
+      "diagnostic": "mismatched input '\"initial_mode_bound\"' expecting RULE_ID",
+      "cause": "String literal used as identifier in const declaration",
+      "minimal_edit": "Remove quotes around initial_mode_bound"
+    },
+    {
+      "diagnostic": "Equation assigns 0 variables, but right side returns 1 values",
+      "cause": "Invalid equation syntax with unnamed return value",
+      "minimal_edit": "Replace eq \"mode_initial\": int = 0 with const mode_initial : int = 0"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'mode'",
+      "cause": "Reference to undefined variable 'mode' in equation",
+      "minimal_edit": "Replace eq \"mode_next\": int = if mode' = mode + 1 then mode + 1 else mode with eq mode_next : int = if mode' = mode + 1 then mode + 1 else mode"
+    },
+    {
+      "diagnostic": "The condition of the if statement is of type 'ErrorTypeDef' but must be of type 'bool'",
+      "cause": "Invalid expression in if condition",
+      "minimal_edit": "Replace mode' = mode + 1 with mode' = mode + 1"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid syntax in equation declaration",
+      "minimal_edit": "Replace eq \"mode_next\" with eq mode_next"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace const \"initial_mode_bound\": int = 0 with const initial_mode_bound : int = 0",
+    "Replace eq \"mode_initial\": int = 0 with const mode_initial : int = 0",
+    "Replace eq \"mode_next\": int = if mode' = mode + 1 then mode + 1 else mode with eq mode_next : int = if mode' = mode + 1 then mode + 1 else mode"
+  ]
+}

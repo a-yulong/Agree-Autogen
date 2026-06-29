@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place output range guarantees in component type scopes when the output feature is visible and the bounds are concrete.",
+    "Use `assume` for input envelope constraints and `guarantee` for output range constraints in component type contracts.",
+    "Generate `eq` helpers for complex boolean expressions like range checks, and use them in guarantees.",
+    "Use `assign` only for implementation-level bindings of output features or declared auxiliary variables."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for assignments.",
+    "Ensure all identifiers in AGREE expressions are visible in the current AADL scope.",
+    "Use valid AGREE scalar types: int, real, bool for declarations."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for logical constraints.",
+    "Use `eq name : type = expression;` for helper declarations in AGREE.",
+    "Use `assign output = expression;` for implementation-level output bindings.",
+    "Use `if ... then ... else` for branching logic in AGREE expressions."
+  ],
+  "anti_patterns": [
+    "Do not place guarantees in implementation scope unless the left-hand side is a valid output feature.",
+    "Do not reference AADL property names (e.g., Deadline, Period) as AGREE variables.",
+    "Do not invent new identifiers; only use visible AADL features or declared helpers.",
+    "Do not mix component type and implementation scope constructs in the same annex."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing-related AADL tokens",
+    "Model fusion and architecture grounding details",
+    "Validator diagnostics and repair strategies",
+    "Component implementation structure and subcomponent paths"
+  ]
+}

@@ -1,0 +1,194 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: altitude, verticalVelocity, outImpact, outRecovery, gcasRequested
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+altitude | in | data | real | Base_Types::float
+verticalVelocity | in | data | real | Base_Types::float
+outImpact | out | data | real | Base_Types::float
+outRecovery | out | data | real | Base_Types::float
+gcasRequested | out | data | bool | Base_Types::boolean
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "when vertDistance <= 30.0 or horzDistance <= 30.0, transition into collision avoidance state",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "GCAS_Monitor.GCAS_Monitor_impl.gcasm"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "aircraft's roll rate is within 10.0 to 15.0",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "GCAS_Monitor.GCAS_Monitor_impl.gcasm"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "outImpact is initialized to 0.0",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "outImpact"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "outRecovery is initialized to 0.0",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "outRecovery"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "outImpact remains constant while component is active",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "outImpact",
+        "GCAS_Monitor.GCAS_Monitor_impl.gcasm"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "outRecovery remains constant while component is active",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "outRecovery",
+        "GCAS_Monitor.GCAS_Monitor_impl.gcasm"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GCAS_Monitor | lines 25-30
+annex agree {**
+		  guarantee "impact_initialization": outImpact = 0.0;
+		  guarantee "recovery_initialization": outRecovery = 0.0;
+		  guarantee "impact_constant": outImpact' = 0.0;
+		  guarantee "recovery_constant": outRecovery' = 0.0;
+		**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   24: 			gcasRequested: out data port Base_Types::boolean;
+   25: 	annex agree {**
+   26: 		  guarantee "impact_initialization": outImpact = 0.0;
+   27: 		  guarantee "recovery_initialization": outRecovery = 0.0;
+>> 28: 		  guarantee "impact_constant": outImpact' = 0.0;
+   29: 		  guarantee "recovery_constant": outRecovery' = 0.0;
+   30: 		**};
+   31: 	end GCAS_Monitor;
+   32: 	
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: GCAS_Monitor
+process GCAS_Monitor
+		features
+			altitude: in data port Base_Types::float;
+			verticalVelocity: in data port Base_Types::float;
+			--Output from the GCAS monitor
+			outImpact: out data port Base_Types::float;
+			outRecovery: out data port Base_Types::float;
+			gcasRequested: out data port Base_Types::boolean;
+	end GCAS_Monitor;
+
+-- TARGET DECLARATION: GCAS_Monitor.GCAS_Monitor_impl
+Process implementation GCAS_Monitor.GCAS_Monitor_impl
+	end GCAS_Monitor.GCAS_Monitor_impl;
+
+-- RELATED MODEL LINES
+process GCAS_Monitor
+altitude: in data port Base_Types::float;
+verticalVelocity: in data port Base_Types::float;
+outImpact: out data port Base_Types::float;
+outRecovery: out data port Base_Types::float;
+gcasRequested: out data port Base_Types::boolean;
+end GCAS_Monitor;
+Process implementation GCAS_Monitor.GCAS_Monitor_impl
+end GCAS_Monitor.GCAS_Monitor_impl;
+gcasm: process GCAS_Monitor;
+gcasm_to_decider: port gcasm.gcasRequested -> dmc.inpGCASM;
+gcasmimp_to_decider: port gcasm.outImpact -> dmc.inpGCASImpact;
+gcasrec_to_decider: port gcasm.outRecovery -> dmc.inpGCASRecovery;
+acasmimp_to_decider: port acasm.outImpact -> dmc.inpACASImpact;
+acasrec_to_decider: port acasm.outRecovery -> dmc.inpACASRecovery;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "GCAS_Monitor",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "GCAS_Monitor.GCAS_Monitor_impl",
+      "kind": "process",
+      "type_name": "GCAS_Monitor"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "GCAS_Monitor.GCAS_Monitor_impl",
+      "name": "gcasm",
+      "category": "process",
+      "classifier": "GCAS_Monitor"
+    }
+  ],
+  "features": [
+    {
+      "owner": "GCAS_Monitor",
+      "name": "altitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GCAS_Monitor",
+      "name": "verticalVelocity",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GCAS_Monitor",
+      "name": "outImpact",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GCAS_Monitor",
+      "name": "outRecovery",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GCAS_Monitor",
+      "name": "gcasRequested",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    }
+  ]
+}

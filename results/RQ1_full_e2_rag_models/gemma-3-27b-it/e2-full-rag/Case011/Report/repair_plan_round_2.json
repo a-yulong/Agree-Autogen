@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 29: Couldn't resolve reference to 'altitudeFromGround'.",
+      "cause": "The identifier 'altitudeFromGround' is not visible in the current scope.",
+      "minimal_edit": "Remove the expression involving 'altitudeFromGround' from the guarantee clause."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 29: left and right sides of binary expression '<=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "The expression involving 'altitudeFromGround' is invalid, leading to a type error.",
+      "minimal_edit": "Remove the expression involving 'altitudeFromGround' from the guarantee clause."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 29: left side of binary expression '<=' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "The expression involving 'altitudeFromGround' is invalid, leading to a type error.",
+      "minimal_edit": "Remove the expression involving 'altitudeFromGround' from the guarantee clause."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 29: named thing must be an expression with a type",
+      "cause": "The expression involving 'altitudeFromGround' is invalid, leading to a type error.",
+      "minimal_edit": "Remove the expression involving 'altitudeFromGround' from the guarantee clause."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the expression '(altitudeFromGround <= 500.0)' from the guarantee clause.",
+    "Update the guarantee clause to: `guarantee \"altitude_or_height_low_implies_gcas\": (altitude <= 30.0) => gcasRequested;`"
+  ]
+}

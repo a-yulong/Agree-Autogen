@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Use `assume`, `guarantee`, `eq`, `const`, and `assign` syntax within `annex agree {** ... **};` blocks as per KSYN-1 and KSYN-2.",
+    "Place implementation-level `assign` statements only in component implementation annexes, and avoid `guarantee` in those scopes (KEXP-1).",
+    "For component type contracts, include assumptions and guarantees only when concrete bounds or visible relations are provided (KEXP-2)."
+  ],
+  "generic_rules": [
+    "AGREE annex blocks are scoped to their owning component and must reference only visible identifiers from that scope.",
+    "Use visible feature names and constants from the AADL model for AGREE expressions.",
+    "Do not encode AADL properties like timing or unit tokens directly in AGREE expressions unless explicitly exposed as typed ports or constants.",
+    "Component type contracts should relate visible inputs to visible outputs without relying on implementation-only subcomponents."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `assign` only for output features or declared auxiliary variables in implementation scope.",
+    "Guarantees in type scope should express deterministic dependencies between visible features."
+  ],
+  "anti_patterns": [
+    "Avoid referencing AADL property names like Compute_Execution_Time or unit tokens (ms, Hz) as AGREE variables.",
+    "Do not copy identifiers from examples or invent new ports/components not present in the AADL model.",
+    "Do not place `guarantee` statements in component implementation annexes."
+  ],
+  "irrelevant_topics": [
+    "AADL annex placement and fusion",
+    "AGREE validator diagnostics and repair",
+    "Requirement traceability and compact semantics"
+  ]
+}

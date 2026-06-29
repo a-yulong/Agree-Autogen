@@ -1,0 +1,179 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE contracts in annex agree blocks within component type scopes for assumptions and guarantees, and implementation scopes for assignments.
+- Use assume/guarantee syntax with valid component port references and visible identifiers.
+- Generate eq helpers and const declarations for named thresholds and ranges in type scopes.
+- Avoid encoding AADL timing properties (Period, Deadline, etc.) as AGREE expressions unless model exposes typed ports or constants.
+Generic rules:
+- AGREE annex blocks must be syntactically valid with proper scoping of variables and expressions.
+- Assumptions should describe input constraints; guarantees should describe output behavior.
+- Constants and equation helpers should be declared in the same scope as their usage.
+- Assign statements must reference existing output features or declared auxiliary variables.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements.
+- Declare `eq` helpers and `const` values before using them in expressions.
+- Use `assign output = expression;` only in implementation scope for output features.
+- AGREE scalar types are int, real, and bool; avoid invalid type names like 'integer' or 'boolean'.
+Anti-patterns:
+- Do not reference AADL property names (e.g., Period, Deadline) directly in AGREE expressions without model exposure.
+- Do not place guarantee statements in implementation scope; use type scope for behavioral contracts.
+- Do not use invalid scalar type names like 'integer' or 'boolean' in const or eq declarations.
+- Do not generate assumptions or guarantees for features not visible in the current scope.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- accout
+- acc_command_in
+
+Target interface:
+Exact expression symbols: accout, acc_command_in
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+accout | out | data | int | SHM_DataType::accData
+acc_command_in | in | data | int | SHM_DataType::actionData
+
+Raw requirement:
+The acc6_dataOutput component shall define the implementation-level signal routing for acc6_dataOutput.impl. In the implementation layer, acc6_dataOutput.impl shall route data flow from spg.accDataOut to accout through C1 and control signal from acc_command_in to spg.event_in through C2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data flow from spg.accDataOut to accout through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc6_dataOutput.impl.C1",
+        "sub1.accDataOut",
+        "accout"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Control signal from acc_command_in to spg.event_in through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc6_dataOutput.impl.C2",
+        "acc_command_in",
+        "sub1.event_in"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "acc6_dataOutput.impl subcomponent uses classifier subprograms::acc6_dataOutput_spg",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "acc6_dataOutput.impl",
+        "subprograms::acc6_dataOutput_spg"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "acc6_dataOutput Period=4000 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "acc6_dataOutput Period"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "acc6_dataOutput Deadline=500 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "acc6_dataOutput Deadline"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "acc6_dataOutput Compute_Execution_Time=400 ms .. 500 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "acc6_dataOutput Compute_Execution_Time"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "acc6_dataOutput ARINC653::Sampling_Refresh_Period=50 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "acc6_dataOutput ARINC653::Sampling_Refresh_Period"
+      ]
+    },
+    {
+      "id": "R8",
+      "text": "acc6_dataOutput Dispatch_Protocol=Periodic",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc6_dataOutput Dispatch_Protocol"
+      ]
+    },
+    {
+      "id": "R9",
+      "text": "acc6_dataOutput Priority=1",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc6_dataOutput Priority"
+      ]
+    },
+    {
+      "id": "R10",
+      "text": "acc6_dataOutput Stack_Size=20 KByte",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc6_dataOutput Stack_Size"
+      ]
+    },
+    {
+      "id": "R11",
+      "text": "acc6_dataOutput Code_Size=100 KByte",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc6_dataOutput Code_Size"
+      ]
+    },
+    {
+      "id": "R12",
+      "text": "acc6_dataOutput Data_Size=1 KByte",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc6_dataOutput Data_Size"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 13: Couldn't resolve reference to 'e'.",
+      "cause": "Variable 'e' is not declared in the AGREE annex scope",
+      "minimal_edit": "Declare 'e' as a real-valued equation before using it in the guarantee"
+    },
+    {
+      "diagnostic": "line 13: left and right sides of binary expression '*' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Expression 'e' has unresolved type due to missing declaration",
+      "minimal_edit": "Ensure 'e' is declared as a real variable before use in arithmetic expressions"
+    },
+    {
+      "diagnostic": "line 14: Couldn't resolve reference to 'e'.",
+      "cause": "Variable 'e' is not declared in the AGREE annex scope",
+      "minimal_edit": "Declare 'e' as a real-valued equation before using it in the guarantee"
+    },
+    {
+      "diagnostic": "line 14: left and right sides of binary expression '=' are of type '<error>' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "Expression 'e' has unresolved type due to missing declaration",
+      "minimal_edit": "Ensure 'e' is declared as a real variable before use in equality expressions"
+    },
+    {
+      "diagnostic": "line 15: Couldn't resolve reference to 'e'.",
+      "cause": "Variable 'e' is not declared in the AGREE annex scope",
+      "minimal_edit": "Declare 'e' as a real-valued equation before using it in the integral expression"
+    },
+    {
+      "diagnostic": "line 15: Couldn't resolve reference to 'integral'.",
+      "cause": "Integral function is not recognized in AGREE context",
+      "minimal_edit": "Replace 'integral(e, time)' with 'integ(e)' to use AGREE's built-in integration operator"
+    },
+    {
+      "diagnostic": "line 16: Couldn't resolve reference to 'derivative'.",
+      "cause": "Derivative function is not recognized in AGREE context",
+      "minimal_edit": "Replace 'derivative(e, time)' with 'diff(e)' to use AGREE's built-in differentiation operator"
+    },
+    {
+      "diagnostic": "line 16: Couldn't resolve reference to 'e'.",
+      "cause": "Variable 'e' is not declared in the AGREE annex scope",
+      "minimal_edit": "Declare 'e' as a real-valued equation before using it in the derivative expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add 'eq e : real = Target - Actual;' before the existing guarantees",
+    "Replace 'integral(e, time)' with 'integ(e)' in the e_int declaration",
+    "Replace 'derivative(e, time)' with 'diff(e)' in the e_dot declaration"
+  ]
+}

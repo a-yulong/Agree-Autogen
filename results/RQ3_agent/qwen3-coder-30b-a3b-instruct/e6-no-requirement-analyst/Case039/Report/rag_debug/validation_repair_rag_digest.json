@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Fix type mismatches between AGREE expressions and AADL port types by aligning declared types with actual expressions.",
+    "Use initialized state guards when referencing previous values with `pre()` to avoid undefined behavior.",
+    "Avoid referencing AADL properties like Compute_Execution_Time or unit tokens (e.g., ms, Hz) directly in AGREE expressions."
+  ],
+  "generic_rules": [
+    "Ensure all AGREE expressions use compatible types for binary operations like '='.",
+    "Guard temporal comparisons with initialized flags to prevent undefined pre() usage.",
+    "Only reference visible AADL features or declared helpers within AGREE annex scopes."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `eq` for typed local expressions and `assign` for port assignments in AGREE.",
+    "Place assumptions and guarantees in valid component type or implementation scopes.",
+    "Use `pre()` expressions with initialized boolean guards for temporal logic."
+  ],
+  "anti_patterns": [
+    "Do not assume AADL property names (e.g., Period, Deadline) are automatically available as AGREE variables.",
+    "Do not mix incompatible AADL types (e.g., real vs. speed_impl) in AGREE binary expressions without explicit conversion."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about unreachable or inadequate port specs",
+    "AGREE validator diagnostics about annex placement or scope",
+    "Requirement traceability or compact semantics"
+  ]
+}

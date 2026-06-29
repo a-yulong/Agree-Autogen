@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "Place assume/guarantee declarations in component type annexes when they describe interface behavior, and use implementation annexes for subcomponent bindings.",
+    "Use visible identifiers from the component scope when creating AGREE expressions, avoiding references to AADL properties like Compute_Execution_Time or unit tokens."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks and scoped to their owning component.",
+    "Equations and constants in AGREE should reference only visible identifiers or named constants from the same component scope.",
+    "Assumptions and guarantees should be placed in component type scopes when they describe port behavior, not implementation details.",
+    "Avoid using AADL property names directly in AGREE expressions unless they are explicitly typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for behavioral contracts.",
+    "Use `eq name : type = expression;` for derived values and `const name : type = value;` for fixed values.",
+    "Use `assign output = expression;` for implementation-level bindings in component implementations."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level assignments in component type annexes or refer to subcomponent ports in type contracts.",
+    "Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and their automatic scope in AGREE",
+    "Model fusion and architecture redesign during repair",
+    "Requirement traceability and compact semantics",
+    "Model analyst structural extraction patterns"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "rag_rules": [
+    "When repairing AGREE diagnostics, ensure that generated contracts are placed in the correct AADL scope: component type annexes for assumptions/guarantees, implementation annexes for bindings.",
+    "If a diagnostic points to a missing EOF, ensure the AGREE annex block is properly terminated with a closing brace and semicolon.",
+    "Do not introduce package-qualified identifiers or types that are not present in the model's configured dependencies.",
+    "Avoid placing guarantees in implementation scope; use assign for output bindings instead."
+  ],
+  "generic_rules": [
+    "Use AGREE logical operators (and, or, not, =>) for expressing conditional logic in contracts.",
+    "Ensure type consistency in AGREE expressions: Boolean expressions for bool variables, numeric for int/real.",
+    "Generated AGREE code should reference only visible identifiers from the AADL model.",
+    "Helper equations and constants should be declared within the same annex block where they are used."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.",
+    "Branching logic should use nested `if ... then ... else` expressions.",
+    "Assignments in implementation scope must reference valid output features or declared auxiliary variables."
+  ],
+  "anti_patterns": [
+    "Do not place component type assumptions or guarantees in implementation scope unless they are valid bindings.",
+    "Do not introduce unresolved identifiers or types that are not part of the visible AADL model.",
+    "Do not assume that AADL property names (e.g., Period, Priority) are automatically available as AGREE variables.",
+    "Do not attempt to fix missing EOF by adding syntax outside the annex block."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "implementation scope output assign",
+    "type scope range assumption and guarantee",
+    "integrated pattern chunk 1",
+    "output envelope chunk 2",
+    "pairwise consistency chunk 1",
+    "conditional selection chunk 1",
+    "range monitor chunk 1"
+  ]
+}

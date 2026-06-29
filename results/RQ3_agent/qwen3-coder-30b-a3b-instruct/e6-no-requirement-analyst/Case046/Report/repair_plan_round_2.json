@@ -1,0 +1,58 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 48: Assume statements are allowed only in component types",
+      "cause": "assume statement in implementation annex",
+      "minimal_edit": "move assume \"input_bound\": Input < 10; to top_level annex"
+    },
+    {
+      "diagnostic": "line 50: Guarantee statements are allowed only in component types",
+      "cause": "guarantee statement in implementation annex",
+      "minimal_edit": "move guarantee \"mode_non_negative\": mode >= 0; to top_level annex"
+    },
+    {
+      "diagnostic": "line 52: Guarantee statements are allowed only in component types",
+      "cause": "guarantee statement in implementation annex",
+      "minimal_edit": "move guarantee \"output_bound\": Output < 50; to top_level annex"
+    },
+    {
+      "diagnostic": "line 54: Couldn't resolve reference to \"input_forward\": A_sub.Input",
+      "cause": "A_sub.Input is not a valid left-hand side in AGREE assignment",
+      "minimal_edit": "remove assign \"input_forward\": A_sub.Input = Input;"
+    },
+    {
+      "diagnostic": "line 56: Couldn't resolve reference to \"a_to_b_c\": B_sub.Input",
+      "cause": "B_sub.Input is not a valid left-hand side in AGREE assignment",
+      "minimal_edit": "remove assign \"a_to_b_c\": B_sub.Input = A_sub.Output;"
+    },
+    {
+      "diagnostic": "line 58: Couldn't resolve reference to \"a_to_c\": C_sub.Input_1",
+      "cause": "C_sub.Input_1 is not a valid left-hand side in AGREE assignment",
+      "minimal_edit": "remove assign \"a_to_c\": C_sub.Input_1 = A_sub.Output;"
+    },
+    {
+      "diagnostic": "line 60: Couldn't resolve reference to \"b_to_c\": C_sub.Input_2",
+      "cause": "C_sub.Input_2 is not a valid left-hand side in AGREE assignment",
+      "minimal_edit": "remove assign \"b_to_c\": C_sub.Input_2 = B_sub.Output;"
+    },
+    {
+      "diagnostic": "line 62: Couldn't resolve reference to \"c_to_output\": Output",
+      "cause": "Output is not a valid left-hand side in AGREE assignment",
+      "minimal_edit": "remove assign \"c_to_output\": Output = C_sub.Output;"
+    },
+    {
+      "diagnostic": "line 64: Couldn't resolve reference to \"mode_assignment\": mode",
+      "cause": "mode is not a valid left-hand side in AGREE assignment",
+      "minimal_edit": "remove assign \"mode_assignment\": mode = C_sub.mode;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove assume statement from top_level.Impl annex",
+    "Remove guarantee statements from top_level.Impl annex",
+    "Remove all assign statements from top_level.Impl annex",
+    "Add assume \"input_bound\": Input < 10; to top_level annex",
+    "Add guarantee \"mode_non_negative\": mode >= 0; to top_level annex",
+    "Add guarantee \"output_bound\": Output < 50; to top_level annex"
+  ]
+}

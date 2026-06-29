@@ -1,0 +1,8 @@
+annex agree {**
+  assume "dataout bounds": (0 <= dataout) and (dataout <= 20);
+  guarantee "dataout equals k": dataout = k;
+  const "k initial value": k = 10;
+  guarantee "k update rule 1": (k_prev >= 20) => (k = k_prev - 1);
+  guarantee "k update rule 2": (k_prev <= 0) => (k = k_prev + 1);
+  guarantee "k update rule 3": (k_prev > 0 and k_prev < 20) => (k = k_prev);
+**};

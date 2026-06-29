@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 220: Guarantee statements are allowed only in component types",
+      "cause": "AGREE guarantee statement placed in process implementation annex",
+      "minimal_edit": "Move the guarantee statement from partition1_process.impl annex to partition1_process annex"
+    },
+    {
+      "diagnostic": "line 199: named thing must be an expression with a type",
+      "cause": "Expression type resolution failed due to previous diagnostics",
+      "minimal_edit": "Ensure the guarantee expression in partition1_process annex is valid and resolvable"
+    },
+    {
+      "diagnostic": "line 220: named thing must be an expression with a type",
+      "cause": "Expression type resolution failed due to previous diagnostics",
+      "minimal_edit": "Ensure the guarantee expression in partition1_process annex is valid and resolvable"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee statement from the partition1_process.impl annex block",
+    "Add the guarantee statement to the partition1_process annex block",
+    "Verify that the expression 'samplingout >= 0 and samplingout <= 100' is properly typed and resolvable in the component type context"
+  ]
+}

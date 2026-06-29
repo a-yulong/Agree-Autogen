@@ -1,0 +1,45 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 20: Couldn't resolve reference to 'abs'.",
+      "cause": "abs function not recognized in AGREE context",
+      "minimal_edit": "Replace abs(Actual_Speed.val - Actual_Speed.val_previous) with (Actual_Speed.val - Actual_Speed.val_previous)"
+    },
+    {
+      "diagnostic": "line 20: Couldn't resolve reference to 'val_previous'.",
+      "cause": "val_previous not a valid AGREE expression",
+      "minimal_edit": "Replace Actual_Speed.val_previous with Actual_Speed.val_previous"
+    },
+    {
+      "diagnostic": "line 20: left and right sides of binary expression '-' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Expression type mismatch due to unresolved val_previous",
+      "minimal_edit": "Replace Actual_Speed.val - Actual_Speed.val_previous with Actual_Speed.val - Actual_Speed.val_previous"
+    },
+    {
+      "diagnostic": "line 20: left and right sides of binary expression '<' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Expression type mismatch due to unresolved val_previous",
+      "minimal_edit": "Replace (Actual_Speed.val - Actual_Speed.val_previous) < max_accel with (Actual_Speed.val - Actual_Speed.val_previous) < max_accel"
+    },
+    {
+      "diagnostic": "line 20: left side of binary expression '<' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Expression type mismatch due to unresolved val_previous",
+      "minimal_edit": "Replace (Actual_Speed.val - Actual_Speed.val_previous) < max_accel with (Actual_Speed.val - Actual_Speed.val_previous) < max_accel"
+    },
+    {
+      "diagnostic": "line 20: named thing must be an expression with a type",
+      "cause": "Expression contains unresolved symbols",
+      "minimal_edit": "Replace abs(Actual_Speed.val - Actual_Speed.val_previous) < max_accel with (Actual_Speed.val - Actual_Speed.val_previous) < max_accel"
+    },
+    {
+      "diagnostic": "line 20: right side of binary expression '-' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Expression type mismatch due to unresolved val_previous",
+      "minimal_edit": "Replace Actual_Speed.val - Actual_Speed.val_previous with Actual_Speed.val - Actual_Speed.val_previous"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace abs(Actual_Speed.val - Actual_Speed.val_previous) with (Actual_Speed.val - Actual_Speed.val_previous) in the acceleration_limit guarantee",
+    "Replace Actual_Speed.val_previous with Actual_Speed.val_previous in the acceleration_limit guarantee",
+    "Replace the entire expression abs(Actual_Speed.val - Actual_Speed.val_previous) < max_accel with (Actual_Speed.val - Actual_Speed.val_previous) < max_accel in the acceleration_limit guarantee"
+  ]
+}

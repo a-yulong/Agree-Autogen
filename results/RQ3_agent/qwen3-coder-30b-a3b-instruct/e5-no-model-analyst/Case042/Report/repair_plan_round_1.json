@@ -1,0 +1,51 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 70: Couldn't resolve reference to 'MC'.",
+      "cause": "MC is a subcomponent reference, not a port or variable in the component type scope",
+      "minimal_edit": "Replace 'MC.clear' with 'clear' in the assume statement"
+    },
+    {
+      "diagnostic": "line 70: Couldn't resolve reference to 'clear'.",
+      "cause": "The left-hand side 'clear' is not a valid expression in this context",
+      "minimal_edit": "Remove the assume statement entirely as it is invalid"
+    },
+    {
+      "diagnostic": "line 71: Couldn't resolve reference to 'DC'.",
+      "cause": "DC is a subcomponent reference, not a port or variable in the component type scope",
+      "minimal_edit": "Replace 'DC.clear' with 'clear' in the assume statement"
+    },
+    {
+      "diagnostic": "line 71: Couldn't resolve reference to 'clear'.",
+      "cause": "The left-hand side 'clear' is not a valid expression in this context",
+      "minimal_edit": "Remove the assume statement entirely as it is invalid"
+    },
+    {
+      "diagnostic": "line 72: Couldn't resolve reference to 'MC'.",
+      "cause": "MC is a subcomponent reference, not a port or variable in the component type scope",
+      "minimal_edit": "Replace 'MC.start' with 'start' in the assume statement"
+    },
+    {
+      "diagnostic": "line 72: Couldn't resolve reference to 'start'.",
+      "cause": "The left-hand side 'start' is not a valid expression in this context",
+      "minimal_edit": "Remove the assume statement entirely as it is invalid"
+    },
+    {
+      "diagnostic": "line 73: Couldn't resolve reference to 'DC'.",
+      "cause": "DC is a subcomponent reference, not a port or variable in the component type scope",
+      "minimal_edit": "Replace 'DC.kp_0' with 'kp_0' in the assume statement"
+    },
+    {
+      "diagnostic": "line 73: Couldn't resolve reference to 'kp_0'.",
+      "cause": "The left-hand side 'kp_0' is not a valid expression in this context",
+      "minimal_edit": "Remove the assume statement entirely as it is invalid"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the entire annex agree block from Microwave_Control",
+    "Add a new annex agree block to Microwave_Control.Impl with valid assume statements",
+    "Replace each invalid assume statement with a valid one using only visible identifiers",
+    "Ensure all assume statements are in the implementation scope and reference valid ports"
+  ]
+}

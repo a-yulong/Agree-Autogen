@@ -1,0 +1,92 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks inside `annex agree {** ... **};` blocks.
+- Use `assign output = expression;` for implementation-level bindings.
+- Place assumptions, guarantees, constants, and equation declarations in component type annexes.
+- Treat each annex agree block as scoped to its owning component declaration.
+Generic rules:
+- Use exact current-case names from the model index for AGREE expressions.
+- Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for them.
+- AGREE expressions may only reference identifiers visible in the current component scope.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contracts.
+- Use `eq name : type = expression;` for equations and `const name : type = value;` for constants.
+- The authoritative source for component names, ports, directions, data types, subcomponents, and connections is the input AADL model.
+Anti-patterns:
+- Do not copy identifiers from examples or invent ports/components.
+- Do not delete generated clauses based on validator diagnostics without understanding the root cause.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- acc1_input
+- acc2_input
+- acc3_input
+- acc4_input
+- acc5_input
+- acc6_input
+
+Target interface:
+Exact expression symbols: acc1_input, acc2_input, acc3_input, acc4_input, acc5_input, acc6_input
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc1_input | in | data | int | SHM_DataType::accData
+acc2_input | in | data | int | SHM_DataType::accData
+acc3_input | in | data | int | SHM_DataType::accData
+acc4_input | in | data | int | SHM_DataType::accData
+acc5_input | in | data | int | SHM_DataType::accData
+acc6_input | in | data | int | SHM_DataType::accData
+
+Raw requirement:
+The acc_process_emv2 component shall define the implementation-level signal routing for acc_process_emv2.impl. In the implementation layer, acc_process_emv2.impl shall route signal flow from acc1_input to acc1.acc1_input through C21 and signal flow from acc2_input to acc2.acc2_input through C22.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "acc1_input is routed to acc1.acc1_input through C21",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc1_input",
+        "acc1.acc1_input",
+        "C21"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "acc2_input is routed to acc2.acc2_input through C22",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc2_input",
+        "acc2.acc2_input",
+        "C22"
+      ]
+    }
+  ]
+}

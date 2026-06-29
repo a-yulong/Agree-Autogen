@@ -1,0 +1,7 @@
+annex agree {**
+  assume "non_negative_target_speed": Target_Speed >= 0.0;
+  assume "upper_bound_target_speed": Target_Speed < 150.0;
+  const max_accel = 40.0;
+  guarantee "constant_target_speed_bound": const_tar_speed => Actual_Speed <= Target_Speed;
+  guarantee "acceleration_limit": abs(Actual_Speed - prev(Actual_Speed)) < max_accel;
+**};

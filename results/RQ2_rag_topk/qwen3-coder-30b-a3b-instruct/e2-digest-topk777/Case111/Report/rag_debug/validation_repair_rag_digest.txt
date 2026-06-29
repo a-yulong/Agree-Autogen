@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE annexes must be placed in valid AADL scopes: type annexes for assumptions/guarantees, implementation annexes for assignments.
+- Generated AGREE code should only reference identifiers present in the input AADL model.
+- Repair diagnostics should be resolved by aligning AGREE expressions with visible AADL features or removing invalid clauses.
+- AGREE scalar types are int, real, and bool; avoid package-qualified or invalid type names.
+Syntax or pattern reminders:
+- AGREE contracts use `assume`, `guarantee`, `eq`, `const`, and `assign` syntax within `annex agree {** ... **};` blocks.
+- Implementation-level bindings use `assign` only for output features or declared auxiliary variables.
+- Type-level contracts reference only visible ports and features; implementation-level contracts reference subcomponents and connections.
+- Helper functions and variables must be declared within the same annex or imported from valid packages.
+Anti-patterns:
+- Do not place assignment statements in component type annexes; they are only valid in implementation scopes.
+- Do not reference identifiers that are not visible in the current AADL component scope.
+- Do not attempt to resolve missing identifiers by inventing new declarations; use only existing visible symbols.
+- Do not mix AADL property names (e.g., Compute_Execution_Time) directly into AGREE expressions.
+Irrelevant retrieved material:
+- AADL package references and with clauses
+- AGREE validator diagnostics and repair strategies
+- Model Analyst Agent's role in extracting AADL structure
+- Requirement Analyst Agent's role in traceability
+</RAG_DIGEST>

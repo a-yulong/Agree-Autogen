@@ -1,0 +1,205 @@
+round=5
+
+[TARGET INTERFACE]
+Exact expression symbols: acc1_input, acc2_input, acc3_input, acc4_input, acc5_input, acc6_input, ADIRUp_error_out, ADIRUp_error_action
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc1_input | in | data | int | SHM_DataType::accData
+acc2_input | in | data | int | SHM_DataType::accData
+acc3_input | in | data | int | SHM_DataType::accData
+acc4_input | in | data | int | SHM_DataType::accData
+acc5_input | in | data | int | SHM_DataType::accData
+acc6_input | in | data | int | SHM_DataType::accData
+ADIRUp_error_out | out | data | int | SHM_DataType::errorData
+ADIRUp_error_action | in | data | int | SHM_DataType::actionData
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Route data flow from acc1_input to HM_th.accData_in1 through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc1_input",
+        "HM_th.accData_in1",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Route data flow from acc2_input to HM_th.accData_in2 through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc2_input",
+        "HM_th.accData_in2",
+        "C2"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "ADIRUp_process.impl.solve_th1 classifier=threads::ADIRUp_solve.impl",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_process.impl.solve_th1",
+        "threads::ADIRUp_solve.impl"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "ADIRUp_process.impl.HM_th classifier=threads::ADIRUp_HM.impl",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_process.impl.HM_th",
+        "threads::ADIRUp_HM.impl"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "ADIRUp_process ARINC653::Sampling_Refresh_Period=1 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_process",
+        "ARINC653::Sampling_Refresh_Period"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "ADIRUp_process Compute_Deadline=0 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "ADIRUp_process",
+        "Compute_Deadline"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: ADIRUp_process | lines 254-264
+annex agree {**
+            assume "acc1_input_valid": acc1_input >= 0;
+            assume "acc2_input_valid": acc2_input >= 0;
+            assume "acc3_input_valid": acc3_input >= 0;
+            assume "acc4_input_valid": acc4_input >= 0;
+            assume "acc5_input_valid": acc5_input >= 0;
+            assume "acc6_input_valid": acc6_input >= 0;
+            guarantee "route_acc1_to_HM_th": ADIRUp_error_out = acc1_input;
+            guarantee "route_acc2_to_HM_th": ADIRUp_error_out = acc2_input;
+            guarantee "error_action_depends_on_input": ADIRUp_error_action = acc1_input or ADIRUp_error_action = acc2_input;
+          **};
+
+[DIAGNOSTIC LINE CONTEXT]
+No validator line numbers were available.
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: ADIRUp_process
+process ADIRUp_process
+  features
+    acc1_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 1 ms;};
+    acc2_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 1 ms;};
+    acc3_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 1 ms;};
+    acc4_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 1 ms;};
+    acc5_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 1 ms;};
+    acc6_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 1 ms;};
+    --ADIRUp_output: out data port SHM_DataType::accData;
+    ADIRUp_error_out: out event data port SHM_DataType::errorData;
+    ADIRUp_error_action: in event data port SHM_DataType::actionData
+    	{Compute_Deadline => 0 ms;};
+  end ADIRUp_process;
+
+-- TARGET DECLARATION: ADIRUp_process.impl
+process implementation ADIRUp_process.impl
+  subcomponents
+    solve_th1: thread threads::ADIRUp_solve.impl;
+    --solve_th2: thread threads::ADIRUp_solve.impl;
+    HM_th: thread threads::ADIRUp_HM.impl;
+
+  connections
+    C1: port acc1_input->HM_th.accData_in1;
+    C2: port acc2_input->HM_th.accData_in2;
+    C3: port acc3_input->HM_th.accData_in3;
+    C4: port acc4_input->HM_th.accData_in4;
+    C5: port acc5_input->HM_th.accData_in5;
+    C6: port acc6_input->HM_th.accData_in6;
+
+    C7: port HM_th.accData_out1->solve_th1.solver_in1;
+    C8: port HM_th.accData_out2->solve_th1.solver_in2;
+    C9: port HM_th.accData_out3->solve_th1.solver_in3;
+    C10: port HM_th.accData_out4->solve_th1.solver_in4;
+    C11: port HM_th.accData_out5->solve_th1.solver_in5;
+    C12: port HM_th.accData_out6->solve_th1.solver_in6;
+
+    --port solve_th.ADIRUpout->ADIRUp_output;
+
+    C13: port ADIRUp_error_action->HM_th.adirup_error_action;
+    C14: port HM_th.adirup_error_out->ADIRUp_error_out;
+
+   annex EMV2 {**
+ 	 use types ADIRU_errLibrary;
+     use behavior ADIRU_errLibrary::display_simple;
+
+     error propagations
+       acc1_input: in propagation{ValueErroneous};
+       acc2_input: in propagation{ValueErroneous};
+       acc3_input: in propagation{ValueErroneous};
+       acc4_input: in propagation{ValueErroneous};
+       acc5_input: in propagation{ValueErroneous};
+       acc6_input: in propagation{ValueErroneous};
+    flows
+      f1 : error sink acc1_input{ValueErroneous};
+      f2 : error sink acc2_input{ValueErroneous};
+      f3 : error sink acc3_input{ValueErroneous};
+      f4 : error sink acc4_input{ValueErroneous};
+      f5 : error sink acc5_input{ValueErroneous};
+      f6 : error sink acc6_input{ValueErroneous};
+    end propagations;
+
+    component error behavior
+    transitions
+      t1 : operational -[ (acc1_input{ValueErroneous} and acc2_input{ValueErroneous} and acc3_input{ValueErroneous}) or
+                          (acc1_input{ValueErroneous} and acc2_input{ValueErroneous} and acc4_input{ValueErroneous}) or
+                          (acc1_input{ValueErroneous} and acc3_input{ValueErroneous} and acc4_input{ValueErroneous}) or
+                          (acc2_input{ValueErroneous} and acc3_input{ValueErroneous} and acc4_input{ValueErroneous})
+                        ]-> displayErroneousValue;
+    end component; **};
+  end ADIRUp_process.impl;
+
+-- RELATED MODEL LINES
+acc1_input: in data port SHM_DataType::accData;
+acc2_input: in data port SHM_DataType::accData;
+acc3_input: in data port SHM_DataType::accData;
+acc4_input: in data port SHM_DataType::accData;
+acc5_input: in data port SHM_DataType::accData;
+acc6_input: in data port SHM_DataType::accData;
+C21 : port acc1_input -> acc1.acc1_input;
+C22 : port acc2_input -> acc2.acc2_input;
+C23 : port acc3_input -> acc3.acc3_input;
+C24 : port acc4_input -> acc4.acc4_input;
+C25 : port acc5_input -> acc5.acc5_input;
+C26 : port acc6_input -> acc6.acc6_input;
+acc1_input  : in  propagation{ValueErroneous};
+acc2_input  : in  propagation{ValueErroneous};
+acc3_input  : in  propagation{ValueErroneous};
+acc4_input  : in  propagation{ValueErroneous};
+acc5_input  : in  propagation{ValueErroneous};
+acc6_input  : in  propagation{ValueErroneous};
+f1 : error path acc1_input{ValueErroneous} -> acc1_output{ValueErroneous};
+f2 : error path acc2_input{ValueErroneous} -> acc2_output{ValueErroneous};
+f3 : error path acc3_input{ValueErroneous} -> acc3_output{ValueErroneous};
+f4 : error path acc4_input{ValueErroneous} -> acc4_output{ValueErroneous};
+f5 : error path acc5_input{ValueErroneous} -> acc5_output{ValueErroneous};
+f6 : error path acc6_input{ValueErroneous} -> acc6_output{ValueErroneous};
+acc1_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc2_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc3_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc4_input: in data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 25 ms;};
+acc5_in
+-- [target model context truncated]

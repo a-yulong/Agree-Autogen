@@ -1,0 +1,148 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.
+- Place assumptions and guarantees in valid component type scopes, and use assign only for implementation-level output features or declared auxiliary variables.
+Generic rules:
+- AGREE contracts should use logical operators like 'and', 'or', 'not(...)', and implication '=>'.
+- Ensure that visible identifiers are properly typed and aligned with expression types to avoid type mismatch errors.
+- For component type contracts, include only assumptions and guarantees with concrete bounds or named constants.
+- Do not encode AADL timing properties as AGREE expressions unless explicit typed ports or constants are available.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements.
+- Use `eq name : type = expression;` for equation declarations and `const name : type = value;` for constant declarations.
+Anti-patterns:
+- Avoid placing guarantee statements in implementation scope; use assign only for output features or auxiliary variables.
+- Do not reference AADL property names like Compute_Execution_Time or unit tokens directly in AGREE expressions.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Supervised_System
+- timeToFailure
+- timeToRecovery
+- p1
+- p2
+- p3
+- Supervised_System.impl
+- gcas
+- tcas
+- geof
+- supervisor
+- GeoFence_singleton
+- GeoFence_singleton.impl
+- TCAS_singleton
+- nearestIntruderAltitude
+- nearestIntruderGroundDistance
+- nearestIntruderLongitude
+- ownAltitude_in
+- ownHeading
+- ownVerticalVelocity
+- ownLatitude
+- ownLongitude
+- requiredVerticalVelocity
+- TCAS_singleton.impl
+- GCAS_singleton
+- altitude
+- GCAS_singleton.impl
+- Supervisor
+- gcas_timeToFailure
+- tcas_timeToFailure
+- geof_timeToFailure
+- gcas_timeToRecovery
+- tcas_timeToRecovery
+- geof_timeToRecovery
+- Supervisor.impl
+- int
+- real
+- bool
+
+Target interface:
+Exact expression symbols: altitude, timeToRecovery, timeToFailure
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+altitude | in | data | opaque | real
+timeToRecovery | out | data | opaque | real
+timeToFailure | out | data | opaque | real
+
+Raw requirement:
+The GCAS_singleton component shall declare a height variable and invoke the kinematicLinearization function from the gcas_nodes library to compute its value. The component shall set the recovery time to 8.7 and the failure time to 16.0. Additionally, the component shall guarantee that once the simulation time exceeds the recovery time of 8.7, the height value must always remain greater than the minimum allowed height of 200.0, and the current height must be strictly greater than the height value from the previous time step to indicate a continuous pull-up trend.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "height value must always remain greater than 200.0 once simulation time exceeds 8.7",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "height",
+        "timeToRecovery",
+        "altitude"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "current height must be strictly greater than height from previous time step",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "height",
+        "altitude"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "GCAS_singleton invokes kinematicLinearization function from gcas_nodes library",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "GCAS_singleton",
+        "kinematicLinearization",
+        "gcas_nodes"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "simulation time exceeds recovery time of 8.7",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "timeToRecovery"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "recovery time set to 8.7 and failure time set to 16.0",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "timeToRecovery",
+        "timeToFailure"
+      ]
+    }
+  ]
+}

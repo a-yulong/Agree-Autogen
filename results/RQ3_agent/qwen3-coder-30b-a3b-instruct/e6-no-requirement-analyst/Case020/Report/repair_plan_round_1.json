@@ -1,0 +1,33 @@
+{
+  "problems": [
+    {
+      "diagnostic": "mismatched input '=' expecting ':'",
+      "cause": "Invalid AGREE syntax for constant declaration",
+      "minimal_edit": "Change 'const K_INIT = 10;' to 'const K_INIT : int = 10;'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'k'",
+      "cause": "Undeclared variable 'k' in AGREE annex",
+      "minimal_edit": "Add 'eq k : int = K_INIT;' before the assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'k_prev'",
+      "cause": "Undeclared variable 'k_prev' in AGREE annex",
+      "minimal_edit": "Add 'eq k_prev : int = K_INIT;' before the guarantee statements"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '<=' are of type 'int' and '<error>'",
+      "cause": "Type mismatch in comparison expression involving undefined 'dataout'",
+      "minimal_edit": "Remove or rewrite 'dataout >= MIN_TEMP and dataout <= MAX_TEMP' to use valid expressions"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add 'eq k : int = K_INIT;' before the assume statement",
+    "Add 'eq k_prev : int = K_INIT;' before the guarantee statements",
+    "Change 'const K_INIT = 10;' to 'const K_INIT : int = 10;' on line 24",
+    "Change 'const MIN_TEMP = 0;' to 'const MIN_TEMP : int = 0;' on line 25",
+    "Change 'const MAX_TEMP = 20;' to 'const MAX_TEMP : int = 20;' on line 26",
+    "Remove or rewrite the 'dataout >= MIN_TEMP and dataout <= MAX_TEMP' expression to avoid referencing undefined 'dataout'"
+  ]
+}

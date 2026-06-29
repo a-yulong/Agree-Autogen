@@ -22,14 +22,14 @@ def main():
     parser.add_argument("--llm-api-key", default=None)
     parser.add_argument("--llm-model-name", default=None)
     parser.add_argument("--python", default=sys.executable)
-    parser.add_argument("--exclude-file", default=str(REPO_ROOT / "configs" / "excluded_cases_large_model.json"))
+    parser.add_argument("--exclude-file", default=None)
     parser.add_argument("--max-base-kb", type=float, default=None)
     args = parser.parse_args()
     excluded = _load_excluded_cases(Path(args.exclude_file)) if args.exclude_file else set()
 
     for case_num in range(args.start, args.end + 1):
         for letter in args.letters:
-            label = f"Case{case_num:02d}_{letter}"
+            label = f"Case{case_num:03d}_{letter}"
             if case_num in excluded:
                 print(f"Skipping {label}: listed in exclude file {args.exclude_file}", flush=True)
                 continue
@@ -78,8 +78,10 @@ def _load_excluded_cases(path: Path) -> set[int]:
 
 def _base_model_kb(case_num: int, letter: str) -> float:
     source_root = Path(os.environ.get("AGREE_SOURCE_ROOT", REPO_ROOT / "data" / "benchmark" / "cases"))
-    case_str = f"Case{case_num:02d}"
+    case_str = f"Case{case_num:03d}"
     base = source_root / f"{case_str}_{letter}" / f"{case_str}_Base.txt"
+    if not base.exists():
+        base = source_root / case_str / f"{case_str}_Base.txt"
     if not base.exists():
         return 0.0
     return base.stat().st_size / 1024.0

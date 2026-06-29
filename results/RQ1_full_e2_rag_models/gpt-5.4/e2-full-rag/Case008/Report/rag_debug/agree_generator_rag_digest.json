@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Generate AGREE contract content only from AADL-visible features, declared constants, or declared helper variables in the current component scope.",
+    "Use assumptions and guarantees in valid component type contracts; use implementation scope only for valid implementation-level bindings such as assign.",
+    "Only encode numeric bounds or relations when the requirement or model provides concrete limits and visible identifiers."
+  ],
+  "generic_rules": [
+    "Range constraints are typically expressed as conjunctions of lower and upper comparisons.",
+    "Helper expressions used by later clauses should be declared with eq and a type matching the expression.",
+    "Treat the AADL model as the authority for available names, directions, and data types before referencing any symbol."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE content belongs inside annex agree {** ... **}; blocks.",
+    "Boolean comparison formulas should be typed as bool; integer-only arithmetic stays int, and real-valued arithmetic stays real.",
+    "Do not reference subcomponent ports directly from a component type contract unless they are exposed through valid visible variables or features."
+  ],
+  "anti_patterns": [
+    "Do not use property names or unit tokens as if they were AGREE variables.",
+    "Do not generate numeric comparisons for Boolean, opaque, or nonnumeric data unless the model clearly exposes a numeric scalar type.",
+    "Do not place guarantee statements in implementation scope or use assign on a nonexistent left-hand symbol."
+  ],
+  "irrelevant_topics": [
+    "Validator-specific repair steps are not needed when no diagnostics are active."
+  ]
+}

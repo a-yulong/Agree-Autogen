@@ -1,0 +1,109 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assume/guarantee statements in component type scopes when describing interface behavior, and use implementation scopes for subcomponent bindings via assign.
+- Use exact AADL model names for ports, components, and features in AGREE expressions.
+Generic rules:
+- AGREE annex blocks must be scoped to their owning component declaration.
+- Assignments in AGREE should reference existing output features or declared auxiliary variables.
+- Assumptions and guarantees should only reference identifiers visible in the current component scope.
+- Component type contracts should use input assumptions and output guarantees with concrete bounds or named constants.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Use `assume "label": expression;` and `guarantee "label": expression;` for behavioral contracts.
+- Use `assign output = expression;` for implementation-level bindings.
+- Constants and equations are declared with `const name : type = value;` and `eq name : type = expression;`.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope.
+- Do not reference AADL properties like Deadline or Period as AGREE variables unless explicitly typed in the model.
+- Do not invent or copy identifiers from examples; always use names from the AADL model.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- accData_in1
+- accData_in2
+- accData_in3
+- accData_in4
+- accData_in5
+- accData_in6
+- accData_out1
+- accData_out2
+- accData_out3
+- accData_out4
+- accData_out5
+- accData_out6
+- adirup_error_action
+- adirup_error_out
+
+Target interface:
+Exact expression symbols: accData_in1, accData_in2, accData_in3, accData_in4, accData_in5, accData_in6, accData_out1, accData_out2, accData_out3, accData_out4, accData_out5, accData_out6, adirup_error_action, adirup_error_out
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+accData_in1 | in | data | int | SHM_DataType::accData
+accData_in2 | in | data | int | SHM_DataType::accData
+accData_in3 | in | data | int | SHM_DataType::accData
+accData_in4 | in | data | int | SHM_DataType::accData
+accData_in5 | in | data | int | SHM_DataType::accData
+accData_in6 | in | data | int | SHM_DataType::accData
+accData_out1 | out | data | int | SHM_DataType::accData
+accData_out2 | out | data | int | SHM_DataType::accData
+accData_out3 | out | data | int | SHM_DataType::accData
+accData_out4 | out | data | int | SHM_DataType::accData
+accData_out5 | out | data | int | SHM_DataType::accData
+accData_out6 | out | data | int | SHM_DataType::accData
+adirup_error_action | in | data | int | SHM_DataType::actionData
+adirup_error_out | out | data | int | SHM_DataType::errorData
+
+Raw requirement:
+The ADIRUp_HM component shall define the implementation-level signal routing for ADIRUp_HM.impl. In the implementation layer, ADIRUp_HM.impl shall route data flow from accData_in1 to ADIRUp_HM.inData_para1 through C1 and data flow from accData_in2 to ADIRUp_HM.inData_para2 through C2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "accData_in1 is routed to ADIRUp_HM.inData_para1 through connection C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "accData_in1",
+        "ADIRUp_HM.inData_para1",
+        "C1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "accData_in2 is routed to ADIRUp_HM.inData_para2 through connection C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "accData_in2",
+        "ADIRUp_HM.inData_para2",
+        "C2"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '*' are of type 'real' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "multiplication of real and opaque type",
+      "minimal_edit": "Remove the 1.0 multiplier and simplify to Actuator_Input = Target - Actual"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "subtraction of opaque types",
+      "minimal_edit": "Remove the 1.0 multiplier and simplify to Actuator_Input = Target - Actual"
+    },
+    {
+      "diagnostic": "right side of binary expression '*' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "multiplication of opaque type with real",
+      "minimal_edit": "Remove the 1.0 multiplier and simplify to Actuator_Input = Target - Actual"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "subtraction of opaque types",
+      "minimal_edit": "Remove the 1.0 multiplier and simplify to Actuator_Input = Target - Actual"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the AGREE annex guarantee statement to remove all multiplicative factors and simplify the expression to Actuator_Input = Target - Actual",
+    "Ensure that the simplified expression uses only visible identifiers and valid types"
+  ]
+}

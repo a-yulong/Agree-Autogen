@@ -1,0 +1,96 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: T_Output, Dev_Bus
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+T_Output | out | data | opaque | Base_Types::Integer_8
+Dev_Bus | requires | access | opaque | 
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "0 <= T_Output <= 100",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "T_Output"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Tension | lines 39-46
+annex agree {**
+  annex agree {
+    const MIN_OUTPUT : int = 0;
+    const MAX_OUTPUT : int = 100;
+
+    guarantee "output_range": MIN_OUTPUT <= T_Output and T_Output <= MAX_OUTPUT;
+  };
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   36:   features
+   37:     T_Output : out data port Base_Types::Integer_8;
+   38:     Dev_Bus : requires bus access Device_Bus.MCU0;
+   39:   annex agree {**
+>> 40:   annex agree {
+   41:     const MIN_OUTPUT : int = 0;
+   42:     const MAX_OUTPUT : int = 100;
+   43: 
+   44:     guarantee "output_range": MIN_OUTPUT <= T_Output and T_Output <= MAX_OUTPUT;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Tension
+device Tension -- Alimentation
+  features
+    T_Output : out data port Base_Types::Integer_8;
+    Dev_Bus : requires bus access Device_Bus.MCU0;
+  end Tension;
+
+-- RELATED MODEL LINES
+Dev_Bus : requires bus access Device_Bus.MCU0;
+device Tension -- Alimentation
+T_Output : out data port Base_Types::Integer_8;
+end Tension;
+Dev_Bus : requires bus access Device_bus.MCU0;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Tension",
+      "kind": "device"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Tension",
+      "kind": "device",
+      "type_name": "Tension"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Tension",
+      "name": "T_Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer_8",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Tension",
+      "name": "Dev_Bus",
+      "direction": "requires",
+      "category": "bus access",
+      "type": "Device_Bus.MCU0",
+      "scalar": "opaque"
+    }
+  ]
+}

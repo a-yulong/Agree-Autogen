@@ -1,0 +1,118 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assume/guarantee/eq/const in component type annexes for interface behavior; use assign only in implementation annexes for output bindings.
+- Only reference identifiers explicitly visible in the current component scope; never invent or copy names from examples.
+Generic rules:
+- Use component type scope for interface-level assumptions and guarantees, and implementation scope for implementation-specific assignments.
+- Contract expressions must bind to actual model features, not AADL properties or implicit timing attributes.
+Syntax or pattern reminders:
+- AGREE annex blocks use syntax: annex agree {** ... **};
+- Use 'assign output = expression;' only when output is a visible feature or declared auxiliary variable.
+Anti-patterns:
+- Do not place guarantees or assumptions in implementation scope that reference subcomponent ports or internal paths.
+- Avoid referencing AADL properties like Period, Deadline, or units (ms/us/Hz) directly as variables in AGREE expressions.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- tempin1
+- tempin2
+- tempout
+
+Target interface:
+Exact expression symbols: tempin1, tempin2, tempout
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+tempin1 | in | data | opaque | temperature_type
+tempin2 | in | data | opaque | temperature_type
+tempout | out | data | opaque | temperature_type
+
+Raw requirement:
+The temp_control component shall define the implementation-level data routing and execution constraints for temp_control.i. In the implementation layer, temp_control.i shall route signal flow from temp1 to voter.tempin1 through c0 and signal flow from temp2 to voter.tempin2 through c1. Additionally, temp_control.i shall use immediate communication timing on connection c0, use immediate communication timing on connection c1, use immediate communication timing on connection c2, and use immediate communication timing on connection c3.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Signal flow from temp1 to voter.tempin1 through c0",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "temp1",
+        "voter.tempin1",
+        "c0"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Signal flow from temp2 to voter.tempin2 through c1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "temp2",
+        "voter.tempin2",
+        "c1"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Use immediate communication timing on connection c0",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "c0"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Use immediate communication timing on connection c1",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "c1"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Use immediate communication timing on connection c2",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "c2"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "Use immediate communication timing on connection c3",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "c3"
+      ]
+    }
+  ]
+}

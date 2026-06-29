@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix AGREE diagnostics by resolving undefined identifiers and correcting type mismatches in expressions.",
+    "Remove or rewrite AGREE clauses that reference unresolved AADL property names or invalid types.",
+    "Ensure all AGREE expressions use only visible identifiers from the current component scope.",
+    "Delete invalid guarantee statements that reference implementation-level features in type scopes."
+  ],
+  "generic_rules": [
+    "Validate type consistency in AGREE expressions: numeric, boolean, and package-qualified references must match available model units.",
+    "Place component type contracts in type scopes and implementation bindings in implementation scopes.",
+    "Use only declared or visible identifiers in AGREE annexes; avoid introducing undefined references.",
+    "When AGREE reports type errors, align helper declarations with the expected expression types."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Guarantee expressions must be valid Boolean expressions with matching types.",
+    "Constants and equations in AGREE should use int, real, or bool as scalar types.",
+    "Assignments in AGREE must reference valid output features or declared variables."
+  ],
+  "anti_patterns": [
+    "Do not introduce new identifiers or types not present in the AADL model when fixing diagnostics.",
+    "Do not place implementation-level guarantees in component type annexes.",
+    "Do not encode AADL property associations (e.g., Stack_Size) as AGREE variables.",
+    "Do not assume that unresolved references can be resolved by adding new declarations."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and `with` clauses",
+    "ARINC653 property associations and error handling actions",
+    "Source_Stack_Size and Partition_Slots property definitions",
+    "HM_Errors, HM_Process_Recovery_Actions, and related recovery actions"
+  ]
+}

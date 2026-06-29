@@ -1,0 +1,217 @@
+round=3
+
+[TARGET INTERFACE]
+Exact expression symbols: tempin1, tempin2, tempout
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+tempin1 | in | data | opaque | temperature_type
+tempin2 | in | data | opaque | temperature_type
+tempout | out | data | opaque | temperature_type
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Route signal flow from temp1 to voter.tempin1 through c0",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "connection: voter.c0 source=temp1 destination=voter.tempin1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Route signal flow from temp2 to voter.tempin2 through c1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "connection: voter.c1 source=temp2 destination=voter.tempin2"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Connection c0 has immediate timing",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "property: voter.c0 timing=immediate"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Connection c1 has immediate timing",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "property: voter.c1 timing=immediate"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Connection c5 has immediate timing",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "property: voter.c5 timing=immediate"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+No AGREE annex block is present.
+
+[DIAGNOSTIC LINE CONTEXT]
+   54:     user_request    : in data port command.impl;
+   55: end temp_control;
+   56: 
+   57: system implementation temp_control.i
+>> 58: annex agree {
+   59:   assume true;
+   60: }
+   61: subcomponents
+   62:     heater      : system heater.impl;
+
+   58: annex agree {
+   59:   assume true;
+   60: }
+   61: subcomponents
+>> 62:     heater      : system heater.impl;
+   63:     cooler      : system cooler.impl;
+   64:     controller  : system controller.impl;
+   65:     voter       : system voter.impl;
+   66: connections
+
+   59:   assume true;
+   60: }
+   61: subcomponents
+   62:     heater      : system heater.impl;
+>> 63:     cooler      : system cooler.impl;
+   64:     controller  : system controller.impl;
+   65:     voter       : system voter.impl;
+   66: connections
+   67:     c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+
+   60: }
+   61: subcomponents
+   62:     heater      : system heater.impl;
+   63:     cooler      : system cooler.impl;
+>> 64:     controller  : system controller.impl;
+   65:     voter       : system voter.impl;
+   66: connections
+   67:     c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+   68:     c1 : port temp2 -> voter.tempin2 {communication_properties::timing => immediate;};
+
+   61: subcomponents
+   62:     heater      : system heater.impl;
+   63:     cooler      : system cooler.impl;
+   64:     controller  : system controller.impl;
+>> 65:     voter       : system voter.impl;
+   66: connections
+   67:     c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+   68:     c1 : port temp2 -> voter.tempin2 {communication_properties::timing => immediate;};
+   69:     c2 : port user_request -> controller.user_request {communication_properties::timing => immediate;};
+
+   69:     c2 : port user_request -> controller.user_request {communication_properties::timing => immediate;};
+   70:     c3 : port controller.heater_on -> heater.enabled {communication_properties::timing => immediate;};
+   71:     c4 : port controller.cooler_on -> cooler.enabled {communication_properties::timing => immediate;};
+   72:     c5 : port voter.tempout -> controller.tempin {communication_properties::timing => immediate;};
+>> 73: end temp_control.i;
+   74: 
+   75: system voter
+   76: features
+   77:     tempin1         : in data port temperature_type;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: voter
+system voter
+features
+    tempin1         : in data port temperature_type;
+    tempin2         : in data port temperature_type;
+    tempout         : out data port temperature_type;
+end voter;
+
+-- TARGET DECLARATION: voter.impl
+system implementation voter.impl
+end voter.impl;
+
+-- RELATED MODEL LINES
+voter       : system voter.impl;
+c0 : port temp1 -> voter.tempin1 {communication_properties::timing => immediate;};
+c1 : port temp2 -> voter.tempin2 {communication_properties::timing => immediate;};
+c5 : port voter.tempout -> controller.tempin {communication_properties::timing => immediate;};
+system voter
+tempin1         : in data port temperature_type;
+tempin2         : in data port temperature_type;
+tempout         : out data port temperature_type;
+end voter;
+system implementation voter.impl
+end voter.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "voter",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "voter.impl",
+      "kind": "system",
+      "type_name": "voter"
+    }
+  ],
+  "features": [
+    {
+      "owner": "voter",
+      "name": "tempin1",
+      "direction": "in",
+      "category": "port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "voter",
+      "name": "tempin2",
+      "direction": "in",
+      "category": "port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "voter",
+      "name": "tempout",
+      "direction": "out",
+      "category": "port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "voter",
+      "name": "c0",
+      "kind": "port",
+      "source": "temp1",
+      "destination": "voter.tempin1"
+    },
+    {
+      "owner": "voter",
+      "name": "c1",
+      "kind": "port",
+      "source": "temp2",
+      "destination": "voter.tempin2"
+    },
+    {
+      "owner": "voter",
+      "name": "c5",
+      "kind": "port",
+      "source": "voter.tempout",
+      "destination": "controller.tempin"
+    }
+  ]
+}

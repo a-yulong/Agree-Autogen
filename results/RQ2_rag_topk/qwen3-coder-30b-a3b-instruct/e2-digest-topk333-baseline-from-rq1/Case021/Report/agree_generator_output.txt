@@ -1,0 +1,15 @@
+annex agree {**
+  eq k_init : int = 10;
+  eq k_next : int = 
+    if (pre(k) >= 20) then 
+      pre(k) - 1 
+    else if (pre(k) <= 0) then 
+      pre(k) + 1 
+    else 
+      pre(k);
+  
+  guarantee "dataout_in_range": (dataout >= 0) and (dataout <= 20);
+  guarantee "dataout_equals_k": dataout = k;
+  assume "k_initial_value": k = k_init;
+  guarantee "k_update_rule": k = k_next;
+**};

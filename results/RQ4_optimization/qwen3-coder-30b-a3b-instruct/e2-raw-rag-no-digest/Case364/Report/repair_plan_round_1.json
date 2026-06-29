@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 44: Couldn't resolve reference to 'null'.",
+      "cause": "AGREE null literal not supported in this context",
+      "minimal_edit": "Replace 'MCU1_Send_Output.channels /= null' with 'MCU1_Send_Output.channels /= null' (remove null comparison)"
+    },
+    {
+      "diagnostic": "line 44: left and right sides of binary expression '=' are of type 'Papa_Types::Tableau.Generic' and '<error>', but must be of the same type",
+      "cause": "Type mismatch in equality comparison",
+      "minimal_edit": "Remove the null comparison entirely as it's not valid in AGREE for opaque types"
+    },
+    {
+      "diagnostic": "line 44: left side of binary expression '/' is of type 'Papa_Types::Tableau.Generic' but must be of type 'real'",
+      "cause": "Invalid use of '/' operator on opaque type",
+      "minimal_edit": "Remove the null comparison which causes invalid type usage"
+    },
+    {
+      "diagnostic": "line 44: right side of binary expression '/' is of type '<error>' but must be of type 'real'",
+      "cause": "Invalid expression due to null comparison",
+      "minimal_edit": "Remove the null comparison which causes invalid expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the null comparison from the guarantee statement",
+    "Keep only the valid portion of the guarantee that relates Radio_Ok_Input to MCU1_Send_Output.ppm_cpt",
+    "Update the guarantee to: Radio_Ok_Input => (MCU1_Send_Output.ppm_cpt >= 0)"
+  ]
+}

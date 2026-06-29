@@ -1,0 +1,108 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Emit range assumptions or guarantees only when the requirement provides concrete bounds, constants, or another visible relation.
+- Write dependency guarantees over visible outputs, visible inputs, and any local helpers; avoid hidden implementation details.
+- Model stateful behavior with initialized temporal recurrence, and use explicit conditional structure for branching logic.
+Generic rules:
+- Use only identifiers confirmed visible in the active AGREE scope; do not invent names.
+- Prefer direct boolean contract statements, adding helper equations only for derived, repeated, or stateful expressions.
+Syntax or pattern reminders:
+- Use labeled assume/guarantee clauses, with const or eq helpers when needed.
+- Branching uses nested if-then-else, and temporal state uses the initialized -> pre(...) pattern.
+- AGREE scalar types are int, real, and bool; boolean logic uses and, or, not, and =>.
+Anti-patterns:
+- Do not reference out-of-scope names such as subcomponent paths, AADL property names, or unit tokens unless they are exposed as valid AGREE symbols.
+- Do not use invalid or mismatched types; helper declarations must match expression kinds.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- altitude
+- verticalVelocity
+- outImpact
+- outRecovery
+- gcasRequested
+
+Target interface:
+Exact expression symbols: altitude, verticalVelocity, outImpact, outRecovery, gcasRequested
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+altitude | in | data | real | Base_Types::float
+verticalVelocity | in | data | real | Base_Types::float
+outImpact | out | data | real | Base_Types::float
+outRecovery | out | data | real | Base_Types::float
+gcasRequested | out | data | bool | Base_Types::boolean
+
+Raw requirement:
+The GCAS_Monitor component must enforce the terrain clearance buffer logic (TCB) through guarantee statements. Specifically, when either vertDistance is less than or equal to 30.0 or horzDistance is less than or equal to 30.0, the component must transition into a collision avoidance state. It is assumed that the aircraft's roll rate remains within the range of 10.0 to 15.0. Additionally, the output ports outImpact and outRecovery must be initialized to 0.0 and must remain constant while the component is active.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "If vertDistance <= 30.0 or horzDistance <= 30.0, transition into a collision avoidance state.",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": []
+    },
+    {
+      "id": "R2",
+      "text": "roll rate >= 10.0 and roll rate <= 15.0.",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": []
+    },
+    {
+      "id": "R3",
+      "text": "outImpact is initialized to 0.0.",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": []
+    },
+    {
+      "id": "R4",
+      "text": "outRecovery is initialized to 0.0.",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": []
+    },
+    {
+      "id": "R5",
+      "text": "outImpact remains constant while the component is active.",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": []
+    },
+    {
+      "id": "R6",
+      "text": "outRecovery remains constant while the component is active.",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": []
+    }
+  ]
+}

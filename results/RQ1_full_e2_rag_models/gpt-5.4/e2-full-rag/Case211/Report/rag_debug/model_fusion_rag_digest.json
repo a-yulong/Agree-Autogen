@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Preserve the existing AADL structure and insert new content only within a valid annex scope owned by the intended component or implementation.",
+    "Keep type-level behavioral contracts separate from implementation-level content; do not move architecture elements across owners.",
+    "Use only names that are valid in the selected owner scope; avoid references that require subcomponent paths unless the scope supports them."
+  ],
+  "generic_rules": [
+    "Minimize edits and retain all existing features, subcomponents, connections, and property associations unchanged.",
+    "Respect owner boundaries: content for a component type stays with the type, and implementation-specific content stays with the implementation.",
+    "Ensure any inserted annex block is attached to the correct AADL element and does not alter surrounding structural declarations."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AADL annex content uses the form `annex ... {** ... **};` within the owning declaration.",
+    "Implementation bodies follow structural declarations such as subcomponents and connections, so inserted content should not break declaration ordering."
+  ],
+  "anti_patterns": [
+    "Do not place content in a scope where referenced identifiers are not visible.",
+    "Do not rewrite or relocate unrelated architectural elements when adding an annex.",
+    "Do not treat AADL property names or units as ordinary expression variables in inserted behavioral content."
+  ],
+  "irrelevant_topics": [
+    "Validator-specific type repair guidance",
+    "Requirement-level threshold semantics",
+    "Case-specific clause generation details"
+  ]
+}

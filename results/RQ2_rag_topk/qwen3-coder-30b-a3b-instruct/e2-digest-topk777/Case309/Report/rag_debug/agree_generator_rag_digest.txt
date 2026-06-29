@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate assume clauses for input envelope constraints when explicit numeric bounds are provided in the requirement and the referenced port is visible in the component type scope.
+Generic rules:
+- Place assumptions and guarantees in component type annexes unless binding to implementation-level variables.
+- Use only scalar types int, real, or bool in AGREE declarations and expressions.
+- Derive numeric comparisons only from explicitly stated requirement bounds, never infer them.
+Syntax or pattern reminders:
+- Enclose AGREE annex blocks with `annex agree {** ... **};`.
+- Define constants and equations before assumptions and guarantees in the annex.
+- Use Boolean expressions for range checks: `x >= low and x <= high`.
+Anti-patterns:
+- Do not reference AADL property names (e.g., Period, Deadline) as if they are AGREE variables.
+- Do not encode event ports as numeric or Boolean values without explicit data value bindings.
+- Do not generate non-negative assumptions unless explicitly required by the input.
+</RAG_DIGEST>

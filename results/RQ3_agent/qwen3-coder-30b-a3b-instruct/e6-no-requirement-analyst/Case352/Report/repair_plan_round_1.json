@@ -1,0 +1,21 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 44: Couldn't resolve reference to 'null'.",
+      "cause": "AGREE does not recognize 'null' as a valid value for opaque data ports; 'null' is not a defined literal in AGREE for AADL opaque types.",
+      "minimal_edit": "remove 'MCU1_Send_Output <> null' and replace with 'MCU1_Send_Output.ppm_cpt >= 0' as a proxy for output presence (since ppm_cpt is always written in valid operation)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 48: Couldn't resolve reference to 'null'.",
+      "cause": "AGREE does not recognize 'null' as a valid value for opaque data ports; 'null' is not a defined literal in AGREE for AADL opaque types.",
+      "minimal_edit": "remove 'MCU1_Send_Output.channels <> null' and replace with 'MCU1_Send_Output.channels.data_0 >= 0' as a proxy for output presence (since data_0 is always written in valid operation)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee 'guarantee \"data_output_validity\": MCU1_Send_Output <> null;'",
+    "Remove the guarantee 'guarantee \"channels_valid\": MCU1_Send_Output.channels <> null;'",
+    "Add guarantee 'guarantee \"data_output_validity\": MCU1_Send_Output.ppm_cpt >= 0;' as a minimal proxy for output presence",
+    "Add guarantee 'guarantee \"channels_valid\": MCU1_Send_Output.channels.data_0 >= 0;' as a minimal proxy for channels presence"
+  ]
+}

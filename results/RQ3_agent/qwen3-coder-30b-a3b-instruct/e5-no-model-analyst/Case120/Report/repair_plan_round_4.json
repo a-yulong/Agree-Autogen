@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Software'.",
+      "cause": "Software is not visible in the component type scope where the AGREE annex is located",
+      "minimal_edit": "Remove the assume statement referencing 'Software' since it is not accessible in the component type context"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'cpu'.",
+      "cause": "cpu is not visible in the component type scope where the AGREE annex is located",
+      "minimal_edit": "Remove the assume statement referencing 'cpu' since it is not accessible in the component type context"
+    },
+    {
+      "diagnostic": "Expression for assume statement is of type '<error>' but must be of type 'bool'",
+      "cause": "The assume statement contains invalid references that result in an error type expression",
+      "minimal_edit": "Remove the entire assume statement as it cannot be resolved to a valid boolean expression"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire assume statement 'assume \"deployment_binding_sbc_rtos\": Software -> cpu;' from the AGREE annex block in SBC_32F411EDISCOVERY component type",
+    "Verify that the AGREE annex block is now empty or contains only valid expressions"
+  ]
+}

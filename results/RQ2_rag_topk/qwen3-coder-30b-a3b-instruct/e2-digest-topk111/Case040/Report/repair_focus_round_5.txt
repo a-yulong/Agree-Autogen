@@ -1,0 +1,111 @@
+round=5
+
+[TARGET INTERFACE]
+Exact expression symbols: State_Out
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+State_Out | out | data | opaque | Types::state_sig.impl
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "State_Machine.Impl routes signal flow from SSM.State_Out to State_Out through SMToSSM",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "SSM.State_Out",
+        "State_Out",
+        "SMToSSM"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "State_Machine.Impl uses immediate communication timing on connection SMToSSM",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "SMToSSM",
+        "immediate"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: State_Machine.Impl | lines 38-39
+annex agree {**
+		**};
+
+[DIAGNOSTIC LINE CONTEXT]
+No validator line numbers were available.
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: State_Machine
+system State_Machine
+		features
+			State_Out: out data port Types::state_sig.impl;
+	end State_Machine;
+
+-- TARGET DECLARATION: State_Machine.Impl
+system implementation State_Machine.Impl
+		subcomponents
+			SSM: system Sub_State_Machine.Impl;
+
+		connections
+			SMToSSM: port SSM.State_Out -> State_Out {Communication_Properties::Timing => immediate;};
+	end State_Machine.impl;
+
+-- RELATED MODEL LINES
+system State_Machine
+State_Out: out data port Types::state_sig.impl;
+end State_Machine;
+system implementation State_Machine.Impl
+SMToSSM: port SSM.State_Out -> State_Out {Communication_Properties::Timing => immediate;};
+end State_Machine.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "State_Machine",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "State_Machine.Impl",
+      "kind": "system implementation",
+      "type_name": "State_Machine"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "State_Machine.Impl",
+      "name": "SSM",
+      "category": "system",
+      "classifier": "Sub_State_Machine.Impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "State_Machine",
+      "name": "State_Out",
+      "direction": "out",
+      "category": "data port",
+      "type": "Types::state_sig.impl",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "State_Machine.Impl",
+      "name": "SMToSSM",
+      "kind": "port",
+      "source": "SSM.State_Out",
+      "destination": "State_Out"
+    }
+  ]
+}

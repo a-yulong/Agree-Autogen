@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "mismatched input 'us' expecting ';'",
+      "cause": "Invalid time unit syntax in AGREE expression",
+      "minimal_edit": "Replace '100 us' with '100*us' or '0.1 ms' to conform to AGREE time expression syntax"
+    },
+    {
+      "diagnostic": "missing ')' at '<='",
+      "cause": "Incomplete time comparison expression",
+      "minimal_edit": "Add closing parenthesis to complete the time comparison expression"
+    },
+    {
+      "diagnostic": "no viable alternative at input 'ms'",
+      "cause": "Invalid time unit usage in AGREE expression",
+      "minimal_edit": "Use consistent time unit syntax throughout the expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace '0 ms <= 100 us' with '0 ms <= 100*us' in the timing_constraint assumption",
+    "Replace '0 ms <= 100 us' with '0 ms <= 100*us' in the compute_completion guarantee",
+    "Ensure all time expressions use consistent syntax with valid AGREE time units"
+  ]
+}

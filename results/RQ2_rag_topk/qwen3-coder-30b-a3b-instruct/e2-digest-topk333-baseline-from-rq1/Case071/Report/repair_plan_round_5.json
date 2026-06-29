@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent, not directly accessible in component type scope",
+      "minimal_edit": "Remove reference to pspg.speed in guarantee statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'speed'.",
+      "cause": "speed is an output port, not directly accessible in component type scope",
+      "minimal_edit": "Remove reference to pspg.speed in guarantee statement"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression 'pspg.speed = pspg.speed' in component type scope",
+      "minimal_edit": "Remove invalid guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the guarantee statement 'guarantee \"speed routing\": pspg.speed = pspg.speed;' from the AGREE annex block in thr_mgmt component type",
+    "Keep the existing guarantee statement 'guarantee \"gps_pos routing\": gps_pos.latitude = gps_pos.latitude and gps_pos.longitude = gps_pos.longitude;' as it references only visible ports"
+  ]
+}

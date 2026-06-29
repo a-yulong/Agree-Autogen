@@ -1,0 +1,164 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: outGCASR, outGCASR.VV, outGCASR.DeltaHeading, outGCASR.Airspeed, outImpact, outRecovery, outAltitude, outTime
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+outGCASR | out | data | opaque | autopilot.autopilot_impl
+outGCASR.VV | out | data_field | real | Base_Types::float
+outGCASR.DeltaHeading | out | data_field | real | Base_Types::float
+outGCASR.Airspeed | out | data_field | real | Base_Types::float
+outImpact | out | data | real | Base_Types::float
+outRecovery | out | data | real | Base_Types::float
+outAltitude | out | data | real | Base_Types::float
+outTime | out | data | real | Base_Types::float
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Define altitude variable and invoke gcasDynamics3 function.",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R2",
+      "text": "0.0 <= outTime <= 10.0",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "outTime"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "outGCASR.Airspeed == 150.0 and outTime > 8.9",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "outGCASR.Airspeed",
+        "outTime"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "outAltitude > 0.0",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "outAltitude"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GCAS_Recovery | lines 114-118
+annex agree {**
+		  assume "time_range": outTime >= 0.0 and outTime <= 10.0;
+		  assume "initial_airspeed_and_recovery_time": outGCASR.Airspeed == 150.0 and outTime > 8.9;
+		  guarantee "altitude_above_ground": outAltitude > 0.0;
+		**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   112: 			outAltitude: out data port Base_Types::float;
+   113: 			outTime: out data port Base_Types::float;
+   114: 	annex agree {**
+   115: 		  assume "time_range": outTime >= 0.0 and outTime <= 10.0;
+>> 116: 		  assume "initial_airspeed_and_recovery_time": outGCASR.Airspeed == 150.0 and outTime > 8.9;
+   117: 		  guarantee "altitude_above_ground": outAltitude > 0.0;
+   118: 		**};
+   119: 	end GCAS_Recovery;
+   120: 			
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: GCAS_Recovery
+Process GCAS_Recovery
+		features
+			outGCASR: out data port autopilot.autopilot_impl;
+			outImpact: out data port Base_Types::float;
+			outRecovery: out data port Base_Types::float;
+			outAltitude: out data port Base_Types::float;
+			outTime: out data port Base_Types::float;
+	end GCAS_Recovery;
+
+-- TARGET DECLARATION: GCAS_Recovery.GCAS_Recovery_impl
+Process implementation GCAS_Recovery.GCAS_Recovery_impl
+	end GCAS_Recovery.GCAS_Recovery_impl;
+
+-- RELATED MODEL LINES
+outImpact: out data port Base_Types::float;
+outRecovery: out data port Base_Types::float;
+Process GCAS_Recovery
+outGCASR: out data port autopilot.autopilot_impl;
+outAltitude: out data port Base_Types::float;
+outTime: out data port Base_Types::float;
+end GCAS_Recovery;
+Process implementation GCAS_Recovery.GCAS_Recovery_impl
+end GCAS_Recovery.GCAS_Recovery_impl;
+gcasmimp_to_decider: port gcasm.outImpact -> dmc.inpGCASImpact;
+gcasrec_to_decider: port gcasm.outRecovery -> dmc.inpGCASRecovery;
+acasmimp_to_decider: port acasm.outImpact -> dmc.inpACASImpact;
+acasrec_to_decider: port acasm.outRecovery -> dmc.inpACASRecovery;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "GCAS_Recovery",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "GCAS_Recovery.GCAS_Recovery_impl",
+      "kind": "process implementation",
+      "type_name": "GCAS_Recovery"
+    }
+  ],
+  "features": [
+    {
+      "owner": "GCAS_Recovery",
+      "name": "outGCASR",
+      "direction": "out",
+      "category": "data port",
+      "type": "autopilot.autopilot_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GCAS_Recovery",
+      "name": "outImpact",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "float"
+    },
+    {
+      "owner": "GCAS_Recovery",
+      "name": "outRecovery",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "float"
+    },
+    {
+      "owner": "GCAS_Recovery",
+      "name": "outAltitude",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "float"
+    },
+    {
+      "owner": "GCAS_Recovery",
+      "name": "outTime",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "float"
+    }
+  ]
+}

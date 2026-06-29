@@ -1,0 +1,31 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by ensuring all identifiers like 'horzDistance' and 'vertDistance' are visible in the component type scope before use in AGREE contracts.",
+    "Resolve type mismatches by aligning helper declarations with the actual types of referenced expressions, e.g., use 'real' for distance comparisons."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or declared helpers in AGREE contracts to avoid 'named thing must be an expression with a type' errors.",
+    "Ensure type consistency in AGREE expressions: comparisons are bool, integer literals are int, and real literals are real.",
+    "Place AGREE assumptions and guarantees in valid component type scopes, not implementation scopes, unless referring to implementation-specific bindings.",
+    "Initialize output ports and constants in AGREE contracts to prevent undefined behavior during validation."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use initialized temporal recurrence for stateful equations: e.g., `0.0 -> pre(t) + step`.",
+    "Use nested `if ... then ... else` for branching logic in AGREE contracts.",
+    "Use AGREE logical operators such as `and`, `or`, `not(...)`, and implication `=>` for complex conditions."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent ports or implementation-specific features in component type contracts.",
+    "Do not introduce package-qualified identifiers or types not present in the AADL model's configured dependencies."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "type scope range assumption and guarantee",
+    "type scope deterministic dependency guarantee",
+    "integrated pattern chunk 1",
+    "Assumed Type vs Actual Type",
+    "Named Thing Has No Type",
+    "AGREE Scalar Type Names"
+  ]
+}

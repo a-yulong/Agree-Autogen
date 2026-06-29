@@ -1,0 +1,9 @@
+annex agree {**
+  assume "speed_bounds": Target_Speed.val >= 0.0 and Target_Speed.val < 150.0;
+  
+  const max_accel = 40.0;
+  
+  guarantee "speed_constaint": const_tar_speed => (Actual_Speed.val <= Target_Speed.val);
+  
+  guarantee "acceleration_limit": const_tar_speed => (abs(Actual_Speed.val - Actual_Speed.val_previous) < max_accel);
+**};

@@ -1,0 +1,245 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: nearestIntruderAltitude, nearestIntruderGroundDistance, nearestIntruderLongitude, ownAltitude, ownHeading, ownVerticalVelocity, ownLatitude, ownLongitude, requiredVerticalVelocity
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+nearestIntruderAltitude | in | data | real | base_types::Float
+nearestIntruderGroundDistance | in | data | opaque | int
+nearestIntruderLongitude | in | data | opaque | int
+ownAltitude | in | data | real | base_types::float
+ownHeading | in | data | opaque | int
+ownVerticalVelocity | in | data | opaque | int
+ownLatitude | in | data | opaque | int
+ownLongitude | in | data | opaque | int
+requiredVerticalVelocity | out | data | opaque | int
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "TCAS.impl routes signal flow from nearestIntruderAltitude to surveillance.nearestIntruderAltitude_in through nia_from_external",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "nearestIntruderAltitude",
+        "surveillance.nearestIntruderAltitude_in",
+        "nia_from_external"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "TCAS.impl routes signal flow from nearestIntruderGroundDistance to surveillance.nearestIntruderGroundDistance_in through nigd_from_external",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "nearestIntruderGroundDistance",
+        "surveillance.nearestIntruderGroundDistance_in",
+        "nigd_from_external"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "TCAS.impl uses immediate communication timing on connection nia_from_external",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "nia_from_external"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "TCAS.impl uses immediate communication timing on connection nigd_from_external",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "nigd_from_external"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "TCAS.impl uses immediate communication timing on connection nilo_from_external",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "nilo_from_external"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "TCAS.impl uses immediate communication timing on connection oa_from_external",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "oa_from_external"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: TCAS | lines 26-40
+annex agree {**
+			
+	  assume "signal_flow_nia": nearestIntruderAltitude = surveillance.nearestIntruderAltitude_in;
+			
+	  assume "signal_flow_nigd": nearestIntruderGroundDistance = surveillance.nearestIntruderGroundDistance_in;
+			
+	  assume "timing_nia": nia_from_external = immediate;
+			
+	  assume "timing_nigd": nigd_from_external = immediate;
+			
+	  assume "timing_nilo": nilo_from_external = immediate;
+			
+	  assume "timing_oa": oa_from_external = immediate;
+			
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   24: 			requiredVerticalVelocity: out data port int;
+   25: 			
+   26: 	annex agree {**
+   27: 			
+>> 28: 	  assume "signal_flow_nia": nearestIntruderAltitude = surveillance.nearestIntruderAltitude_in;
+   29: 			
+   30: 	  assume "signal_flow_nigd": nearestIntruderGroundDistance = surveillance.nearestIntruderGroundDistance_in;
+   31: 			
+   32: 	  assume "timing_nia": nia_from_external = immediate;
+
+   26: 	annex agree {**
+   27: 			
+   28: 	  assume "signal_flow_nia": nearestIntruderAltitude = surveillance.nearestIntruderAltitude_in;
+   29: 			
+>> 30: 	  assume "signal_flow_nigd": nearestIntruderGroundDistance = surveillance.nearestIntruderGroundDistance_in;
+   31: 			
+   32: 	  assume "timing_nia": nia_from_external = immediate;
+   33: 			
+   34: 	  assume "timing_nigd": nigd_from_external = immediate;
+
+   28: 	  assume "signal_flow_nia": nearestIntruderAltitude = surveillance.nearestIntruderAltitude_in;
+   29: 			
+   30: 	  assume "signal_flow_nigd": nearestIntruderGroundDistance = surveillance.nearestIntruderGroundDistance_in;
+   31: 			
+>> 32: 	  assume "timing_nia": nia_from_external = immediate;
+   33: 			
+   34: 	  assume "timing_nigd": nigd_from_external = immediate;
+   35: 			
+   36: 	  assume "timing_nilo": nilo_from_external = immediate;
+
+   30: 	  assume "signal_flow_nigd": nearestIntruderGroundDistance = surveillance.nearestIntruderGroundDistance_in;
+   31: 			
+   32: 	  assume "timing_nia": nia_from_external = immediate;
+   33: 			
+>> 34: 	  assume "timing_nigd": nigd_from_external = immediate;
+   35: 			
+   36: 	  assume "timing_nilo": nilo_from_external = immediate;
+   37: 			
+   38: 	  assume "timing_oa": oa_from_external = immediate;
+
+   32: 	  assume "timing_nia": nia_from_external = immediate;
+   33: 			
+   34: 	  assume "timing_nigd": nigd_from_external = immediate;
+   35: 			
+>> 36: 	  assume "timing_nilo": nilo_from_external = immediate;
+   37: 			
+   38: 	  assume "timing_oa": oa_from_external = immediate;
+   39: 			
+   40: 	**};
+
+   34: 	  assume "timing_nigd": nigd_from_external = immediate;
+   35: 			
+   36: 	  assume "timing_nilo": nilo_from_external = immediate;
+   37: 			
+>> 38: 	  assume "timing_oa": oa_from_external = immediate;
+   39: 			
+   40: 	**};
+   41: 			
+   42: 	end TCAS;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: TCAS
+system TCAS
+		features
+			nearestIntruderAltitude: in data port base_types::Float;
+			nearestIntruderGroundDistance: in data port int;
+			nearestIntruderLongitude: in data port int;
+			
+			ownAltitude: in data port base_types::float;
+			ownHeading: in data port int; -- degrees from North
+			ownVerticalVelocity: in data port int;
+			ownLatitude: in data port int;
+			ownLongitude: in data port int;
+			
+			requiredVerticalVelocity: out data port int;
+			
+	end TCAS;
+
+-- TARGET DECLARATION: TCAS.impl
+system implementation TCAS.impl
+		
+		subcomponents
+			surveillance: system Surveillance.impl;
+			instrumentation: system Instrumentation.impl;
+			trajectoryExtrapolation: system TrajectoryExtrapolation.impl;
+			threatDetection: system ThreatDetection.impl;
+			maneuverTemplates: system ManeuverTemplates.impl;
+			responseSelection: system ResponseSelection.impl;
+--			
+		connections
+			nia_from_external: port nearestIntruderAltitude -> surveillance.nearestIntruderAltitude_in {Communication_Properties::Timing => immediate;};
+			nigd_from_external: port nearestIntruderGroundDistance -> surveillance.nearestIntruderGroundDistance_in {Communication_Properties::Timing => immediate;};
+			nilo_from_external: port nearestIntruderLongitude -> surveillance.nearestIntruderLongitude_in {Communication_Properties::Timing => immediate;};
+
+			oa_from_external: port ownAltitude -> instrumentation.altitude_in {Communication_Properties::Timing => immediate;};
+			oh_from_external: port ownHeading -> instrumentation.heading_in {Communication_Properties::Timing => immediate;};
+			ovv_from_external: port ownVerticalVelocity -> instrumentation.verticalVelocity_in {Communication_Properties::Timing => immediate;};
+			ola_from_external: port ownLatitude -> instrumentation.ownLatitude_in {Communication_Properties::Timing => immediate;};
+			olo_from_external: port ownLongitude -> instrumentation.ownLongitude_in {Communication_Properties::Timing => immediate;};
+			
+			a_to_td: port instrumentation.altitude -> threatDetection.altitude {Communication_Properties::Timing => immediate;};
+			h_to_td: port instrumentation.heading -> threatDetection.heading {Communication_Properties::Timing => immediate;};
+			vv_to_td: port instrumentation.verticalVelocity -> threatDetection.verticalVelocity {Communication_Properties::Timing => immediate;};
+			nia_to_td: port surveillance.nearestIntruderAltitude -> threatDetection.nearestIntruderAltitude {Communication_Properties::Timing => immediate;};
+			nigd_to_td: port surveillance.nearestIntruderGroundDistance -> threatDetection.nearestIntruderGroundDistance {Communication_Properties::Timing => immediate;};
+			
+			td_to_rs: port threatDetection.threatDetected -> responseSelection.threatDetected {Communication_Properties::Timing => immediate;};
+			
+			oa_to_rs: port instrumentation.altitude -> responseSelection.ownAltitude {Communication_Properties::Timing => immediate;};
+			ia_to_rs: port surveillance.nearestIntruderAltitude -> responseSelection.threatAltitude {Communication_Properties::Timing => immediate;};
+			
+			ol_to_rs: port instrumentation.ownLongitude -> responseSelection.ownLongitude {Communication_Properties::Timing => immediate;};
+			il_to_rs: port surveillance.nearestIntruderLongitude -> responseSelection.threatLongitude {Communication_Properties::Timing => immediate;};
+		
+			rvv_to_external: port responseSelection.requiredVerticalVelocity -> requiredVerticalVelocity {Communication_Properties::Timing => immediate;};
+
+	end TCAS.impl;
+
+-- RELATED MODEL LINES
+data int extends base_types::Integer
+end int;
+system TCAS
+nearestIntruderAltitude: in data port base_types::Float;
+nearestIntruderGroundDistance: in data port int;
+nearestIntruderLongitude: in data port int;
+ownAltitude: in data port base_types::float;
+ownHeading: in data port int; -- degrees from North
+ownVerticalVelocity: in data port int;
+ownLatitude: in data port int;
+ownLongitude: in data port int;
+requiredVerticalVelocity: out data port int;
+end TCAS;
+system implementation TCAS.impl
+surveillance: system Surveillance.impl;
+instrumentation: system Instrumentation.impl;
+trajectoryExtrapolation: system TrajectoryExtrapolation.impl;
+threatDetection: system ThreatDetection.impl;
+maneuverTemplates: system ManeuverTemplates.impl;
+responseSelection: system ResponseSelection.impl;
+nia_from_external: port nearestIntruderAltitude -> surveillance.nearestIntruderAltitude_in {Communication_Properties::Timing => immediate;};
+nigd_from_external: port nearestIntruderGroundDistance -> surveillance.nearestIntruderGroundDistance_in {Communication_Properties::Timing => immediate;};
+nilo_from_external: port nearestIntruderLongitude -> surveillance.nearestIntruderLongitude_in {Communication_Properties::Timing => immediate;};
+oa_from_external: port ownAltitude -> instrumentation.altitude_in {Communication_Properties::Timing => immediate;};
+oh_from_external: port ownHeading -> instrumentation.heading_in {Communication_Properties::Timing => immedia
+-- [target model context truncated]

@@ -1,0 +1,122 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: timeToRecovery
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+timeToRecovery | out | data | opaque | real
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "t is a real-valued variable initialized to 0.0 with a step size of 0.1.",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "t"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "distanceFromFence is computed by invoking circleLinearization(t).",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "distanceFromFence",
+        "circleLinearization",
+        "t"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "timeToRecovery is set to 1.7.",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "timeToRecovery",
+        "1.7"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "When t >= recovery time, distanceFromFence at current time > distanceFromFence at previous time.",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "t",
+        "distanceFromFence"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GeoFence_singleton | lines 10-18
+annex agree {**
+	annex agree {
+	  const recoveryTime : real = 1.7;
+	  eq t : real = pre(t) + 0.1;
+	  init t : real = 0.0;
+	  guarantee "recovery_guarantee": t >= recoveryTime => pre(distanceFromFence) < distanceFromFence;
+	  guarantee "timeToRecovery_guarantee": timeToRecovery = 1.7;
+	};
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   7: 	system GeoFence_singleton
+   8: 		features
+   9: 			timeToRecovery: out data port real;
+   10: 	annex agree {**
+>> 11: 	annex agree {
+   12: 	  const recoveryTime : real = 1.7;
+   13: 	  eq t : real = pre(t) + 0.1;
+   14: 	  init t : real = 0.0;
+   15: 	  guarantee "recovery_guarantee": t >= recoveryTime => pre(distanceFromFence) < distanceFromFence;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: GeoFence_singleton
+system GeoFence_singleton
+		features
+			timeToRecovery: out data port real;
+	end GeoFence_singleton;
+
+-- TARGET DECLARATION: GeoFence_singleton.impl
+system implementation GeoFence_singleton.impl
+	end GeoFence_singleton.impl;
+
+-- RELATED MODEL LINES
+system GeoFence_singleton
+timeToRecovery: out data port real;
+end GeoFence_singleton;
+system implementation GeoFence_singleton.impl
+end GeoFence_singleton.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "GeoFence_singleton",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "GeoFence_singleton.impl",
+      "kind": "system",
+      "type_name": "GeoFence_singleton"
+    }
+  ],
+  "features": [
+    {
+      "owner": "GeoFence_singleton",
+      "name": "timeToRecovery",
+      "direction": "out",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    }
+  ]
+}

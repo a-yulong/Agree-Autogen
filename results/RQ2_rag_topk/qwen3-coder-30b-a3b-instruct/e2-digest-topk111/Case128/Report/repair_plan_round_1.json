@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 210: Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "acc_in_data_x is not visible in the AGREE annex context of ATTITUDE",
+      "minimal_edit": "Remove the assumption 'acc_x_flow' from the AGREE annex"
+    },
+    {
+      "diagnostic": "line 210: Couldn't resolve reference to 'accelero_thread'.",
+      "cause": "accelero_thread is not visible in the AGREE annex context of ATTITUDE",
+      "minimal_edit": "Remove the assumption 'acc_x_flow' from the AGREE annex"
+    },
+    {
+      "diagnostic": "line 211: Couldn't resolve reference to 'acc_in_data_y'.",
+      "cause": "acc_in_data_y is not visible in the AGREE annex context of ATTITUDE",
+      "minimal_edit": "Remove the assumption 'acc_y_flow' from the AGREE annex"
+    },
+    {
+      "diagnostic": "line 211: Couldn't resolve reference to 'accelero_thread'.",
+      "cause": "accelero_thread is not visible in the AGREE annex context of ATTITUDE",
+      "minimal_edit": "Remove the assumption 'acc_y_flow' from the AGREE annex"
+    },
+    {
+      "diagnostic": "line 212: Couldn't resolve reference to 'ACC_INPUT_PC1'.",
+      "cause": "ACC_INPUT_PC1 is not visible in the AGREE annex context of ATTITUDE",
+      "minimal_edit": "Remove the guarantee 'acc_x_route' from the AGREE annex"
+    },
+    {
+      "diagnostic": "line 213: Couldn't resolve reference to 'ACC_INPUT_PC2'.",
+      "cause": "ACC_INPUT_PC2 is not visible in the AGREE annex context of ATTITUDE",
+      "minimal_edit": "Remove the guarantee 'acc_y_route' from the AGREE annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the entire assume statement 'assume \"acc_x_flow\": acc_in_data_x = accelero_thread.acc_in_data_x;' from the AGREE annex",
+    "Remove the entire assume statement 'assume \"acc_y_flow\": acc_in_data_y = accelero_thread.acc_in_data_y;' from the AGREE annex",
+    "Remove the entire guarantee statement 'guarantee \"acc_x_route\": ACC_INPUT_PC1 = acc_in_data_x;' from the AGREE annex",
+    "Remove the entire guarantee statement 'guarantee \"acc_y_route\": ACC_INPUT_PC2 = acc_in_data_y;' from the AGREE annex"
+  ]
+}

@@ -1,0 +1,57 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assume/guarantee statements in component type annexes; use assign only in implementation annexes for output features or auxiliary variables
+- Use only identifiers visible in the current component scope; do not reference AADL properties as AGREE variables
+Generic rules:
+- AGREE contracts must be scoped to their owning component and use visible symbols from the AADL model
+- Component type contracts should express input assumptions and output guarantees using concrete bounds or visible relations
+- Implementation contracts may use assign for output bindings but must not include guarantee statements
+Syntax or pattern reminders:
+- AGREE annex blocks are enclosed in `annex agree {** ... **};`
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements
+- Use `assign output = expression;` for implementation-level output bindings
+Anti-patterns:
+- Do not reference AADL property names like Deadline or Period as AGREE variables
+- Do not place guarantee statements in implementation scope
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- queueingin
+- samplingout
+
+Target interface:
+Exact expression symbols: queueingin, samplingout
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+queueingin | in | data | int | integer
+samplingout | out | data | int | integer
+
+Raw requirement:
+The partition1_process component shall bound the samplingout output at every evaluation step. The samplingout value shall be greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+DISABLED

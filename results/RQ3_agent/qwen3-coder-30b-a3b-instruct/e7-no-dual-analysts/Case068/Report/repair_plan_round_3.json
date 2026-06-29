@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 18: Couldn't resolve reference to 'deadline'.",
+      "cause": "AGREE cannot resolve 'deadline' as a valid function or property in this context",
+      "minimal_edit": "Replace 'deadline(Attitude_Control_Function)' with 'Deadline' to reference the AADL property directly"
+    },
+    {
+      "diagnostic": "line 18: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch due to unresolved 'deadline' function causing type inference failure",
+      "minimal_edit": "Ensure the right-hand side of the assignment matches the expected type by using proper AADL property reference"
+    },
+    {
+      "diagnostic": "line 18: mismatched input 'us' expecting ';'",
+      "cause": "Invalid unit syntax in AGREE expression; AGREE does not support unit annotations in expressions",
+      "minimal_edit": "Remove the 'us' unit annotation from the expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'deadline(Attitude_Control_Function)' with 'Deadline' in the assume statement",
+    "Remove the 'us' unit annotation from the right-hand side of the assignment",
+    "Ensure the expression evaluates to a compatible type without unit annotations"
+  ]
+}

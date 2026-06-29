@@ -1,0 +1,5 @@
+annex agree {
+  assume "speed_range": Target_Speed.val >= 0 and Target_Speed.val < 150.0;
+  guarantee "speed_limit": const_tar_speed => Actual_Speed.val <= Target_Speed.val;
+  guarantee "accel_limit": abs(Actual_Speed.val - prev(Actual_Speed.val)) < 40.0;
+};

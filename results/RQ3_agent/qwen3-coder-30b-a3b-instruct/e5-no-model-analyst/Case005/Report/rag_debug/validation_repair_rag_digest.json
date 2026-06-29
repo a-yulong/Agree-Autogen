@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for pre() expressions, e.g., initialized : bool = false -> true, and guard previous-value comparisons on initialized.",
+    "Ensure type consistency in binary expressions; resolve '<error>' types by fixing root reference issues or removing invalid clauses.",
+    "Place AGREE contracts in annex agree blocks within valid component type or implementation scopes.",
+    "Declare visible helpers and references in the same annex scope to avoid 'Couldn't resolve reference' errors."
+  ],
+  "generic_rules": [
+    "Use initialized state variables to guard pre() expression comparisons in AGREE contracts.",
+    "Validate type consistency in AGREE expressions to prevent '<error>' type mismatches.",
+    "Place assumptions and guarantees in component type scopes when referring to ports or features.",
+    "Only reference visible identifiers or declared helpers in AGREE annexes to avoid resolution errors."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `->` for initialized temporal recurrence in stateful equations.",
+    "Binary expressions in AGREE must have matching types; resolve type mismatches by aligning declarations.",
+    "Pre() expressions must be guarded by initialized flags to avoid undefined behavior."
+  ],
+  "anti_patterns": [
+    "Do not reference unresolved identifiers or invalid helpers in AGREE guarantees or equations.",
+    "Avoid placing component-level assumptions or guarantees in implementation scopes unless binding to subcomponents.",
+    "Do not mix incompatible types (e.g., int and real) in binary expressions without explicit conversion.",
+    "Do not declare AGREE helpers or constants in scopes where they are not visible to the current annex."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics",
+    "AGREE validator diagnostics",
+    "Component type annexes vs implementation annexes",
+    "AGREE logical operators and implication syntax"
+  ]
+}

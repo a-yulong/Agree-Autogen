@@ -1,0 +1,138 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: Data_In, Data_Source1, Data_Source1.All_elems, Data_Source1.elem, Data_Source2, Data_Source2.All_elems, Data_Source2.elem, Pr_Index
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_In | in | data | int | Base_Types::Integer
+Data_Source1 | out | data | opaque | A_Struct.impl
+Data_Source1.All_elems | out | data_field | opaque | One_Dimension_Array
+Data_Source1.elem | out | data_field | int | Base_Types::Integer
+Data_Source2 | out | data | opaque | A_Struct.impl
+Data_Source2.All_elems | out | data_field | opaque | One_Dimension_Array
+Data_Source2.elem | out | data_field | int | Base_Types::Integer
+Pr_Index | out | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Producer_Th | lines 92-102
+annex agree {**
+  
+    assume "bounded_input": (Data_In >= 0) and (Data_In <= 100);
+  
+    guarantee "stable_data_source1": Data_Source1.All_elems = Data_Source1.elem;
+  
+    guarantee "stable_data_source2": Data_Source2.All_elems = Data_Source2.elem;
+  
+    guarantee "valid_index_range": (Pr_Index >= 0) and (Pr_Index <= 100);
+  
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   92:   annex agree {**
+   93:   
+   94:     assume "bounded_input": (Data_In >= 0) and (Data_In <= 100);
+   95:   
+>> 96:     guarantee "stable_data_source1": Data_Source1.All_elems = Data_Source1.elem;
+   97:   
+   98:     guarantee "stable_data_source2": Data_Source2.All_elems = Data_Source2.elem;
+   99:   
+   100:     guarantee "valid_index_range": (Pr_Index >= 0) and (Pr_Index <= 100);
+
+   94:     assume "bounded_input": (Data_In >= 0) and (Data_In <= 100);
+   95:   
+   96:     guarantee "stable_data_source1": Data_Source1.All_elems = Data_Source1.elem;
+   97:   
+>> 98:     guarantee "stable_data_source2": Data_Source2.All_elems = Data_Source2.elem;
+   99:   
+   100:     guarantee "valid_index_range": (Pr_Index >= 0) and (Pr_Index <= 100);
+   101:   
+   102:   **};
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Producer_Th
+thread Producer_Th
+  features
+        Data_In      : in data port Base_Types::Integer;
+    Data_Source1 : out event data port A_Struct.impl;
+    Data_Source2 : out event data port A_Struct.impl;
+    Pr_Index     : out event data port Base_Types::Integer;
+  properties
+    Dispatch_Protocol => Periodic;
+    Compute_Execution_Time => 1 ms .. 10 ms;
+    Priority => 1;
+    Period => 500 ms;
+  
+  end Producer_Th;
+
+-- RELATED MODEL LINES
+data Alpha_Type
+end Alpha_Type;
+data One_Dimension_Array
+end One_Dimension_Array;
+data A_Struct
+end A_Struct;
+data implementation A_Struct.impl
+All_elems : data One_Dimension_Array;
+elem      : data Base_Types::Integer;
+end A_Struct.impl;
+A_Data_Out : out parameter Alpha_Type;
+A_Data_In  : in parameter A_Struct.impl;
+thread Computation_Th
+Data_Out : out data port Base_Types::Integer;
+end Computation_Th;
+thread Producer_Th
+Data_In      : in data port Base_Types::Integer;
+Data_Source1 : out event data port A_Struct.impl;
+Data_Source2 : out event data port A_Struct.impl;
+Pr_Index     : out event data port Base_Types::Integer;
+end Producer_Th;
+thread Consumer_Th
+Data_Sink1 : in event data port A_Struct.impl;
+Data_Sink2 : in event data port A_Struct.impl;
+Cr_Index   : in event data port Base_Types::Integer {Queue_Size => 4;};
+end Consumer_Th;
+process A
+Alpha1 : out data port A_Struct.impl;
+Alpha2 : out data port A_Struct.impl;
+Alpha3 : out data port Base_Types::Integer;
+end A;
+process implementation A.Impl
+Computation : thread Computation_Th;
+Producer    : thread Producer_Th;
+Z3:port Producer.Data_Source1 -> Alpha1;
+Z5:port Producer.Data_Source2 -> Alpha2;
+Z9:port Producer.Pr_Index -> Alpha3;
+Z12:port Computation.Data_Out -> Producer.Data_In;
+end A.Impl;
+process B
+Beta1  : in data port A_Struct.impl;
+Beta2  : in data port A_Struct.impl;
+Beta3  : in data port Base_Types::Integer;
+end B;
+process implementation B.Impl
+Consumer  : thread Consumer_Th;
+Z4 : port Beta1 -> Consumer.Data_Sink1;
+Z7 : port Beta2 -> Consumer.Data_Sink2;
+Z10: port Beta3 -> Consumer.Cr_Index;
+end B.Impl;
+system PC_Simple
+end PC_Simple;
+system implementation PC_Simple.Native
+pr_A : process A.Impl;
+pr_B : process B.Impl {Deployment::port_number => 4002;};
+Device_A : device Native_Sockets::Native_Sockets.pohi_c
+Device_B : device Native_Sockets::Native_Sockets.pohi_c
+Z1 : bus access the_bus -> Device_A.Eth;
+Z2 : bus access the_bus -> Device_B.Eth;
+Z6 : port pr_A.Alpha1 -> pr_B.Beta1;
+Z8 : port pr_A.Alpha2 -> pr_B.Beta2;
+Z11: port pr_A.Alpha3 -> pr_B.Beta3;
+Actual_Processor_Binding => (reference (CPU_A)) applies to pr_A;
+Actual_Processor_Binding => (reference (CPU_B)) applies to pr_B;
+actual_processor_binding => (reference (CPU_A)) applies to Device_A;
+actual_processor_binding => (reference (CPU_B)) applies to Device_B;
+end PC_Simple.Native;

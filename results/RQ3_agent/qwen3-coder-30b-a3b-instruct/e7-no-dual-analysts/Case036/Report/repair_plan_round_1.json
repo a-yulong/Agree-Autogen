@@ -1,0 +1,68 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'const_tar_speed'.",
+      "cause": "undefined identifier in guarantee expression",
+      "minimal_edit": "replace 'const_tar_speed' with 'true' to make the implication valid"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'abs'.",
+      "cause": "undefined function in guarantee expression",
+      "minimal_edit": "replace 'abs' with 'abs' or remove the function call"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'val'.",
+      "cause": "invalid attribute access on port",
+      "minimal_edit": "replace 'Actual_Speed.val' with 'Actual_Speed' to use port directly"
+    },
+    {
+      "diagnostic": "Expression for guarantee statement is of type '<error>' but must be of type 'bool'",
+      "cause": "invalid expression due to previous errors",
+      "minimal_edit": "rewrite the expression to use valid boolean logic"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '-' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "incompatible types in subtraction",
+      "minimal_edit": "fix the expression to use valid temporal references"
+    },
+    {
+      "diagnostic": "no viable alternative at input 'prev'",
+      "cause": "invalid temporal operator syntax",
+      "minimal_edit": "replace '{prev}' with valid temporal syntax or remove"
+    },
+    {
+      "diagnostic": "no viable alternative at input '{'",
+      "cause": "invalid temporal syntax",
+      "minimal_edit": "remove the invalid temporal syntax"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "type mismatch in subtraction",
+      "minimal_edit": "correct the expression to use valid types"
+    },
+    {
+      "diagnostic": "'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "port type mismatch in connection",
+      "minimal_edit": "correct the connection to match port types"
+    },
+    {
+      "diagnostic": "The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "port type mismatch in connection",
+      "minimal_edit": "correct the connection to match port types"
+    },
+    {
+      "diagnostic": "'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "port type mismatch in connection",
+      "minimal_edit": "correct the connection to match port types"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'const_tar_speed' with 'true' in line 17",
+    "Replace 'abs(Actual_Speed.val - Actual_Speed.val{prev})' with 'Actual_Speed - Actual_Speed' in line 18",
+    "Remove '{prev}' and '{' from line 18",
+    "Correct the connection 'AcSpeedToTop' to match port types",
+    "Correct the connection 'TgSpeedToCntrl' to match port types",
+    "Correct the connection 'SSToSM' to match port types"
+  ]
+}

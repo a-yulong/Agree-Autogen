@@ -1,0 +1,20 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'bool' and 'real', but must be of the same type",
+      "cause": "p1, p2, p3 are declared as bool ports but are being assigned real expressions",
+      "minimal_edit": "Change the assignment expressions to use boolean comparisons that match the port types"
+    },
+    {
+      "diagnostic": "mismatched input '<' expecting ';'",
+      "cause": "Invalid syntax in boolean assignment expressions",
+      "minimal_edit": "Replace the comparison operators with valid boolean expressions"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'p1 = gcas_timeToRecovery < timeToFailure' with 'p1 = gcas_timeToRecovery <= timeToFailure'",
+    "Replace 'p2 = tcas_timeToRecovery < timeToFailure' with 'p2 = tcas_timeToRecovery <= timeToFailure'",
+    "Replace 'p3 = geof_timeToRecovery < timeToFailure' with 'p3 = geof_timeToRecovery <= timeToFailure'"
+  ]
+}

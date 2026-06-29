@@ -1,0 +1,51 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 19: Couldn't resolve reference to 'val'.",
+      "cause": "AGREE cannot resolve 'val' attribute on AADL opaque data ports",
+      "minimal_edit": "Replace Target_Speed.val and Actual_Speed.val with Target_Speed and Actual_Speed respectively"
+    },
+    {
+      "diagnostic": "line 19: Expression for guarantee statement is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression due to unresolved 'val' references",
+      "minimal_edit": "Fix the expression by replacing 'val' references with direct port names"
+    },
+    {
+      "diagnostic": "line 19: The condition of the if statement is of type 'ErrorTypeDef' but must be of type 'bool'",
+      "cause": "Invalid conditional expression due to unresolved 'val' references",
+      "minimal_edit": "Fix the conditional expression by replacing 'val' references with direct port names"
+    },
+    {
+      "diagnostic": "line 19: left and right sides of binary expression '-' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Invalid arithmetic expression due to unresolved 'val' references",
+      "minimal_edit": "Fix the arithmetic expression by replacing 'val' references with direct port names"
+    },
+    {
+      "diagnostic": "line 19: left side of binary expression '-' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Invalid arithmetic expression due to unresolved 'val' references",
+      "minimal_edit": "Fix the arithmetic expression by replacing 'val' references with direct port names"
+    },
+    {
+      "diagnostic": "line 33: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "Port connection mismatch in implementation",
+      "minimal_edit": "Ensure port connection types match exactly"
+    },
+    {
+      "diagnostic": "line 35: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "Port connection type mismatch in implementation",
+      "minimal_edit": "Ensure port connection types match exactly"
+    },
+    {
+      "diagnostic": "line 40: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "Port connection mismatch in implementation",
+      "minimal_edit": "Ensure port connection types match exactly"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace Target_Speed.val with Target_Speed in the assume and guarantee statements",
+    "Replace Actual_Speed.val with Actual_Speed in the guarantee statements",
+    "Fix the acceleration limit guarantee expression to use direct port names instead of .val",
+    "Verify all port connections in the implementation match types exactly"
+  ]
+}

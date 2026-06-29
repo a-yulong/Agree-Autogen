@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 85: named thing must be an expression with a type",
+      "cause": "AGREE guarantee statement references port names that are not visible in the component type scope",
+      "minimal_edit": "Remove the guarantee statement referencing mag_out_data_x"
+    },
+    {
+      "diagnostic": "line 86: named thing must be an expression with a type",
+      "cause": "AGREE guarantee statement references port names that are not visible in the component type scope",
+      "minimal_edit": "Remove the guarantee statement referencing mag_out_data_y"
+    },
+    {
+      "diagnostic": "line 87: named thing must be an expression with a type",
+      "cause": "AGREE guarantee statement references port names that are not visible in the component type scope",
+      "minimal_edit": "Remove the guarantee statement referencing mag_out_data_z"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from MAGNETO component type to MAGNETO.IMPL component implementation",
+    "Remove the guarantee statements from the MAGNETO component type annex",
+    "Add an assign statement in the MAGNETO.IMPL annex to express the data flow using visible identifiers"
+  ]
+}

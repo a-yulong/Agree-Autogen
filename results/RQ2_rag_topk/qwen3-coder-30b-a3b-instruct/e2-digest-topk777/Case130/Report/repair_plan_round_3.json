@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "assume \"deployment_binding_hello_impl_to_node_a\": true;",
+      "cause": "AGREE assume statement references a deployment binding that is not expressible in AGREE without explicit symbolic relation",
+      "minimal_edit": "assume \"deployment_binding_hello_impl_to_node_a\": node_a in hello.impl;"
+    },
+    {
+      "diagnostic": "assume \"deployment_binding_node_a_to_cpu_rm_p0\": true;",
+      "cause": "AGREE assume statement references a deployment binding that is not expressible in AGREE without explicit symbolic relation",
+      "minimal_edit": "assume \"deployment_binding_node_a_to_cpu_rm_p0\": cpu_rm in hello.impl;"
+    },
+    {
+      "diagnostic": "assume \"deployment_binding_node_a_to_mem_segment1\": true;",
+      "cause": "AGREE assume statement references a deployment binding that is not expressible in AGREE without explicit symbolic relation",
+      "minimal_edit": "assume \"deployment_binding_node_a_to_mem_segment1\": mem in hello.impl;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace each assume statement with an equivalent AGREE expression using subcomponent membership",
+    "For each assume statement, rewrite the right-hand side from 'true' to a valid AGREE expression of the form 'subcomponent_name in component_implementation_name'",
+    "Ensure all identifiers used in the new expressions are visible in the AGREE context"
+  ]
+}

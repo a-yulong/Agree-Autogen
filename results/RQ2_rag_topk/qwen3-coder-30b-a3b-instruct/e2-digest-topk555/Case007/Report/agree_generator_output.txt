@@ -1,0 +1,8 @@
+annex agree {**
+  eq timeToFailure_min : real = min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure);
+  guarantee "timeToFailure_computation": timeToFailure = timeToFailure_min;
+  guarantee "p1_assignment": p1 = concurrencyFactor(gcas_timeToRecovery, timeToFailure);
+  guarantee "p2_assignment": p2 = concurrencyFactor(tcas_timeToRecovery, timeToFailure);
+  guarantee "p3_assignment": p3 = concurrencyFactor(geof_timeToRecovery, timeToFailure);
+  guarantee "timeToFailure_bound": timeToFailure > gcas_timeToRecovery + tcas_timeToRecovery + geof_timeToRecovery;
+**};

@@ -1,0 +1,14 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '+' are of type 'Types::speed.speed_impl' and 'real', but must be of the same type",
+      "cause": "AGREE equation attempts arithmetic on incompatible types: speed_impl and real",
+      "minimal_edit": "Change Actual_previous declaration to Base_Types::Float and adjust the equation to use compatible types"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'eq Actual_previous: Types::speed.speed_impl;' with 'eq Actual_previous: Base_Types::Float;'",
+    "Update the guarantee equation to 'Actual = Actual_previous + 0.1 * Actuator_Input' using compatible types"
+  ]
+}

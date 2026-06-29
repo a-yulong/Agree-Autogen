@@ -1,0 +1,125 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: timeToRecovery
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+timeToRecovery | out | data | opaque | real
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "t is a real-valued recursive variable with initial value 0.0 and step size 0.1",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "t"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "circleLinearization function is invoked with t as a parameter to compute distanceFromFence",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "circleLinearization",
+        "t",
+        "distanceFromFence"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "timeToRecovery is set to 1.7",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "timeToRecovery"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "when simulation time t reaches or exceeds recovery time, distanceFromFence at current time instance must be greater than distanceFromFence at previous time instance",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "t",
+        "distanceFromFence"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GeoFence_singleton | lines 10-22
+annex agree {**
+	annex agree {
+	  const initial_t : real = 0.0;
+	  const step_size : real = 0.1;
+	  const recovery_time : real = 1.7;
+
+	  eq t : real = initial_t -> pre(t) + step_size;
+
+	  assign timeToRecovery = recovery_time;
+
+	  guarantee "recovery_action": t >= recovery_time => distanceFromFence > pre(distanceFromFence);
+	};
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   7: 	system GeoFence_singleton
+   8: 		features
+   9: 			timeToRecovery: out data port real;
+   10: 	annex agree {**
+>> 11: 	annex agree {
+   12: 	  const initial_t : real = 0.0;
+   13: 	  const step_size : real = 0.1;
+   14: 	  const recovery_time : real = 1.7;
+   15: 
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: GeoFence_singleton
+system GeoFence_singleton
+		features
+			timeToRecovery: out data port real;
+	end GeoFence_singleton;
+
+-- TARGET DECLARATION: GeoFence_singleton.impl
+system implementation GeoFence_singleton.impl
+	end GeoFence_singleton.impl;
+
+-- RELATED MODEL LINES
+system GeoFence_singleton
+timeToRecovery: out data port real;
+end GeoFence_singleton;
+system implementation GeoFence_singleton.impl
+end GeoFence_singleton.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "GeoFence_singleton",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "GeoFence_singleton.impl",
+      "kind": "system",
+      "type_name": "GeoFence_singleton"
+    }
+  ],
+  "features": [
+    {
+      "owner": "GeoFence_singleton",
+      "name": "timeToRecovery",
+      "direction": "out",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    }
+  ]
+}

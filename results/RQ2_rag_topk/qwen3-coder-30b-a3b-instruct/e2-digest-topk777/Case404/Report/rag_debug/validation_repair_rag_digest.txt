@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Validate that all AGREE expressions match the expected scalar types (int, real, bool) and avoid invalid type names.
+- Ensure that generated AGREE clauses reference only visible identifiers and do not assume AADL properties are automatically available.
+- When generating range assumptions or guarantees, use concrete bounds or named constants from the requirement and AADL model.
+- Do not include implementation-specific subcomponent paths in component type annexes; move such bindings to implementation scopes.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks within valid component type or implementation scopes.
+- Helper declarations like `eq` and `const` must define types that match their assigned expressions.
+- Assumptions and guarantees should reference only features or variables visible at the current scope level.
+- Numeric comparisons in AGREE require consistent types; e.g., `x >= min_value and x <= max_value` must use matching scalar types.
+Anti-patterns:
+- Do not generate AGREE clauses that reference AADL property names like Period or Deadline as variables.
+- Do not place implementation-level bindings in component type annexes unless they are valid outputs or subcomponent ports.
+- Do not assume that Boolean ports can be treated as integers or opaque data in range comparisons.
+- Do not introduce package-qualified identifiers or data types that are not declared in the AADL model.
+Irrelevant retrieved material:
+- AADL Inspector parsing errors related to abstract keywords and flow implementations
+- AGREE validator diagnostics (empty list)
+- Model Analyst's role in extracting AADL structure
+- Requirement Analyst's role in compact semantics and traceability
+</RAG_DIGEST>

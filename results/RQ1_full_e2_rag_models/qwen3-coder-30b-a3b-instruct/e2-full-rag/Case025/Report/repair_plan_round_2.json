@@ -1,0 +1,42 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 56: Couldn't resolve reference to 'tempin1'.",
+      "cause": "AGREE annex in temp_control refers to port 'tempin1' which is not visible in that scope",
+      "minimal_edit": "Remove the assume statement referencing 'tempin1' from the temp_control annex"
+    },
+    {
+      "diagnostic": "line 57: Couldn't resolve reference to 'tempin2'.",
+      "cause": "AGREE annex in temp_control refers to port 'tempin2' which is not visible in that scope",
+      "minimal_edit": "Remove the assume statement referencing 'tempin2' from the temp_control annex"
+    },
+    {
+      "diagnostic": "line 58: Couldn't resolve reference to 'tempin1'.",
+      "cause": "AGREE annex in temp_control refers to port 'tempin1' which is not visible in that scope",
+      "minimal_edit": "Remove the guarantee statement referencing 'tempin1' from the temp_control annex"
+    },
+    {
+      "diagnostic": "line 58: Couldn't resolve reference to 'tempout'.",
+      "cause": "AGREE annex in temp_control refers to port 'tempout' which is not visible in that scope",
+      "minimal_edit": "Remove the guarantee statement referencing 'tempout' from the temp_control annex"
+    },
+    {
+      "diagnostic": "line 83: Couldn't resolve reference to 'temp1'.",
+      "cause": "AGREE annex in voter refers to port 'temp1' which is not visible in that scope",
+      "minimal_edit": "Remove the assume statement referencing 'temp1' from the voter annex"
+    },
+    {
+      "diagnostic": "line 84: Couldn't resolve reference to 'temp2'.",
+      "cause": "AGREE annex in voter refers to port 'temp2' which is not visible in that scope",
+      "minimal_edit": "Remove the assume statement referencing 'temp2' from the voter annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the assume statement 'assume \"signal_flow_temp1_to_voter_tempin1\": tempin1 = temp1;' from the temp_control annex",
+    "Remove the assume statement 'assume \"signal_flow_temp2_to_voter_tempin2\": tempin2 = temp2;' from the temp_control annex",
+    "Remove the guarantee statement 'guarantee \"output_tempout_equals_tempin1\": tempout = tempin1;' from the temp_control annex",
+    "Remove the assume statement 'assume \"signal_flow_temp1_to_voter_tempin1\": tempin1 = temp1;' from the voter annex",
+    "Remove the assume statement 'assume \"signal_flow_temp2_to_voter_tempin2\": tempin2 = temp2;' from the voter annex"
+  ]
+}

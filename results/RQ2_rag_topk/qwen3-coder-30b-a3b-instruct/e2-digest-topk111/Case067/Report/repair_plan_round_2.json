@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 105: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "Port 'Forcing_Safe_Mode' is not properly typed in AGREE context",
+      "minimal_edit": "Replace 'Forcing_Safe_Mode = true' with 'Forcing_Safe_Mode = true' (no change needed, but ensure port is correctly typed)"
+    },
+    {
+      "diagnostic": "line 108: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "Port 'Getting_Back_To_Normal_Mode' is not properly typed in AGREE context",
+      "minimal_edit": "Replace 'Getting_Back_To_Normal_Mode = true' with 'Getting_Back_To_Normal_Mode = true' (no change needed, but ensure port is correctly typed)"
+    },
+    {
+      "diagnostic": "line 156: left and right sides of binary expression '=' are of type 'real' and 'bool', but must be of the same type",
+      "cause": "Expression 'telemetry = true' compares a real data port to a boolean",
+      "minimal_edit": "Replace 'telemetry = true' with 'telemetry = 0.0' or similar valid real comparison"
+    },
+    {
+      "diagnostic": "line 178: Couldn't resolve reference to ConnectionEnd 'attitude_window'",
+      "cause": "Connection references non-existent port 'attitude_window'",
+      "minimal_edit": "Remove or correct 'Cnx5 : port TCP.attitude_window -> FDR.attitude_window;'"
+    },
+    {
+      "diagnostic": "line 179: Couldn't resolve reference to ConnectionEnd 'check_thresholds'",
+      "cause": "Connection references non-existent port 'check_thresholds'",
+      "minimal_edit": "Remove or correct 'Cnx6 : port TCP.check_thresholds -> FDR.check_thresholds;'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify and correct the type mismatch in guarantee 'mode_transition_signals' by ensuring boolean expressions are compared to boolean values",
+    "Fix the type mismatch in guarantee 'anomaly_handling' by replacing 'telemetry = true' with a valid real comparison",
+    "Remove or correct the invalid connections Cnx5 and Cnx6 that reference non-existent ports",
+    "Verify all port references in AGREE annex are valid and properly typed"
+  ]
+}

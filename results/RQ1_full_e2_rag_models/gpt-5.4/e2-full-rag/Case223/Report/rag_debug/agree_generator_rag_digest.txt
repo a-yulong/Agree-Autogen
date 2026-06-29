@@ -1,0 +1,17 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use valid AGREE statement kinds only: assume, guarantee, eq, const, and assign, each terminated with a semicolon.
+- Write contracts only over symbols visible in the active scope; deterministic dependency guarantees should relate visible outputs to visible inputs or helpers.
+- Use nested conditionals for piecewise logic and initialized temporal recurrence for stateful equations.
+Generic rules:
+- Add range assumptions or guarantees only when the case provides concrete bounds or visible named constants.
+- Prefer concise guarantees that define an output relation directly, optionally through small reusable helper equations.
+- If a required property, unit, or internal path is not exposed as an AGREE symbol, omit that clause rather than inventing a reference.
+Syntax or pattern reminders:
+- AGREE scalar types are bool, int, and real; comparisons produce bool and helper declarations must match expression types.
+- Use AGREE logical operators and, or, not(...), and =>; encode branching with if-then-else.
+Anti-patterns:
+- Do not use AADL property names or unit tokens as AGREE variables unless the model explicitly exposes typed constants or ports for them.
+- Do not reference subcomponent ports or implementation-only paths from a contract scope where they are not visible.
+- Do not use invalid scalar names such as boolean or integer, or declare a helper with a type that disagrees with its expression.
+</RAG_DIGEST>

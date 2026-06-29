@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by ensuring all identifiers like 'heating_request' are declared as boolean equations in the same annex before use in guarantees.",
+    "Resolve type errors by aligning helper declaration types with expression types; use 'bool' for boolean expressions and 'real' for temperature comparisons.",
+    "Remove invalid guarantee clauses that reference undefined identifiers or have '<error>' types instead of adding new architecture."
+  ],
+  "generic_rules": [
+    "In AGREE contracts, always declare helper variables before referencing them in guarantees or assumptions.",
+    "Use only visible AADL features or declared helpers in AGREE annexes to avoid 'named thing must be an expression with a type' errors.",
+    "When AGREE reports type mismatches, ensure scalar type names match AGREE's expected types: int, real, bool.",
+    "For implementation contracts, avoid placing guarantees in implementation scope; use component type annexes for such statements."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `eq` for boolean helper declarations and `gua` for guarantees.",
+    "Use `and`, `or`, `not(...)`, and `=>` for logical expressions in AGREE.",
+    "Ensure all identifiers in a guarantee are either AADL features or previously declared boolean equations."
+  ],
+  "anti_patterns": [
+    "Do not add new component features or ports to fix AGREE diagnostics; instead, resolve references within existing scope.",
+    "Do not place guarantees in implementation scope unless they reference existing output features or auxiliary variables.",
+    "Do not assume that AADL scalar types like 'integer' or 'boolean' are valid in AGREE; use 'int', 'real', and 'bool'."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "implementation scope output assign",
+    "type scope range assumption and guarantee"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Use `assume` and `guarantee` statements with labeled expressions in AGREE annex blocks for input assumptions and behavioral guarantees.",
+    "Place component type contracts in the component type annex; use implementation annexes only for output assignments and valid implementation-level bindings."
+  ],
+  "generic_rules": [
+    "Generate AGREE contracts using logical operators (`and`, `or`, `not`, `=>`) and valid temporal recurrence for stateful equations.",
+    "Ensure all identifiers in AGREE expressions are visible in the current component scope; avoid referencing undefined or AADL property names directly.",
+    "Use `assign` only for output features or declared auxiliary variables in implementation scope; do not place guarantees in implementation annexes.",
+    "Structure AGREE annexes within `annex agree {** ... **};` blocks and follow component scope rules for feature visibility."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `if ... then ... else` for branching logic and `0.0 -> pre(t) + step` for initialized temporal recurrence.",
+    "Label all `assume` and `guarantee` statements for clarity and traceability."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL properties like Compute_Execution_Time or unit tokens directly in AGREE expressions.",
+    "Do not place guarantees in implementation scope; use type-level guarantees or implementation-level assignments only."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing parameters not directly tied to visible features",
+    "Model dependency staging issues unrelated to contract generation",
+    "Validator diagnostics for unresolved identifiers in non-contract contexts"
+  ]
+}

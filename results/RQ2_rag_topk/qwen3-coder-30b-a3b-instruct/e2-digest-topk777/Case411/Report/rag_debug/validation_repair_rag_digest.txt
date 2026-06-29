@@ -1,0 +1,20 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Only reference AADL identifiers that are explicitly declared or visible in the current scope.
+- Ensure AGREE expressions maintain type consistency and avoid '<error>' types from unresolved references.
+- Place AGREE contracts in appropriate scopes: type annexes for component type contracts, implementation annexes for implementation bindings.
+- Avoid encoding AADL property associations as AGREE variables unless the model exposes typed ports or constants.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Use only visible AADL features or declared helpers in AGREE expressions.
+- Binary comparisons in AGREE require operands of matching types (int, real, bool).
+Anti-patterns:
+- Do not generate AGREE clauses that reference AADL properties like Stack_Size or HM_Errors without matching model declarations.
+- Do not assume numeric bounds (e.g., x >= 0) unless explicitly required by the requirement or compatible with AADL data types.
+- Do not place implementation-level guarantees in component type annexes; move valid assignments to implementation scopes.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about property associations not pointing to anything
+- AGREE validator diagnostics about property definitions not being resolvable
+- Requirements about bounded input conditions for samplingin
+- Model structure and component type extraction
+</RAG_DIGEST>

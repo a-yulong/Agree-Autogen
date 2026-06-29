@@ -1,0 +1,118 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Reference only identifiers that are explicitly visible in AGREE scope; AADL property associations and unit tokens are not implicit AGREE variables.
+- Use AGREE constructs with their required forms: labeled `assume`/`guarantee`, typed `eq` and `const`, and `assign` only where that construct is valid.
+- Match helper declaration types to expression types exactly: comparisons are `bool`, integer-only expressions are `int`, and real-valued expressions are `real`.
+Generic rules:
+- Use only symbols confirmed by model facts or existing interface visibility; avoid inventing names for unexposed metadata.
+- Prefer simple, direct expressions over extra helper declarations unless a helper clearly improves readability and remains well-typed.
+Syntax or pattern reminders:
+- Wrap AGREE content in `annex agree {** ... **};` and end each statement with `;`.
+- Use `eq name : type = expr;` and `const name : type = value;` for internal definitions, and keep `assume`/`guarantee` labels quoted.
+Anti-patterns:
+- Do not treat timing, priority, dispatch, or other AADL property names as AGREE variables unless the model explicitly exposes them.
+- Do not apply numeric range checks or 0/1 comparisons to Boolean, enumeration-like, or opaque values without an explicit numeric scalar type.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Task
+- Task.impl_1
+- node_a
+- node_a.impl
+- Task1
+- hello
+- hello.impl
+- node_b
+
+Target interface:
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- Task
+- Task.impl_1
+- node_a
+- node_a.impl
+- Task1
+- hello
+- hello.impl
+- node_b
+
+Raw requirement:
+The Task component shall execute according to the scheduling and timing constraints defined for Task.impl_1. The implementation shall use the Periodic dispatch protocol, execute with a period of 100 ms, complete compute execution within 0 ms .. 3 ms, and run at priority 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Task.impl_1 Dispatch_Protocol=Periodic",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Task",
+        "Task.impl_1",
+        "Dispatch_Protocol",
+        "Periodic"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Task.impl_1 Period=100 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Task",
+        "Task.impl_1",
+        "Period",
+        "100 ms"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Task.impl_1 Compute_Execution_time=0 ms .. 3 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Task",
+        "Task.impl_1",
+        "Compute_Execution_time",
+        "0 ms .. 3 ms"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Task.impl_1 Priority=100",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Task",
+        "Task.impl_1",
+        "Priority",
+        "100"
+      ]
+    }
+  ]
+}

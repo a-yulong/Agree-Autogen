@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix type mismatches by ensuring expressions match declared types; use 'real' for real-valued variables and 'bool' for Boolean expressions.",
+    "Resolve 'Couldn't resolve reference' errors by ensuring all identifiers are declared or visible in the current scope.",
+    "Avoid placing implementation-level guarantees in component type scopes; move valid assignments to implementation annexes.",
+    "Do not reference AADL property names like 'Compute_Execution_Time' or unit tokens in AGREE expressions."
+  ],
+  "generic_rules": [
+    "Use initialized temporal recurrence for stateful equations with pre() and step size.",
+    "Place AGREE contracts in appropriate scopes: type annexes for assumptions/guarantees, implementation annexes for assignments.",
+    "Ensure all expressions in AGREE have consistent types; avoid mixing int and real unless explicitly cast.",
+    "Only reference visible AADL features or declared helpers in AGREE annexes."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE uses 'eq' for equations, 'const' for constants, and 'assign' for output bindings.",
+    "Guarantees must be placed in valid scopes; implementation guarantees should be in implementation annexes.",
+    "Binary comparisons in AGREE require both sides to be of the same type (int, real, or bool).",
+    "Helper functions and types must be defined or imported before use in AGREE."
+  ],
+  "anti_patterns": [
+    "Do not reference undefined or non-visible identifiers in AGREE expressions.",
+    "Do not mix incompatible types (e.g., int and real) in binary comparisons without explicit conversion.",
+    "Do not place implementation-level guarantees in component type annexes.",
+    "Do not include AADL property names or unit tokens as AGREE variables."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics",
+    "AGREE validator diagnostics",
+    "Component type annexes for implementation-level bindings",
+    "AGREE syntax for assume/guarantee contracts"
+  ]
+}

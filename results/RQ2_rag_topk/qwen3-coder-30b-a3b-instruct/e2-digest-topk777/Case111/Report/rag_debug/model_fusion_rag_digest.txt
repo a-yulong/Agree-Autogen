@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="model_fusion">
+Generic rules:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks and must reference only visible identifiers from the current AADL scope.
+- Component type contracts should relate visible inputs to visible outputs without referencing implementation-only subcomponents or paths.
+- Do not introduce package-qualified identifiers or data types not present in the analyzed AADL model.
+- Avoid redeclaring AADL features as AGREE variables; ports are already accessible in valid scopes.
+Syntax or pattern reminders:
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` with correct AGREE syntax and valid types (int, real, bool).
+- Ensure all identifiers used in AGREE expressions are declared or visible in the current AADL component scope.
+Anti-patterns:
+- Do not place implementation-level subcomponent paths or output assignments in component type annexes.
+- Do not attempt to resolve missing identifiers by inventing new declarations; use only existing visible identifiers.
+Irrelevant retrieved material:
+- AADL property associations and timing parameters such as Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens like ms/us/Hz/Bytes
+- AGREE validator diagnostics and repair actions
+- Model Analyst Agent's structural extraction tasks
+- Requirement Analyst Agent's traceability and semantics tasks
+</RAG_DIGEST>

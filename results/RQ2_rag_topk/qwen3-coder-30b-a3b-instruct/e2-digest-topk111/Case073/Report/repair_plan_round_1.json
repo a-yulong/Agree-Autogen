@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'gps_pos'.",
+      "cause": "gps_pos is a port in thread type, not visible in implementation annex scope",
+      "minimal_edit": "Remove gps_pos reference from assume statement in implementation annex"
+    },
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent, not visible in assume statement context",
+      "minimal_edit": "Remove pspg reference from assume statement in implementation annex"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent, not visible in assume statement context",
+      "minimal_edit": "Remove pspg reference from assume statement in implementation annex"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'speed'.",
+      "cause": "speed is a port in thread type, not visible in implementation annex scope",
+      "minimal_edit": "Remove speed reference from assume statement in implementation annex"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the assume statements from thr_mgmt.i annex to thr_mgmt annex",
+    "Replace the assume statements with valid expressions using only visible symbols",
+    "Ensure the new assume statements reference only features declared in the thread type"
+  ]
+}

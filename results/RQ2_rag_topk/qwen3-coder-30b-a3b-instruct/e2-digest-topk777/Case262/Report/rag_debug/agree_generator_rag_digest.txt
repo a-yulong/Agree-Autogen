@@ -1,0 +1,15 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks only for component type scope when assumptions/guarantees refer to visible interface features, not implementation details.
+- Use only identifiers explicitly present in the AADL model as visible symbols; do not invent or infer port references.
+Generic rules:
+- Translate numeric bounds from requirements directly into AGREE constants or boolean expressions without extrapolation.
+- Ensure all expressions use types compatible with AADL port data types; prefer explicit equality or range comparisons over inferred conversions.
+Syntax or pattern reminders:
+- Wrap all AGREE content in `annex agree {** ... **};` within component type or implementation scope as appropriate.
+- Use `eq` to define reusable boolean expressions for ranges, and `const` for named literals referenced in assumptions or guarantees.
+Anti-patterns:
+- Do not reference AADL properties (e.g., Period, Deadline) as if they are AGREE variables.
+- Do not assume non-negative bounds unless explicitly stated in the requirement.
+- Do not encode event ports as numeric or boolean values without explicit data value bindings in the model.
+</RAG_DIGEST>

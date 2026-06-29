@@ -1,0 +1,100 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use the AADL model as the source of truth for visible names, port directions, and data types.
+- Keep assumptions, guarantees, constants, and equations in valid AGREE contract scope; use implementation-level bindings only where that scope permits them.
+- Do not reference subcomponent ports directly from a component contract unless they are exposed through valid visible symbols.
+- Treat AADL properties and unit tokens as out of AGREE expression scope unless the model explicitly exposes typed ports or constants for them.
+Generic rules:
+- Translate a requirement only when it can be stated with in-scope, typed symbols.
+- If you introduce a helper, declare it with the actual type of its expression.
+Syntax or pattern reminders:
+- Wrap contract content in an annex agree block and use standard AGREE clause forms inside it.
+- A range check built from ordered comparisons combined with logic operators is a Boolean expression.
+Anti-patterns:
+- Do not invent undeclared names or bypass scope visibility.
+- Do not turn Boolean, enumeration-like, or opaque data into numeric range or 0/1 checks without explicit numeric typing.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- speed
+
+Target interface:
+Exact expression symbols: speed
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+speed | in | data | int | Base_Types::Integer
+
+Raw requirement:
+The thr_throttle_simulation component shall operate under a bounded input condition for speed. The environment shall keep speed greater than or equal to -100 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "speed >= -100 and speed <= 100",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": []
+    },
+    {
+      "id": "R2",
+      "text": "thr_throttle_simulation.i.R5 routes speed to pspg.speed",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R3",
+      "text": "thr_throttle_simulation Dispatch_Protocol = Periodic",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R4",
+      "text": "thr_throttle_simulation Period = 1000ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R5",
+      "text": "thr_throttle_simulation Deadline = 1000ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R6",
+      "text": "thr_throttle_simulation Compute_Execution_Time = 5ms .. 10ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": []
+    }
+  ]
+}

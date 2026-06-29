@@ -1,0 +1,150 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: gyro_out_data_x, gyro_out_data_y, gyro_out_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+gyro_out_data_x | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_out_data_y | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+gyro_out_data_z | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GYRO_SUB_wrapper | lines 139-143
+annex agree {**
+          guarantee "gyro_out_data_x_valid": gyro_out_data_x = gyro_out_data_x;
+          guarantee "gyro_out_data_y_valid": gyro_out_data_y = gyro_out_data_y;
+          guarantee "gyro_out_data_z_valid": gyro_out_data_z = gyro_out_data_z;
+        **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   136:     gyro_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   137:     gyro_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   138:     gyro_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   139:   annex agree {**
+>> 140:           guarantee "gyro_out_data_x_valid": gyro_out_data_x = gyro_out_data_x;
+   141:           guarantee "gyro_out_data_y_valid": gyro_out_data_y = gyro_out_data_y;
+   142:           guarantee "gyro_out_data_z_valid": gyro_out_data_z = gyro_out_data_z;
+   143:         **};
+   144:   end GYRO_SUB_wrapper;
+
+   137:     gyro_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   138:     gyro_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   139:   annex agree {**
+   140:           guarantee "gyro_out_data_x_valid": gyro_out_data_x = gyro_out_data_x;
+>> 141:           guarantee "gyro_out_data_y_valid": gyro_out_data_y = gyro_out_data_y;
+   142:           guarantee "gyro_out_data_z_valid": gyro_out_data_z = gyro_out_data_z;
+   143:         **};
+   144:   end GYRO_SUB_wrapper;
+   145: 
+
+   138:     gyro_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+   139:   annex agree {**
+   140:           guarantee "gyro_out_data_x_valid": gyro_out_data_x = gyro_out_data_x;
+   141:           guarantee "gyro_out_data_y_valid": gyro_out_data_y = gyro_out_data_y;
+>> 142:           guarantee "gyro_out_data_z_valid": gyro_out_data_z = gyro_out_data_z;
+   143:         **};
+   144:   end GYRO_SUB_wrapper;
+   145: 
+   146:   subprogram implementation GYRO_SUB_wrapper.i
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: GYRO_SUB_wrapper
+subprogram GYRO_SUB_wrapper
+  features
+    gyro_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    gyro_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    gyro_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+  end GYRO_SUB_wrapper;
+
+-- TARGET DECLARATION: GYRO_SUB_wrapper.i
+subprogram implementation GYRO_SUB_wrapper.i
+  calls
+    Mycalls: { Spg : subprogram AHRS::Subprograms::GYRO_SUB; };
+  connections
+    P1: parameter Spg.gyro_out_data_x -> Gyro_Out_Data_X;
+    P2: parameter Spg.gyro_out_data_Y -> Gyro_Out_Data_Y;
+    P3: parameter Spg.gyro_out_data_Z -> Gyro_Out_Data_Z;
+  end GYRO_SUB_wrapper.i;
+
+-- RELATED MODEL LINES
+thread ACCELERO
+acc_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+f1 : flow sink acc_in_data_x { latency => 10 ms .. 20 ms;};
+end ACCELERO;
+acc_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+P1: parameter Spg.acc_out_data_x -> Acc_Out_Data_X;
+thread implementation ACCELERO.IMPL
+ACC_PC1 : parameter accelero_sub.acc_out_data_x -> acc_out_data_x;
+ACC_PC2 : parameter accelero_sub.acc_out_data_y -> acc_out_data_y;
+ACC_PC3 : parameter accelero_sub.acc_out_data_z -> acc_out_data_z;
+end ACCELERO.IMPL;
+thread MAGNETO
+mag_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+end MAGNETO;
+mag_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+P1: parameter Spg.mag_out_data_x -> Mag_Out_Data_X;
+thread implementation MAGNETO.IMPL
+MAG_PC1 : parameter magneto_sub.mag_out_data_x -> mag_out_data_x;
+MAG_PC2 : parameter magneto_sub.mag_out_data_y -> mag_out_data_y;
+MAG_PC3 : parameter magneto_sub.mag_out_data_z -> mag_out_data_z;
+end MAGNETO.IMPL;
+thread GYRO
+gyro_in_data_x : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_y : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_z : in data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_x : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_y : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_z : out event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+end GYRO;
+subprogram GYRO_SUB_wrapper
+gyro_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+end GYRO_SUB_wrapper;
+subprogram implementation GYRO_SUB_wrapper.i
+P1: parameter Spg.gyro_out_data_x -> Gyro_Out_Data_X;
+end GYRO_SUB_wrapper.i;
+thread implementation GYRO.IMPL
+GYRO_CALL: { gyro_sub : subprogram GYRO_SUB_wrapper.i; };
+GYRO_PC1 : parameter gyro_sub.gyro_out_data_x -> gyro_out_data_x;
+GYRO_PC2 : parameter gyro_sub.gyro_out_data_y -> gyro_out_data_y;
+GYRO_PC3 : parameter gyro_sub.gyro_out_data_z -> gyro_out_data_z;
+end GYRO.IMPL;
+thread ATTITUDE_CALCULATION
+acc_in_data_x : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_in_data_y : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+acc_in_data_z : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_x : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_y : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+mag_in_data_z : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_x : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_y : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+gyro_in_data_z : in event data port AHRS::Data_Types::FLOAT32_TYPE_AADL;
+end ATTITUDE_CALCULATION;
+thread implementation ATTITUDE_CALCULATION.IMPL
+ACC_PC1 : parameter acc_in_data_x	-> attitude_sub.acc_in_data_x;
+ACC_PC2 : parameter acc_in_data_y	-> attitude_sub.acc_in_data_y;
+ACC_PC3 : parameter acc_in_data_z	-> attitude_sub.acc_in_data_z;
+MAG_PC1 : parameter mag_in_data_x	-> attitude_sub.mag_in_data_x;
+MAG_PC2 : parameter mag_in_data_y	-> attitude_sub.mag_in_data_y;
+MAG_PC3 : parameter mag_in_data_z	-> attitude_sub.mag_in_data_z;
+GYRO_PC1 : parameter gyro_in_
+-- [target model context truncated]

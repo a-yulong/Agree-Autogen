@@ -1,0 +1,95 @@
+{
+  "component_types": [
+    {
+      "name": "voter",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "voter.impl",
+      "kind": "system implementation",
+      "type_name": "voter"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "voter",
+      "name": "voter",
+      "category": "system",
+      "classifier": "voter.impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "voter",
+      "name": "tempin1",
+      "direction": "in",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "voter",
+      "name": "tempin2",
+      "direction": "in",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "voter",
+      "name": "tempout",
+      "direction": "out",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "voter",
+      "name": "c0",
+      "kind": "port",
+      "source": "temp1",
+      "destination": "voter.tempin1"
+    },
+    {
+      "owner": "voter",
+      "name": "c1",
+      "kind": "port",
+      "source": "temp2",
+      "destination": "voter.tempin2"
+    },
+    {
+      "owner": "voter",
+      "name": "c5",
+      "kind": "port",
+      "source": "voter.tempout",
+      "destination": "controller.tempin"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "c0",
+      "owner_kind": "connection",
+      "name": "timing",
+      "value": "immediate",
+      "applies_to": "communication_properties::timing"
+    },
+    {
+      "owner": "c1",
+      "owner_kind": "connection",
+      "name": "timing",
+      "value": "immediate",
+      "applies_to": "communication_properties::timing"
+    },
+    {
+      "owner": "c5",
+      "owner_kind": "connection",
+      "name": "timing",
+      "value": "immediate",
+      "applies_to": "communication_properties::timing"
+    }
+  ]
+}

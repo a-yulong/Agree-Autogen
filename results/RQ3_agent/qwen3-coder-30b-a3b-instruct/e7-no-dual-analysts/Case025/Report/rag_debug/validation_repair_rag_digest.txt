@@ -1,0 +1,20 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- When generating AGREE contracts, ensure all referenced identifiers are properly declared or visible in the same annex.
+- Use only valid AGREE scalar types (int, real, bool) for constants and equation declarations.
+- Validate that binary expressions have matching operand types to prevent type errors.
+- Prevent invalid assignments by restricting them to output features or declared auxiliary variables.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for bindings.
+- Equation declarations must define expressions with valid types; avoid using <error> types from unresolved references.
+- Assignments in implementation scope must reference existing output features or declared auxiliary variables.
+Anti-patterns:
+- Do not attempt to resolve missing identifiers by adding new architecture; instead, correct or remove invalid clauses.
+- Avoid mixing package-qualified names without corresponding `with` clauses in the model.
+- Do not place guarantee statements in implementation scopes; they are only valid in component type annexes.
+- Do not use invalid scalar type names like 'integer' or 'boolean'; use 'int', 'real', or 'bool' instead.
+Irrelevant retrieved material:
+- aadl_scope_notes
+- agree_syntax_notes
+</RAG_DIGEST>

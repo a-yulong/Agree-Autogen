@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Only reference AADL features, constants, or properties that are explicitly visible in the current scope or imported via 'with' clauses.
+- Ensure all AGREE expressions have consistent types; comparisons yield bool, integer arithmetic yields int, and real arithmetic yields real.
+- Use only visible identifiers in AGREE contracts to avoid 'does not point to anything' diagnostics.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Place assumptions and guarantees in component type scopes; use implementation scopes for assignments only.
+- Helper declarations like `eq` and `const` must specify correct scalar types (int, real, bool).
+Anti-patterns:
+- Do not introduce property references or identifiers that are not declared or imported in the current AADL scope.
+- Do not write AGREE expressions with mismatched types, such as comparing an <error> type to an integer.
+- Do not place guarantee statements in implementation scope; use only assign for implementation-level bindings.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about unreachable or non-existent property associations
+- AGREE validator diagnostics about annex placement or assume/guarantee syntax
+- Model traceability and requirement semantics
+</RAG_DIGEST>

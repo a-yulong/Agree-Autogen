@@ -1,0 +1,45 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "Invalid reference to property in subcomponent",
+      "minimal_edit": "Change Q_Spg.Dispatch_Protocol to Q.Impl.Dispatch_Protocol"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Invalid reference to subcomponent",
+      "minimal_edit": "Remove Q_Spg reference and use Q.Impl directly"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Impl'.",
+      "cause": "Invalid reference to component implementation",
+      "minimal_edit": "Use Q.Impl directly instead of 'Impl'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Period'.",
+      "cause": "Invalid reference to property",
+      "minimal_edit": "Change Period to Q.Impl.Period"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'deadline'.",
+      "cause": "Invalid reference to property",
+      "minimal_edit": "Change deadline to Q.Impl.deadline"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Priority'.",
+      "cause": "Invalid reference to property",
+      "minimal_edit": "Change Priority to Q.Impl.Priority"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace Q_Spg.Dispatch_Protocol with Q.Impl.Dispatch_Protocol in guarantee 'sporadic_dispatch'",
+    "Remove Q_Spg reference from guarantee 'sporadic_dispatch'",
+    "Replace 'Impl' with 'Q.Impl' in guarantee 'execution_period'",
+    "Replace 'Impl' with 'Q.Impl' in guarantee 'deadline_constraint'",
+    "Replace 'Impl' with 'Q.Impl' in guarantee 'priority_level'",
+    "Replace Period with Q.Impl.Period in guarantee 'execution_period'",
+    "Replace deadline with Q.Impl.deadline in guarantee 'deadline_constraint'",
+    "Replace Priority with Q.Impl.Priority in guarantee 'priority_level'"
+  ]
+}

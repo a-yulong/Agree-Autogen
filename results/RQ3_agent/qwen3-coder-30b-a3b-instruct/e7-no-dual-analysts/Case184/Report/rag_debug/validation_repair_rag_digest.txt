@@ -1,0 +1,26 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE contracts must use valid scalar types: int, real, and bool for constants and equations.
+- Guarantees should reference only visible AADL features or locally declared helpers within the same annex.
+- Stateful equations should use initialized temporal recurrence patterns like `0.0 -> pre(t) + step`.
+- Branching logic in AGREE should use nested `if ... then ... else` expressions.
+Syntax or pattern reminders:
+- AGREE annexes are enclosed in `annex agree {** ... **};` blocks.
+- Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes for bindings.
+- Use logical operators like `and`, `or`, `not(...)`, and implication `=>` in AGREE expressions.
+- Ensure all identifiers in a guarantee have resolved types; avoid `<error>` by checking declarations.
+Anti-patterns:
+- Do not place latched expressions in component type annexes; they are only valid in implementations.
+- Do not mix incompatible types in binary expressions; ensure operands match expected types like bool, int, or real.
+- Do not reference subcomponent ports directly in component type contracts unless properly declared as variables or outputs.
+- Do not assume that AGREE will infer types from context; explicitly declare all constants and equations with correct scalar types.
+Irrelevant retrieved material:
+- aadl_scope_notes
+- agree_syntax_notes
+- type scope deterministic dependency guarantee
+- integrated pattern chunk 3
+- output envelope chunk 2
+- Named Thing Has No Type
+- AGREE Scalar Type Names
+- Assumed Type vs Actual Type
+</RAG_DIGEST>

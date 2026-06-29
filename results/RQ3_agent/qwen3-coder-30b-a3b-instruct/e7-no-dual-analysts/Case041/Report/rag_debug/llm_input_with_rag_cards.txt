@@ -1,0 +1,83 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assume/guarantee declarations in component type scopes for interface behavior; use implementation scopes for assign bindings.
+- Use `annex agree {** ... **};` blocks to contain AGREE contract elements.
+Generic rules:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for behavioral contracts.
+- Declare constants with `const name : type = value;` and equations with `eq name : type = expression;` in component type annexes.
+- Assign output values using `assign output = expression;` within implementation scopes.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Component type contracts should reference ports via visible feature names or variables.
+Anti-patterns:
+- Do not place implementation-level assignments in component type scopes.
+- Avoid referencing AADL properties like Deadline or Period directly in AGREE expressions.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Mode_Control
+- start
+- clear
+- seconds_to_cook
+- door_closed
+- cooking_mode
+- Mode_Control.Impl
+- Display_Control
+- kp_0
+- kp_1
+- kp_2
+- kp_3
+- kp_4
+- kp_5
+- kp_6
+- kp_7
+- kp_8
+- kp_9
+- left_digit
+- middle_digit
+- right_digit
+- Display_Control.Impl
+- Output_Processing
+- heating_element_on
+- Microwave_Control
+- Microwave_Control.Impl
+- MC
+- DC
+- OP
+
+Target interface:
+Exact expression symbols: cooking_mode, heating_element_on
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+cooking_mode | in | data | int | Base_Types::Integer
+heating_element_on | out | data | bool | Base_Types::Boolean
+
+Raw requirement:
+The Output_Processing component shall ensure that the Boolean value of the heating_element_on output is logically equivalent to the condition that the cooking_mode input is equal to the integer constant 2, which represents the "cooking" state.
+
+Requirement items:
+DISABLED

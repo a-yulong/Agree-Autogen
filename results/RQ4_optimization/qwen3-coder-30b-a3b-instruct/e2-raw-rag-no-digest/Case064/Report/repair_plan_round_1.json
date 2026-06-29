@@ -1,0 +1,96 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink is a port in component type Q, not visible in AGREE annex of Q",
+      "minimal_edit": "Remove the assumption 'data_flow_routing' from the Q annex since it references a port not visible in the component type contract"
+    },
+    {
+      "diagnostic": "line 65: Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg is a subcomponent, not visible in AGREE annex of Q",
+      "minimal_edit": "Remove the assumption 'data_flow_routing' from the Q annex since it references a subcomponent not visible in the component type contract"
+    },
+    {
+      "diagnostic": "line 65: named thing must be an expression with a type",
+      "cause": "Invalid expression due to unresolved references in assumption",
+      "minimal_edit": "Remove the assumption 'data_flow_routing' from the Q annex since it references invalid identifiers"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "Dispatch_Protocol is a property of implementation Q.Impl, not visible in component type Q",
+      "minimal_edit": "Move guarantee 'dispatch_protocol' to Q.Impl annex since it refers to an implementation property"
+    },
+    {
+      "diagnostic": "line 66: named thing must be an expression with a type",
+      "cause": "Invalid expression due to unresolved property reference",
+      "minimal_edit": "Move guarantee 'dispatch_protocol' to Q.Impl annex since it refers to an implementation property"
+    },
+    {
+      "diagnostic": "line 66: no viable alternative at input 'Sporadic'",
+      "cause": "Invalid syntax due to unresolved property reference",
+      "minimal_edit": "Move guarantee 'dispatch_protocol' to Q.Impl annex since it refers to an implementation property"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'Period'.",
+      "cause": "Period is a property of implementation Q.Impl, not visible in component type Q",
+      "minimal_edit": "Move guarantee 'execution_period' to Q.Impl annex since it refers to an implementation property"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'ms'.",
+      "cause": "Unit 'ms' not recognized in component type context",
+      "minimal_edit": "Move guarantee 'execution_period' to Q.Impl annex since it refers to an implementation property"
+    },
+    {
+      "diagnostic": "line 67: named thing must be an expression with a type",
+      "cause": "Invalid expression due to unresolved property reference",
+      "minimal_edit": "Move guarantee 'execution_period' to Q.Impl annex since it refers to an implementation property"
+    },
+    {
+      "diagnostic": "line 67: no viable alternative at character 'm'",
+      "cause": "Invalid syntax due to unresolved property reference",
+      "minimal_edit": "Move guarantee 'execution_period' to Q.Impl annex since it refers to an implementation property"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'deadline'.",
+      "cause": "deadline is a property of implementation Q.Impl, not visible in component type Q",
+      "minimal_edit": "Move guarantee 'deadline_constraint' to Q.Impl annex since it refers to an implementation property"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'ms'.",
+      "cause": "Unit 'ms' not recognized in component type context",
+      "minimal_edit": "Move guarantee 'deadline_constraint' to Q.Impl annex since it refers to an implementation property"
+    },
+    {
+      "diagnostic": "line 68: named thing must be an expression with a type",
+      "cause": "Invalid expression due to unresolved property reference",
+      "minimal_edit": "Move guarantee 'deadline_constraint' to Q.Impl annex since it refers to an implementation property"
+    },
+    {
+      "diagnostic": "line 68: no viable alternative at character 'm'",
+      "cause": "Invalid syntax due to unresolved property reference",
+      "minimal_edit": "Move guarantee 'deadline_constraint' to Q.Impl annex since it refers to an implementation property"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'Priority'.",
+      "cause": "Priority is a property of implementation Q.Impl, not visible in component type Q",
+      "minimal_edit": "Move guarantee 'priority_level' to Q.Impl annex since it refers to an implementation property"
+    },
+    {
+      "diagnostic": "line 69: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Invalid expression due to unresolved property reference",
+      "minimal_edit": "Move guarantee 'priority_level' to Q.Impl annex since it refers to an implementation property"
+    },
+    {
+      "diagnostic": "line 69: named thing must be an expression with a type",
+      "cause": "Invalid expression due to unresolved property reference",
+      "minimal_edit": "Move guarantee 'priority_level' to Q.Impl annex since it refers to an implementation property"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the annex block from component type Q to component implementation Q.Impl",
+    "Remove the assumption 'data_flow_routing' from the Q annex",
+    "Move guarantees 'dispatch_protocol', 'execution_period', 'deadline_constraint', and 'priority_level' to the Q.Impl annex",
+    "Update the Q.Impl annex to include the moved guarantees with correct syntax and values"
+  ]
+}

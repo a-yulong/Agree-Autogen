@@ -1,0 +1,12 @@
+annex agree {
+  const max_temp : int = 20;
+  const min_temp : int = 0;
+
+  eq heating_request : bool = user_request.heater_on and not user_request.cooler_on;
+  eq cooling_request : bool = user_request.cooler_on and not user_request.heater_on;
+
+  guarantee "heating_request_iff_heater_on_and_not_cooler_on": heating_request = (user_request.heater_on and not user_request.cooler_on);
+  guarantee "cooling_request_iff_cooler_on_and_not_heater_on": cooling_request = (user_request.cooler_on and not user_request.heater_on);
+  guarantee "heater_on_requires_heating_request_and_temp_le_max": heater_on => (heating_request and tempin <= max_temp);
+  guarantee "cooler_on_requires_cooling_request_and_temp_gt_min": cooler_on => (cooling_request and tempin > min_temp);
+};

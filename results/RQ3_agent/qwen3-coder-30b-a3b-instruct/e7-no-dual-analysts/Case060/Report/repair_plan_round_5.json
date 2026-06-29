@@ -1,0 +1,76 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 105: left side of binary expression '/' is of type 'int' but must be of type 'real'",
+      "cause": "Integer division in AGREE requires real types",
+      "minimal_edit": "Change 'Pedal * 3 / 2' to 'Pedal * 3.0 / 2.0' to ensure real type division"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 105: right side of binary expression '/' is of type 'int' but must be of type 'real'",
+      "cause": "Integer division in AGREE requires real types",
+      "minimal_edit": "Change 'Pedal * 3 / 2' to 'Pedal * 3.0 / 2.0' to ensure real type division"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 123: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Reference to undefined package or function",
+      "minimal_edit": "Remove or replace 'Agree_Nodes::Brake_Mode' with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 138: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package or function",
+      "minimal_edit": "Remove or replace 'Agree_Nodes::Brake_Cmd' with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 138: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "Remove or replace the guarantee statement that references unresolved 'Agree_Nodes::Brake_Cmd'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 255: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package or function",
+      "minimal_edit": "Remove or replace 'Agree_Nodes::Brake_Cmd' with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 255: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "Remove or replace the lemma that references unresolved 'Agree_Nodes::Brake_Cmd'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 256: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package or function",
+      "minimal_edit": "Remove or replace 'Agree_Nodes::Brake_Cmd' with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 256: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "Remove or replace the lemma that references unresolved 'Agree_Nodes::Brake_Cmd'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package or function",
+      "minimal_edit": "Remove or replace 'Agree_Nodes::Brake_Cmd' with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 257: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "Remove or replace the lemma that references unresolved 'Agree_Nodes::Brake_Cmd'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 258: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Reference to undefined package or function",
+      "minimal_edit": "Remove or replace 'Agree_Nodes::Brake_Cmd' with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 258: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "Remove or replace the lemma that references unresolved 'Agree_Nodes::Brake_Cmd'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the COM annex, replace 'Pedal * 3 / 2' with 'Pedal * 3.0 / 2.0' on line 105",
+    "In the COM annex, remove or replace the equation 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' on line 123",
+    "In the MON annex, remove or replace the guarantee 'not Fail => (Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal));' on line 138",
+    "In the BSCU_Impl annex, remove or replace all lemmas referencing 'Agree_Nodes::Brake_Cmd' on lines 255-258"
+  ]
+}

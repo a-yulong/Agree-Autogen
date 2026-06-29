@@ -1,0 +1,23 @@
+{
+  "rag_rules": [
+    "Fix AGREE diagnostics by resolving undefined identifiers or invalid types in guarantees and expressions",
+    "Ensure AGREE annex content respects AADL scope rules: type-level contracts reference type features, implementation-level bindings use implementation scopes"
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or declared helpers in AGREE annexes to avoid 'named thing must be an expression with a type' errors",
+    "Validate that all AGREE scalar type references match AADL's int, real, and bool; avoid package-qualified or unknown types",
+    "When diagnostics reference implementation-level paths in type scopes, either move valid bindings to implementation annex or remove invalid guarantees"
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE syntax requires `assume`, `guarantee`, `eq`, `const`, and `assign` to be properly structured with valid identifiers and types",
+    "AGREE annexes must not introduce package-qualified identifiers not present in the model's configured dependencies"
+  ],
+  "anti_patterns": [
+    "Do not reference implementation-only subcomponents or ports in a component type annex; move such bindings to the implementation scope",
+    "Do not generate AGREE code that introduces undefined identifiers or invalid scalar types like 'integer' or 'boolean' instead of 'int' or 'bool'"
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes"
+  ]
+}

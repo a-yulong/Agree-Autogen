@@ -1,0 +1,150 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE contracts in annex agree blocks within valid component type or implementation scopes.
+- Use assume/guarantee syntax for behavioral contracts, eq for helper declarations, and assign for implementation-level output bindings.
+Generic rules:
+- Component type contracts should use visible feature names and declared constants for assumptions and guarantees.
+- Implementation contracts should only use assign for existing output features or declared auxiliary variables.
+- Do not encode AADL timing properties directly as AGREE expressions unless typed ports or constants are explicitly exposed.
+- Ensure AGREE scalar types match AADL expectations: int, real, bool.
+Syntax or pattern reminders:
+- AGREE annex blocks must be enclosed in `annex agree {** ... **};`
+- Assumptions and guarantees must reference valid visible identifiers or declared variables
+- Constants and equations are declared with `const name : type = value;` and `eq name : type = expression;`
+- Assignments in implementation scope must target existing output features or auxiliary variables
+Anti-patterns:
+- Do not place guarantee statements in implementation scope
+- Do not reference AADL property names like Period or Priority directly in AGREE expressions
+- Do not use invalid scalar types like 'integer' or 'boolean' in AGREE declarations
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- mag_in_data_x
+- mag_in_data_y
+- mag_in_data_z
+- mag_out_data_x
+- mag_out_data_y
+- mag_out_data_z
+
+Target interface:
+Exact expression symbols: mag_in_data_x, mag_in_data_y, mag_in_data_z, mag_out_data_x, mag_out_data_y, mag_out_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+mag_in_data_x | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_y | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_in_data_z | in | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_x | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_y | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_z | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+Raw requirement:
+The MAGNETO component shall define the implementation-level signal routing for MAGNETO.IMPL. In the implementation layer, MAGNETO.IMPL shall route data flow from magneto_sub.mag_out_data_x to mag_out_data_x through MAG_PC1 and data flow from magneto_sub.mag_out_data_y to mag_out_data_y through MAG_PC2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "MAGNETO.IMPL routes data flow from magneto_sub.mag_out_data_x to mag_out_data_x through MAG_PC1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO.IMPL",
+        "magneto_sub.mag_out_data_x",
+        "mag_out_data_x",
+        "MAG_PC1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "MAGNETO.IMPL routes data flow from magneto_sub.mag_out_data_y to mag_out_data_y through MAG_PC2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO.IMPL",
+        "magneto_sub.mag_out_data_y",
+        "mag_out_data_y",
+        "MAG_PC2"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "MAGNETO component is deployed with Priority=4",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO",
+        "Priority=4"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "MAGNETO component has Dispatch_Protocol=Periodic with Period=80 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO",
+        "Dispatch_Protocol=Periodic",
+        "Period=80 ms"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "MAGNETO component has Compute_Execution_Time=0 ms .. 4 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "MAGNETO",
+        "Compute_Execution_Time=0 ms .. 4 ms"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "mag_in_data_x, mag_in_data_y, mag_in_data_z are of type AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "mag_in_data_x",
+        "mag_in_data_y",
+        "mag_in_data_z",
+        "AHRS::Data_Types::FLOAT32_TYPE_AADL"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "mag_out_data_x, mag_out_data_y, mag_out_data_z are of type AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "mag_out_data_x",
+        "mag_out_data_y",
+        "mag_out_data_z",
+        "AHRS::Data_Types::FLOAT32_TYPE_AADL"
+      ]
+    }
+  ]
+}

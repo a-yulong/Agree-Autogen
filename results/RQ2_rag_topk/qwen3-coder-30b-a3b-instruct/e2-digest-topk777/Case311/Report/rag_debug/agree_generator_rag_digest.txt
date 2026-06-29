@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place input envelope assumptions in component type annexes using visible feature names and concrete bounds from the requirement.
+- Use AGREE 'assume' statements for input constraints and 'guarantee' for output behavior, ensuring type alignment with AADL data types.
+- Generate valid AGREE syntax with proper scoping: component type contracts for assumptions/guarantees, implementation annexes for assignments.
+- Avoid introducing package-qualified identifiers or AADL properties that are not present in the analyzed model.
+Generic rules:
+- Only generate AGREE clauses when the requirement provides concrete bounds or named constants.
+- Ensure all AGREE expressions reference visible identifiers from the AADL model.
+- Use 'eq' declarations for boolean range checks and 'const' for numeric limits in AGREE contracts.
+- Do not assume numeric types for Boolean or event ports unless explicitly represented in the model.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Use `assume` for input constraints and `guarantee` for output behavior.
+- Declare constants with `const` and boolean expressions with `eq`.
+- Place component type contracts in component type annexes, not implementation scopes.
+Anti-patterns:
+- Do not introduce package-qualified identifiers not present in the AADL model.
+- Do not assume numeric types for Boolean or event ports without explicit data representation.
+- Do not generate bounds or constraints not explicitly stated in the requirement.
+- Do not place guarantees in implementation scope; use only assumptions and assignments there.
+</RAG_DIGEST>

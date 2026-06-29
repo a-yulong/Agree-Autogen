@@ -1,0 +1,20 @@
+<RAG_DIGEST agent="model_fusion">
+Generic rules:
+- Preserve AADL scope boundaries: component type contracts reference only visible ports, implementation contracts reference subcomponents and connections.
+- Ensure type consistency in AGREE expressions: numeric variables must have numeric expressions, Boolean variables must have Boolean expressions.
+- Do not introduce package-qualified identifiers or data types not present in the analyzed AADL model.
+- Generated AGREE code should align with AADL standard scope rules and avoid referencing non-visible or implementation-only elements in type-level annexes.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Use `const`, `eq`, `assume`, and `guarantee` statements with proper type declarations.
+- Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.
+- Branching logic should use nested `if ... then ... else` expressions.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope; use type scope for output dependency contracts.
+- Do not reference subcomponent ports or implementation-only paths in component type annexes.
+Irrelevant retrieved material:
+- AGREE validator diagnostics and repair patterns
+- Annex placement for assume/guarantee syntax
+- Fusion and model traceability
+- Requirement semantics and compact requirement structures
+</RAG_DIGEST>

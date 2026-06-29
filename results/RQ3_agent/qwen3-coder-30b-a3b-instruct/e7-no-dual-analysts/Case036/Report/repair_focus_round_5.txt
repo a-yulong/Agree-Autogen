@@ -1,0 +1,110 @@
+round=5
+
+[TARGET INTERFACE]
+Exact expression symbols: Target_Speed, Actual_Speed, Target_Tire_Pitch, Actual_Tire_Pitch, State_Signal
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Target_Speed | in | data | opaque | Types::speed.speed_impl
+Actual_Speed | out | data | opaque | Types::speed.speed_impl
+Target_Tire_Pitch | in | data | opaque | Types::pitch.pitch_impl
+Actual_Tire_Pitch | out | data | opaque | Types::pitch.pitch_impl
+State_Signal | out | data | opaque | Types::state_sig.impl
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Car | lines 13-17
+annex agree {**
+				  assume "non_negative_target_speed": Target_Speed.val >= 0.0;
+				  assume "upper_bound_target_speed": Target_Speed.val < 150.0;
+				  const max_accel : real = 40.0;
+				**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   26: 
+   27: 		connections
+   28: 			SpeedToThrot: port CNTRL.Actuator_Input -> THROT.Actuator_Input {
+   29: 				Communication_Properties::Timing => immediate;};
+>> 30: 			AcSpeedToTop: port THROT.Actual -> Actual_Speed {Communication_Properties::Timing => immediate;};
+   31: 			AcSpeedToCntrl: port THROT.Actual -> CNTRL.Actual {Communication_Properties::Timing => immediate;};
+   32: 			TgSpeedToCntrl: port Target_Speed -> CNTRL.Target {Communication_Properties::Timing => immediate;};
+   33: 			TgPtichToAxl: port Target_Tire_Pitch -> AXL.Target_Tire_Direction {
+   34: 				Communication_Properties::Timing => immediate;};
+
+   28: 			SpeedToThrot: port CNTRL.Actuator_Input -> THROT.Actuator_Input {
+   29: 				Communication_Properties::Timing => immediate;};
+   30: 			AcSpeedToTop: port THROT.Actual -> Actual_Speed {Communication_Properties::Timing => immediate;};
+   31: 			AcSpeedToCntrl: port THROT.Actual -> CNTRL.Actual {Communication_Properties::Timing => immediate;};
+>> 32: 			TgSpeedToCntrl: port Target_Speed -> CNTRL.Target {Communication_Properties::Timing => immediate;};
+   33: 			TgPtichToAxl: port Target_Tire_Pitch -> AXL.Target_Tire_Direction {
+   34: 				Communication_Properties::Timing => immediate;};
+   35: 			AcPtichToCar: port AXL.Actual_Tire_Direction -> Actual_Tire_Pitch {
+   36: 				Communication_Properties::Timing => immediate;};
+
+   33: 			TgPtichToAxl: port Target_Tire_Pitch -> AXL.Target_Tire_Direction {
+   34: 				Communication_Properties::Timing => immediate;};
+   35: 			AcPtichToCar: port AXL.Actual_Tire_Direction -> Actual_Tire_Pitch {
+   36: 				Communication_Properties::Timing => immediate;};
+>> 37: 			SSToSM: port SM.State_Out -> State_Signal {Communication_Properties::Timing => immediate;};
+   38: 
+   39: 	end Car.Car_Impl;
+   40: 
+   41: end Car;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Car
+system Car
+		features
+			Target_Speed: in data port Types::speed.speed_impl;
+			Actual_Speed: out data port Types::speed.speed_impl;
+			Target_Tire_Pitch: in data port Types::pitch.pitch_impl;
+			Actual_Tire_Pitch: out data port Types::pitch.pitch_impl;
+			State_Signal: out data port Types::state_sig.impl;
+	end Car;
+
+-- TARGET DECLARATION: Car.Car_Impl
+system implementation Car.Car_Impl
+		subcomponents
+			THROT: system Transmission::Throttle.Throttle_Impl;
+			CNTRL: system Transmission::Speed_Control.Speed_Control_Impl;
+			AXL: system Steering::Axle.Axle_Impl;
+			SM: system Transmission::State_Machine.Impl;
+
+		connections
+			SpeedToThrot: port CNTRL.Actuator_Input -> THROT.Actuator_Input {
+				Communication_Properties::Timing => immediate;};
+			AcSpeedToTop: port THROT.Actual -> Actual_Speed {Communication_Properties::Timing => immediate;};
+			AcSpeedToCntrl: port THROT.Actual -> CNTRL.Actual {Communication_Properties::Timing => immediate;};
+			TgSpeedToCntrl: port Target_Speed -> CNTRL.Target {Communication_Properties::Timing => immediate;};
+			TgPtichToAxl: port Target_Tire_Pitch -> AXL.Target_Tire_Direction {
+				Communication_Properties::Timing => immediate;};
+			AcPtichToCar: port AXL.Actual_Tire_Direction -> Actual_Tire_Pitch {
+				Communication_Properties::Timing => immediate;};
+			SSToSM: port SM.State_Out -> State_Signal {Communication_Properties::Timing => immediate;};
+
+	end Car.Car_Impl;
+
+-- RELATED MODEL LINES
+package Car
+system Car
+Target_Speed: in data port Types::speed.speed_impl;
+Actual_Speed: out data port Types::speed.speed_impl;
+Target_Tire_Pitch: in data port Types::pitch.pitch_impl;
+Actual_Tire_Pitch: out data port Types::pitch.pitch_impl;
+State_Signal: out data port Types::state_sig.impl;
+end Car;
+system implementation Car.Car_Impl
+THROT: system Transmission::Throttle.Throttle_Impl;
+CNTRL: system Transmission::Speed_Control.Speed_Control_Impl;
+AXL: system Steering::Axle.Axle_Impl;
+SM: system Transmission::State_Machine.Impl;
+SpeedToThrot: port CNTRL.Actuator_Input -> THROT.Actuator_Input {
+AcSpeedToTop: port THROT.Actual -> Actual_Speed {Communication_Properties::Timing => immediate;};
+AcSpeedToCntrl: port THROT.Actual -> CNTRL.Actual {Communication_Properties::Timing => immediate;};
+TgSpeedToCntrl: port Target_Speed -> CNTRL.Target {Communication_Properties::Timing => immediate;};
+TgPtichToAxl: port Target_Tire_Pitch -> AXL.Target_Tire_Direction {
+AcPtichToCar: port AXL.Actual_Tire_Direction -> Actual_Tire_Pitch {
+SSToSM: port SM.State_Out -> State_Signal {Communication_Properties::Timing => immediate;};
+end Car.Car_Impl;

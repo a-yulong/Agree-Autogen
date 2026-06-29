@@ -1,0 +1,33 @@
+{
+  "rag_rules": [
+    "Fix type mismatches in AGREE expressions by ensuring left and right sides of '<=' have matching types, such as int or real.",
+    "Resolve '<error>' type diagnostics by tracing unresolved identifiers or invalid helper declarations on the same line and correcting or removing the clause.",
+    "Avoid placing implementation-level references or subcomponent paths in component type annexes; move valid bindings to implementation scope or remove invalid guarantees.",
+    "Do not use Boolean data ports in numeric range comparisons unless the requirement and AADL data representation support scalar numeric values."
+  ],
+  "generic_rules": [
+    "In AGREE contracts, ensure all expressions use valid, visible identifiers and declared helpers from the same scope.",
+    "When generating AGREE guarantees, validate that types match between operands in binary expressions like '<=' or comparisons.",
+    "Use only visible AADL features or declared auxiliary variables in implementation-level assignments and guarantees.",
+    "If a guarantee references an invalid or unresolved identifier, remove the clause rather than introducing new architecture."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE expressions must have consistent types; e.g., int comparisons should not mix with <error> or real types.",
+    "AGREE constants and equations must be declared with valid scalar types: int, real, or bool.",
+    "Implementation-level guarantees should reference valid output features or declared variables, not subcomponent paths in type scopes.",
+    "Do not assume that Boolean ports can be used in numeric range checks without explicit scalar representation."
+  ],
+  "anti_patterns": [
+    "Do not attempt to fix type errors by adding new architecture; instead, trace and correct the root cause of unresolved identifiers.",
+    "Avoid placing implementation-level bindings in component type annexes unless they reference valid outputs or declared variables.",
+    "Do not attempt to convert opaque Boolean or enumeration data into numeric comparisons without clear scalar semantics.",
+    "Do not introduce package-qualified identifiers in AGREE code that are not present in the input AADL model."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE annex placement in component types vs implementations",
+    "AGREE assume/guarantee syntax and validator diagnostics",
+    "Model fusion and scope preservation rules",
+    "Requirement traceability and compact semantics"
+  ]
+}

@@ -1,0 +1,145 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: Input, Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Input | in | data | int | Base_Types::Integer
+Output | out | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: top_level | lines 28-32
+annex agree {**
+  assume "input_bound": Input < 10;
+  guarantee "mode_non_negative": mode >= 0;
+  guarantee "output_bound": Output < 50;
+**};
+
+-- owner: top_level.Impl | lines 47-61
+annex agree {**
+		
+  assign A_sub.Input = Input;
+		
+  assign B_sub.Input1 = A_sub.Output;
+		
+  assign C_sub.Input1 = A_sub.Output;
+		
+  assign C_sub.Input2 = B_sub.Output;
+		
+  assign Output = C_sub.Output;
+		
+  assign mode = C_sub.mode;
+		
+**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   26: 		Input: in data port Base_Types::Integer;
+   27: 		Output: out data port Base_Types::Integer;
+   28: annex agree {**
+   29:   assume "input_bound": Input < 10;
+>> 30:   guarantee "mode_non_negative": mode >= 0;
+   31:   guarantee "output_bound": Output < 50;
+   32: **};
+   33: end top_level;
+   34: 
+
+   45: 		C_TO_Output : port C_sub.Output -> Output {Communication_Properties::Timing => immediate;};
+   46: 		
+   47: annex agree {**
+   48: 		
+>> 49:   assign A_sub.Input = Input;
+   50: 		
+   51:   assign B_sub.Input1 = A_sub.Output;
+   52: 		
+   53:   assign C_sub.Input1 = A_sub.Output;
+
+   47: annex agree {**
+   48: 		
+   49:   assign A_sub.Input = Input;
+   50: 		
+>> 51:   assign B_sub.Input1 = A_sub.Output;
+   52: 		
+   53:   assign C_sub.Input1 = A_sub.Output;
+   54: 		
+   55:   assign C_sub.Input2 = B_sub.Output;
+
+   49:   assign A_sub.Input = Input;
+   50: 		
+   51:   assign B_sub.Input1 = A_sub.Output;
+   52: 		
+>> 53:   assign C_sub.Input1 = A_sub.Output;
+   54: 		
+   55:   assign C_sub.Input2 = B_sub.Output;
+   56: 		
+   57:   assign Output = C_sub.Output;
+
+   51:   assign B_sub.Input1 = A_sub.Output;
+   52: 		
+   53:   assign C_sub.Input1 = A_sub.Output;
+   54: 		
+>> 55:   assign C_sub.Input2 = B_sub.Output;
+   56: 		
+   57:   assign Output = C_sub.Output;
+   58: 		
+   59:   assign mode = C_sub.mode;
+
+   55:   assign C_sub.Input2 = B_sub.Output;
+   56: 		
+   57:   assign Output = C_sub.Output;
+   58: 		
+>> 59:   assign mode = C_sub.mode;
+   60: 		
+   61: **};
+   62: 		
+   63: end top_level.Impl;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: top_level
+system top_level
+	features
+		Input: in data port Base_Types::Integer;
+		Output: out data port Base_Types::Integer;
+end top_level;
+
+-- TARGET DECLARATION: top_level.Impl
+system implementation top_level.Impl
+	subcomponents
+		A_sub : system A ; 
+		B_sub : system B ; 
+		C_sub : system C ; 
+	connections
+		IN_TO_A : port Input -> A_sub.Input {Communication_Properties::Timing => immediate;};
+		A_TO_B : port A_sub.Output -> B_sub.Input {Communication_Properties::Timing => immediate;};
+		A_TO_C : port A_sub.Output -> C_sub.Input1 {Communication_Properties::Timing => immediate;};
+		B_TO_C : port B_sub.Output -> C_sub.Input2 {Communication_Properties::Timing => immediate;};
+		C_TO_Output : port C_sub.Output -> Output {Communication_Properties::Timing => immediate;}; 
+		
+end top_level.Impl;
+
+-- RELATED MODEL LINES
+system A
+Input: in data port Base_Types::Integer;
+Output: out data port Base_Types::Integer;
+end A ;
+system B
+end B ;
+system C
+Input1: in data port Base_Types::Integer;
+Input2: in data port Base_Types::Integer;
+end C ;
+system top_level
+end top_level;
+system implementation top_level.Impl
+A_sub : system A ;
+B_sub : system B ;
+C_sub : system C ;
+IN_TO_A : port Input -> A_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_B : port A_sub.Output -> B_sub.Input {Communication_Properties::Timing => immediate;};
+A_TO_C : port A_sub.Output -> C_sub.Input1 {Communication_Properties::Timing => immediate;};
+B_TO_C : port B_sub.Output -> C_sub.Input2 {Communication_Properties::Timing => immediate;};
+C_TO_Output : port C_sub.Output -> Output {Communication_Properties::Timing => immediate;};
+end top_level.Impl;

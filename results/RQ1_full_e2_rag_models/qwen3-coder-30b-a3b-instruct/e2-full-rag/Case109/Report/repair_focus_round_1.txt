@@ -1,0 +1,321 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: acc2out, acc2_command_in
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+acc2out | out | data | int | SHM_DataType::accData
+acc2_command_in | in | data | int | SHM_DataType::actionData
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data flow from spg.acc2DataOut to acc2out through C1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc2_dataOutput.impl.C1",
+        "spg.acc2DataOut",
+        "acc2out"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Control signal from acc2_command_in to spg.event_in through C2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "acc2_dataOutput.impl.C2",
+        "acc2_command_in",
+        "spg.event_in"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "acc2_dataOutput.impl.sub1 is the classifier for subcomponent acc2_dataOutput",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "acc2_dataOutput.impl.sub1",
+        "acc2_dataOutput"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "acc2_dataOutput Period=4000 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "acc2_dataOutput Period"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "acc2_dataOutput Deadline=500 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "acc2_dataOutput Deadline"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "acc2_dataOutput Compute_Execution_Time=400 ms .. 500 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "acc2_dataOutput Compute_Execution_Time"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "acc2_dataOutput ARINC653::Sampling_Refresh_Period=50 ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "acc2_dataOutput ARINC653::Sampling_Refresh_Period"
+      ]
+    },
+    {
+      "id": "R8",
+      "text": "acc2_dataOutput Dispatch_Protocol=Periodic",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc2_dataOutput Dispatch_Protocol"
+      ]
+    },
+    {
+      "id": "R9",
+      "text": "acc2_dataOutput Priority=1",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc2_dataOutput Priority"
+      ]
+    },
+    {
+      "id": "R10",
+      "text": "acc2_dataOutput Stack_Size=20 KByte",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc2_dataOutput Stack_Size"
+      ]
+    },
+    {
+      "id": "R11",
+      "text": "acc2_dataOutput Code_Size=100 KByte",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc2_dataOutput Code_Size"
+      ]
+    },
+    {
+      "id": "R12",
+      "text": "acc2_dataOutput Data_Size=1 KByte",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "acc2_dataOutput Data_Size"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: acc2_dataOutput | lines 62-65
+annex agree {**
+    assume "signal_flow_data": acc2out = spg.acc2DataOut;
+    assume "signal_flow_control": spg.event_in = acc2_command_in;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   59:     Period => 4000 ms;
+   60:     Compute_Execution_Time => 400 ms .. 500 ms;
+   61:     Deadline => 500 ms;
+   62:   annex agree {**
+>> 63:     assume "signal_flow_data": acc2out = spg.acc2DataOut;
+   64:     assume "signal_flow_control": spg.event_in = acc2_command_in;
+   65:   **};
+   66:   end acc2_dataOutput;
+   67: 
+
+   60:     Compute_Execution_Time => 400 ms .. 500 ms;
+   61:     Deadline => 500 ms;
+   62:   annex agree {**
+   63:     assume "signal_flow_data": acc2out = spg.acc2DataOut;
+>> 64:     assume "signal_flow_control": spg.event_in = acc2_command_in;
+   65:   **};
+   66:   end acc2_dataOutput;
+   67: 
+   68:   thread implementation  acc2_dataOutput.impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: acc2_dataOutput
+thread  acc2_dataOutput
+  features
+    acc2out: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+    acc2_command_in: in event data port SHM_DataType::actionData;
+  properties
+    --Reference_Processor=>classifier(ACC_Module::powerpc_acc);
+    --Initialize_Entrypoint => classifier (ACC_Module::acc_dataOutput_spg);
+    Dispatch_Protocol => Periodic;
+    Priority => 1;
+    Stack_Size => 20 KByte;
+    Code_Size => 100 KByte;
+    Data_Size => 1 KByte;
+    Period => 4000 ms;
+    Compute_Execution_Time => 400 ms .. 500 ms;
+    Deadline => 500 ms;
+  end acc2_dataOutput;
+
+-- TARGET DECLARATION: acc2_dataOutput.impl
+thread implementation  acc2_dataOutput.impl
+  calls
+    sub1: { spg: subprogram subprograms::acc2_dataOutput_spg;};
+
+  connections
+    C1: parameter spg.acc2DataOut->acc2out;
+    C2: parameter acc2_command_in->spg.event_in;
+  end  acc2_dataOutput.impl;
+
+-- RELATED MODEL LINES
+thread  acc2_dataOutput
+acc2out: out data port SHM_DataType::accData {ARINC653::Sampling_Refresh_Period => 50 ms;};
+acc2_command_in: in event data port SHM_DataType::actionData;
+end acc2_dataOutput;
+thread implementation  acc2_dataOutput.impl
+C1: parameter spg.acc2DataOut->acc2out;
+C2: parameter acc2_command_in->spg.event_in;
+end  acc2_dataOutput.impl;
+thread acc2_dataOutput_emv2 extends acc2_dataOutput
+thread implementation acc2_dataOutput_emv2.impl extends acc2_dataOutput.impl
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "acc2_dataOutput",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "acc2_dataOutput.impl",
+      "kind": "thread implementation",
+      "type_name": "acc2_dataOutput"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "acc2_dataOutput.impl",
+      "name": "sub1",
+      "category": "call",
+      "classifier": "subprograms::acc2_dataOutput_spg"
+    }
+  ],
+  "features": [
+    {
+      "owner": "acc2_dataOutput",
+      "name": "acc2out",
+      "direction": "out",
+      "category": "data port",
+      "type": "SHM_DataType::accData",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "acc2_dataOutput",
+      "name": "acc2_command_in",
+      "direction": "in",
+      "category": "event data port",
+      "type": "SHM_DataType::actionData",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "acc2_dataOutput.impl",
+      "name": "C1",
+      "kind": "parameter",
+      "source": "sub1.acc2DataOut",
+      "destination": "acc2out"
+    },
+    {
+      "owner": "acc2_dataOutput.impl",
+      "name": "C2",
+      "kind": "parameter",
+      "source": "acc2_command_in",
+      "destination": "sub1.event_in"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "acc2_dataOutput",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "acc2_dataOutput"
+    },
+    {
+      "owner": "acc2_dataOutput",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": "acc2_dataOutput"
+    },
+    {
+      "owner": "acc2_dataOutput",
+      "owner_kind": "thread",
+      "name": "Stack_Size",
+      "value": "20 KByte",
+      "applies_to": "acc2_dataOutput"
+    },
+    {
+      "owner": "acc2_dataOutput",
+      "owner_kind": "thread",
+      "name": "Code_Size",
+      "value": "100 KByte",
+      "applies_to": "acc2_dataOutput"
+    },
+    {
+      "owner": "acc2_dataOutput",
+      "owner_kind": "thread",
+      "name": "Data_Size",
+      "value": "1 KByte",
+      "applies_to": "acc2_dataOutput"
+    },
+    {
+      "owner": "acc2_dataOutput",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "4000 ms",
+      "applies_to": "acc2_dataOutput"
+    },
+    {
+      "owner": "acc2_dataOutput",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "400 ms .. 500 ms",
+      "applies_to": "acc2_dataOutput"
+    },
+    {
+      "owner": "acc2_dataOutput",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "500 ms",
+      "applies_to": "acc2_dataOutput"
+    },
+    {
+      "owner": "acc2_dataOutput",
+      "owner_kind": "thread",
+      "name": "ARINC653::Sampling_Refresh_Period",
+      "value": "50 ms",
+      "applies_to": "acc2out"
+    }
+  ]
+}

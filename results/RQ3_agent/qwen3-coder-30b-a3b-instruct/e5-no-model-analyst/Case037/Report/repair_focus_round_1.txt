@@ -1,0 +1,138 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: Target, Actuator_Input, Actual
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Target | in | data | opaque | Types::speed.speed_impl
+Actuator_Input | out | data | real | Base_Types::Float
+Actual | in | data | opaque | Types::speed.speed_impl
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int where e = Target - Actual",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Speed_Control",
+        "Target",
+        "Actual",
+        "Actuator_Input"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "e = Target - Actual",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Target",
+        "Actual",
+        "e"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "e_int = integral of e over time",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "e",
+        "e_int"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "e_dot = derivative of e with respect to time",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "e",
+        "e_dot"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Speed_Control | lines 12-17
+annex agree {**
+	  eq e : real = Target - Actual;
+	  guarantee "pid_control_law": Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int;
+	  eq e_int : real = integral(e, time);
+	  eq e_dot : real = derivative(e, time);
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   9: 			Target: in data port Types::speed.speed_impl;
+   10: 			Actuator_Input: out data port Base_Types::Float;
+   11: 			Actual: in data port Types::speed.speed_impl;
+   12: 	annex agree {**
+>> 13: 	  eq e : real = Target - Actual;
+   14: 	  guarantee "pid_control_law": Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int;
+   15: 	  eq e_int : real = integral(e, time);
+   16: 	  eq e_dot : real = derivative(e, time);
+   17: 	**};
+
+   11: 			Actual: in data port Types::speed.speed_impl;
+   12: 	annex agree {**
+   13: 	  eq e : real = Target - Actual;
+   14: 	  guarantee "pid_control_law": Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int;
+>> 15: 	  eq e_int : real = integral(e, time);
+   16: 	  eq e_dot : real = derivative(e, time);
+   17: 	**};
+   18: 	end Speed_Control;
+   19: 
+
+   12: 	annex agree {**
+   13: 	  eq e : real = Target - Actual;
+   14: 	  guarantee "pid_control_law": Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int;
+   15: 	  eq e_int : real = integral(e, time);
+>> 16: 	  eq e_dot : real = derivative(e, time);
+   17: 	**};
+   18: 	end Speed_Control;
+   19: 
+   20: 	system implementation Speed_Control.Speed_Control_Impl
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Speed_Control
+system Speed_Control
+		features
+			Target: in data port Types::speed.speed_impl;
+			Actuator_Input: out data port Base_Types::Float;
+			Actual: in data port Types::speed.speed_impl;
+	end Speed_Control;
+
+-- TARGET DECLARATION: Speed_Control.Speed_Control_Impl
+system implementation Speed_Control.Speed_Control_Impl
+	end Speed_Control.Speed_Control_Impl;
+
+-- RELATED MODEL LINES
+system Speed_Control
+Target: in data port Types::speed.speed_impl;
+Actuator_Input: out data port Base_Types::Float;
+Actual: in data port Types::speed.speed_impl;
+end Speed_Control;
+system implementation Speed_Control.Speed_Control_Impl
+end Speed_Control.Speed_Control_Impl;
+system Throttle
+Actuator_Input: in data port Base_Types::Float;
+Actual: out data port Types::speed.speed_impl;
+end Throttle;
+system implementation Throttle.Throttle_Impl
+end Throttle.Throttle_Impl;
+system State_Machine
+State_Out: out data port Types::state_sig.impl;
+end State_Machine;
+system implementation State_Machine.Impl
+SSM: system Sub_State_Machine.Impl;
+SMToSSM: port SSM.State_Out -> State_Out {Communication_Properties::Timing => immediate;};
+end State_Machine.impl;
+system Sub_State_Machine
+end Sub_State_Machine;
+system implementation Sub_State_Machine.Impl
+end Sub_State_Machine.impl;

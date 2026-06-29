@@ -1,0 +1,17 @@
+{
+  "problems": [
+    {
+      "diagnostic": "guarantee \"route_acc1_data\": acc1_input = v_acc1_dataout;",
+      "cause": "Signal flow guarantee incorrectly equates input port to output port; should express that output is driven by subcomponent's validated data, not directly by input.",
+      "minimal_edit": "Replace 'acc1_input = v_acc1_dataout' with 'v_acc1_dataout = acc_HM.acc1_validated_dataout' — but since acc_HM.acc1_validated_dataout is not visible in component type scope, remove this guarantee and move to implementation annex as assign."
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the existing component-type annex agree block on lines 162-165.",
+    "Add a new implementation-level annex agree block inside acc_hm_process.impl after the connections block.",
+    "Inside the new implementation annex, write: 'assign \"route_acc1_data\": v_acc1_dataout = acc_HM.acc1_validated_dataout;'",
+    "Inside the new implementation annex, write: 'assign \"route_acc2_data\": v_acc2_dataout = acc_HM.acc2_validated_dataout;'",
+    "Ensure no other AGREE annexes exist in component type scope that reference subcomponent ports."
+  ]
+}

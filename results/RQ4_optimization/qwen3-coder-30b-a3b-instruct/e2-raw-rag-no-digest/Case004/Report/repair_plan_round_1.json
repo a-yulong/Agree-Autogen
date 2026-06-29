@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 50: Couldn't resolve reference to 't'.",
+      "cause": "Variable 't' is not declared or visible in the AGREE annex context",
+      "minimal_edit": "Replace 't' with a declared variable or remove the assumption"
+    },
+    {
+      "diagnostic": "line 50: left and right sides of binary expression '=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Expression 't = 0.1' fails due to unresolved 't' causing type mismatch",
+      "minimal_edit": "Replace 't = 0.1' with a valid expression or remove the assumption"
+    },
+    {
+      "diagnostic": "line 51: Couldn't resolve reference to 'circleLinearization'.",
+      "cause": "Function 'circleLinearization' is not declared or visible in the AGREE annex context",
+      "minimal_edit": "Remove or replace 'circleLinearization(t)' with a valid expression"
+    },
+    {
+      "diagnostic": "line 51: Couldn't resolve reference to 't'.",
+      "cause": "Variable 't' is not declared or visible in the AGREE annex context",
+      "minimal_edit": "Replace 't' with a declared variable or remove the equation"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove or replace the assumption 't = 0.1' with a valid expression or declaration",
+    "Remove or replace the equation 'eq distanceFromFence : real = circleLinearization(t);' with a valid expression",
+    "Ensure all referenced identifiers are declared or visible in the AGREE annex context"
+  ]
+}

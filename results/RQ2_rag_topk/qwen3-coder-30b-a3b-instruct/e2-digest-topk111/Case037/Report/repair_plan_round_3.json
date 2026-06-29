@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Target (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "Port type reference is not a valid AADL type for AGREE expression",
+      "minimal_edit": "Replace Target with a valid visible symbol or remove the reference"
+    },
+    {
+      "diagnostic": "Actual (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "Port type reference is not a valid AADL type for AGREE expression",
+      "minimal_edit": "Replace Actual with a valid visible symbol or remove the reference"
+    },
+    {
+      "diagnostic": "Actuator_Input: in data port Base_Types::Float; Actual: out data port Types::speed.speed_impl;",
+      "cause": "Port direction mismatch in implementation context",
+      "minimal_edit": "Correct port directions to match component type"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Update Speed_Control.Speed_Control_Impl to correct port directions",
+    "Ensure AGREE annex uses only valid visible identifiers",
+    "Remove or rewrite invalid port type references in AGREE expressions"
+  ]
+}

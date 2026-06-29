@@ -1,0 +1,127 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Keep contract expressions within the annex owner's visible scope: use interface features and local AGREE declarations, not hidden implementation paths.
+- Write dependency guarantees as relations between visible outputs and visible inputs only.
+- Encode numeric envelopes only when the requirement provides concrete bounds or named visible quantities.
+Generic rules:
+- If no identifier whitelist is available, be conservative and reference only clearly visible features plus locally declared helper names.
+- Prefer small helper equations for reusable predicates, then attach assumptions or guarantees to those helpers.
+Syntax or pattern reminders:
+- Use assume, guarantee, eq, const, and assign with AGREE syntax and trailing semicolons; assign targets should be outputs.
+- Use and/or/not/=> for logic, nested if-then-else for branching, and initialize any pre(...) recurrence with ->.
+Anti-patterns:
+- Do not reference subcomponent ports, connection paths, or other implementation-only names from a type-level contract.
+- Do not treat AADL property names or unit tokens as AGREE variables, and do not declare helper types that disagree with the expression type.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- gps_pos
+- speed
+- angle
+
+Target interface:
+Exact expression symbols: gps_pos, gps_pos.latitude, gps_pos.longitude, gps_pos.altitude, speed, angle
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+gps_pos | in | data | opaque | GPS_Position.i
+gps_pos.latitude | in | data_field | real | Base_Types::Float
+gps_pos.longitude | in | data_field | real | Base_Types::Float
+gps_pos.altitude | in | data_field | int | Base_Types::Integer
+speed | out | data | int | Base_Types::Integer
+angle | out | data | int | Base_Types::Integer
+
+Raw requirement:
+The thr_mgmt component shall bound the angle output at every evaluation step. The angle value shall be greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "thr_mgmt bounds angle at every evaluation step: angle >= 0 and angle <= 100.",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": []
+    },
+    {
+      "id": "R2",
+      "text": "thr_mgmt.i.R2 source=gps_pos destination=pspg.gps_pos.",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R3",
+      "text": "thr_mgmt.i.R3 source=pspg.speed destination=speed.",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R4",
+      "text": "thr_mgmt.i.R4 source=pspg.angle destination=angle.",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R5",
+      "text": "thr_mgmt Dispatch_Protocol=Periodic.",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R6",
+      "text": "thr_mgmt Period=1000ms.",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R7",
+      "text": "thr_mgmt Deadline=1000ms.",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R8",
+      "text": "thr_mgmt Compute_Execution_Time=5ms .. 10ms.",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": []
+    },
+    {
+      "id": "R9",
+      "text": "thr_mgmt Initialize_Entrypoint=classifier (Ardupilot_Software::spg_flt_mgmt_init).",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": []
+    }
+  ]
+}

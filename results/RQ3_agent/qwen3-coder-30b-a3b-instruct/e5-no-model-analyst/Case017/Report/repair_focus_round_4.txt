@@ -1,0 +1,219 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: inpGCASM, inpGCASImpact, inpGCASRecovery, inpSAM, inpACASM, inpACASImpact, inpACASRecovery, inpGFM, inpWxM, inpFLS, outDec
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+inpGCASM | in | data | bool | Base_Types::boolean
+inpGCASImpact | in | data | real | Base_Types::float
+inpGCASRecovery | in | data | real | Base_Types::float
+inpSAM | in | data | bool | Base_Types::boolean
+inpACASM | in | data | bool | Base_Types::boolean
+inpACASImpact | in | data | real | Base_Types::float
+inpACASRecovery | in | data | real | Base_Types::float
+inpGFM | in | data | bool | Base_Types::boolean
+inpWxM | in | data | bool | Base_Types::boolean
+inpFLS | in | data | bool | Base_Types::boolean
+outDec | out | data | int | Base_Types::integer
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Aviate_Decider maintains internal variable numberServicesTrue that counts true values among inpGCASM, inpSAM, inpACASM, inpGFM, inpWxM, and inpFLS",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "numberServicesTrue",
+        "inpGCASM",
+        "inpSAM",
+        "inpACASM",
+        "inpGFM",
+        "inpWxM",
+        "inpFLS"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Aviate_Decider implements dynamicDecide logic: when inpGCASImpact > inpACASImpact and (inpGCASRecovery + inpACASRecovery) is sufficient to prevent secondary collision, decision is ACAS; otherwise decision is GCAS",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "dynamicDecide",
+        "inpGCASImpact",
+        "inpACASImpact",
+        "inpGCASRecovery",
+        "inpACASRecovery"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Aviate_Decider sets outDec to dynamic decision result when numberServicesTrue >= 2; otherwise outDec defaults to static priority-based value",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "outDec",
+        "dynamicDecide",
+        "numberServicesTrue"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Aviate_Decider | lines 96-134
+annex agree {**
+			  assume "service_inputs_valid": 
+			    (inpGCASM = true or inpGCASM = false) and 
+			    (inpSAM = true or inpSAM = false) and 
+			    (inpACASM = true or inpACASM = false) and 
+			    (inpGFM = true or inpGFM = false) and 
+			    (inpWxM = true or inpWxM = false) and 
+			    (inpFLS = true or inpFLS = false);
+
+			  var numberServicesTrue : int;
+			  var dynamicDecide : int;
+			  const ACAS = 1;
+			  const GCAS = 2;
+			  const static_priority_value = 0;
+
+			  guarantee "number_services_true": 
+			    numberServicesTrue = 
+			      (if inpGCASM then 1 else 0) +
+			      (if inpSAM then 1 else 0) +
+			      (if inpACASM then 1 else 0) +
+			      (if inpGFM then 1 else 0) +
+			      (if inpWxM then 1 else 0) +
+			      (if inpFLS then 1 else 0);
+
+			  guarantee "dynamic_decision_logic": 
+			    dynamicDecide = 
+			      (if (inpGCASImpact > inpACASImpact) and 
+			           (inpGCASRecovery + inpACASRecovery >= 0.0) 
+			       then ACAS 
+			       else GCAS);
+
+			  guarantee "output_decision": 
+			    (numberServicesTrue >= 2) => (outDec = dynamicDecide) and
+			    (numberServicesTrue < 2) => (outDec = static_priority_value);
+
+			  eq dynamicDecide = ACAS or dynamicDecide = GCAS;
+			  eq ACAS = 1;
+			  eq GCAS = 2;
+			**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   101: 			    (inpGFM = true or inpGFM = false) and 
+   102: 			    (inpWxM = true or inpWxM = false) and 
+   103: 			    (inpFLS = true or inpFLS = false);
+   104: 
+>> 105: 			  var numberServicesTrue : int;
+   106: 			  var dynamicDecide : int;
+   107: 			  const ACAS = 1;
+   108: 			  const GCAS = 2;
+   109: 			  const static_priority_value = 0;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Aviate_Decider
+Process Aviate_Decider
+	features
+			inpGCASM : in data port Base_Types::boolean;
+			inpGCASImpact: in data port Base_Types::float;
+			inpGCASRecovery: in data port Base_Types::float;
+			inpSAM : in data port Base_Types::boolean;
+			inpACASM : in data port Base_Types::boolean;
+			inpACASImpact: in data port Base_Types::float;
+			inpACASRecovery: in data port Base_Types::float;
+			inpGFM : in data port Base_Types::boolean;
+			inpWxM : in data port Base_Types::boolean;
+			inpFLS: in data port Base_Types::boolean;
+			outDec: out data port Base_Types::integer;
+	end Aviate_Decider;
+
+-- TARGET DECLARATION: Aviate_Decider.Aviate_Decider_impl
+Process Implementation Aviate_Decider.Aviate_Decider_impl 
+	end Aviate_Decider.Aviate_Decider_impl;
+
+-- RELATED MODEL LINES
+data autopilot
+end autopilot;
+data implementation autopilot.autopilot_impl
+VV: data  Base_Types::float;
+DeltaHeading:  data  Base_Types::float;
+Airspeed:  data  Base_Types::float;
+end autopilot.autopilot_impl;
+process GCAS_Monitor
+altitude: in data port Base_Types::float;
+verticalVelocity: in data port Base_Types::float;
+outImpact: out data port Base_Types::float;
+outRecovery: out data port Base_Types::float;
+gcasRequested: out data port Base_Types::boolean;
+end GCAS_Monitor;
+Process implementation GCAS_Monitor.GCAS_Monitor_impl
+end GCAS_Monitor.GCAS_Monitor_impl;
+Process ACAS_Monitor
+latitude: in data port Base_Types::float;
+longitude: in data port Base_Types::float;
+distance: in data port Base_types::float;
+acasRequested: out data port Base_Types::Boolean;
+end ACAS_Monitor;
+Process implementation ACAS_Monitor.ACAS_Monitor_impl
+end ACAS_Monitor.ACAS_Monitor_impl;
+Process SA_Monitor
+horzDistance: in data port Base_types::float;
+vertDistance: in data port Base_types::float;
+saRequested: out data port Base_Types::Boolean;
+end SA_Monitor;
+Process implementation SA_Monitor.SA_Monitor_impl
+end SA_Monitor.SA_Monitor_impl;
+Process GF_Monitor
+gfRequested: out data port Base_Types::Boolean;
+end GF_Monitor;
+Process implementation GF_Monitor.GF_Monitor_impl
+end GF_Monitor.GF_Monitor_impl;
+Process Wx_Monitor
+wxRequested: out data port Base_Types::Boolean;
+end Wx_Monitor;
+Process implementation Wx_Monitor.Wx_Monitor_impl
+end Wx_Monitor.Wx_Monitor_impl;
+Process FLS_Monitor
+linkConnection: in data port Base_Types::boolean;
+landingRequested: out data port Base_Types::boolean;
+end FLS_Monitor;
+Process Aviate_Decider
+inpGCASM : in data port Base_Types::boolean;
+inpGCASImpact: in data port Base_Types::float;
+inpGCASRecovery: in data port Base_Types::float;
+inpSAM : in data port Base_Types::boolean;
+inpACASM : in data port Base_Types::boolean;
+inpACASImpact: in data port Base_Types::float;
+inpACASRecovery: in data port Base_Types::float;
+inpGFM : in data port Base_Types::boolean;
+inpWxM : in data port Base_Types::boolean;
+inpFLS: in data port Base_Types::boolean;
+outDec: out data port Base_Types::integer;
+end Aviate_Decider;
+Process Implementation Aviate_Decider.Aviate_Decider_impl
+end Aviate_Decider.Aviate_Decider_impl;
+Process Pilot_Command
+inpPC: in data port Base_Types::float;
+outPC: out data port Autopilot.Autopilot_Impl;
+end Pilot_Command;
+Process GCAS_Recovery
+outGCASR: out data port autopilot.autopilot_impl;
+outAltitude: out data port Base_Types::float;
+outTime: out data port Base_Types::float;
+end GCAS_Recovery;
+Process implementation GCAS_Recovery.GCAS_Recovery_impl
+end GCAS_Recovery.GCAS_Recovery_impl;
+Process ACAS_recovery
+outACASRecovery: out data port Base_Types::float;
+outACASImpact:out data port Base_Types::float;
+end ACAS_recovery;
+Process Switch
+inpDecider : in data port Base_Types::integer;
+inpPC: in data port autopilot.autopilot_impl;
+outSwitchVV: out data port Base_Types::float;
+outSwitchDeltaHeading: out data port Base_Types::float;

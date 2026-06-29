@@ -1,0 +1,15 @@
+annex agree {**
+  const K_INIT = 10;
+  const MIN_TEMP = 0;
+  const MAX_TEMP = 20;
+  
+  assume "initial_k": k = K_INIT;
+  assume "temp_bounds": dataout >= MIN_TEMP and dataout <= MAX_TEMP;
+  
+  guarantee "k_update_rule": 
+    (k_prev >= 20 => k = k_prev - 1) and 
+    (k_prev <= 0 => k = k_prev + 1) and 
+    (k_prev > 0 and k_prev < 20 => k = k_prev);
+    
+  guarantee "dataout_matches_k": dataout = k;
+**};

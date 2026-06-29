@@ -1,0 +1,167 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use initialized temporal recurrence for stateful equations: `0.0 -> pre(t) + step`
+- Use nested `if ... then ... else` for branching logic
+- Use AGREE logical operators: `and`, `or`, `not(...)`, and implication `=>`
+- Place assumptions and guarantees in valid component type scopes
+- Use `assign` only for implementation scope outputs or auxiliary variables
+- Do not place guarantees in implementation scope
+- Use concrete bounds, named constants, or visible relations for input assumptions and output guarantees
+- Use case-provided thresholds and legal visible feature names
+Generic rules:
+- Use AGREE scalar types: `int`, `real`, and `bool`
+- Align helper declaration types with expression types
+- Do not encode AADL properties as AGREE expressions unless exposed as ports or constants
+- Use valid AGREE syntax for `assume`, `guarantee`, `eq`, `const`, and `assign`
+Syntax or pattern reminders:
+- Use `eq` for boolean expressions and `const` for named constants
+- Use `assign` only for implementation scope outputs or auxiliary variables
+- Use concrete bounds or visible relations for input assumptions and output guarantees
+Anti-patterns:
+- Do not place guarantees in implementation scope
+- Do not use subcomponent ports in component type contracts
+- Do not encode AADL properties as AGREE expressions unless exposed as ports or constants
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- nearestIntruderAltitude
+- nearestIntruderGroundDistance
+- nearestIntruderLongitude
+- ownAltitude_in
+- ownHeading
+- ownVerticalVelocity
+- ownLatitude
+- ownLongitude
+- requiredVerticalVelocity
+- timeToRecovery
+- timeToFailure
+
+Target interface:
+Exact expression symbols: nearestIntruderAltitude, nearestIntruderGroundDistance, nearestIntruderLongitude, ownAltitude_in, ownHeading, ownVerticalVelocity, ownLatitude, ownLongitude, requiredVerticalVelocity, timeToRecovery, timeToFailure
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+nearestIntruderAltitude | in | data | opaque | int
+nearestIntruderGroundDistance | in | data | opaque | int
+nearestIntruderLongitude | in | data | opaque | int
+ownAltitude_in | in | data | opaque | int
+ownHeading | in | data | opaque | int
+ownVerticalVelocity | in | data | opaque | int
+ownLatitude | in | data | opaque | int
+ownLongitude | in | data | opaque | int
+requiredVerticalVelocity | out | data | opaque | int
+timeToRecovery | out | data | opaque | real
+timeToFailure | out | data | opaque | real
+
+Raw requirement:
+When the TCAS_singleton component receives an ownAltitude_in value that equals the nearestIntruderAltitude value, if the ownLongitude in data port value is greater than the nearestIntruderLongitude value, then set the requiredVerticalVelocity out data port to 50; otherwise, set it to -50. When the ownAltitude_in value is less than the nearestIntruderAltitude value, set the requiredVerticalVelocity out data port to 10. When the ownAltitude_in value is greater than the nearestIntruderAltitude value, set the requiredVerticalVelocity out data port to -10. Additionally, define a boolean internal variable named ownAircraftGoesUpOnTie to store the result of the comparison between ownLongitude and nearestIntruderLongitude.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "ownAltitude_in equals nearestIntruderAltitude",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "ownAltitude_in",
+        "nearestIntruderAltitude"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "requiredVerticalVelocity equals 50 when ownLongitude is greater than nearestIntruderLongitude",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "requiredVerticalVelocity",
+        "ownLongitude",
+        "nearestIntruderLongitude"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "requiredVerticalVelocity equals -50 when ownLongitude is less than or equal to nearestIntruderLongitude",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "requiredVerticalVelocity",
+        "ownLongitude",
+        "nearestIntruderLongitude"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "ownAltitude_in is less than nearestIntruderAltitude",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "ownAltitude_in",
+        "nearestIntruderAltitude"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "requiredVerticalVelocity equals 10",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "ownAltitude_in is greater than nearestIntruderAltitude",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "ownAltitude_in",
+        "nearestIntruderAltitude"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "requiredVerticalVelocity equals -10",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "requiredVerticalVelocity"
+      ]
+    },
+    {
+      "id": "R8",
+      "text": "ownAircraftGoesUpOnTie is a boolean variable storing the result of ownLongitude > nearestIntruderLongitude",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "ownAircraftGoesUpOnTie",
+        "ownLongitude",
+        "nearestIntruderLongitude"
+      ]
+    }
+  ]
+}

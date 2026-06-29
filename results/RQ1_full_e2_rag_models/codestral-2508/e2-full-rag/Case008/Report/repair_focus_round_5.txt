@@ -1,0 +1,265 @@
+round=5
+
+[TARGET INTERFACE]
+Exact expression symbols: nearestIntruderAltitude, nearestIntruderGroundDistance, nearestIntruderLongitude, ownAltitude_in, ownHeading, ownVerticalVelocity, ownLatitude, ownLongitude, requiredVerticalVelocity, timeToRecovery, timeToFailure
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+nearestIntruderAltitude | in | data | opaque | int
+nearestIntruderGroundDistance | in | data | opaque | int
+nearestIntruderLongitude | in | data | opaque | int
+ownAltitude_in | in | data | opaque | int
+ownHeading | in | data | opaque | int
+ownVerticalVelocity | in | data | opaque | int
+ownLatitude | in | data | opaque | int
+ownLongitude | in | data | opaque | int
+requiredVerticalVelocity | out | data | opaque | int
+timeToRecovery | out | data | opaque | real
+timeToFailure | out | data | opaque | real
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "nearestIntruderAltitude remains constant during the simulation",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "nearestIntruderAltitude"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "nearestIntruderAltitude > 0",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "nearestIntruderAltitude"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "ownAltitude_in > 0",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "ownAltitude_in"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "nearestIntruderGroundDistance > 0",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "nearestIntruderGroundDistance"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "ownHeading >= 0 and ownHeading <= 360",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "ownHeading"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "ownLatitude >= 0 and ownLatitude <= 90",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "ownLatitude"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "ownLongitude >= -180 and ownLongitude <= 180",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "ownLongitude"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: TCAS_singleton | lines 68-76
+annex agree {**
+					  assume "nearestIntruderAltitude_constant": nearestIntruderAltitude' == 0.0;
+					  assume "nearestIntruderAltitude_positive": nearestIntruderAltitude > 0;
+					  assume "ownAltitude_in_positive": ownAltitude_in > 0;
+					  assume "nearestIntruderGroundDistance_positive": nearestIntruderGroundDistance > 0;
+					  assume "ownHeading_range": ownHeading >= 0 and ownHeading <= 360;
+					  assume "ownLatitude_range": ownLatitude >= 0 and ownLatitude <= 90;
+					  assume "ownLongitude_range": ownLongitude >= -180 and ownLongitude <= 180;
+					**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   65: 			requiredVerticalVelocity: out data port int;
+   66: 			timeToRecovery: out data port real;
+   67: 			timeToFailure: out data port real;
+   68: 	annex agree {**
+>> 69: 					  assume "nearestIntruderAltitude_constant": nearestIntruderAltitude' == 0.0;
+   70: 					  assume "nearestIntruderAltitude_positive": nearestIntruderAltitude > 0;
+   71: 					  assume "ownAltitude_in_positive": ownAltitude_in > 0;
+   72: 					  assume "nearestIntruderGroundDistance_positive": nearestIntruderGroundDistance > 0;
+   73: 					  assume "ownHeading_range": ownHeading >= 0 and ownHeading <= 360;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: TCAS_singleton
+system TCAS_singleton
+		features
+			nearestIntruderAltitude: in data port int;
+			nearestIntruderGroundDistance: in data port int;
+			nearestIntruderLongitude: in data port int;
+			ownAltitude_in: in data port int;
+			ownHeading: in data port int;
+			ownVerticalVelocity: in data port int;
+			ownLatitude: in data port int;
+			ownLongitude: in data port int;
+			
+			requiredVerticalVelocity: out data port int;
+			timeToRecovery: out data port real;
+			timeToFailure: out data port real;
+	end TCAS_singleton;
+
+-- TARGET DECLARATION: TCAS_singleton.impl
+system implementation TCAS_singleton.impl
+	end TCAS_singleton.impl;
+
+-- RELATED MODEL LINES
+timeToFailure: out data port real;
+timeToRecovery: out data port real;
+tcas: system TCAS_singleton;
+gcas_ttr: port gcas.timeToRecovery -> Supervisor.gcas_timeToRecovery	{Communication_Properties::Timing => immediate;};
+tcas_ttr: port tcas.timeToRecovery -> Supervisor.tcas_timeToRecovery	{Communication_Properties::Timing => immediate;};
+geof_ttr: port geof.timeToRecovery -> Supervisor.geof_timeToRecovery	{Communication_Properties::Timing => immediate;};
+gcas_ttf: port gcas.timeToFailure -> Supervisor.gcas_timeToFailure	{Communication_Properties::Timing => immediate;};
+tcas_ttf: port tcas.timeToFailure -> Supervisor.tcas_timeToFailure	{Communication_Properties::Timing => immediate;};
+geof_ttf: port geof.timeToFailure -> Supervisor.geof_timeToFailure	{Communication_Properties::Timing => immediate;};
+ttf_to_top: port supervisor.timeToFailure -> timeToFailure	{Communication_Properties::Timing => immediate;};
+ttr_to_top: port supervisor.timeToRecovery -> timeToRecovery;
+system TCAS_singleton
+nearestIntruderAltitude: in data port int;
+nearestIntruderGroundDistance: in data port int;
+nearestIntruderLongitude: in data port int;
+ownAltitude_in: in data port int;
+ownHeading: in data port int;
+ownVerticalVelocity: in data port int;
+ownLatitude: in data port int;
+ownLongitude: in data port int;
+requiredVerticalVelocity: out data port int;
+end TCAS_singleton;
+system implementation TCAS_singleton.impl
+end TCAS_singleton.impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "TCAS_singleton",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "TCAS_singleton.impl",
+      "kind": "system",
+      "type_name": "TCAS_singleton"
+    }
+  ],
+  "features": [
+    {
+      "owner": "TCAS_singleton",
+      "name": "nearestIntruderAltitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS_singleton",
+      "name": "nearestIntruderGroundDistance",
+      "direction": "in",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS_singleton",
+      "name": "nearestIntruderLongitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS_singleton",
+      "name": "ownAltitude_in",
+      "direction": "in",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS_singleton",
+      "name": "ownHeading",
+      "direction": "in",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS_singleton",
+      "name": "ownVerticalVelocity",
+      "direction": "in",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS_singleton",
+      "name": "ownLatitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS_singleton",
+      "name": "ownLongitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS_singleton",
+      "name": "requiredVerticalVelocity",
+      "direction": "out",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS_singleton",
+      "name": "timeToRecovery",
+      "direction": "out",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "TCAS_singleton",
+      "name": "timeToFailure",
+      "direction": "out",
+      "category": "data port",
+      "type": "real",
+      "scalar": "opaque"
+    }
+  ]
+}

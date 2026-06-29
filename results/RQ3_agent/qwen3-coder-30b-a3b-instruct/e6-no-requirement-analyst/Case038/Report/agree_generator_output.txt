@@ -1,0 +1,15 @@
+annex agree {**
+  const P : real = 1.0;
+  const D : real = 0.0;
+  const I : real = 0.0;
+  
+  assume "target_valid": Target >= 0.0;
+  assume "actual_valid": Actual >= 0.0;
+  
+  guarantee "error_calc": e = Target - Actual;
+  guarantee "control_law": Actuator_Input = P * e + D * e_dot + I * e_int;
+  
+  eq e : real = Target - Actual;
+  eq e_dot : real = 0.0;
+  eq e_int : real = 0.0;
+**};

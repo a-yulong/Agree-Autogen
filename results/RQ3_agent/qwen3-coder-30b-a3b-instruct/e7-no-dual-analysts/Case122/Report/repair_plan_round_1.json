@@ -1,0 +1,16 @@
+{
+  "problems": [
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE assume statements reference port names as both left and right sides of equality, which is not valid AGREE syntax",
+      "minimal_edit": "Replace each assume statement with a guarantee that relates the output port to itself using a valid AGREE expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace each assume statement with a guarantee statement that expresses the same logical relationship using valid AGREE syntax",
+    "Change 'assume \"signal_routing_x\": acc_out_data_x = acc_out_data_x;' to 'guarantee \"signal_routing_x\": acc_out_data_x = acc_out_data_x;'",
+    "Change 'assume \"signal_routing_y\": acc_out_data_y = acc_out_data_y;' to 'guarantee \"signal_routing_y\": acc_out_data_y = acc_out_data_y;'",
+    "Change 'assume \"signal_routing_z\": acc_out_data_z = acc_out_data_z;' to 'guarantee \"signal_routing_z\": acc_out_data_z = acc_out_data_z;'"
+  ]
+}

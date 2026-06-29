@@ -1,0 +1,20 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE contracts must be placed in valid component type or implementation scopes based on their scope requirements.
+- Generated AGREE code should not introduce package-qualified identifiers not present in the model.
+- Helper functions and variables must be declared within the same annex and visible to the expression using them.
+- Guarantee expressions must align with the actual types of the referenced identifiers.
+Syntax or pattern reminders:
+- Use `assume`, `guarantee`, `eq`, `const`, and `assign` in proper AGREE syntax within annex blocks.
+- Component type contracts should use `assume` for input envelopes and `guarantee` for output ranges.
+- Implementation contracts should use `assign` for output bindings and avoid `guarantee` statements.
+- Ensure all identifiers in AGREE expressions are visible in the current scope or declared locally.
+Anti-patterns:
+- Do not place implementation-level bindings in component type scopes or use subcomponent ports in type contracts.
+- Do not introduce package-qualified identifiers without matching `with` clauses in the AADL model.
+- Do not generate AGREE expressions that reference AADL properties like Period or Deadline as variables.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about missing packages or property sets
+- AGREE validator diagnostics (none present)
+- Specific component names or feature names from the current case
+</RAG_DIGEST>

@@ -1,0 +1,16 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '->' are of type 'bool' and 'real', but must be of the same type",
+      "cause": "The equation 't : real = 0.0 -> pre(t) + 0.1' uses '->' incorrectly; '->' expects boolean expressions on both sides, but here it's used with a real-valued expression",
+      "minimal_edit": "Change 'eq t : real = 0.0 -> pre(t) + 0.1;' to 'eq t : real = 0.0; guarantee \"recursive_var_t\": t = 0.0 -> pre(t) + 0.1;' to properly define the initial value and the recurrence relation"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify the incorrect use of '->' in the equation declaration",
+    "Separate the initial value definition from the recurrence relation",
+    "Place the initial value in a separate equation declaration",
+    "Keep the recurrence relation in a guarantee statement"
+  ]
+}

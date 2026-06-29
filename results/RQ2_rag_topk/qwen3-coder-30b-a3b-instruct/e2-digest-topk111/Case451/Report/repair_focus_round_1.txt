@@ -1,0 +1,75 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: Data_Input, Dev_bus
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_Input | in | data | opaque | Base_Types::Integer_16
+Dev_bus | requires | access | opaque | 
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data_Input >= 0 and Data_Input <= 100",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "Data_Input"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Servo | lines 44-46
+annex agree {**
+    assume "bounded_input": Data_Input >= 0 and Data_Input <= 100;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+No validator line numbers were available.
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Servo
+device Servo
+  features
+    Data_Input : in data port Base_Types::Integer_16;
+    Dev_bus : requires bus access Device_Bus.MCU1;
+  end Servo;
+
+-- RELATED MODEL LINES
+device Servo
+Data_Input : in data port Base_Types::Integer_16;
+Dev_bus : requires bus access Device_Bus.MCU1;
+end Servo;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Servo",
+      "kind": "device"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Servo",
+      "name": "Data_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer_16",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Servo",
+      "name": "Dev_bus",
+      "direction": "requires",
+      "category": "bus access",
+      "type": "Device_Bus.MCU1",
+      "scalar": "opaque"
+    }
+  ]
+}

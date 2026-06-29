@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 304: Couldn't resolve reference to 'impl'.",
+      "cause": "AGREE expressions reference implementation names that are not valid in component type scope",
+      "minimal_edit": "Remove the implementation references and use only visible component features"
+    },
+    {
+      "diagnostic": "line 304: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Invalid type comparison between port and implementation name",
+      "minimal_edit": "Replace implementation references with valid port expressions"
+    },
+    {
+      "diagnostic": "line 305: Couldn't resolve reference to 'impl'.",
+      "cause": "AGREE expressions reference implementation names that are not valid in component type scope",
+      "minimal_edit": "Remove the implementation references and use only visible component features"
+    },
+    {
+      "diagnostic": "line 305: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Invalid type comparison between port and implementation name",
+      "minimal_edit": "Replace implementation references with valid port expressions"
+    },
+    {
+      "diagnostic": "line 306: Couldn't resolve reference to 'acc1_input'.",
+      "cause": "Reference to implementation-only feature in component type scope",
+      "minimal_edit": "Remove or replace with valid component-level expression"
+    },
+    {
+      "diagnostic": "line 307: Couldn't resolve reference to 'acc2_input'.",
+      "cause": "Reference to implementation-only feature in component type scope",
+      "minimal_edit": "Remove or replace with valid component-level expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the assume and guarantee statements from the component type annex",
+    "Move the data flow guarantees to the implementation annex",
+    "Replace implementation references with valid port expressions",
+    "Ensure all referenced identifiers are visible in component type scope"
+  ]
+}

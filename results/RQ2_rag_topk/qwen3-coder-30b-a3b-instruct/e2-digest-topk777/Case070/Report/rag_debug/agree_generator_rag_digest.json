@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "Place timing constraints as assumptions in component type scopes when bounds are concrete and visible; use assign for implementation-level output bindings",
+    "Use AGREE annex blocks within component type or implementation scopes based on the nature of the contract (assumptions/guarantees vs. assignments)",
+    "Generate valid AGREE expressions using only visible AADL features or declared helpers in the same annex block"
+  ],
+  "generic_rules": [
+    "AGREE contracts must be syntactically valid and scoped to the owning component type or implementation",
+    "Assumptions and guarantees should reference only visible identifiers or declared helpers within the same annex",
+    "Avoid encoding AADL property names directly as AGREE variables unless they are explicitly typed ports or constants"
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for temporal and logical constraints",
+    "Use `eq name : type = expression;` for helper declarations and `const name : type = value;` for constants",
+    "Use `assign output = expression;` only for output features or auxiliary variables in implementation scope"
+  ],
+  "anti_patterns": [
+    "Do not reference AADL property names like Compute_Execution_Time directly in AGREE expressions without visible typed ports",
+    "Do not place guarantees in implementation scope; use assumptions or assignments instead",
+    "Do not generate expressions involving Boolean or opaque data types unless they are explicitly typed in AGREE scope"
+  ],
+  "irrelevant_topics": [
+    "AADL AS5506C standard reference",
+    "Model fusion and owner/scope preservation rules",
+    "Validator-driven repair patterns"
+  ]
+}

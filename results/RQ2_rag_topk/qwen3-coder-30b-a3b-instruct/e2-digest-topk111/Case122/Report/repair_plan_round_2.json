@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "assume \"signal_flow_x\": true;",
+      "cause": "AGREE assume statement refers to a non-existent signal flow identifier",
+      "minimal_edit": "assume \"signal_flow_x\": acc_out_data_x = Spg.acc_out_data_x;"
+    },
+    {
+      "diagnostic": "assume \"signal_flow_y\": true;",
+      "cause": "AGREE assume statement refers to a non-existent signal flow identifier",
+      "minimal_edit": "assume \"signal_flow_y\": acc_out_data_y = Spg.acc_out_data_Y;"
+    },
+    {
+      "diagnostic": "assume \"signal_flow_z\": true;",
+      "cause": "AGREE assume statement refers to a non-existent signal flow identifier",
+      "minimal_edit": "assume \"signal_flow_z\": acc_out_data_z = Spg.acc_out_data_Z;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace each assume statement with a valid AGREE expression that relates the component's output to the subprogram's input",
+    "Ensure all identifiers used in the expressions are visible in the component type scope",
+    "Use exact symbol names: acc_out_data_x, acc_out_data_y, acc_out_data_z"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'gps_pos'.",
+      "cause": "gps_pos is a port in thread type, not visible in implementation annex scope",
+      "minimal_edit": "Remove gps_pos reference from assume statement"
+    },
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent, not visible in thread type annex",
+      "minimal_edit": "Remove pspg reference from assume statement"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent, not visible in thread type annex",
+      "minimal_edit": "Remove pspg reference from assume statement"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'speed'.",
+      "cause": "speed is a port in thread type, not visible in implementation annex scope",
+      "minimal_edit": "Remove speed reference from assume statement"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the entire assume statement on line 107 that references gps_pos and pspg",
+    "Remove the entire assume statement on line 108 that references pspg and speed",
+    "Move any valid contract assumptions to the thread type scope if they refer to visible ports",
+    "Leave implementation-specific contracts in the implementation annex if needed"
+  ]
+}

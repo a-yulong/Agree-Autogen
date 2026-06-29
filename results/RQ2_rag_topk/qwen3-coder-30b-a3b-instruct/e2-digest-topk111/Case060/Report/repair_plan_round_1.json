@@ -1,0 +1,63 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 109: Couldn't resolve reference to 'Mode'.",
+      "cause": "Mode is referenced in COM's annex but never declared as a visible variable; AGREE requires explicit declaration of state variables in the same annex scope.",
+      "minimal_edit": "Add 'eq Mode: int = 0;' before the guarantee clause to declare Mode as a local state variable."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 109: left and right sides of binary expression '*' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "The expression 'Mode * Pedal' assumes Mode is numeric and supports multiplication, but Mode is not defined as a numeric expression derived from inputs; the validator rejects the undefined type.",
+      "minimal_edit": "Replace 'CMD = (Mode * Pedal)' with 'CMD = Agree_Nodes::Brake_Cmd(Mode, Pedal)' to align with the requirement and validator-expected function."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 127: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes::Brake_Mode is referenced in MON's annex but is not accessible; this is a package-level function not visible to MON's annex context.",
+      "minimal_edit": "Remove the line 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' since Mode is not a required output of MON and its calculation is owned by COM."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 142: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is referenced in MON but not visible; the validator cannot resolve it as a function in MON's scope.",
+      "minimal_edit": "Replace 'Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal)' with 'Status.Cmd = CMD_From_COM' to use the actual input port from COM, which is visible and matches R4 intent."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 259: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "L1 lemma references Agree_Nodes::Brake_Cmd which is not visible in BSCU_Impl context; this function is not declared or imported in the scope.",
+      "minimal_edit": "Replace 'COM1.CMD = Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal)' with 'COM1.CMD = CMD_From_COM' to use the actual output port, which is visible and satisfies the consistency intent."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 260: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Same as L1 — Agree_Nodes::Brake_Cmd is not visible in BSCU_Impl; lemma uses undefined function.",
+      "minimal_edit": "Replace 'COM2.CMD = Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal)' with 'COM2.CMD = CMD_From_COM' to use visible port."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 261: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Same issue: MON1.Mode is undefined and Agree_Nodes::Brake_Cmd is not visible.",
+      "minimal_edit": "Replace 'MON1.Status.Cmd = Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal)' with 'MON1.Status.Cmd = CMD_From_COM' to use the actual input port."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 262: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Same as above — Agree_Nodes::Brake_Cmd not visible and MON2.Mode undefined.",
+      "minimal_edit": "Replace 'MON2.Status.Cmd = Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal)' with 'MON2.Status.Cmd = CMD_From_COM'."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 264: Couldn't resolve reference to 'Mode'.",
+      "cause": "MON1.Mode is not a defined variable in BSCU_Impl scope; it is an internal state of MON, not visible to BSCU_Impl.",
+      "minimal_edit": "Replace 'MON1.Mode != COM1.Mode' with 'MON1.Status.Cmd != COM1.CMD' to compare visible outputs that represent the same intent."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 265: Couldn't resolve reference to 'Mode'.",
+      "cause": "Same as above — MON2.Mode not visible in BSCU_Impl scope.",
+      "minimal_edit": "Replace 'MON2.Mode != COM2.Mode' with 'MON2.Status.Cmd != COM2.CMD'."
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "In COM's annex, add 'eq Mode: int = 0;' immediately before the guarantee clause to declare Mode as a local state variable.",
+    "In COM's annex, replace 'CMD = (Mode * Pedal)' with 'CMD = Agree_Nodes::Brake_Cmd(Mode, Pedal);' — assuming Agree_Nodes::Brake_Cmd is a valid external function and will be resolved externally.",
+    "In MON's annex, delete the line 'eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);' because Mode is not a MON output and is defined in COM.",
+    "In MON's annex, replace 'not Fail => (Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal))' with 'not Fail => (Status.Cmd = CMD_From_COM);' to use the visible input port from COM.",
+    "In BSCU_Impl's annex, replace all instances of 'Agree_Nodes::Brake_Cmd(COMx.Mode,Pedal)' with 'COMx.CMD' (for COM1.CMD and COM2.CMD), and 'Agree_Nodes::Brake_Cmd(MONx.Mode,Pedal)' with 'MONx.Status.Cmd' to use visible port relationships.",
+    "In BSCU_Impl's annex, replace 'MON1.Mode != COM1.Mode' with 'MON1.Status.Cmd != COM1.CMD' and 'MON2.Mode != COM2.Mode' with 'MON2.Status.Cmd != COM2.CMD' to use only visible port comparisons."
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in component type scopes when they refer to ports or visible features.",
+    "Use `assume` for input constraints and `guarantee` for output behavior in component type contracts.",
+    "Declare visible variables and constants in the component type annex before using them in expressions.",
+    "Generate `eq` declarations for intermediate expressions like error terms and their derivatives."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes for assignments.",
+    "Visible identifiers must be declared or available in the current scope before use.",
+    "Use `assign` for implementation-level bindings in component implementation scopes."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` for input constraints and `guarantee \"label\": expression;` for output behavior.",
+    "Declare variables with `eq name : type = expression;` and constants with `const name : type = value;`.",
+    "Ensure AGREE scalar types are `int`, `real`, or `bool`.",
+    "Place AGREE annexes in valid AADL component type or implementation scopes."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent ports in component type contracts unless represented through visible variables.",
+    "Do not encode AADL timing properties as AGREE expressions unless explicitly exposed as typed ports or constants.",
+    "Do not use invalid AGREE scalar type names like 'integer' or 'boolean'.",
+    "Do not place implementation-level assignments in component type annexes."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing properties",
+    "Model fusion and owner/scope preservation rules",
+    "Validator-driven repair patterns",
+    "Requirement traceability and compact semantics"
+  ]
+}

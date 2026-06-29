@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "Fix unresolved references like 'acc1out' by ensuring all identifiers are valid AADL features or declared helpers in the same annex.",
+    "Resolve type mismatches in AGREE expressions by aligning declared helper types with their assigned expressions.",
+    "Avoid placing guarantee statements in implementation scopes; use assign for output feature bindings instead."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, ensure all identifiers are visible in the current scope and properly typed.",
+    "Use only declared constants, equations, or features in AGREE expressions to prevent '<error>' type issues.",
+    "Place component type contracts in component type scopes and implementation bindings in implementation scopes.",
+    "Validate that AGREE scalar types (int, real, bool) match the expected expression types."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Assignments in implementation scopes must reference existing output features or declared auxiliary variables.",
+    "Type consistency is required for binary expressions in AGREE: left and right sides must be of the same type."
+  ],
+  "anti_patterns": [
+    "Do not reference undefined identifiers such as 'acc1out' in AGREE expressions without prior declaration.",
+    "Do not mix incompatible types in binary expressions, e.g., comparing int and <error> types."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE validator diagnostics and repair strategies",
+    "Component type vs implementation scope distinctions beyond contract placement"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "assume \"deployment_binding_hello_impl_to_node_a\": true;",
+      "cause": "AGREE assumption references deployment binding that is not expressible in AGREE",
+      "minimal_edit": "assume \"deployment_binding_hello_impl_to_node_a\": node_a in node_a.impl;"
+    },
+    {
+      "diagnostic": "assume \"deployment_binding_node_a_to_cpu_rm_p0\": true;",
+      "cause": "AGREE assumption references deployment binding that is not expressible in AGREE",
+      "minimal_edit": "assume \"deployment_binding_node_a_to_cpu_rm_p0\": cpu_rm in cpurm.impl;"
+    },
+    {
+      "diagnostic": "assume \"deployment_binding_node_a_to_mem_segment1\": true;",
+      "cause": "AGREE assumption references deployment binding that is not expressible in AGREE",
+      "minimal_edit": "assume \"deployment_binding_node_a_to_mem_segment1\": mem in myram.sdram;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace each assume statement with a valid AGREE expression using subcomponent membership",
+    "Ensure all identifiers used in the replacement expressions are visible in the AGREE context",
+    "Verify that the replacement expressions are syntactically valid AGREE expressions"
+  ]
+}

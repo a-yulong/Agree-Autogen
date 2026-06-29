@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Use only visible AADL features or declared helpers in AGREE annexes to prevent type mismatches and unresolved references.
+- Ensure that guarantee expressions relate visible inputs to visible outputs without relying on implementation-only subcomponent paths.
+- Validate that all referenced identifiers in AGREE code are present in the AADL model or explicitly declared within the same annex.
+Syntax or pattern reminders:
+- AGREE syntax requires explicit type declarations for helpers and expressions; use `eq name : type = expression;` for defining typed helpers.
+- Assumptions and guarantees must be placed in appropriate AADL scopes: type contracts in component types, implementation bindings in implementations.
+Anti-patterns:
+- Avoid referencing AADL property names like Compute_Execution_Time or unit tokens (e.g., ms, Hz) directly in AGREE expressions unless they are explicitly exposed as typed features.
+- Do not introduce package-qualified identifiers in AGREE annexes unless the corresponding `with` clauses are present in the AADL model.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about missing packages or property sets
+- AGREE validator diagnostics (none present)
+- Implementation-level bindings in component type scopes
+</RAG_DIGEST>

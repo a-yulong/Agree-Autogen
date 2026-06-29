@@ -1,0 +1,21 @@
+<RAG_DIGEST agent="model_fusion">
+Generic rules:
+- AGREE contracts must be placed in appropriate AADL scopes: type annexes for component-level contracts, implementation annexes for binding-level details.
+- Only reference visible AADL features and declared helpers in AGREE annexes to avoid unresolved identifier errors.
+- Avoid using implementation-only subcomponent paths in component type contracts; move such bindings to implementation annexes.
+- Validate that all AGREE types (int, real, bool) match the expected AADL data types to prevent type mismatch errors.
+Syntax or pattern reminders:
+- AGREE annex blocks are enclosed in `annex agree {** ... **};`.
+- Assumptions and guarantees use `assume "label": expression;` and `guarantee "label": expression;`.
+- Equation declarations use `eq name : type = expression;` and constant declarations use `const name : type = value;`.
+- Assignments use `assign output = expression;` and are valid only in implementation scopes.
+Anti-patterns:
+- Do not place implementation-level bindings in component type annexes unless they are valid outputs or assignments.
+- Do not reference package-qualified identifiers or AADL properties that are not visible in the current scope.
+- Do not assume that AADL ports or data types are automatically available in AGREE expression scope without explicit declaration.
+Irrelevant retrieved material:
+- AGREE repair and validator diagnostics
+- Requirement traceability and compact semantics
+- Model analyst extraction of AADL structure
+- AGREE syntax and scope notes for model fusion
+</RAG_DIGEST>

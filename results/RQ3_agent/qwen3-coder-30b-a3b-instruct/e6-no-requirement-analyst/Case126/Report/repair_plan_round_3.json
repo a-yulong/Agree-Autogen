@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port names as both left and right hand side of equality, which is not valid AGREE syntax for component type contracts",
+      "minimal_edit": "Replace each guarantee with a valid AGREE expression that relates the output to a valid input or constant, or remove the guarantee if no such relation exists in the visible scope"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that the AGREE guarantees are invalid because they reference port names on both sides of an equality in a component type annex",
+    "Replace each guarantee with a valid AGREE expression that does not use port names as expressions in a component type context",
+    "Since the component type does not have visible inputs to relate to, and the guarantees are self-referential, remove the entire annex block"
+  ]
+}

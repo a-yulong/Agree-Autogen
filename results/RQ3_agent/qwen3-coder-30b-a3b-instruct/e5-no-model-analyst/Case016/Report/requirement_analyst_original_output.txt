@@ -1,0 +1,25 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "Aviate_Decider maintains internal variable numberServicesTrue that counts total number of currently active service requests",
+      "evidence": ["numberServicesTrue"]
+    },
+    {
+      "id": "R2",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "Aviate_Decider implements dynamicDecide logic where if inpGCASImpact > inpACASImpact and (inpGCASRecovery + inpACASRecovery) ensures no secondary collision, then decision is ACAS, else decision is GCAS",
+      "evidence": ["inpGCASImpact", "inpACASImpact", "inpGCASRecovery", "inpACASRecovery"]
+    },
+    {
+      "id": "R3",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "Aviate_Decider output outDec uses dynamic decision result when numberServicesTrue >= 2, otherwise falls back to static priority-based decision",
+      "evidence": ["outDec", "numberServicesTrue"]
+    }
+  ]
+}

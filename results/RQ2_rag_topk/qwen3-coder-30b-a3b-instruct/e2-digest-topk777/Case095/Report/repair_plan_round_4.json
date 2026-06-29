@@ -1,0 +1,16 @@
+{
+  "problems": [
+    {
+      "diagnostic": "missing EOF at 'var'",
+      "cause": "AGREE syntax error in variable declaration",
+      "minimal_edit": "Remove the incomplete variable declarations and rewrite the guarantees to use only visible port names"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the 'var acc1_data_flow: SHM_DataType::accData;' declaration on line 164",
+    "Remove the 'var acc2_data_flow: SHM_DataType::accData;' declaration on line 165",
+    "Replace the guarantee 'acc1_input = v_acc1_dataout' with a valid AGREE expression using only visible identifiers",
+    "Replace the guarantee 'acc2_input = v_acc2_dataout' with a valid AGREE expression using only visible identifiers"
+  ]
+}

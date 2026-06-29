@@ -1,0 +1,273 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: inpGCASM, inpGCASImpact, inpGCASRecovery, inpSAM, inpACASM, inpACASImpact, inpACASRecovery, inpGFM, inpWxM, inpFLS, outDec
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+inpGCASM | in | data | bool | Base_Types::boolean
+inpGCASImpact | in | data | real | Base_Types::float
+inpGCASRecovery | in | data | real | Base_Types::float
+inpSAM | in | data | bool | Base_Types::boolean
+inpACASM | in | data | bool | Base_Types::boolean
+inpACASImpact | in | data | real | Base_Types::float
+inpACASRecovery | in | data | real | Base_Types::float
+inpGFM | in | data | bool | Base_Types::boolean
+inpWxM | in | data | bool | Base_Types::boolean
+inpFLS | in | data | bool | Base_Types::boolean
+outDec | out | data | int | Base_Types::integer
+
+[REQUIREMENT ANALYSIS]
+DISABLED
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Aviate_Decider | lines 96-118
+annex agree {**
+		const MAX_SERVICES : int = 6;
+
+		guarantee "service_count_bounds": 
+			if inpGCASM then 1 : int else 0 : int endif + if inpSAM then 1 : int else 0 : int endif + if inpACASM then 1 : int else 0 : int endif + 
+			if inpGFM then 1 : int else 0 : int endif + if inpWxM then 1 : int else 0 : int endif + if inpFLS then 1 : int else 0 : int endif >= 0 and
+			if inpGCASM then 1 : int else 0 : int endif + if inpSAM then 1 : int else 0 : int endif + if inpACASM then 1 : int else 0 : int endif + 
+			if inpGFM then 1 : int else 0 : int endif + if inpWxM then 1 : int else 0 : int endif + if inpFLS then 1 : int else 0 : int endif <= MAX_SERVICES;
+
+		guarantee "decision_logic": 
+			(inpGCASImpact > inpACASImpact and 
+			 (inpGCASRecovery + inpACASRecovery) >= 0.5) => 
+			(outDec = 1) and 
+			not (inpGCASImpact > inpACASImpact and 
+				 (inpGCASRecovery + inpACASRecovery) >= 0.5) => 
+			(outDec = 0);
+
+		guarantee "output_condition": 
+			((inpGCASM or inpSAM or inpACASM or inpGFM or inpWxM or inpFLS) and 
+			 (if inpGCASM then 1 : int else 0 : int endif + if inpSAM then 1 : int else 0 : int endif + if inpACASM then 1 : int else 0 : int endif + 
+			  if inpGFM then 1 : int else 0 : int endif + if inpWxM then 1 : int else 0 : int endif + if inpFLS then 1 : int else 0 : int endif) >= 2) => 
+			(outDec = 1 or outDec = 0);
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   96: 	annex agree {**
+   97: 		const MAX_SERVICES : int = 6;
+   98: 
+   99: 		guarantee "service_count_bounds": 
+>> 100: 			if inpGCASM then 1 : int else 0 : int endif + if inpSAM then 1 : int else 0 : int endif + if inpACASM then 1 : int else 0 : int endif + 
+   101: 			if inpGFM then 1 : int else 0 : int endif + if inpWxM then 1 : int else 0 : int endif + if inpFLS then 1 : int else 0 : int endif >= 0 and
+   102: 			if inpGCASM then 1 : int else 0 : int endif + if inpSAM then 1 : int else 0 : int endif + if inpACASM then 1 : int else 0 : int endif + 
+   103: 			if inpGFM then 1 : int else 0 : int endif + if inpWxM then 1 : int else 0 : int endif + if inpFLS then 1 : int else 0 : int endif <= MAX_SERVICES;
+   104: 
+
+   97: 		const MAX_SERVICES : int = 6;
+   98: 
+   99: 		guarantee "service_count_bounds": 
+   100: 			if inpGCASM then 1 : int else 0 : int endif + if inpSAM then 1 : int else 0 : int endif + if inpACASM then 1 : int else 0 : int endif + 
+>> 101: 			if inpGFM then 1 : int else 0 : int endif + if inpWxM then 1 : int else 0 : int endif + if inpFLS then 1 : int else 0 : int endif >= 0 and
+   102: 			if inpGCASM then 1 : int else 0 : int endif + if inpSAM then 1 : int else 0 : int endif + if inpACASM then 1 : int else 0 : int endif + 
+   103: 			if inpGFM then 1 : int else 0 : int endif + if inpWxM then 1 : int else 0 : int endif + if inpFLS then 1 : int else 0 : int endif <= MAX_SERVICES;
+   104: 
+   105: 		guarantee "decision_logic": 
+
+   98: 
+   99: 		guarantee "service_count_bounds": 
+   100: 			if inpGCASM then 1 : int else 0 : int endif + if inpSAM then 1 : int else 0 : int endif + if inpACASM then 1 : int else 0 : int endif + 
+   101: 			if inpGFM then 1 : int else 0 : int endif + if inpWxM then 1 : int else 0 : int endif + if inpFLS then 1 : int else 0 : int endif >= 0 and
+>> 102: 			if inpGCASM then 1 : int else 0 : int endif + if inpSAM then 1 : int else 0 : int endif + if inpACASM then 1 : int else 0 : int endif + 
+   103: 			if inpGFM then 1 : int else 0 : int endif + if inpWxM then 1 : int else 0 : int endif + if inpFLS then 1 : int else 0 : int endif <= MAX_SERVICES;
+   104: 
+   105: 		guarantee "decision_logic": 
+   106: 			(inpGCASImpact > inpACASImpact and 
+
+   99: 		guarantee "service_count_bounds": 
+   100: 			if inpGCASM then 1 : int else 0 : int endif + if inpSAM then 1 : int else 0 : int endif + if inpACASM then 1 : int else 0 : int endif + 
+   101: 			if inpGFM then 1 : int else 0 : int endif + if inpWxM then 1 : int else 0 : int endif + if inpFLS then 1 : int else 0 : int endif >= 0 and
+   102: 			if inpGCASM then 1 : int else 0 : int endif + if inpSAM then 1 : int else 0 : int endif + if inpACASM then 1 : int else 0 : int endif + 
+>> 103: 			if inpGFM then 1 : int else 0 : int endif + if inpWxM then 1 : int else 0 : int endif + if inpFLS then 1 : int else 0 : int endif <= MAX_SERVICES;
+   104: 
+   105: 		guarantee "decision_logic": 
+   106: 			(inpGCASImpact > inpACASImpact and 
+   107: 			 (inpGCASRecovery + inpACASRecovery) >= 0.5) => 
+
+   111: 			(outDec = 0);
+   112: 
+   113: 		guarantee "output_condition": 
+   114: 			((inpGCASM or inpSAM or inpACASM or inpGFM or inpWxM or inpFLS) and 
+>> 115: 			 (if inpGCASM then 1 : int else 0 : int endif + if inpSAM then 1 : int else 0 : int endif + if inpACASM then 1 : int else 0 : int endif + 
+   116: 			  if inpGFM then 1 : int else 0 : int endif + if inpWxM then 1 : int else 0 : int endif + if inpFLS then 1 : int else 0 : int endif) >= 2) => 
+   117: 			(outDec = 1 or outDec = 0);
+   118: 	**};
+   119: 	end Aviate_Decider;
+
+   112: 
+   113: 		guarantee "output_condition": 
+   114: 			((inpGCASM or inpSAM or inpACASM or inpGFM or inpWxM or inpFLS) and 
+   115: 			 (if inpGCASM then 1 : int else 0 : int endif + if inpSAM then 1 : int else 0 : int endif + if inpACASM then 1 : int else 0 : int endif + 
+>> 116: 			  if inpGFM then 1 : int else 0 : int endif + if inpWxM then 1 : int else 0 : int endif + if inpFLS then 1 : int else 0 : int endif) >= 2) => 
+   117: 			(outDec = 1 or outDec = 0);
+   118: 	**};
+   119: 	end Aviate_Decider;
+   120: 	
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Aviate_Decider
+Process Aviate_Decider
+	features
+			inpGCASM : in data port Base_Types::boolean;
+			inpGCASImpact: in data port Base_Types::float;
+			inpGCASRecovery: in data port Base_Types::float;
+			inpSAM : in data port Base_Types::boolean;
+			inpACASM : in data port Base_Types::boolean;
+			inpACASImpact: in data port Base_Types::float;
+			inpACASRecovery: in data port Base_Types::float;
+			inpGFM : in data port Base_Types::boolean;
+			inpWxM : in data port Base_Types::boolean;
+			inpFLS: in data port Base_Types::boolean;
+			outDec: out data port Base_Types::integer;
+	end Aviate_Decider;
+
+-- TARGET DECLARATION: Aviate_Decider.Aviate_Decider_impl
+Process Implementation Aviate_Decider.Aviate_Decider_impl 
+	end Aviate_Decider.Aviate_Decider_impl;
+
+-- RELATED MODEL LINES
+Process Aviate_Decider
+inpGCASM : in data port Base_Types::boolean;
+inpGCASImpact: in data port Base_Types::float;
+inpGCASRecovery: in data port Base_Types::float;
+inpSAM : in data port Base_Types::boolean;
+inpACASM : in data port Base_Types::boolean;
+inpACASImpact: in data port Base_Types::float;
+inpACASRecovery: in data port Base_Types::float;
+inpGFM : in data port Base_Types::boolean;
+inpWxM : in data port Base_Types::boolean;
+inpFLS: in data port Base_Types::boolean;
+outDec: out data port Base_Types::integer;
+end Aviate_Decider;
+Process Implementation Aviate_Decider.Aviate_Decider_impl
+end Aviate_Decider.Aviate_Decider_impl;
+dmc: process Aviate_Decider;
+gcasm_to_decider: port gcasm.gcasRequested -> dmc.inpGCASM;
+gcasmimp_to_decider: port gcasm.outImpact -> dmc.inpGCASImpact;
+gcasrec_to_decider: port gcasm.outRecovery -> dmc.inpGCASRecovery;
+sam_to_decider: port sam.saRequested -> dmc.inpSAM;
+acasm_to_decider: port acasm.acasRequested -> dmc.inpACASM;
+acasmimp_to_decider: port acasm.outImpact -> dmc.inpACASImpact;
+acasrec_to_decider: port acasm.outRecovery -> dmc.inpACASRecovery;
+gfm_to_decider: port gfm.gfRequested -> dmc.inpGFM;
+wxm_to_decider: port wxm.wxRequested -> dmc.inpWxM;
+flsm_to_decider: port flsm.landingRequested -> dmc.inpFLS;
+dec_to_switch: port dmc.outDec -> swt.inpDecider;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Aviate_Decider",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Aviate_Decider.Aviate_Decider_impl",
+      "kind": "process implementation",
+      "type_name": "Aviate_Decider"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "Aviate_Decider.Aviate_Decider_impl",
+      "name": "dmc",
+      "category": "process",
+      "classifier": "Aviate_Decider"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpGCASM",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpGCASImpact",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpGCASRecovery",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpSAM",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpACASM",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpACASImpact",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpACASRecovery",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpGFM",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpWxM",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "inpFLS",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Aviate_Decider",
+      "name": "outDec",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::integer",
+      "scalar": "opaque"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Mix_1'.",
+      "cause": "Mix_1 is a subcomponent, not a visible identifier in the component type context",
+      "minimal_edit": "Replace Mix_1.Port_1 with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Port_1'.",
+      "cause": "Port_1 is a feature, not a boolean expression in the component type context",
+      "minimal_edit": "Replace Port_1 with a valid boolean expression using only visible symbols"
+    },
+    {
+      "diagnostic": "left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression on left side of implication",
+      "minimal_edit": "Replace with valid boolean expression"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in guarantee",
+      "minimal_edit": "Replace with valid boolean expression"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression on right side of implication",
+      "minimal_edit": "Replace with valid boolean expression"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Mix_2'.",
+      "cause": "Mix_2 is a subcomponent, not a visible identifier in the component type context",
+      "minimal_edit": "Replace Mix_2.Port_2 with a valid expression using only visible symbols"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Port_2'.",
+      "cause": "Port_2 is a feature, not a boolean expression in the component type context",
+      "minimal_edit": "Replace Port_2 with a valid boolean expression using only visible symbols"
+    },
+    {
+      "diagnostic": "left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression on left side of implication",
+      "minimal_edit": "Replace with valid boolean expression"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in guarantee",
+      "minimal_edit": "Replace with valid boolean expression"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression on right side of implication",
+      "minimal_edit": "Replace with valid boolean expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace Port_1 => Mix_1.Port_1 with a valid boolean expression using only visible symbols",
+    "Replace Port_2 => Mix_2.Port_2 with a valid boolean expression using only visible symbols",
+    "Since Port_1 and Port_2 are event ports, and Mix_1 and Mix_2 are abstract interfaces, no valid boolean expression can be formed using only visible symbols",
+    "Remove the entire annex block since it cannot be repaired with visible symbols",
+    "Move the annex block to the implementation level where subcomponents are visible"
+  ]
+}

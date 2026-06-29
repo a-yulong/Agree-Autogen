@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE assumptions and guarantees in valid component type scopes, not implementation scopes, unless binding to subcomponent ports.
+- Use component type annexes for assumptions, guarantees, constants, and equation declarations; use implementation annexes for assignments and bindings.
+Generic rules:
+- Align helper declaration types with actual expression types (bool, int, real) to avoid type mismatch diagnostics.
+- Do not invent numeric bounds (e.g., x >= 0) unless explicitly stated in the requirement.
+- Omit Boolean domain comparisons unless the port is explicitly an AGREE bool in scope.
+- Do not encode AADL timing properties (e.g., Deadline, Period) as AGREE expressions unless model exposes typed ports or constants.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Use exact Boolean expressions only when the port is an AGREE bool in scope.
+Anti-patterns:
+- Do not place implementation-level bindings in component type scopes unless they refer to valid variables or outputs.
+- Do not assume numeric types for ports without explicit requirement or AADL data type confirmation.
+</RAG_DIGEST>

@@ -1,0 +1,213 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: Target, Actuator_Input, Actual
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Target | in | data | opaque | Types::speed.speed_impl
+Actuator_Input | out | data | real | Base_Types::Float
+Actual | in | data | opaque | Types::speed.speed_impl
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Actuator_Input",
+        "Target",
+        "Actual"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "e = Target - Actual",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "Target",
+        "Actual"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "e_int = integral of e over time",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "e"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "e_dot = derivative of e with respect to time",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "e"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Speed_Control | lines 12-18
+annex agree {**
+		eq e : Types::speed.speed_impl = Target - Actual;
+		eq e_dot : real = derivative(e, time);
+		eq e_int : real = integral(e, time);
+		guarantee "actuator input follows PID control law": Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int;
+		guarantee "error definition": e = Target - Actual;
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   5: 	with Communication_Properties;
+   6: 
+   7: 	system Speed_Control
+   8: 		features
+>> 9: 			Target: in data port Types::speed.speed_impl;
+   10: 			Actuator_Input: out data port Base_Types::Float;
+   11: 			Actual: in data port Types::speed.speed_impl;
+   12: 	annex agree {**
+   13: 		eq e : Types::speed.speed_impl = Target - Actual;
+
+   7: 	system Speed_Control
+   8: 		features
+   9: 			Target: in data port Types::speed.speed_impl;
+   10: 			Actuator_Input: out data port Base_Types::Float;
+>> 11: 			Actual: in data port Types::speed.speed_impl;
+   12: 	annex agree {**
+   13: 		eq e : Types::speed.speed_impl = Target - Actual;
+   14: 		eq e_dot : real = derivative(e, time);
+   15: 		eq e_int : real = integral(e, time);
+
+   9: 			Target: in data port Types::speed.speed_impl;
+   10: 			Actuator_Input: out data port Base_Types::Float;
+   11: 			Actual: in data port Types::speed.speed_impl;
+   12: 	annex agree {**
+>> 13: 		eq e : Types::speed.speed_impl = Target - Actual;
+   14: 		eq e_dot : real = derivative(e, time);
+   15: 		eq e_int : real = integral(e, time);
+   16: 		guarantee "actuator input follows PID control law": Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int;
+   17: 		guarantee "error definition": e = Target - Actual;
+
+   10: 			Actuator_Input: out data port Base_Types::Float;
+   11: 			Actual: in data port Types::speed.speed_impl;
+   12: 	annex agree {**
+   13: 		eq e : Types::speed.speed_impl = Target - Actual;
+>> 14: 		eq e_dot : real = derivative(e, time);
+   15: 		eq e_int : real = integral(e, time);
+   16: 		guarantee "actuator input follows PID control law": Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int;
+   17: 		guarantee "error definition": e = Target - Actual;
+   18: 	**};
+
+   11: 			Actual: in data port Types::speed.speed_impl;
+   12: 	annex agree {**
+   13: 		eq e : Types::speed.speed_impl = Target - Actual;
+   14: 		eq e_dot : real = derivative(e, time);
+>> 15: 		eq e_int : real = integral(e, time);
+   16: 		guarantee "actuator input follows PID control law": Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int;
+   17: 		guarantee "error definition": e = Target - Actual;
+   18: 	**};
+   19: 	end Speed_Control;
+
+   12: 	annex agree {**
+   13: 		eq e : Types::speed.speed_impl = Target - Actual;
+   14: 		eq e_dot : real = derivative(e, time);
+   15: 		eq e_int : real = integral(e, time);
+>> 16: 		guarantee "actuator input follows PID control law": Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int;
+   17: 		guarantee "error definition": e = Target - Actual;
+   18: 	**};
+   19: 	end Speed_Control;
+   20: 
+
+   13: 		eq e : Types::speed.speed_impl = Target - Actual;
+   14: 		eq e_dot : real = derivative(e, time);
+   15: 		eq e_int : real = integral(e, time);
+   16: 		guarantee "actuator input follows PID control law": Actuator_Input = 1.0 * e + 0.0 * e_dot + 0.0 * e_int;
+>> 17: 		guarantee "error definition": e = Target - Actual;
+   18: 	**};
+   19: 	end Speed_Control;
+   20: 
+   21: 	system implementation Speed_Control.Speed_Control_Impl
+
+   23: 
+   24: 	system Throttle
+   25: 		features
+   26: 			Actuator_Input: in data port Base_Types::Float;
+>> 27: 			Actual: out data port Types::speed.speed_impl;
+   28: 	end Throttle;
+   29: 
+   30: 	system implementation Throttle.Throttle_Impl
+   31: 	end Throttle.Throttle_Impl;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Speed_Control
+system Speed_Control
+		features
+			Target: in data port Types::speed.speed_impl;
+			Actuator_Input: out data port Base_Types::Float;
+			Actual: in data port Types::speed.speed_impl;
+	end Speed_Control;
+
+-- TARGET DECLARATION: Speed_Control.Speed_Control_Impl
+system implementation Speed_Control.Speed_Control_Impl
+	end Speed_Control.Speed_Control_Impl;
+
+-- RELATED MODEL LINES
+system Speed_Control
+Target: in data port Types::speed.speed_impl;
+Actuator_Input: out data port Base_Types::Float;
+Actual: in data port Types::speed.speed_impl;
+end Speed_Control;
+system implementation Speed_Control.Speed_Control_Impl
+end Speed_Control.Speed_Control_Impl;
+Actuator_Input: in data port Base_Types::Float;
+Actual: out data port Types::speed.speed_impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Speed_Control",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Speed_Control.Speed_Control_Impl",
+      "kind": "system implementation",
+      "type_name": "Speed_Control"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Speed_Control",
+      "name": "Target",
+      "direction": "in",
+      "category": "data port",
+      "type": "Types::speed.speed_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Speed_Control",
+      "name": "Actuator_Input",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Speed_Control",
+      "name": "Actual",
+      "direction": "in",
+      "category": "data port",
+      "type": "Types::speed.speed_impl",
+      "scalar": "opaque"
+    }
+  ]
+}

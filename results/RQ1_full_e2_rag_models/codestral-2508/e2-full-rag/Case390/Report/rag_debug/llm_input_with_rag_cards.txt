@@ -1,0 +1,80 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assumptions in component type annexes and implementation-level bindings in implementation annexes
+- Use valid component type scopes for port references in assumptions and guarantees
+- Use implementation scopes for subcomponent bindings after relevant connections
+- Avoid subcomponent port references in component type contracts unless represented through variables or outputs
+- Use `annex agree {** ... **};` blocks for all AGREE contracts
+Generic rules:
+- Use `eq` for boolean range comparisons to maintain type consistency
+- Avoid range comparisons or 0/1 equality over Boolean, enumeration-like, or opaque data ports
+- Do not encode AADL property associations as AGREE expressions without explicit typed ports or constants
+- Use exact Boolean expressions only when the port is an AGREE bool in scope
+Syntax or pattern reminders:
+- Use `assume` for input assumptions and `guarantee` for output guarantees
+- Use `and` for combining multiple conditions in a single clause
+- Use `eq` for boolean range comparisons to maintain type consistency
+Anti-patterns:
+- Do not use subcomponent ports in component type contracts unless represented through variables or outputs
+- Do not encode AADL property associations as AGREE expressions without explicit typed ports or constants
+- Do not use range comparisons or 0/1 equality over Boolean, enumeration-like, or opaque data ports
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Beta1
+- Beta2
+- Beta3
+
+Target interface:
+Exact expression symbols: Beta1, Beta1.All_elems, Beta1.elem, Beta2, Beta2.All_elems, Beta2.elem, Beta3
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Beta1 | in | data | opaque | A_Struct.impl
+Beta1.All_elems | in | data_field | opaque | One_Dimension_Array
+Beta1.elem | in | data_field | int | Base_Types::Integer
+Beta2 | in | data | opaque | A_Struct.impl
+Beta2.All_elems | in | data_field | opaque | One_Dimension_Array
+Beta2.elem | in | data_field | int | Base_Types::Integer
+Beta3 | in | data | int | Base_Types::Integer
+
+Raw requirement:
+The B component shall operate under a bounded input condition for Beta3. The environment shall keep Beta3 greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Beta3 >= 0 and Beta3 <= 100",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "Beta3"
+      ]
+    }
+  ]
+}

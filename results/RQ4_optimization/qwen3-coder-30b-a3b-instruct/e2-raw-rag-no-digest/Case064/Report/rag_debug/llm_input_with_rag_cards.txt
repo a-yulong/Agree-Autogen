@@ -1,0 +1,140 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_CONTEXT>
+
+<KSYN_CARDS>
+
+[KSYN-1]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+- `assume "label": expression;` - `guarantee "label": expression;` - `eq name : type = expression;` - `const name : type = value;` - `assign output = expression;`
+
+[KSYN-2]
+Source: processed\ksyn\agree_syntax_notes.md
+Topic: agree_syntax_notes
+AGREE contracts are written inside `annex agree {** ... **};` blocks. Component type annexes are the normal location for assumptions, guarantees, constants, and equation declarations. Component implementation annexes are used for implementation-level bindings such as assignments when they are valid in that scope.
+
+[KSYN-3]
+Source: raw\ksyn\AADL_AS5506C.local_source.md
+Topic: AADL_AS5506C.local_source
+```yaml sources: aadl_as5506c_pdf: "<LOCAL_AADL_STANDARD>/AADL-2759780542AS5506C.pdf" ```
+
+</KSYN_CARDS>
+
+<KEXP_CARDS>
+
+
+
+</KEXP_CARDS>
+
+<KDEF_CARDS>
+
+[KDEF-1]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Assumed Type vs Actual Type
+If AGREE reports "The assumed type ... is ... but the actual type is ...", align the helper declaration type with the expression. Comparison expressions are bool; integer literals and integer arithmetic are int; real literals and real arithmetic are real. Recommended pattern: eq range_value : bool = x >= min_value and x <= max_value;
+
+[KDEF-2]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: AADL Property Names Are Not AGREE Variables chunk 1
+If diagnostics report unresolved references to Compute_Execution_Time, Deadline, Period, Priority, Dispatch_Protocol, Stack_Size, Code_Size, or unit tokens such as ms/us/Hz/Bytes inside an AGREE annex, delete the generated clause. AADL property associations are not automatically in AGREE expression scope as variables. Recommended pattern: Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants for the
+
+[KDEF-3]
+Source: processed\kdef\defensive_rules.jsonl
+Topic: Opaque Boolean Data Range Comparison
+If diagnostics point to range comparisons or 0/1 equality over Boolean, enumeration-like, or opaque data ports, remove the generated clause unless the requirement and AADL data representation provide a numeric scalar. Do not convert Boolean domain values into integers. Recommended pattern: Use exact Boolean expressions only when the port is an AGREE bool in scope; otherwise omit the unsafe clause.
+
+</KDEF_CARDS>
+
+</RAG_CONTEXT>
+
+Visible target-interface symbols:
+- Data_Sink
+
+Target interface:
+Exact expression symbols: Data_Sink
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_Sink | in | data | int | Simple_Type
+
+Raw requirement:
+The Q component shall define the implementation-level data routing and execution constraints for Q.Impl. In the implementation layer, Q.Impl shall route the data flow from Data_Sink to Q_Spg.Data_Sink through P1. The implementation shall use the Sporadic dispatch protocol, execute with a period of 10 Ms, meet a deadline of 10 Ms, and run at priority 1.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data_Sink is routed through P1 to Q_Spg.Data_Sink",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "Data_Sink",
+        "P1",
+        "Q_Spg.Data_Sink"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Q.Impl uses Dispatch_Protocol = Sporadic",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Dispatch_Protocol",
+        "Sporadic"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Q.Impl executes with Period = 10 Ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Period",
+        "10 Ms"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Q.Impl meets Deadline = 10 Ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "deadline",
+        "10 Ms"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Q.Impl runs at Priority = 1",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Priority",
+        "1"
+      ]
+    }
+  ]
+}

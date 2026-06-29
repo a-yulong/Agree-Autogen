@@ -1,0 +1,16 @@
+{
+  "problems": [
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "assumptions reference port names without proper type context in component type annex",
+      "minimal_edit": "Move the AGREE annex from ACCELERO component type to ACCELERO.IMPL component implementation"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from the ACCELERO component type",
+    "Add a new AGREE annex block to the ACCELERO.IMPL component implementation",
+    "In the new AGREE annex block, replace the assume statements with assign statements for the output ports",
+    "Ensure the assign statements reference only visible symbols from the implementation context"
+  ]
+}

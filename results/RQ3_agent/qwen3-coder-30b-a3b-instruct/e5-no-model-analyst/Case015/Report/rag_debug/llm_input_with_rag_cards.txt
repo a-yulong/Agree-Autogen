@@ -1,0 +1,153 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `guarantee` for behavior relations that specify system output constraints.
+- Place component type contracts in valid component type scopes, avoiding implementation-only subcomponent references.
+- Generate syntactically valid AGREE expressions using `and`, `or`, `not`, and implication `=>` for logical conditions.
+Generic rules:
+- Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.
+- Output dependency guarantees should relate visible outputs to visible inputs.
+- Assumptions and guarantees should use concrete bounds or named constants when specifying envelopes.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract clauses.
+- Use `eq name : type = expression;` for defining temporal or logical equations.
+- Use `const name : type = value;` for declaring constants with explicit types.
+Anti-patterns:
+- Do not reference AADL property names like Deadline or Period as AGREE variables.
+- Do not encode implementation-only subcomponent paths in component type contracts.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- autopilot
+- autopilot.autopilot_impl
+- VV
+- DeltaHeading
+- Airspeed
+- GCAS_Monitor
+- altitude
+- verticalVelocity
+- outImpact
+- outRecovery
+- gcasRequested
+- GCAS_Monitor.GCAS_Monitor_impl
+- ACAS_Monitor
+- latitude
+- longitude
+- distance
+- acasRequested
+- ACAS_Monitor.ACAS_Monitor_impl
+- SA_Monitor
+- horzDistance
+- vertDistance
+- saRequested
+- SA_Monitor.SA_Monitor_impl
+- GF_Monitor
+- gfRequested
+- GF_Monitor.GF_Monitor_impl
+- Wx_Monitor
+- wxRequested
+- Wx_Monitor.Wx_Monitor_impl
+- FLS_Monitor
+- linkConnection
+- landingRequested
+- Aviate_Decider
+- inpGCASM
+- inpGCASImpact
+- inpGCASRecovery
+- inpSAM
+- inpACASM
+- inpACASImpact
+- inpACASRecovery
+
+Target interface:
+Exact expression symbols: latitude, longitude, distance, outImpact, outRecovery, acasRequested
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+latitude | in | data | real | Base_Types::float
+longitude | in | data | real | Base_Types::float
+distance | in | data | real | Base_types::float
+outImpact | out | data | real | Base_Types::float
+outRecovery | out | data | real | Base_Types::float
+acasRequested | out | data | bool | Base_Types::Boolean
+
+Raw requirement:
+The ACAS_Monitor component shall set the system collision time constant to 8.0 and the recovery time constant to 5.0. When the value of the distance input port is less than or equal to 10.0 feet, the ACAS_Monitor component shall ensure that the acasRequested output port is true. During simulation, the value of the outImpact output port shall transition from 0.0 to the constant collision time constant value of 8.0, and the value of the outRecovery output port shall transition from 0.0 to the constant recovery time constant value of 5.0.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "ACAS_Monitor sets collision time constant to 8.0",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "ACAS_Monitor",
+        "collision time constant"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "ACAS_Monitor sets recovery time constant to 5.0",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "ACAS_Monitor",
+        "recovery time constant"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "When distance <= 10.0 feet, ACAS_Monitor ensures acasRequested = true",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "distance",
+        "acasRequested"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "During simulation, outImpact transitions from 0.0 to 8.0",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "outImpact",
+        "8.0"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "During simulation, outRecovery transitions from 0.0 to 5.0",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "outRecovery",
+        "5.0"
+      ]
+    }
+  ]
+}

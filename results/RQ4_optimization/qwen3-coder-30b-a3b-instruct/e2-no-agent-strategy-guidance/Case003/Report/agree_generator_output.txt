@@ -1,0 +1,9 @@
+annex agree {**
+  assume "time_to_failure_guarantee": timeToFailure = 9.5;
+  guarantee "distance_increasing_after_recovery": 
+    (timeToRecovery > 1.7) => (distanceFromFence > pre(distanceFromFence));
+  guarantee "time_step_definition": 
+    timeToRecovery = 0.1 * step;
+  guarantee "distance_computation": 
+    distanceFromFence = circleLinearization(timeToRecovery);
+**};

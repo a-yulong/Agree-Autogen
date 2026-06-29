@@ -1,0 +1,19 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE contracts must only reference identifiers and types that are explicitly visible in the current AADL scope.
+- Component type contracts should not include implementation-specific subcomponent paths or outputs unless properly abstracted.
+- Validator diagnostics pointing to invalid scope usage should be resolved by relocating or removing the problematic clauses.
+- Do not introduce package-qualified identifiers in AGREE code unless they are explicitly declared in the model's dependencies.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks and must be placed in appropriate annex scopes.
+- Use only visible AADL features or helper declarations within the same annex to avoid 'named thing must be an expression with a type' errors.
+- Implementation-level guarantees or assignments must reside in component implementation annexes, not type annexes.
+Anti-patterns:
+- Do not attempt to resolve missing identifiers by adding new architecture elements; instead, trace and correct the root cause.
+- Avoid placing implementation-specific references in component type annexes unless they are valid abstractions.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about property associations not pointing to anything
+- AGREE validator diagnostics
+- Requirement traceability and compact semantics
+- Model fusion and owner/scope preservation rules
+</RAG_DIGEST>

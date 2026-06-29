@@ -1,0 +1,220 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: Data_Sink
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_Sink | in | data | int | Simple_Type
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data_Sink is routed through P1 to Q_Spg.Data_Sink",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "Data_Sink",
+        "P1",
+        "Q_Spg.Data_Sink"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Q.Impl uses Dispatch_Protocol = Sporadic",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Dispatch_Protocol",
+        "Sporadic"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Q.Impl executes with Period = 10 Ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Period",
+        "10 Ms"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Q.Impl meets Deadline = 10 Ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "deadline",
+        "10 Ms"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Q.Impl runs at Priority = 1",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Priority",
+        "1"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Q.Impl | lines 78-83
+annex agree {**
+    guarantee "dispatch_protocol": Dispatch_Protocol = Sporadic;
+    guarantee "execution_period": Period = 10_ms;
+    guarantee "deadline_constraint": deadline = 10_ms;
+    guarantee "priority_level": Priority = 1;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   75:     Period                             => 10 Ms;
+   76:     deadline                           => 10 Ms;
+   77:     Priority                           => 1;
+   78:   annex agree {**
+>> 79:     guarantee "dispatch_protocol": Dispatch_Protocol = Sporadic;
+   80:     guarantee "execution_period": Period = 10_ms;
+   81:     guarantee "deadline_constraint": deadline = 10_ms;
+   82:     guarantee "priority_level": Priority = 1;
+   83:   **};
+
+   76:     deadline                           => 10 Ms;
+   77:     Priority                           => 1;
+   78:   annex agree {**
+   79:     guarantee "dispatch_protocol": Dispatch_Protocol = Sporadic;
+>> 80:     guarantee "execution_period": Period = 10_ms;
+   81:     guarantee "deadline_constraint": deadline = 10_ms;
+   82:     guarantee "priority_level": Priority = 1;
+   83:   **};
+   84:   end Q.Impl;
+
+   77:     Priority                           => 1;
+   78:   annex agree {**
+   79:     guarantee "dispatch_protocol": Dispatch_Protocol = Sporadic;
+   80:     guarantee "execution_period": Period = 10_ms;
+>> 81:     guarantee "deadline_constraint": deadline = 10_ms;
+   82:     guarantee "priority_level": Priority = 1;
+   83:   **};
+   84:   end Q.Impl;
+   85: 
+
+   78:   annex agree {**
+   79:     guarantee "dispatch_protocol": Dispatch_Protocol = Sporadic;
+   80:     guarantee "execution_period": Period = 10_ms;
+   81:     guarantee "deadline_constraint": deadline = 10_ms;
+>> 82:     guarantee "priority_level": Priority = 1;
+   83:   **};
+   84:   end Q.Impl;
+   85: 
+   86: end Software;
+
+[TARGET MODEL CONTEXT]
+-- TARGET DECLARATION: Q
+thread Q
+  features
+    Data_Sink : in event data port Simple_Type;
+  end Q;
+
+-- TARGET DECLARATION: Q.Impl
+thread implementation Q.Impl
+  calls
+    Mycalls: {
+    Q_Spg : subprogram Ping_Spg;
+    };
+  connections
+    P1 : parameter Data_Sink -> Q_Spg.Data_Sink;
+  properties
+    Dispatch_Protocol                  => Sporadic;
+    Period                             => 10 Ms;
+    deadline                           => 10 Ms;
+    Priority                           => 1;
+  end Q.Impl;
+
+-- RELATED MODEL LINES
+Data_Sink : in parameter Simple_Type;
+thread Q
+Data_Sink : in event data port Simple_Type;
+end Q;
+thread implementation Q.Impl
+P1 : parameter Data_Sink -> Q_Spg.Data_Sink;
+end Q.Impl;
+
+-- FOCUSED MODEL ANALYSIS
+{
+  "component_types": [
+    {
+      "name": "Q",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Q.Impl",
+      "kind": "thread implementation",
+      "type_name": "Q"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "Q.Impl",
+      "name": "Mycalls",
+      "category": "calls",
+      "classifier": "Q_Spg"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Q",
+      "name": "Data_Sink",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Simple_Type",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "Q.Impl",
+      "name": "P1",
+      "kind": "parameter",
+      "source": "Data_Sink",
+      "destination": "Q_Spg.Data_Sink"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Q.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Sporadic",
+      "applies_to": "Q.Impl"
+    },
+    {
+      "owner": "Q.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Period",
+      "value": "10 Ms",
+      "applies_to": "Q.Impl"
+    },
+    {
+      "owner": "Q.Impl",
+      "owner_kind": "thread implementation",
+      "name": "deadline",
+      "value": "10 Ms",
+      "applies_to": "Q.Impl"
+    },
+    {
+      "owner": "Q.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": "Q.Impl"
+    }
+  ]
+}
