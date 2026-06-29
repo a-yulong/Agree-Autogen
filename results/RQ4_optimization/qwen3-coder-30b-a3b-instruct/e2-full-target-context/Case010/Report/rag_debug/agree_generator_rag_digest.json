@@ -1,0 +1,31 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.",
+    "Place assumptions and guarantees in valid component type scopes when referring to ports, and in implementation scopes for bindings.",
+    "Generate AGREE contracts using logical operators (and, or, not, =>) and valid syntax for assume, guarantee, eq, const, and assign statements."
+  ],
+  "generic_rules": [
+    "For component type contracts, include input assumptions and output guarantees only when concrete bounds or named constants are provided.",
+    "Ensure output guarantees relate visible inputs to visible outputs, avoiding implementation-only subcomponent paths.",
+    "Use valid AGREE scalar types (int, real, bool) and align helper declaration types with expression types to prevent type mismatches.",
+    "Avoid encoding AADL timing properties (e.g., Deadline, Period) as AGREE variables unless explicit typed ports or constants are available."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `0.0 -> pre(t) + step` for stateful equations and nested `if ... then ... else` for conditional logic.",
+    "Declare constants with `const name : type = value;` and equations with `eq name : type = expression;`.",
+    "Place assumptions and guarantees in appropriate scopes: component type for ports, implementation for bindings.",
+    "Ensure AGREE expressions use valid scalar types (int, real, bool) and avoid unresolved AADL property references."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level bindings in component type scopes or use subcomponent ports in type-level contracts.",
+    "Avoid generating assumptions or guarantees without concrete bounds or visible relations in component types.",
+    "Do not encode AADL timing properties as AGREE variables unless the model exposes explicit typed ports or constants.",
+    "Do not use invalid AGREE scalar type names like 'integer' or 'boolean'; use 'int', 'real', or 'bool' instead."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing properties such as Deadline, Period, Stack_Size, etc.",
+    "Model traceability and requirement semantics",
+    "Component type structural extraction and implementation details",
+    "Validator-driven repair patterns and diagnostics"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "text": "The GCAS_singleton component maintains a real-valued recursive variable t with initial value 0.0 and step size 0.1",
+      "evidence": ["t", "0.0", "0.1"]
+    },
+    {
+      "id": "R2",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "The GCAS_singleton component defines the constant minHeightAllowed as 200.0",
+      "evidence": ["minHeightAllowed", "200.0"]
+    },
+    {
+      "id": "R3",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "text": "The GCAS_singleton component invokes the kinematicLinearization function from the gcas_nodes library, passing t as a parameter, to compute the height variable",
+      "evidence": ["kinematicLinearization", "t", "height"]
+    },
+    {
+      "id": "R4",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "text": "The GCAS_singleton component sets the output port timeToRecovery to the constant 3.7",
+      "evidence": ["timeToRecovery", "3.7"]
+    },
+    {
+      "id": "R5",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "When simulation time t reaches or exceeds 3.7, the computed height shall always be greater than minHeightAllowed",
+      "evidence": ["t", "3.7", "height", "minHeightAllowed"]
+    },
+    {
+      "id": "R6",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "When simulation time t reaches or exceeds 3.7, the current height shall be greater than the previous height to indicate a pull-up trend",
+      "evidence": ["t", "3.7", "height", "previous height"]
+    }
+  ]
+}

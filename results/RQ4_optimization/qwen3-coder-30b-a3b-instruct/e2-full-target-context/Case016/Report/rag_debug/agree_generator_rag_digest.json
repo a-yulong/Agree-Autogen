@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.",
+    "Place component type assumptions and guarantees in valid component type scopes, and implementation bindings in implementation scopes."
+  ],
+  "generic_rules": [
+    "Generate AGREE contracts using logical operators (and, or, not, =>) and ensure all expressions are type-compatible with int, real, or bool.",
+    "Relate visible outputs to visible inputs in output dependency guarantees; avoid implementation-only subcomponent paths in type contracts.",
+    "Use visible identifiers and named constants in assumptions and guarantees when concrete bounds or relations are provided.",
+    "Avoid encoding AADL timing properties (e.g., Deadline, Period) as AGREE variables unless explicitly exposed as typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract clauses.",
+    "Declare stateful variables with initialized recurrence like `0.0 -> pre(t) + step`.",
+    "Use `eq name : type = expression;` for equation declarations and `const name : type = value;` for constant declarations.",
+    "Ensure all AGREE variable references resolve to visible identifiers or declared types (int, real, bool)."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL property names (e.g., Deadline, Period) as AGREE variables unless they are explicitly typed in the model.",
+    "Do not place implementation-level bindings in component type scopes or use subcomponent ports in type-level contracts.",
+    "Do not use invalid scalar type names like 'integer' or 'boolean' in AGREE declarations; use 'int', 'real', or 'bool' instead.",
+    "Avoid generating assumptions or guarantees that do not reference visible identifiers or named constants."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing properties not exposed as typed ports or constants",
+    "Model traceability and requirement semantics",
+    "Component type vs. implementation scope boundaries in model fusion",
+    "Validator-driven repair patterns for minimal contract adjustments"
+  ]
+}

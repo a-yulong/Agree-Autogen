@@ -1,0 +1,14 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks within `annex agree {** ... **};` and place type-level assumptions/guarantees in component type annexes, implementation-level assignments in component implementation annexes
+- Use `assume` for input constraints and `guarantee` for output behavior, ensuring expressions reference only visible identifiers from the current component scope
+Generic rules:
+- Place signal flow contracts as guarantees relating visible inputs to outputs, avoiding implementation-only subcomponent paths in type annexes
+- Use `assign` only for output features or declared auxiliary variables in implementation scope, not in type scope
+Syntax or pattern reminders:
+- AGREE syntax uses `assume "label": expression;`, `guarantee "label": expression;`, `eq name : type = expression;`, and `const name : type = value;`
+- Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for assignments
+Anti-patterns:
+- Do not reference identifiers not visible in the current component scope, such as those from example models or invented names
+- Do not place guarantee statements in implementation scope or assume statements in type scope
+</RAG_DIGEST>

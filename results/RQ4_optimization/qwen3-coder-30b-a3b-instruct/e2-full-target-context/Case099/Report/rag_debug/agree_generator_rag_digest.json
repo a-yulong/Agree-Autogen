@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Use `assume` and `guarantee` statements to express signal flow dependencies between visible input/output features in the component scope.",
+    "Place `assign` statements in implementation annexes only for existing output features or declared auxiliary variables.",
+    "Write `assume` statements for input envelopes and `guarantee` statements for output ranges using visible feature names and concrete bounds."
+  ],
+  "generic_rules": [
+    "AGREE annex blocks must be scoped to their owning component declaration.",
+    "Only reference identifiers that are explicitly visible in the current component's AADL model.",
+    "Component type annexes should define assumptions and guarantees for input/output relationships, not implementation details.",
+    "Avoid encoding AADL properties like timing or resource constraints directly in AGREE expressions unless they are explicitly typed and visible."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for logical assertions.",
+    "Use `assign output = expression;` for binding implementation-level outputs to expressions.",
+    "Equations and constants are declared with `eq name : type = expression;` and `const name : type = value;`."
+  ],
+  "anti_patterns": [
+    "Do not reference identifiers not present in the current component's AADL model scope.",
+    "Do not place guarantee statements in implementation scope unless required by specific assignment rules.",
+    "Do not encode AADL timing or resource properties as AGREE variables without explicit visibility."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and their mapping to AGREE variables",
+    "Model fusion and component merging strategies",
+    "Validator diagnostics and repair actions"
+  ]
+}

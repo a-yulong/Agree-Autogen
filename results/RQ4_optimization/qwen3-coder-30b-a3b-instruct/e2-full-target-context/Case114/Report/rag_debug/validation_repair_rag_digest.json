@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by ensuring all identifiers are visible in the current scope before using them in AGREE contracts.",
+    "Resolve type mismatches by aligning expression types with declared helper types (int, real, bool) and avoiding <error> types in binary operations.",
+    "When encountering 'named thing must be an expression with a type' errors, trace and correct the first invalid reference on the same line."
+  ],
+  "generic_rules": [
+    "In AGREE contracts, only reference features or variables that are explicitly declared or visible in the current scope.",
+    "Use consistent scalar types (int, real, bool) in AGREE constant and equation declarations to prevent type resolution errors.",
+    "Avoid placing implementation-specific bindings in component type scopes; use implementation scopes for such constructs.",
+    "When generating AGREE code, ensure all identifiers and types are present in the original AADL model or its dependencies."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Assignments in implementation scopes should only reference existing output features or declared auxiliary variables.",
+    "Guarantee statements should relate visible inputs to visible outputs, not internal subcomponent paths.",
+    "Type mismatches in binary expressions require both sides to be of the same type (int, real, or bool)."
+  ],
+  "anti_patterns": [
+    "Do not reference identifiers that are not declared or visible in the current AADL scope within AGREE contracts.",
+    "Do not mix invalid or unresolved types (like <error>) in expressions without fixing the root cause.",
+    "Do not place implementation-level bindings in component type annexes unless they are valid variables or outputs."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "implementation scope output assign",
+    "type scope deterministic dependency guarantee"
+  ]
+}

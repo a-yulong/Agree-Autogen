@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: Couldn't resolve reference to 'acc_out_data_x'.",
+      "cause": "AGREE annex is attached to ACCELERO (component type), but acc_out_data_x and accelero_sub are not visible in the component type scope; they are only visible in ACCELERO.IMPL.",
+      "minimal_edit": "Move the annex block from ACCELERO to ACCELERO.IMPL"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: Couldn't resolve reference to 'accelero_sub'.",
+      "cause": "accelero_sub is a subcomponent of ACCELERO.IMPL, not ACCELERO; it is inaccessible in the component type annex.",
+      "minimal_edit": "Move the annex block from ACCELERO to ACCELERO.IMPL"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: named thing must be an expression with a type",
+      "cause": "References to acc_out_data_x and accelero_sub.acc_out_data_x are unresolved, so AGREE cannot infer types; the expression is syntactically invalid.",
+      "minimal_edit": "Move the annex block from ACCELERO to ACCELERO.IMPL"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the annex agree block from ACCELERO (lines 35-39)",
+    "Insert a new annex agree block inside ACCELERO.IMPL, immediately after its connections block and before its end statement",
+    "Rewrite the assume statements in the new annex to use only identifiers visible in ACCELERO.IMPL: acc_out_data_x = accelero_sub.acc_out_data_x; acc_out_data_y = accelero_sub.acc_out_data_y; acc_out_data_z = accelero_sub.acc_out_data_z;"
+  ]
+}

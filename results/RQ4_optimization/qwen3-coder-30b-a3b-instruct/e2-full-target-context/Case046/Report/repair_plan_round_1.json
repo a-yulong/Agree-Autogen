@@ -1,0 +1,49 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'mode'.",
+      "cause": "mode is not defined in the component type scope",
+      "minimal_edit": "Remove the mode reference from the guarantee statement"
+    },
+    {
+      "diagnostic": "line 32: The variable 'A_sub' on the left side of equation is of type '<error>' but must be of type 'int'",
+      "cause": "A_sub is a subcomponent, not a variable",
+      "minimal_edit": "Remove the equation referencing A_sub.Input"
+    },
+    {
+      "diagnostic": "line 33: Couldn't resolve reference to 'Output'.",
+      "cause": "Output is a port, not a variable in this context",
+      "minimal_edit": "Remove the equation referencing B_sub.Input"
+    },
+    {
+      "diagnostic": "line 34: Couldn't resolve reference to 'Output'.",
+      "cause": "Output is a port, not a variable in this context",
+      "minimal_edit": "Remove the equation referencing C_sub.Input1"
+    },
+    {
+      "diagnostic": "line 35: Couldn't resolve reference to 'Output'.",
+      "cause": "Output is a port, not a variable in this context",
+      "minimal_edit": "Remove the equation referencing C_sub.Input2"
+    },
+    {
+      "diagnostic": "line 36: Couldn't resolve reference to 'Output'.",
+      "cause": "Output is a port, not a variable in this context",
+      "minimal_edit": "Remove the equation referencing Output"
+    },
+    {
+      "diagnostic": "line 37: Couldn't resolve reference to 'mode'.",
+      "cause": "mode is not defined in the component type scope",
+      "minimal_edit": "Remove the equation referencing C_sub.mode"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee statement 'mode >= 0' from the AGREE annex",
+    "Remove the equation 'eq A_sub.Input : int = Input;' from the AGREE annex",
+    "Remove the equation 'eq B_sub.Input : int = A_sub.Output;' from the AGREE annex",
+    "Remove the equation 'eq C_sub.Input1 : int = A_sub.Output;' from the AGREE annex",
+    "Remove the equation 'eq C_sub.Input2 : int = B_sub.Output;' from the AGREE annex",
+    "Remove the equation 'eq Output : int = C_sub.Output;' from the AGREE annex",
+    "Remove the equation 'eq C_sub.mode : int = top_level.mode;' from the AGREE annex"
+  ]
+}

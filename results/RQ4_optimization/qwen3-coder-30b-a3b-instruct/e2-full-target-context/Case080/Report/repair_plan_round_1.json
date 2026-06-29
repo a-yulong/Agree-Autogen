@@ -1,0 +1,46 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 21: Couldn't resolve reference to 'Software_lf::Task'.",
+      "cause": "AGREE cannot reference AADL component types directly in guarantees",
+      "minimal_edit": "Replace Software_lf::Task with a valid AGREE expression or remove the guarantee"
+    },
+    {
+      "diagnostic": "line 21: Couldn't resolve reference to 'impl_1'.",
+      "cause": "AGREE cannot reference AADL implementation names directly in guarantees",
+      "minimal_edit": "Replace Software_lf::Task.impl_1 with a valid AGREE expression or remove the guarantee"
+    },
+    {
+      "diagnostic": "line 21: named thing must be an expression with a type",
+      "cause": "Invalid expression in guarantee clause",
+      "minimal_edit": "Rewrite guarantee to use valid AGREE syntax or remove it"
+    },
+    {
+      "diagnostic": "line 22: Couldn't resolve reference to 'Background'.",
+      "cause": "AGREE cannot reference AADL property values directly",
+      "minimal_edit": "Replace Background with a valid AGREE constant or remove the assumption"
+    },
+    {
+      "diagnostic": "line 22: Couldn't resolve reference to 'Software_lf::Task'.",
+      "cause": "AGREE cannot reference AADL component types directly in assumptions",
+      "minimal_edit": "Replace Software_lf::Task with a valid AGREE expression or remove the assumption"
+    },
+    {
+      "diagnostic": "line 22: Couldn't resolve reference to 'impl_1'.",
+      "cause": "AGREE cannot reference AADL implementation names directly in assumptions",
+      "minimal_edit": "Replace Software_lf::Task.impl_1 with a valid AGREE expression or remove the assumption"
+    },
+    {
+      "diagnostic": "line 22: named thing must be an expression with a type",
+      "cause": "Invalid expression in assumption clause",
+      "minimal_edit": "Rewrite assumption to use valid AGREE syntax or remove it"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from the Task component type to the Task.impl_1 implementation",
+    "Replace the guarantee with a valid AGREE expression or remove it",
+    "Replace the assumption with a valid AGREE expression or remove it",
+    "Ensure all references in the AGREE annex use only visible identifiers from the model"
+  ]
+}

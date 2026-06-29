@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Place AGREE assumptions and guarantees in component type annexes when they refer to visible ports and data types.",
+    "Use visible identifiers from the AADL model to define assumptions and guarantees; avoid implementation-specific references in type contracts."
+  ],
+  "generic_rules": [
+    "Declare helper variables with explicit types to match the expected data types in AGREE expressions.",
+    "Ensure that all referenced identifiers in AGREE contracts are visible in the current scope and match their AADL definitions.",
+    "Write assumptions and guarantees using only the data types and port directions available in the component type scope.",
+    "Avoid encoding AADL properties such as timing or resource constraints directly in AGREE expressions unless explicitly exposed as typed variables."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `eq` for defining helper boolean expressions and ensure type consistency in comparisons.",
+    "Guarantees should relate visible outputs to visible inputs; avoid subcomponent paths in type-level contracts.",
+    "Assumptions should be placed in component type annexes when they involve input port constraints."
+  ],
+  "anti_patterns": [
+    "Do not reference implementation-specific subcomponents or ports in a component type AGREE contract.",
+    "Do not attempt to encode AADL timing or resource properties as AGREE variables unless they are explicitly typed and visible.",
+    "Do not generate assumptions or guarantees for Boolean or opaque data types unless the AADL model exposes numeric scalar representations."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and their mapping to AGREE variables",
+    "Implementation-level bindings and subcomponent port usage",
+    "Validator diagnostics and repair actions"
+  ]
+}

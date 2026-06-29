@@ -1,0 +1,53 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 182: Couldn't resolve reference to 'ACC_PC1'.",
+      "cause": "ACC_PC1 is a connection in ATTITUDE.IMPL, not visible in ATTITUDE_CALCULATION type scope where the annex is placed",
+      "minimal_edit": "remove assume \"acc_x routing\": acc_in_data_x = ACC_PC1;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 183: Couldn't resolve reference to 'ACC_PC2'.",
+      "cause": "ACC_PC2 is a connection in ATTITUDE.IMPL, not visible in ATTITUDE_CALCULATION type scope where the annex is placed",
+      "minimal_edit": "remove assume \"acc_y routing\": acc_in_data_y = ACC_PC2;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 184: Couldn't resolve reference to 'ACC_PC1'.",
+      "cause": "ACC_PC1 is not visible in ATTITUDE_CALCULATION type scope",
+      "minimal_edit": "remove guarantee \"attitude_x flow\": ACC_PC1 = attitude_sub.acc_in_data_x;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 184: Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "acc_in_data_x is a port of ATTITUDE_CALCULATION type, but AGREE cannot directly relate it to ACC_PC1 which is in a different scope",
+      "minimal_edit": "remove guarantee \"attitude_x flow\": ACC_PC1 = attitude_sub.acc_in_data_x;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 184: Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "attitude_sub is a subprogram call within ATTITUDE_CALCULATION.IMPL, not visible in the type-level annex",
+      "minimal_edit": "remove guarantee \"attitude_x flow\": ACC_PC1 = attitude_sub.acc_in_data_x;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 185: Couldn't resolve reference to 'ACC_PC2'.",
+      "cause": "ACC_PC2 is not visible in ATTITUDE_CALCULATION type scope",
+      "minimal_edit": "remove guarantee \"attitude_y flow\": ACC_PC2 = attitude_sub.acc_in_data_y;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 185: Couldn't resolve reference to 'acc_in_data_y'.",
+      "cause": "acc_in_data_y is a port of ATTITUDE_CALCULATION type, but AGREE cannot directly relate it to ACC_PC2 which is in a different scope",
+      "minimal_edit": "remove guarantee \"attitude_y flow\": ACC_PC2 = attitude_sub.acc_in_data_y;"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 185: Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "attitude_sub is a subprogram call within ATTITUDE_CALCULATION.IMPL, not visible in the type-level annex",
+      "minimal_edit": "remove guarantee \"attitude_y flow\": ACC_PC2 = attitude_sub.acc_in_data_y;"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the entire annex agree block from ATTITUDE_CALCULATION type",
+    "Add a new annex agree block to ATTITUDE_CALCULATION.IMPL implementation",
+    "In the new implementation annex, use only visible symbols: acc_in_data_x, acc_in_data_y, attitude_sub.acc_in_data_x, attitude_sub.acc_in_data_y",
+    "Write assume clauses for input port consistency: assume \"acc_x input valid\": acc_in_data_x = attitude_sub.acc_in_data_x;",
+    "Write assume clauses for input port consistency: assume \"acc_y input valid\": acc_in_data_y = attitude_sub.acc_in_data_y;",
+    "Do not reference ACC_PC1 or ACC_PC2 in AGREE since they are implementation-level connections not visible in this scope"
+  ]
+}

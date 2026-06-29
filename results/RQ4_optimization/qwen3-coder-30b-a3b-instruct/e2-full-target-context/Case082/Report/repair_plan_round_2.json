@@ -1,0 +1,14 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 48: Couldn't resolve reference to 'Mix_1'.",
+      "cause": "Mix_1 and Mix_2 are subcomponents of Mixin.impl, not visible in Mixin type scope where annex is declared",
+      "minimal_edit": "Remove both guarantee statements since they reference subcomponent ports not visible in component type scope"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the entire annex agree block from the Mixin component type (lines 47-50)",
+    "Do not add any new annexes or rewrite expressions using Mix_1.Port_1 or Mix_2.Port_2 as they are not visible in this scope"
+  ]
+}

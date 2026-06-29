@@ -1,0 +1,1304 @@
+{
+  "component_types": [
+    {
+      "name": "DMS::door_management",
+      "kind": "system"
+    },
+    {
+      "name": "DMS::door",
+      "kind": "device"
+    },
+    {
+      "name": "DMS::LGS",
+      "kind": "device"
+    },
+    {
+      "name": "DMS::DPS",
+      "kind": "device"
+    },
+    {
+      "name": "DMS::OCU",
+      "kind": "device"
+    },
+    {
+      "name": "DMS::FWS",
+      "kind": "device"
+    },
+    {
+      "name": "DMS::ECAM",
+      "kind": "device"
+    },
+    {
+      "name": "DMS::doors_process",
+      "kind": "process"
+    },
+    {
+      "name": "DMS::door_handler",
+      "kind": "thread"
+    },
+    {
+      "name": "DMS::doors_int",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "DMS::door_management.imp",
+      "kind": "system",
+      "type_name": "DMS::door_management"
+    },
+    {
+      "name": "DMS::door.imp",
+      "kind": "device",
+      "type_name": "DMS::door"
+    },
+    {
+      "name": "DMS::LGS.imp",
+      "kind": "device",
+      "type_name": "DMS::LGS"
+    },
+    {
+      "name": "DMS::DPS.imp",
+      "kind": "device",
+      "type_name": "DMS::DPS"
+    },
+    {
+      "name": "DMS::OCU.imp",
+      "kind": "device",
+      "type_name": "DMS::OCU"
+    },
+    {
+      "name": "DMS::FWS.imp",
+      "kind": "device",
+      "type_name": "DMS::FWS"
+    },
+    {
+      "name": "DMS::ECAM.imp",
+      "kind": "device",
+      "type_name": "DMS::ECAM"
+    },
+    {
+      "name": "DMS::doors_process.imp",
+      "kind": "process",
+      "type_name": "DMS::doors_process"
+    },
+    {
+      "name": "DMS::door_handler.imp",
+      "kind": "thread",
+      "type_name": "DMS::door_handler"
+    },
+    {
+      "name": "DMS::doors_int.imp",
+      "kind": "thread",
+      "type_name": "DMS::doors_int"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "door1",
+      "category": "device",
+      "classifier": "DMS::door.imp"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "door2",
+      "category": "device",
+      "classifier": "DMS::door.imp"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "lgs",
+      "category": "device",
+      "classifier": "DMS::LGS.imp"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "dps",
+      "category": "device",
+      "classifier": "DMS::DPS.imp"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "ocu",
+      "category": "device",
+      "classifier": "DMS::OCU.imp"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "fws",
+      "category": "device",
+      "classifier": "DMS::FWS.imp"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "ecam",
+      "category": "device",
+      "classifier": "DMS::ECAM.imp"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "process_door",
+      "category": "process",
+      "classifier": "DMS::doors_process.imp"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "door1",
+      "category": "thread",
+      "classifier": "DMS::door_handler.imp"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "door2",
+      "category": "thread",
+      "classifier": "DMS::door_handler.imp"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "doors_mix",
+      "category": "thread",
+      "classifier": "DMS::doors_int.imp"
+    }
+  ],
+  "features": [
+    {
+      "owner": "DMS::door",
+      "name": "handle_position",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door",
+      "name": "closed",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door",
+      "name": "latched",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door",
+      "name": "locked",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door",
+      "name": "swivel",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door",
+      "name": "de_arrest",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door",
+      "name": "lock",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door",
+      "name": "warn_diff_pres",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door",
+      "name": "warn_slide",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::LGS",
+      "name": "in_flight1",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::LGS",
+      "name": "on_ground1",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::LGS",
+      "name": "engine_running1",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::LGS",
+      "name": "emergency_evacuation1",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::LGS",
+      "name": "in_flight2",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::LGS",
+      "name": "on_ground2",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::LGS",
+      "name": "engine_running2",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::LGS",
+      "name": "emergency_evacuation2",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::DPS",
+      "name": "dps1",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::DPS",
+      "name": "dps2",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::OCU",
+      "name": "cll",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::FWS",
+      "name": "wrn_door1",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::FWS",
+      "name": "wrn_door2",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::ECAM",
+      "name": "info_door1",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::ECAM",
+      "name": "info_door2",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D1_handle_position",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D1_closed",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D1_latched",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D1_locked",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D1_swivel",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D1_de_arrest",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D1_lock",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D1_warn_diff_pres",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D1_warn_slide",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D1_in_flight",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D1_on_ground",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D1_engine_running",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D1_emergency_evacuation",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D1_dps",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D1_warning_info",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D1_ecam_info",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D2_handle_position",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D2_closed",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D2_latched",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D2_locked",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D2_swivel",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D2_de_arrest",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D2_lock",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D2_warn_diff_pres",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D2_warn_slide",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D2_in_flight",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D2_on_ground",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D2_engine_running",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D2_emergency_evacuation",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D2_warning_info",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D2_ecam_info",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "D2_dps",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_process",
+      "name": "Mix_cll",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door_handler",
+      "name": "handle_position",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door_handler",
+      "name": "closed",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door_handler",
+      "name": "latched",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door_handler",
+      "name": "locked",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door_handler",
+      "name": "swivel",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door_handler",
+      "name": "de_arrest",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door_handler",
+      "name": "lock",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door_handler",
+      "name": "warn_diff_pres",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door_handler",
+      "name": "warn_slide",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door_handler",
+      "name": "in_flight",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door_handler",
+      "name": "on_ground",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door_handler",
+      "name": "engine_running",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door_handler",
+      "name": "emergency_evacuation",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door_handler",
+      "name": "dps",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door_handler",
+      "name": "door_locked",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door_handler",
+      "name": "warning_info",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::door_handler",
+      "name": "ecam_info",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_int",
+      "name": "door1",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_int",
+      "name": "door2",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "DMS::doors_int",
+      "name": "cll",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::boolean",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD11",
+      "kind": "port",
+      "source": "DMS::door1.handle_position",
+      "destination": "DMS::process_door.D1_handle_position"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD12",
+      "kind": "port",
+      "source": "DMS::door1.closed",
+      "destination": "DMS::process_door.D1_closed"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD102",
+      "kind": "port",
+      "source": "DMS::door1.latched",
+      "destination": "DMS::process_door.D1_latched"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD13",
+      "kind": "port",
+      "source": "DMS::door1.locked",
+      "destination": "DMS::process_door.D1_locked"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD14",
+      "kind": "port",
+      "source": "DMS::process_door.D1_swivel",
+      "destination": "DMS::door1.swivel"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD15",
+      "kind": "port",
+      "source": "DMS::process_door.D1_de_arrest",
+      "destination": "DMS::door1.de_arrest"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD16",
+      "kind": "port",
+      "source": "DMS::process_door.D1_lock",
+      "destination": "DMS::door1.lock"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD17",
+      "kind": "port",
+      "source": "DMS::process_door.D1_warn_diff_pres",
+      "destination": "DMS::door1.warn_diff_pres"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD18",
+      "kind": "port",
+      "source": "DMS::process_door.D1_warn_slide",
+      "destination": "DMS::door1.warn_slide"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD19",
+      "kind": "port",
+      "source": "DMS::lgs.in_flight1",
+      "destination": "DMS::process_door.D1_in_flight"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD110",
+      "kind": "port",
+      "source": "DMS::lgs.on_ground1",
+      "destination": "DMS::process_door.D1_on_ground"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD111",
+      "kind": "port",
+      "source": "DMS::lgs.engine_running1",
+      "destination": "DMS::process_door.D1_engine_running"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD112",
+      "kind": "port",
+      "source": "DMS::lgs.emergency_evacuation1",
+      "destination": "DMS::process_door.D1_emergency_evacuation"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD113",
+      "kind": "port",
+      "source": "DMS::process_door.D1_ecam_info",
+      "destination": "DMS::ecam.info_door1"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD114",
+      "kind": "port",
+      "source": "DMS::process_door.D1_warning_info",
+      "destination": "DMS::fws.wrn_door1"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD116",
+      "kind": "port",
+      "source": "DMS::dps.dps1",
+      "destination": "DMS::process_door.D1_dps"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD21",
+      "kind": "port",
+      "source": "DMS::door2.handle_position",
+      "destination": "DMS::process_door.D2_handle_position"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD22",
+      "kind": "port",
+      "source": "DMS::door2.closed",
+      "destination": "DMS::process_door.D2_closed"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD202",
+      "kind": "port",
+      "source": "DMS::door2.latched",
+      "destination": "DMS::process_door.D2_latched"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD23",
+      "kind": "port",
+      "source": "DMS::door2.locked",
+      "destination": "DMS::process_door.D2_locked"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD24",
+      "kind": "port",
+      "source": "DMS::process_door.D2_swivel",
+      "destination": "DMS::door2.swivel"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD25",
+      "kind": "port",
+      "source": "DMS::process_door.D2_de_arrest",
+      "destination": "DMS::door2.de_arrest"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD26",
+      "kind": "port",
+      "source": "DMS::process_door.D2_lock",
+      "destination": "DMS::door2.lock"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD27",
+      "kind": "port",
+      "source": "DMS::process_door.D2_warn_diff_pres",
+      "destination": "DMS::door2.warn_diff_pres"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD28",
+      "kind": "port",
+      "source": "DMS::process_door.D2_warn_slide",
+      "destination": "DMS::door2.warn_slide"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD29",
+      "kind": "port",
+      "source": "DMS::lgs.in_flight2",
+      "destination": "DMS::process_door.D2_in_flight"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD210",
+      "kind": "port",
+      "source": "DMS::lgs.on_ground2",
+      "destination": "DMS::process_door.D2_on_ground"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD211",
+      "kind": "port",
+      "source": "DMS::lgs.engine_running2",
+      "destination": "DMS::process_door.D2_engine_running"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD212",
+      "kind": "port",
+      "source": "DMS::lgs.emergency_evacuation2",
+      "destination": "DMS::process_door.D2_emergency_evacuation"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD213",
+      "kind": "port",
+      "source": "DMS::process_door.D2_warning_info",
+      "destination": "DMS::fws.wrn_door2"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD214",
+      "kind": "port",
+      "source": "DMS::process_door.D2_ecam_info",
+      "destination": "DMS::ecam.info_door2"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connPD216",
+      "kind": "port",
+      "source": "DMS::dps.dps2",
+      "destination": "DMS::process_door.D2_dps"
+    },
+    {
+      "owner": "DMS::door_management.imp",
+      "name": "connMix",
+      "kind": "port",
+      "source": "DMS::process_door.Mix_cll",
+      "destination": "DMS::ocu.cll"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD11",
+      "kind": "port",
+      "source": "DMS::doors_process.D1_handle_position",
+      "destination": "DMS::door1.handle_position"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD12",
+      "kind": "port",
+      "source": "DMS::doors_process.D1_closed",
+      "destination": "DMS::door1.closed"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD102",
+      "kind": "port",
+      "source": "DMS::doors_process.D1_latched",
+      "destination": "DMS::door1.latched"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD13",
+      "kind": "port",
+      "source": "DMS::doors_process.D1_locked",
+      "destination": "DMS::door1.locked"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD14",
+      "kind": "port",
+      "source": "DMS::door1.swivel",
+      "destination": "DMS::doors_process.D1_swivel"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD15",
+      "kind": "port",
+      "source": "DMS::door1.de_arrest",
+      "destination": "DMS::doors_process.D1_de_arrest"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD16",
+      "kind": "port",
+      "source": "DMS::door1.lock",
+      "destination": "DMS::doors_process.D1_lock"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD17",
+      "kind": "port",
+      "source": "DMS::door1.warn_diff_pres",
+      "destination": "DMS::doors_process.D1_warn_diff_pres"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD18",
+      "kind": "port",
+      "source": "DMS::door1.warn_slide",
+      "destination": "DMS::doors_process.D1_warn_slide"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD19",
+      "kind": "port",
+      "source": "DMS::doors_process.D1_in_flight",
+      "destination": "DMS::door1.in_flight"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD110",
+      "kind": "port",
+      "source": "DMS::doors_process.D1_on_ground",
+      "destination": "DMS::door1.on_ground"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD111",
+      "kind": "port",
+      "source": "DMS::doors_process.D1_engine_running",
+      "destination": "DMS::door1.engine_running"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD112",
+      "kind": "port",
+      "source": "DMS::doors_process.D1_emergency_evacuation",
+      "destination": "DMS::door1.emergency_evacuation"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD113",
+      "kind": "port",
+      "source": "DMS::door1.warning_info",
+      "destination": "DMS::doors_process.D1_warning_info"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD114",
+      "kind": "port",
+      "source": "DMS::door1.ecam_info",
+      "destination": "DMS::doors_process.D1_ecam_info"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD116",
+      "kind": "port",
+      "source": "DMS::doors_process.D1_dps",
+      "destination": "DMS::door1.dps"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD21",
+      "kind": "port",
+      "source": "DMS::doors_process.D2_handle_position",
+      "destination": "DMS::door2.handle_position"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD22",
+      "kind": "port",
+      "source": "DMS::doors_process.D2_closed",
+      "destination": "DMS::door2.closed"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD202",
+      "kind": "port",
+      "source": "DMS::doors_process.D2_latched",
+      "destination": "DMS::door2.latched"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD23",
+      "kind": "port",
+      "source": "DMS::doors_process.D2_locked",
+      "destination": "DMS::door2.locked"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD24",
+      "kind": "port",
+      "source": "DMS::door2.swivel",
+      "destination": "DMS::doors_process.D2_swivel"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD25",
+      "kind": "port",
+      "source": "DMS::door2.de_arrest",
+      "destination": "DMS::doors_process.D2_de_arrest"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD26",
+      "kind": "port",
+      "source": "DMS::door2.lock",
+      "destination": "DMS::doors_process.D2_lock"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD27",
+      "kind": "port",
+      "source": "DMS::door2.warn_diff_pres",
+      "destination": "DMS::doors_process.D2_warn_diff_pres"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD28",
+      "kind": "port",
+      "source": "DMS::door2.warn_slide",
+      "destination": "DMS::doors_process.D2_warn_slide"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD29",
+      "kind": "port",
+      "source": "DMS::doors_process.D2_in_flight",
+      "destination": "DMS::door2.in_flight"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD210",
+      "kind": "port",
+      "source": "DMS::doors_process.D2_on_ground",
+      "destination": "DMS::door2.on_ground"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD211",
+      "kind": "port",
+      "source": "DMS::doors_process.D2_engine_running",
+      "destination": "DMS::door2.engine_running"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD212",
+      "kind": "port",
+      "source": "DMS::doors_process.D2_emergency_evacuation",
+      "destination": "DMS::door2.emergency_evacuation"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD213",
+      "kind": "port",
+      "source": "DMS::door2.warning_info",
+      "destination": "DMS::doors_process.D2_warning_info"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD214",
+      "kind": "port",
+      "source": "DMS::door2.ecam_info",
+      "destination": "DMS::doors_process.D2_ecam_info"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD216",
+      "kind": "port",
+      "source": "DMS::doors_process.D2_dps",
+      "destination": "DMS::door2.dps"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connMix",
+      "kind": "port",
+      "source": "DMS::doors_int.cll",
+      "destination": "DMS::doors_process.Mix_cll"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD218",
+      "kind": "port",
+      "source": "DMS::door2.door_locked",
+      "destination": "DMS::doors_int.door2"
+    },
+    {
+      "owner": "DMS::doors_process.imp",
+      "name": "connD118",
+      "kind": "port",
+      "source": "DMS::door1.door_locked",
+      "destination": "DMS::doors_int.door1"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "DMS::door_handler.imp",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "DMS::door_handler.imp"
+    },
+    {
+      "owner": "DMS::door_handler.imp",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 20 ms",
+      "applies_to": "DMS::door_handler.imp"
+    },
+    {
+      "owner": "DMS::door_handler.imp",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "50 Ms",
+      "applies_to": "DMS::door_handler.imp"
+    },
+    {
+      "owner": "DMS::doors_int.imp",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "DMS::doors_int.imp"
+    },
+    {
+      "owner": "DMS::doors_int.imp",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 5 ms",
+      "applies_to": "DMS::doors_int.imp"
+    },
+    {
+      "owner": "DMS::doors_int.imp",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "50 Ms",
+      "applies_to": "DMS::doors_int.imp"
+    }
+  ]
+}

@@ -1,0 +1,801 @@
+{
+  "component_types": [
+    {
+      "name": "PartitionedSystemExample::integer",
+      "kind": "data"
+    },
+    {
+      "name": "PartitionedSystemExample::ordercmd",
+      "kind": "data"
+    },
+    {
+      "name": "PartitionedSystemExample::protected_data",
+      "kind": "data"
+    },
+    {
+      "name": "PartitionedSystemExample::partition1_rt",
+      "kind": "virtual processor"
+    },
+    {
+      "name": "PartitionedSystemExample::partition2_rt",
+      "kind": "virtual processor"
+    },
+    {
+      "name": "PartitionedSystemExample::sensor_temperature_spg",
+      "kind": "subprogram"
+    },
+    {
+      "name": "PartitionedSystemExample::sensor_receiveinput_spg",
+      "kind": "subprogram"
+    },
+    {
+      "name": "PartitionedSystemExample::commandboard_receiveinput_spg",
+      "kind": "subprogram"
+    },
+    {
+      "name": "PartitionedSystemExample::commandboard_printinfos_spg",
+      "kind": "subprogram"
+    },
+    {
+      "name": "PartitionedSystemExample::sensor_temperature_thread",
+      "kind": "thread"
+    },
+    {
+      "name": "PartitionedSystemExample::sensor_receiveinput_thread",
+      "kind": "thread"
+    },
+    {
+      "name": "PartitionedSystemExample::commandboard_receiveinput_thread",
+      "kind": "thread"
+    },
+    {
+      "name": "PartitionedSystemExample::commandboard_printinfos_thread",
+      "kind": "thread"
+    },
+    {
+      "name": "PartitionedSystemExample::partition1_process",
+      "kind": "process"
+    },
+    {
+      "name": "PartitionedSystemExample::partition2_process",
+      "kind": "process"
+    },
+    {
+      "name": "PartitionedSystemExample::powerpc",
+      "kind": "processor"
+    },
+    {
+      "name": "PartitionedSystemExample::partition1_memory",
+      "kind": "memory"
+    },
+    {
+      "name": "PartitionedSystemExample::partition2_memory",
+      "kind": "memory"
+    },
+    {
+      "name": "PartitionedSystemExample::main_memory",
+      "kind": "memory"
+    },
+    {
+      "name": "PartitionedSystemExample::arincsystem",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "PartitionedSystemExample::partition1_rt.impl",
+      "kind": "virtual processor implementation",
+      "type_name": "PartitionedSystemExample::partition1_rt"
+    },
+    {
+      "name": "PartitionedSystemExample::partition2_rt.impl",
+      "kind": "virtual processor implementation",
+      "type_name": "PartitionedSystemExample::partition2_rt"
+    },
+    {
+      "name": "PartitionedSystemExample::sensor_temperature_thread.impl",
+      "kind": "thread implementation",
+      "type_name": "PartitionedSystemExample::sensor_temperature_thread"
+    },
+    {
+      "name": "PartitionedSystemExample::partition1_process.impl",
+      "kind": "process implementation",
+      "type_name": "PartitionedSystemExample::partition1_process"
+    },
+    {
+      "name": "PartitionedSystemExample::partition2_process.impl",
+      "kind": "process implementation",
+      "type_name": "PartitionedSystemExample::partition2_process"
+    },
+    {
+      "name": "PartitionedSystemExample::powerpc.impl",
+      "kind": "processor implementation",
+      "type_name": "PartitionedSystemExample::powerpc"
+    },
+    {
+      "name": "PartitionedSystemExample::main_memory.impl",
+      "kind": "memory implementation",
+      "type_name": "PartitionedSystemExample::main_memory"
+    },
+    {
+      "name": "PartitionedSystemExample::arincsystem.impl",
+      "kind": "system implementation",
+      "type_name": "PartitionedSystemExample::arincsystem"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "PartitionedSystemExample::partition1_process.impl",
+      "name": "temperature",
+      "category": "thread",
+      "classifier": "PartitionedSystemExample::sensor_temperature_thread.impl"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition1_process.impl",
+      "name": "order",
+      "category": "thread",
+      "classifier": "PartitionedSystemExample::sensor_receiveinput_thread"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_process.impl",
+      "name": "receiver",
+      "category": "thread",
+      "classifier": "PartitionedSystemExample::commandboard_receiveinput_thread"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_process.impl",
+      "name": "printer",
+      "category": "thread",
+      "classifier": "PartitionedSystemExample::commandboard_printinfos_thread"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_process.impl",
+      "name": "sem",
+      "category": "data",
+      "classifier": "PartitionedSystemExample::protected_data"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_process.impl",
+      "name": "blackboard",
+      "category": "data",
+      "classifier": "PartitionedSystemExample::integer"
+    },
+    {
+      "owner": "PartitionedSystemExample::powerpc.impl",
+      "name": "part1",
+      "category": "virtual processor",
+      "classifier": "PartitionedSystemExample::partition1_rt.impl"
+    },
+    {
+      "owner": "PartitionedSystemExample::powerpc.impl",
+      "name": "part2",
+      "category": "virtual processor",
+      "classifier": "PartitionedSystemExample::partition2_rt.impl"
+    },
+    {
+      "owner": "PartitionedSystemExample::main_memory.impl",
+      "name": "part1mem",
+      "category": "memory",
+      "classifier": "PartitionedSystemExample::partition1_memory"
+    },
+    {
+      "owner": "PartitionedSystemExample::main_memory.impl",
+      "name": "part2mem",
+      "category": "memory",
+      "classifier": "PartitionedSystemExample::partition2_memory"
+    },
+    {
+      "owner": "PartitionedSystemExample::arincsystem.impl",
+      "name": "mem",
+      "category": "memory",
+      "classifier": "PartitionedSystemExample::main_memory.impl"
+    },
+    {
+      "owner": "PartitionedSystemExample::arincsystem.impl",
+      "name": "cpu",
+      "category": "processor",
+      "classifier": "PartitionedSystemExample::powerpc.impl"
+    },
+    {
+      "owner": "PartitionedSystemExample::arincsystem.impl",
+      "name": "partition1_pr",
+      "category": "process",
+      "classifier": "PartitionedSystemExample::partition1_process.impl"
+    },
+    {
+      "owner": "PartitionedSystemExample::arincsystem.impl",
+      "name": "partition2_pr",
+      "category": "process",
+      "classifier": "PartitionedSystemExample::partition2_process.impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "PartitionedSystemExample::sensor_temperature_thread",
+      "name": "tempout",
+      "direction": "out",
+      "category": "data port",
+      "type": "PartitionedSystemExample::integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_temperature_thread",
+      "name": "order",
+      "direction": "in",
+      "category": "event data port",
+      "type": "PartitionedSystemExample::ordercmd",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_receiveinput_thread",
+      "name": "commandin",
+      "direction": "in",
+      "category": "event data port",
+      "type": "PartitionedSystemExample::integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_receiveinput_thread",
+      "name": "order",
+      "direction": "out",
+      "category": "event data port",
+      "type": "PartitionedSystemExample::ordercmd",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_receiveinput_thread",
+      "name": "temp",
+      "direction": "in",
+      "category": "data port",
+      "type": "PartitionedSystemExample::integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_receiveinput_thread",
+      "name": "tempavg",
+      "direction": "requires",
+      "category": "data access",
+      "type": "PartitionedSystemExample::integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_receiveinput_thread",
+      "name": "newavg",
+      "direction": "out",
+      "category": "event port",
+      "type": "opaque",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_receiveinput_thread",
+      "name": "need_semaphore",
+      "direction": "requires",
+      "category": "data access",
+      "type": "PartitionedSystemExample::protected_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_printinfos_thread",
+      "name": "ordersensor",
+      "direction": "out",
+      "category": "event data port",
+      "type": "PartitionedSystemExample::integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_printinfos_thread",
+      "name": "tempavg",
+      "direction": "requires",
+      "category": "data access",
+      "type": "PartitionedSystemExample::integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_printinfos_thread",
+      "name": "newavg",
+      "direction": "in",
+      "category": "event port",
+      "type": "opaque",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_printinfos_thread",
+      "name": "need_semaphore",
+      "direction": "requires",
+      "category": "data access",
+      "type": "PartitionedSystemExample::protected_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition1_process",
+      "name": "queueingin",
+      "direction": "in",
+      "category": "event data port",
+      "type": "PartitionedSystemExample::integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition1_process",
+      "name": "samplingout",
+      "direction": "out",
+      "category": "data port",
+      "type": "PartitionedSystemExample::integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_process",
+      "name": "queueingout",
+      "direction": "out",
+      "category": "event data port",
+      "type": "PartitionedSystemExample::integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_process",
+      "name": "samplingin",
+      "direction": "in",
+      "category": "data port",
+      "type": "PartitionedSystemExample::integer",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "PartitionedSystemExample::partition1_process.impl",
+      "name": "bufferconnectionexample",
+      "kind": "port",
+      "source": "order.order",
+      "destination": "temperature.order"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition1_process.impl",
+      "name": "Po1",
+      "kind": "port",
+      "source": "queueingin",
+      "destination": "order.commandin"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition1_process.impl",
+      "name": "Po2",
+      "kind": "port",
+      "source": "temperature.tempout",
+      "destination": "samplingout"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_process.impl",
+      "name": "blackboardconnection1",
+      "kind": "data access",
+      "source": "blackboard",
+      "destination": "printer.tempavg"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_process.impl",
+      "name": "blackboardconnection2",
+      "kind": "data access",
+      "source": "blackboard",
+      "destination": "receiver.tempavg"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_process.impl",
+      "name": "eventconnectionexample",
+      "kind": "port",
+      "source": "receiver.newavg",
+      "destination": "printer.newavg"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_process.impl",
+      "name": "Po3",
+      "kind": "port",
+      "source": "printer.ordersensor",
+      "destination": "queueingout"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_process.impl",
+      "name": "Po4",
+      "kind": "port",
+      "source": "samplingin",
+      "destination": "receiver.temp"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_process.impl",
+      "name": "Po5",
+      "kind": "data access",
+      "source": "sem",
+      "destination": "receiver.need_semaphore"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_process.impl",
+      "name": "Po6",
+      "kind": "data access",
+      "source": "sem",
+      "destination": "printer.need_semaphore"
+    },
+    {
+      "owner": "PartitionedSystemExample::arincsystem.impl",
+      "name": "samplingconnection",
+      "kind": "port",
+      "source": "partition1_pr.samplingout",
+      "destination": "partition2_pr.samplingin"
+    },
+    {
+      "owner": "PartitionedSystemExample::arincsystem.impl",
+      "name": "queueingconnection",
+      "kind": "port",
+      "source": "partition2_pr.queueingout",
+      "destination": "partition1_pr.queueingin"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "PartitionedSystemExample::partition1_rt",
+      "owner_kind": "virtual processor",
+      "name": "Scheduling_Protocol",
+      "value": "(ROUND_ROBIN_PROTOCOL)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_rt",
+      "owner_kind": "virtual processor",
+      "name": "Scheduling_Protocol",
+      "value": "(POSIX_1003_HIGHEST_PRIORITY_FIRST_PROTOCOL)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_temperature_thread",
+      "owner_kind": "thread",
+      "name": "Initialize_Entrypoint",
+      "value": "classifier (PartitionedSystemExample::sensor_temperature_spg)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_temperature_thread",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "42",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_temperature_thread",
+      "owner_kind": "thread",
+      "name": "Source_Stack_Size",
+      "value": "100 Kbyte",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_temperature_thread",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "20 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_temperature_thread",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "10 ms .. 12 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_temperature_thread",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "40 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_temperature_thread",
+      "owner_kind": "thread",
+      "name": "ARINC653::HM_Errors",
+      "value": "(Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_temperature_thread",
+      "owner_kind": "thread",
+      "name": "ARINC653::HM_Process_Recovery_actions",
+      "value": "(Process_Restart, Process_Restart, Ignore, Ignore)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_receiveinput_thread",
+      "owner_kind": "thread",
+      "name": "Initialize_Entrypoint",
+      "value": "classifier (PartitionedSystemExample::sensor_receiveinput_spg)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_receiveinput_thread",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "10",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_receiveinput_thread",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "periodic",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_receiveinput_thread",
+      "owner_kind": "thread",
+      "name": "Source_Stack_Size",
+      "value": "100 Kbyte",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_receiveinput_thread",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "20 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_receiveinput_thread",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "8 ms .. 10 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_receiveinput_thread",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "40 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_receiveinput_thread",
+      "owner_kind": "thread",
+      "name": "ARINC653::HM_Errors",
+      "value": "(Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::sensor_receiveinput_thread",
+      "owner_kind": "thread",
+      "name": "ARINC653::HM_Process_Recovery_Actions",
+      "value": "(Process_Restart, Process_Restart, Process_Restart, Process_Restart)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_receiveinput_thread",
+      "owner_kind": "thread",
+      "name": "Initialize_Entrypoint",
+      "value": "classifier (PartitionedSystemExample::commandboard_receiveinput_spg)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_receiveinput_thread",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "42",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_receiveinput_thread",
+      "owner_kind": "thread",
+      "name": "Source_Stack_Size",
+      "value": "100 Kbyte",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_receiveinput_thread",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "20 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_receiveinput_thread",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "5 ms .. 7 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_receiveinput_thread",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "40 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_receiveinput_thread",
+      "owner_kind": "thread",
+      "name": "ARINC653::HM_Errors",
+      "value": "(Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_receiveinput_thread",
+      "owner_kind": "thread",
+      "name": "ARINC653::HM_Process_Recovery_Actions",
+      "value": "(Process_Restart, Process_Stop, Process_Stop, Process_Stop)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_printinfos_thread",
+      "owner_kind": "thread",
+      "name": "Initialize_Entrypoint",
+      "value": "classifier (PartitionedSystemExample::commandboard_printinfos_spg)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_printinfos_thread",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "43",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_printinfos_thread",
+      "owner_kind": "thread",
+      "name": "Source_Stack_Size",
+      "value": "100 Kbyte",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_printinfos_thread",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "20 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_printinfos_thread",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "2 ms .. 6 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_printinfos_thread",
+      "owner_kind": "thread",
+      "name": "Deadline",
+      "value": "40 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_printinfos_thread",
+      "owner_kind": "thread",
+      "name": "ARINC653::HM_Errors",
+      "value": "(Deadline_Miss, Application_Error, Numeric_Error, Illegal_Request)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::commandboard_printinfos_thread",
+      "owner_kind": "thread",
+      "name": "ARINC653::HM_Process_Recovery_Actions",
+      "value": "(Process_Restart, Process_Restart, Process_Restart, Process_Restart)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::partition1_process",
+      "owner_kind": "process",
+      "name": "Queue_Size",
+      "value": "4",
+      "applies_to": "queueingin"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition1_process",
+      "owner_kind": "process",
+      "name": "ARINC653::Timeout",
+      "value": "5ms",
+      "applies_to": "queueingin"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition1_process",
+      "owner_kind": "process",
+      "name": "Queue_Processing_Protocol",
+      "value": "FIFO",
+      "applies_to": "queueingin"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_process",
+      "owner_kind": "process",
+      "name": "ARINC653::Timeout",
+      "value": "10ms",
+      "applies_to": "queueingout"
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_process",
+      "owner_kind": "process",
+      "name": "ARINC653::Sampling_Refresh_Period",
+      "value": "10ms",
+      "applies_to": "samplingin"
+    },
+    {
+      "owner": "PartitionedSystemExample::powerpc.impl",
+      "owner_kind": "processor implementation",
+      "name": "ARINC653::Module_Major_Frame",
+      "value": "50ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::powerpc.impl",
+      "owner_kind": "processor implementation",
+      "name": "ARINC653::Partition_Slots",
+      "value": "(10ms, 10ms, 30ms)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::powerpc.impl",
+      "owner_kind": "processor implementation",
+      "name": "ARINC653::Slots_Allocation",
+      "value": "(reference (part1), reference (part2), reference (part1))",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::powerpc.impl",
+      "owner_kind": "processor implementation",
+      "name": "ARINC653::HM_Errors",
+      "value": "(Power_Fail)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::powerpc.impl",
+      "owner_kind": "processor implementation",
+      "name": "ARINC653::HM_Module_Recovery_Actions",
+      "value": "(Reset)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::partition1_memory",
+      "owner_kind": "memory",
+      "name": "Base_Address",
+      "value": "0",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::partition1_memory",
+      "owner_kind": "memory",
+      "name": "ARINC653::Memory_Type",
+      "value": "(Code_Memory)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_memory",
+      "owner_kind": "memory",
+      "name": "Base_Address",
+      "value": "100",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::partition2_memory",
+      "owner_kind": "memory",
+      "name": "ARINC653::Memory_Type",
+      "value": "(Code_Memory)",
+      "applies_to": ""
+    },
+    {
+      "owner": "PartitionedSystemExample::arincsystem.impl",
+      "owner_kind": "system implementation",
+      "name": "Actual_Processor_Binding",
+      "value": "(reference (cpu.part1))",
+      "applies_to": "partition1_pr"
+    },
+    {
+      "owner": "PartitionedSystemExample::arincsystem.impl",
+      "owner_kind": "system implementation",
+      "name": "Actual_Processor_Binding",
+      "value": "(reference (cpu.part2))",
+      "applies_to": "partition2_pr"
+    },
+    {
+      "owner": "PartitionedSystemExample::arincsystem.impl",
+      "owner_kind": "system implementation",
+      "name": "Actual_Memory_Binding",
+      "value": "(reference (mem.part1mem))",
+      "applies_to": "partition1_pr"
+    },
+    {
+      "owner": "PartitionedSystemExample::arincsystem.impl",
+      "owner_kind": "system implementation",
+      "name": "Actual_Memory_Binding",
+      "value": "(reference (mem.part2mem))",
+      "applies_to": "partition2_pr"
+    }
+  ]
+}

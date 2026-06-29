@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 107: Couldn't resolve reference to 'R2'.",
+      "cause": "R2 is a connection name, not a data expression; AGREE cannot equate a port to a connection identifier.",
+      "minimal_edit": "replace 'gps_pos = R2' with 'gps_pos.latitude = pspg.gps_pos.latitude and gps_pos.longitude = pspg.gps_pos.longitude and gps_pos.altitude = pspg.gps_pos.altitude'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 108: Couldn't resolve reference to 'R3'.",
+      "cause": "R3 is a connection name, not a data expression; AGREE cannot equate a port to a connection identifier.",
+      "minimal_edit": "replace 'R3 = speed' with 'speed = pspg.speed'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 109: Couldn't resolve reference to 'R2'.",
+      "cause": "R2 is a connection name, not a data expression; AGREE cannot equate a port to a connection identifier.",
+      "minimal_edit": "replace 'gps_pos = R2' with 'gps_pos.latitude = pspg.gps_pos.latitude and gps_pos.longitude = pspg.gps_pos.longitude and gps_pos.altitude = pspg.gps_pos.altitude'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 110: Couldn't resolve reference to 'R3'.",
+      "cause": "R3 is a connection name, not a data expression; AGREE cannot equate a port to a connection identifier.",
+      "minimal_edit": "replace 'R3 = speed' with 'speed = pspg.speed'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace all instances of 'gps_pos = R2' with 'gps_pos.latitude = pspg.gps_pos.latitude and gps_pos.longitude = pspg.gps_pos.longitude and gps_pos.altitude = pspg.gps_pos.altitude' in assume and guarantee statements.",
+    "Replace all instances of 'R3 = speed' with 'speed = pspg.speed' in assume and guarantee statements.",
+    "Verify that pspg is a visible subcomponent in the thr_mgmt.i implementation scope (it is, via 'calls call1 : { pspg : subprogram spg_flt_mgmt_simulation;}').",
+    "Ensure all referenced fields (latitude, longitude, altitude, speed) are valid data fields from the visible port symbols."
+  ]
+}

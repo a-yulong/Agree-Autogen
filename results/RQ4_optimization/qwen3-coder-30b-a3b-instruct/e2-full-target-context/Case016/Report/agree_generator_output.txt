@@ -1,0 +1,12 @@
+annex agree {**
+  assume "GCAS Impact Valid": inpGCASImpact >= 0.0;
+  assume "ACAS Impact Valid": inpACASImpact >= 0.0;
+  assume "GCAS Recovery Valid": inpGCASRecovery >= 0.0;
+  assume "ACAS Recovery Valid": inpACASRecovery >= 0.0;
+  assume "Number Services True Bound": numberServicesTrue >= 0 and numberServicesTrue <= 8;
+  guarantee "Dynamic Decision ACAS": (inpGCASImpact > inpACASImpact and inpGCASRecovery + inpACASRecovery <= 1.0) => (outDec = 1);
+  guarantee "Dynamic Decision GCAS": not (inpGCASImpact > inpACASImpact and inpGCASRecovery + inpACASRecovery <= 1.0) => (outDec = 0);
+  guarantee "Static Priority Fallback": numberServicesTrue < 2 => (outDec = 0);
+  guarantee "Dynamic Decision Used": numberServicesTrue >= 2 => (outDec = 1 or outDec = 0);
+  eq numberServicesTrue : int = 0 -> pre(numberServicesTrue) + (inpGCASM or inpSAM or inpACASM or inpGFM or inpWxM or inpFLS);
+**};

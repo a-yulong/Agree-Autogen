@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "When generating AGREE contracts, ensure that output range guarantees are placed in component type scopes with visible bounds and feature names.",
+    "Use assign statements in implementation scopes only for existing output features or declared auxiliary variables.",
+    "Avoid introducing package-qualified identifiers or property references that are not present in the analyzed AADL model."
+  ],
+  "generic_rules": [
+    "AGREE annexes must be placed within valid component type or implementation scopes based on the contract's level of abstraction.",
+    "Guarantee expressions must reference only visible AADL features or helper declarations within the same annex.",
+    "Ensure type consistency between assumed types in AGREE and actual types in AADL components.",
+    "Do not encode AADL property associations (e.g., timing, resource) as AGREE variables unless explicitly exposed in the model."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are used for assumptions and guarantees; implementation annexes for assignments.",
+    "Use `eq` to define helper variables with explicit types in AGREE expressions."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope; use only assign for output bindings.",
+    "Do not reference AADL properties like Compute_Execution_Time or unit tokens (e.g., ms, Hz) as AGREE variables.",
+    "Do not introduce identifiers or types that are not visible or declared in the current AADL scope."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about package or property set visibility",
+    "AGREE validator diagnostics (none present)",
+    "Model fusion or owner/scope preservation rules"
+  ]
+}

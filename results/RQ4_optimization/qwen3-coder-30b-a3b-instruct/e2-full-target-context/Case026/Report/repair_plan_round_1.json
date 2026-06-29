@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 56: Couldn't resolve reference to 'tempin1'.",
+      "cause": "AGREE annex refers to voter.tempin1 which is not visible in the component type scope",
+      "minimal_edit": "Replace voter.tempin1 with tempin1"
+    },
+    {
+      "diagnostic": "line 57: Couldn't resolve reference to 'tempin2'.",
+      "cause": "AGREE annex refers to voter.tempin2 which is not visible in the component type scope",
+      "minimal_edit": "Replace voter.tempin2 with tempin2"
+    },
+    {
+      "diagnostic": "line 58: Couldn't resolve reference to 'c0'.",
+      "cause": "AGREE annex refers to connection c0 which is not visible in the component type scope",
+      "minimal_edit": "Remove or rewrite c0 = temp1 to use only visible symbols"
+    },
+    {
+      "diagnostic": "line 59: Couldn't resolve reference to 'c1'.",
+      "cause": "AGREE annex refers to connection c1 which is not visible in the component type scope",
+      "minimal_edit": "Remove or rewrite c1 = temp2 to use only visible symbols"
+    },
+    {
+      "diagnostic": "line 60: Couldn't resolve reference to 'c2'.",
+      "cause": "AGREE annex refers to connection c2 which is not visible in the component type scope",
+      "minimal_edit": "Remove or rewrite c2 = voter.tempin1 to use only visible symbols"
+    },
+    {
+      "diagnostic": "line 61: Couldn't resolve reference to 'c3'.",
+      "cause": "AGREE annex refers to connection c3 which is not visible in the component type scope",
+      "minimal_edit": "Remove or rewrite c3 = voter.tempin2 to use only visible symbols"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from temp_control type to temp_control implementation",
+    "In the implementation annex, replace voter.tempin1 with tempin1 and voter.tempin2 with tempin2",
+    "Remove or rewrite the connection equality assumptions (c0 = temp1, c1 = temp2, c2 = voter.tempin1, c3 = voter.tempin2) to use only visible symbols or remove them if they cannot be expressed with visible identifiers"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 63: mismatched input ':' expecting 'in'",
+      "cause": "Invalid AGREE syntax for temporal quantification",
+      "minimal_edit": "Remove the temporal quantifier 'forall t:' and keep only the simple constraint"
+    },
+    {
+      "diagnostic": "line 63: no viable alternative at character '@'",
+      "cause": "Invalid use of '@' operator in AGREE",
+      "minimal_edit": "Remove the '@t' suffix from the WaterAlarm expression"
+    },
+    {
+      "diagnostic": "line 82: mismatched input ':' expecting 'in'",
+      "cause": "Invalid AGREE syntax for temporal quantification",
+      "minimal_edit": "Remove the temporal quantifier 'forall t:' and keep only the simple constraint"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the PumpCtrl annex block, replace \"guarantee \\\"WaterAlarm evaluation\\\": forall t: WaterAlarm@t >= 0 and WaterAlarm@t <= 100;\" with \"guarantee \\\"WaterAlarm evaluation\\\": WaterAlarm >= 0 and WaterAlarm <= 100;\"",
+    "In the WaterAlarm annex block, replace \"guarantee \\\"WaterAlarm evaluation\\\": forall t: WaterAlarm >= 0 and WaterAlarm <= 100;\" with \"guarantee \\\"WaterAlarm evaluation\\\": WaterAlarm >= 0 and WaterAlarm <= 100;\""
+  ]
+}

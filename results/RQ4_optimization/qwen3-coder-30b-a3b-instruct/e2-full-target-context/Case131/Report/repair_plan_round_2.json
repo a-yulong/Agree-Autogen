@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 35: Guarantee statements are allowed only in component types",
+      "cause": "AGREE guarantee statements in implementation annex are invalid; must be in component type annex",
+      "minimal_edit": "move the annex block from Task.impl_1 implementation to Task component type"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "remove the annex agree block from Task.impl_1 implementation",
+    "add an annex agree block to the Task component type (not implementation) with the same guarantee statements",
+    "update the guarantee statements to reference actual AADL properties visible at the component type level using legal AGREE syntax"
+  ]
+}

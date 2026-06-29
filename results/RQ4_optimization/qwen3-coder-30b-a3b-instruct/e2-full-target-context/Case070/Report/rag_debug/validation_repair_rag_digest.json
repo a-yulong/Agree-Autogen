@@ -1,0 +1,31 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by ensuring all identifiers are visible in the current scope or properly declared.",
+    "Resolve type errors by aligning helper declarations with the expected expression types (int, real, bool).",
+    "Remove invalid guarantee clauses when root references cannot be resolved instead of adding missing architecture.",
+    "Validate that all AGREE scalar types (int, real, bool) are used correctly in declarations and expressions."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, ensure all referenced identifiers are declared or visible in the same annex scope.",
+    "Use only valid AGREE scalar types (int, real, bool) for constant and equation declarations.",
+    "Avoid placing guarantees in implementation scope unless they reference valid output features or auxiliary variables.",
+    "Validate type consistency in binary expressions and comparisons to prevent '<error>' type mismatches."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Constants and equations in AGREE must declare explicit types (int, real, bool).",
+    "Assignments in implementation scope must reference existing output features or declared variables.",
+    "Binary expressions in AGREE require operands of matching types (int, real, or bool)."
+  ],
+  "anti_patterns": [
+    "Do not attempt to resolve missing identifiers by introducing new architecture elements not present in the model.",
+    "Do not mix invalid or unresolved identifiers in expressions without first fixing the root cause.",
+    "Do not place guarantee statements in implementation scope unless they are valid output or auxiliary variable references.",
+    "Do not assume that AADL identifiers are automatically available in AGREE without proper visibility or declaration."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE annex placement in component types vs implementations",
+    "Component type vs implementation contract boundaries"
+  ]
+}

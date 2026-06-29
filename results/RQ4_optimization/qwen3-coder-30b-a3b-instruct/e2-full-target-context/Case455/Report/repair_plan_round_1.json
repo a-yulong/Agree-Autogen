@@ -1,0 +1,15 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 45: Couldn't resolve reference to 'flyByWire_soft::send_data_to_autopilot_task'.",
+      "cause": "AGREE annex is in component type scope but references component implementation",
+      "minimal_edit": "Move the annex to the component implementation scope"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire annex agree block from send_data_to_autopilot_task type to send_data_to_autopilot_task.Impl implementation",
+    "Update the guarantee expression to reference the implementation directly using the correct visible identifier",
+    "Ensure the annex is placed in the correct implementation scope with proper visibility of features"
+  ]
+}

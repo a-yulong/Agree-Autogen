@@ -1,0 +1,57 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 35: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "Task1 is a subcomponent in node_a.impl, not a visible entity in Task.impl_1; Dispatch_Protocol is an AADL property of Task.impl_1, but referenced via non-existent Task1.",
+      "minimal_edit": "Replace 'Task1.Dispatch_Protocol = Periodic' with 'Dispatch_Protocol = Periodic'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 35: Couldn't resolve reference to 'Periodic'.",
+      "cause": "Periodic is an AADL enumeration value defined in ARINC653, not directly visible in AGREE without proper scope; AGREE must reference it as a literal without qualification since it's bound to the property.",
+      "minimal_edit": "Keep 'Periodic' as-is; it is a valid literal in context of Dispatch_Protocol property"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 35: Couldn't resolve reference to 'Task1'.",
+      "cause": "Task1 is a subcomponent of node_a.impl, not visible within Task.impl_1's annex scope. AGREE annex on Task.impl_1 must reference its own properties directly.",
+      "minimal_edit": "Remove all 'Task1.' prefixes from all guarantee expressions"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 35: Guarantee statements are allowed only in component types",
+      "cause": "The annex is attached to Task.impl_1 (an implementation), but AGREE guarantees must be declared in the component type (Task) to be valid in contract scope.",
+      "minimal_edit": "Move the entire annex block from Task.impl_1 to its type declaration (Task)"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: extraneous input 'ms' expecting ';'",
+      "cause": "AGREE does not natively parse AADL units like 'ms' in literals; unit must be removed and value expressed in scalar real (100.0).",
+      "minimal_edit": "Change '100.0 ms' to '100.0'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: left and right sides of binary expression '=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Period property is of type Time (AADL), but AGREE treats it as real; value must be unitless scalar to match AGREE's real type.",
+      "minimal_edit": "Change '100.0 ms' to '100.0'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 37: mismatched input 'ms' expecting ';'",
+      "cause": "AGREE does not accept AADL units in expressions; '0.0 ms' and '3.0 ms' are syntactically invalid.",
+      "minimal_edit": "Change '0.0 ms' to '0.0' and '3.0 ms' to '3.0'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 37: left side of binary expression '>=' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "Compute_Execution_time is an AADL interval, but AGREE expects scalar real for comparison; interval must be projected to scalar via property access.",
+      "minimal_edit": "Use Compute_Execution_time directly as real-valued expression; AADL property is scalar in AGREE context"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 38: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Priority property is integer-typed in AADL, AGREE treats it as integer; but reference via Task1 makes it unresolved; value 100 is correct type.",
+      "minimal_edit": "Remove 'Task1.' prefix; keep 'Priority = 100'"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the annex agree block from Task.impl_1 to the component type Task (before end Task;)",
+    "Within the moved annex, remove all 'Task1.' prefixes from property references",
+    "Remove unit 'ms' from all numeric literals: change '100.0 ms' to '100.0', '0.0 ms' to '0.0', '3.0 ms' to '3.0'",
+    "Ensure all property names (Dispatch_Protocol, Period, Compute_Execution_time, Priority) are referenced directly without subcomponent qualifiers",
+    "Verify that the annex is now attached to the component type Task, not its implementation"
+  ]
+}

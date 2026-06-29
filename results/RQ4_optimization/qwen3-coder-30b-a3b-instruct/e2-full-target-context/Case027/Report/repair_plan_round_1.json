@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '->' are of type 'bool' and 'real', but must be of the same type",
+      "cause": "Invalid temporal recurrence syntax in step size guarantee",
+      "minimal_edit": "Replace 't = 0.0 -> pre(t) + 0.1' with 'eq t : real = 0.0 -> pre(t) + 0.1'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'height'.",
+      "cause": "Undefined variable 'height' used in guarantees",
+      "minimal_edit": "Remove or replace references to 'height' with valid expressions"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '>' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Invalid expression involving undefined 'height' variable",
+      "minimal_edit": "Remove or replace references to 'height' with valid expressions"
+    },
+    {
+      "diagnostic": "left side of binary expression '>' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Invalid expression involving undefined 'height' variable",
+      "minimal_edit": "Remove or replace references to 'height' with valid expressions"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression involving undefined 'height' variable",
+      "minimal_edit": "Remove or replace references to 'height' with valid expressions"
+    },
+    {
+      "diagnostic": "right side of binary expression '>' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Invalid expression involving undefined 'height' variable",
+      "minimal_edit": "Remove or replace references to 'height' with valid expressions"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace line 14 guarantee statement with 'eq t : real = 0.0 -> pre(t) + 0.1;' to fix type mismatch",
+    "Remove or replace guarantees on line 16 and 17 that reference undefined 'height' variable",
+    "Ensure all expressions in guarantees reference only visible identifiers or declared variables"
+  ]
+}

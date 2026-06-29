@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'SSM'.",
+      "cause": "SSM is a subcomponent reference, not directly accessible in component type scope",
+      "minimal_edit": "Remove SSM reference from assume and guarantee expressions"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'State_Out'.",
+      "cause": "State_Out is a port, not directly accessible in component type scope",
+      "minimal_edit": "Replace State_Out with a valid expression or remove the reference"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'Types::state_sig.impl' and '<error>', but must be of the same type",
+      "cause": "Invalid expression due to unresolved references",
+      "minimal_edit": "Remove the invalid equality expressions"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the invalid references to SSM and State_Out from the assume and guarantee statements",
+    "Rewrite the assume and guarantee statements to use only valid identifiers or remove them if they cannot be expressed with visible symbols",
+    "Ensure that the remaining expressions are valid AGREE syntax with matching types"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 40: Couldn't resolve reference to 'acasm'.",
+      "cause": "acasm is not a visible identifier in the ACAS_Monitor component type scope",
+      "minimal_edit": "Replace 'acasm' with 'distance' to reference the visible input port"
+    },
+    {
+      "diagnostic": "line 40: left and right sides of binary expression '=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Invalid assignment to a non-port expression",
+      "minimal_edit": "Change 'acasm = 8.0' to 'distance <= 10.0 => outImpact = 8.0' to match the intended behavior"
+    },
+    {
+      "diagnostic": "line 41: Couldn't resolve reference to 'acasm_to_decider'.",
+      "cause": "acasm_to_decider is a connection, not a visible identifier in component type scope",
+      "minimal_edit": "Replace 'acasm_to_decider' with 'distance' to reference the visible input port"
+    },
+    {
+      "diagnostic": "line 41: left and right sides of binary expression '=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Invalid assignment to a non-port expression",
+      "minimal_edit": "Change 'acasm_to_decider = 5.0' to 'distance <= 10.0 => outRecovery = 5.0' to match the intended behavior"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'acasm = 8.0' with 'distance <= 10.0 => outImpact = 8.0' on line 40",
+    "Replace 'acasm_to_decider = 5.0' with 'distance <= 10.0 => outRecovery = 5.0' on line 41"
+  ]
+}

@@ -1,0 +1,39 @@
+set oldState [${sbpText}.text cget -state]
+${sbpText}.text configure -state normal
+${sbpText}.text fastdelete 1.0 end
+array set lines [list ]
+set lines(error) [list ]
+set lines(warning) [list ]
+set lines(information) [list ]
+${sbpText}.text fastinsert end 108 d108
+${sbpText}.text tag bind d108 <Any-Enter> "${sbpText}.text tag configure d108 -foreground white -background black"
+${sbpText}.text tag bind d108 <Any-Leave> "${sbpText}.text tag configure d108 -foreground {} -background {}"
+${sbpText}.text tag bind d108 <1> "event generate . <<selectLine>> -data 108"
+lappend lines(error) 108
+TextEditor::fastaddText $sbpText " Byte_Count (property association) does not point to anything 
+"
+${sbpText}.text fastinsert end 113 d113
+${sbpText}.text tag bind d113 <Any-Enter> "${sbpText}.text tag configure d113 -foreground white -background black"
+${sbpText}.text tag bind d113 <Any-Leave> "${sbpText}.text tag configure d113 -foreground {} -background {}"
+${sbpText}.text tag bind d113 <1> "event generate . <<selectLine>> -data 113"
+lappend lines(error) 113
+TextEditor::fastaddText $sbpText " Byte_Count (property association) does not point to anything 
+"
+${sbpText}.text fastinsert end 114 d114
+${sbpText}.text tag bind d114 <Any-Enter> "${sbpText}.text tag configure d114 -foreground white -background black"
+${sbpText}.text tag bind d114 <Any-Leave> "${sbpText}.text tag configure d114 -foreground {} -background {}"
+${sbpText}.text tag bind d114 <1> "event generate . <<selectLine>> -data 114"
+lappend lines(error) 114
+TextEditor::fastaddText $sbpText " Byte_Count (property association) does not point to anything 
+"
+${sbpText}.text fastinsert end 117 d117
+${sbpText}.text tag bind d117 <Any-Enter> "${sbpText}.text tag configure d117 -foreground white -background black"
+${sbpText}.text tag bind d117 <Any-Leave> "${sbpText}.text tag configure d117 -foreground {} -background {}"
+${sbpText}.text tag bind d117 <1> "event generate . <<selectLine>> -data 117"
+lappend lines(error) 117
+TextEditor::fastaddText $sbpText " Byte_Count (property association) does not point to anything 
+"
+TextEditor::fastaddText $sbpText " Cannot analyze AADL specifications
+"
+${sbpText}.text configure -state $oldState
+return [array get lines]

@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc1'.",
+      "cause": "AGREE annex is in component type scope but references subcomponent names directly",
+      "minimal_edit": "Move the annex to the implementation scope and reference ports through connections"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc1_input'.",
+      "cause": "AGREE annex is in component type scope but references port names directly",
+      "minimal_edit": "Move the annex to the implementation scope and reference ports through connections"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "AGREE annex is in component type scope but references subcomponent ports without proper connection context",
+      "minimal_edit": "Move the annex to the implementation scope and reference ports through connections"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE annex is in component type scope but references subcomponent ports without proper connection context",
+      "minimal_edit": "Move the annex to the implementation scope and reference ports through connections"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex block from acc_process_emv2 component type",
+    "Add a new AGREE annex block to acc_process_emv2.impl component implementation",
+    "In the new annex block, reference the connection names instead of subcomponent ports",
+    "Replace acc1_input = acc1.acc1_input with C21 = acc1.acc1_input",
+    "Replace acc2_input = acc2.acc2_input with C22 = acc2.acc2_input",
+    "Replace acc3_input = acc3.acc3_input with C23 = acc3.acc3_input",
+    "Replace acc4_input = acc4.acc4_input with C24 = acc4.acc4_input",
+    "Replace acc5_input = acc5.acc5_input with C25 = acc5.acc5_input",
+    "Replace acc6_input = acc6.acc6_input with C26 = acc6.acc6_input"
+  ]
+}

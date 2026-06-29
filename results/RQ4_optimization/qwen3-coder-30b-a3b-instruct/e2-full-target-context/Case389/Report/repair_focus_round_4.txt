@@ -1,0 +1,248 @@
+round=4
+
+[TARGET INTERFACE]
+Exact expression symbols: Alpha1, Alpha1.All_elems, Alpha1.elem, Alpha2, Alpha2.All_elems, Alpha2.elem, Alpha3
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Alpha1 | out | data | opaque | A_Struct.impl
+Alpha1.All_elems | out | data_field | opaque | One_Dimension_Array
+Alpha1.elem | out | data_field | int | Base_Types::Integer
+Alpha2 | out | data | opaque | A_Struct.impl
+Alpha2.All_elems | out | data_field | opaque | One_Dimension_Array
+Alpha2.elem | out | data_field | int | Base_Types::Integer
+Alpha3 | out | data | int | Base_Types::Integer
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Alpha3 >= 0 and Alpha3 <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Alpha3"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Alpha3 is bounded at every evaluation step",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Alpha3"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: A | lines 124-127
+annex agree {**
+          guarantee "Alpha3 bounded": (Alpha3 >= 0) and (Alpha3 <= 100);
+          guarantee "Alpha3 evaluation step bound": forall t in Time: Alpha3(t) >= 0 and Alpha3(t) <= 100;
+        **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   122:     Alpha2 : out data port A_Struct.impl;
+   123:     Alpha3 : out data port Base_Types::Integer;
+   124:   annex agree {**
+   125:           guarantee "Alpha3 bounded": (Alpha3 >= 0) and (Alpha3 <= 100);
+>> 126:           guarantee "Alpha3 evaluation step bound": forall t in Time: Alpha3(t) >= 0 and Alpha3(t) <= 100;
+   127:         **};
+   128:   end A;
+   129: 
+   130:   process implementation A.Impl
+
+[TARGET MODEL CONTEXT]
+package Test::BA::Backend_BA_V3
+public
+  with Deployment;
+  with Data_Model;
+  with Buses::Ethernet;
+  with Native_Sockets;
+  with Base_Types;
+
+  ----------
+  -- Data --
+  ----------
+
+  data Alpha_Type
+        properties
+                Data_Model::Data_Representation => Integer;
+  end Alpha_Type;
+
+  data One_Dimension_Array
+        properties
+                Data_Model::Data_Representation => Array;
+                Data_Model::Base_Type => (classifier (Base_Types::Integer));
+                Data_Model::Dimension => (10);
+  end One_Dimension_Array;
+
+  data A_Struct
+        properties
+                Data_Model::Data_Representation => Struct;
+  end A_Struct;
+
+  data implementation A_Struct.impl
+        subcomponents
+                All_elems : data One_Dimension_Array;
+                elem      : data Base_Types::Integer;
+  end A_Struct.impl;
+
+  -----------------
+  -- Subprograms --
+  -----------------
+
+  subprogram Compute_Spg
+  features
+    A_Data_Out : out parameter Alpha_Type;
+  properties
+    -- Source_Language => (C);
+    Source_Name     => "compute_spg";
+    Source_Text     => ("producer_consumer.c");
+  end Compute_Spg;
+
+  subprogram Print_Thread_Begin_Execution
+  properties
+    -- Source_Language => (C);
+    Source_Name     => "print_thread_begin_execution";
+    Source_Text     => ("producer_consumer.c");
+  end Print_Thread_Begin_Execution;
+
+  subprogram Print_Spg
+  features
+    A_Data_In  : in parameter A_Struct.impl;
+  properties
+    -- Source_Language => (C);
+    Source_Name     => "print_spg";
+    Source_Text     => ("producer_consumer.c");
+  end Print_Spg;
+
+  -------------
+  -- Threads --
+  -------------
+
+  thread Computation_Th
+  features
+    Data_Out : out data port Base_Types::Integer;
+  properties
+    Dispatch_Protocol => Periodic;
+    Period => 500 ms;
+    Compute_Execution_Time => 1 ms .. 5 ms;
+    Priority => 1;
+
+  end Computation_Th;
+
+  thread Producer_Th
+  features
+        Data_In      : in data port Base_Types::Integer;
+    Data_Source1 : out event data port A_Struct.impl;
+    Data_Source2 : out event data port A_Struct.impl;
+    Pr_Index     : out event data port Base_Types::Integer;
+  properties
+    Dispatch_Protocol => Periodic;
+    Compute_Execution_Time => 1 ms .. 10 ms;
+    Priority => 1;
+    Period => 500 ms;
+  
+  end Producer_Th;
+
+  thread Consumer_Th
+  features
+    Data_Sink1 : in event data port A_Struct.impl;
+    Data_Sink2 : in event data port A_Struct.impl;
+    Cr_Index   : in event data port Base_Types::Integer {Queue_Size => 4;};
+  properties
+    Dispatch_Protocol => Sporadic;
+    Compute_Execution_Time => 1 ms .. 20 ms;
+    Priority => 2;
+    Period => 10 ms;
+  end Consumer_Th;
+
+  ---------------
+  -- Processor --
+  ---------------
+
+  processor the_processor
+  properties
+    Deployment::Execution_Platform => Native;
+  end the_processor;
+
+  ---------------
+  -- Processes --
+  ---------------
+
+  process A
+  features
+    Alpha1 : out data port A_Struct.impl;
+    Alpha2 : out data port A_Struct.impl;
+    Alpha3 : out data port Base_Types::Integer;
+  end A;
+
+  process implementation A.Impl
+  subcomponents
+        Computation : thread Computation_Th;
+    Producer    : thread Producer_Th;
+  connections
+    Z3:port Producer.Data_Source1 -> Alpha1;
+    Z5:port Producer.Data_Source2 -> Alpha2;
+    Z9:port Producer.Pr_Index -> Alpha3;
+    Z12:port Computation.Data_Out -> Producer.Data_In;
+  end A.Impl;
+
+  process B
+  features
+    Beta1  : in data port A_Struct.impl;
+    Beta2  : in data port A_Struct.impl;
+    Beta3  : in data port Base_Types::Integer;
+  end B;
+
+  process implementation B.Impl
+  subcomponents
+    Consumer  : thread Consumer_Th;
+  connections
+    Z4 : port Beta1 -> Consumer.Data_Sink1;
+    Z7 : port Beta2 -> Consumer.Data_Sink2;
+    Z10: port Beta3 -> Consumer.Cr_Index;
+  end B.Impl;
+
+  ------------
+  -- System --
+  ------------
+
+  system PC_Simple
+  end PC_Simple;
+
+  system implementation PC_Simple.Native
+  subcomponents
+    pr_A : process A.Impl;
+    pr_B : process B.Impl {Deployment::port_number => 4002;};
+    Device_A : device Native_Sockets::Native_Sockets.pohi_c
+    {Source_Text => ("devicesconf.c");};
+    Device_B : device Native_Sockets::Native_Sockets.pohi_c
+    {Source_Text => ("devicesconf.c");};
+
+    CPU_A   : processor the_processor;
+    CPU_B   : processor the_processor;
+    the_bus : bus Buses::Ethernet::Ethernet.impl;
+  connections
+    Z1 : bus access the_bus -> Device_A.Eth;
+    Z2 : bus access the_bus -> Device_B.Eth;
+    Z6 : port pr_A.Alpha1 -> pr_B.Beta1;
+    Z8 : port pr_A.Alpha2 -> pr_B.Beta2;
+    Z11: port pr_A.Alpha3 -> pr_B.Beta3;
+  properties
+    Actual_Processor_Binding => (reference (CPU_A)) applies to pr_A;
+    Actual_Processor_Binding => (reference (CPU_B)) applies to pr_B;
+
+    Actual_Connection_Binding => (reference (the_bus)) applies to Z6;
+    Actual_Connection_Binding => (reference (the_bus)) applies to Z8;
+    Actual_Connection_Binding => (reference (the_bus)) applies to Z11;
+    actual_processor_binding => (reference (CPU_A)) applies to Device_A;
+    actual_processor_binding => (reference (CPU_B)) applies to Device_B;
+
+  end PC_Simple.Native;
+
+end Test::BA::Backend_BA_V3;

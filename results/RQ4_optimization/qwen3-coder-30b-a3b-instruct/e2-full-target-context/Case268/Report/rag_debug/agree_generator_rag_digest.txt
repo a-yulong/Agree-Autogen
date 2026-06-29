@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks with valid syntax using assume/guarantee/eq/const/assign statements inside annex agree {** ... **} blocks
+- Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic
+Generic rules:
+- Place input assumptions and output guarantees in component type annexes when they reference visible features or constants
+- Use AGREE logical operators (and, or, not, =>) for expressing relationships between assumptions and guarantees
+- Ensure all identifiers in generated AGREE clauses are visible in the current component scope
+- Move implementation-specific assignments to component implementation annexes, not type annexes
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in annex agree {** ... **}; blocks
+- Equations and constants should be declared with explicit types: eq name : type = expression;
+Anti-patterns:
+- Do not reference AADL properties like Compute_Execution_Time or unit tokens (ms/us/Hz/Bytes) as AGREE variables
+- Do not generate clauses that reference unresolved identifiers or ports not visible in current scope
+</RAG_DIGEST>

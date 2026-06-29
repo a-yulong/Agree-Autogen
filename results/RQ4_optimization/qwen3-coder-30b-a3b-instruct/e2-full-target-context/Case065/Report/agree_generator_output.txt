@@ -1,0 +1,10 @@
+annex agree {**
+  guarantee "signal_flow_attitude": sensored_attitude = telecommand;
+  guarantee "signal_flow_orbit": sun_direction = telemetry;
+  assume "mode_transition_SM": Forcing_Safe_Mode => Changing_mode_to_SM;
+  assume "mode_transition_NM": Getting_Back_To_Normal_Mode => Changing_mode_to_NM;
+  guarantee "power_status_consistency": power_status_FSS = power_status_CSS;
+  guarantee "reconfiguration_flow": FSS_reconfiguration = CSS_reconfiguration;
+  guarantee "command_routing_torque": torque_command = reference_torque;
+  guarantee "command_routing_force": force_command = reference_force;
+**};

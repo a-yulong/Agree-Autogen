@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Fix unresolved references like 'C1' and 'C2' by ensuring they are valid component features or declared auxiliary variables in the same annex.",
+    "Resolve type mismatches by aligning helper declarations with their expression types, e.g., bool for comparisons, int for integers, real for reals.",
+    "Remove invalid guarantee or equation clauses that reference undefined identifiers or have type errors rather than adding missing architecture."
+  ],
+  "generic_rules": [
+    "In AGREE contracts, always reference only visible AADL features or previously declared auxiliary variables.",
+    "Ensure all AGREE expressions have consistent and resolvable types to avoid '<error>' or '<unresolved>' diagnostics.",
+    "Use assign statements only for existing output features or declared auxiliary variables in implementation scopes.",
+    "Place AGREE annexes in appropriate component scopes: type annexes for assumptions/guarantees, implementation annexes for bindings."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Constants and equations in AGREE should use scalar types: int, real, bool.",
+    "Avoid referencing package-qualified identifiers not present in the model's configured dependencies."
+  ],
+  "anti_patterns": [
+    "Do not introduce new component features or ports in AGREE annexes without corresponding AADL architecture.",
+    "Do not attempt to fix type errors by adding architecture; instead, correct or remove the invalid AGREE clause."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes"
+  ]
+}

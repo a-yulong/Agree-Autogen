@@ -1,0 +1,15 @@
+annex agree {**
+  assume "threatDetected_is_Boolean": threatDetected : bool;
+  assume "threatAltitude_is_Float": threatAltitude : real;
+  assume "ownAltitude_is_Float": ownAltitude : real;
+  assume "ownLongitude_is_Int": ownLongitude : int;
+  assume "threatLongitude_is_Int": threatLongitude : int;
+  guarantee "priority_by_longitude_climb": 
+    threatDetected and (ownAltitude = threatAltitude) and (ownLongitude > threatLongitude) => (requiredVerticalVelocity = 50);
+  guarantee "priority_by_longitude_descend": 
+    threatDetected and (ownAltitude = threatAltitude) and (ownLongitude <= threatLongitude) => (requiredVerticalVelocity = -50);
+  guarantee "own_altitude_lower": 
+    threatDetected and (ownAltitude < threatAltitude) => (requiredVerticalVelocity = -10);
+  guarantee "own_altitude_higher": 
+    threatDetected and (ownAltitude > threatAltitude) => (requiredVerticalVelocity = 10);
+**};

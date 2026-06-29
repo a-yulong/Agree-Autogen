@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex blocks within `annex agree {** ... **};` for the target component.
+- Use `assume` and `guarantee` statements to express signal flow and timing constraints from requirements.
+- Place `assign` statements in implementation scope only for output features or declared auxiliary variables.
+- Reference only visible identifiers from the AADL model in AGREE expressions.
+Generic rules:
+- AGREE contracts must be scoped to their owning component declaration.
+- Use `eq` for equation declarations and `const` for named constants in component type annexes.
+- Avoid encoding AADL timing properties as AGREE expressions unless explicit typed ports or constants are available.
+- Ensure all identifiers in AGREE expressions are visible in the current component scope.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for logical assertions.
+- Use `assign output = expression;` for implementation-level output bindings.
+- Use `eq name : type = expression;` for equation declarations in type annexes.
+- Use `const name : type = value;` for constant declarations in type annexes.
+Anti-patterns:
+- Do not reference identifiers not present in the AADL model's visible scope.
+- Do not place guarantee statements in implementation scope.
+- Do not encode AADL timing properties as AGREE expressions without visible typed ports or constants.
+- Do not copy identifiers from examples or invent new ports/components.
+</RAG_DIGEST>

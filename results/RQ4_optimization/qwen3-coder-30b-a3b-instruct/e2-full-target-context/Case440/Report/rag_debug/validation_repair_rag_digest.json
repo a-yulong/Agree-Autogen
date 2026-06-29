@@ -1,0 +1,24 @@
+{
+  "rag_rules": [
+    "When generating AGREE contracts, ensure that all visible identifiers are properly scoped and accessible within the component type or implementation scope where the contract is placed.",
+    "Place assumptions and guarantees in the correct AADL scope: component type contracts for port-level behavior, implementation contracts for subcomponent-level details."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or helper declarations within the same AGREE annex to avoid type resolution errors.",
+    "Ensure that all AGREE expressions match the expected types (bool, int, real) to prevent type mismatch diagnostics.",
+    "Avoid referencing AADL properties like Compute_Execution_Time or unit tokens directly in AGREE expressions; these must be explicitly exposed as ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts use `assume`, `guarantee`, `eq`, `const`, and `assign` with precise syntax for expressions and types.",
+    "Component type contracts should define input assumptions and output guarantees using visible ports and named constants."
+  ],
+  "anti_patterns": [
+    "Do not reference identifiers or types that are not visible in the current AADL scope or that require package qualification without matching `with` clauses.",
+    "Do not assume that AADL property values (e.g., Deadline, Period) are automatically available in AGREE expressions unless explicitly declared."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about package or property set visibility",
+    "AGREE validator diagnostics (none present)",
+    "Implementation-level bindings and subcomponent port usage in type contracts"
+  ]
+}

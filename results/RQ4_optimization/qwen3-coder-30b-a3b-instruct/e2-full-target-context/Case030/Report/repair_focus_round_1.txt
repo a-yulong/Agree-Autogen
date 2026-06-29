@@ -1,0 +1,108 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: timeToRecovery
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+timeToRecovery | out | data | opaque | real
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "The GeoFence_singleton component maintains a real-valued recursive variable t with initial value 0.0 and step size 0.1",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "t",
+        "0.0",
+        "0.1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "The GeoFence_singleton component invokes circleLinearization function from geofence_nodes library with parameter t to compute distanceFromFence",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "circleLinearization",
+        "geofence_nodes",
+        "t",
+        "distanceFromFence"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "The GeoFence_singleton component sets the value of output port timeToRecovery to 1.7",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "timeToRecovery",
+        "1.7"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "When simulation time t reaches or exceeds recovery time, distanceFromFence at current time instance must be greater than distanceFromFence at previous time instance",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "t",
+        "recovery time",
+        "distanceFromFence"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: GeoFence_singleton | lines 10-20
+annex agree {**
+	  eq t : real = 0.0 -> pre(t) + 0.1;
+  
+	  guarantee "initial_t": t = 0.0;
+  
+	  guarantee "step_size": t >= 0.0 => t = pre(t) + 0.1;
+  
+	  guarantee "output_timeToRecovery": timeToRecovery = 1.7;
+  
+	  guarantee "recovery_condition": (t >= recovery_time) => distanceFromFence > pre(distanceFromFence);
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   15: 	  guarantee "step_size": t >= 0.0 => t = pre(t) + 0.1;
+   16:   
+   17: 	  guarantee "output_timeToRecovery": timeToRecovery = 1.7;
+   18:   
+>> 19: 	  guarantee "recovery_condition": (t >= recovery_time) => distanceFromFence > pre(distanceFromFence);
+   20: 	**};
+   21: 	end GeoFence_singleton;
+   22: 	
+   23: 	system implementation GeoFence_singleton.impl
+
+[TARGET MODEL CONTEXT]
+package geofence_single
+public
+	
+	with geofence_nodes;
+	with base_types;
+	
+	system GeoFence_singleton
+		features
+			timeToRecovery: out data port real;
+	end GeoFence_singleton;
+	
+	system implementation GeoFence_singleton.impl
+	end GeoFence_singleton.impl;
+	
+	-- Type Aliases
+	
+	data int extends base_types::Integer
+	end int;
+	
+	data real extends base_types::Float
+	end real;
+	
+end geofence_single;

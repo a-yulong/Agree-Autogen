@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "Use of 'latched' in a boolean expression in a component type contract",
+      "minimal_edit": "Replace 'latched' with a valid boolean expression or remove it from the guarantee"
+    },
+    {
+      "diagnostic": "Latched expressions can appear only in component implementations",
+      "cause": "Use of 'latched' in a component type contract",
+      "minimal_edit": "Move the guarantee to the implementation annex or rewrite to avoid 'latched'"
+    },
+    {
+      "diagnostic": "mismatched input 'and' expecting '('",
+      "cause": "Invalid boolean expression syntax due to 'latched' usage",
+      "minimal_edit": "Rewrite the expression to use only valid identifiers and correct syntax"
+    },
+    {
+      "diagnostic": "right side of binary expression 'and' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid use of 'latched' in boolean context",
+      "minimal_edit": "Replace 'latched' with a valid boolean expression or remove it"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove 'latched' from the guarantee expression",
+    "Rewrite the guarantee to use only valid identifiers: engine_running, closed, locked",
+    "Move the guarantee to the implementation annex if it requires implementation-specific details",
+    "Ensure the expression syntax is valid boolean algebra using only visible symbols"
+  ]
+}

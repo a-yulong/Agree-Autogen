@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix unresolved references in AGREE contracts by ensuring all identifiers are valid AADL features or declared helpers in the same annex.",
+    "Use assign statements in implementation scope only for existing output features or declared auxiliary variables.",
+    "Place AGREE contracts in valid component type or implementation scopes based on whether they refer to component ports or bindings.",
+    "Avoid introducing package-qualified identifiers, data types, or property references not present in the analyzed model."
+  ],
+  "generic_rules": [
+    "AGREE contracts must reference only visible identifiers or declared helpers within the same annex scope.",
+    "Implementation-level bindings should be placed in implementation scopes after relevant subcomponents and connections.",
+    "AGREE scalar types must be int, real, or bool; avoid invalid type names like 'integer' or 'boolean'.",
+    "When AGREE reports type mismatches, align helper declarations with the expression's actual type."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts are enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are for assumptions, guarantees, constants, and equation declarations.",
+    "Component implementation annexes are for implementation-level bindings such as assignments.",
+    "Use only visible AADL features or declared auxiliary variables in guarantee expressions."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope; use only assign for bindings.",
+    "Do not reference identifiers that are not declared or visible in the current annex.",
+    "Do not introduce package-qualified names not present in the model's configured dependencies.",
+    "Do not use invalid scalar type names like 'integer' or 'boolean' in const or eq declarations."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about missing entity references",
+    "AGREE validator diagnostics about unresolved connection ends",
+    "Requirement traceability and compact semantics",
+    "Model fusion and owner/scope preservation rules"
+  ]
+}

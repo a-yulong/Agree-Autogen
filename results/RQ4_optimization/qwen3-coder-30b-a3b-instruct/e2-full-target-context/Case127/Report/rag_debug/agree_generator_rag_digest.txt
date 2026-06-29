@@ -1,0 +1,14 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Generate AGREE annex clauses only from signal flow connections visible in the component's AADL structure.
+- Use exact component and port names as extracted from the AADL model—no invented or example-based identifiers.
+Generic rules:
+- Assumptions and guarantees should capture behavioral constraints implied by structural connections.
+- Assignments are valid only in implementation-level annexes when binding to concrete subcomponents.
+Syntax or pattern reminders:
+- Wrap all AGREE content in `annex agree {** ... **};`.
+- Use `assume` for preconditions, `guarantee` for postconditions, and `assign` only for implementation-level bindings.
+Anti-patterns:
+- Do not reference AADL properties (e.g., Period, Deadline) as variables in AGREE expressions unless explicitly exposed as ports or constants.
+- Never copy identifiers from unrelated examples—only use names from the current component’s AADL scope.
+</RAG_DIGEST>

@@ -1,0 +1,149 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `assume` for input envelope constraints and `guarantee` for output range constraints in component type annexes when concrete bounds or visible relations are provided.
+- Place `assign` statements in implementation annexes only for existing output features or declared auxiliary variables.
+- Generate `eq` declarations for boolean range checks using `and` and `or` expressions with visible numeric identifiers.
+Generic rules:
+- AGREE annex blocks must be enclosed in `annex agree {** ... **};` and placed in component type or implementation annexes as appropriate.
+- Use `assume` for system assumptions and `guarantee` for system guarantees in component type contracts.
+- Avoid encoding AADL property names directly as AGREE variables unless they are explicitly typed ports or constants.
+- Do not generate AGREE expressions for Boolean data unless the port is explicitly typed as `bool` in AGREE scope.
+Syntax or pattern reminders:
+- AGREE syntax requires `assume "label": expression;` or `guarantee "label": expression;` for logical constraints.
+- Use `eq name : type = expression;` for defining helper variables in AGREE.
+- Use `assign output = expression;` only for output features or auxiliary variables in implementation scope.
+- Boolean expressions in AGREE must use `and`, `or`, and `not` operators with compatible types.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope; use `assign` for output bindings instead.
+- Do not encode AADL timing properties like Period, Deadline, Compute_Execution_Time as AGREE variables unless they are explicitly typed.
+- Do not generate range checks for opaque Boolean or enumeration data without numeric scalar representation.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- software_aocs::Attitude_Control_Function
+- software_aocs::Orbit_Control_Function
+- software_aocs::Telecommand_Processing
+- software_aocs::Telemetry_Processing
+- software_aocs::Failure_Detection_Isolation
+- software_aocs::Failure_Recovery
+- software_aocs::Reconfigurations
+- software_aocs::Manoeuvre_Execution
+- software_aocs::Attitude_Control_Function.impl
+- software_aocs::Orbit_Control_Function.impl
+- software_aocs::Telecommand_Processing.impl
+- software_aocs::Telemetry_Processing.impl
+- software_aocs::Failure_Detection_Isolation.impl
+- software_aocs::Failure_Recovery.impl
+- software_aocs::Reconfigurations.impl
+- software_aocs::Manoeuvre_Execution.impl
+- nominal_attitude
+- sensored_attitude
+- sun_direction
+- reference_torque
+- nominal_orbit
+- reference_force
+- telecommand
+- power_status_FSS
+- power_status_CSS
+- power_status_SPS
+- power_status_ES
+- power_status_MGM
+- power_status_GYR
+- power_status_STR
+- power_status_GPS
+- power_status_TRU
+- power_status_RW
+- power_status_MGT
+- manoeuvre_command
+- attitude_window
+- check_thresholds
+- Force_mode_to_NM
+- Force_mode_to_SM
+- torque_command
+
+Target interface:
+Exact expression symbols: nominal_attitude, sensored_attitude, sun_direction, reference_torque
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+nominal_attitude | in | data | real | dataaocs::attitude
+sensored_attitude | in | data | real | dataaocs::GYR_data
+sun_direction | in | data | real | dataaocs::FSS_data
+reference_torque | out | data | real | dataaocs::RW_data
+
+Raw requirement:
+The Attitude_Control_Function component shall execute according to the scheduling and timing constraints defined for Attitude_Control_Function.impl. The implementation shall use the Periodic dispatch protocol, execute with a period of 500 us, meet a deadline of 500 us, complete compute execution within 0 ms .. 250 us, and run at priority 1.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "software_aocs::Attitude_Control_Function.impl shall execute with Periodic dispatch protocol",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "software_aocs::Attitude_Control_Function.impl Dispatch_Protocol=Periodic"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "software_aocs::Attitude_Control_Function.impl shall execute with period 500 us",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "software_aocs::Attitude_Control_Function.impl Period=500 us"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "software_aocs::Attitude_Control_Function.impl shall meet deadline 500 us",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "software_aocs::Attitude_Control_Function.impl Deadline=500 us"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "software_aocs::Attitude_Control_Function.impl shall complete compute execution within 0 ms .. 250 us",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "software_aocs::Attitude_Control_Function.impl Compute_Execution_Time=0 ms .. 250 us"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "software_aocs::Attitude_Control_Function.impl shall run at priority 1",
+      "kind": "other",
+      "intent": "guarantee",
+      "evidence": [
+        "software_aocs::Attitude_Control_Function.impl Priority=1"
+      ]
+    }
+  ]
+}

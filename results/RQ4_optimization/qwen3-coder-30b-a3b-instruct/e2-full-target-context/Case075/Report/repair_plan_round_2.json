@@ -1,0 +1,46 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'altitude'.",
+      "cause": "Reference to 'altitude' is not visible in AGREE context of thr_mgmt.i",
+      "minimal_edit": "Remove 'altitude' from all expressions in the AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'gps_pos'.",
+      "cause": "Reference to 'gps_pos' is not visible in AGREE context of thr_mgmt.i",
+      "minimal_edit": "Replace 'gps_pos' with 'gps_pos.latitude' and 'gps_pos.longitude' in expressions"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'latitude'.",
+      "cause": "Reference to 'latitude' is not visible in AGREE context of thr_mgmt.i",
+      "minimal_edit": "Remove 'latitude' from all expressions in the AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'longitude'.",
+      "cause": "Reference to 'longitude' is not visible in AGREE context of thr_mgmt.i",
+      "minimal_edit": "Remove 'longitude' from all expressions in the AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "Reference to 'pspg' is not visible in AGREE context of thr_mgmt.i",
+      "minimal_edit": "Replace 'pspg.gps_pos' with 'gps_pos' in expressions"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved references in expressions",
+      "minimal_edit": "Remove all expressions with unresolved references"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Expression contains unresolved identifiers",
+      "minimal_edit": "Remove all expressions with unresolved references"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove 'altitude', 'latitude', 'longitude' from all expressions in the AGREE annex",
+    "Replace 'pspg.gps_pos' with 'gps_pos' in expressions",
+    "Remove all expressions that reference unresolved identifiers",
+    "Keep only valid expressions that use visible identifiers"
+  ]
+}

@@ -1,0 +1,154 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: Target_Speed, Actual_Speed, Target_Tire_Pitch, Actual_Tire_Pitch, State_Signal
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Target_Speed | in | data | opaque | Types::speed.speed_impl
+Actual_Speed | out | data | opaque | Types::speed.speed_impl
+Target_Tire_Pitch | in | data | opaque | Types::pitch.pitch_impl
+Actual_Tire_Pitch | out | data | opaque | Types::pitch.pitch_impl
+State_Signal | out | data | opaque | Types::state_sig.impl
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Target_Speed.val >= 0 and Target_Speed.val < 150.0",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "Target_Speed"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "const_tar_speed is a boolean attribute indicating the logical state of the target speed being constant",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "const_tar_speed"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "when const_tar_speed is true, Actual_Speed.val <= Target_Speed.val",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "const_tar_speed",
+        "Actual_Speed",
+        "Target_Speed"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "max_accel is a constant with value 40.0",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "max_accel"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "abs(Actual_Speed.val - prev(Actual_Speed.val)) < max_accel",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Actual_Speed",
+        "max_accel"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Car | lines 13-18
+annex agree {**
+	  assume "non_negative_target_speed": Target_Speed.val >= 0.0;
+	  assume "upper_bound_target_speed": Target_Speed.val < 150.0;
+	  const max_accel : real = 40.0;
+	  guarantee "acceleration_limit": (Actual_Speed.val - prev(Actual_Speed.val)) < max_accel;
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   13: 	annex agree {**
+   14: 	  assume "non_negative_target_speed": Target_Speed.val >= 0.0;
+   15: 	  assume "upper_bound_target_speed": Target_Speed.val < 150.0;
+   16: 	  const max_accel : real = 40.0;
+>> 17: 	  guarantee "acceleration_limit": (Actual_Speed.val - prev(Actual_Speed.val)) < max_accel;
+   18: 	**};
+   19: 	end Car;
+   20: 
+   21: 	system implementation Car.Car_Impl
+
+   27: 
+   28: 		connections
+   29: 			SpeedToThrot: port CNTRL.Actuator_Input -> THROT.Actuator_Input {
+   30: 				Communication_Properties::Timing => immediate;};
+>> 31: 			AcSpeedToTop: port THROT.Actual -> Actual_Speed {Communication_Properties::Timing => immediate;};
+   32: 			AcSpeedToCntrl: port THROT.Actual -> CNTRL.Actual {Communication_Properties::Timing => immediate;};
+   33: 			TgSpeedToCntrl: port Target_Speed -> CNTRL.Target {Communication_Properties::Timing => immediate;};
+   34: 			TgPtichToAxl: port Target_Tire_Pitch -> AXL.Target_Tire_Direction {
+   35: 				Communication_Properties::Timing => immediate;};
+
+   29: 			SpeedToThrot: port CNTRL.Actuator_Input -> THROT.Actuator_Input {
+   30: 				Communication_Properties::Timing => immediate;};
+   31: 			AcSpeedToTop: port THROT.Actual -> Actual_Speed {Communication_Properties::Timing => immediate;};
+   32: 			AcSpeedToCntrl: port THROT.Actual -> CNTRL.Actual {Communication_Properties::Timing => immediate;};
+>> 33: 			TgSpeedToCntrl: port Target_Speed -> CNTRL.Target {Communication_Properties::Timing => immediate;};
+   34: 			TgPtichToAxl: port Target_Tire_Pitch -> AXL.Target_Tire_Direction {
+   35: 				Communication_Properties::Timing => immediate;};
+   36: 			AcPtichToCar: port AXL.Actual_Tire_Direction -> Actual_Tire_Pitch {
+   37: 				Communication_Properties::Timing => immediate;};
+
+   34: 			TgPtichToAxl: port Target_Tire_Pitch -> AXL.Target_Tire_Direction {
+   35: 				Communication_Properties::Timing => immediate;};
+   36: 			AcPtichToCar: port AXL.Actual_Tire_Direction -> Actual_Tire_Pitch {
+   37: 				Communication_Properties::Timing => immediate;};
+>> 38: 			SSToSM: port SM.State_Out -> State_Signal {Communication_Properties::Timing => immediate;};
+   39: 
+   40: 	end Car.Car_Impl;
+   41: 
+   42: end Car;
+
+[TARGET MODEL CONTEXT]
+package Car
+public
+	with Agree_Nodes, Types, Transmission, Steering;
+	with Communication_Properties;
+
+	system Car
+		features
+			Target_Speed: in data port Types::speed.speed_impl;
+			Actual_Speed: out data port Types::speed.speed_impl;
+			Target_Tire_Pitch: in data port Types::pitch.pitch_impl;
+			Actual_Tire_Pitch: out data port Types::pitch.pitch_impl;
+			State_Signal: out data port Types::state_sig.impl;
+	end Car;
+
+	system implementation Car.Car_Impl
+		subcomponents
+			THROT: system Transmission::Throttle.Throttle_Impl;
+			CNTRL: system Transmission::Speed_Control.Speed_Control_Impl;
+			AXL: system Steering::Axle.Axle_Impl;
+			SM: system Transmission::State_Machine.Impl;
+
+		connections
+			SpeedToThrot: port CNTRL.Actuator_Input -> THROT.Actuator_Input {
+				Communication_Properties::Timing => immediate;};
+			AcSpeedToTop: port THROT.Actual -> Actual_Speed {Communication_Properties::Timing => immediate;};
+			AcSpeedToCntrl: port THROT.Actual -> CNTRL.Actual {Communication_Properties::Timing => immediate;};
+			TgSpeedToCntrl: port Target_Speed -> CNTRL.Target {Communication_Properties::Timing => immediate;};
+			TgPtichToAxl: port Target_Tire_Pitch -> AXL.Target_Tire_Direction {
+				Communication_Properties::Timing => immediate;};
+			AcPtichToCar: port AXL.Actual_Tire_Direction -> Actual_Tire_Pitch {
+				Communication_Properties::Timing => immediate;};
+			SSToSM: port SM.State_Out -> State_Signal {Communication_Properties::Timing => immediate;};
+
+	end Car.Car_Impl;
+
+end Car;

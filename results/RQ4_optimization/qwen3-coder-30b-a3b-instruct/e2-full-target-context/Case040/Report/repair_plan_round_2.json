@@ -1,0 +1,20 @@
+{
+  "problems": [
+    {
+      "diagnostic": "assume \"signal_flow_routing\": State_Out = State_Out;",
+      "cause": "Redundant equality assumption in AGREE annex",
+      "minimal_edit": "assume \"signal_flow_routing\": State_Out = State_Out;"
+    },
+    {
+      "diagnostic": "guarantee \"immediate_timing\": State_Out = State_Out;",
+      "cause": "Redundant equality guarantee in AGREE annex",
+      "minimal_edit": "guarantee \"immediate_timing\": State_Out = State_Out;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the assume statement with a valid AGREE assumption that expresses the intended signal flow constraint",
+    "Replace the guarantee statement with a valid AGREE guarantee that expresses the intended timing constraint",
+    "Ensure the new statements reference only visible identifiers and do not introduce invalid AADL type membership expressions"
+  ]
+}

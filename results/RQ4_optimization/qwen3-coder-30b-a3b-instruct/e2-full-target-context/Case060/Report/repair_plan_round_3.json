@@ -1,0 +1,80 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 106: left side of binary expression '/' is of type 'int' but must be of type 'real'",
+      "cause": "integer division in AGREE requires real types",
+      "minimal_edit": "Change Pedal / 2 to Pedal / 2.0 in the CMD guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 106: right side of binary expression '/' is of type 'int' but must be of type 'real'",
+      "cause": "integer division in AGREE requires real types",
+      "minimal_edit": "Change Pedal / 2 to Pedal / 2.0 in the CMD guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 124: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes package not imported or Brake_Mode not available",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Mode with direct Mode calculation"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 139: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package not imported or Brake_Cmd not available",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with direct calculation"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 139: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved Brake_Cmd reference",
+      "minimal_edit": "Replace Agree_Nodes::Brake_Cmd with direct calculation"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 256: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package not imported or Brake_Cmd not available",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with direct calculation"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 256: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved Brake_Cmd reference",
+      "minimal_edit": "Replace Agree_Nodes::Brake_Cmd with direct calculation"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package not imported or Brake_Cmd not available",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with direct calculation"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 257: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved Brake_Cmd reference",
+      "minimal_edit": "Replace Agree_Nodes::Brake_Cmd with direct calculation"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 258: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package not imported or Brake_Cmd not available",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with direct calculation"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 258: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved Brake_Cmd reference",
+      "minimal_edit": "Replace Agree_Nodes::Brake_Cmd with direct calculation"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 259: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package not imported or Brake_Cmd not available",
+      "minimal_edit": "Remove or replace Agree_Nodes::Brake_Cmd with direct calculation"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 259: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved Brake_Cmd reference",
+      "minimal_edit": "Replace Agree_Nodes::Brake_Cmd with direct calculation"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the COM component annex, replace Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX) with direct Mode calculation",
+    "In the COM component annex, replace Agree_Nodes::Brake_Cmd(Mode, Pedal) with direct calculation",
+    "In the MON component annex, replace Agree_Nodes::Brake_Cmd(Mode, Pedal) with direct calculation",
+    "In the BSCU.BSCU_Impl annex, replace Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal) with direct calculation",
+    "In the BSCU.BSCU_Impl annex, replace Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal) with direct calculation",
+    "In the BSCU.BSCU_Impl annex, replace Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal) with direct calculation",
+    "In the BSCU.BSCU_Impl annex, replace Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal) with direct calculation",
+    "In the COM component annex, change Pedal / 2 to Pedal / 2.0 in the CMD guarantee"
+  ]
+}

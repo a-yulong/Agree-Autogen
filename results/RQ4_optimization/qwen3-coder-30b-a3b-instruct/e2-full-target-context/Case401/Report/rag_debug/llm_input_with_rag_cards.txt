@@ -1,0 +1,119 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place output range guarantees in component type annexes using visible feature names and concrete bounds from the requirement.
+- Use eq declarations to define boolean range predicates before referencing them in guarantees.
+Generic rules:
+- Guarantees should express observable system behaviors using only visible, typed identifiers.
+- Avoid referencing AADL properties directly; use only ports, constants, or auxiliary variables declared in scope.
+Syntax or pattern reminders:
+- Use 'guarantee "label": expression;' inside annex agree {** ... **}; for component type contracts.
+- Define range checks as eq boolean equations before using them in guarantees for clarity and type safety.
+Anti-patterns:
+- Do not place guarantee statements in implementation scopes.
+- Do not use AADL property names (e.g., Period, Deadline) as if they are AGREE variables.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Test::BA::Backend_BA_V3::Alpha_Type
+- Test::BA::Backend_BA_V3::One_Dimension_Array
+- Test::BA::Backend_BA_V3::A_Struct
+- Test::BA::Backend_BA_V3::Compute_Spg
+- Test::BA::Backend_BA_V3::Print_Thread_Begin_Execution
+- Test::BA::Backend_BA_V3::Print_Spg
+- Test::BA::Backend_BA_V3::Computation_Th
+- Test::BA::Backend_BA_V3::Producer_Th
+- Test::BA::Backend_BA_V3::Consumer_Th
+- Test::BA::Backend_BA_V3::the_processor
+- Test::BA::Backend_BA_V3::A
+- Test::BA::Backend_BA_V3::B
+- Test::BA::Backend_BA_V3::PC_Simple
+- Test::BA::Backend_BA_V3::A_Struct.impl
+- Test::BA::Backend_BA_V3::A.Impl
+- Test::BA::Backend_BA_V3::B.Impl
+- Test::BA::Backend_BA_V3::PC_Simple.Native
+- All_elems
+- elem
+- Computation
+- Producer
+- Consumer
+- pr_A
+- pr_B
+- Device_A
+- Device_B
+- CPU_A
+- CPU_B
+- the_bus
+- Z3
+- Z5
+- Z9
+- Z12
+- Z4
+- Z7
+- Z10
+- Z1
+- Z2
+- Z6
+- Z8
+
+Target interface:
+Exact expression symbols: Alpha1, Alpha1.All_elems, Alpha1.elem, Alpha2, Alpha2.All_elems, Alpha2.elem, Alpha3
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Alpha1 | out | data | opaque | A_Struct.impl
+Alpha1.All_elems | out | data_field | opaque | One_Dimension_Array
+Alpha1.elem | out | data_field | int | Base_Types::Integer
+Alpha2 | out | data | opaque | A_Struct.impl
+Alpha2.All_elems | out | data_field | opaque | One_Dimension_Array
+Alpha2.elem | out | data_field | int | Base_Types::Integer
+Alpha3 | out | data | int | Base_Types::Integer
+
+Raw requirement:
+The A component shall bound the Alpha3 output at every evaluation step. The Alpha3 value shall be greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Alpha3 >= 0 and Alpha3 <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "Alpha3"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Alpha3 is bounded at every evaluation step",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Alpha3"
+      ]
+    }
+  ]
+}

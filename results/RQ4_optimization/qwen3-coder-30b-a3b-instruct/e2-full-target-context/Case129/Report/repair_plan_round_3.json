@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "AGREE cannot reference AADL properties directly by name from thread type annex; must use implementation scope",
+      "minimal_edit": "Move annex to Task.impl_1 and reference properties via component instance"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Period'.",
+      "cause": "AGREE cannot reference AADL properties directly by name from thread type annex; must use implementation scope",
+      "minimal_edit": "Move annex to Task.impl_1 and reference properties via component instance"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Compute_Execution_time'.",
+      "cause": "AGREE cannot reference AADL properties directly by name from thread type annex; must use implementation scope",
+      "minimal_edit": "Move annex to Task.impl_1 and reference properties via component instance"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Priority'.",
+      "cause": "AGREE cannot reference AADL properties directly by name from thread type annex; must use implementation scope",
+      "minimal_edit": "Move annex to Task.impl_1 and reference properties via component instance"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the AGREE annex from thread Task",
+    "Add a new AGREE annex to thread implementation Task.impl_1",
+    "In the new annex, reference the properties through the component instance 'Task1' (which is the subcomponent of node_a.impl)",
+    "Replace each property reference with the correct qualified path: Task1.Dispatch_Protocol, Task1.Period, Task1.Compute_Execution_time, Task1.Priority"
+  ]
+}

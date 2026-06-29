@@ -1,0 +1,50 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 182: named thing must be an expression with a type",
+      "cause": "Self-equality assumption invalid in AGREE context",
+      "minimal_edit": "Replace 'acc_in_data_x = acc_in_data_x' with 'acc_in_data_x = acc_in_data_x'"
+    },
+    {
+      "diagnostic": "line 183: named thing must be an expression with a type",
+      "cause": "Self-equality assumption invalid in AGREE context",
+      "minimal_edit": "Replace 'acc_in_data_y = acc_in_data_y' with 'acc_in_data_y = acc_in_data_y'"
+    },
+    {
+      "diagnostic": "line 184: Couldn't resolve reference to 'acc_in_data_x'",
+      "cause": "Reference to port not visible in component type scope",
+      "minimal_edit": "Remove reference to 'acc_in_data_x' from guarantee"
+    },
+    {
+      "diagnostic": "line 184: Couldn't resolve reference to 'attitude_sub'",
+      "cause": "Reference to subcomponent not visible in component type scope",
+      "minimal_edit": "Remove reference to 'attitude_sub' from guarantee"
+    },
+    {
+      "diagnostic": "line 184: named thing must be an expression with a type",
+      "cause": "Invalid expression in guarantee",
+      "minimal_edit": "Replace 'attitude_sub.acc_in_data_x = attitude_sub.acc_in_data_x' with 'attitude_sub.acc_in_data_x = attitude_sub.acc_in_data_x'"
+    },
+    {
+      "diagnostic": "line 185: Couldn't resolve reference to 'acc_in_data_y'",
+      "cause": "Reference to port not visible in component type scope",
+      "minimal_edit": "Remove reference to 'acc_in_data_y' from guarantee"
+    },
+    {
+      "diagnostic": "line 185: Couldn't resolve reference to 'attitude_sub'",
+      "cause": "Reference to subcomponent not visible in component type scope",
+      "minimal_edit": "Remove reference to 'attitude_sub' from guarantee"
+    },
+    {
+      "diagnostic": "line 185: named thing must be an expression with a type",
+      "cause": "Invalid expression in guarantee",
+      "minimal_edit": "Replace 'attitude_sub.acc_in_data_y = attitude_sub.acc_in_data_y' with 'attitude_sub.acc_in_data_y = attitude_sub.acc_in_data_y'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove self-equality assumptions for acc_in_data_x and acc_in_data_y",
+    "Remove guarantees that reference attitude_sub ports or subcomponent",
+    "Replace invalid expressions with valid AGREE expressions or remove them"
+  ]
+}

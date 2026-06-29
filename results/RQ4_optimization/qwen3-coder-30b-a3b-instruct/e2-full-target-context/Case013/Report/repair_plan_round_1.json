@@ -1,0 +1,43 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 26: Couldn't resolve reference to 'VV'.",
+      "cause": "VV is not a visible feature in the GCAS_Monitor component type",
+      "minimal_edit": "Replace VV with verticalVelocity"
+    },
+    {
+      "diagnostic": "line 27: Couldn't resolve reference to 'Airspeed'.",
+      "cause": "Airspeed is not a visible feature in the GCAS_Monitor component type",
+      "minimal_edit": "Replace Airspeed with a valid visible feature or remove the reference"
+    },
+    {
+      "diagnostic": "line 27: Couldn't resolve reference to 'gcasm_to_decider'.",
+      "cause": "gcasm_to_decider is a connection, not a visible feature",
+      "minimal_edit": "Remove or replace with a valid expression"
+    },
+    {
+      "diagnostic": "line 28: Couldn't resolve reference to 'gcasm'.",
+      "cause": "gcasm is a subcomponent reference, not a visible feature",
+      "minimal_edit": "Replace with valid output port reference"
+    },
+    {
+      "diagnostic": "line 28: Couldn't resolve reference to 'outImpact'.",
+      "cause": "outImpact is not directly visible in the component type scope",
+      "minimal_edit": "Use the correct port reference"
+    },
+    {
+      "diagnostic": "line 28: Couldn't resolve reference to 'outRecovery'.",
+      "cause": "outRecovery is not directly visible in the component type scope",
+      "minimal_edit": "Use the correct port reference"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace VV with verticalVelocity in the roll_rate_bounds assumption",
+    "Remove or replace Airspeed reference in tcb_logic guarantee",
+    "Replace gcasm_to_decider reference with a valid expression or remove",
+    "Replace gcasm reference with correct output port reference in output_initialization guarantee",
+    "Replace outImpact with gcasm.outImpact in output_initialization guarantee",
+    "Replace outRecovery with gcasm.outRecovery in output_initialization guarantee"
+  ]
+}

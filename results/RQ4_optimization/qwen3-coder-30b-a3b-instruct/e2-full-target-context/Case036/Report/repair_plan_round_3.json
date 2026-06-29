@@ -1,0 +1,37 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 17: Expression for guarantee statement is of type 'real' but must be of type 'bool'",
+      "cause": "guarantee expression evaluates to real instead of boolean",
+      "minimal_edit": "change '(Actual_Speed.val - prev(Actual_Speed.val)) <= max_accel' to '(Actual_Speed.val - prev(Actual_Speed.val)) <= max_accel and Actual_Speed.val >= 0.0'"
+    },
+    {
+      "diagnostic": "line 17: The first and second arguments of the 'prev' function are of non-matching types 'RealTypeDef' and 'ErrorTypeDef'",
+      "cause": "type mismatch in prev() argument due to invalid expression",
+      "minimal_edit": "replace 'prev(Actual_Speed.val)' with 'prev(Actual_Speed.val, 0.0)' to provide default value"
+    },
+    {
+      "diagnostic": "line 31: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "port connection references subcomponent port instead of component port",
+      "minimal_edit": "change 'THROT.Actual' to 'THROT.Actual_Speed' to match component port name"
+    },
+    {
+      "diagnostic": "line 33: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "port connection references subcomponent port instead of component port",
+      "minimal_edit": "change 'CNTRL.Target' to 'CNTRL.Target_Speed' to match component port name"
+    },
+    {
+      "diagnostic": "line 38: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "port connection references subcomponent port instead of component port",
+      "minimal_edit": "change 'SM.State_Out' to 'SM.State_Signal' to match component port name"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the guarantee statement on line 17 to ensure boolean return type by adding a condition on Actual_Speed.val >= 0.0",
+    "Modify the prev() function call on line 17 to provide a default value: replace 'prev(Actual_Speed.val)' with 'prev(Actual_Speed.val, 0.0)'",
+    "Update the connection on line 31 to reference the correct component port: change 'THROT.Actual' to 'THROT.Actual_Speed'",
+    "Update the connection on line 33 to reference the correct component port: change 'CNTRL.Target' to 'CNTRL.Target_Speed'",
+    "Update the connection on line 38 to reference the correct component port: change 'SM.State_Out' to 'SM.State_Signal'"
+  ]
+}

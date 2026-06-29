@@ -1,0 +1,45 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 107: Couldn't resolve reference to 'P0'.",
+      "cause": "P0 is a subcomponent of cpurm.impl, not directly visible; AGREE cannot resolve nested subcomponent references like cpu_rm.impl.P0",
+      "minimal_edit": "replace 'cpu_rm.impl.P0' with 'cpu_rm' since cpu_rm is the visible processor subcomponent and P0 is its internal implementation detail not exposed in AGREE scope"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 107: Couldn't resolve reference to 'cpu_rm'.",
+      "cause": "cpu_rm is a subcomponent of hello.impl, but AGREE expression must use the exact visible subcomponent name as bound in the AADL implementation",
+      "minimal_edit": "replace 'cpu_rm.impl.P0' with 'cpu_rm' to refer to the visible subcomponent declared in hello.impl"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 107: Couldn't resolve reference to 'impl'.",
+      "cause": "'impl' is not a symbol in AGREE scope; AGREE does not resolve AADL implementation suffixes",
+      "minimal_edit": "remove '.impl' from all references; use only top-level subcomponent names visible in the implementation"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 108: Couldn't resolve reference to 'mem'.",
+      "cause": "mem is the subcomponent name in hello.impl, but 'sdram' and 'segment1' are subcomponents of myram.sdram, not directly visible to AGREE",
+      "minimal_edit": "replace 'mem.sdram.segment1' with 'mem' since mem is the visible memory subcomponent and segment1 is its internal substructure"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 108: Couldn't resolve reference to 'sdram'.",
+      "cause": "sdram is a subcomponent of myram, not a direct subcomponent of hello.impl; AGREE cannot traverse nested subcomponent hierarchies",
+      "minimal_edit": "remove '.sdram.segment1'; use only 'mem' as the visible memory binding target"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 108: Couldn't resolve reference to 'segment1'.",
+      "cause": "segment1 is a subcomponent of myram.sdram, not directly exposed in hello.impl; AGREE only sees subcomponents declared at hello.impl level",
+      "minimal_edit": "remove '.segment1'; use 'mem' as the binding target since it is the only visible memory subcomponent"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 109: named thing must be an expression with a type",
+      "cause": "guarantee 'hello = hello' is syntactically valid but semantically vacuous and does not express deployment binding usage as required by R3",
+      "minimal_edit": "remove the guarantee clause since it cannot express the required binding usage without introducing new identifiers or semantics"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'node_a = cpu_rm.impl.P0;' with 'node_a = cpu_rm;' to use only visible subcomponent names",
+    "Replace 'node_a = mem.sdram.segment1;' with 'node_a = mem;' to use only visible subcomponent names",
+    "Remove the guarantee clause 'guarantee \"hello_uses_hello_impl_bindings\": hello = hello;' because it does not express R3 and cannot be repaired without semantic addition"
+  ]
+}

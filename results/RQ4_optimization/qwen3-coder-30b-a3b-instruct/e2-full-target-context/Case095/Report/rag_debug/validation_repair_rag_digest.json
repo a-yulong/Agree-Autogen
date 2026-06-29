@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix AGREE syntax errors by correcting mismatched characters and invalid input tokens in annex blocks.",
+    "Resolve 'named thing must be an expression with a type' errors by ensuring all identifiers are properly declared or removed.",
+    "Address 'implementation-level references in component type annex' by moving valid bindings to implementation scope or removing invalid guarantees.",
+    "Correct scalar type name errors by using AGREE's supported types: int, real, bool."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or declared helpers in AGREE annexes to avoid unresolved references.",
+    "Place implementation-level bindings in implementation scopes, not component type scopes.",
+    "Ensure AGREE annexes are syntactically valid and do not introduce undefined identifiers.",
+    "Validate that all AGREE expressions have proper type resolution before execution."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes should not reference implementation-only subcomponent paths.",
+    "Assignments in implementation scope must target existing output features or declared auxiliary variables.",
+    "AGREE scalar types are int, real, and bool; avoid package-qualified or undefined types."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope; use assign for implementation-level bindings.",
+    "Avoid referencing undefined or package-qualified identifiers in AGREE annexes.",
+    "Do not attempt to fix syntax errors by adding architecture; correct the root cause instead.",
+    "Do not mix implementation-level and type-level references in the same annex without proper scope separation."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE validator diagnostics and repair strategies",
+    "Component type vs. implementation scope boundaries",
+    "AGREE annex placement in component types"
+  ]
+}

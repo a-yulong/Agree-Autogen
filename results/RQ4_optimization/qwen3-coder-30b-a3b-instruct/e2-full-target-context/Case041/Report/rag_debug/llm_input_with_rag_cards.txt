@@ -1,0 +1,106 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.
+- Place component type assumptions and guarantees in valid component type scopes, avoiding implementation-only subcomponent paths.
+Generic rules:
+- Generate AGREE contracts using logical operators (and, or, not, =>) and ensure type consistency between declarations and expressions.
+- Relate visible outputs to visible inputs in guarantees, and use named constants or visible relations for envelope assumptions.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract clauses.
+- Declare variables with `eq name : type = expression;` and constants with `const name : type = value;`.
+Anti-patterns:
+- Avoid referencing AADL property names like Deadline or Period directly in AGREE expressions unless they are explicitly typed ports or constants.
+- Do not use implementation-only subcomponent ports in component type contracts.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Microwave_SEng5861::Mode_Control
+- Microwave_SEng5861::Display_Control
+- Microwave_SEng5861::Output_Processing
+- Microwave_SEng5861::Microwave_Control
+- Microwave_SEng5861::Mode_Control.Impl
+- Microwave_SEng5861::Display_Control.Impl
+- Microwave_SEng5861::Microwave_Control.Impl
+- MC
+- DC
+- OP
+- clear_TO_MC_clear
+- clear_TO_DC_clear
+- start_TO_MC_start
+- kp_0_TO_DC_kp_0
+- kp_1_TO_DC_kp_1
+- kp_2_TO_DC_kp_2
+- kp_3_TO_DC_kp_3
+- kp_4_TO_DC_kp_4
+- kp_5_TO_DC_kp_5
+- kp_6_TO_DC_kp_6
+- kp_7_TO_DC_kp_7
+- kp_8_TO_DC_kp_8
+- kp_9_TO_DC_kp_9
+- door_closed_TO_MC_door_closed
+- DC_steps_to_cook_TO_MC_steps_to_cook
+- MC_cooking_mode_TO_OP_cooking_mode
+- MC_enable_TO_DC_enable
+- OP_heating_element_on_TO_heating_element_on
+- DC_left_digit_TO_left_digit
+- DC_middle_digit_TO_middle_digit
+- DC_right_digit_TO_right_digit
+- start
+- clear
+- seconds_to_cook
+- door_closed
+- cooking_mode
+- kp_0
+- kp_1
+- kp_2
+- kp_3
+
+Target interface:
+Exact expression symbols: cooking_mode, heating_element_on
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+cooking_mode | in | data | int | Base_Types::Integer
+heating_element_on | out | data | bool | Base_Types::Boolean
+
+Raw requirement:
+The Output_Processing component shall ensure that the Boolean value of the heating_element_on output is logically equivalent to the condition that the cooking_mode input is equal to the integer constant 2, which represents the "cooking" state.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "heating_element_on is true if and only if cooking_mode equals 2",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "heating_element_on",
+        "cooking_mode"
+      ]
+    }
+  ]
+}

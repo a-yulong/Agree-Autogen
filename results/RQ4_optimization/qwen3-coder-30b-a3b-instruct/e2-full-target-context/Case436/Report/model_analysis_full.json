@@ -1,0 +1,357 @@
+{
+  "component_types": [
+    {
+      "name": "MinePump::Int",
+      "kind": "data"
+    },
+    {
+      "name": "MinePump::WaterLevelMonitoring",
+      "kind": "thread"
+    },
+    {
+      "name": "MinePump::MethaneMonitoring",
+      "kind": "thread"
+    },
+    {
+      "name": "MinePump::PumpCtrl",
+      "kind": "thread"
+    },
+    {
+      "name": "MinePump::WaterAlarm",
+      "kind": "thread"
+    },
+    {
+      "name": "MinePump::MinePump_Software",
+      "kind": "process"
+    },
+    {
+      "name": "MinePump::CPU",
+      "kind": "processor"
+    },
+    {
+      "name": "MinePump::MinePump",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "MinePump::MinePump_Software.impl",
+      "kind": "process",
+      "type_name": "MinePump::MinePump_Software"
+    },
+    {
+      "name": "MinePump::MinePump.impl",
+      "kind": "system",
+      "type_name": "MinePump::MinePump"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "MinePump::MinePump_Software.impl",
+      "name": "WaterLevelMonitoring_Thread",
+      "category": "thread",
+      "classifier": "MinePump::WaterLevelMonitoring"
+    },
+    {
+      "owner": "MinePump::MinePump_Software.impl",
+      "name": "MethaneMonitoring_Thread",
+      "category": "thread",
+      "classifier": "MinePump::MethaneMonitoring"
+    },
+    {
+      "owner": "MinePump::MinePump_Software.impl",
+      "name": "PumpCtrl_Thread",
+      "category": "thread",
+      "classifier": "MinePump::PumpCtrl"
+    },
+    {
+      "owner": "MinePump::MinePump_Software.impl",
+      "name": "WaterAlarm_Thread",
+      "category": "thread",
+      "classifier": "MinePump::WaterAlarm"
+    },
+    {
+      "owner": "MinePump::MinePump.impl",
+      "name": "Software",
+      "category": "process",
+      "classifier": "MinePump::MinePump_Software.impl"
+    },
+    {
+      "owner": "MinePump::MinePump.impl",
+      "name": "Hardware",
+      "category": "processor",
+      "classifier": "MinePump::CPU"
+    }
+  ],
+  "features": [
+    {
+      "owner": "MinePump::WaterLevelMonitoring",
+      "name": "WaterAlarm",
+      "direction": "out",
+      "category": "data port",
+      "type": "MinePump::Int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MinePump::MethaneMonitoring",
+      "name": "MethaneLevel",
+      "direction": "out",
+      "category": "data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MinePump::PumpCtrl",
+      "name": "MethaneLevel",
+      "direction": "in",
+      "category": "event data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MinePump::PumpCtrl",
+      "name": "WaterLevel",
+      "direction": "in",
+      "category": "event data port",
+      "type": "int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MinePump::PumpCtrl",
+      "name": "WaterAlarm",
+      "direction": "out",
+      "category": "data port",
+      "type": "MinePump::Int",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MinePump::WaterAlarm",
+      "name": "WaterAlarm",
+      "direction": "in",
+      "category": "event data port",
+      "type": "MinePump::Int",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "MinePump::MinePump_Software.impl",
+      "name": "C1",
+      "kind": "port",
+      "source": "MinePump::MinePump_Software.impl.MethaneMonitoring_Thread.MethaneLevel",
+      "destination": "MinePump::MinePump_Software.impl.PumpCtrl_Thread.MethaneLevel"
+    },
+    {
+      "owner": "MinePump::MinePump_Software.impl",
+      "name": "C2",
+      "kind": "port",
+      "source": "MinePump::MinePump_Software.impl.WaterLevelMonitoring_Thread.WaterAlarm",
+      "destination": "MinePump::MinePump_Software.impl.PumpCtrl_Thread.WaterLevel"
+    },
+    {
+      "owner": "MinePump::MinePump_Software.impl",
+      "name": "C3",
+      "kind": "port",
+      "source": "MinePump::MinePump_Software.impl.PumpCtrl_Thread.WaterAlarm",
+      "destination": "MinePump::MinePump_Software.impl.WaterAlarm_Thread.WaterAlarm"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "MinePump::Int",
+      "owner_kind": "data",
+      "name": "Data_Model::Data_Representation",
+      "value": "Integer",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::WaterLevelMonitoring",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::WaterLevelMonitoring",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "250 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::WaterLevelMonitoring",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "1 ms .. 2 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::WaterLevelMonitoring",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "2",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::WaterLevelMonitoring",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "\"waterlevelmonitoring_body\"",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::WaterLevelMonitoring",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "(\"minepump.c\")",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::MethaneMonitoring",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::MethaneMonitoring",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "100 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::MethaneMonitoring",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "1 ms .. 2 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::MethaneMonitoring",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "2",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::MethaneMonitoring",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "\"methanemonitoring_body\"",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::MethaneMonitoring",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "(\"minepump.c\")",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::PumpCtrl",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Sporadic",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::PumpCtrl",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "100 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::PumpCtrl",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "1 ms .. 2 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::PumpCtrl",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "2",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::PumpCtrl",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "\"pumpctrl_body\"",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::PumpCtrl",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "(\"minepump.c\")",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Sporadic",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "100 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "1 ms .. 2 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "2",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "\"wateralarm_body\"",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::WaterAlarm",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "(\"minepump.c\")",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::CPU",
+      "owner_kind": "processor",
+      "name": "Scheduling_Protocol",
+      "value": "(POSIX_1003_HIGHEST_PRIORITY_FIRST_PROTOCOL)",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::CPU",
+      "owner_kind": "processor",
+      "name": "Deployment::Execution_Platform",
+      "value": "Native",
+      "applies_to": ""
+    },
+    {
+      "owner": "MinePump::MinePump.impl",
+      "owner_kind": "system",
+      "name": "Actual_Processor_Binding",
+      "value": "(reference (Hardware))",
+      "applies_to": "Software"
+    }
+  ]
+}

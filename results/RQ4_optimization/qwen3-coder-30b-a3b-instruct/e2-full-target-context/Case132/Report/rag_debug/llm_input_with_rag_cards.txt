@@ -1,0 +1,138 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks
+- Component type annexes are for assumptions/guarantees; implementation annexes are for bindings
+Generic rules:
+- Use only visible identifiers from the AADL model in AGREE expressions
+- Place port-based assumptions/guarantees in component type scope
+- Avoid Boolean or event port encodings unless explicitly supported by model data
+Syntax or pattern reminders:
+- AGREE bindings must reference valid subcomponents and connections in implementation scope
+- Do not use AADL property names directly as AGREE variables
+Anti-patterns:
+- Do not generate clauses that reference opaque Boolean or event ports without model support
+- Do not assume AADL properties are automatically available in AGREE scope
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Hello_World2::Hello_Spg_1
+- Hello_World2::Task
+- Hello_World2::node_a
+- Hello_World2::partition_runtime
+- Hello_World2::cpurm
+- Hello_World2::myram
+- Hello_World2::segment
+- Hello_World2::hello
+- Hello_World2::Task.impl_1
+- Hello_World2::node_a.impl
+- Hello_World2::partition_runtime.i
+- Hello_World2::cpurm.impl
+- Hello_World2::segment.i
+- Hello_World2::myram.stram
+- Hello_World2::myram.sdram
+- Hello_World2::hello.impl
+- Mycalls
+- Task1
+- P0
+- P1
+- segment1
+- segment2
+- node_a
+- node_b
+- cpu_rm
+- mem
+- Task
+- Task.impl_1
+- node_a.impl
+- hello
+- hello.impl
+
+Target interface:
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- Hello_World2::Hello_Spg_1
+- Hello_World2::Task
+- Hello_World2::node_a
+- Hello_World2::partition_runtime
+- Hello_World2::cpurm
+- Hello_World2::myram
+- Hello_World2::segment
+- Hello_World2::hello
+- Hello_World2::Task.impl_1
+- Hello_World2::node_a.impl
+- Hello_World2::partition_runtime.i
+- Hello_World2::cpurm.impl
+- Hello_World2::segment.i
+- Hello_World2::myram.stram
+- Hello_World2::myram.sdram
+- Hello_World2::hello.impl
+- Mycalls
+- Task1
+- P0
+- P1
+- segment1
+- segment2
+- node_a
+- node_b
+- cpu_rm
+- mem
+- Task
+- Task.impl_1
+- node_a.impl
+- hello
+- hello.impl
+
+Raw requirement:
+The hello component shall use the deployment bindings defined for hello.impl. The deployment mapping shall bind node_a to processor cpu_rm.p0, bind Node_A to memory mem.segment1, bind node_b to processor cpu_rm.p1, and bind Node_b to memory mem.segment2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "hello.impl shall be bound to cpu_rm.p0 and mem.segment1",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "Hello_World2::hello.impl",
+        "Hello_World2::cpurm.impl",
+        "Hello_World2::myram.sdram"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "hello.impl shall be bound to cpu_rm.p1 and mem.segment2",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "Hello_World2::hello.impl",
+        "Hello_World2::cpurm.impl",
+        "Hello_World2::myram.sdram"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'door1'.",
+      "cause": "AGREE annex is in component type scope but references implementation subcomponent names",
+      "minimal_edit": "Remove the assume statement referencing door1 since it's not accessible in the component type scope"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'handle_position'.",
+      "cause": "AGREE annex is in component type scope but references implementation subcomponent port names",
+      "minimal_edit": "Remove the assume statement referencing door1.handle_position since it's not accessible in the component type scope"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'closed'.",
+      "cause": "AGREE annex is in component type scope but references implementation subcomponent port names",
+      "minimal_edit": "Remove the assume statement referencing door1.closed since it's not accessible in the component type scope"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from the component type doors_process to the component implementation doors_process.imp",
+    "Remove the assume statements that reference door1.handle_position and door1.closed since these are not accessible in the component type scope",
+    "Keep only the valid signal flow assumptions that reference the direct ports of the component type"
+  ]
+}

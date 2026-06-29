@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: named thing must be an expression with a type",
+      "cause": "Data_Sink = Data_Sink is not a valid boolean expression in AGREE",
+      "minimal_edit": "replace Data_Sink = Data_Sink with true"
+    },
+    {
+      "diagnostic": "line 66: no viable alternative at input 'Sporadic'",
+      "cause": "Sporadic is not a valid AGREE expression; should be a boolean constant or property reference",
+      "minimal_edit": "replace Sporadic with true"
+    },
+    {
+      "diagnostic": "line 67: left side of binary expression 'and' is of type 'int' but must be of type 'bool'",
+      "cause": "10 ms = 10 ms evaluates to int, not bool",
+      "minimal_edit": "replace 10 ms = 10 ms with true"
+    },
+    {
+      "diagnostic": "line 67: no viable alternative at input 'ms'",
+      "cause": "AGREE does not support unit expressions like 'ms' in this context",
+      "minimal_edit": "remove 'ms' from timing constraint"
+    },
+    {
+      "diagnostic": "line 67: right side of binary expression 'and' is of type 'int' but must be of type 'bool'",
+      "cause": "10 ms = 10 ms evaluates to int, not bool",
+      "minimal_edit": "replace 10 ms = 10 ms with true"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace Data_Sink = Data_Sink with true in the data_flow_routing assumption",
+    "Replace Sporadic with true in the sporadic_dispatch guarantee",
+    "Replace 10 ms = 10 ms and 10 ms = 10 ms with true in the timing_constraint guarantee",
+    "Remove 'ms' unit from timing constraint expressions"
+  ]
+}

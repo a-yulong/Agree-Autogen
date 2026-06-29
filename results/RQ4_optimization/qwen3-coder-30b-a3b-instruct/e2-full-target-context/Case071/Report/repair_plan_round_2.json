@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is not visible in the component type scope",
+      "minimal_edit": "Remove 'pspg.' prefix from pspg.speed"
+    },
+    {
+      "diagnostic": "line 108: Couldn't resolve reference to 'speed'.",
+      "cause": "speed is not visible in the component type scope",
+      "minimal_edit": "Replace 'speed' with 'pspg.speed' to reference the parameter"
+    },
+    {
+      "diagnostic": "line 108: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved references",
+      "minimal_edit": "Replace 'speed = pspg.speed' with 'pspg.speed = pspg.speed' to resolve type"
+    },
+    {
+      "diagnostic": "line 108: named thing must be an expression with a type",
+      "cause": "Unresolved identifiers result in error type",
+      "minimal_edit": "Replace 'speed = pspg.speed' with 'pspg.speed = pspg.speed' to ensure valid expression"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the 'pspg.' prefix from pspg.speed on the left side of the assignment",
+    "Replace the 'speed' reference with 'pspg.speed' on the right side of the assignment",
+    "Ensure both sides of the assignment reference the same parameter"
+  ]
+}

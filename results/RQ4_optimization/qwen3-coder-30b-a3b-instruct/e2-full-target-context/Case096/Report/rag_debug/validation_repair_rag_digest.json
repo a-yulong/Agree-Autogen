@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Fix missing 'with' clauses for referenced packages and property sets in AADL models before generating AGREE contracts.",
+    "Avoid introducing package-qualified identifiers in AGREE annexes that are not declared in the model's 'with' clauses."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or declared helpers in AGREE expressions to prevent type resolution errors.",
+    "Place AGREE contracts in appropriate scopes: component types for assumptions/guarantees, implementations for bindings.",
+    "Do not encode AADL properties like timing or resource usage directly in AGREE expressions unless explicitly typed in the model."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Assignments in implementation scopes must reference existing output features or declared auxiliary variables.",
+    "AGREE scalar types are int, real, and bool; avoid referencing AADL type names directly."
+  ],
+  "anti_patterns": [
+    "Do not generate AGREE clauses that reference identifiers or properties not declared in the AADL model's visible scope.",
+    "Do not place guarantee statements in implementation-level AGREE annexes; use only assumptions and assignments."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about empty packages",
+    "AGREE validator diagnostics about missing property set references in assume/guarantee syntax",
+    "AGREE syntax patterns for component type contracts"
+  ]
+}

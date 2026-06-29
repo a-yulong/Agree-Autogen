@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assume statements are allowed only in component types",
+      "cause": "assume statements placed in implementation annex",
+      "minimal_edit": "move annex block from acc_process_emv2.impl to acc_process_emv2"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "invalid comparison of port to connection name",
+      "minimal_edit": "remove invalid assume statements"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "invalid comparison of port to connection name",
+      "minimal_edit": "remove invalid assume statements"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "remove the entire annex agree block from acc_process_emv2.impl",
+    "add an annex agree block to acc_process_emv2 containing only valid AGREE constructs",
+    "ensure the new annex agree block is placed in the component type scope"
+  ]
+}

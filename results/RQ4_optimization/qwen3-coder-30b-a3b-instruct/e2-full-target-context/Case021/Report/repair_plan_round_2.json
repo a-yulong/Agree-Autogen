@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 17: missing ';' at 'cooler_on'",
+      "cause": "syntax error in data implementation declaration",
+      "minimal_edit": "add semicolon after cooler_on"
+    },
+    {
+      "diagnostic": "line 28: Couldn't resolve reference to 'initialized'",
+      "cause": "use of undefined 'initialized' variable in AGREE guarantee",
+      "minimal_edit": "declare initialized variable and use it to guard pre() expressions"
+    },
+    {
+      "diagnostic": "line 28: The condition of the if statement is of type 'ErrorTypeDef' but must be of type 'bool'",
+      "cause": "invalid boolean expression in if condition due to unresolved 'initialized'",
+      "minimal_edit": "rewrite conditional logic to use initialized guard"
+    },
+    {
+      "diagnostic": "line 28: right side of unary expression 'not' is of type 'ErrorTypeDef' but must be of type 'bool'",
+      "cause": "unary 'not' applied to invalid expression",
+      "minimal_edit": "replace 'not initialized' with 'not initialized' using proper initialized variable"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add semicolon after cooler_on on line 17",
+    "Add initialized variable declaration to AGREE annex",
+    "Rewrite k_update_rule to use initialized guard for pre() expressions",
+    "Replace 'not initialized' with proper initialized variable reference"
+  ]
+}

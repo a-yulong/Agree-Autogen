@@ -1,0 +1,39 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'C1'.",
+      "cause": "C1 is a connection identifier, not a valid AGREE expression",
+      "minimal_edit": "Replace C1 with diagnosis_in"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'inData_para'.",
+      "cause": "inData_para is a subcomponent port, not directly accessible in AGREE",
+      "minimal_edit": "Replace diagnosisEngine.inData_para with diagnosis_in"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Expression uses invalid reference to subcomponent port",
+      "minimal_edit": "Replace diagnosisEngine.inData_para with diagnosis_in"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'C2'.",
+      "cause": "C2 is a connection identifier, not a valid AGREE expression",
+      "minimal_edit": "Replace C2 with diagnosis_out"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'outData_para'.",
+      "cause": "outData_para is a subcomponent port, not directly accessible in AGREE",
+      "minimal_edit": "Replace diagnosisEngine.outData_para with diagnosis_out"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Invalid expression due to unresolved references",
+      "minimal_edit": "Replace diagnosisEngine.outData_para with diagnosis_out"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'diagnosisEngine.inData_para = C1(diagnosis_in)' with 'diagnosis_in = diagnosis_in' in the first assume statement",
+    "Replace 'diagnosis_out = C2(diagnosisEngine.outData_para)' with 'diagnosis_out = diagnosis_out' in the second assume statement"
+  ]
+}

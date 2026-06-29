@@ -1,0 +1,32 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 13: Couldn't resolve reference to 'D'.",
+      "cause": "P, D, I are undeclared constants in AGREE context",
+      "minimal_edit": "declare P, D, I as constants with values 1.0, 0.0, 0.0 respectively"
+    },
+    {
+      "diagnostic": "line 14: Couldn't resolve reference to 'e'.",
+      "cause": "e is used without declaration as error variable",
+      "minimal_edit": "declare e as a variable equal to Target - Actual"
+    },
+    {
+      "diagnostic": "line 15: Couldn't resolve reference to 'e_dot'.",
+      "cause": "e_dot is used without declaration as derivative of e",
+      "minimal_edit": "declare e_dot as a variable representing derivative of e"
+    },
+    {
+      "diagnostic": "line 15: Couldn't resolve reference to 'e_int'.",
+      "cause": "e_int is used without declaration as integral of e",
+      "minimal_edit": "declare e_int as a variable representing integral of e"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add constant declarations for P=1.0, D=0.0, I=0.0",
+    "Add variable declaration for e = Target - Actual",
+    "Add variable declaration for e_dot as derivative of e",
+    "Add variable declaration for e_int as integral of e",
+    "Update Actuator_Input guarantee to reference declared variables"
+  ]
+}

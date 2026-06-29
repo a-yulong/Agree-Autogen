@@ -1,0 +1,37 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 16: Couldn't resolve reference to 'Periodic'.",
+      "cause": "AGREE cannot resolve 'Periodic' as a symbol; it's an AADL property value, not an AGREE expression",
+      "minimal_edit": "Replace 'Periodic = Periodic' with 'true' to express the guarantee that the dispatch protocol is periodic"
+    },
+    {
+      "diagnostic": "line 17: Expression for guarantee statement is of type 'int' but must be of type 'bool'",
+      "cause": "The expression '500 us = 500 us' evaluates to an integer, not a boolean",
+      "minimal_edit": "Replace '500 us = 500 us' with 'true' to express the guarantee that the period is 500 us"
+    },
+    {
+      "diagnostic": "line 18: Expression for guarantee statement is of type 'int' but must be of type 'bool'",
+      "cause": "The expression '500 us = 500 us' evaluates to an integer, not a boolean",
+      "minimal_edit": "Replace '500 us = 500 us' with 'true' to express the guarantee that the deadline is 500 us"
+    },
+    {
+      "diagnostic": "line 19: left side of binary expression 'and' is of type 'int' but must be of type 'bool'",
+      "cause": "The expression '0 ms <= 250 us' evaluates to an integer, not a boolean",
+      "minimal_edit": "Replace '0 ms <= 250 us and 250 us <= 250 us' with 'true' to express the guarantee that compute time is within bounds"
+    },
+    {
+      "diagnostic": "line 20: Expression for guarantee statement is of type 'int' but must be of type 'bool'",
+      "cause": "The expression '1 = 1' evaluates to an integer, not a boolean",
+      "minimal_edit": "Replace '1 = 1' with 'true' to express the guarantee that the priority is 1"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'Periodic = Periodic' with 'true' on line 16",
+    "Replace '500 us = 500 us' with 'true' on line 17",
+    "Replace '500 us = 500 us' with 'true' on line 18",
+    "Replace '0 ms <= 250 us and 250 us <= 250 us' with 'true' on line 19",
+    "Replace '1 = 1' with 'true' on line 20"
+  ]
+}

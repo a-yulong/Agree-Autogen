@@ -1,0 +1,53 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 56: Couldn't resolve reference to 'tempin1'.",
+      "cause": "Reference to 'tempin1' is not visible in temp_control component type scope",
+      "minimal_edit": "Replace 'voter.tempin1' with 'tempin1' in the assume statement"
+    },
+    {
+      "diagnostic": "line 57: Couldn't resolve reference to 'tempin2'.",
+      "cause": "Reference to 'tempin2' is not visible in temp_control component type scope",
+      "minimal_edit": "Replace 'voter.tempin2' with 'tempin2' in the assume statement"
+    },
+    {
+      "diagnostic": "line 58: Couldn't resolve reference to 'c0'.",
+      "cause": "Reference to 'c0' is not visible in temp_control component type scope",
+      "minimal_edit": "Remove or rewrite guarantee statement involving 'c0' to use visible identifiers"
+    },
+    {
+      "diagnostic": "line 59: Couldn't resolve reference to 'c1'.",
+      "cause": "Reference to 'c1' is not visible in temp_control component type scope",
+      "minimal_edit": "Remove or rewrite guarantee statement involving 'c1' to use visible identifiers"
+    },
+    {
+      "diagnostic": "line 84: Couldn't resolve reference to 'temp1'.",
+      "cause": "Reference to 'temp1' is not visible in voter component type scope",
+      "minimal_edit": "Replace 'temp1' with 'tempin1' in the assume statement"
+    },
+    {
+      "diagnostic": "line 85: Couldn't resolve reference to 'temp2'.",
+      "cause": "Reference to 'temp2' is not visible in voter component type scope",
+      "minimal_edit": "Replace 'temp2' with 'tempin2' in the assume statement"
+    },
+    {
+      "diagnostic": "line 91: Assume statements are allowed only in component types",
+      "cause": "Assume statements are placed in implementation annex instead of component type annex",
+      "minimal_edit": "Move the annex block from voter.impl to voter component type"
+    },
+    {
+      "diagnostic": "line 92: Assume statements are allowed only in component types",
+      "cause": "Assume statements are placed in implementation annex instead of component type annex",
+      "minimal_edit": "Move the annex block from voter.impl to voter component type"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the annex block from voter.impl (lines 90-93) to voter component type (lines 83-86)",
+    "In temp_control component type annex (lines 55-60), replace 'voter.tempin1' with 'tempin1' in the first assume statement",
+    "In temp_control component type annex (lines 55-60), replace 'voter.tempin2' with 'tempin2' in the second assume statement",
+    "In temp_control component type annex (lines 55-60), remove or rewrite the guarantee statements for c0 and c1 to use only visible identifiers",
+    "In voter component type annex (lines 83-86), replace 'temp1' with 'tempin1' in the first assume statement",
+    "In voter component type annex (lines 83-86), replace 'temp2' with 'tempin2' in the second assume statement"
+  ]
+}

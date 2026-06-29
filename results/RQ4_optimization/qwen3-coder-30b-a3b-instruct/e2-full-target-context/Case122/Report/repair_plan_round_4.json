@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 43: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is not valid syntax for a guarantee in this context",
+      "minimal_edit": "Replace `acc_out_data_x = acc_out_data_x` with `acc_out_data_x = acc_out_data_x` (no change needed, but the expression is malformed)"
+    },
+    {
+      "diagnostic": "line 44: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is not valid syntax for a guarantee in this context",
+      "minimal_edit": "Replace `acc_out_data_y = acc_out_data_y` with `acc_out_data_y = acc_out_data_y` (no change needed, but the expression is malformed)"
+    },
+    {
+      "diagnostic": "line 45: named thing must be an expression with a type",
+      "cause": "AGREE guarantee references port name as both left and right side of equality, which is not valid syntax for a guarantee in this context",
+      "minimal_edit": "Replace `acc_out_data_z = acc_out_data_z` with `acc_out_data_z = acc_out_data_z` (no change needed, but the expression is malformed)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that the AGREE annex in ACCELERO_SUB_wrapper is attempting to create self-referential guarantees",
+    "Replace each guarantee with a valid contract statement that relates the output parameter to a corresponding input or external reference",
+    "Since the annex is in a subprogram type, and the requirement is about routing data through ports, rewrite the guarantees to express the expected behavior of the subprogram interface",
+    "Remove the self-referential guarantees and replace with meaningful contract expressions if possible, or remove the annex if it cannot be made meaningful"
+  ]
+}

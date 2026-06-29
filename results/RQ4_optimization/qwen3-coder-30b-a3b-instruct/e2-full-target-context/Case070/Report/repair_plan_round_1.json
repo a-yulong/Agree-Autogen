@@ -1,0 +1,47 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 55: Couldn't resolve reference to 'Aperiodic'.",
+      "cause": "AGREE cannot resolve AADL enumeration literal 'Aperiodic' in property reference",
+      "minimal_edit": "Replace 'Aperiodic' with 'Aperiodic' as a string literal or use valid property reference"
+    },
+    {
+      "diagnostic": "line 55: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "AGREE cannot resolve property name 'Dispatch_Protocol' in context",
+      "minimal_edit": "Use valid property reference or remove the expression"
+    },
+    {
+      "diagnostic": "line 55: Couldn't resolve reference to 'impl'.",
+      "cause": "AGREE does not support component implementation references in contracts",
+      "minimal_edit": "Remove '.impl' from reference"
+    },
+    {
+      "diagnostic": "line 55: Couldn't resolve reference to 'software_aocs::Telecommand_Processing'.",
+      "cause": "AGREE does not support qualified component type references in contracts",
+      "minimal_edit": "Use unqualified component type name"
+    },
+    {
+      "diagnostic": "line 55: named thing must be an expression with a type",
+      "cause": "AGREE requires valid expression types in assumptions",
+      "minimal_edit": "Ensure expression evaluates to boolean type"
+    },
+    {
+      "diagnostic": "line 56: Expression for assume statement is of type 'int' but must be of type 'bool'",
+      "cause": "Invalid boolean expression in assume statement",
+      "minimal_edit": "Rewrite expression to return boolean value"
+    },
+    {
+      "diagnostic": "line 56: no viable alternative at input 'ms'",
+      "cause": "AGREE does not support time unit syntax in expressions",
+      "minimal_edit": "Remove time units from expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'software_aocs::Telecommand_Processing.impl.Dispatch_Protocol = Aperiodic' with 'Dispatch_Protocol = Aperiodic' in the assume statement",
+    "Remove '.impl' from component reference in assume statement",
+    "Replace '0 ms <= software_aocs::Telecommand_Processing.impl.Compute_Execution_Time <= 100 us' with '0 <= Compute_Execution_Time <= 100' in the assume statement",
+    "Remove time units 'ms' and 'us' from the compute time expression",
+    "Ensure the expression evaluates to boolean type by using proper AGREE syntax"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Generate guarantee clauses using visible feature names with boolean or scalar expressions, matching the requirement intent without inventing variables.",
+    "Use AGREE logical operators (=>, and, or, not) and structured conditionals (if-then-else) in expressions.",
+    "Place guarantees in the implementation scope only if they reference subcomponent ports via intermediate variables or outputs."
+  ],
+  "generic_rules": [
+    "Contracts must use only identifiers explicitly visible in the target component's scope.",
+    "Temporal or stateful expressions must initialize recurrence explicitly (e.g., base -> pre(expr) + delta).",
+    "Guarantees should express observable output behavior derived from input conditions, not internal state."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use 'guarantee \"label\": expression;' with valid AGREE types: int, real, bool.",
+    "Do not use AADL property names (e.g., Period, Deadline) as AGREE variables.",
+    "Express conditional logic with nested if-then-else, not external functions or unknown operators."
+  ],
+  "anti_patterns": [
+    "Never assume AADL properties like Compute_Execution_Time are accessible as variables in AGREE.",
+    "Avoid referencing component ports directly in type-level annexes without intermediate bindings.",
+    "Do not generate clauses with unresolved identifiers or invented type names like 'integer' or 'boolean'."
+  ],
+  "irrelevant_topics": [
+    "AADL scope notes for implementation insertion location",
+    "Validator diagnostics or repair triggers",
+    "AGREE annex placement strategy for fusion or validation",
+    "Assign statements and their usage patterns"
+  ]
+}

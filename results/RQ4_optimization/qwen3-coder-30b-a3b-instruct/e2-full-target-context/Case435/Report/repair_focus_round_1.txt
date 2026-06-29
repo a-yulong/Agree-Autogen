@@ -1,0 +1,170 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: WaterAlarm
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+WaterAlarm | in | data | int | Int
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "WaterAlarm >= 0 and WaterAlarm <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "WaterAlarm"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "PumpCtrl shall bound the WaterAlarm output at every evaluation step",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "PumpCtrl",
+        "WaterAlarm"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: PumpCtrl | lines 61-64
+annex agree {**
+    guarantee "WaterAlarm bounds": WaterAlarm >= 0 and WaterAlarm <= 100;
+    guarantee "WaterAlarm evaluation": forall t: WaterAlarm@t >= 0 and WaterAlarm@t <= 100;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   59:     Compute_Entrypoint_Source_Text => "pumpctrl_body";
+   60:     Source_Text => ("minepump.c");
+   61:   annex agree {**
+   62:     guarantee "WaterAlarm bounds": WaterAlarm >= 0 and WaterAlarm <= 100;
+>> 63:     guarantee "WaterAlarm evaluation": forall t: WaterAlarm@t >= 0 and WaterAlarm@t <= 100;
+   64:   **};
+   65:   end PumpCtrl;
+   66: 
+   67:   thread WaterAlarm
+
+[TARGET MODEL CONTEXT]
+package MinePump
+public
+
+  with Data_Model; --  For data representation (integer, ...)
+  with Deployment; --  For execution platform
+
+  --  Basic integer data type
+
+  data Int
+  --  Definition of an integer type
+  properties
+    Data_Model::Data_Representation => Integer;
+  end Int;
+
+  --  WaterLevelMonitorig task
+
+  thread WaterLevelMonitoring
+  features
+    WaterAlarm : out data port Int;
+  properties
+    Dispatch_Protocol => Periodic;         --  Concurrency configuration
+    Period => 250 ms;
+    Compute_Execution_Time => 1 ms .. 2 ms;
+    Priority => 2;
+
+    -- Source_Language => (C);                --  Link to code source
+    Compute_Entrypoint_Source_Text => "waterlevelmonitoring_body";
+    Source_Text => ("minepump.c");
+  end WaterLevelMonitoring;
+
+  --  MethaneMonitoring task
+
+  thread MethaneMonitoring
+  features
+    MethaneLevel : out data port int;
+  properties
+    Dispatch_Protocol => Periodic;         --  Concurrency configuration
+    Period => 100 ms;
+    Compute_Execution_Time => 1 ms .. 2 ms;
+    Priority => 2;
+
+    -- Source_Language => (C);                --  Link to code source
+    Compute_Entrypoint_Source_Text => "methanemonitoring_body";
+    Source_Text => ("minepump.c");
+  end MethaneMonitoring;
+
+  thread PumpCtrl
+  features
+    MethaneLevel : in event data port int;
+    WaterLevel   : in event data port int;
+    WaterAlarm   : out data port Int;
+  properties
+    Dispatch_Protocol => Sporadic;         --  Concurrency configuration
+    Period => 100 ms;
+    Compute_Execution_Time => 1 ms .. 2 ms;
+    Priority => 2;
+
+    -- Source_Language => (C);                --  Link to code source
+    Compute_Entrypoint_Source_Text => "pumpctrl_body";
+    Source_Text => ("minepump.c");
+  end PumpCtrl;
+
+  thread WaterAlarm
+  features
+    WaterAlarm : in event data port Int;
+
+  properties
+    Dispatch_Protocol => Sporadic;         --  Concurrency configuration
+    Period => 100 ms;
+    Compute_Execution_Time => 1 ms .. 2 ms;
+    Priority => 2;
+
+    -- Source_Language => (C);                --  Link to code source
+    Compute_Entrypoint_Source_Text => "wateralarm_body";
+    Source_Text => ("minepump.c");
+  end WaterAlarm;
+
+  --  MinePump software process
+
+  process MinePump_Software
+  end MinePump_Software;
+
+  process implementation MinePump_Software.impl
+  subcomponents
+    WaterLevelMonitoring_Thread : thread WaterLevelMonitoring;
+    MethaneMonitoring_Thread    : thread MethaneMonitoring;
+    PumpCtrl_Thread             : thread PumpCtrl;
+    WaterAlarm_Thread           : thread WaterAlarm;
+
+  connections
+    C1 : port MethaneMonitoring_Thread.MethaneLevel
+                -> PumpCtrl_Thread.MethaneLevel;
+    C2 : port WaterLevelMonitoring_Thread.WaterAlarm
+                -> PumpCtrl_Thread.WaterLevel;
+
+    C3 : port PumpCtrl_Thread.WaterAlarm
+                -> WaterAlarm_Thread.WaterAlarm;
+  end MinePump_Software.impl;
+
+  processor CPU
+  properties
+    Scheduling_Protocol => (POSIX_1003_HIGHEST_PRIORITY_FIRST_PROTOCOL);
+    Deployment::Execution_Platform => Native;
+  end CPU;
+
+  system MinePump
+  end MinePump;
+
+  system implementation MinePump.impl
+  subcomponents
+    Software : process MinePump_Software.impl;
+    Hardware : processor CPU;
+  properties
+    Actual_Processor_Binding => (reference (Hardware)) applies to Software;
+  end MinePump.impl;
+
+end MinePump;

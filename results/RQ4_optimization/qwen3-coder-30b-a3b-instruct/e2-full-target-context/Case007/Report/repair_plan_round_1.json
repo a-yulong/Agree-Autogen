@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'min'.",
+      "cause": "AGREE does not support the 'min' function; it must be expressed using conditional logic or replaced with a defined constant",
+      "minimal_edit": "Replace 'min(gcas_timeToFailure, tcas_timeToFailure, geof_timeToFailure)' with a legal AGREE expression using conditional logic or a defined constant"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'concurrencyFactor'.",
+      "cause": "AGREE does not support the 'concurrencyFactor' function; it must be defined or replaced with a legal AGREE expression",
+      "minimal_edit": "Replace 'concurrencyFactor(gcas_timeToRecovery, timeToFailure)' with a legal AGREE expression or define the function in the annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'concurrencyFactor'.",
+      "cause": "AGREE does not support the 'concurrencyFactor' function; it must be defined or replaced with a legal AGREE expression",
+      "minimal_edit": "Replace 'concurrencyFactor(tcas_timeToRecovery, timeToFailure)' with a legal AGREE expression or define the function in the annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'concurrencyFactor'.",
+      "cause": "AGREE does not support the 'concurrencyFactor' function; it must be defined or replaced with a legal AGREE expression",
+      "minimal_edit": "Replace 'concurrencyFactor(geof_timeToRecovery, timeToFailure)' with a legal AGREE expression or define the function in the annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add a constant definition for timeToFailure_min that computes the minimum of the three inputs using conditional logic",
+    "Define concurrencyFactor as a boolean expression in the AGREE annex",
+    "Replace the min() function call with the defined constant",
+    "Replace all concurrencyFactor() function calls with the defined boolean expression"
+  ]
+}

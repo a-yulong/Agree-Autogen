@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 37: Couldn't resolve reference to 'acc1'.",
+      "cause": "AGREE annex is in process type scope but references subcomponent ports",
+      "minimal_edit": "Move AGREE annex to process implementation scope"
+    },
+    {
+      "diagnostic": "line 37: left side of binary expression '=>' is of type 'int' but must be of type 'bool'",
+      "cause": "AGREE assumes use boolean expressions but reference ports directly",
+      "minimal_edit": "Replace port references with boolean variables in assume/guarantee"
+    },
+    {
+      "diagnostic": "line 43: Couldn't resolve reference to 'C1'.",
+      "cause": "AGREE annex is in process type scope but references connection names",
+      "minimal_edit": "Move AGREE annex to process implementation scope"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire AGREE annex block from acc_process to acc_process.impl",
+    "Replace all port references in assume statements with boolean variables",
+    "Replace all connection references in guarantee statements with boolean variables",
+    "Add corresponding variable declarations in the AGREE annex"
+  ]
+}

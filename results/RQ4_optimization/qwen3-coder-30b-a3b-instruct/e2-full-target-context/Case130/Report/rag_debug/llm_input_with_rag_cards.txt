@@ -1,0 +1,142 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- AGREE annex blocks must be scoped to their owning component and use only visible identifiers from the AADL model.
+- Deployment binding requirements translate into assume/guarantee statements or assign declarations within the appropriate annex scope.
+Generic rules:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Component implementation annexes are used for assignments and implementation-level bindings.
+- Assumptions and guarantees must reference only identifiers visible in the current component scope.
+- Constants and equations in AGREE are declared with explicit types and values.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements.
+- Use `assign output = expression;` for implementation-level assignments.
+- Use `const name : type = value;` for constant declarations.
+Anti-patterns:
+- Do not reference identifiers not present in the current component's AADL scope.
+- Do not encode AADL timing properties as AGREE expressions unless explicitly exposed as typed ports or constants.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Hello_World1::Hello_Spg_1
+- Hello_World1::Task
+- Hello_World1::node_a
+- Hello_World1::partition_runtime
+- Hello_World1::cpurm
+- Hello_World1::myram
+- Hello_World1::segment
+- Hello_World1::hello
+- Hello_World1::Task.impl_1
+- Hello_World1::node_a.impl
+- Hello_World1::partition_runtime.i
+- Hello_World1::cpurm.impl
+- Hello_World1::segment.i
+- Hello_World1::myram.stram
+- Hello_World1::myram.sdram
+- Hello_World1::hello.impl
+- Mycalls
+- Task1
+- P0
+- segment1
+- node_a
+- cpu_rm
+- mem
+- Task
+- Task.impl_1
+- node_a.impl
+- hello
+- hello.impl
+
+Target interface:
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- Hello_World1::Hello_Spg_1
+- Hello_World1::Task
+- Hello_World1::node_a
+- Hello_World1::partition_runtime
+- Hello_World1::cpurm
+- Hello_World1::myram
+- Hello_World1::segment
+- Hello_World1::hello
+- Hello_World1::Task.impl_1
+- Hello_World1::node_a.impl
+- Hello_World1::partition_runtime.i
+- Hello_World1::cpurm.impl
+- Hello_World1::segment.i
+- Hello_World1::myram.stram
+- Hello_World1::myram.sdram
+- Hello_World1::hello.impl
+- Mycalls
+- Task1
+- P0
+- segment1
+- node_a
+- cpu_rm
+- mem
+- Task
+- Task.impl_1
+- node_a.impl
+- hello
+- hello.impl
+
+Raw requirement:
+The hello component shall use the deployment bindings defined for hello.impl. The deployment mapping shall bind node_a to processor cpu_rm.p0 and bind Node_A to memory mem.segment1.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Deployment mapping shall bind node_a to processor cpu_rm.p0",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "node_a",
+        "cpu_rm.p0"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Deployment mapping shall bind Node_A to memory mem.segment1",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "Node_A",
+        "mem.segment1"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "The hello component shall use the deployment bindings defined for hello.impl",
+      "kind": "deployment_binding",
+      "intent": "guarantee",
+      "evidence": [
+        "hello",
+        "hello.impl"
+      ]
+    }
+  ]
+}

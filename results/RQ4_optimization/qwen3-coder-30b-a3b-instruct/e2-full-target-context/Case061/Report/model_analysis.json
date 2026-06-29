@@ -1,0 +1,228 @@
+{
+  "component_types": [
+    {
+      "name": "Software::Simple_Type",
+      "kind": "data"
+    },
+    {
+      "name": "Software::Do_Ping_Spg",
+      "kind": "subprogram"
+    },
+    {
+      "name": "Software::Ping_Spg",
+      "kind": "subprogram"
+    },
+    {
+      "name": "Software::P",
+      "kind": "thread"
+    },
+    {
+      "name": "Software::Q",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Software::P.Impl",
+      "kind": "thread implementation",
+      "type_name": "Software::P"
+    },
+    {
+      "name": "Software::Q.Impl",
+      "kind": "thread implementation",
+      "type_name": "Software::Q"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "Software::P.Impl",
+      "name": "Mycalls",
+      "category": "calls",
+      "classifier": "Software::Do_Ping_Spg"
+    },
+    {
+      "owner": "Software::Q.Impl",
+      "name": "Mycalls",
+      "category": "calls",
+      "classifier": "Software::Ping_Spg"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Software::Do_Ping_Spg",
+      "name": "Data_Source",
+      "direction": "out",
+      "category": "parameter",
+      "type": "Software::Simple_Type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Software::Ping_Spg",
+      "name": "Data_Sink",
+      "direction": "in",
+      "category": "parameter",
+      "type": "Software::Simple_Type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Software::P",
+      "name": "Data_Source",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Software::Simple_Type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Software::Q",
+      "name": "Data_Sink",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Software::Simple_Type",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "Software::P.Impl",
+      "name": "P1",
+      "kind": "parameter",
+      "source": "Software::P.Impl.Mycalls.P_Spg.Data_Source",
+      "destination": "Software::P.Data_Source"
+    },
+    {
+      "owner": "Software::Q.Impl",
+      "name": "P1",
+      "kind": "parameter",
+      "source": "Software::Q.Data_Sink",
+      "destination": "Software::Q.Impl.Mycalls.Q_Spg.Data_Sink"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Software::Do_Ping_Spg",
+      "owner_kind": "subprogram",
+      "name": "Source_Language",
+      "value": "C",
+      "applies_to": ""
+    },
+    {
+      "owner": "Software::Do_Ping_Spg",
+      "owner_kind": "subprogram",
+      "name": "Source_Name",
+      "value": "user_do_ping_spg",
+      "applies_to": ""
+    },
+    {
+      "owner": "Software::Do_Ping_Spg",
+      "owner_kind": "subprogram",
+      "name": "Source_Text",
+      "value": "\"ping.c\"",
+      "applies_to": ""
+    },
+    {
+      "owner": "Software::Ping_Spg",
+      "owner_kind": "subprogram",
+      "name": "Source_Language",
+      "value": "C",
+      "applies_to": ""
+    },
+    {
+      "owner": "Software::Ping_Spg",
+      "owner_kind": "subprogram",
+      "name": "Source_Name",
+      "value": "user_ping_spg",
+      "applies_to": ""
+    },
+    {
+      "owner": "Software::Ping_Spg",
+      "owner_kind": "subprogram",
+      "name": "Source_Text",
+      "value": "\"ping.c\"",
+      "applies_to": ""
+    },
+    {
+      "owner": "Software::P.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": ""
+    },
+    {
+      "owner": "Software::P.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Period",
+      "value": "2000 Ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "Software::P.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Deadline",
+      "value": "2000 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "Software::P.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Priority",
+      "value": "2",
+      "applies_to": ""
+    },
+    {
+      "owner": "Software::P.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Offset",
+      "value": "500 Ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "Software::Q.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Sporadic",
+      "applies_to": ""
+    },
+    {
+      "owner": "Software::Q.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Period",
+      "value": "10 Ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "Software::Q.Impl",
+      "owner_kind": "thread implementation",
+      "name": "deadline",
+      "value": "10 Ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "Software::Q.Impl",
+      "owner_kind": "thread implementation",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": ""
+    },
+    {
+      "owner": "Software::Simple_Type",
+      "owner_kind": "data",
+      "name": "Type_Source_Name",
+      "value": "\"custom_int\"",
+      "applies_to": ""
+    },
+    {
+      "owner": "Software::Simple_Type",
+      "owner_kind": "data",
+      "name": "Source_Text",
+      "value": "\"ping\"",
+      "applies_to": ""
+    },
+    {
+      "owner": "Software::Simple_Type",
+      "owner_kind": "data",
+      "name": "Source_Data_Size",
+      "value": "8 Bytes",
+      "applies_to": ""
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 40: Couldn't resolve reference to 'collision_time_constant'.",
+      "cause": "collision_time_constant is not a declared variable or port; it is an undefined identifier in AGREE scope.",
+      "minimal_edit": "Remove the assume statement for collision_time_constant"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 40: Expression for assume statement is of type '<error>' but must be of type 'bool'",
+      "cause": "AGREE assume statements require boolean expressions; assigning a real value is syntactically invalid.",
+      "minimal_edit": "Remove the assume statement for collision_time_constant"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 40: mismatched input ':' expecting ';'",
+      "cause": "AGREE syntax does not support variable declaration with type annotation in assume statements; ': real' is invalid syntax.",
+      "minimal_edit": "Remove the assume statement for collision_time_constant"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 41: Couldn't resolve reference to 'recovery_time_constant'.",
+      "cause": "recovery_time_constant is not a declared variable or port; it is an undefined identifier in AGREE scope.",
+      "minimal_edit": "Remove the assume statement for recovery_time_constant"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 41: Expression for assume statement is of type '<error>' but must be of type 'bool'",
+      "cause": "AGREE assume statements require boolean expressions; assigning a real value is syntactically invalid.",
+      "minimal_edit": "Remove the assume statement for recovery_time_constant"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 41: mismatched input ':' expecting ';'",
+      "cause": "AGREE syntax does not support variable declaration with type annotation in assume statements; ': real' is invalid syntax.",
+      "minimal_edit": "Remove the assume statement for recovery_time_constant"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the two assume statements on lines 40 and 41 entirely, as they incorrectly attempt to declare real constants using invalid AGREE syntax within assume clauses.",
+    "Retain the three guarantee clauses on lines 42–44 as they are syntactically and semantically valid, referencing only visible ports (distance, acasRequested, outImpact, outRecovery) with correct AGREE boolean logic."
+  ]
+}

@@ -1,0 +1,121 @@
+package aviation
+public
+	with base_types;
+	with Communication_Properties;
+	with geofence_nodes;
+	with tcas_nodes;
+	with gcas_nodes;
+	with composite_nodes;
+		
+	system Supervised_System
+		features
+			timeToFailure: out data port real;
+			timeToRecovery: out data port real;
+			
+			p1: out data port bool;
+			p2: out data port bool;
+			p3: out data port bool;
+	end Supervised_System;
+	
+	system implementation Supervised_System.impl
+		subcomponents
+			gcas: system GCAS_singleton;
+			tcas: system TCAS_singleton;
+			geof: system GeoFence_singleton;
+			
+			supervisor: system Supervisor;
+		
+		connections
+			gcas_ttr: port gcas.timeToRecovery -> Supervisor.gcas_timeToRecovery	{Communication_Properties::Timing => immediate;};
+			tcas_ttr: port tcas.timeToRecovery -> Supervisor.tcas_timeToRecovery	{Communication_Properties::Timing => immediate;};
+			geof_ttr: port geof.timeToRecovery -> Supervisor.geof_timeToRecovery	{Communication_Properties::Timing => immediate;};
+			
+			gcas_ttf: port gcas.timeToFailure -> Supervisor.gcas_timeToFailure	{Communication_Properties::Timing => immediate;};
+			tcas_ttf: port tcas.timeToFailure -> Supervisor.tcas_timeToFailure	{Communication_Properties::Timing => immediate;};
+			geof_ttf: port geof.timeToFailure -> Supervisor.geof_timeToFailure	{Communication_Properties::Timing => immediate;};
+			
+			ttf_to_top: port supervisor.timeToFailure -> timeToFailure	{Communication_Properties::Timing => immediate;};
+			ttr_to_top: port supervisor.timeToRecovery -> timeToRecovery;
+			
+			p1_port: port supervisor.p1 -> p1;
+			p2_port: port supervisor.p2 -> p2;
+			p3_port: port supervisor.p3 -> p3;
+	end Supervised_System.impl;
+	
+	system GeoFence_singleton
+		features
+			timeToRecovery: out data port real;
+			timeToFailure: out data port real;
+	end GeoFence_singleton;
+	
+	system implementation GeoFence_singleton.impl
+	end GeoFence_singleton.impl;
+	
+	system TCAS_singleton
+		features
+			nearestIntruderAltitude: in data port int;
+			nearestIntruderGroundDistance: in data port int;
+			nearestIntruderLongitude: in data port int;
+			ownAltitude_in: in data port int;
+			ownHeading: in data port int;
+			ownVerticalVelocity: in data port int;
+			ownLatitude: in data port int;
+			ownLongitude: in data port int;
+			
+			requiredVerticalVelocity: out data port int;
+			timeToRecovery: out data port real;
+			timeToFailure: out data port real;
+	end TCAS_singleton;
+
+	system implementation TCAS_singleton.impl
+	end TCAS_singleton.impl;
+	
+	system GCAS_singleton
+		features
+			altitude: in data port real;
+			timeToRecovery: out data port real;
+			timeToFailure: out data port real;
+	annex agree {**
+	  assume "recovery_time_constant": timeToRecovery = 8.7;
+	  assume "failure_time_constant": timeToFailure = 16.0;
+	  guarantee "height_min_after_recovery": (timeToRecovery > 8.7) => (altitude > 200.0);
+	  guarantee "continuous_pull_up": (timeToRecovery > 8.7) => (altitude > pre(altitude));
+	**};
+	end GCAS_singleton;
+	
+	system implementation GCAS_singleton.impl
+	end GCAS_singleton.impl;
+	
+	system Supervisor
+		features
+			gcas_timeToFailure: in data port real;
+			tcas_timeToFailure: in data port real;
+			geof_timeToFailure: in data port real;
+			
+			timeToFailure: out data port real;
+			
+			gcas_timeToRecovery: in data port real;
+			tcas_timeToRecovery: in data port real;
+			geof_timeToRecovery: in data port real;
+			
+			timeToRecovery: out data port real;
+			p1: out data port bool;
+			p2: out data port bool;
+			p3: out data port bool;
+	end Supervisor;
+	
+	system implementation Supervisor.impl
+	end Supervisor.impl;
+	
+	-- Type Aliases
+	
+	data int extends base_types::Integer
+	end int;
+	
+	data real extends base_types::Float
+	end real;
+	
+	data bool extends base_types::Boolean
+	end bool;
+	
+end aviation;

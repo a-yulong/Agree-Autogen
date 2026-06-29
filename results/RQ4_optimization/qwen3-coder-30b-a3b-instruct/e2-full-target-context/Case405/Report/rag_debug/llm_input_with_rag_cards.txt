@@ -1,0 +1,111 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place component type contracts in valid component type scopes, using visible identifiers and concrete bounds for assumptions and guarantees.
+- Use `assume` and `guarantee` clauses with labeled expressions in `annex agree` blocks for component type contracts.
+Generic rules:
+- AGREE contracts must be syntactically valid within `annex agree {** ... **};` blocks.
+- Component type annexes are the standard location for assumptions, guarantees, constants, and equation declarations.
+- Equation and constant declarations in AGREE must use valid scalar types: int, real, bool.
+- Avoid using implementation-only subcomponent paths in component type annexes.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract clauses.
+- Use `eq name : type = expression;` and `const name : type = value;` for equation and constant declarations.
+Anti-patterns:
+- Do not reference AADL property names like Deadline or Period as AGREE variables unless explicitly exposed as typed ports or constants.
+- Do not place implementation-level bindings in component type scopes.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Ardupilot_Software::GPS_Position
+- Ardupilot_Software::spg_gps_simulation
+- Ardupilot_Software::thr_gps_simulation
+- Ardupilot_Software::spg_flt_mgmt_simulation
+- Ardupilot_Software::spg_flt_mgmt_init
+- Ardupilot_Software::thr_mgmt
+- Ardupilot_Software::spg_throttle_simulation
+- Ardupilot_Software::thr_throttle_simulation
+- Ardupilot_Software::spg_yaw_simulation
+- Ardupilot_Software::thr_yaw_simulation
+- Ardupilot_Software::Ardupilot_Code
+- Ardupilot_Software::GPS_Position.i
+- Ardupilot_Software::thr_gps_simulation.i
+- Ardupilot_Software::thr_mgmt.i
+- Ardupilot_Software::thr_throttle_simulation.i
+- Ardupilot_Software::thr_yaw_simulation.i
+- Ardupilot_Software::Ardupilot_Code.impl
+- latitude
+- longitude
+- altitude
+- call1
+- prs_gps
+- prs_mgmt
+- prs_throttle
+- prs_yaw
+- R1
+- R2
+- R3
+- R4
+- R5
+- R6
+- R7
+- R8
+- R9
+- gps_pos
+- speed
+- angle
+- GPS_Position
+- GPS_Position.i
+- thr_gps_simulation
+
+Target interface:
+Exact expression symbols: gps_pos, gps_pos.latitude, gps_pos.longitude, gps_pos.altitude, speed, angle
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+gps_pos | in | data | opaque | GPS_Position.i
+gps_pos.latitude | in | data_field | real | Base_Types::Float
+gps_pos.longitude | in | data_field | real | Base_Types::Float
+gps_pos.altitude | in | data_field | int | Base_Types::Integer
+speed | out | data | int | Base_Types::Integer
+angle | out | data | int | Base_Types::Integer
+
+Raw requirement:
+The thr_mgmt component shall bound the speed output at every evaluation step. The speed value shall be greater than or equal to -100 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "speed >= -100 and speed <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "speed"
+      ]
+    }
+  ]
+}

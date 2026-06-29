@@ -1,0 +1,47 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 55: Couldn't resolve reference to 'Aperiodic'.",
+      "cause": "AGREE cannot resolve AADL enumeration value Aperiodic directly",
+      "minimal_edit": "Replace Aperiodic with the string literal \"Aperiodic\""
+    },
+    {
+      "diagnostic": "line 55: Couldn't resolve reference to 'Dispatch_Protocol'.",
+      "cause": "AGREE cannot reference AADL property names directly in expressions",
+      "minimal_edit": "Replace Dispatch_Protocol with the property value from the implementation"
+    },
+    {
+      "diagnostic": "line 56: Couldn't resolve reference to 'Compute_Execution_Time'.",
+      "cause": "AGREE cannot reference AADL property names directly in expressions",
+      "minimal_edit": "Replace Compute_Execution_Time with the property value from the implementation"
+    },
+    {
+      "diagnostic": "line 56: extraneous input 'us' expecting ';'",
+      "cause": "AGREE does not support unit expressions in assumptions",
+      "minimal_edit": "Remove unit specifications from the expression"
+    },
+    {
+      "diagnostic": "line 56: left and right sides of binary expression '<=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch due to unresolved property references",
+      "minimal_edit": "Ensure all operands are of compatible numeric type"
+    },
+    {
+      "diagnostic": "line 56: left side of binary expression '<=' is of type '<error>' but must be of type 'int' or 'real'",
+      "cause": "Unresolved property reference results in error type",
+      "minimal_edit": "Replace with valid numeric literals or constants"
+    },
+    {
+      "diagnostic": "line 56: left side of binary expression 'and' is of type 'int' but must be of type 'bool'",
+      "cause": "Invalid boolean expression due to type errors",
+      "minimal_edit": "Ensure all subexpressions evaluate to boolean"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace Dispatch_Protocol = Aperiodic with Dispatch_Protocol = \"Aperiodic\"",
+    "Replace Compute_Execution_Time with the numeric value 100",
+    "Remove unit specifications (us) from the expression",
+    "Ensure all numeric values are consistent in type (int or real)",
+    "Rewrite the entire assumption block to use valid AGREE expressions"
+  ]
+}

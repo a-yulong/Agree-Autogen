@@ -1,18 +1,17 @@
-﻿"RQ","Setting","Reports","Missing","Success","Fail","StageError","SuccessRate","FirstPass","FirstPassRate","RepairSuccess","AvgRepairPerSuccess","R0","R1","R2","R3","R4","R5","AvgRuntimeSec","AvgTokens","Status"
-"RQ1","Qwen3-Coder-30B","459","0","391","68","0","85.19","323","70.37","68","0.31","323","45","8","4","6","5","198.2","18959","formal"
-"RQ1","Codestral-2508","459","0","367","92","0","79.96","211","45.97","156","0.69","211","100","31","13","6","6","181.3","23076","formal"
-"RQ1","Llama-3.1-70B","459","0","306","153","0","66.67","277","60.35","29","0.15","277","20","3","4","1","1","202.4","15031","formal"
-"RQ1","Gemma-3-27B","459","0","232","227","0","50.54","0","0.00","232","1.22","0","203","16","8","2","3","248.6","23881","formal"
-"RQ1","GPT-5.4-high","459","0","406","53","0","88.45","372","81.05","34","0.10","372","28","4","2","0","0","240.5","45561","formal-rerun-clean"
-"RQ2","topk111","459","0","383","76","0","83.44","309","67.32","74","0.32","309","50","10","8","3","3","185.3","18400","formal"
-"RQ2","topk333 baseline","459","0","391","68","0","85.19","323","70.37","68","0.31","323","45","8","4","6","5","198.2","18959","formal"
-"RQ2","topk555","459","0","390","69","0","84.97","317","69.06","73","0.27","317","51","17","2","2","1","185.2","20472","formal"
-"RQ2","topk777","459","0","384","75","0","83.66","309","67.32","75","0.30","309","50","17","2","4","2","189.0","22387","formal"
-"RQ3","direct-one-shot","459","0","177","282","0","38.56","177","38.56","0","0.00","177","0","0","0","0","0","77.4","6561","formal"
-"RQ3","no-model-analyst","459","0","385","74","0","83.88","284","61.87","101","0.39","284","67","24","5","4","1","156.4","18069","formal"
-"RQ3","no-requirement-analyst","459","0","394","65","0","85.84","307","66.88","87","0.34","307","65","7","8","4","3","172.0","17578","formal"
-"RQ3","no-dual-analysts","459","0","393","66","0","85.62","290","63.18","103","0.42","290","72","16","3","9","3","152.8","16284","formal"
-"RQ4","raw-rag-no-digest","459","0","389","70","0","84.75","316","68.85","73","0.30","316","51","11","6","1","4","149.0","15356","formal"
-"RQ4","no-agent-strategy-guidance","459","0","374","85","0","81.48","321","69.93","53","0.18","321","44","6","1","2","0","153.9","13729","formal"
-"RQ4","full-target-context","459","0","388","71","0","84.53","268","58.39","120","0.47","268","83","21","7","8","1","235.0","31796","formal"
-
+﻿rq,model,setting,cases,success,fail,success_rate,first_pass_success,validator_success,generation_valid,stage_error_cases,initial_errors,final_errors,repair_count,runtime_seconds,avg_runtime_seconds,T1,T2,T3,T4,T5,top_stage_errors
+RQ1_full_e2_rag_models,codestral-2508,e2-full-rag,459,367,92,0.7995642701525054,211,367,451,8,954,981,605,0.0,0.0,0,0,0,0,0,"5x LLM call failed at stage 'model_analyst' after 3 attempt(s): Remote end closed connection without response, 1x LLM call failed at stage 'model_fusion_target' after 3 attempt(s): Remote end closed connection without response, 1x LLM call failed at stage 'rag_digest_agree_generator' after 3 attempt(s): Remote end closed connection without response"
+RQ1_full_e2_rag_models,gemma-3-27b-it,e2-full-rag,459,232,227,0.5054466230936819,0,232,330,129,531,697,772,0.0,0.0,0,0,0,0,0,"117x No recoverable JSON object found in model response, 3x LLM call failed at stage 'model_analyst' after 3 attempt(s): Remote end closed connection without response, 3x LLM response JSON did not contain choices[0].message.content: 'choices'"
+RQ1_full_e2_rag_models,gpt-5.4,e2-full-rag,459,88,371,0.19172113289760348,86,88,92,367,7,19,13,0.0,0.0,0,0,0,0,0,"313x LLM call failed at stage 'model_analyst' after 3 attempt(s): HTTP 403 from LLM provider., 31x LLM call failed at stage 'model_analyst' after 3 attempt(s): HTTP 502 from LLM provider., 13x Model Fusion did not return a plausible complete AADL model."
+RQ1_full_e2_rag_models,llama-3.1-70b-instruct,e2-full-rag,459,306,153,0.6666666666666666,277,306,364,95,811,1039,272,0.0,0.0,0,0,0,0,0,"88x No recoverable JSON object found in model response, 5x LLM call failed at stage 'model_analyst' after 3 attempt(s): Remote end closed connection without response, 2x LLM call failed at stage 'requirement_analyst' after 3 attempt(s): Remote end closed connection without response"
+RQ1_full_e2_rag_models,qwen3-coder-30b-a3b-instruct,e2-full-rag,459,391,68,0.8518518518518519,323,391,459,0,1147,1032,387,0.0,0.0,0,0,0,0,0,
+RQ2_rag_topk,qwen3-coder-30b-a3b-instruct,e2-digest-topk111,459,383,76,0.8344226579520697,309,383,459,0,1318,1031,436,0.0,0.0,0,0,0,0,0,
+RQ2_rag_topk,qwen3-coder-30b-a3b-instruct,e2-digest-topk333-baseline-from-rq1,459,391,68,0.8518518518518519,323,391,459,0,1147,1032,387,0.0,0.0,0,0,0,0,0,
+RQ2_rag_topk,qwen3-coder-30b-a3b-instruct,e2-digest-topk555,459,390,69,0.8496732026143791,317,390,459,0,1144,1190,384,0.0,0.0,0,0,0,0,0,
+RQ2_rag_topk,qwen3-coder-30b-a3b-instruct,e2-digest-topk777,459,384,75,0.8366013071895425,309,384,458,1,1288,1306,415,0.0,0.0,0,0,0,0,0,1x Model Fusion did not return a plausible complete AADL model.
+RQ3_agent,qwen3-coder-30b-a3b-instruct,e1-direct-one-shot,459,177,282,0.38562091503267976,177,177,457,2,2508,2508,0,0.0,0.0,0,0,0,0,0,2x LLM call failed at stage 'bare_direct' after 3 attempt(s): Remote end closed connection without response
+RQ3_agent,qwen3-coder-30b-a3b-instruct,e5-no-model-analyst,459,385,74,0.8387799564270153,284,385,459,0,1379,1192,456,0.0,0.0,0,0,0,0,0,
+RQ3_agent,qwen3-coder-30b-a3b-instruct,e6-no-requirement-analyst,459,394,65,0.8583877995642701,307,394,458,1,1429,1032,384,0.0,0.0,0,0,0,0,0,1x No recoverable JSON object found in model response
+RQ3_agent,qwen3-coder-30b-a3b-instruct,e7-no-dual-analysts,459,393,66,0.8562091503267973,290,393,459,0,1940,1136,429,0.0,0.0,0,0,0,0,0,
+RQ4_optimization,qwen3-coder-30b-a3b-instruct,e2-full-target-context,459,388,71,0.8453159041394336,268,388,457,2,1867,1000,463,0.0,0.0,0,0,0,0,0,"1x LLM call failed at stage 'model_analyst' after 3 attempt(s): Network error from LLM provider: <urlopen error [SSL: UNEXP, 1x LLM call failed at stage 'model_analyst' after 3 attempt(s): Timed out while reading LLM provider response chunk: The re"
+RQ4_optimization,qwen3-coder-30b-a3b-instruct,e2-no-agent-strategy-guidance,459,374,85,0.8148148148148148,321,374,458,1,1202,1387,417,0.0,0.0,0,0,0,0,0,1x No recoverable JSON object found in model response
+RQ4_optimization,qwen3-coder-30b-a3b-instruct,e2-raw-rag-no-digest,459,389,70,0.8474945533769063,316,389,458,1,1153,1051,390,0.0,0.0,0,0,0,0,0,1x No recoverable JSON object found in model response

@@ -1,0 +1,14 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 200: Couldn't resolve reference to 'DMS::doors_process'.",
+      "cause": "AGREE annex is in component type scope but references component instance name instead of port names",
+      "minimal_edit": "Replace DMS::doors_process with D1_engine_running in the guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block, change the guarantee statement from 'guarantee \"process_condition\": DMS::doors_process = D1_engine_running;' to 'guarantee \"process_condition\": D1_engine_running = D1_engine_running;'",
+    "Alternatively, if the intent is to express a dependency relationship, rewrite as 'guarantee \"process_condition\": D1_engine_running;'"
+  ]
+}

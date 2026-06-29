@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'nia_from_external'.",
+      "cause": "AGREE annex is in system implementation scope but references system implementation connection names which are not visible in that scope",
+      "minimal_edit": "Move the AGREE annex to the system type scope (tcas::TCAS) to access connection names"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "AGREE expression references invalid identifiers that resolve to error types",
+      "minimal_edit": "Remove all assume statements referencing invalid identifiers"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE expression references invalid identifiers that resolve to error types",
+      "minimal_edit": "Remove all assume statements referencing invalid identifiers"
+    },
+    {
+      "diagnostic": "no viable alternative at input ''delayed = nearestIntruderAltitude;\\r\\n\\t\\t\\t\\r\\n\\t  assume \"immediate_nigd\": nigd_from_external'",
+      "cause": "AGREE syntax error due to invalid expression with error type",
+      "minimal_edit": "Remove all assume statements referencing invalid identifiers"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire AGREE annex block from TCAS.impl to TCAS",
+    "Remove all assume statements that reference invalid identifiers",
+    "Ensure the AGREE annex is placed in the component type scope where all referenced identifiers are visible"
+  ]
+}

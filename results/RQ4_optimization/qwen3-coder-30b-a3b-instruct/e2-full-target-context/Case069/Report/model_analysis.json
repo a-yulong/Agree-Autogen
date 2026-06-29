@@ -1,0 +1,839 @@
+{
+  "component_types": [
+    {
+      "name": "software_aocs::Attitude_Control_Function",
+      "kind": "thread"
+    },
+    {
+      "name": "software_aocs::Orbit_Control_Function",
+      "kind": "thread"
+    },
+    {
+      "name": "software_aocs::Telecommand_Processing",
+      "kind": "thread"
+    },
+    {
+      "name": "software_aocs::Telemetry_Processing",
+      "kind": "thread"
+    },
+    {
+      "name": "software_aocs::Failure_Detection_Isolation",
+      "kind": "thread"
+    },
+    {
+      "name": "software_aocs::Failure_Recovery",
+      "kind": "thread"
+    },
+    {
+      "name": "software_aocs::Reconfigurations",
+      "kind": "thread"
+    },
+    {
+      "name": "software_aocs::Manoeuvre_Execution",
+      "kind": "thread"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "software_aocs::Attitude_Control_Function.impl",
+      "kind": "thread implementation",
+      "type_name": "software_aocs::Attitude_Control_Function"
+    },
+    {
+      "name": "software_aocs::Orbit_Control_Function.impl",
+      "kind": "thread implementation",
+      "type_name": "software_aocs::Orbit_Control_Function"
+    },
+    {
+      "name": "software_aocs::Telecommand_Processing.impl",
+      "kind": "thread implementation",
+      "type_name": "software_aocs::Telecommand_Processing"
+    },
+    {
+      "name": "software_aocs::Telemetry_Processing.impl",
+      "kind": "thread implementation",
+      "type_name": "software_aocs::Telemetry_Processing"
+    },
+    {
+      "name": "software_aocs::Failure_Detection_Isolation.impl",
+      "kind": "thread implementation",
+      "type_name": "software_aocs::Failure_Detection_Isolation"
+    },
+    {
+      "name": "software_aocs::Failure_Recovery.impl",
+      "kind": "thread implementation",
+      "type_name": "software_aocs::Failure_Recovery"
+    },
+    {
+      "name": "software_aocs::Reconfigurations.impl",
+      "kind": "thread implementation",
+      "type_name": "software_aocs::Reconfigurations"
+    },
+    {
+      "name": "software_aocs::Manoeuvre_Execution.impl",
+      "kind": "thread implementation",
+      "type_name": "software_aocs::Manoeuvre_Execution"
+    }
+  ],
+  "subcomponents": [],
+  "features": [
+    {
+      "owner": "software_aocs::Attitude_Control_Function",
+      "name": "nominal_attitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::attitude",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Attitude_Control_Function",
+      "name": "sensored_attitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::GYR_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Attitude_Control_Function",
+      "name": "sun_direction",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::FSS_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Attitude_Control_Function",
+      "name": "reference_torque",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::RW_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Orbit_Control_Function",
+      "name": "nominal_orbit",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::orbit",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Orbit_Control_Function",
+      "name": "reference_force",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::THU_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "telecommand",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::telecommand",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "nominal_attitude",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::attitude",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "nominal_orbit",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::orbit",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "power_status_FSS",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "power_status_CSS",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "power_status_SPS",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "power_status_ES",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "power_status_MGM",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "power_status_GYR",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "power_status_STR",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "power_status_GPS",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "power_status_TRU",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "power_status_RW",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "power_status_MGT",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "manoeuvre_command",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::manoeuvre_command",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "attitude_window",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::attitude_window",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "check_thresholds",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::check_thresholds",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "Force_mode_to_NM",
+      "direction": "out",
+      "category": "event port",
+      "type": "opaque",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing",
+      "name": "Force_mode_to_SM",
+      "direction": "out",
+      "category": "event port",
+      "type": "opaque",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telemetry_Processing",
+      "name": "torque_command",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::RW_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telemetry_Processing",
+      "name": "force_command",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::THU_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telemetry_Processing",
+      "name": "sensor_data1",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::FSS_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telemetry_Processing",
+      "name": "sensor_data2",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::CSS_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telemetry_Processing",
+      "name": "sensor_data3",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::SPS_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telemetry_Processing",
+      "name": "sensor_data4",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::ES_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telemetry_Processing",
+      "name": "sensor_data5",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::MGM_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telemetry_Processing",
+      "name": "sensor_data6",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::GYR_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telemetry_Processing",
+      "name": "sensor_data7",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::STR_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telemetry_Processing",
+      "name": "sensor_data8",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::GPS_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Telemetry_Processing",
+      "name": "telemetry",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::telemetry",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation",
+      "name": "sensored_attitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::GYR_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation",
+      "name": "sun_direction",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::FSS_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation",
+      "name": "attitude_window",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::attitude_window",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation",
+      "name": "sensor_data1",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::FSS_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation",
+      "name": "sensor_data2",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::CSS_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation",
+      "name": "sensor_data3",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::SPS_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation",
+      "name": "sensor_data4",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::ES_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation",
+      "name": "sensor_data5",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::MGM_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation",
+      "name": "sensor_data6",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::GYR_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation",
+      "name": "sensor_data7",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::STR_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation",
+      "name": "sensor_data8",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::GPS_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation",
+      "name": "check_thresholds",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::check_thresholds",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation",
+      "name": "watchdog_event",
+      "direction": "out",
+      "category": "event port",
+      "type": "opaque",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation",
+      "name": "anomaly_detected",
+      "direction": "in",
+      "category": "event port",
+      "type": "opaque",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Recovery",
+      "name": "reset",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::reset",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Recovery",
+      "name": "Changing_mode_to_SM",
+      "direction": "out",
+      "category": "event port",
+      "type": "opaque",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Recovery",
+      "name": "Changing_mode_to_NM",
+      "direction": "out",
+      "category": "event port",
+      "type": "opaque",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Failure_Recovery",
+      "name": "reconfiguration_command",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfiguration_command",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Reconfigurations",
+      "name": "command",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::reconfiguration_command",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Reconfigurations",
+      "name": "FSS_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_sensor",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Reconfigurations",
+      "name": "CSS_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_sensor",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Reconfigurations",
+      "name": "SPS_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_sensor",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Reconfigurations",
+      "name": "ES_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_sensor",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Reconfigurations",
+      "name": "MGM_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_sensor",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Reconfigurations",
+      "name": "GYR_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_sensor",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Reconfigurations",
+      "name": "STR_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_sensor",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Reconfigurations",
+      "name": "GPS_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_sensor",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Reconfigurations",
+      "name": "THU_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_actuator",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Reconfigurations",
+      "name": "RW_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_actuator",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Reconfigurations",
+      "name": "MGT_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_actuator",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Manoeuvre_Execution",
+      "name": "command",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::manoeuvre_command",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Manoeuvre_Execution",
+      "name": "torque_command",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::RW_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "software_aocs::Manoeuvre_Execution",
+      "name": "force_command",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::THU_data",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [],
+  "properties": [
+    {
+      "owner": "software_aocs::Attitude_Control_Function.impl",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "software_aocs::Attitude_Control_Function.impl"
+    },
+    {
+      "owner": "software_aocs::Attitude_Control_Function.impl",
+      "owner_kind": "thread implementation",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 250 us",
+      "applies_to": "software_aocs::Attitude_Control_Function.impl"
+    },
+    {
+      "owner": "software_aocs::Attitude_Control_Function.impl",
+      "owner_kind": "thread implementation",
+      "name": "Period",
+      "value": "500 us",
+      "applies_to": "software_aocs::Attitude_Control_Function.impl"
+    },
+    {
+      "owner": "software_aocs::Attitude_Control_Function.impl",
+      "owner_kind": "thread implementation",
+      "name": "Deadline",
+      "value": "500 us",
+      "applies_to": "software_aocs::Attitude_Control_Function.impl"
+    },
+    {
+      "owner": "software_aocs::Attitude_Control_Function.impl",
+      "owner_kind": "thread implementation",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": "software_aocs::Attitude_Control_Function.impl"
+    },
+    {
+      "owner": "software_aocs::Orbit_Control_Function.impl",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "software_aocs::Orbit_Control_Function.impl"
+    },
+    {
+      "owner": "software_aocs::Orbit_Control_Function.impl",
+      "owner_kind": "thread implementation",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 250 us",
+      "applies_to": "software_aocs::Orbit_Control_Function.impl"
+    },
+    {
+      "owner": "software_aocs::Orbit_Control_Function.impl",
+      "owner_kind": "thread implementation",
+      "name": "Period",
+      "value": "5 min",
+      "applies_to": "software_aocs::Orbit_Control_Function.impl"
+    },
+    {
+      "owner": "software_aocs::Orbit_Control_Function.impl",
+      "owner_kind": "thread implementation",
+      "name": "Deadline",
+      "value": "5 min",
+      "applies_to": "software_aocs::Orbit_Control_Function.impl"
+    },
+    {
+      "owner": "software_aocs::Orbit_Control_Function.impl",
+      "owner_kind": "thread implementation",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": "software_aocs::Orbit_Control_Function.impl"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing.impl",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Aperiodic",
+      "applies_to": "software_aocs::Telecommand_Processing.impl"
+    },
+    {
+      "owner": "software_aocs::Telecommand_Processing.impl",
+      "owner_kind": "thread implementation",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 100 us",
+      "applies_to": "software_aocs::Telecommand_Processing.impl"
+    },
+    {
+      "owner": "software_aocs::Telemetry_Processing.impl",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "software_aocs::Telemetry_Processing.impl"
+    },
+    {
+      "owner": "software_aocs::Telemetry_Processing.impl",
+      "owner_kind": "thread implementation",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 250 us",
+      "applies_to": "software_aocs::Telemetry_Processing.impl"
+    },
+    {
+      "owner": "software_aocs::Telemetry_Processing.impl",
+      "owner_kind": "thread implementation",
+      "name": "Period",
+      "value": "2000 ms",
+      "applies_to": "software_aocs::Telemetry_Processing.impl"
+    },
+    {
+      "owner": "software_aocs::Telemetry_Processing.impl",
+      "owner_kind": "thread implementation",
+      "name": "Deadline",
+      "value": "2000 ms",
+      "applies_to": "software_aocs::Telemetry_Processing.impl"
+    },
+    {
+      "owner": "software_aocs::Telemetry_Processing.impl",
+      "owner_kind": "thread implementation",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": "software_aocs::Telemetry_Processing.impl"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation.impl",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "software_aocs::Failure_Detection_Isolation.impl"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation.impl",
+      "owner_kind": "thread implementation",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 050 us",
+      "applies_to": "software_aocs::Failure_Detection_Isolation.impl"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation.impl",
+      "owner_kind": "thread implementation",
+      "name": "Period",
+      "value": "60000 ms",
+      "applies_to": "software_aocs::Failure_Detection_Isolation.impl"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation.impl",
+      "owner_kind": "thread implementation",
+      "name": "Deadline",
+      "value": "600000 ms",
+      "applies_to": "software_aocs::Failure_Detection_Isolation.impl"
+    },
+    {
+      "owner": "software_aocs::Failure_Detection_Isolation.impl",
+      "owner_kind": "thread implementation",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": "software_aocs::Failure_Detection_Isolation.impl"
+    },
+    {
+      "owner": "software_aocs::Failure_Recovery.impl",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": "software_aocs::Failure_Recovery.impl"
+    },
+    {
+      "owner": "software_aocs::Failure_Recovery.impl",
+      "owner_kind": "thread implementation",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 050 us",
+      "applies_to": "software_aocs::Failure_Recovery.impl"
+    },
+    {
+      "owner": "software_aocs::Failure_Recovery.impl",
+      "owner_kind": "thread implementation",
+      "name": "Period",
+      "value": "60000 ms",
+      "applies_to": "software_aocs::Failure_Recovery.impl"
+    },
+    {
+      "owner": "software_aocs::Failure_Recovery.impl",
+      "owner_kind": "thread implementation",
+      "name": "Deadline",
+      "value": "60000 ms",
+      "applies_to": "software_aocs::Failure_Recovery.impl"
+    },
+    {
+      "owner": "software_aocs::Failure_Recovery.impl",
+      "owner_kind": "thread implementation",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": "software_aocs::Failure_Recovery.impl"
+    },
+    {
+      "owner": "software_aocs::Manoeuvre_Execution.impl",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Aperiodic",
+      "applies_to": "software_aocs::Manoeuvre_Execution.impl"
+    },
+    {
+      "owner": "software_aocs::Manoeuvre_Execution.impl",
+      "owner_kind": "thread implementation",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 100 us",
+      "applies_to": "software_aocs::Manoeuvre_Execution.impl"
+    }
+  ]
+}

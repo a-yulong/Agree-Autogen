@@ -1,0 +1,19 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 45: Couldn't resolve reference to 'flyByWire_soft::send_data_to_autopilot_task'.",
+      "cause": "AGREE guarantee statement incorrectly references component type instead of implementation",
+      "minimal_edit": "Replace 'flyByWire_soft::send_data_to_autopilot_task.Impl' with 'send_data_to_autopilot_task.Impl'"
+    },
+    {
+      "diagnostic": "line 45: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid component type reference in implication expression",
+      "minimal_edit": "Replace 'flyByWire_soft::send_data_to_autopilot_task.Impl => Radio_Ok_Input = true' with 'Radio_Ok_Input = true'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'flyByWire_soft::send_data_to_autopilot_task.Impl => Radio_Ok_Input = true' with 'Radio_Ok_Input = true' on line 45",
+    "Remove the erroneous component type reference and simplify the guarantee to reference only the input port directly"
+  ]
+}

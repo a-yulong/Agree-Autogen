@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Use `guarantee \"label\": expression;` for output dependency contracts that relate visible outputs to visible inputs.",
+    "Place component type contracts in valid component type scopes, avoiding implementation-only subcomponent paths.",
+    "Generate syntactically valid AGREE annex blocks using logical operators such as `and`, `or`, `not(...)`, and implication `=>`."
+  ],
+  "generic_rules": [
+    "For output envelope guarantees, ensure bounded outputs remain within defined min/max ranges using `and` and `or` operators.",
+    "Use initialized temporal recurrence for stateful equations, e.g., `0.0 -> pre(t) + step`.",
+    "Avoid referencing AADL property names directly in AGREE expressions unless they are explicitly typed ports or constants.",
+    "Ensure type declarations in AGREE match the actual types of expressions: `int`, `real`, `bool`."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `eq name : type = expression;` for defining equations and `const name : type = value;` for constants.",
+    "Use nested `if ... then ... else` for branching logic in AGREE contracts."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent ports in component type annexes unless represented through valid variables or outputs.",
+    "Do not encode AADL timing properties like Deadline or Period as AGREE expressions unless model exposes explicit typed ports."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing properties",
+    "Implementation-level bindings and subcomponent paths",
+    "Validator diagnostics and repair patterns"
+  ]
+}

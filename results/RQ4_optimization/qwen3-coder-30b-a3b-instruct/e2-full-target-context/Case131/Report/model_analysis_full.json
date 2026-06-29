@@ -1,0 +1,292 @@
+{
+  "component_types": [
+    {
+      "name": "Hello_World2::Hello_Spg_1",
+      "kind": "subprogram"
+    },
+    {
+      "name": "Hello_World2::Task",
+      "kind": "thread"
+    },
+    {
+      "name": "Hello_World2::node_a",
+      "kind": "process"
+    },
+    {
+      "name": "Hello_World2::partition_runtime",
+      "kind": "virtual processor"
+    },
+    {
+      "name": "Hello_World2::cpurm",
+      "kind": "processor"
+    },
+    {
+      "name": "Hello_World2::myram",
+      "kind": "memory"
+    },
+    {
+      "name": "Hello_World2::segment",
+      "kind": "memory"
+    },
+    {
+      "name": "Hello_World2::hello",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Hello_World2::Task.impl_1",
+      "kind": "thread implementation",
+      "type_name": "Hello_World2::Task"
+    },
+    {
+      "name": "Hello_World2::node_a.impl",
+      "kind": "process implementation",
+      "type_name": "Hello_World2::node_a"
+    },
+    {
+      "name": "Hello_World2::partition_runtime.i",
+      "kind": "virtual processor implementation",
+      "type_name": "Hello_World2::partition_runtime"
+    },
+    {
+      "name": "Hello_World2::cpurm.impl",
+      "kind": "processor implementation",
+      "type_name": "Hello_World2::cpurm"
+    },
+    {
+      "name": "Hello_World2::segment.i",
+      "kind": "memory implementation",
+      "type_name": "Hello_World2::segment"
+    },
+    {
+      "name": "Hello_World2::myram.stram",
+      "kind": "memory implementation",
+      "type_name": "Hello_World2::myram"
+    },
+    {
+      "name": "Hello_World2::myram.sdram",
+      "kind": "memory implementation",
+      "type_name": "Hello_World2::myram"
+    },
+    {
+      "name": "Hello_World2::hello.impl",
+      "kind": "system implementation",
+      "type_name": "Hello_World2::hello"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "Hello_World2::Task.impl_1",
+      "name": "Mycalls",
+      "category": "calls",
+      "classifier": "Hello_World2::Hello_Spg_1"
+    },
+    {
+      "owner": "Hello_World2::node_a.impl",
+      "name": "Task1",
+      "category": "thread",
+      "classifier": "Hello_World2::Task.impl_1"
+    },
+    {
+      "owner": "Hello_World2::cpurm.impl",
+      "name": "P0",
+      "category": "virtual processor",
+      "classifier": "Hello_World2::partition_runtime.i"
+    },
+    {
+      "owner": "Hello_World2::cpurm.impl",
+      "name": "P1",
+      "category": "virtual processor",
+      "classifier": "Hello_World2::partition_runtime.i"
+    },
+    {
+      "owner": "Hello_World2::myram.sdram",
+      "name": "segment1",
+      "category": "memory",
+      "classifier": "Hello_World2::segment.i"
+    },
+    {
+      "owner": "Hello_World2::myram.sdram",
+      "name": "segment2",
+      "category": "memory",
+      "classifier": "Hello_World2::segment.i"
+    },
+    {
+      "owner": "Hello_World2::hello.impl",
+      "name": "node_a",
+      "category": "process",
+      "classifier": "Hello_World2::node_a.impl"
+    },
+    {
+      "owner": "Hello_World2::hello.impl",
+      "name": "node_b",
+      "category": "process",
+      "classifier": "Hello_World2::node_a.impl"
+    },
+    {
+      "owner": "Hello_World2::hello.impl",
+      "name": "cpu_rm",
+      "category": "processor",
+      "classifier": "Hello_World2::cpurm.impl"
+    },
+    {
+      "owner": "Hello_World2::hello.impl",
+      "name": "mem",
+      "category": "memory",
+      "classifier": "Hello_World2::myram.sdram"
+    }
+  ],
+  "features": [],
+  "connections": [],
+  "properties": [
+    {
+      "owner": "Hello_World2::Task.impl_1",
+      "owner_kind": "thread implementation",
+      "name": "Priority",
+      "value": "100"
+    },
+    {
+      "owner": "Hello_World2::Task.impl_1",
+      "owner_kind": "thread implementation",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic"
+    },
+    {
+      "owner": "Hello_World2::Task.impl_1",
+      "owner_kind": "thread implementation",
+      "name": "Period",
+      "value": "100 ms"
+    },
+    {
+      "owner": "Hello_World2::Task.impl_1",
+      "owner_kind": "thread implementation",
+      "name": "Compute_Execution_time",
+      "value": "0 ms .. 3 ms"
+    },
+    {
+      "owner": "Hello_World2::cpurm.impl",
+      "owner_kind": "processor implementation",
+      "name": "ARINC653::Module_Major_Frame",
+      "value": "1 sec"
+    },
+    {
+      "owner": "Hello_World2::cpurm.impl",
+      "owner_kind": "processor implementation",
+      "name": "ARINC653::Module_Schedule",
+      "value": "([Partition => reference (P0); Duration => 300 ms; Periodic_Processing_Start => true;], [Partition => reference (P1); Duration => 300 ms; Periodic_Processing_Start => true;])"
+    },
+    {
+      "owner": "Hello_World2::cpurm",
+      "owner_kind": "processor",
+      "name": "Deployment::Execution_Platform",
+      "value": "AIR"
+    },
+    {
+      "owner": "Hello_World2::cpurm.impl",
+      "owner_kind": "processor implementation",
+      "name": "Deployment::Execution_Platform",
+      "value": "AIR"
+    },
+    {
+      "owner": "Hello_World2::cpurm.impl",
+      "owner_kind": "processor implementation",
+      "name": "ARINC653::Partition_Identifier",
+      "value": "0"
+    },
+    {
+      "owner": "Hello_World2::cpurm.impl",
+      "owner_kind": "processor implementation",
+      "name": "ARINC653::Partition_Name",
+      "value": "\"P0\""
+    },
+    {
+      "owner": "Hello_World2::cpurm.impl",
+      "owner_kind": "processor implementation",
+      "name": "ARINC653::Partition_Identifier",
+      "value": "1"
+    },
+    {
+      "owner": "Hello_World2::cpurm.impl",
+      "owner_kind": "processor implementation",
+      "name": "ARINC653::Partition_Name",
+      "value": "\"P1\""
+    },
+    {
+      "owner": "Hello_World2::myram.stram",
+      "owner_kind": "memory implementation",
+      "name": "Base_Address",
+      "value": "40000000"
+    },
+    {
+      "owner": "Hello_World2::myram.stram",
+      "owner_kind": "memory implementation",
+      "name": "Byte_Count",
+      "value": "16#400000#"
+    },
+    {
+      "owner": "Hello_World2::myram.sdram",
+      "owner_kind": "memory implementation",
+      "name": "Base_Address",
+      "value": "40000000"
+    },
+    {
+      "owner": "Hello_World2::myram.sdram",
+      "owner_kind": "memory implementation",
+      "name": "Byte_Count",
+      "value": "16#400000#"
+    },
+    {
+      "owner": "Hello_World2::myram.sdram",
+      "owner_kind": "memory implementation",
+      "name": "Base_Address",
+      "value": "40100000"
+    },
+    {
+      "owner": "Hello_World2::myram.sdram",
+      "owner_kind": "memory implementation",
+      "name": "Byte_Count",
+      "value": "16#400000#"
+    },
+    {
+      "owner": "Hello_World2::myram.sdram",
+      "owner_kind": "memory implementation",
+      "name": "Base_Address",
+      "value": "40200000"
+    },
+    {
+      "owner": "Hello_World2::myram.sdram",
+      "owner_kind": "memory implementation",
+      "name": "Byte_Count",
+      "value": "16#400000#"
+    },
+    {
+      "owner": "Hello_World2::hello.impl",
+      "owner_kind": "system implementation",
+      "name": "Actual_Processor_Binding",
+      "value": "reference (cpu_rm.p0)",
+      "applies_to": "node_a"
+    },
+    {
+      "owner": "Hello_World2::hello.impl",
+      "owner_kind": "system implementation",
+      "name": "actual_memory_binding",
+      "value": "reference (mem.segment1)",
+      "applies_to": "Node_A"
+    },
+    {
+      "owner": "Hello_World2::hello.impl",
+      "owner_kind": "system implementation",
+      "name": "Actual_Processor_Binding",
+      "value": "reference (cpu_rm.p1)",
+      "applies_to": "node_b"
+    },
+    {
+      "owner": "Hello_World2::hello.impl",
+      "owner_kind": "system implementation",
+      "name": "actual_memory_binding",
+      "value": "reference (mem.segment2)",
+      "applies_to": "Node_b"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 91: named thing must be an expression with a type",
+      "cause": "AGREE assume statement references port names as expressions without proper variable declaration or binding",
+      "minimal_edit": "Replace each assume statement with a guarantee that relates the output parameter to the corresponding input parameter in the context of the subprogram interface"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 92: named thing must be an expression with a type",
+      "cause": "AGREE assume statement references port names as expressions without proper variable declaration or binding",
+      "minimal_edit": "Replace each assume statement with a guarantee that relates the output parameter to the corresponding input parameter in the context of the subprogram interface"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 93: named thing must be an expression with a type",
+      "cause": "AGREE assume statement references port names as expressions without proper variable declaration or binding",
+      "minimal_edit": "Replace each assume statement with a guarantee that relates the output parameter to the corresponding input parameter in the context of the subprogram interface"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the assume statements in the MAGNETO_SUB_wrapper annex with guarantee statements that express the data flow relationships between the subprogram's input and output parameters",
+    "Ensure that the guarantee expressions use only visible identifiers from the subprogram interface",
+    "Change each assume \"mag_out_data_x routing\": mag_out_data_x = mag_out_data_x; to guarantee \"mag_out_data_x routing\": mag_out_data_x = mag_out_data_x;",
+    "Change each assume \"mag_out_data_y routing\": mag_out_data_y = mag_out_data_y; to guarantee \"mag_out_data_y routing\": mag_out_data_y = mag_out_data_y;",
+    "Change each assume \"mag_out_data_z routing\": mag_out_data_z = mag_out_data_z; to guarantee \"mag_out_data_z routing\": mag_out_data_z = mag_out_data_z;"
+  ]
+}

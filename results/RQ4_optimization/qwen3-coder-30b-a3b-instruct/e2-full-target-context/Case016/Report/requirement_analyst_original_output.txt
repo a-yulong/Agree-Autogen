@@ -1,0 +1,55 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "Aviate_Decider maintains internal variable numberServicesTrue that counts total number of currently active service requests",
+      "evidence": [
+        "AviateControlLevel::Aviate_Control_Level.Aviate_Control_Level_impl.dmc",
+        "numberServicesTrue"
+      ]
+    },
+    {
+      "id": "R2",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "When inpGCASImpact > inpACASImpact and inpGCASRecovery + inpACASRecovery ensures no secondary collision, decision shall be ACAS",
+      "evidence": [
+        "inpGCASImpact",
+        "inpACASImpact",
+        "inpGCASRecovery",
+        "inpACASRecovery",
+        "dmc.outDec"
+      ]
+    },
+    {
+      "id": "R3",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "Otherwise, decision shall be GCAS",
+      "evidence": [
+        "dmc.outDec"
+      ]
+    },
+    {
+      "id": "R4",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "When numberServicesTrue >= 2, outDec shall use dynamic decision result",
+      "evidence": [
+        "numberServicesTrue",
+        "dmc.outDec"
+      ]
+    },
+    {
+      "id": "R5",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "Otherwise, outDec shall fall back to static priority-based decision",
+      "evidence": [
+        "dmc.outDec"
+      ]
+    }
+  ]
+}

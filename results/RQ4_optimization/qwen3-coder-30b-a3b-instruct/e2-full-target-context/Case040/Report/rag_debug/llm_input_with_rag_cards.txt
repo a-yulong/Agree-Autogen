@@ -1,0 +1,100 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE assumptions and guarantees in component type scopes when referring to ports, and in implementation scopes for bindings like assignments.
+- Use `assume` and `guarantee` statements with descriptive labels and valid AGREE expressions.
+Generic rules:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Equation and constant declarations in AGREE should use valid scalar types: int, real, bool.
+- Assignments in AGREE must reference existing output features or declared auxiliary variables.
+- Do not include AADL property names like Period or Deadline as AGREE variables unless explicitly exposed in the model.
+Syntax or pattern reminders:
+- Use `eq name : type = expression;` for equation declarations and `const name : type = value;` for constants.
+- Ensure that all visible identifiers used in AGREE expressions are properly declared or scoped.
+Anti-patterns:
+- Avoid placing guarantee statements in implementation scope; use only assumptions and assignments there.
+- Do not encode AADL timing properties as AGREE expressions unless the model exposes typed ports or constants.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Transmission::Speed_Control
+- Transmission::Throttle
+- Transmission::State_Machine
+- Transmission::Sub_State_Machine
+- Transmission::Speed_Control.Speed_Control_Impl
+- Transmission::Throttle.Throttle_Impl
+- Transmission::State_Machine.Impl
+- Transmission::Sub_State_Machine.Impl
+- SSM
+- SMToSSM
+- Target
+- Actuator_Input
+- Actual
+- State_Out
+- Speed_Control
+- Speed_Control.Speed_Control_Impl
+- Throttle
+- Throttle.Throttle_Impl
+- State_Machine
+- State_Machine.Impl
+- Sub_State_Machine
+- Sub_State_Machine.Impl
+
+Target interface:
+Exact expression symbols: State_Out
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+State_Out | out | data | opaque | Types::state_sig.impl
+
+Raw requirement:
+The State_Machine component shall define the implementation-level data routing and execution constraints for State_Machine.Impl. In the implementation layer, State_Machine.Impl shall route the signal flow from SSM.State_Out to State_Out through SMToSSM. Additionally, State_Machine.Impl shall use immediate communication timing on connection SMToSSM.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Route signal flow from SSM.State_Out to State_Out through SMToSSM",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "SSM",
+        "State_Out",
+        "SMToSSM"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Use immediate communication timing on connection SMToSSM",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "SMToSSM",
+        "Timing=immediate"
+      ]
+    }
+  ]
+}

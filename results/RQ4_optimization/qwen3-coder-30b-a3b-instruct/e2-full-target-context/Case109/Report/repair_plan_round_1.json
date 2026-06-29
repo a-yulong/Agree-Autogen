@@ -1,0 +1,49 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc2DataOut'.",
+      "cause": "Reference to subcomponent port 'acc2DataOut' is invalid in AGREE context",
+      "minimal_edit": "Replace 'sub1.acc2DataOut' with 'C1'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'sub1'.",
+      "cause": "Reference to subcomponent 'sub1' is invalid in AGREE context",
+      "minimal_edit": "Remove 'sub1.' prefix from 'sub1.acc2DataOut'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved reference",
+      "minimal_edit": "Replace 'acc2out = sub1.acc2DataOut' with 'acc2out = C1'"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Unresolved reference results in error type",
+      "minimal_edit": "Replace 'acc2out = sub1.acc2DataOut' with 'acc2out = C1'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'event_in'.",
+      "cause": "Reference to subcomponent port 'event_in' is invalid in AGREE context",
+      "minimal_edit": "Replace 'sub1.event_in' with 'C2'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'sub1'.",
+      "cause": "Reference to subcomponent 'sub1' is invalid in AGREE context",
+      "minimal_edit": "Remove 'sub1.' prefix from 'sub1.event_in'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch due to unresolved reference",
+      "minimal_edit": "Replace 'sub1.event_in = acc2_command_in' with 'C2 = acc2_command_in'"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Unresolved reference results in error type",
+      "minimal_edit": "Replace 'sub1.event_in = acc2_command_in' with 'C2 = acc2_command_in'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'acc2out = sub1.acc2DataOut' with 'acc2out = C1' in the first guarantee",
+    "Replace 'sub1.event_in = acc2_command_in' with 'C2 = acc2_command_in' in the second guarantee"
+  ]
+}

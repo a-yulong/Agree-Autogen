@@ -1,0 +1,20 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use AGREE logical operators and syntax for assumptions and guarantees, avoiding invalid type references.
+- Place assumptions and guarantees in appropriate component type or implementation scopes based on feature visibility.
+- Generate valid AGREE expressions using initialized temporal recurrence for stateful equations and nested if-then-else for branching logic.
+Generic rules:
+- Ensure all AGREE declarations use valid scalar types: int, real, bool.
+- Avoid referencing AADL property names directly in AGREE expressions unless they are explicitly exposed as typed features.
+- Use const and eq declarations to define visible constants and boolean expressions for contract clarity.
+- Assign output values only in implementation scope using existing output features or declared auxiliary variables.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements.
+- Use `eq name : type = expression;` for defining boolean expressions and `const name : type = value;` for constants.
+- Use `assign output = expression;` only for implementation-level output assignments.
+- Structure conditional logic with nested `if ... then ... else` for complex behavior relations.
+Anti-patterns:
+- Do not reference AADL timing properties like Period or Deadline directly in AGREE expressions.
+- Do not place guarantee statements in implementation scope; use only assumptions and assignments.
+- Do not use invalid scalar type names such as 'integer' or 'boolean' in AGREE declarations.
+</RAG_DIGEST>

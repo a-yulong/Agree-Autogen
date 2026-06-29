@@ -1,23 +1,20 @@
-﻿# Completed Experiments Summary
+# Completed Experiment Summary
 
-Generated: 2026-06-14 11:35:01
-
-| RQ | Setting | Reports | Success | Success % | First pass | First pass % | Repair success | Stage Error | Avg repair | Avg runtime s | Avg tokens |
-|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| RQ1 | Qwen3-Coder-30B | 459 | 391 | 85.19 | 323 | 70.37 | 68 | 0 | 0.31 | 198.2 | 18959 |
-| RQ1 | Codestral-2508 | 459 | 367 | 79.96 | 211 | 45.97 | 156 | 0 | 0.69 | 181.3 | 23076 |
-| RQ1 | Llama-3.1-70B | 459 | 306 | 66.67 | 277 | 60.35 | 29 | 0 | 0.15 | 202.4 | 15031 |
-| RQ1 | Gemma-3-27B | 459 | 232 | 50.54 | 0 | 0 | 232 | 0 | 1.22 | 248.6 | 23881 |
-| RQ1 | GPT-5.4-high | 459 | 406 | 88.45 | 372 | 81.05 | 34 | 0 | 0.10 | 240.5 | 45561 |
-| RQ2 | topk111 | 459 | 383 | 83.44 | 309 | 67.32 | 74 | 0 | 0.32 | 185.3 | 18400 |
-| RQ2 | topk333 baseline | 459 | 391 | 85.19 | 323 | 70.37 | 68 | 0 | 0.31 | 198.2 | 18959 |
-| RQ2 | topk555 | 459 | 390 | 84.97 | 317 | 69.06 | 73 | 0 | 0.27 | 185.2 | 20472 |
-| RQ2 | topk777 | 459 | 384 | 83.66 | 309 | 67.32 | 75 | 0 | 0.3 | 189 | 22387 |
-| RQ3 | e1-direct-one-shot | 459 | 177 | 38.56 | 177 | 38.56 | 0 | 0 | 0 | 77.4 | 6561 |
-| RQ3 | e5-no-model-analyst | 459 | 385 | 83.88 | 284 | 61.87 | 101 | 0 | 0.39 | 156.4 | 18069 |
-| RQ3 | e6-no-requirement-analyst | 459 | 394 | 85.84 | 307 | 66.88 | 87 | 0 | 0.34 | 172 | 17578 |
-| RQ3 | e7-no-dual-analysts | 459 | 393 | 85.62 | 290 | 63.18 | 103 | 0 | 0.42 | 152.8 | 16284 |
-| RQ4 | raw-rag-no-digest | 459 | 389 | 84.75 | 316 | 68.85 | 73 | 0 | 0.3 | 149 | 15356 |
-| RQ4 | no-agent-strategy | 459 | 374 | 81.48 | 321 | 69.93 | 53 | 0 | 0.18 | 153.9 | 13729 |
-| RQ4 | full-target-context | 459 | 388 | 84.53 | 268 | 58.39 | 120 | 0 | 0.47 | 235.0 | 31796 |
-
+| RQ | Model | Setting | Cases | Success | Fail | Success rate | First-pass | Stage errors |
+|---|---|---|---|---|---|---|---|---|
+| RQ1_full_e2_rag_models | codestral-2508 | e2-full-rag | 459 | 367 | 92 | 79.96% | 211 | 8 |
+| RQ1_full_e2_rag_models | gemma-3-27b-it | e2-full-rag | 459 | 232 | 227 | 50.54% | 0 | 129 |
+| RQ1_full_e2_rag_models | gpt-5.4 | e2-full-rag | 459 | 88 | 371 | 19.17% | 86 | 367 |
+| RQ1_full_e2_rag_models | llama-3.1-70b-instruct | e2-full-rag | 459 | 306 | 153 | 66.67% | 277 | 95 |
+| RQ1_full_e2_rag_models | qwen3-coder-30b-a3b-instruct | e2-full-rag | 459 | 391 | 68 | 85.19% | 323 | 0 |
+| RQ2_rag_topk | qwen3-coder-30b-a3b-instruct | e2-digest-topk111 | 459 | 383 | 76 | 83.44% | 309 | 0 |
+| RQ2_rag_topk | qwen3-coder-30b-a3b-instruct | e2-digest-topk333-baseline-from-rq1 | 459 | 391 | 68 | 85.19% | 323 | 0 |
+| RQ2_rag_topk | qwen3-coder-30b-a3b-instruct | e2-digest-topk555 | 459 | 390 | 69 | 84.97% | 317 | 0 |
+| RQ2_rag_topk | qwen3-coder-30b-a3b-instruct | e2-digest-topk777 | 459 | 384 | 75 | 83.66% | 309 | 1 |
+| RQ3_agent | qwen3-coder-30b-a3b-instruct | e1-direct-one-shot | 459 | 177 | 282 | 38.56% | 177 | 2 |
+| RQ3_agent | qwen3-coder-30b-a3b-instruct | e5-no-model-analyst | 459 | 385 | 74 | 83.88% | 284 | 0 |
+| RQ3_agent | qwen3-coder-30b-a3b-instruct | e6-no-requirement-analyst | 459 | 394 | 65 | 85.84% | 307 | 1 |
+| RQ3_agent | qwen3-coder-30b-a3b-instruct | e7-no-dual-analysts | 459 | 393 | 66 | 85.62% | 290 | 0 |
+| RQ4_optimization | qwen3-coder-30b-a3b-instruct | e2-full-target-context | 459 | 388 | 71 | 84.53% | 268 | 2 |
+| RQ4_optimization | qwen3-coder-30b-a3b-instruct | e2-no-agent-strategy-guidance | 459 | 374 | 85 | 81.48% | 321 | 1 |
+| RQ4_optimization | qwen3-coder-30b-a3b-instruct | e2-raw-rag-no-digest | 459 | 389 | 70 | 84.75% | 316 | 1 |

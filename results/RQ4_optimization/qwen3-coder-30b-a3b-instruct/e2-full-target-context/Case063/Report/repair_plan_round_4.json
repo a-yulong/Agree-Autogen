@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'P1'.",
+      "cause": "P1 is a connection in Q.Impl, not visible in Q type scope",
+      "minimal_edit": "Change 'P1' to 'Data_Sink' on the left side of the expression"
+    },
+    {
+      "diagnostic": "left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "P1 is not a valid boolean expression in this context",
+      "minimal_edit": "Replace 'P1' with 'Data_Sink' to make it a valid boolean expression"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Data_Sink is not a valid boolean expression in this context",
+      "minimal_edit": "Replace 'Data_Sink' with 'true' to make it a valid boolean expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the assume statement in the Q type annex to use 'Data_Sink' as the left operand",
+    "Edit the assume statement in the Q type annex to use 'true' as the right operand",
+    "Ensure the expression becomes 'Data_Sink => true' in the annex"
+  ]
+}

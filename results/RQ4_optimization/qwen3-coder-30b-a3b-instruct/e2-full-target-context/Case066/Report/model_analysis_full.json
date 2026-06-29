@@ -1,0 +1,776 @@
+{
+  "component_types": [
+    {
+      "name": "AOCS::AOCSprocessing",
+      "kind": "process"
+    },
+    {
+      "name": "AOCS::AOCS_Subsystem",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "AOCS::AOCSprocessing.others",
+      "kind": "process implementation",
+      "type_name": "AOCS::AOCSprocessing"
+    },
+    {
+      "name": "AOCS::AOCS_Subsystem.impl",
+      "kind": "system implementation",
+      "type_name": "AOCS::AOCS_Subsystem"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "AOCS::AOCSprocessing.others",
+      "name": "ACF",
+      "category": "thread",
+      "classifier": "software_aocs::Attitude_Control_Function"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing.others",
+      "name": "OCF",
+      "category": "thread",
+      "classifier": "software_aocs::Orbit_Control_Function"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing.others",
+      "name": "TCP",
+      "category": "thread",
+      "classifier": "software_aocs::Telecommand_Processing"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing.others",
+      "name": "TMP",
+      "category": "thread",
+      "classifier": "software_aocs::Telemetry_Processing"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing.others",
+      "name": "FDR",
+      "category": "thread",
+      "classifier": "software_aocs::Failure_Detection_Isolation"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing.others",
+      "name": "FR",
+      "category": "thread",
+      "classifier": "software_aocs::Failure_Recovery"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing.others",
+      "name": "Reconfig",
+      "category": "thread",
+      "classifier": "software_aocs::Reconfigurations"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing.others",
+      "name": "ME",
+      "category": "thread",
+      "classifier": "software_aocs::Manoeuvre_Execution"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "main",
+      "category": "process",
+      "classifier": "AOCS::AOCSprocessing.others"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "FSS",
+      "category": "device",
+      "classifier": "Hardware_AOCS::FSS"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "CSS",
+      "category": "device",
+      "classifier": "Hardware_AOCS::CSS"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "SPS",
+      "category": "device",
+      "classifier": "Hardware_AOCS::SPS"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "ES",
+      "category": "device",
+      "classifier": "Hardware_AOCS::ES"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "MGM",
+      "category": "device",
+      "classifier": "Hardware_AOCS::MGM"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "GYR",
+      "category": "device",
+      "classifier": "Hardware_AOCS::GYR"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "STR",
+      "category": "device",
+      "classifier": "Hardware_AOCS::STR"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "GPS",
+      "category": "device",
+      "classifier": "Hardware_AOCS::GPS"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "THU",
+      "category": "device",
+      "classifier": "Hardware_AOCS::THU"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "RW",
+      "category": "device",
+      "classifier": "Hardware_AOCS::RW"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "MGT",
+      "category": "device",
+      "classifier": "Hardware_AOCS::MGT"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "central_computer",
+      "category": "device",
+      "classifier": "Hardware_AOCS::Satellite_Central_Computer"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "watchdog",
+      "category": "device",
+      "classifier": "Hardware_AOCS::watchdog"
+    }
+  ],
+  "features": [
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "Forcing_Safe_Mode",
+      "direction": "in",
+      "category": "event port",
+      "type": null,
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "Getting_Back_To_Normal_Mode",
+      "direction": "in",
+      "category": "event port",
+      "type": null,
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "sensored_attitude",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::GYR_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "sun_direction",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::FSS_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "reference_torque",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::RW_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "reference_force",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::THU_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "telecommand",
+      "direction": "in",
+      "category": "data port",
+      "type": "dataaocs::telecommand",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "power_status_FSS",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "power_status_CSS",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "power_status_SPS",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "power_status_ES",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "power_status_MGM",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "power_status_GYR",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "power_status_STR",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "power_status_GPS",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "power_status_THU",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "power_status_RW",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "power_status_MGT",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::power_status",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "Force_mode_to_SM",
+      "direction": "out",
+      "category": "event port",
+      "type": null,
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "Force_mode_to_NM",
+      "direction": "out",
+      "category": "event port",
+      "type": null,
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "telemetry",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::telemetry",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "watchdog_event",
+      "direction": "out",
+      "category": "event port",
+      "type": null,
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "anomaly_detected",
+      "direction": "in",
+      "category": "event port",
+      "type": null,
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "Changing_mode_to_SM",
+      "direction": "out",
+      "category": "event port",
+      "type": null,
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "Changing_mode_to_NM",
+      "direction": "out",
+      "category": "event port",
+      "type": null,
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "FSS_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_sensor",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "CSS_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_sensor",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "SPS_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_sensor",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "ES_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_sensor",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "MGM_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_sensor",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "GYR_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_sensor",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "STR_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_sensor",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "GPS_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_sensor",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "THU_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_actuator",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "RW_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_actuator",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "MGT_reconfiguration",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::reconfigure_actuator",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "torque_command",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::RW_data",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing",
+      "name": "force_command",
+      "direction": "out",
+      "category": "data port",
+      "type": "dataaocs::THU_data",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "AOCS::AOCSprocessing.others",
+      "name": "Cnx1",
+      "kind": "port",
+      "source": "TCP.nominal_attitude",
+      "destination": "ACF.nominal_attitude"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing.others",
+      "name": "Cnx2",
+      "kind": "port",
+      "source": "TCP.nominal_orbit",
+      "destination": "OCF.nominal_orbit"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing.others",
+      "name": "Cnx3",
+      "kind": "port",
+      "source": "FR.reconfiguration_command",
+      "destination": "Reconfig.command"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing.others",
+      "name": "Cnx4",
+      "kind": "port",
+      "source": "TCP.manoeuvre_command",
+      "destination": "ME.command"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing.others",
+      "name": "Cnx5",
+      "kind": "port",
+      "source": "TCP.attitude_window",
+      "destination": "FDR.attitude_window"
+    },
+    {
+      "owner": "AOCS::AOCSprocessing.others",
+      "name": "Cnx6",
+      "kind": "port",
+      "source": "TCP.check_thresholds",
+      "destination": "FDR.check_thresholds"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx1",
+      "kind": "port",
+      "source": "GYR.GYR_data",
+      "destination": "main.sensored_attitude"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx2",
+      "kind": "port",
+      "source": "FSS.FSS_data",
+      "destination": "main.sun_direction"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx3",
+      "kind": "port",
+      "source": "main.reference_torque",
+      "destination": "RW.RW_data"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx4",
+      "kind": "port",
+      "source": "main.reference_force",
+      "destination": "THU.THU_data"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "OBDH_Cnx1",
+      "kind": "port",
+      "source": "central_computer.telecommand",
+      "destination": "main.telecommand"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx5",
+      "kind": "port",
+      "source": "main.power_status_FSS",
+      "destination": "FSS.power_status_FSS"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx6",
+      "kind": "port",
+      "source": "main.power_status_CSS",
+      "destination": "CSS.power_status_CSS"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx7",
+      "kind": "port",
+      "source": "main.power_status_SPS",
+      "destination": "SPS.power_status_SPS"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx8",
+      "kind": "port",
+      "source": "main.power_status_ES",
+      "destination": "ES.power_status_ES"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx9",
+      "kind": "port",
+      "source": "main.power_status_MGM",
+      "destination": "MGM.power_status_MGM"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx10",
+      "kind": "port",
+      "source": "main.power_status_GYR",
+      "destination": "GYR.power_status_GYR"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx11",
+      "kind": "port",
+      "source": "main.power_status_STR",
+      "destination": "STR.power_status_STR"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx12",
+      "kind": "port",
+      "source": "main.power_status_GPS",
+      "destination": "GPS.power_status_GPS"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx13",
+      "kind": "port",
+      "source": "main.power_status_THU",
+      "destination": "THU.power_status_THU"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx14",
+      "kind": "port",
+      "source": "main.power_status_RW",
+      "destination": "RW.power_status_RW"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx15",
+      "kind": "port",
+      "source": "main.power_status_MGT",
+      "destination": "MGT.power_status_MGT"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "Cnx_Mode3",
+      "kind": "port",
+      "source": "main.Force_mode_to_SM",
+      "destination": "main.Forcing_Safe_Mode"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "Cnx_Mode4",
+      "kind": "port",
+      "source": "main.Force_mode_to_NM",
+      "destination": "main.Getting_Back_To_Normal_Mode"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "OBDH_Cnx2",
+      "kind": "port",
+      "source": "main.telemetry",
+      "destination": "central_computer.telemetry"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "Watchdog_Cnx1",
+      "kind": "port",
+      "source": "main.watchdog_event",
+      "destination": "watchdog.watchdog_event"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "Watchdog_Cnx2",
+      "kind": "port",
+      "source": "watchdog.anomaly_detected",
+      "destination": "main.anomaly_detected"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "Cnx_Mode1",
+      "kind": "port",
+      "source": "main.Changing_mode_to_SM",
+      "destination": "main.Forcing_Safe_Mode"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "Cnx_Mode2",
+      "kind": "port",
+      "source": "main.Changing_mode_to_NM",
+      "destination": "main.Getting_Back_To_Normal_Mode"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx16",
+      "kind": "port",
+      "source": "main.FSS_reconfiguration",
+      "destination": "FSS.reconfiguration"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx17",
+      "kind": "port",
+      "source": "main.CSS_reconfiguration",
+      "destination": "CSS.reconfiguration"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx18",
+      "kind": "port",
+      "source": "main.SPS_reconfiguration",
+      "destination": "SPS.reconfiguration"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx19",
+      "kind": "port",
+      "source": "main.ES_reconfiguration",
+      "destination": "ES.reconfiguration"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx20",
+      "kind": "port",
+      "source": "main.MGM_reconfiguration",
+      "destination": "MGM.reconfiguration"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx21",
+      "kind": "port",
+      "source": "main.GYR_reconfiguration",
+      "destination": "GYR.reconfiguration"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx22",
+      "kind": "port",
+      "source": "main.STR_reconfiguration",
+      "destination": "STR.reconfiguration"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx23",
+      "kind": "port",
+      "source": "main.GPS_reconfiguration",
+      "destination": "GPS.reconfiguration"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx24",
+      "kind": "port",
+      "source": "main.THU_reconfiguration",
+      "destination": "THU.reconfiguration"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx25",
+      "kind": "port",
+      "source": "main.RW_reconfiguration",
+      "destination": "RW.reconfiguration"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx26",
+      "kind": "port",
+      "source": "main.MGT_reconfiguration",
+      "destination": "MGT.reconfiguration"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx27",
+      "kind": "port",
+      "source": "main.torque_command",
+      "destination": "RW.RW_data"
+    },
+    {
+      "owner": "AOCS::AOCS_Subsystem.impl",
+      "name": "DMA_Cnx28",
+      "kind": "port",
+      "source": "main.force_command",
+      "destination": "THU.THU_data"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "AOCS::AOCSprocessing.others",
+      "owner_kind": "process implementation",
+      "name": "mode_NM",
+      "value": "initial mode",
+      "applies_to": null
+    },
+    {
+      "owner": "AOCS::AOCSprocessing.others",
+      "owner_kind": "process implementation",
+      "name": "mode_SM",
+      "value": "mode",
+      "applies_to": null
+    }
+  ]
+}

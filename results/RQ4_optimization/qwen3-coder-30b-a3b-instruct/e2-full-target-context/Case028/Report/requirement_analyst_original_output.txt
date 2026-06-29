@@ -1,0 +1,46 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "GCAS_singleton.impl shall maintain a real-valued recursive variable t with initial value 0.0 and step size 0.1",
+      "evidence": ["t", "GCAS_singleton.impl"]
+    },
+    {
+      "id": "R2",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "GCAS_singleton.impl shall define constant minHeightAllowed as 200.0",
+      "evidence": ["minHeightAllowed", "GCAS_singleton.impl"]
+    },
+    {
+      "id": "R3",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "text": "GCAS_singleton.impl shall invoke kinematicLinearization function from gcas_nodes library with parameter t to compute height",
+      "evidence": ["kinematicLinearization", "gcas_nodes", "t", "height"]
+    },
+    {
+      "id": "R4",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "text": "GCAS_singleton shall set output port timeToRecovery to constant 3.7",
+      "evidence": ["timeToRecovery", "3.7"]
+    },
+    {
+      "id": "R5",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "When simulation time t >= recovery time, computed height must always be > minHeightAllowed",
+      "evidence": ["t", "recovery time", "height", "minHeightAllowed"]
+    },
+    {
+      "id": "R6",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "When simulation time t >= recovery time, current height must be > previous height to indicate pull-up trend",
+      "evidence": ["t", "recovery time", "height", "previous height"]
+    }
+  ]
+}

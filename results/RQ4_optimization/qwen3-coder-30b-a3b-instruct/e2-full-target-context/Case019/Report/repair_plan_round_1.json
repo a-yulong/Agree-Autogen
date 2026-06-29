@@ -1,0 +1,37 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 115: Couldn't resolve reference to 'gcasm'",
+      "cause": "gcasm is a subcomponent, not a visible port or variable in the GCAS_Recovery component type",
+      "minimal_edit": "Remove gcasm. prefix from timeRangeInitial, timeRangeFinal, initialSpeed, and recoveryTime"
+    },
+    {
+      "diagnostic": "line 115: Couldn't resolve reference to 'timeRangeFinal'",
+      "cause": "timeRangeFinal is not a visible symbol in GCAS_Recovery component type",
+      "minimal_edit": "Remove reference to timeRangeFinal"
+    },
+    {
+      "diagnostic": "line 115: Couldn't resolve reference to 'timeRangeInitial'",
+      "cause": "timeRangeInitial is not a visible symbol in GCAS_Recovery component type",
+      "minimal_edit": "Remove reference to timeRangeInitial"
+    },
+    {
+      "diagnostic": "line 116: Couldn't resolve reference to 'initialSpeed'",
+      "cause": "initialSpeed is not a visible symbol in GCAS_Recovery component type",
+      "minimal_edit": "Remove reference to initialSpeed"
+    },
+    {
+      "diagnostic": "line 117: Couldn't resolve reference to 'recoveryTime'",
+      "cause": "recoveryTime is not a visible symbol in GCAS_Recovery component type",
+      "minimal_edit": "Remove reference to recoveryTime"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove gcasm. prefix from all references in the assume statements",
+    "Remove timeRangeInitial and timeRangeFinal from the time_range assumption",
+    "Remove initialSpeed from the initial_speed assumption",
+    "Remove recoveryTime from the recovery_time assumption",
+    "Keep only the outAltitude guarantee as it references a visible output port"
+  ]
+}

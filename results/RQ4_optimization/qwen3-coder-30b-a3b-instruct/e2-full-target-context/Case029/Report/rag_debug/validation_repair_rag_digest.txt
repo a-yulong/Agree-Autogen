@@ -1,0 +1,20 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Use only visible AADL features or declared helpers in AGREE expressions to prevent 'named thing must be an expression with a type' errors.
+- Ensure type consistency in binary expressions; left and right sides must match (e.g., real vs real).
+- Declare auxiliary variables with proper types using 'eq' or 'const' before referencing them in guarantees or assumptions.
+- Place implementation-level output assignments only on existing output features or declared auxiliary variables.
+Syntax or pattern reminders:
+- Use initialized temporal recurrence for stateful equations: `0.0 -> pre(t) + step`.
+- Use nested `if ... then ... else` for branching logic in AGREE.
+- Use AGREE logical operators (`and`, `or`, `not(...)`, `=>`) for complex expressions.
+- Assign output values using `assign output = expression;` only on valid output features.
+Anti-patterns:
+- Do not reference undeclared or invisible identifiers in AGREE contracts; always ensure visibility before use.
+- Do not mix incompatible types in binary comparisons; resolve type mismatches before using expressions in guarantees.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics
+- AGREE validator diagnostics
+- Component type vs implementation scope placement rules
+- Requirement traceability and compact semantics
+</RAG_DIGEST>

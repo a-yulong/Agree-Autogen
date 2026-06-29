@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Actual (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "AADL type membership expression used in AGREE guarantee",
+      "minimal_edit": "Replace `Actual` with `Actual` (no change needed, but ensure correct usage in context)"
+    },
+    {
+      "diagnostic": "Target (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "AADL type membership expression used in AGREE guarantee",
+      "minimal_edit": "Replace `Target` with `Target` (no change needed, but ensure correct usage in context)"
+    },
+    {
+      "diagnostic": "Actuator_Input (port spec) points to Base_Types  Float (entity reference), which is not of an adequate kind",
+      "cause": "AADL type membership expression used in AGREE guarantee",
+      "minimal_edit": "Replace `Actuator_Input` with `Actuator_Input` (no change needed, but ensure correct usage in context)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Review the AGREE annex block in Speed_Control.Speed_Control_Impl",
+    "Ensure that all port references in the guarantee are valid within the component type scope",
+    "Rewrite the guarantee to use only visible identifiers and avoid AADL type membership expressions",
+    "Update the guarantee to match the requirement: Actuator_Input = 1.0 * (Target - Actual)"
+  ]
+}

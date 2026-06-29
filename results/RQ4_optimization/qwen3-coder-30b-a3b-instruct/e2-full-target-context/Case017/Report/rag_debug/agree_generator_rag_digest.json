@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.",
+    "Place assumptions and guarantees in valid component type scopes when referring to component ports, and in implementation scopes for bindings.",
+    "Generate AGREE contracts using logical operators (and, or, not, =>) and follow the syntax: assume \"label\": expr; guarantee \"label\": expr; eq name : type = expr; const name : type = value; assign output = expr;"
+  ],
+  "generic_rules": [
+    "For component type contracts, place input envelope assumptions and output range guarantees only when concrete bounds or visible relations are provided.",
+    "Write output dependency guarantees that relate visible outputs to visible inputs, avoiding implementation-only subcomponent paths.",
+    "When generating AGREE contracts, align helper declaration types with actual expression types (bool, int, real) and avoid invalid scalar type names.",
+    "Do not encode AADL timing properties (e.g., Deadline, Period) as AGREE variables unless explicitly exposed as typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `0.0 -> pre(t) + step` for stateful equations and nested `if ... then ... else` for conditional logic.",
+    "AGREE annex clauses must follow the syntax: `assume \"label\": expr;` or `guarantee \"label\": expr;` or `eq name : type = expr;` or `const name : type = value;` or `assign output = expr;`.",
+    "Ensure that all visible identifiers used in AGREE contracts are properly declared or accessible in the component scope."
+  ],
+  "anti_patterns": [
+    "Avoid placing implementation-specific subcomponent ports in component type contracts.",
+    "Do not use invalid scalar type names like 'integer' or 'boolean' in AGREE const or eq declarations.",
+    "Do not attempt to encode AADL timing properties as AGREE variables unless they are explicitly typed and visible."
+  ],
+  "irrelevant_topics": [
+    "AADL property names and their association with timing properties",
+    "Model traceability and requirement semantics",
+    "Component type vs. implementation scope boundaries for non-AGREE annexes",
+    "Validator-driven minimal repair patterns"
+  ]
+}

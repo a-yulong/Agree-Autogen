@@ -1,0 +1,7 @@
+annex agree {**
+  assume "vertical_acceleration": 100.0 = 100.0;
+  assume "expected_impact_time": 15.0 = 15.0;
+  assume "recovery_time": 5.0 = 5.0;
+  eq "altitudeFromGround_calculation": real = Agree_Nodes::height(altitude, verticalVelocity, 0.5);
+  guarantee "gcas_requested_condition": (altitude <= 30.0 or altitudeFromGround <= 500.0) => gcasRequested = true;
+**};

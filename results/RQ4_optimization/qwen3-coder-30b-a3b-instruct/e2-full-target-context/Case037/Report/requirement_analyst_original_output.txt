@@ -1,0 +1,39 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "Speed_Control implements PID control logic with P = 1.0, D = 0.0, I = 0.0",
+      "evidence": ["Speed_Control", "Speed_Control.Speed_Control_Impl"]
+    },
+    {
+      "id": "R2",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "Speed_Control computes error e as Target - Actual",
+      "evidence": ["Target", "Actual", "Speed_Control"]
+    },
+    {
+      "id": "R3",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "Speed_Control calculates e_int as integral of e over time",
+      "evidence": ["Speed_Control"]
+    },
+    {
+      "id": "R4",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "Speed_Control calculates e_dot as derivative of e with respect to time",
+      "evidence": ["Speed_Control"]
+    },
+    {
+      "id": "R5",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "Speed_Control ensures Actuator_Input equals P * e + D * e_dot + I * e_int",
+      "evidence": ["Actuator_Input", "Speed_Control"]
+    }
+  ]
+}

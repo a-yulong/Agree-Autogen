@@ -1,0 +1,45 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'door1'.",
+      "cause": "AGREE annex is in component type scope but references implementation subcomponent 'door1' directly",
+      "minimal_edit": "Remove the 'door1' reference and use only visible port names from the component type"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'handle_position'.",
+      "cause": "AGREE annex is in component type scope but references implementation subcomponent port 'handle_position' directly",
+      "minimal_edit": "Remove the 'handle_position' reference and use only visible port names from the component type"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE annex is in component type scope but references implementation subcomponent ports directly",
+      "minimal_edit": "Remove the direct subcomponent references and use only component type ports"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "AGREE annex references invalid subcomponent ports that resolve to '<error>' type",
+      "minimal_edit": "Remove the invalid subcomponent port references"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'closed'.",
+      "cause": "AGREE annex is in component type scope but references implementation subcomponent port 'closed' directly",
+      "minimal_edit": "Remove the 'closed' reference and use only visible port names from the component type"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE annex is in component type scope but references implementation subcomponent ports directly",
+      "minimal_edit": "Remove the direct subcomponent references and use only component type ports"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "AGREE annex references invalid subcomponent ports that resolve to '<error>' type",
+      "minimal_edit": "Remove the invalid subcomponent port references"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from the component type 'doors_process' to the component implementation 'doors_process.imp'",
+    "Replace the invalid references to 'door1.handle_position' and 'door1.closed' with valid component type port references",
+    "Remove the invalid assumptions that reference implementation subcomponents directly"
+  ]
+}

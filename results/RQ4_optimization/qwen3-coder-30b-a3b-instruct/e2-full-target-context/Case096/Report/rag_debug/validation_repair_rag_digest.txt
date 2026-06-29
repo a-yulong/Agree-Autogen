@@ -1,0 +1,17 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Use only visible AADL features or declared helpers in AGREE expressions to prevent type resolution errors.
+- Place AGREE contracts in appropriate scopes: component types for assumptions/guarantees, implementations for bindings.
+- Do not encode AADL properties like timing or resource usage directly in AGREE expressions unless explicitly typed in the model.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Assignments in implementation scopes must reference existing output features or declared auxiliary variables.
+- AGREE scalar types are int, real, and bool; avoid referencing AADL type names directly.
+Anti-patterns:
+- Do not generate AGREE clauses that reference identifiers or properties not declared in the AADL model's visible scope.
+- Do not place guarantee statements in implementation-level AGREE annexes; use only assumptions and assignments.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about empty packages
+- AGREE validator diagnostics about missing property set references in assume/guarantee syntax
+- AGREE syntax patterns for component type contracts
+</RAG_DIGEST>

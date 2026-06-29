@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 84: Couldn't resolve reference to 'mag_out_data_x'.",
+      "cause": "Reference to port 'mag_out_data_x' not visible in component type scope",
+      "minimal_edit": "Remove reference to 'mag_out_data_x' from assume statement"
+    },
+    {
+      "diagnostic": "line 84: Couldn't resolve reference to 'magneto_sub'.",
+      "cause": "Reference to subcomponent 'magneto_sub' not visible in component type scope",
+      "minimal_edit": "Remove reference to 'magneto_sub' from assume statement"
+    },
+    {
+      "diagnostic": "line 85: Couldn't resolve reference to 'mag_out_data_y'.",
+      "cause": "Reference to port 'mag_out_data_y' not visible in component type scope",
+      "minimal_edit": "Remove reference to 'mag_out_data_y' from assume statement"
+    },
+    {
+      "diagnostic": "line 85: Couldn't resolve reference to 'magneto_sub'.",
+      "cause": "Reference to subcomponent 'magneto_sub' not visible in component type scope",
+      "minimal_edit": "Remove reference to 'magneto_sub' from assume statement"
+    },
+    {
+      "diagnostic": "line 86: Couldn't resolve reference to 'MAG_PC1'.",
+      "cause": "Reference to connection 'MAG_PC1' not visible in component type scope",
+      "minimal_edit": "Remove reference to 'MAG_PC1' from guarantee statement"
+    },
+    {
+      "diagnostic": "line 87: Couldn't resolve reference to 'MAG_PC2'.",
+      "cause": "Reference to connection 'MAG_PC2' not visible in component type scope",
+      "minimal_edit": "Remove reference to 'MAG_PC2' from guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from MAGNETO component type to MAGNETO.IMPL component implementation",
+    "Remove all references to implementation-specific identifiers (ports, connections, subcomponents) from the AGREE annex",
+    "Replace the annex content with only valid component type contract statements using only visible identifiers"
+  ]
+}

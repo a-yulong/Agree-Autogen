@@ -1,0 +1,131 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE assumptions and guarantees in component type scopes for ports, not implementation scopes
+- Use visible identifiers from the AADL model for feature names and types in AGREE contracts
+Generic rules:
+- Treat subprogram parameters as legal AGREE identifiers in their owning scope
+- Write deterministic dependency guarantees that relate visible outputs to visible inputs
+- Use valid AGREE scalar types: int, real, bool for const and eq declarations
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contracts
+- Use `eq name : type = expression;` for derived values and `const name : type = value;` for constants
+Anti-patterns:
+- Do not reference implementation-only subcomponent paths in component type annexes
+- Do not use invalid AGREE scalar types like 'integer' or 'boolean' in declarations
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- AHRS::Software::ACCELERO
+- AHRS::Software::ACCELERO_SUB_wrapper
+- AHRS::Software::MAGNETO
+- AHRS::Software::MAGNETO_SUB_wrapper
+- AHRS::Software::GYRO
+- AHRS::Software::GYRO_SUB_wrapper
+- AHRS::Software::ATTITUDE_CALCULATION
+- AHRS::Software::ATTITUDE
+- AHRS::Software::ACCELERO_SUB_wrapper.i
+- AHRS::Software::ACCELERO.IMPL
+- AHRS::Software::MAGNETO_SUB_wrapper.i
+- AHRS::Software::MAGNETO.IMPL
+- AHRS::Software::GYRO_SUB_wrapper.i
+- AHRS::Software::GYRO.IMPL
+- AHRS::Software::ATTITUDE_CALCULATION.IMPL
+- AHRS::Software::ATTITUDE.IMPL
+- accelero_thread
+- magneto_thread
+- gyro_thread
+- attitude_calculation_thread
+- P1
+- P2
+- P3
+- ACC_PC1
+- ACC_PC2
+- ACC_PC3
+- MAG_PC1
+- MAG_PC2
+- MAG_PC3
+- GYRO_PC1
+- GYRO_PC2
+- GYRO_PC3
+- ACC_INPUT_PC1
+- ACC_INPUT_PC2
+- ACC_INPUT_PC3
+- MAG_INPUT_PC1
+- MAG_INPUT_PC2
+- MAG_INPUT_PC3
+- GYRO_INPUT_PC1
+- GYRO_INPUT_PC2
+
+Target interface:
+Exact expression symbols: mag_out_data_x, mag_out_data_y, mag_out_data_z
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+mag_out_data_x | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_y | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+mag_out_data_z | out | data | real | AHRS::Data_Types::FLOAT32_TYPE_AADL
+
+Raw requirement:
+The MAGNETO_SUB_wrapper component shall define the implementation-level signal routing for MAGNETO_SUB_wrapper.i. In the implementation layer, MAGNETO_SUB_wrapper.i shall route data flow from Spg.mag_out_data_x to Mag_Out_Data_X through P1 and data flow from Spg.mag_out_data_Y to Mag_Out_Data_Y through P2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "MAGNETO_SUB_wrapper.i routes data flow from Spg.mag_out_data_x to Mag_Out_Data_X through P1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "AHRS::Software::MAGNETO_SUB_wrapper.i.P1",
+        "Spg.mag_out_data_x",
+        "Mag_Out_Data_X"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "MAGNETO_SUB_wrapper.i routes data flow from Spg.mag_out_data_Y to Mag_Out_Data_Y through P2",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "AHRS::Software::MAGNETO_SUB_wrapper.i.P2",
+        "Spg.mag_out_data_Y",
+        "Mag_Out_Data_Y"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "MAGNETO_SUB_wrapper.i routes data flow from Spg.mag_out_data_Z to Mag_Out_Data_Z through P3",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "AHRS::Software::MAGNETO_SUB_wrapper.i.P3",
+        "Spg.mag_out_data_Z",
+        "Mag_Out_Data_Z"
+      ]
+    }
+  ]
+}

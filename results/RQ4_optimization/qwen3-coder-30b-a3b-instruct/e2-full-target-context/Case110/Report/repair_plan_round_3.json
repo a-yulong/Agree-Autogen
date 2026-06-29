@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 98: Couldn't resolve reference to 'C1'.",
+      "cause": "C1 is a connection identifier, not a port or variable",
+      "minimal_edit": "Replace 'C1' with 'spg.accDataOut' to match the actual connection target"
+    },
+    {
+      "diagnostic": "line 99: Couldn't resolve reference to 'event_in'.",
+      "cause": "event_in is not directly accessible from the component type scope",
+      "minimal_edit": "Replace 'spg.event_in' with 'acc_command_in' to reference the component port directly"
+    },
+    {
+      "diagnostic": "line 99: Couldn't resolve reference to 'spg'.",
+      "cause": "spg is a subcomponent, not directly accessible in component type scope",
+      "minimal_edit": "Remove 'spg.' prefix and reference 'event_in' directly as 'acc_command_in'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'accout = C1' with 'accout = spg.accDataOut' in the data_routing assumption",
+    "Replace 'spg.event_in = acc_command_in' with 'acc_command_in = acc_command_in' in the control_routing assumption",
+    "Remove the spg. prefix from the control_routing assumption"
+  ]
+}

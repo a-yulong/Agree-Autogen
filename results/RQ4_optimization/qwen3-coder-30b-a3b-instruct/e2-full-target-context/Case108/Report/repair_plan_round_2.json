@@ -1,0 +1,61 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 29: Couldn't resolve reference to 'C1'.",
+      "cause": "C1 is a connection identifier, not a valid AGREE expression",
+      "minimal_edit": "Replace C1 with acc1out"
+    },
+    {
+      "diagnostic": "line 29: Couldn't resolve reference to 'acc1DataOut'.",
+      "cause": "acc1DataOut is a subcomponent port, not visible in component type scope",
+      "minimal_edit": "Replace spg.acc1DataOut with a declared variable or remove the reference"
+    },
+    {
+      "diagnostic": "line 29: Couldn't resolve reference to 'spg'.",
+      "cause": "spg is a subcomponent, not visible in component type scope",
+      "minimal_edit": "Remove spg reference or declare it as a variable"
+    },
+    {
+      "diagnostic": "line 29: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved references",
+      "minimal_edit": "Replace the entire expression with a valid AGREE assumption using only visible identifiers"
+    },
+    {
+      "diagnostic": "line 29: named thing must be an expression with a type",
+      "cause": "Invalid expression due to unresolved identifiers",
+      "minimal_edit": "Replace with a valid AGREE assumption using only visible identifiers"
+    },
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'C2'.",
+      "cause": "C2 is a connection identifier, not a valid AGREE expression",
+      "minimal_edit": "Replace C2 with acc1_command_in"
+    },
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'event_in'.",
+      "cause": "event_in is a subcomponent port, not visible in component type scope",
+      "minimal_edit": "Replace spg.event_in with a declared variable or remove the reference"
+    },
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'spg'.",
+      "cause": "spg is a subcomponent, not visible in component type scope",
+      "minimal_edit": "Remove spg reference or declare it as a variable"
+    },
+    {
+      "diagnostic": "line 30: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch due to unresolved references",
+      "minimal_edit": "Replace the entire expression with a valid AGREE assumption using only visible identifiers"
+    },
+    {
+      "diagnostic": "line 30: named thing must be an expression with a type",
+      "cause": "Invalid expression due to unresolved identifiers",
+      "minimal_edit": "Replace with a valid AGREE assumption using only visible identifiers"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from acc1_dataOutput component type to acc1_dataOutput.impl component implementation",
+    "Replace the assume statements with valid AGREE expressions using only visible identifiers",
+    "Remove references to subcomponent ports (spg.acc1DataOut, spg.event_in) and connection identifiers (C1, C2) that are not valid in component type scope",
+    "Use only the visible identifiers: acc1out, acc1_command_in"
+  ]
+}

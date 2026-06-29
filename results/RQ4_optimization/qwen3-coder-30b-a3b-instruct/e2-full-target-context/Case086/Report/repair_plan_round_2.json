@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 182: named thing must be an expression with a type",
+      "cause": "AGREE assumes/guarantees must reference valid expressions; 'acc_in_data_x = acc_in_data_x' is a tautology and not a valid contract expression",
+      "minimal_edit": "Replace 'acc_in_data_x = acc_in_data_x' with 'true' to satisfy AGREE syntax requirements"
+    },
+    {
+      "diagnostic": "line 183: named thing must be an expression with a type",
+      "cause": "AGREE assumes/guarantees must reference valid expressions; 'acc_in_data_y = acc_in_data_y' is a tautology and not a valid contract expression",
+      "minimal_edit": "Replace 'acc_in_data_y = acc_in_data_y' with 'true' to satisfy AGREE syntax requirements"
+    },
+    {
+      "diagnostic": "line 184: Couldn't resolve reference to 'acc_in_data_x'",
+      "cause": "AGREE cannot resolve 'acc_in_data_x' as a valid identifier in the current scope",
+      "minimal_edit": "Remove or replace 'acc_in_data_x = attitude_sub.acc_in_data_x' with a valid expression"
+    },
+    {
+      "diagnostic": "line 184: Couldn't resolve reference to 'attitude_sub'",
+      "cause": "AGREE cannot resolve 'attitude_sub' as a valid identifier in the current scope",
+      "minimal_edit": "Remove or replace 'acc_in_data_x = attitude_sub.acc_in_data_x' with a valid expression"
+    },
+    {
+      "diagnostic": "line 185: Couldn't resolve reference to 'acc_in_data_y'",
+      "cause": "AGREE cannot resolve 'acc_in_data_y' as a valid identifier in the current scope",
+      "minimal_edit": "Remove or replace 'acc_in_data_y = attitude_sub.acc_in_data_y' with a valid expression"
+    },
+    {
+      "diagnostic": "line 185: Couldn't resolve reference to 'attitude_sub'",
+      "cause": "AGREE cannot resolve 'attitude_sub' as a valid identifier in the current scope",
+      "minimal_edit": "Remove or replace 'acc_in_data_y = attitude_sub.acc_in_data_y' with a valid expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'assume \"acc_x routing\": acc_in_data_x = acc_in_data_x;' with 'assume \"acc_x routing\": true;'",
+    "Replace 'assume \"acc_y routing\": acc_in_data_y = acc_in_data_y;' with 'assume \"acc_y routing\": true;'",
+    "Remove or replace 'guarantee \"acc_x flow\": acc_in_data_x = attitude_sub.acc_in_data_x;' with a valid expression",
+    "Remove or replace 'guarantee \"acc_y flow\": acc_in_data_y = attitude_sub.acc_in_data_y;' with a valid expression"
+  ]
+}

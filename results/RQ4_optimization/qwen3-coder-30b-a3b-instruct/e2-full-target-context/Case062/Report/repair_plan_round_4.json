@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "assume \"sporadic_protocol\": Q.Impl.Dispatch_Protocol = Sporadic;",
+      "cause": "Assume statements are allowed only in component types, not implementations",
+      "minimal_edit": "Move the assume statement to the component type Q"
+    },
+    {
+      "diagnostic": "guarantee \"execution_period\": Q.Impl.Period = 10 Ms;",
+      "cause": "Guarantee statements are allowed only in component types, not implementations",
+      "minimal_edit": "Move the guarantee statement to the component type Q"
+    },
+    {
+      "diagnostic": "guarantee \"deadline_constraint\": Q.Impl.Deadline = 10 Ms;",
+      "cause": "Guarantee statements are allowed only in component types, not implementations",
+      "minimal_edit": "Move the guarantee statement to the component type Q"
+    },
+    {
+      "diagnostic": "guarantee \"priority_level\": Q.Impl.Priority = 1;",
+      "cause": "Guarantee statements are allowed only in component types, not implementations",
+      "minimal_edit": "Move the guarantee statement to the component type Q"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire annex block from Q.Impl to Q",
+    "Update the annex block to reference Q instead of Q.Impl",
+    "Ensure the annex block is placed in the correct location within the Q component type"
+  ]
+}

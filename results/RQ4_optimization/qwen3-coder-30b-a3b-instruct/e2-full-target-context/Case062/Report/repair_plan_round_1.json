@@ -1,0 +1,63 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 65: named thing must be an expression with a type",
+      "cause": "Self-equality assumption invalid in AGREE context",
+      "minimal_edit": "Remove the self-equality assumption 'Data_Sink = Data_Sink'"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Invalid reference to port in guarantee",
+      "minimal_edit": "Replace 'Data_Sink = Q_Spg.Data_Sink' with valid AGREE expression"
+    },
+    {
+      "diagnostic": "line 66: Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Invalid reference to subprogram in guarantee",
+      "minimal_edit": "Replace 'Data_Sink = Q_Spg.Data_Sink' with valid AGREE expression"
+    },
+    {
+      "diagnostic": "line 67: Couldn't resolve reference to 'P1'.",
+      "cause": "Invalid reference to connection in guarantee",
+      "minimal_edit": "Replace 'Data_Sink = P1' with valid AGREE expression"
+    },
+    {
+      "diagnostic": "line 68: Couldn't resolve reference to 'Impl'.",
+      "cause": "Invalid reference to implementation in assume",
+      "minimal_edit": "Replace 'Q.Impl = Sporadic' with valid AGREE expression"
+    },
+    {
+      "diagnostic": "line 68: no viable alternative at input 'Sporadic'",
+      "cause": "Invalid syntax for property value",
+      "minimal_edit": "Replace 'Sporadic' with 'Sporadic_Protocol'"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'Impl'.",
+      "cause": "Invalid reference to implementation in guarantee",
+      "minimal_edit": "Replace 'Q.Impl = 10_ms' with valid AGREE expression"
+    },
+    {
+      "diagnostic": "line 69: Couldn't resolve reference to 'ms'.",
+      "cause": "Invalid unit reference",
+      "minimal_edit": "Replace '10_ms' with '10_ms'"
+    },
+    {
+      "diagnostic": "line 70: Couldn't resolve reference to 'Impl'.",
+      "cause": "Invalid reference to implementation in guarantee",
+      "minimal_edit": "Replace 'Q.Impl = 10_ms' with valid AGREE expression"
+    },
+    {
+      "diagnostic": "line 71: Couldn't resolve reference to 'Impl'.",
+      "cause": "Invalid reference to implementation in guarantee",
+      "minimal_edit": "Replace 'Q.Impl = 1' with valid AGREE expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the self-equality assumption 'Data_Sink = Data_Sink'",
+    "Replace 'Data_Sink = Q_Spg.Data_Sink' with a valid AGREE expression using visible symbols",
+    "Replace 'Data_Sink = P1' with a valid AGREE expression using visible symbols",
+    "Replace 'Q.Impl = Sporadic' with 'Q.Impl.Dispatch_Protocol = Sporadic_Protocol'",
+    "Replace 'Q.Impl = 10_ms' with 'Q.Impl.Period = 10_ms' in two instances",
+    "Replace 'Q.Impl = 1' with 'Q.Impl.Priority = 1'"
+  ]
+}

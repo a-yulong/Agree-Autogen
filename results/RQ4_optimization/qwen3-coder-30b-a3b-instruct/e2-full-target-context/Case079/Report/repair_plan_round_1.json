@@ -1,0 +1,45 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'door1'.",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent 'door1' which is not visible in type scope",
+      "minimal_edit": "Remove the 'door1' reference and use direct port names from the process type"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'handle_position'.",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent port 'handle_position' which is not visible in type scope",
+      "minimal_edit": "Remove the 'handle_position' reference and use direct port names from the process type"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE annex references non-existent implementation-level identifiers in type scope",
+      "minimal_edit": "Replace implementation-level references with process-level port names"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "AGREE expression references invalid identifiers causing type errors",
+      "minimal_edit": "Replace invalid references with valid process port names"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'closed'.",
+      "cause": "AGREE annex references implementation-level port 'closed' not visible in type scope",
+      "minimal_edit": "Replace 'closed' with direct port name from process type"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE annex references non-existent implementation-level identifiers in type scope",
+      "minimal_edit": "Replace implementation-level references with process-level port names"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "AGREE expression references invalid identifiers causing type errors",
+      "minimal_edit": "Replace invalid references with valid process port names"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from the process type scope to the process implementation scope",
+    "Replace references to 'door1.handle_position' with 'D1_handle_position' in the assume statements",
+    "Replace references to 'door1.closed' with 'D1_closed' in the assume statements"
+  ]
+}

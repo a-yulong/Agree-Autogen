@@ -1,0 +1,35 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "text": "GCAS_Monitor defines vertical acceleration as 100.0, expected impact time as 15.0, and recovery time as 5.0",
+      "evidence": [
+        "AviateControlLevel::GCAS_Monitor",
+        "AviateControlLevel::GCAS_Monitor.GCAS_Monitor_impl"
+      ]
+    },
+    {
+      "id": "R2",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "text": "altitudeFromGround = Agree_Nodes::height(altitude, verticalVelocity, 0.5)",
+      "evidence": [
+        "AviateControlLevel::GCAS_Monitor.GCAS_Monitor_impl.altitudeFromGround",
+        "Agree_Nodes::height"
+      ]
+    },
+    {
+      "id": "R3",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "text": "gcasRequested = true when altitude <= 30.0 or altitudeFromGround <= 500.0",
+      "evidence": [
+        "gcasRequested",
+        "altitude",
+        "altitudeFromGround"
+      ]
+    }
+  ]
+}

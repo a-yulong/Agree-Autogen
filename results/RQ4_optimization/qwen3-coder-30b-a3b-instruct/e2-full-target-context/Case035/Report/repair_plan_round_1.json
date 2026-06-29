@@ -1,0 +1,49 @@
+{
+  "problems": [
+    {
+      "diagnostic": "mismatched input '\"max_accel\"' expecting RULE_ID",
+      "cause": "Invalid syntax for constant declaration in AGREE annex",
+      "minimal_edit": "Change \"max_accel\" to max_accel"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'const_tar_speed'",
+      "cause": "const_tar_speed is not defined in the annex",
+      "minimal_edit": "Add const \"const_tar_speed\": bool = true;"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'abs'",
+      "cause": "abs function not recognized in AGREE context",
+      "minimal_edit": "Replace abs with abs_val"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'val_previous'",
+      "cause": "val_previous not defined in AGREE context",
+      "minimal_edit": "Replace Actual_Speed.val_previous with pre(Actual_Speed.val)"
+    },
+    {
+      "diagnostic": "'Actual' and 'Actual_Speed' have incompatible classifiers",
+      "cause": "Port name mismatch in connection",
+      "minimal_edit": "Change THROT.Actual to THROT.Actual_Speed"
+    },
+    {
+      "diagnostic": "The types of 'Target_Speed' and 'Target' do not match",
+      "cause": "Port name mismatch in connection",
+      "minimal_edit": "Change CNTRL.Target to CNTRL.Target_Speed"
+    },
+    {
+      "diagnostic": "'State_Out' and 'State_Signal' have incompatible classifiers",
+      "cause": "Port name mismatch in connection",
+      "minimal_edit": "Change SM.State_Out to SM.State_Signal"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit line 16: Change \"max_accel\" to max_accel",
+    "Add line 17: const \"const_tar_speed\": bool = true;",
+    "Edit line 17: Replace abs with abs_val",
+    "Edit line 18: Replace Actual_Speed.val_previous with pre(Actual_Speed.val)",
+    "Edit line 32: Change THROT.Actual to THROT.Actual_Speed",
+    "Edit line 34: Change CNTRL.Target to CNTRL.Target_Speed",
+    "Edit line 39: Change SM.State_Out to SM.State_Signal"
+  ]
+}

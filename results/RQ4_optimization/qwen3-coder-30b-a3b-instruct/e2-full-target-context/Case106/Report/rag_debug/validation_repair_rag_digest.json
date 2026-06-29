@@ -1,0 +1,34 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by ensuring all identifiers used in AGREE contracts are visible in the current scope and properly declared.",
+    "Resolve type mismatches by aligning helper declarations with the types of their expressions and avoiding invalid scalar type names.",
+    "Avoid placing guarantee statements in implementation scopes; use assign for output bindings instead."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, ensure all referenced identifiers are declared or visible in the same annex or scope.",
+    "Use only valid AGREE scalar types (int, real, bool) in constant and equation declarations.",
+    "Prefer assign for implementation-level output bindings and avoid placing guarantees in implementation scopes.",
+    "Validate that expression types match declared helper types to prevent '<error>' type issues."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are for assumptions, guarantees, and constants; implementation annexes are for bindings.",
+    "Assignments in implementation scope must reference existing output features or declared auxiliary variables.",
+    "Guarantee expressions must reference visible inputs and outputs, not internal subcomponent paths."
+  ],
+  "anti_patterns": [
+    "Do not reference identifiers that are not declared or visible in the current scope.",
+    "Do not use invalid scalar type names like 'integer' or 'boolean' in AGREE declarations.",
+    "Do not place guarantee statements in implementation-level annexes; use assign for bindings instead.",
+    "Do not mix incompatible types in expressions without proper type alignment."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "implementation scope output assign",
+    "type scope deterministic dependency guarantee",
+    "Named Thing Has No Type",
+    "AGREE Scalar Type Names",
+    "Assumed Type vs Actual Type"
+  ]
+}

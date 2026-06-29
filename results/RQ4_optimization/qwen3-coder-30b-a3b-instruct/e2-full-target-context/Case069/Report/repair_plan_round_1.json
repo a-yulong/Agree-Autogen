@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Expression for assume statement is of type 'real' but must be of type 'bool'",
+      "cause": "The assume statement uses a real port 'telecommand' in a boolean context",
+      "minimal_edit": "Replace 'telecommand -> (true)' with 'true'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '->' are of type 'real' and 'bool', but must be of the same type",
+      "cause": "The implication operator '->' requires both operands to be boolean",
+      "minimal_edit": "Replace 'telecommand -> (true)' with 'true'"
+    },
+    {
+      "diagnostic": "no viable alternative at input 'us'",
+      "cause": "Invalid unit syntax in the guarantee expression",
+      "minimal_edit": "Remove the unit 'us' from the guarantee expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the assume statement on line 54 to use 'true' instead of 'telecommand -> (true)'",
+    "Edit the guarantee statement on line 55 to use '(0) <= (100)' instead of '(0 us) <= (100 us)'"
+  ]
+}

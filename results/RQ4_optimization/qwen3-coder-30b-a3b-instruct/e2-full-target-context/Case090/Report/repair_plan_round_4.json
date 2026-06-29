@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_out_data_x'.",
+      "cause": "Reference to port 'acc_out_data_x' is not visible in the current AGREE annex scope",
+      "minimal_edit": "Replace 'acc_out_data_x' with 'acc_out_data_x' (no change needed, but ensure correct visibility)"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'accelero_thread'.",
+      "cause": "Reference to subcomponent 'accelero_thread' is not visible in the current AGREE annex scope",
+      "minimal_edit": "Remove or rewrite the reference to 'accelero_thread' using only visible identifiers"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression in AGREE contract due to unresolved references",
+      "minimal_edit": "Rewrite the entire assume/guarantee statements to use only visible identifiers"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that the AGREE annex is in the ACCELERO component type, not the implementation",
+    "Remove the assume/guarantee statements that reference 'accelero_thread' which is not visible in component type scope",
+    "Rewrite the assume/guarantee statements to reference only the component's own ports",
+    "Ensure all identifiers in the AGREE annex are visible in the component type scope"
+  ]
+}

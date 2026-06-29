@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 210: Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "AGREE annex in ATTITUDE (component type) references subcomponent port accelero_thread.acc_in_data_x, which is not visible at component type level; only top-level ports and subcomponent names are visible, not subcomponent port accesses.",
+      "minimal_edit": "Remove the entire annex block since subcomponent port references are invalid in component type contracts."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 210: Couldn't resolve reference to 'accelero_thread'.",
+      "cause": "AGREE does not permit referencing subcomponent instance names (e.g., accelero_thread) in component type annexes; these are only visible in implementation annexes.",
+      "minimal_edit": "Remove the entire annex block since subcomponent instance references are invalid in component type contracts."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 210: named thing must be an expression with a type",
+      "cause": "The expression accelero_thread.acc_in_data_x is invalid because neither accelero_thread nor acc_in_data_x are resolvable identifiers in the component type context.",
+      "minimal_edit": "Remove the entire annex block as it contains no valid AGREE expressions under component type scope."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 213: Couldn't resolve reference to 'acc_in_data_y'.",
+      "cause": "Same as above: acc_in_data_y is a port of a subcomponent, not visible in component type annex.",
+      "minimal_edit": "Remove the entire annex block as it contains no valid AGREE expressions under component type scope."
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the entire annex agree block from the component type ATTITUDE (lines 209-214) because it contains invalid references to subcomponent ports.",
+    "Create a new annex agree block in the component implementation ATTITUDE.IMPL to express signal flow guarantees using only top-level port connections that are visible and valid in implementation scope.",
+    "In ATTITUDE.IMPL annex, use the connection targets (e.g., attitude_calculation_thread.acc_in_data_x) and source ports (e.g., accelero_thread.acc_out_data_x) to form valid guarantees that reflect the signal flow from ACC_INPUT_PC1 and ACC_SUBMIT_PC1.",
+    "Ensure all references in the new implementation annex use only identifiers visible in ATTITUDE.IMPL (e.g., accelero_thread.acc_out_data_x, attitude_calculation_thread.acc_in_data_x)."
+  ]
+}

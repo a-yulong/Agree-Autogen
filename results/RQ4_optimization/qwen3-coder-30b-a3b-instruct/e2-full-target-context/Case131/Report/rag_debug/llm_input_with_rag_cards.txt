@@ -1,0 +1,157 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- AGREE annex blocks must be enclosed in `annex agree {** ... **};` and placed in component type annexes for assumptions and guarantees.
+- Use `assume` and `guarantee` statements to encode requirement intent, with `eq` for derived values and `const` for fixed values.
+Generic rules:
+- AGREE expressions must reference visible symbols from the AADL model; AADL properties are not automatically available as variables.
+- Ensure type consistency between assumed types and actual expression types in AGREE contracts.
+- Avoid encoding Boolean domain values as integers; use exact Boolean expressions when the port is an AGREE bool.
+- Do not generate AGREE clauses for timing or property constraints unless the model exposes explicit typed ports or constants.
+Syntax or pattern reminders:
+- AGREE contracts use `assume "label": expression;` and `guarantee "label": expression;` syntax.
+- Component implementation annexes are used for assignments and scope-specific bindings.
+Anti-patterns:
+- Do not assume AADL property names are directly usable as AGREE variables without explicit declaration.
+- Do not generate clauses for range comparisons over opaque Boolean or enumeration data without numeric scalar representation.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Hello_World2::Hello_Spg_1
+- Hello_World2::Task
+- Hello_World2::node_a
+- Hello_World2::partition_runtime
+- Hello_World2::cpurm
+- Hello_World2::myram
+- Hello_World2::segment
+- Hello_World2::hello
+- Hello_World2::Task.impl_1
+- Hello_World2::node_a.impl
+- Hello_World2::partition_runtime.i
+- Hello_World2::cpurm.impl
+- Hello_World2::segment.i
+- Hello_World2::myram.stram
+- Hello_World2::myram.sdram
+- Hello_World2::hello.impl
+- Mycalls
+- Task1
+- P0
+- P1
+- segment1
+- segment2
+- node_a
+- node_b
+- cpu_rm
+- mem
+- Task
+- Task.impl_1
+- node_a.impl
+- hello
+- hello.impl
+
+Target interface:
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- Hello_World2::Hello_Spg_1
+- Hello_World2::Task
+- Hello_World2::node_a
+- Hello_World2::partition_runtime
+- Hello_World2::cpurm
+- Hello_World2::myram
+- Hello_World2::segment
+- Hello_World2::hello
+- Hello_World2::Task.impl_1
+- Hello_World2::node_a.impl
+- Hello_World2::partition_runtime.i
+- Hello_World2::cpurm.impl
+- Hello_World2::segment.i
+- Hello_World2::myram.stram
+- Hello_World2::myram.sdram
+- Hello_World2::hello.impl
+- Mycalls
+- Task1
+- P0
+- P1
+- segment1
+- segment2
+- node_a
+- node_b
+- cpu_rm
+- mem
+- Task
+- Task.impl_1
+- node_a.impl
+- hello
+- hello.impl
+
+Raw requirement:
+The Task component shall execute according to the scheduling and timing constraints defined for Task.impl_1. The implementation shall use the Periodic dispatch protocol, execute with a period of 100 ms, complete compute execution within 0 ms .. 3 ms, and run at priority 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Task.impl_1 shall execute with Periodic dispatch protocol",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Hello_World2::Task.impl_1",
+        "Dispatch_Protocol"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Task.impl_1 shall have a period of 100 ms",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Hello_World2::Task.impl_1",
+        "Period"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Task.impl_1 shall complete compute execution within 0 ms .. 3 ms",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Hello_World2::Task.impl_1",
+        "Compute_Execution_time"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Task.impl_1 shall run at priority 100",
+      "kind": "aadl_property",
+      "intent": "describe",
+      "evidence": [
+        "Hello_World2::Task.impl_1",
+        "Priority"
+      ]
+    }
+  ]
+}

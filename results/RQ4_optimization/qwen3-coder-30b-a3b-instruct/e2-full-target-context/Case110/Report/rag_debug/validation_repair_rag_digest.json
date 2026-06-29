@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "Fix unresolved references in AGREE contracts by ensuring all identifiers are valid AADL features or declared helpers in the same annex.",
+    "Resolve type mismatches by aligning helper declarations with their expression types, e.g., bool for comparisons, int for integers, real for reals.",
+    "Avoid placing guarantee statements in implementation scopes; use assign for output bindings instead."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, validate that all referenced identifiers exist in the current scope and are properly typed.",
+    "Use only visible AADL features or locally declared helpers in AGREE annexes to prevent resolution errors.",
+    "Ensure type consistency in AGREE equations and constants to avoid '<error>' type diagnostics.",
+    "Prefer assign for implementation-level output bindings rather than guarantee statements."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are for assumptions/guarantees; implementation annexes are for bindings.",
+    "Constants and equations in AGREE must declare valid scalar types: int, real, bool."
+  ],
+  "anti_patterns": [
+    "Do not reference undefined identifiers or use invalid scalar type names like 'integer' or 'boolean' in AGREE.",
+    "Do not place guarantee statements in implementation scopes; use assign for output features."
+  ],
+  "irrelevant_topics": [
+    "AADL package references and with clauses",
+    "AGREE validator diagnostics and repair strategies",
+    "Component type vs implementation scope boundaries"
+  ]
+}

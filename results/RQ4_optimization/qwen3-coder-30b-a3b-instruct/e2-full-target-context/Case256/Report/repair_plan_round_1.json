@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 101: Couldn't resolve reference to 'DMS::door'.",
+      "cause": "AGREE annex is in device implementation scope but references system type",
+      "minimal_edit": "Change 'DMS::door.imp' to 'de_arrest' in the guarantee"
+    },
+    {
+      "diagnostic": "line 101: Couldn't resolve reference to 'imp'.",
+      "cause": "AGREE annex is in device implementation scope but references system type",
+      "minimal_edit": "Change 'DMS::door.imp' to 'de_arrest' in the guarantee"
+    },
+    {
+      "diagnostic": "line 101: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "Invalid reference in binary expression",
+      "minimal_edit": "Change 'DMS::door.imp = de_arrest' to 'de_arrest = true' in the guarantee"
+    },
+    {
+      "diagnostic": "line 101: named thing must be an expression with a type",
+      "cause": "Invalid reference in binary expression",
+      "minimal_edit": "Change 'DMS::door.imp = de_arrest' to 'de_arrest = true' in the guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Move the AGREE annex block from device implementation scope to device type scope",
+    "Replace 'DMS::door.imp = de_arrest' with 'de_arrest = true' in the guarantee",
+    "Ensure the assume statement remains as 'de_arrest = true'"
+  ]
+}

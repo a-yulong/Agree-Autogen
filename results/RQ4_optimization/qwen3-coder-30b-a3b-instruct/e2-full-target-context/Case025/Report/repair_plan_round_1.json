@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 56: Couldn't resolve reference to 'tempin1'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level port names",
+      "minimal_edit": "Remove the assume statement referencing voter.tempin1"
+    },
+    {
+      "diagnostic": "line 57: Couldn't resolve reference to 'tempin2'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level port names",
+      "minimal_edit": "Remove the assume statement referencing voter.tempin2"
+    },
+    {
+      "diagnostic": "line 58: Couldn't resolve reference to 'c0'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level connection names",
+      "minimal_edit": "Remove the guarantee statement referencing c0"
+    },
+    {
+      "diagnostic": "line 59: Couldn't resolve reference to 'c1'.",
+      "cause": "AGREE annex is in component type scope but references implementation-level connection names",
+      "minimal_edit": "Remove the guarantee statement referencing c1"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the assume statement 'assume \"signal_flow_temp1_to_voter_tempin1\": temp1 = voter.tempin1;' from the AGREE annex block",
+    "Remove the assume statement 'assume \"signal_flow_temp2_to_voter_tempin2\": temp2 = voter.tempin2;' from the AGREE annex block",
+    "Remove the guarantee statement 'guarantee \"routing_temp1_through_c0\": temp1 = c0;' from the AGREE annex block",
+    "Remove the guarantee statement 'guarantee \"routing_temp2_through_c1\": temp2 = c1;' from the AGREE annex block"
+  ]
+}

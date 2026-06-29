@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 269: Couldn't resolve reference to 'alarmAggregator'.",
+      "cause": "alarmAggregator is a subcomponent, not a port; AGREE cannot reference subcomponents directly in contracts",
+      "minimal_edit": "Replace 'alarmAggregator.arlarm_acc_in' with 'arlarm_acc_in' (the port name)"
+    },
+    {
+      "diagnostic": "line 269: Couldn't resolve reference to 'arlarm_acc_in'.",
+      "cause": "arlarm_acc_in is a port, but AGREE cannot reference ports directly in component type contracts",
+      "minimal_edit": "Remove the assumption 'signal_flow_acc' as it references ports in an invalid context"
+    },
+    {
+      "diagnostic": "line 270: Couldn't resolve reference to 'alarmAggregator'.",
+      "cause": "alarmAggregator is a subcomponent, not a port; AGREE cannot reference subcomponents directly in contracts",
+      "minimal_edit": "Replace 'alarmAggregator.arlarm_adirup_in' with 'arlarm_adirup_in' (the port name)"
+    },
+    {
+      "diagnostic": "line 270: Couldn't resolve reference to 'arlarm_adirup_in'.",
+      "cause": "arlarm_adirup_in is a port, but AGREE cannot reference ports directly in component type contracts",
+      "minimal_edit": "Remove the assumption 'signal_flow_adirup' as it references ports in an invalid context"
+    },
+    {
+      "diagnostic": "line 271: Couldn't resolve reference to 'C1'.",
+      "cause": "C1 is a connection, not a port or variable; AGREE cannot reference connections directly in contracts",
+      "minimal_edit": "Remove the guarantee 'route_acc' as it references a connection in an invalid context"
+    },
+    {
+      "diagnostic": "line 272: Couldn't resolve reference to 'C2'.",
+      "cause": "C2 is a connection, not a port or variable; AGREE cannot reference connections directly in contracts",
+      "minimal_edit": "Remove the guarantee 'route_adirup' as it references a connection in an invalid context"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the entire annex agree block from systemHM_process.impl",
+    "Move the annex agree block to systemHM_process (the component type) and replace port references with direct port names",
+    "Remove the assumptions and guarantees that reference subcomponents or connections"
+  ]
+}

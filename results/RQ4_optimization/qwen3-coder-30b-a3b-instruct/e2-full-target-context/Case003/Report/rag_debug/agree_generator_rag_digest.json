@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic.",
+    "Place component type contracts in annex agree blocks with assumptions, guarantees, constants, and equations.",
+    "For implementation contracts, use assign only for output features or declared auxiliary variables; avoid guarantees in implementation scope."
+  ],
+  "generic_rules": [
+    "AGREE contracts must use logical operators (and, or, not, =>) and follow syntactic patterns for assume/guarantee declarations.",
+    "Constants and equations in AGREE should be declared with explicit types and valid expressions.",
+    "Ensure type consistency between helper declarations and their assigned expressions; avoid mismatched types like bool vs real.",
+    "Do not encode AADL timing properties (e.g., Deadline, Period) as AGREE variables unless explicitly exposed as typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract statements.",
+    "Use `eq name : type = expression;` for equation declarations and `const name : type = value;` for constants.",
+    "Use `assign output = expression;` only for output features or auxiliary variables in implementation scope."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope; use only in component type annexes.",
+    "Avoid encoding AADL properties like Deadline or Period as AGREE variables unless they are explicitly typed in the model.",
+    "Do not compare Boolean or opaque data types as integers; use exact Boolean expressions when in scope."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing properties not exposed as typed ports",
+    "Model traceability and requirement semantics",
+    "Validator diagnostics and repair patterns"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Fix unresolved references to time constant values by declaring them as visible constants in the component type annex before using them in assume/guarantee expressions.",
+    "Ensure that all AGREE expressions used in assume and guarantee statements are of the correct type (bool, int, or real) to avoid type mismatch errors.",
+    "Use proper AGREE syntax for logical expressions and temporal operators, ensuring that branching logic is nested correctly and that all identifiers are properly declared."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, always ensure that referenced identifiers are declared in the same annex or are visible features of the component.",
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.",
+    "Place component type contracts in the appropriate annex scope, ensuring that assumptions and guarantees refer to visible ports and features only.",
+    "Validate that all AGREE expressions resolve to valid types (bool, int, real) to prevent syntax and type errors during validation."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Constants and equations in AGREE should be declared with explicit types: const name : type = value; eq name : type = expression;",
+    "Use logical operators like `and`, `or`, `not(...)`, and implication `=>` for expressing complex conditions in AGREE."
+  ],
+  "anti_patterns": [
+    "Avoid referencing undeclared identifiers or using invalid types in AGREE expressions, as this leads to unresolved reference and type mismatch errors.",
+    "Do not place implementation-specific bindings in component type annexes; use implementation scopes for such declarations."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes",
+    "type scope range assumption and guarantee",
+    "type scope deterministic dependency guarantee",
+    "integrated pattern chunk 1",
+    "Assumed Type vs Actual Type",
+    "AGREE Scalar Type Names",
+    "Named Thing Has No Type"
+  ]
+}

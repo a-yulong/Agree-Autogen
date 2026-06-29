@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "assume \"gyro_out_data_x routing\": true;",
+      "cause": "assume statement in subprogram type annex references implementation-only port names",
+      "minimal_edit": "assume \"gyro_out_data_x routing\": Gyro_Out_Data_X = Spg.gyro_out_data_x;"
+    },
+    {
+      "diagnostic": "assume \"gyro_out_data_y routing\": true;",
+      "cause": "assume statement in subprogram type annex references implementation-only port names",
+      "minimal_edit": "assume \"gyro_out_data_y routing\": Gyro_Out_Data_Y = Spg.gyro_out_data_Y;"
+    },
+    {
+      "diagnostic": "assume \"gyro_out_data_z routing\": true;",
+      "cause": "assume statement in subprogram type annex references implementation-only port names",
+      "minimal_edit": "assume \"gyro_out_data_z routing\": Gyro_Out_Data_Z = Spg.gyro_out_data_Z;"
+    },
+    {
+      "diagnostic": "guarantee \"P1 data flow\": true;",
+      "cause": "guarantee statement in subprogram type annex references implementation-only connection names",
+      "minimal_edit": "guarantee \"P1 data flow\": Gyro_Out_Data_X = Spg.gyro_out_data_x;"
+    },
+    {
+      "diagnostic": "guarantee \"P2 data flow\": true;",
+      "cause": "guarantee statement in subprogram type annex references implementation-only connection names",
+      "minimal_edit": "guarantee \"P2 data flow\": Gyro_Out_Data_Y = Spg.gyro_out_data_Y;"
+    },
+    {
+      "diagnostic": "guarantee \"P3 data flow\": true;",
+      "cause": "guarantee statement in subprogram type annex references implementation-only connection names",
+      "minimal_edit": "guarantee \"P3 data flow\": Gyro_Out_Data_Z = Spg.gyro_out_data_Z;"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace each assume/guarantee statement in the AGREE annex with an equivalent expression using visible identifiers",
+    "Use exact symbol names from the interface: gyro_out_data_x, gyro_out_data_y, gyro_out_data_z",
+    "Ensure all identifiers in the expressions are visible in the component type scope"
+  ]
+}

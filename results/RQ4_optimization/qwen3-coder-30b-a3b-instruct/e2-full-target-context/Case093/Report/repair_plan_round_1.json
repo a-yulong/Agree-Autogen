@@ -1,0 +1,56 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assume statements are allowed only in component types",
+      "cause": "AGREE annex is placed in implementation scope instead of type scope",
+      "minimal_edit": "Move the entire AGREE annex block from ADIRU.EMV2 to ADIRU (component type)"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'C1'",
+      "cause": "Connection names are not valid AGREE expressions in this context",
+      "minimal_edit": "Remove connection-based assumptions and guarantees"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_pr'",
+      "cause": "Component references are not valid AGREE expressions in this context",
+      "minimal_edit": "Remove component-based assumptions and guarantees"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc1_output'",
+      "cause": "Port references are not valid AGREE expressions in this context",
+      "minimal_edit": "Remove port-based assumptions and guarantees"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc_hm_pr'",
+      "cause": "Component references are not valid AGREE expressions in this context",
+      "minimal_edit": "Remove component-based assumptions and guarantees"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'main_cpu'",
+      "cause": "Processor references are not valid AGREE expressions in this context",
+      "minimal_edit": "Remove processor-based assumptions and guarantees"
+    },
+    {
+      "diagnostic": "left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression types in AGREE statements",
+      "minimal_edit": "Remove invalid expressions"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression types in AGREE statements",
+      "minimal_edit": "Remove invalid expressions"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression types in AGREE statements",
+      "minimal_edit": "Remove invalid expressions"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Move the entire AGREE annex block from ADIRU.EMV2 to ADIRU component type",
+    "Remove all assume/guarantee statements that reference connections, ports, or components",
+    "Remove all expressions that reference non-boolean types or invalid identifiers",
+    "Ensure the AGREE annex is placed in a valid component type scope"
+  ]
+}

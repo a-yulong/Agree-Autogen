@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent reference not visible in the component type scope",
+      "minimal_edit": "Replace pspg.speed with speed"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'speed'.",
+      "cause": "speed is a port reference not visible in the component type scope",
+      "minimal_edit": "Replace pspg.speed with speed"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "The expression pspg.speed = pspg.speed is not a valid AGREE expression in this context",
+      "minimal_edit": "Replace guarantee \"R2\": pspg.speed = pspg.speed; with guarantee \"R2\": speed = speed;"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Edit the AGREE annex block in thr_mgmt component type to replace pspg.speed with speed in the guarantee statement",
+    "Ensure the guarantee statement uses only visible identifiers from the component type scope"
+  ]
+}

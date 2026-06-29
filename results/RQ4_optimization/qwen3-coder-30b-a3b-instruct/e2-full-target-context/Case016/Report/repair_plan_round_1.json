@@ -1,0 +1,13 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 106: left and right sides of binary expression '+' are of type 'int' and 'bool', but must be of the same type",
+      "cause": "Boolean disjunction (inpGCASM or inpSAM or ...) is being added to an int variable, but AGREE requires both operands of '+' to be numeric",
+      "minimal_edit": "replace (inpGCASM or inpSAM or inpACASM or inpGFM or inpWxM or inpFLS) with (if inpGCASM then 1 else 0) + (if inpSAM then 1 else 0) + (if inpACASM then 1 else 0) + (if inpGFM then 1 else 0) + (if inpWxM then 1 else 0) + (if inpFLS then 1 else 0)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the boolean disjunction on the right-hand side of the equation in line 106 with a sum of six conditional expressions, each converting a boolean input to 1 if true and 0 if false."
+  ]
+}

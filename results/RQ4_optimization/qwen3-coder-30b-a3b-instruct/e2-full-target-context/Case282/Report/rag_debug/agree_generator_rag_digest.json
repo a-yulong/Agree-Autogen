@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Place input range assumptions in component type annexes using visible feature names and concrete bounds.",
+    "Use assign statements only for implementation-level output bindings with existing output features.",
+    "Declare helper variables with explicit types matching the expression, e.g., bool for comparisons.",
+    "Avoid referencing AADL properties like Compute_Execution_Time or unit tokens directly in AGREE expressions."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be syntactically valid within annex agree blocks.",
+    "Assumptions and guarantees should reference only visible identifiers from the AADL model.",
+    "Use component type scopes for port-based assumptions and guarantees.",
+    "Implementation scopes are for assign statements and auxiliary variable declarations."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks are enclosed in `annex agree {** ... **};`.",
+    "Helper declarations use the pattern `eq var_name : type = expression;`.",
+    "Guarantee statements must be in component type scope unless using assign in implementation.",
+    "Assign statements require left-hand side to be an existing output feature or declared variable."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope unless using assign.",
+    "Do not reference AADL property names directly as AGREE variables.",
+    "Do not use Boolean data ports in numeric range comparisons without explicit scalar representation.",
+    "Do not mix AADL timing properties with AGREE expressions without typed port exposure."
+  ],
+  "irrelevant_topics": [
+    "AADL model structure extraction",
+    "Requirement semantics and traceability",
+    "Model fusion and owner/scope preservation",
+    "Validator-driven repair patterns"
+  ]
+}

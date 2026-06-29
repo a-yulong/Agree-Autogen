@@ -1,0 +1,140 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic.
+- Place component type contracts in annex agree blocks with assumptions, guarantees, constants, and equations.
+- For implementation contracts, use assign only for output features or declared auxiliary variables; avoid guarantees in implementation scope.
+Generic rules:
+- AGREE contracts must use logical operators (and, or, not, =>) and follow syntactic patterns for assume/guarantee declarations.
+- Constants and equations in AGREE should be declared with explicit types and valid expressions.
+- Ensure type consistency between helper declarations and their assigned expressions; avoid mismatched types like bool vs real.
+- Do not encode AADL timing properties (e.g., Deadline, Period) as AGREE variables unless explicitly exposed as typed ports or constants.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements.
+- Use `eq name : type = expression;` for equation declarations and `const name : type = value;` for constants.
+- Use `assign output = expression;` only for output features or auxiliary variables in implementation scope.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope; use only in component type annexes.
+- Avoid encoding AADL properties like Deadline or Period as AGREE variables unless they are explicitly typed in the model.
+- Do not compare Boolean or opaque data types as integers; use exact Boolean expressions when in scope.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- aviation::Supervised_System
+- aviation::GeoFence_singleton
+- aviation::TCAS_singleton
+- aviation::GCAS_singleton
+- aviation::Supervisor
+- aviation::Supervised_System.impl
+- aviation::GeoFence_singleton.impl
+- aviation::TCAS_singleton.impl
+- aviation::GCAS_singleton.impl
+- aviation::Supervisor.impl
+- gcas
+- tcas
+- geof
+- supervisor
+- gcas_ttr
+- tcas_ttr
+- geof_ttr
+- gcas_ttf
+- tcas_ttf
+- geof_ttf
+- ttf_to_top
+- ttr_to_top
+- p1_port
+- p2_port
+- p3_port
+- timeToFailure
+- timeToRecovery
+- p1
+- p2
+- p3
+- nearestIntruderAltitude
+- nearestIntruderGroundDistance
+- nearestIntruderLongitude
+- ownAltitude_in
+- ownHeading
+- ownVerticalVelocity
+- ownLatitude
+- ownLongitude
+- requiredVerticalVelocity
+- altitude
+
+Target interface:
+Exact expression symbols: timeToRecovery, timeToFailure
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+timeToRecovery | out | data | opaque | real
+timeToFailure | out | data | opaque | real
+
+Raw requirement:
+The GeoFence_singleton component shall establish a recursive variable t with a time step of 0.1, declare the variable distanceFromFence, and compute distanceFromFence by invoking the circleLinearization function from the geofence_nodes library with the time variable t as its input parameter. The component must guarantee that, once the time t exceeds the recovery time value of 1.7, the computed distanceFromFence shall remain greater than its preceding time-step value. Additionally, the system failure time shall be set to 9.5.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "distanceFromFence > distanceFromFence[t-1] when t > 1.7",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "distanceFromFence",
+        "t"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "t = 0.1",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": [
+        "t"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "distanceFromFence = circleLinearization(t)",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": [
+        "distanceFromFence",
+        "circleLinearization",
+        "t"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "system failure time = 9.5",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "system failure time"
+      ]
+    }
+  ]
+}

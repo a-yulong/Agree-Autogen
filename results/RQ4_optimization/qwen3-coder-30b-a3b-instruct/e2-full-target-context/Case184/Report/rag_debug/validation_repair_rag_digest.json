@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Fix type mismatches in AGREE expressions by ensuring helper declarations and assumptions match the expected boolean or scalar types.",
+    "Resolve latched expression errors by placing them only in valid component implementation scopes with correct input port usage.",
+    "Address syntax errors by validating AGREE logical operators and ensuring binary expressions have matching operand types."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or declared helpers within AGREE annexes to avoid unresolved references.",
+    "Place AGREE contracts in appropriate scopes: component types for assumptions/guarantees, implementations for bindings.",
+    "Ensure all AGREE expressions use valid scalar types (int, real, bool) and match expected operand types in binary operations.",
+    "Validate that latched expressions appear only in component implementations and reference valid input ports."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use initialized temporal recurrence for stateful equations: `0.0 -> pre(t) + step`.",
+    "Binary expressions in AGREE require matching operand types; e.g., boolean expressions must evaluate to bool.",
+    "Conditional logic in AGREE uses nested `if ... then ... else` syntax."
+  ],
+  "anti_patterns": [
+    "Do not reference subcomponent ports in component type annexes; use visible variables or outputs instead.",
+    "Avoid placing latched expressions in component types; they are only valid in implementations.",
+    "Do not mix invalid scalar type names like 'integer' or 'boolean' in AGREE declarations; use 'int', 'real', 'bool'."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes"
+  ]
+}

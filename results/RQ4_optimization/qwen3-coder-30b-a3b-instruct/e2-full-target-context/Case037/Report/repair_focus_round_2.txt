@@ -1,0 +1,137 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: Target, Actuator_Input, Actual
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Target | in | data | opaque | Types::speed.speed_impl
+Actuator_Input | out | data | real | Base_Types::Float
+Actual | in | data | opaque | Types::speed.speed_impl
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Speed_Control implements PID control logic with P = 1.0, D = 0.0, I = 0.0",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Speed_Control",
+        "Speed_Control.Speed_Control_Impl"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Speed_Control computes error e as Target - Actual",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Target",
+        "Actual",
+        "Speed_Control"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Speed_Control calculates e_int as integral of e over time",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Speed_Control"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Speed_Control calculates e_dot as derivative of e with respect to time",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Speed_Control"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Speed_Control ensures Actuator_Input equals P * e + D * e_dot + I * e_int",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Actuator_Input",
+        "Speed_Control"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Speed_Control | lines 12-20
+annex agree {**
+	  constant P = 1.0;
+	  constant D = 0.0;
+	  constant I = 0.0;
+	  variable e = Target - Actual;
+	  variable e_dot = diff(e, time);
+	  variable e_int = integ(e, time);
+	  guarantee "Actuator_Input control law": Actuator_Input = P * e + D * e_dot + I * e_int;
+	**};
+
+[DIAGNOSTIC LINE CONTEXT]
+   9: 			Target: in data port Types::speed.speed_impl;
+   10: 			Actuator_Input: out data port Base_Types::Float;
+   11: 			Actual: in data port Types::speed.speed_impl;
+   12: 	annex agree {**
+>> 13: 	  constant P = 1.0;
+   14: 	  constant D = 0.0;
+   15: 	  constant I = 0.0;
+   16: 	  variable e = Target - Actual;
+   17: 	  variable e_dot = diff(e, time);
+
+[TARGET MODEL CONTEXT]
+package Transmission
+public
+	with Types;
+	with Base_Types;
+	with Communication_Properties;
+
+	system Speed_Control
+		features
+			Target: in data port Types::speed.speed_impl;
+			Actuator_Input: out data port Base_Types::Float;
+			Actual: in data port Types::speed.speed_impl;
+	end Speed_Control;
+
+	system implementation Speed_Control.Speed_Control_Impl
+	end Speed_Control.Speed_Control_Impl;
+
+	system Throttle
+		features
+			Actuator_Input: in data port Base_Types::Float;
+			Actual: out data port Types::speed.speed_impl;
+	end Throttle;
+
+	system implementation Throttle.Throttle_Impl
+	end Throttle.Throttle_Impl;
+
+	system State_Machine
+		features
+			State_Out: out data port Types::state_sig.impl;
+	end State_Machine;
+
+	system implementation State_Machine.Impl
+		subcomponents
+			SSM: system Sub_State_Machine.Impl;
+
+		connections
+			SMToSSM: port SSM.State_Out -> State_Out {Communication_Properties::Timing => immediate;};
+	end State_Machine.impl;
+
+	system Sub_State_Machine
+		features
+			State_Out: out data port Types::state_sig.impl;
+	end Sub_State_Machine;
+
+	system implementation Sub_State_Machine.Impl
+	end Sub_State_Machine.impl;
+
+end Transmission;

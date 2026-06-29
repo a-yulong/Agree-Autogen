@@ -1,0 +1,203 @@
+round=2
+
+[TARGET INTERFACE]
+Exact expression symbols: Data_Sink
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_Sink | in | data | int | Simple_Type
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data_Sink is routed from Data_Sink to Q_Spg.Data_Sink through P1",
+      "kind": "signal_flow",
+      "intent": "describe",
+      "evidence": [
+        "Data_Sink",
+        "P1"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Q.Impl uses Sporadic dispatch protocol",
+      "kind": "deployment_binding",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Q.Impl executes with period 10 Ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Q.Impl meets deadline 10 Ms",
+      "kind": "timing_constraint",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "Q.Impl runs at priority 1",
+      "kind": "other",
+      "intent": "describe",
+      "evidence": [
+        "Q.Impl"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Q | lines 64-70
+annex agree {**
+      assume "data_flow_routing": Data_Sink = Data_Sink;
+      guarantee "sporadic_dispatch": Sporadic;
+      guarantee "execution_period": 10;
+      guarantee "deadline_constraint": 10;
+      guarantee "priority_level": 1;
+    **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   61:   thread Q
+   62:   features
+   63:     Data_Sink : in event data port Simple_Type;
+   64:   annex agree {**
+>> 65:       assume "data_flow_routing": Data_Sink = Data_Sink;
+   66:       guarantee "sporadic_dispatch": Sporadic;
+   67:       guarantee "execution_period": 10;
+   68:       guarantee "deadline_constraint": 10;
+   69:       guarantee "priority_level": 1;
+
+   62:   features
+   63:     Data_Sink : in event data port Simple_Type;
+   64:   annex agree {**
+   65:       assume "data_flow_routing": Data_Sink = Data_Sink;
+>> 66:       guarantee "sporadic_dispatch": Sporadic;
+   67:       guarantee "execution_period": 10;
+   68:       guarantee "deadline_constraint": 10;
+   69:       guarantee "priority_level": 1;
+   70:     **};
+
+   63:     Data_Sink : in event data port Simple_Type;
+   64:   annex agree {**
+   65:       assume "data_flow_routing": Data_Sink = Data_Sink;
+   66:       guarantee "sporadic_dispatch": Sporadic;
+>> 67:       guarantee "execution_period": 10;
+   68:       guarantee "deadline_constraint": 10;
+   69:       guarantee "priority_level": 1;
+   70:     **};
+   71:   end Q;
+
+   64:   annex agree {**
+   65:       assume "data_flow_routing": Data_Sink = Data_Sink;
+   66:       guarantee "sporadic_dispatch": Sporadic;
+   67:       guarantee "execution_period": 10;
+>> 68:       guarantee "deadline_constraint": 10;
+   69:       guarantee "priority_level": 1;
+   70:     **};
+   71:   end Q;
+   72: 
+
+   65:       assume "data_flow_routing": Data_Sink = Data_Sink;
+   66:       guarantee "sporadic_dispatch": Sporadic;
+   67:       guarantee "execution_period": 10;
+   68:       guarantee "deadline_constraint": 10;
+>> 69:       guarantee "priority_level": 1;
+   70:     **};
+   71:   end Q;
+   72: 
+   73:   thread implementation Q.Impl
+
+[TARGET MODEL CONTEXT]
+package Software
+public
+
+  ----------
+  -- Data --
+  ----------
+
+  data Simple_Type
+  properties
+    Type_Source_Name => "custom_int";
+    Source_Text => ("ping");
+    Source_Data_Size => 8 Bytes;
+  end Simple_Type;
+
+  -----------------
+  -- Subprograms --
+  -----------------
+
+  subprogram Do_Ping_Spg
+  features
+    Data_Source : out parameter Simple_Type;
+  properties
+    Source_Language => (C);
+    Source_Name     => "user_do_ping_spg";
+    Source_Text     => ("ping.c");
+  end Do_Ping_Spg;
+
+  subprogram Ping_Spg
+  features
+    Data_Sink : in parameter Simple_Type;
+  properties
+    Source_Language => (C);
+    Source_Name     => "user_ping_spg";
+    Source_Text     => ("ping.c");
+  end Ping_Spg;
+
+  -------------
+  -- Threads --
+  -------------
+
+  thread P
+  features
+    Data_Source : out event data port Simple_Type;
+  end P;
+
+  thread implementation P.Impl
+  calls
+    Mycalls: {
+    P_Spg : subprogram Do_Ping_Spg;
+    };
+  connections
+    P1 : parameter P_Spg.Data_Source -> Data_Source;
+  properties
+    Dispatch_Protocol                  => Periodic;
+    Period                             => 2000 Ms;
+    Deadline                           => 2000 ms;
+    Priority                           => 2;
+    Dispatch_Offset                    => 500 Ms;
+  end P.Impl;
+
+  thread Q
+  features
+    Data_Sink : in event data port Simple_Type;
+  end Q;
+
+  thread implementation Q.Impl
+  calls
+    Mycalls: {
+    Q_Spg : subprogram Ping_Spg;
+    };
+  connections
+    P1 : parameter Data_Sink -> Q_Spg.Data_Sink;
+  properties
+    Dispatch_Protocol                  => Sporadic;
+    Period                             => 10 Ms;
+    deadline                           => 10 Ms;
+    Priority                           => 1;
+  end Q.Impl;
+
+end Software;

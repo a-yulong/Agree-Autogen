@@ -1,0 +1,29 @@
+{
+  "rag_rules": [
+    "Fix unresolved references by ensuring all identifiers like 'distanceFromFence' and 'recovery_time' are declared or visible in the current scope before use.",
+    "Resolve type mismatches by aligning expression types with expected types (e.g., real vs <error>).",
+    "Avoid placing guarantee statements in implementation scope; move them to component type scope if needed."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or declared helpers in AGREE expressions to prevent 'named thing must be an expression with a type' errors.",
+    "Ensure type consistency in binary expressions; left and right sides must match (e.g., real vs real).",
+    "Declare auxiliary variables with proper types using 'eq' or 'const' before referencing them in guarantees or assumptions.",
+    "Place implementation-level output assignments only on existing output features or declared auxiliary variables."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use initialized temporal recurrence for stateful equations: `0.0 -> pre(t) + step`.",
+    "Use nested `if ... then ... else` for branching logic in AGREE.",
+    "Use AGREE logical operators (`and`, `or`, `not(...)`, `=>`) for complex expressions.",
+    "Assign output values using `assign output = expression;` only on valid output features."
+  ],
+  "anti_patterns": [
+    "Do not reference undeclared or invisible identifiers in AGREE contracts; always ensure visibility before use.",
+    "Do not mix incompatible types in binary comparisons; resolve type mismatches before using expressions in guarantees."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics",
+    "AGREE validator diagnostics",
+    "Component type vs implementation scope placement rules",
+    "Requirement traceability and compact semantics"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.",
+    "Place assumptions and guarantees in valid component type scopes when referring to ports, and in implementation scopes for bindings.",
+    "Generate AGREE contracts using logical operators (and, or, not, =>) and valid syntax for assume, guarantee, eq, const, and assign statements."
+  ],
+  "generic_rules": [
+    "For component type contracts, include input assumptions and output guarantees only when concrete bounds or named constants are provided.",
+    "Ensure output guarantees relate visible outputs to visible inputs, avoiding implementation-only subcomponent paths.",
+    "Use valid AGREE scalar types: int, real, bool; align helper declaration types with expression types to avoid type mismatches.",
+    "Avoid encoding AADL timing properties (e.g., Deadline, Period) as AGREE variables unless explicit typed ports or constants are available."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `0.0 -> pre(t) + step` for stateful equations and nested `if ... then ... else` for conditional logic.",
+    "Declare constants with `const name : type = value;` and equations with `eq name : type = expression;`.",
+    "Formulate guarantees as `guarantee \"label\": expression;` and assumptions as `assume \"label\": expression;`.",
+    "Ensure all visible identifiers used in contracts are declared or accessible in the component scope."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL property names (e.g., Deadline, Period) directly in AGREE expressions unless they are explicitly typed ports or constants.",
+    "Avoid placing implementation-specific subcomponent ports in component type annex contracts.",
+    "Do not use invalid AGREE scalar type names like 'integer' or 'boolean'; use 'int', 'real', or 'bool' instead."
+  ],
+  "irrelevant_topics": [
+    "AADL structural extraction",
+    "Requirement semantics and traceability",
+    "Model fusion owner/scope rules",
+    "Validator-driven repair patterns"
+  ]
+}

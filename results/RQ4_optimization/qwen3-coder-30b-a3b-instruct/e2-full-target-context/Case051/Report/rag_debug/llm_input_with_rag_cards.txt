@@ -1,0 +1,104 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place output dependency guarantees in component type scopes using visible inputs and outputs.
+- Use `guarantee "label": expression;` syntax for output range contracts.
+- Write guarantees that relate visible outputs to visible inputs, not subcomponent paths.
+Generic rules:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Assumptions and guarantees referencing component ports belong in component type scopes.
+- Constants and equations in AGREE should use valid scalar types: int, real, bool.
+- Avoid using AADL property names directly as AGREE variables without explicit declaration.
+Syntax or pattern reminders:
+- Use `guarantee "label": expression;` for output range contracts.
+- Use `eq name : type = expression;` for derived values in AGREE.
+- Use `const name : type = value;` for named constants in AGREE.
+Anti-patterns:
+- Do not reference subcomponent ports in component type contracts.
+- Do not use invalid AGREE scalar types like 'integer' or 'boolean'.
+- Do not encode AADL timing properties as AGREE expressions without explicit typed ports.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- Integer_Toy_Extended::A
+- Integer_Toy_Extended::B
+- Integer_Toy_Extended::C
+- Integer_Toy_Extended::top_level
+- Integer_Toy_Extended::above_top
+- Integer_Toy_Extended::top_level.Impl
+- Integer_Toy_Extended::above_top.Impl
+- A_sub
+- B_sub
+- C_sub
+- top_sub
+- IN_TO_A
+- A_TO_B
+- A_TO_C
+- B_TO_C
+- C_TO_Output
+- IN_TO_TOP
+- TOP_TO_A
+- A_TO_OUT
+- Input
+- Output
+- Input1
+- Input2
+- A
+- B
+- C
+- top_level
+- top_level.Impl
+- above_top
+- above_top.Impl
+
+Target interface:
+Exact expression symbols: Input1, Input2, Output
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Input1 | in | data | int | Base_Types::Integer
+Input2 | in | data | int | Base_Types::Integer
+Output | out | data | int | Base_Types::Integer
+
+Raw requirement:
+The C component must guarantee that the value of its output port Output is exactly equal to the sum of the values of its input ports Input1 and Input2.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "C_sub.Output = C_sub.Input1 + C_sub.Input2",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "C_sub",
+        "Input1",
+        "Input2",
+        "Output"
+      ]
+    }
+  ]
+}

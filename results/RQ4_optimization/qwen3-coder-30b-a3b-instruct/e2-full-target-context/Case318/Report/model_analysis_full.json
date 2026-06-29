@@ -1,0 +1,905 @@
+{
+  "component_types": [
+    {
+      "name": "radio_control_task",
+      "kind": "thread"
+    },
+    {
+      "name": "stabilisation_task",
+      "kind": "thread"
+    },
+    {
+      "name": "link_fbw_send",
+      "kind": "thread"
+    },
+    {
+      "name": "receive_gps_data_task",
+      "kind": "thread"
+    },
+    {
+      "name": "navigation_task",
+      "kind": "thread"
+    },
+    {
+      "name": "altitude_control_task",
+      "kind": "thread"
+    },
+    {
+      "name": "climb_control_task",
+      "kind": "thread"
+    },
+    {
+      "name": "reporting_task",
+      "kind": "thread"
+    },
+    {
+      "name": "Interruption_SPI_MCU0_1",
+      "kind": "thread"
+    },
+    {
+      "name": "Interruption_SPI_MCU0_2",
+      "kind": "thread"
+    },
+    {
+      "name": "Interruption_Modem",
+      "kind": "thread"
+    },
+    {
+      "name": "Interruption_GPS",
+      "kind": "thread"
+    },
+    {
+      "name": "Nav_Stab_Control_Proc",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "radio_control_task.Impl",
+      "kind": "thread",
+      "type_name": "radio_control_task"
+    },
+    {
+      "name": "stabilisation_task.Impl",
+      "kind": "thread",
+      "type_name": "stabilisation_task"
+    },
+    {
+      "name": "link_fbw_send.Impl",
+      "kind": "thread",
+      "type_name": "link_fbw_send"
+    },
+    {
+      "name": "receive_gps_data_task.Impl",
+      "kind": "thread",
+      "type_name": "receive_gps_data_task"
+    },
+    {
+      "name": "navigation_task.Impl",
+      "kind": "thread",
+      "type_name": "navigation_task"
+    },
+    {
+      "name": "altitude_control_task.Impl",
+      "kind": "thread",
+      "type_name": "altitude_control_task"
+    },
+    {
+      "name": "climb_control_task.Impl",
+      "kind": "thread",
+      "type_name": "climb_control_task"
+    },
+    {
+      "name": "reporting_task.Impl",
+      "kind": "thread",
+      "type_name": "reporting_task"
+    },
+    {
+      "name": "Interruption_SPI_MCU0_1.Impl",
+      "kind": "thread",
+      "type_name": "Interruption_SPI_MCU0_1"
+    },
+    {
+      "name": "Interruption_SPI_MCU0_2.Impl",
+      "kind": "thread",
+      "type_name": "Interruption_SPI_MCU0_2"
+    },
+    {
+      "name": "Interruption_Modem.Impl",
+      "kind": "thread",
+      "type_name": "Interruption_Modem"
+    },
+    {
+      "name": "Interruption_GPS.Impl",
+      "kind": "thread",
+      "type_name": "Interruption_GPS"
+    },
+    {
+      "name": "Nav_Stab_Control_Proc.Impl",
+      "kind": "process",
+      "type_name": "Nav_Stab_Control_Proc"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Data_Acq_Filt_Th",
+      "category": "thread",
+      "classifier": "receive_gps_data_task.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Alt_Ctrl_Th",
+      "category": "thread",
+      "classifier": "altitude_control_task.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Nav_Th",
+      "category": "thread",
+      "classifier": "navigation_task.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Climb_Ctrl_Th",
+      "category": "thread",
+      "classifier": "climb_control_task.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Stab_Th",
+      "category": "thread",
+      "classifier": "stabilisation_task.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Send_MCU1_Th",
+      "category": "thread",
+      "classifier": "link_fbw_send.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Send_Grd_Station_Th",
+      "category": "thread",
+      "classifier": "reporting_task.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Interrupt_SPI_Th1",
+      "category": "thread",
+      "classifier": "Interruption_SPI_MCU0_1.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Interrupt_SPI_Th2",
+      "category": "thread",
+      "classifier": "Interruption_SPI_MCU0_2.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Interrupt_Modem_Th",
+      "category": "thread",
+      "classifier": "Interruption_Modem.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Interrupt_GPS_Th",
+      "category": "thread",
+      "classifier": "Interruption_GPS.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "Ctrl_By_RC_Th",
+      "category": "thread",
+      "classifier": "radio_control_task.Impl"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "AP_Data",
+      "category": "data",
+      "classifier": "Papa_Types::Inter_mcu_msg.Generic"
+    }
+  ],
+  "features": [
+    {
+      "owner": "stabilisation_task",
+      "name": "IR_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Papa_Types::Stream_Element.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "link_fbw_send",
+      "name": "MCU0_Send_Output",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "receive_gps_data_task",
+      "name": "GPS_Output",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Papa_Types::Position.GPS",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "navigation_task",
+      "name": "GPS_Data_Input",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Papa_Types::Position.GPS",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "navigation_task",
+      "name": "Altitude_Desiree_Output",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Base_Types::Float_32",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "altitude_control_task",
+      "name": "Altitude_Desiree_Input",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Base_Types::Float_32",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "altitude_control_task",
+      "name": "Montee_Desiree_Output",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Base_Types::Float_32",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "climb_control_task",
+      "name": "Montee_Desiree_Input",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Base_Types::Float_32",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "reporting_task",
+      "name": "Data_Output",
+      "direction": "out",
+      "category": "data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Interruption_SPI_MCU0_1",
+      "name": "Evt_Rec_SPI_Input",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Interruption_SPI_MCU0_1",
+      "name": "Data_Rec_MCU0_Output",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Interruption_SPI_MCU0_1",
+      "name": "Data_Send_SPI_Output",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Interruption_SPI_MCU0_1",
+      "name": "Evt_Send_SPI_Input",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Interruption_SPI_MCU0_2",
+      "name": "Data_Rec_MCU0_Output",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Interruption_SPI_MCU0_2",
+      "name": "Data_Send_SPI_Output",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Interruption_SPI_MCU0_2",
+      "name": "Data_Send_SPI_Input",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Interruption_SPI_MCU0_2",
+      "name": "Data_Rec_MCU0_Input",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Interruption_Modem",
+      "name": "Data_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Interruption_Modem",
+      "name": "Data_Output",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Interruption_GPS",
+      "name": "GPS_Input",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Papa_Types::Stream_Element.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "MCU1_Data_Input",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "GPS_Input",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Papa_Types::Stream_Element.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "GPS_Evt_Input",
+      "direction": "in",
+      "category": "event port",
+      "type": "event port",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "IR_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Papa_Types::Stream_Element.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "P_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Float_32",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "T_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer_8",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "Compas_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Float_32",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "V_Air_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer_8",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "Trans_MCU0_Output",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc",
+      "name": "Trans_Sol_Output",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Papa_Types::Inter_mcu_msg.Generic",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c1",
+      "kind": "port",
+      "source": "GPS_Input",
+      "destination": "Interrupt_GPS_Th.GPS_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c2",
+      "kind": "port",
+      "source": "Data_Acq_Filt_Th.GPS_Output",
+      "destination": "Nav_Th.GPS_Data_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c3",
+      "kind": "port",
+      "source": "Nav_Th.Altitude_Desiree_Output",
+      "destination": "Alt_Ctrl_Th.Altitude_Desiree_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c4",
+      "kind": "port",
+      "source": "Alt_Ctrl_Th.Montee_Desiree_Output",
+      "destination": "Climb_Ctrl_Th.Montee_Desiree_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c5",
+      "kind": "port",
+      "source": "IR_Input",
+      "destination": "Stab_Th.IR_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c6",
+      "kind": "port",
+      "source": "Send_MCU1_Th.MCU0_Send_Output",
+      "destination": "Interrupt_SPI_Th1.Evt_Send_SPI_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c7",
+      "kind": "port",
+      "source": "Interrupt_SPI_Th1.Data_Send_SPI_Output",
+      "destination": "Interrupt_SPI_Th2.Data_Send_SPI_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c8",
+      "kind": "port",
+      "source": "Interrupt_SPI_Th2.Data_Send_SPI_Output",
+      "destination": "Trans_MCU0_Output"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c9",
+      "kind": "port",
+      "source": "MCU1_Data_Input",
+      "destination": "Interrupt_SPI_Th1.Evt_Rec_SPI_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c10",
+      "kind": "port",
+      "source": "Interrupt_SPI_Th1.Data_Rec_MCU0_Output",
+      "destination": "Interrupt_SPI_Th2.Data_Rec_MCU0_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c11",
+      "kind": "port",
+      "source": "Send_Grd_Station_Th.Data_Output",
+      "destination": "Interrupt_Modem_Th.Data_Input"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "name": "c12",
+      "kind": "port",
+      "source": "Interrupt_Modem_Th.Data_Output",
+      "destination": "Trans_Sol_Output"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "radio_control_task.Impl",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "periodic"
+    },
+    {
+      "owner": "radio_control_task.Impl",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "100 ms"
+    },
+    {
+      "owner": "radio_control_task.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "15600 us .. 21100 us"
+    },
+    {
+      "owner": "radio_control_task.Impl",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "(\"autopilot/main.c\")"
+    },
+    {
+      "owner": "radio_control_task.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "radio_control_task"
+    },
+    {
+      "owner": "stabilisation_task.Impl",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "periodic"
+    },
+    {
+      "owner": "stabilisation_task.Impl",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "100 ms"
+    },
+    {
+      "owner": "stabilisation_task.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "5681 us .. 6654 us"
+    },
+    {
+      "owner": "stabilisation_task.Impl",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "(\"autopilot/main.c\")"
+    },
+    {
+      "owner": "stabilisation_task.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "stabilisation_task"
+    },
+    {
+      "owner": "link_fbw_send.Impl",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "periodic"
+    },
+    {
+      "owner": "link_fbw_send.Impl",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "250 ms"
+    },
+    {
+      "owner": "link_fbw_send.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "233 us .. 471 us"
+    },
+    {
+      "owner": "link_fbw_send.Impl",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "(\"autopilot/link_fbw.c\")"
+    },
+    {
+      "owner": "link_fbw_send.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "link_fbw_send"
+    },
+    {
+      "owner": "receive_gps_data_task.Impl",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "periodic"
+    },
+    {
+      "owner": "receive_gps_data_task.Impl",
+      "owner_kind": "thread",
+      "name": "period",
+      "value": "250 ms"
+    },
+    {
+      "owner": "receive_gps_data_task.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "5987 us .. 6659 us"
+    },
+    {
+      "owner": "receive_gps_data_task.Impl",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "(\"autopilot/main.c\")"
+    },
+    {
+      "owner": "receive_gps_data_task.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "receive_gps_data_task"
+    },
+    {
+      "owner": "navigation_task.Impl",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "periodic"
+    },
+    {
+      "owner": "navigation_task.Impl",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "250 ms"
+    },
+    {
+      "owner": "navigation_task.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "44420 us .. 53350 us"
+    },
+    {
+      "owner": "navigation_task.Impl",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "(\"autopilot/main.c\")"
+    },
+    {
+      "owner": "navigation_task.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "navigation_task"
+    },
+    {
+      "owner": "altitude_control_task.Impl",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "periodic"
+    },
+    {
+      "owner": "altitude_control_task.Impl",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "250 ms"
+    },
+    {
+      "owner": "altitude_control_task.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "1478 us .. 1660 us"
+    },
+    {
+      "owner": "altitude_control_task.Impl",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "(\"autopilot/main.c\")"
+    },
+    {
+      "owner": "altitude_control_task.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "altitude_control_task"
+    },
+    {
+      "owner": "climb_control_task.Impl",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "periodic"
+    },
+    {
+      "owner": "climb_control_task.Impl",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "250 ms"
+    },
+    {
+      "owner": "climb_control_task.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "5429 us .. 6241 us"
+    },
+    {
+      "owner": "climb_control_task.Impl",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "(\"autopilot/main.c\")"
+    },
+    {
+      "owner": "climb_control_task.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "climb_control_task"
+    },
+    {
+      "owner": "reporting_task.Impl",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "periodic"
+    },
+    {
+      "owner": "reporting_task.Impl",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "100 ms"
+    },
+    {
+      "owner": "reporting_task.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "5000 us .. 12220 us"
+    },
+    {
+      "owner": "reporting_task.Impl",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "(\"autopilot/main.c\")"
+    },
+    {
+      "owner": "reporting_task.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "reporting_task"
+    },
+    {
+      "owner": "Interruption_SPI_MCU0_1.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "251 us .. 447 us"
+    },
+    {
+      "owner": "Interruption_SPI_MCU0_1.Impl",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "(\"autopilot/spi.c/SIGNAL\")"
+    },
+    {
+      "owner": "Interruption_SPI_MCU0_1.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "__vector_17"
+    },
+    {
+      "owner": "Interruption_SPI_MCU0_2.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "151 us .. 228 us"
+    },
+    {
+      "owner": "Interruption_SPI_MCU0_2.Impl",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "(\"autopilot/linf_fbw.c/SIGNAL\")"
+    },
+    {
+      "owner": "Interruption_SPI_MCU0_2.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "__vector_12"
+    },
+    {
+      "owner": "Interruption_Modem.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "303 us .. 520 us"
+    },
+    {
+      "owner": "Interruption_Modem.Impl",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "(\"autopilot/modem.c/SIGNAL\")"
+    },
+    {
+      "owner": "Interruption_Modem.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "__vector_5"
+    },
+    {
+      "owner": "Interruption_GPS.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "283 us .. 493 us"
+    },
+    {
+      "owner": "Interruption_GPS.Impl",
+      "owner_kind": "thread",
+      "name": "Source_Text",
+      "value": "(\"autopilot/gps_ubx.c/parse_ubx\")"
+    },
+    {
+      "owner": "Interruption_GPS.Impl",
+      "owner_kind": "thread",
+      "name": "Compute_Entrypoint_Source_Text",
+      "value": "__vector_30"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl",
+      "owner_kind": "process",
+      "name": "Source_Text",
+      "value": "(\"autopilot/mainloop.c\")"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl.c3",
+      "owner_kind": "connection",
+      "name": "in modes",
+      "value": "(auto, home)"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl.c4",
+      "owner_kind": "connection",
+      "name": "in modes",
+      "value": "(auto, home)"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl.c6",
+      "owner_kind": "connection",
+      "name": "in modes",
+      "value": "(auto,home,manual)"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl.c7",
+      "owner_kind": "connection",
+      "name": "in modes",
+      "value": "(auto,home,manual)"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl.c8",
+      "owner_kind": "connection",
+      "name": "in modes",
+      "value": "(auto,home,manual)"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl.c9",
+      "owner_kind": "connection",
+      "name": "in modes",
+      "value": "(manual)"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl.c10",
+      "owner_kind": "connection",
+      "name": "in modes",
+      "value": "(manual)"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl.c11",
+      "owner_kind": "connection",
+      "name": "in modes",
+      "value": "(auto,manual,home)"
+    },
+    {
+      "owner": "Nav_Stab_Control_Proc.Impl.c12",
+      "owner_kind": "connection",
+      "name": "in modes",
+      "value": "(auto,manual,home)"
+    }
+  ]
+}

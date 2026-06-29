@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'mag_out_data_x'.",
+      "cause": "Reference to port 'mag_out_data_x' is not visible in the MAGNETO component type scope",
+      "minimal_edit": "Replace 'mag_out_data_x' with 'mag_out_data_x' (no change needed, but ensure correct visibility)"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'magneto_thread'.",
+      "cause": "Reference to subcomponent 'magneto_thread' is not visible in the MAGNETO component type scope",
+      "minimal_edit": "Remove or rewrite references to 'magneto_thread' which is an implementation detail"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE expression uses invalid reference to component instance",
+      "minimal_edit": "Rewrite expressions to use only visible identifiers from the component type"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Identify that the MAGNETO component type does not have access to implementation-level identifiers like 'magneto_thread'",
+    "Remove or rewrite the AGREE annex block in MAGNETO component type to use only visible identifiers",
+    "Replace references to 'magneto_thread.mag_out_data_x' and 'magneto_thread.mag_out_data_y' with direct references to the component's own ports",
+    "Ensure that the AGREE annex only contains valid expressions using identifiers visible in the MAGNETO component type"
+  ]
+}

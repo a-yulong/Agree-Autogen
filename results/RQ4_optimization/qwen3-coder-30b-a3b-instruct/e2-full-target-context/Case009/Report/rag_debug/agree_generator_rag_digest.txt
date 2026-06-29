@@ -1,0 +1,20 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `assume "label": expression;` for input assumptions and `guarantee "label": expression;` for output guarantees in component type annexes.
+- Place AGREE contracts inside `annex agree {** ... **};` blocks within component type or implementation annexes as appropriate.
+- Generate `eq name : type = expression;` or `const name : type = value;` for named constants and equations in component type contracts.
+Generic rules:
+- Only generate AGREE clauses for visible identifiers and types found in the AADL model.
+- Use `assign output = expression;` in implementation annexes only for existing output features or declared auxiliary variables.
+- Avoid encoding AADL properties like timing or resource units as AGREE expressions unless explicitly typed in the model.
+- Do not generate range or equality checks for opaque Boolean or enumeration data unless numeric scalar representation is confirmed.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Assumptions and guarantees must be labeled with quoted strings.
+- Equations and constants are declared with `eq name : type = expression;` and `const name : type = value;`.
+Anti-patterns:
+- Do not assume that AADL property names like Deadline or Period are automatically available in AGREE scope.
+- Do not generate range checks for Boolean or opaque data unless numeric scalar representation is confirmed.
+- Do not place guarantee statements in implementation scope; use `assign` for output bindings only.
+- Do not generate clauses for identifiers not present in the visible symbol list or AADL model.
+</RAG_DIGEST>

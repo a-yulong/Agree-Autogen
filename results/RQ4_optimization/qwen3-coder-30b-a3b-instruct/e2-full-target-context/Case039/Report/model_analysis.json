@@ -1,0 +1,126 @@
+{
+  "component_types": [
+    {
+      "name": "Transmission::Speed_Control",
+      "kind": "system"
+    },
+    {
+      "name": "Transmission::Throttle",
+      "kind": "system"
+    },
+    {
+      "name": "Transmission::State_Machine",
+      "kind": "system"
+    },
+    {
+      "name": "Transmission::Sub_State_Machine",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Transmission::Speed_Control.Speed_Control_Impl",
+      "kind": "system implementation",
+      "type_name": "Transmission::Speed_Control"
+    },
+    {
+      "name": "Transmission::Throttle.Throttle_Impl",
+      "kind": "system implementation",
+      "type_name": "Transmission::Throttle"
+    },
+    {
+      "name": "Transmission::State_Machine.Impl",
+      "kind": "system implementation",
+      "type_name": "Transmission::State_Machine"
+    },
+    {
+      "name": "Transmission::Sub_State_Machine.Impl",
+      "kind": "system implementation",
+      "type_name": "Transmission::Sub_State_Machine"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "Transmission::State_Machine.Impl",
+      "name": "SSM",
+      "category": "system",
+      "classifier": "Transmission::Sub_State_Machine.Impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Transmission::Speed_Control",
+      "name": "Target",
+      "direction": "in",
+      "category": "data port",
+      "type": "Types::speed.speed_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Transmission::Speed_Control",
+      "name": "Actuator_Input",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Transmission::Speed_Control",
+      "name": "Actual",
+      "direction": "in",
+      "category": "data port",
+      "type": "Types::speed.speed_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Transmission::Throttle",
+      "name": "Actuator_Input",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Float",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Transmission::Throttle",
+      "name": "Actual",
+      "direction": "out",
+      "category": "data port",
+      "type": "Types::speed.speed_impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Transmission::State_Machine",
+      "name": "State_Out",
+      "direction": "out",
+      "category": "data port",
+      "type": "Types::state_sig.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Transmission::Sub_State_Machine",
+      "name": "State_Out",
+      "direction": "out",
+      "category": "data port",
+      "type": "Types::state_sig.impl",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "Transmission::State_Machine.Impl",
+      "name": "SMToSSM",
+      "kind": "port",
+      "source": "Transmission::State_Machine.Impl.SSM.State_Out",
+      "destination": "Transmission::State_Machine.Impl.State_Out"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Transmission::State_Machine.Impl.SMToSSM",
+      "owner_kind": "connection",
+      "name": "Timing",
+      "value": "immediate",
+      "applies_to": "Transmission::State_Machine.Impl.SMToSSM"
+    }
+  ]
+}

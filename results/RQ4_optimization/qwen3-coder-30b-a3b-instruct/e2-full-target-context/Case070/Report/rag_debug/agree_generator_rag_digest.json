@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "Use `assume` for timing constraint descriptions in component type annexes when concrete bounds or visible relations are provided.",
+    "Use `assign` for implementation-level output bindings in component implementation annexes only when the left-hand side is an existing output feature or declared auxiliary variable.",
+    "Place `guarantee` statements in component type annexes for output range assertions, not in implementation annexes.",
+    "Do not encode AADL timing properties (e.g., Compute_Execution_Time, Dispatch_Protocol) as AGREE expressions unless explicit typed ports or constants are available."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for assignments.",
+    "Ensure type consistency between helper declarations and expressions in AGREE contracts.",
+    "Avoid generating unsafe Boolean range comparisons unless the data type is explicitly numeric in scope."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for logical assertions.",
+    "Use `eq name : type = expression;` for defining helper equations with explicit typing.",
+    "Use `const name : type = value;` for declaring constants with explicit types.",
+    "Use `assign output = expression;` for binding output features in implementation scope."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope; use component type annexes for such guarantees.",
+    "Do not assume AADL property names (e.g., Compute_Execution_Time) are automatically available in AGREE expression scope.",
+    "Do not convert Boolean domain values into integers for range comparisons unless numeric scalar representation is confirmed.",
+    "Do not generate AGREE clauses for timing constraints without visible bounds or named constants."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and their automatic availability in AGREE scope",
+    "Model traceability and requirement semantics",
+    "Component type vs. implementation structural extraction",
+    "Validator-driven repair patterns"
+  ]
+}

@@ -1,0 +1,140 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic in AGREE contracts.
+- Place assumptions and guarantees in valid component type scopes when referring to ports, and in implementation scopes for bindings.
+Generic rules:
+- Generate AGREE contracts using logical operators (and, or, not, =>) and ensure type consistency between declarations and expressions.
+- Write output dependency guarantees that relate visible outputs to visible inputs, avoiding implementation-only subcomponent paths.
+- Encode input envelope assumptions and output range guarantees only when concrete bounds or named constants are provided.
+- Avoid referencing AADL timing properties (e.g., Deadline, Period) as AGREE variables unless explicitly exposed as typed ports or constants.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract clauses.
+- Declare variables with `eq name : type = expression;` and constants with `const name : type = value;`.
+- Use `assign output = expression;` for output assignments in implementation contracts.
+Anti-patterns:
+- Do not reference AADL property names like Compute_Execution_Time or unit tokens (ms, Hz) as AGREE variables.
+- Do not use implementation-only subcomponent ports in component type annexes.
+- Do not declare AGREE types as 'integer' or 'boolean'; use 'int', 'real', or 'bool' instead.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- AviateControlLevel::autopilot
+- AviateControlLevel::GCAS_Monitor
+- AviateControlLevel::ACAS_Monitor
+- AviateControlLevel::SA_Monitor
+- AviateControlLevel::GF_Monitor
+- AviateControlLevel::Wx_Monitor
+- AviateControlLevel::FLS_Monitor
+- AviateControlLevel::Aviate_Decider
+- AviateControlLevel::Pilot_Command
+- AviateControlLevel::GCAS_Recovery
+- AviateControlLevel::ACAS_recovery
+- AviateControlLevel::Switch
+- AviateControlLevel::Aviate_Control_Level
+- AviateControlLevel::autopilot.autopilot_impl
+- AviateControlLevel::GCAS_Monitor.GCAS_Monitor_impl
+- AviateControlLevel::ACAS_Monitor.ACAS_Monitor_impl
+- AviateControlLevel::SA_Monitor.SA_Monitor_impl
+- AviateControlLevel::GF_Monitor.GF_Monitor_impl
+- AviateControlLevel::Wx_Monitor.Wx_Monitor_impl
+- AviateControlLevel::FLS_Monitor.FLS_Monitor_impl
+- AviateControlLevel::Aviate_Decider.Aviate_Decider_impl
+- AviateControlLevel::Pilot_Command.Pilot_Command_impl
+- AviateControlLevel::GCAS_Recovery.GCAS_Recovery_impl
+- AviateControlLevel::ACAS_recovery.ACAS_recovery_impl
+- AviateControlLevel::Switch.Switch_impl
+- AviateControlLevel::Aviate_Control_Level.Aviate_Control_Level_impl
+- gcasm
+- acasm
+- sam
+- gfm
+- wxm
+- flsm
+- pc
+- dmc
+- swt
+- VV
+- DeltaHeading
+- Airspeed
+- acl_to_pc
+- gcasm_to_decider
+
+Target interface:
+Exact expression symbols: latitude, longitude, distance, outImpact, outRecovery, acasRequested
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+latitude | in | data | real | Base_Types::float
+longitude | in | data | real | Base_Types::float
+distance | in | data | real | Base_types::float
+outImpact | out | data | real | Base_Types::float
+outRecovery | out | data | real | Base_Types::float
+acasRequested | out | data | bool | Base_Types::Boolean
+
+Raw requirement:
+The ACAS_Monitor component shall set the system collision time constant to 8.0 and the recovery time constant to 5.0. When the value of the distance input port is less than or equal to 10.0 feet, the ACAS_Monitor component shall ensure that the acasRequested output port is assigned the Boolean value true. During simulation, the estimated time value of the outImpact output port shall transition from zero to the constant collision time constant value of 8.0, and the estimated time value of the outRecovery output port shall transition from zero to the constant recovery time constant value of 5.0.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "ACAS_Monitor sets collision time constant to 8.0 and recovery time constant to 5.0",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "AviateControlLevel::ACAS_Monitor.ACAS_Monitor_impl"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "When distance <= 10.0 feet, ACAS_Monitor assigns acasRequested = true",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "AviateControlLevel::ACAS_Monitor.ACAS_Monitor_impl"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "outImpact transitions from 0.0 to 8.0 when distance <= 10.0 feet",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "AviateControlLevel::ACAS_Monitor.ACAS_Monitor_impl"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "outRecovery transitions from 0.0 to 5.0 when distance <= 10.0 feet",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "AviateControlLevel::ACAS_Monitor.ACAS_Monitor_impl"
+      ]
+    }
+  ]
+}

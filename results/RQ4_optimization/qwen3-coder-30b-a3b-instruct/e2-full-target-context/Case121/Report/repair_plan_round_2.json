@@ -1,0 +1,26 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: Couldn't resolve reference to 'acc_out_data_x'.",
+      "cause": "acc_out_data_x and accelero_sub are not visible in ACCELERO component type scope; they exist only in ACCELERO.IMPL",
+      "minimal_edit": "Remove the entire annex block from ACCELERO and relocate it to ACCELERO.IMPL with corrected port references"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: Couldn't resolve reference to 'accelero_sub'.",
+      "cause": "accelero_sub is a subcomponent of ACCELERO.IMPL, not visible in ACCELERO type scope",
+      "minimal_edit": "Remove the entire annex block from ACCELERO and relocate it to ACCELERO.IMPL with corrected port references"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 36: named thing must be an expression with a type",
+      "cause": "Invalid references cause AGREE to fail type resolution; fix requires correct scope relocation",
+      "minimal_edit": "Remove the entire annex block from ACCELERO and relocate it to ACCELERO.IMPL with corrected port references"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the annex agree block from ACCELERO (lines 35-39)",
+    "Add a new annex agree block inside ACCELERO.IMPL after its connections block",
+    "In the new annex, use only visible symbols: acc_out_data_x, acc_out_data_y, acc_out_data_z (output ports of ACCELERO.IMPL) and accelero_sub.acc_out_data_x, accelero_sub.acc_out_data_y, accelero_sub.acc_out_data_z (subcomponent output parameters)",
+    "Write assume statements in ACCELERO.IMPL annex: assume \"accelero_signal_flow_x\": acc_out_data_x = accelero_sub.acc_out_data_x; ... for x, y, z"
+  ]
+}

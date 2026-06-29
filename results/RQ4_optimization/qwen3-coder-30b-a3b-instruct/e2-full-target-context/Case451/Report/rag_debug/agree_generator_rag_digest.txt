@@ -1,0 +1,14 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place assumptions and guarantees in component type annexes unless binding implementation-level details.
+- Only reference ports or variables explicitly exposed in the AADL model structure through valid scope.
+Generic rules:
+- Assumptions should bound inputs; guarantees should bound outputs, aligned with component roles.
+- Use numeric range comparisons only when the underlying port is scalar and not boolean or opaque.
+Syntax or pattern reminders:
+- Wrap AGREE annex content in `annex agree {** ... **};` with valid boolean expressions.
+- Declare helper variables for complex range checks: `eq range_check : bool = x >= min and x <= max;`
+Anti-patterns:
+- Do not reference AADL properties (e.g., Period, Deadline) as if they are AGREE variables.
+- Do not convert Boolean or enumeration ports into numeric comparisons unless explicitly typed as scalar.
+</RAG_DIGEST>

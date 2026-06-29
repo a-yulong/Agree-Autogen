@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- When generating AGREE contracts, ensure all identifiers are visible within the same annex scope or properly declared as helpers.
+- Validate that property associations and terms in AADL models reference valid definitions present in the model or configured packages.
+- Use only visible AADL features or locally declared helpers in AGREE contracts to prevent resolution failures.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks within valid component type or implementation scopes.
+- Type mismatches in AGREE expressions (e.g., <error> types) indicate unresolved references or incorrect helper declarations.
+- Property references in AGREE must resolve to valid definitions in the AADL model's package scope.
+Anti-patterns:
+- Do not add new property definitions or constants to AGREE contracts if they are not already defined in the AADL model.
+- Avoid writing AGREE guarantees or assumptions that depend on implementation-only subcomponents or inaccessible features.
+- Do not attempt to fix type errors by introducing new architecture; instead, correct the root cause of the unresolved reference.
+Irrelevant retrieved material:
+- AADL package references requiring matching `with` clauses
+- Component type vs implementation scope placement rules
+- AGREE annex block syntax and structure
+</RAG_DIGEST>

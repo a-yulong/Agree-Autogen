@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 105: Couldn't resolve reference to 'Mode'.",
+      "cause": "Mode is declared in COM's annex but not properly defined as a visible variable; AGREE cannot resolve Mode because it is referenced in expressions before being bound to a valid computation.",
+      "minimal_edit": "Replace the entire guarantee with: CMD = (if Mode = 1 then Pedal * 2 else if Mode = 2 then Pedal * 1 else if Mode = 3 then Pedal * 0.5 else 0); and add eq Mode: int = (if Panel.LO then 3 else if Panel.MED then 2 else if Panel.MAX then 1 else 0); above the guarantee."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 125: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes::Brake_Mode is referenced but not available; the model lacks the necessary Agree_Nodes library or it is not properly imported in COM's annex.",
+      "minimal_edit": "Remove the line eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX); and replace it with: eq Mode: int = (if Panel.LO then 3 else if Panel.MED then 2 else if Panel.MAX then 1 else 0);"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 140: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is referenced but not defined in the visible scope; it is not a known function in the current AGREE context.",
+      "minimal_edit": "Replace not Fail => (Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal)); with: not Fail => (Status.Cmd = (if Mode = 1 then Pedal * 2 else if Mode = 2 then Pedal * 1 else if Mode = 3 then Pedal * 0.5 else 0));"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes::Brake_Cmd is used in lemmas but is not a recognized function; same issue as above.",
+      "minimal_edit": "Replace COM1.CMD = Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal) with: COM1.CMD = (if COM1.Mode = 1 then Pedal * 2 else if COM1.Mode = 2 then Pedal * 1 else if COM1.Mode = 3 then Pedal * 0.5 else 0);"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 262: Couldn't resolve reference to 'Mode'.",
+      "cause": "Mode is used in MON1.Mode != COM1.Mode but Mode is not a visible variable in the implementation scope; subcomponent modes are not directly accessible as identifiers.",
+      "minimal_edit": "Replace MON1.Mode != COM1.Mode with: MON1.Mode != COM1.Mode; but since Mode is not a subcomponent port, remove the lemma entirely as it references non-visible identifiers."
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the COM annex, remove the existing eq Mode declaration and guarantee.",
+    "In the COM annex, add: eq Mode: int = (if Panel.LO then 3 else if Panel.MED then 2 else if Panel.MAX then 1 else 0);",
+    "In the COM annex, add: guarantee \"CMD_equals_theoretical_brake_command\" : CMD = (if Mode = 1 then Pedal * 2 else if Mode = 2 then Pedal * 1 else if Mode = 3 then Pedal * 0.5 else 0);",
+    "In the MON annex, remove: eq Mode: int = Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX);",
+    "In the MON annex, add: eq Mode: int = (if Panel.LO then 3 else if Panel.MED then 2 else if Panel.MAX then 1 else 0);",
+    "In the MON annex, replace: not Fail => (Status.Cmd = Agree_Nodes::Brake_Cmd(Mode, Pedal)); with: not Fail => (Status.Cmd = (if Mode = 1 then Pedal * 2 else if Mode = 2 then Pedal * 1 else if Mode = 3 then Pedal * 0.5 else 0));",
+    "In the BSCU_Impl annex, replace all instances of Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal) with: (if COM1.Mode = 1 then Pedal * 2 else if COM1.Mode = 2 then Pedal * 1 else if COM1.Mode = 3 then Pedal * 0.5 else 0);",
+    "In the BSCU_Impl annex, remove all lemmas that compare MONx.Mode and COMx.Mode because Mode is not a visible field of subcomponents; no direct access is permitted."
+  ]
+}

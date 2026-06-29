@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 73: Couldn't resolve reference to 'TCP'.",
+      "cause": "TCP is a subcomponent of AOCSprocessing.others, not a port or feature of AOCSprocessing; AGREE cannot resolve subcomponent references in component type annex.",
+      "minimal_edit": "Remove the assume clause referring to TCP.nominal_attitude"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 73: Couldn't resolve reference to 'ACF'.",
+      "cause": "ACF is a subcomponent of AOCSprocessing.others, not a port or feature of AOCSprocessing; AGREE cannot resolve subcomponent references in component type annex.",
+      "minimal_edit": "Remove the assume clause referring to ACF.nominal_attitude"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 73: Couldn't resolve reference to 'nominal_attitude'.",
+      "cause": "nominal_attitude is not a feature of AOCSprocessing; it is a port of subcomponents TCP and ACF, which are not visible in the component type scope.",
+      "minimal_edit": "Remove the assume clause referring to nominal_attitude"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 78: Couldn't resolve reference to 'TCP'.",
+      "cause": "TCP is a subcomponent of AOCSprocessing.others, not a port or feature of AOCSprocessing; AGREE cannot resolve subcomponent references in component type annex.",
+      "minimal_edit": "Remove the assume clause referring to TCP.nominal_orbit"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 78: Couldn't resolve reference to 'OCF'.",
+      "cause": "OCF is a subcomponent of AOCSprocessing.others, not a port or feature of AOCSprocessing; AGREE cannot resolve subcomponent references in component type annex.",
+      "minimal_edit": "Remove the assume clause referring to OCF.nominal_orbit"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 78: Couldn't resolve reference to 'nominal_orbit'.",
+      "cause": "nominal_orbit is not a feature of AOCSprocessing; it is a port of subcomponents TCP and OCF, which are not visible in the component type scope.",
+      "minimal_edit": "Remove the assume clause referring to nominal_orbit"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the entire annex agree block from AOCSprocessing (lines 69-80) because it references subcomponent ports (TCP, ACF, OCF) that are not visible in the component type scope.",
+    "Move the signal flow requirements R1 and R2 into the implementation annex of AOCSprocessing.others as assert statements, since they describe connections between subcomponents and are only verifiable in the implementation context.",
+    "In AOCSprocessing.others, add an annex agree {** assert \"Signal flow TCP to ACF via Cnx1\": TCP.nominal_attitude = ACF.nominal_attitude; assert \"Signal flow TCP to OCF via Cnx2\": TCP.nominal_orbit = OCF.nominal_orbit; **};",
+    "Verify that all referenced ports (TCP.nominal_attitude, ACF.nominal_attitude, TCP.nominal_orbit, OCF.nominal_orbit) are declared in their respective subcomponent types and visible in the implementation scope."
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Mix_1'.",
+      "cause": "Mix_1 is a subcomponent in the implementation, not accessible in the component type annex",
+      "minimal_edit": "Remove Mix_1 and Mix_2 references from the AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Port_1'.",
+      "cause": "Port_1 is a port in the component type, but the expression context is invalid",
+      "minimal_edit": "Replace Port_1 with a valid AGREE expression or remove the assumption"
+    },
+    {
+      "diagnostic": "left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression type in AGREE assumption",
+      "minimal_edit": "Correct the expression to be a valid boolean expression"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid reference in AGREE expression",
+      "minimal_edit": "Replace invalid references with valid AGREE expressions"
+    },
+    {
+      "diagnostic": "right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression type in AGREE assumption",
+      "minimal_edit": "Correct the expression to be a valid boolean expression"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Mix_2'.",
+      "cause": "Mix_2 is a subcomponent in the implementation, not accessible in the component type annex",
+      "minimal_edit": "Remove Mix_1 and Mix_2 references from the AGREE annex"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Port_2'.",
+      "cause": "Port_2 is a port in the component type, but the expression context is invalid",
+      "minimal_edit": "Replace Port_2 with a valid AGREE expression or remove the assumption"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the entire AGREE annex block from the Mixin component type",
+    "Move the signal flow assumptions to the Demo.impl component implementation annex",
+    "In the Demo.impl annex, replace Mix_1.Port_1 and Mix_2.Port_2 with valid AGREE expressions using only visible identifiers Port_1 and Port_2",
+    "Ensure the new expressions are valid boolean expressions in AGREE syntax"
+  ]
+}

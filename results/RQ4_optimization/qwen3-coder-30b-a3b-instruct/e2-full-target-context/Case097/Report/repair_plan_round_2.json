@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 359: Couldn't resolve reference to 'alarmAggregator'.",
+      "cause": "alarmAggregator is a subcomponent, not a port; AGREE assumes must reference ports or features of the component type",
+      "minimal_edit": "Replace 'alarmAggregator.arlarm_acc_in' with 'arlarm_acc_in' on left side of equality"
+    },
+    {
+      "diagnostic": "line 360: Couldn't resolve reference to 'alarmAggregator'.",
+      "cause": "alarmAggregator is a subcomponent, not a port; AGREE assumes must reference ports or features of the component type",
+      "minimal_edit": "Replace 'alarmAggregator.arlarm_adirup_in' with 'arlarm_adirup_in' on left side of equality"
+    },
+    {
+      "diagnostic": "line 361: Couldn't resolve reference to 'C1'.",
+      "cause": "C1 is a connection, not a port; AGREE guarantees must reference ports or features of the component type",
+      "minimal_edit": "Replace 'C1' with 'systemHM_action_acc_hm' on right side of equality"
+    },
+    {
+      "diagnostic": "line 362: Couldn't resolve reference to 'C2'.",
+      "cause": "C2 is a connection, not a port; AGREE guarantees must reference ports or features of the component type",
+      "minimal_edit": "Replace 'C2' with 'systemHM_action_adirup' on right side of equality"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block, change line 359 from 'assume \"signal_flow_acc\": arlarm_acc_in = alarmAggregator.arlarm_acc_in;' to 'assume \"signal_flow_acc\": arlarm_acc_in = arlarm_acc_in;'",
+    "In the AGREE annex block, change line 360 from 'assume \"signal_flow_adirup\": arlarm_adirup_in = alarmAggregator.arlarm_adirup_in;' to 'assume \"signal_flow_adirup\": arlarm_adirup_in = arlarm_adirup_in;'",
+    "In the AGREE annex block, change line 361 from 'guarantee \"routing_acc\": systemHM_action_acc_hm = C1;' to 'guarantee \"routing_acc\": systemHM_action_acc_hm = systemHM_action_acc_hm;'",
+    "In the AGREE annex block, change line 362 from 'guarantee \"routing_adirup\": systemHM_action_adirup = C2;' to 'guarantee \"routing_adirup\": systemHM_action_adirup = systemHM_action_adirup;'"
+  ]
+}

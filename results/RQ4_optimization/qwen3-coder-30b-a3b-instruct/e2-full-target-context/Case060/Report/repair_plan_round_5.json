@@ -1,0 +1,77 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 106: left side of binary expression '/' is of type 'int' but must be of type 'real'",
+      "cause": "integer division in AGREE requires explicit type conversion",
+      "minimal_edit": "Change `Pedal / 2.0 as real` to `Pedal / 2.0`"
+    },
+    {
+      "diagnostic": "line 106: no viable alternative at input 'as'",
+      "cause": "AGREE does not support 'as real' syntax for type conversion",
+      "minimal_edit": "Remove 'as real' from the expression"
+    },
+    {
+      "diagnostic": "line 124: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "Agree_Nodes package not imported or function not available",
+      "minimal_edit": "Replace `Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX)` with direct mode calculation"
+    },
+    {
+      "diagnostic": "line 139: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package not imported or function not available",
+      "minimal_edit": "Replace `Agree_Nodes::Brake_Cmd(Mode, Pedal)` with direct command calculation"
+    },
+    {
+      "diagnostic": "line 139: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "Replace the entire guarantee with a valid expression using visible symbols"
+    },
+    {
+      "diagnostic": "line 256: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package not imported or function not available",
+      "minimal_edit": "Replace `Agree_Nodes::Brake_Cmd(COM1.Mode,Pedal)` with direct command calculation"
+    },
+    {
+      "diagnostic": "line 256: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "Replace the entire lemma with a valid expression using visible symbols"
+    },
+    {
+      "diagnostic": "line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package not imported or function not available",
+      "minimal_edit": "Replace `Agree_Nodes::Brake_Cmd(COM2.Mode,Pedal)` with direct command calculation"
+    },
+    {
+      "diagnostic": "line 257: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "Replace the entire lemma with a valid expression using visible symbols"
+    },
+    {
+      "diagnostic": "line 258: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package not imported or function not available",
+      "minimal_edit": "Replace `Agree_Nodes::Brake_Cmd(MON1.Mode,Pedal)` with direct command calculation"
+    },
+    {
+      "diagnostic": "line 258: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "Replace the entire lemma with a valid expression using visible symbols"
+    },
+    {
+      "diagnostic": "line 259: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "Agree_Nodes package not imported or function not available",
+      "minimal_edit": "Replace `Agree_Nodes::Brake_Cmd(MON2.Mode,Pedal)` with direct command calculation"
+    },
+    {
+      "diagnostic": "line 259: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved function reference",
+      "minimal_edit": "Replace the entire lemma with a valid expression using visible symbols"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the COM annex, replace the Mode equation on line 104 with a direct calculation using Panel.LO, Panel.MED, Panel.MAX",
+    "In the COM annex, replace the guarantee on line 106 with a direct calculation using visible symbols",
+    "In the MON annex, replace the Mode equation on line 124 with a direct calculation using Panel.LO, Panel.MED, Panel.MAX",
+    "In the MON annex, replace the guarantee on line 139 with a direct calculation using visible symbols",
+    "In the BSCU.BSCU_Impl annex, replace all four Brake_Cmd references in lemmas L1-L4 with direct calculations using visible symbols"
+  ]
+}

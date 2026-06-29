@@ -1,0 +1,840 @@
+{
+  "component_types": [
+    {
+      "name": "ACCELERO",
+      "kind": "thread"
+    },
+    {
+      "name": "ACCELERO_SUB_wrapper",
+      "kind": "subprogram"
+    },
+    {
+      "name": "MAGNETO",
+      "kind": "thread"
+    },
+    {
+      "name": "MAGNETO_SUB_wrapper",
+      "kind": "subprogram"
+    },
+    {
+      "name": "GYRO",
+      "kind": "thread"
+    },
+    {
+      "name": "GYRO_SUB_wrapper",
+      "kind": "subprogram"
+    },
+    {
+      "name": "ATTITUDE_CALCULATION",
+      "kind": "thread"
+    },
+    {
+      "name": "ATTITUDE",
+      "kind": "process"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "ACCELERO_SUB_wrapper.i",
+      "kind": "subprogram",
+      "type_name": "ACCELERO_SUB_wrapper"
+    },
+    {
+      "name": "ACCELERO.IMPL",
+      "kind": "thread",
+      "type_name": "ACCELERO"
+    },
+    {
+      "name": "MAGNETO_SUB_wrapper.i",
+      "kind": "subprogram",
+      "type_name": "MAGNETO_SUB_wrapper"
+    },
+    {
+      "name": "MAGNETO.IMPL",
+      "kind": "thread",
+      "type_name": "MAGNETO"
+    },
+    {
+      "name": "GYRO_SUB_wrapper.i",
+      "kind": "subprogram",
+      "type_name": "GYRO_SUB_wrapper"
+    },
+    {
+      "name": "GYRO.IMPL",
+      "kind": "thread",
+      "type_name": "GYRO"
+    },
+    {
+      "name": "ATTITUDE_CALCULATION.IMPL",
+      "kind": "thread",
+      "type_name": "ATTITUDE_CALCULATION"
+    },
+    {
+      "name": "ATTITUDE.IMPL",
+      "kind": "process",
+      "type_name": "ATTITUDE"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "accelero_thread",
+      "category": "thread",
+      "classifier": "ACCELERO.IMPL"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "magneto_thread",
+      "category": "thread",
+      "classifier": "MAGNETO.IMPL"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "gyro_thread",
+      "category": "thread",
+      "classifier": "GYRO.IMPL"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "attitude_calculation_thread",
+      "category": "thread",
+      "classifier": "ATTITUDE_CALCULATION.IMPL"
+    }
+  ],
+  "features": [
+    {
+      "owner": "ACCELERO",
+      "name": "acc_in_data_x",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACCELERO",
+      "name": "acc_in_data_y",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACCELERO",
+      "name": "acc_in_data_z",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACCELERO",
+      "name": "acc_out_data_x",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACCELERO",
+      "name": "acc_out_data_y",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACCELERO",
+      "name": "acc_out_data_z",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACCELERO_SUB_wrapper",
+      "name": "acc_out_data_x",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACCELERO_SUB_wrapper",
+      "name": "acc_out_data_y",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ACCELERO_SUB_wrapper",
+      "name": "acc_out_data_z",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MAGNETO",
+      "name": "mag_in_data_x",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MAGNETO",
+      "name": "mag_in_data_y",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MAGNETO",
+      "name": "mag_in_data_z",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MAGNETO",
+      "name": "mag_out_data_x",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MAGNETO",
+      "name": "mag_out_data_y",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MAGNETO",
+      "name": "mag_out_data_z",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MAGNETO_SUB_wrapper",
+      "name": "mag_out_data_x",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MAGNETO_SUB_wrapper",
+      "name": "mag_out_data_y",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "MAGNETO_SUB_wrapper",
+      "name": "mag_out_data_z",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO",
+      "name": "gyro_in_data_x",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO",
+      "name": "gyro_in_data_y",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO",
+      "name": "gyro_in_data_z",
+      "direction": "in",
+      "category": "data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO",
+      "name": "gyro_out_data_x",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO",
+      "name": "gyro_out_data_y",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO",
+      "name": "gyro_out_data_z",
+      "direction": "out",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO_SUB_wrapper",
+      "name": "gyro_out_data_x",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO_SUB_wrapper",
+      "name": "gyro_out_data_y",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "GYRO_SUB_wrapper",
+      "name": "gyro_out_data_z",
+      "direction": "out",
+      "category": "parameter",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION",
+      "name": "acc_in_data_x",
+      "direction": "in",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION",
+      "name": "acc_in_data_y",
+      "direction": "in",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION",
+      "name": "acc_in_data_z",
+      "direction": "in",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION",
+      "name": "mag_in_data_x",
+      "direction": "in",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION",
+      "name": "mag_in_data_y",
+      "direction": "in",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION",
+      "name": "mag_in_data_z",
+      "direction": "in",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION",
+      "name": "gyro_in_data_x",
+      "direction": "in",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION",
+      "name": "gyro_in_data_y",
+      "direction": "in",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION",
+      "name": "gyro_in_data_z",
+      "direction": "in",
+      "category": "event data port",
+      "type": "AHRS::Data_Types::FLOAT32_TYPE_AADL",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "ACCELERO_SUB_wrapper.i",
+      "name": "P1",
+      "kind": "parameter",
+      "source": "Spg.acc_out_data_x",
+      "destination": "Acc_Out_Data_X"
+    },
+    {
+      "owner": "ACCELERO_SUB_wrapper.i",
+      "name": "P2",
+      "kind": "parameter",
+      "source": "Spg.acc_out_data_Y",
+      "destination": "Acc_Out_Data_Y"
+    },
+    {
+      "owner": "ACCELERO_SUB_wrapper.i",
+      "name": "P3",
+      "kind": "parameter",
+      "source": "Spg.acc_out_data_Z",
+      "destination": "Acc_Out_Data_Z"
+    },
+    {
+      "owner": "ACCELERO.IMPL",
+      "name": "ACC_PC1",
+      "kind": "parameter",
+      "source": "accelero_sub.acc_out_data_x",
+      "destination": "acc_out_data_x"
+    },
+    {
+      "owner": "ACCELERO.IMPL",
+      "name": "ACC_PC2",
+      "kind": "parameter",
+      "source": "accelero_sub.acc_out_data_y",
+      "destination": "acc_out_data_y"
+    },
+    {
+      "owner": "ACCELERO.IMPL",
+      "name": "ACC_PC3",
+      "kind": "parameter",
+      "source": "accelero_sub.acc_out_data_z",
+      "destination": "acc_out_data_z"
+    },
+    {
+      "owner": "MAGNETO_SUB_wrapper.i",
+      "name": "P1",
+      "kind": "parameter",
+      "source": "Spg.mag_out_data_x",
+      "destination": "Mag_Out_Data_X"
+    },
+    {
+      "owner": "MAGNETO_SUB_wrapper.i",
+      "name": "P2",
+      "kind": "parameter",
+      "source": "Spg.mag_out_data_Y",
+      "destination": "Mag_Out_Data_Y"
+    },
+    {
+      "owner": "MAGNETO_SUB_wrapper.i",
+      "name": "P3",
+      "kind": "parameter",
+      "source": "Spg.mag_out_data_Z",
+      "destination": "Mag_Out_Data_Z"
+    },
+    {
+      "owner": "MAGNETO.IMPL",
+      "name": "MAG_PC1",
+      "kind": "parameter",
+      "source": "magneto_sub.mag_out_data_x",
+      "destination": "mag_out_data_x"
+    },
+    {
+      "owner": "MAGNETO.IMPL",
+      "name": "MAG_PC2",
+      "kind": "parameter",
+      "source": "magneto_sub.mag_out_data_y",
+      "destination": "mag_out_data_y"
+    },
+    {
+      "owner": "MAGNETO.IMPL",
+      "name": "MAG_PC3",
+      "kind": "parameter",
+      "source": "magneto_sub.mag_out_data_z",
+      "destination": "mag_out_data_z"
+    },
+    {
+      "owner": "GYRO_SUB_wrapper.i",
+      "name": "P1",
+      "kind": "parameter",
+      "source": "Spg.gyro_out_data_x",
+      "destination": "Gyro_Out_Data_X"
+    },
+    {
+      "owner": "GYRO_SUB_wrapper.i",
+      "name": "P2",
+      "kind": "parameter",
+      "source": "Spg.gyro_out_data_Y",
+      "destination": "Gyro_Out_Data_Y"
+    },
+    {
+      "owner": "GYRO_SUB_wrapper.i",
+      "name": "P3",
+      "kind": "parameter",
+      "source": "Spg.gyro_out_data_Z",
+      "destination": "Gyro_Out_Data_Z"
+    },
+    {
+      "owner": "GYRO.IMPL",
+      "name": "GYRO_PC1",
+      "kind": "parameter",
+      "source": "gyro_sub.gyro_out_data_x",
+      "destination": "gyro_out_data_x"
+    },
+    {
+      "owner": "GYRO.IMPL",
+      "name": "GYRO_PC2",
+      "kind": "parameter",
+      "source": "gyro_sub.gyro_out_data_y",
+      "destination": "gyro_out_data_y"
+    },
+    {
+      "owner": "GYRO.IMPL",
+      "name": "GYRO_PC3",
+      "kind": "parameter",
+      "source": "gyro_sub.gyro_out_data_z",
+      "destination": "gyro_out_data_z"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION.IMPL",
+      "name": "ACC_PC1",
+      "kind": "parameter",
+      "source": "acc_in_data_x",
+      "destination": "attitude_sub.acc_in_data_x"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION.IMPL",
+      "name": "ACC_PC2",
+      "kind": "parameter",
+      "source": "acc_in_data_y",
+      "destination": "attitude_sub.acc_in_data_y"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION.IMPL",
+      "name": "ACC_PC3",
+      "kind": "parameter",
+      "source": "acc_in_data_z",
+      "destination": "attitude_sub.acc_in_data_z"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION.IMPL",
+      "name": "MAG_PC1",
+      "kind": "parameter",
+      "source": "mag_in_data_x",
+      "destination": "attitude_sub.mag_in_data_x"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION.IMPL",
+      "name": "MAG_PC2",
+      "kind": "parameter",
+      "source": "mag_in_data_y",
+      "destination": "attitude_sub.mag_in_data_y"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION.IMPL",
+      "name": "MAG_PC3",
+      "kind": "parameter",
+      "source": "mag_in_data_z",
+      "destination": "attitude_sub.mag_in_data_z"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION.IMPL",
+      "name": "GYRO_PC1",
+      "kind": "parameter",
+      "source": "gyro_in_data_x",
+      "destination": "attitude_sub.gyro_in_data_x"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION.IMPL",
+      "name": "GYRO_PC2",
+      "kind": "parameter",
+      "source": "gyro_in_data_y",
+      "destination": "attitude_sub.gyro_in_data_y"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION.IMPL",
+      "name": "GYRO_PC3",
+      "kind": "parameter",
+      "source": "gyro_in_data_z",
+      "destination": "attitude_sub.gyro_in_data_z"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "ACC_INPUT_PC1",
+      "kind": "port",
+      "source": "acc_in_data_x",
+      "destination": "accelero_thread.acc_in_data_x"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "ACC_INPUT_PC2",
+      "kind": "port",
+      "source": "acc_in_data_y",
+      "destination": "accelero_thread.acc_in_data_y"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "ACC_INPUT_PC3",
+      "kind": "port",
+      "source": "acc_in_data_z",
+      "destination": "accelero_thread.acc_in_data_z"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "MAG_INPUT_PC1",
+      "kind": "port",
+      "source": "mag_in_data_x",
+      "destination": "magneto_thread.mag_in_data_x"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "MAG_INPUT_PC2",
+      "kind": "port",
+      "source": "mag_in_data_y",
+      "destination": "magneto_thread.mag_in_data_y"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "MAG_INPUT_PC3",
+      "kind": "port",
+      "source": "mag_in_data_z",
+      "destination": "magneto_thread.mag_in_data_z"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "GYRO_INPUT_PC1",
+      "kind": "port",
+      "source": "gyro_in_data_x",
+      "destination": "gyro_thread.gyro_in_data_x"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "GYRO_INPUT_PC2",
+      "kind": "port",
+      "source": "gyro_in_data_y",
+      "destination": "gyro_thread.gyro_in_data_y"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "GYRO_INPUT_PC3",
+      "kind": "port",
+      "source": "gyro_in_data_z",
+      "destination": "gyro_thread.gyro_in_data_z"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "ACC_SUBMIT_PC1",
+      "kind": "port",
+      "source": "accelero_thread.acc_out_data_x",
+      "destination": "attitude_calculation_thread.acc_in_data_x"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "ACC_SUBMIT_PC2",
+      "kind": "port",
+      "source": "accelero_thread.acc_out_data_y",
+      "destination": "attitude_calculation_thread.acc_in_data_y"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "ACC_SUBMIT_PC3",
+      "kind": "port",
+      "source": "accelero_thread.acc_out_data_z",
+      "destination": "attitude_calculation_thread.acc_in_data_z"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "MAG_SUBMIT_PC1",
+      "kind": "port",
+      "source": "magneto_thread.mag_out_data_x",
+      "destination": "attitude_calculation_thread.mag_in_data_x"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "MAG_SUBMIT_PC2",
+      "kind": "port",
+      "source": "magneto_thread.mag_out_data_y",
+      "destination": "attitude_calculation_thread.mag_in_data_y"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "MAG_SUBMIT_PC3",
+      "kind": "port",
+      "source": "magneto_thread.mag_out_data_z",
+      "destination": "attitude_calculation_thread.mag_in_data_z"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "GYRO_SUBMIT_PC1",
+      "kind": "port",
+      "source": "gyro_thread.gyro_out_data_x",
+      "destination": "attitude_calculation_thread.gyro_in_data_x"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "GYRO_SUBMIT_PC2",
+      "kind": "port",
+      "source": "gyro_thread.gyro_out_data_y",
+      "destination": "attitude_calculation_thread.gyro_in_data_y"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "name": "GYRO_SUBMIT_PC3",
+      "kind": "port",
+      "source": "gyro_thread.gyro_out_data_z",
+      "destination": "attitude_calculation_thread.gyro_in_data_z"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "ACCELERO",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "5"
+    },
+    {
+      "owner": "ACCELERO",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic"
+    },
+    {
+      "owner": "ACCELERO",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "80 ms"
+    },
+    {
+      "owner": "ACCELERO",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 4 ms"
+    },
+    {
+      "owner": "ACCELERO",
+      "owner_kind": "thread",
+      "name": "Source_Stack_Size",
+      "value": "512 Bytes"
+    },
+    {
+      "owner": "MAGNETO",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "4"
+    },
+    {
+      "owner": "MAGNETO",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic"
+    },
+    {
+      "owner": "MAGNETO",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "80 ms"
+    },
+    {
+      "owner": "MAGNETO",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 4 ms"
+    },
+    {
+      "owner": "MAGNETO",
+      "owner_kind": "thread",
+      "name": "Source_Stack_Size",
+      "value": "512 Bytes"
+    },
+    {
+      "owner": "GYRO",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "3"
+    },
+    {
+      "owner": "GYRO",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic"
+    },
+    {
+      "owner": "GYRO",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "80 ms"
+    },
+    {
+      "owner": "GYRO",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 4 ms"
+    },
+    {
+      "owner": "GYRO",
+      "owner_kind": "thread",
+      "name": "Source_Stack_Size",
+      "value": "512 Bytes"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "1"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "80 ms"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "0 ms .. 65 ms"
+    },
+    {
+      "owner": "ATTITUDE_CALCULATION",
+      "owner_kind": "thread",
+      "name": "Source_Stack_Size",
+      "value": "4096 Bytes"
+    },
+    {
+      "owner": "ATTITUDE.IMPL",
+      "owner_kind": "process",
+      "name": "f1",
+      "value": "flow sink acc_in_data_x -> ACC_INPUT_PC1 -> accelero_thread.f1",
+      "applies_to": "flow"
+    }
+  ]
+}

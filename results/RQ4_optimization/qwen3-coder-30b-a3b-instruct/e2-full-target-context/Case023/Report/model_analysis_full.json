@@ -1,0 +1,402 @@
+{
+  "component_types": [
+    {
+      "name": "temperature_type",
+      "kind": "data"
+    },
+    {
+      "name": "command",
+      "kind": "data"
+    },
+    {
+      "name": "temperature_sensor",
+      "kind": "system"
+    },
+    {
+      "name": "control_panel",
+      "kind": "system"
+    },
+    {
+      "name": "temp_control",
+      "kind": "system"
+    },
+    {
+      "name": "voter",
+      "kind": "system"
+    },
+    {
+      "name": "controller",
+      "kind": "system"
+    },
+    {
+      "name": "heater",
+      "kind": "system"
+    },
+    {
+      "name": "cooler",
+      "kind": "system"
+    },
+    {
+      "name": "integration",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "command.impl",
+      "kind": "data",
+      "type_name": "command"
+    },
+    {
+      "name": "temperature_sensor.i1",
+      "kind": "system",
+      "type_name": "temperature_sensor"
+    },
+    {
+      "name": "temperature_sensor.i2",
+      "kind": "system",
+      "type_name": "temperature_sensor"
+    },
+    {
+      "name": "control_panel.i",
+      "kind": "system",
+      "type_name": "control_panel"
+    },
+    {
+      "name": "temp_control.i",
+      "kind": "system",
+      "type_name": "temp_control"
+    },
+    {
+      "name": "voter.impl",
+      "kind": "system",
+      "type_name": "voter"
+    },
+    {
+      "name": "controller.impl",
+      "kind": "system",
+      "type_name": "controller"
+    },
+    {
+      "name": "heater.impl",
+      "kind": "system",
+      "type_name": "heater"
+    },
+    {
+      "name": "cooler.impl",
+      "kind": "system",
+      "type_name": "cooler"
+    },
+    {
+      "name": "integration.impl",
+      "kind": "system",
+      "type_name": "integration"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "command.impl",
+      "name": "heater_on",
+      "category": "data",
+      "classifier": "base_types::boolean"
+    },
+    {
+      "owner": "command.impl",
+      "name": "cooler_on",
+      "category": "data",
+      "classifier": "base_types::boolean"
+    },
+    {
+      "owner": "temp_control.i",
+      "name": "heater",
+      "category": "system",
+      "classifier": "heater.impl"
+    },
+    {
+      "owner": "temp_control.i",
+      "name": "cooler",
+      "category": "system",
+      "classifier": "cooler.impl"
+    },
+    {
+      "owner": "temp_control.i",
+      "name": "controller",
+      "category": "system",
+      "classifier": "controller.impl"
+    },
+    {
+      "owner": "temp_control.i",
+      "name": "voter",
+      "category": "system",
+      "classifier": "voter.impl"
+    },
+    {
+      "owner": "integration.impl",
+      "name": "temp_control",
+      "category": "system",
+      "classifier": "temp_control.i"
+    },
+    {
+      "owner": "integration.impl",
+      "name": "user_panel",
+      "category": "system",
+      "classifier": "control_panel.i"
+    },
+    {
+      "owner": "integration.impl",
+      "name": "sensor1",
+      "category": "system",
+      "classifier": "temperature_sensor.i1"
+    },
+    {
+      "owner": "integration.impl",
+      "name": "sensor2",
+      "category": "system",
+      "classifier": "temperature_sensor.i2"
+    }
+  ],
+  "features": [
+    {
+      "owner": "temperature_sensor",
+      "name": "dataout",
+      "direction": "out",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "control_panel",
+      "name": "cmd",
+      "direction": "out",
+      "category": "data port",
+      "type": "command.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "temp_control",
+      "name": "temp1",
+      "direction": "in",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "temp_control",
+      "name": "temp2",
+      "direction": "in",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "temp_control",
+      "name": "user_request",
+      "direction": "in",
+      "category": "data port",
+      "type": "command.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "voter",
+      "name": "tempin1",
+      "direction": "in",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "voter",
+      "name": "tempin2",
+      "direction": "in",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "voter",
+      "name": "tempout",
+      "direction": "out",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "controller",
+      "name": "tempin",
+      "direction": "in",
+      "category": "data port",
+      "type": "temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "controller",
+      "name": "user_request",
+      "direction": "in",
+      "category": "data port",
+      "type": "command.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "controller",
+      "name": "heater_on",
+      "direction": "out",
+      "category": "data port",
+      "type": "base_types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "controller",
+      "name": "cooler_on",
+      "direction": "out",
+      "category": "data port",
+      "type": "base_types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "heater",
+      "name": "enabled",
+      "direction": "in",
+      "category": "data port",
+      "type": "base_types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "cooler",
+      "name": "enabled",
+      "direction": "in",
+      "category": "data port",
+      "type": "base_types::boolean",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "temp_control.i",
+      "name": "c0",
+      "kind": "port",
+      "source": "temp1",
+      "destination": "voter.tempin1"
+    },
+    {
+      "owner": "temp_control.i",
+      "name": "c1",
+      "kind": "port",
+      "source": "temp2",
+      "destination": "voter.tempin2"
+    },
+    {
+      "owner": "temp_control.i",
+      "name": "c2",
+      "kind": "port",
+      "source": "user_request",
+      "destination": "controller.user_request"
+    },
+    {
+      "owner": "temp_control.i",
+      "name": "c3",
+      "kind": "port",
+      "source": "controller.heater_on",
+      "destination": "heater.enabled"
+    },
+    {
+      "owner": "temp_control.i",
+      "name": "c4",
+      "kind": "port",
+      "source": "controller.cooler_on",
+      "destination": "cooler.enabled"
+    },
+    {
+      "owner": "temp_control.i",
+      "name": "c5",
+      "kind": "port",
+      "source": "voter.tempout",
+      "destination": "controller.tempin"
+    },
+    {
+      "owner": "integration.impl",
+      "name": "sensor1_tc",
+      "kind": "port",
+      "source": "sensor1.dataout",
+      "destination": "temp_control.temp1"
+    },
+    {
+      "owner": "integration.impl",
+      "name": "sensor2_tc",
+      "kind": "port",
+      "source": "sensor2.dataout",
+      "destination": "temp_control.temp2"
+    },
+    {
+      "owner": "integration.impl",
+      "name": "up_to_tc",
+      "kind": "port",
+      "source": "user_panel.cmd",
+      "destination": "temp_control.user_request"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "temp_control.i.c0",
+      "owner_kind": "connection",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "temp_control.i.c1",
+      "owner_kind": "connection",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "temp_control.i.c2",
+      "owner_kind": "connection",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "temp_control.i.c3",
+      "owner_kind": "connection",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "temp_control.i.c4",
+      "owner_kind": "connection",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "temp_control.i.c5",
+      "owner_kind": "connection",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "integration.impl.sensor1_tc",
+      "owner_kind": "connection",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "integration.impl.sensor2_tc",
+      "owner_kind": "connection",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": ""
+    },
+    {
+      "owner": "integration.impl.up_to_tc",
+      "owner_kind": "connection",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": ""
+    }
+  ]
+}

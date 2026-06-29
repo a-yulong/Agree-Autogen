@@ -1,0 +1,24 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'Data_Sink'.",
+      "cause": "Data_Sink is a port of component Q, not Q.Impl",
+      "minimal_edit": "Replace 'Data_Sink' with 'Q_Spg.Data_Sink' in the assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'P1'.",
+      "cause": "P1 is a connection in Q.Impl, not visible in Q's annex",
+      "minimal_edit": "Replace 'P1' with 'Data_Source' in the assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Q_Spg'.",
+      "cause": "Q_Spg is a subcomponent of Q.Impl, not visible in Q's annex",
+      "minimal_edit": "Replace 'Q_Spg.Data_Sink' with 'Data_Sink' in the assume statement"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'P1 => Q_Spg.Data_Sink' with 'Data_Source => Data_Sink' in the assume statement",
+    "Ensure the assume statement refers to visible identifiers only"
+  ]
+}

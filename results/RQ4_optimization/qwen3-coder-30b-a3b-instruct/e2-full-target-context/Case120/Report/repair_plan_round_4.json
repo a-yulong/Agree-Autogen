@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'RTOS'.",
+      "cause": "AGREE expression references system implementation name 'RTOS' which is not a valid identifier in this scope",
+      "minimal_edit": "Replace 'SBC_32F411EDISCOVERY.RTOS' with 'SBC_32F411EDISCOVERY.RTOS' (no change needed, but expression must be valid)"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE expression compares system implementation to itself, which is not a valid contract expression",
+      "minimal_edit": "Remove the invalid assumption statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Software'.",
+      "cause": "AGREE expression references subcomponent 'Software' which is not directly accessible in this component type scope",
+      "minimal_edit": "Remove the invalid guarantee statement"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE expression compares subcomponent to itself, which is not a valid contract expression",
+      "minimal_edit": "Remove the invalid guarantee statement"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the invalid assumption statement 'assume \"deployment_binding_sbc\": SBC_32F411EDISCOVERY.RTOS = SBC_32F411EDISCOVERY.RTOS;' from the AGREE annex",
+    "Remove the invalid guarantee statement 'guarantee \"software_to_cpu_binding\": Software = Software;' from the AGREE annex"
+  ]
+}

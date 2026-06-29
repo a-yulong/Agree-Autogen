@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is a subcomponent reference not visible in component type scope",
+      "minimal_edit": "Remove pspg reference from assume and guarantee statements"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'speed'.",
+      "cause": "speed is a port reference not visible in component type scope",
+      "minimal_edit": "Replace speed with gps_pos.altitude in assume and guarantee statements"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved references",
+      "minimal_edit": "Replace speed with gps_pos.altitude in assume and guarantee statements"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Unresolved references result in invalid expressions",
+      "minimal_edit": "Replace speed with gps_pos.altitude in assume and guarantee statements"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the pspg reference from both assume and guarantee statements",
+    "Replace speed with gps_pos.altitude in both assume and guarantee statements",
+    "Ensure the revised expressions use only visible identifiers from the component type scope"
+  ]
+}

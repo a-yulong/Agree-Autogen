@@ -1,0 +1,32 @@
+{
+  "rag_rules": [
+    "AGREE annex blocks must be enclosed in `annex agree {** ... **};` and placed in component type annexes for assumptions and guarantees.",
+    "Use `assume` and `guarantee` statements to encode requirement intents, with labels matching requirement IDs.",
+    "Generate `eq` declarations for data range comparisons and `const` for timing values when AADL properties are not directly accessible.",
+    "Avoid encoding AADL property names as AGREE variables unless they are explicitly typed ports or constants in scope."
+  ],
+  "generic_rules": [
+    "AGREE contracts must use valid expression syntax with proper type alignment between assumptions and guarantees.",
+    "Component implementations should use `assign` statements for binding when valid in scope.",
+    "Equation declarations should use `eq name : type = expression;` for complex logical or range expressions.",
+    "Constants should be declared with `const name : type = value;` for fixed timing or data constraints."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks must be syntactically valid and use `assume`, `guarantee`, `eq`, `const`, and `assign` correctly.",
+    "Use `eq` for defining named boolean expressions or range checks, and `const` for fixed values.",
+    "Ensure that all referenced identifiers are in scope or explicitly declared in the AGREE annex.",
+    "Do not assume AADL property names are automatically available as AGREE variables."
+  ],
+  "anti_patterns": [
+    "Do not generate AGREE expressions that reference AADL property names directly without verifying their scope.",
+    "Avoid using `assign` in component type annexes unless the target is an implementation-level binding.",
+    "Do not encode Boolean or opaque data types into integer comparisons unless the model exposes numeric scalar representations.",
+    "Do not generate `eq` or `const` declarations without confirming the expression type matches the declared type."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and their mapping to AGREE variables",
+    "Model fusion and component insertion locations",
+    "Validator diagnostics and repair strategies",
+    "Requirement traceability and compact semantics"
+  ]
+}

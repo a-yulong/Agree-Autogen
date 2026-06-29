@@ -1,0 +1,46 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 106: left side of binary expression '/' is of type 'int' but must be of type 'real'",
+      "cause": "integer division in AGREE expression",
+      "minimal_edit": "change Pedal / 2.0 to Pedal / 2.0 as real"
+    },
+    {
+      "diagnostic": "line 124: Couldn't resolve reference to 'Agree_Nodes::Brake_Mode'.",
+      "cause": "undefined function reference",
+      "minimal_edit": "remove or replace Agree_Nodes::Brake_Mode with visible expression"
+    },
+    {
+      "diagnostic": "line 139: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "undefined function reference",
+      "minimal_edit": "remove or replace Agree_Nodes::Brake_Cmd with visible expression"
+    },
+    {
+      "diagnostic": "line 256: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "undefined function reference",
+      "minimal_edit": "remove or replace Agree_Nodes::Brake_Cmd with visible expression"
+    },
+    {
+      "diagnostic": "line 257: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "undefined function reference",
+      "minimal_edit": "remove or replace Agree_Nodes::Brake_Cmd with visible expression"
+    },
+    {
+      "diagnostic": "line 258: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "undefined function reference",
+      "minimal_edit": "remove or replace Agree_Nodes::Brake_Cmd with visible expression"
+    },
+    {
+      "diagnostic": "line 259: Couldn't resolve reference to 'Agree_Nodes::Brake_Cmd'.",
+      "cause": "undefined function reference",
+      "minimal_edit": "remove or replace Agree_Nodes::Brake_Cmd with visible expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the COM annex, replace the expression 'Pedal / 2.0' with 'Pedal / 2.0 as real' to fix the type mismatch",
+    "In the COM annex, replace 'Agree_Nodes::Brake_Mode(Mode, Panel.LO, Panel.MED, Panel.MAX)' with a visible expression that defines Mode based on Panel inputs",
+    "In the MON annex, replace 'Agree_Nodes::Brake_Cmd(Mode, Pedal)' with a visible expression that computes the command based on Mode and Pedal",
+    "In the BSCU.BSCU_Impl annex, replace all occurrences of 'Agree_Nodes::Brake_Cmd' with visible expressions that compute the command based on Mode and Pedal"
+  ]
+}

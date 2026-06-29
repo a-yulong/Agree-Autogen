@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'timeRangeFinal'.",
+      "cause": "timeRangeFinal is not declared or visible in the GCAS_Recovery component scope",
+      "minimal_edit": "Remove timeRangeFinal from the time_range assumption"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'timeRangeInitial'.",
+      "cause": "timeRangeInitial is not declared or visible in the GCAS_Recovery component scope",
+      "minimal_edit": "Remove timeRangeInitial from the time_range assumption"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'Airspeed'.",
+      "cause": "Airspeed is not a direct port of GCAS_Recovery but is a field of outGCASR",
+      "minimal_edit": "Replace Airspeed with outGCASR.Airspeed in the initial_speed assumption"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the time_range assumption to remove references to timeRangeInitial and timeRangeFinal",
+    "Edit the initial_speed assumption to reference outGCASR.Airspeed instead of Airspeed",
+    "Ensure all remaining expressions use only visible identifiers from the component interface"
+  ]
+}

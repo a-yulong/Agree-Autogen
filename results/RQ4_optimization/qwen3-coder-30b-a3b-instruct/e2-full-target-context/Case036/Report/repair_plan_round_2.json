@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 17: Expression for guarantee statement is of type 'real' but must be of type 'bool'",
+      "cause": "guarantee expression evaluates to real instead of boolean",
+      "minimal_edit": "change '(Actual_Speed.val - prev(Actual_Speed.val)) < max_accel' to '(Actual_Speed.val - prev(Actual_Speed.val)) <= max_accel'"
+    },
+    {
+      "diagnostic": "line 17: The first and second arguments of the 'prev' function are of non-matching types 'RealTypeDef' and 'ErrorTypeDef'",
+      "cause": "type mismatch in prev function arguments",
+      "minimal_edit": "ensure that prev(Actual_Speed.val) refers to a valid real-valued expression with matching type"
+    },
+    {
+      "diagnostic": "line 17: left and right sides of binary expression '-' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "type mismatch in subtraction operation",
+      "minimal_edit": "correct the expression to ensure both operands are of compatible real type"
+    },
+    {
+      "diagnostic": "line 31: 'Actual' and 'Actual_Speed' have incompatible classifiers",
+      "cause": "port connection type mismatch",
+      "minimal_edit": "verify or correct the connection between THROT.Actual and Actual_Speed to ensure matching types"
+    },
+    {
+      "diagnostic": "line 33: The types of 'Target_Speed' and 'Target' do not match",
+      "cause": "port connection type mismatch",
+      "minimal_edit": "verify or correct the connection between Target_Speed and CNTRL.Target to ensure matching types"
+    },
+    {
+      "diagnostic": "line 38: 'State_Out' and 'State_Signal' have incompatible classifiers",
+      "cause": "port connection type mismatch",
+      "minimal_edit": "verify or correct the connection between SM.State_Out and State_Signal to ensure matching types"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Correct the guarantee expression on line 17 to ensure it evaluates to a boolean type by changing '<' to '<='",
+    "Verify and correct the connection on line 31 between THROT.Actual and Actual_Speed to ensure matching classifiers",
+    "Verify and correct the connection on line 33 between Target_Speed and CNTRL.Target to ensure matching classifiers",
+    "Verify and correct the connection on line 38 between SM.State_Out and State_Signal to ensure matching classifiers"
+  ]
+}

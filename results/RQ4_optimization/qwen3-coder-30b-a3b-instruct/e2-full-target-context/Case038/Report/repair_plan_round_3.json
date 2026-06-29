@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left and right sides of binary expression '*' are of type 'real' and 'Types::speed.speed_impl', but must be of the same type",
+      "cause": "Port type mismatch in arithmetic expression",
+      "minimal_edit": "Swap Target and Actual in the expression to match the correct order for subtraction"
+    },
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port type mismatch in arithmetic expression",
+      "minimal_edit": "Swap Target and Actual in the expression to match the correct order for subtraction"
+    },
+    {
+      "diagnostic": "right side of binary expression '*' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port type mismatch in arithmetic expression",
+      "minimal_edit": "Swap Target and Actual in the expression to match the correct order for subtraction"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port type mismatch in arithmetic expression",
+      "minimal_edit": "Swap Target and Actual in the expression to match the correct order for subtraction"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit the AGREE annex block to correct the expression order",
+    "Change the expression from 'Actuator_Input = 1.0 * (Actual - Target)' to 'Actuator_Input = 1.0 * (Target - Actual)'",
+    "Ensure all port references match the expected types for arithmetic operations"
+  ]
+}

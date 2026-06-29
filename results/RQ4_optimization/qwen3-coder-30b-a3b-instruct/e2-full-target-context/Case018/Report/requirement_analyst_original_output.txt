@@ -1,0 +1,50 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "text": "GCAS_Recovery component defines altitude variable and invokes gcasDynamics3 function for recursive computation",
+      "evidence": [
+        "AviateControlLevel::GCAS_Recovery.GCAS_Recovery_impl"
+      ]
+    },
+    {
+      "id": "R2",
+      "kind": "data_constraint",
+      "intent": "assume",
+      "text": "initial time timeRangeInitial and final time timeRangeFinal are within the range [0.0, 10.0]",
+      "evidence": [
+        "timeRangeInitial",
+        "timeRangeFinal"
+      ]
+    },
+    {
+      "id": "R3",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "text": "initial flight speed is 150.0 feet/second",
+      "evidence": [
+        "Airspeed"
+      ]
+    },
+    {
+      "id": "R4",
+      "kind": "timing_constraint",
+      "intent": "assume",
+      "text": "recovery time exceeds the threshold of 8.9 seconds",
+      "evidence": [
+        "outTime"
+      ]
+    },
+    {
+      "id": "R5",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "text": "altitude variable outAltitude is greater than 0.0 to prevent ground impact",
+      "evidence": [
+        "outAltitude"
+      ]
+    }
+  ]
+}

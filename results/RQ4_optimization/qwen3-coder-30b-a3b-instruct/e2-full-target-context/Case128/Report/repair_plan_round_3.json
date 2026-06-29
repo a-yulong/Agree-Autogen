@@ -1,0 +1,42 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 210: named thing must be an expression with a type",
+      "cause": "AGREE assumes/guarantees must reference valid identifiers or expressions",
+      "minimal_edit": "Replace acc_in_data_x with accelero_thread.acc_in_data_x"
+    },
+    {
+      "diagnostic": "line 211: named thing must be an expression with a type",
+      "cause": "AGREE assumes/guarantees must reference valid identifiers or expressions",
+      "minimal_edit": "Replace acc_in_data_y with accelero_thread.acc_in_data_y"
+    },
+    {
+      "diagnostic": "line 212: Couldn't resolve reference to 'acc_in_data_x'",
+      "cause": "acc_in_data_x is not visible in the component type scope",
+      "minimal_edit": "Replace acc_in_data_x with accelero_thread.acc_in_data_x"
+    },
+    {
+      "diagnostic": "line 212: Couldn't resolve reference to 'attitude_calculation_thread'",
+      "cause": "attitude_calculation_thread is not visible in the component type scope",
+      "minimal_edit": "Replace attitude_calculation_thread.acc_in_data_x with ACC_SUBMIT_PC1"
+    },
+    {
+      "diagnostic": "line 213: Couldn't resolve reference to 'acc_in_data_y'",
+      "cause": "acc_in_data_y is not visible in the component type scope",
+      "minimal_edit": "Replace acc_in_data_y with accelero_thread.acc_in_data_y"
+    },
+    {
+      "diagnostic": "line 213: Couldn't resolve reference to 'attitude_calculation_thread'",
+      "cause": "attitude_calculation_thread is not visible in the component type scope",
+      "minimal_edit": "Replace attitude_calculation_thread.acc_in_data_y with ACC_SUBMIT_PC2"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex from ATTITUDE to ATTITUDE.IMPL",
+    "Replace acc_in_data_x with accelero_thread.acc_in_data_x in the assume and guarantee statements",
+    "Replace acc_in_data_y with accelero_thread.acc_in_data_y in the assume and guarantee statements",
+    "Replace attitude_calculation_thread.acc_in_data_x with ACC_SUBMIT_PC1 in the guarantee statement",
+    "Replace attitude_calculation_thread.acc_in_data_y with ACC_SUBMIT_PC2 in the guarantee statement"
+  ]
+}

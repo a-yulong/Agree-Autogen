@@ -1,0 +1,22 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `assume "label": expression;` for input envelope assumptions in component type annexes when concrete bounds or visible relations are provided.
+- Place `guarantee "label": expression;` statements in component type annexes for output range guarantees with valid numeric expressions.
+- Use `assign output = expression;` in implementation annexes only for existing output features or declared auxiliary variables.
+- Declare constants and equations with appropriate types using `const name : type = value;` and `eq name : type = expression;`.
+Generic rules:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes are for assignments.
+- Ensure type consistency between declared types and expression results in AGREE.
+- Avoid encoding AADL properties as AGREE variables unless explicitly exposed as typed ports or constants.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` for assumptions and `guarantee "label": expression;` for guarantees.
+- Use `eq name : type = expression;` for equation declarations and `const name : type = value;` for constant declarations.
+- Use `assign output = expression;` only for output features or auxiliary variables in implementation scope.
+- Ensure all visible identifiers are properly scoped and typed in the AADL model.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope.
+- Do not encode AADL timing properties as AGREE expressions unless the model exposes explicit typed ports or constants.
+- Do not convert Boolean domain values into integers unless the port is an AGREE bool in scope.
+- Do not use `assign` for non-output features or undefined variables.
+</RAG_DIGEST>

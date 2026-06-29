@@ -1,0 +1,10 @@
+annex agree {**
+  assume "signal_flow_attitude": Forcing_Safe_Mode => sensored_attitude = sun_direction;
+  assume "signal_flow_orbit": Getting_Back_To_Normal_Mode => reference_torque = torque_command;
+  guarantee "route_attitude": sensored_attitude = sun_direction => reference_force = force_command;
+  guarantee "route_orbit": reference_torque = torque_command => telemetry = reference_torque;
+  guarantee "mode_transition_sm": Changing_mode_to_SM => Force_mode_to_SM;
+  guarantee "mode_transition_nm": Changing_mode_to_NM => Force_mode_to_NM;
+  assume "power_status_consistency": power_status_FSS and power_status_CSS and power_status_SPS and power_status_ES and power_status_MGM and power_status_GYR and power_status_STR and power_status_GPS and power_status_THU and power_status_RW and power_status_MGT;
+  guarantee "anomaly_handling": anomaly_detected => watchdog_event;
+**};

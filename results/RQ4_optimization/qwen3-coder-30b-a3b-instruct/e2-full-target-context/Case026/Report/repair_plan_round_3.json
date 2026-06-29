@@ -1,0 +1,65 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 56: Couldn't resolve reference to 'tempin1'.",
+      "cause": "Reference to 'tempin1' is not visible in temp_control component type scope",
+      "minimal_edit": "Replace 'voter.tempin1' with 'tempin1' in the assumption on line 56"
+    },
+    {
+      "diagnostic": "line 57: Couldn't resolve reference to 'tempin2'.",
+      "cause": "Reference to 'tempin2' is not visible in temp_control component type scope",
+      "minimal_edit": "Replace 'voter.tempin2' with 'tempin2' in the assumption on line 57"
+    },
+    {
+      "diagnostic": "line 58: Couldn't resolve reference to 'c0'.",
+      "cause": "Reference to 'c0' is not visible in temp_control component type scope",
+      "minimal_edit": "Remove or rewrite assumption on line 58 that references connection 'c0'"
+    },
+    {
+      "diagnostic": "line 59: Couldn't resolve reference to 'c1'.",
+      "cause": "Reference to 'c1' is not visible in temp_control component type scope",
+      "minimal_edit": "Remove or rewrite assumption on line 59 that references connection 'c1'"
+    },
+    {
+      "diagnostic": "line 60: Couldn't resolve reference to 'c2'.",
+      "cause": "Reference to 'c2' is not visible in temp_control component type scope",
+      "minimal_edit": "Remove or rewrite assumption on line 60 that references connection 'c2'"
+    },
+    {
+      "diagnostic": "line 61: Couldn't resolve reference to 'c3'.",
+      "cause": "Reference to 'c3' is not visible in temp_control component type scope",
+      "minimal_edit": "Remove or rewrite assumption on line 61 that references connection 'c3'"
+    },
+    {
+      "diagnostic": "line 86: Couldn't resolve reference to 'temp1'.",
+      "cause": "Reference to 'temp1' is not visible in voter component type scope",
+      "minimal_edit": "Replace 'temp1' with 'tempin1' in the assumption on line 86"
+    },
+    {
+      "diagnostic": "line 87: Couldn't resolve reference to 'temp2'.",
+      "cause": "Reference to 'temp2' is not visible in voter component type scope",
+      "minimal_edit": "Replace 'temp2' with 'tempin2' in the assumption on line 87"
+    },
+    {
+      "diagnostic": "line 93: Assume statements are allowed only in component types",
+      "cause": "Assume statements are placed in implementation annex instead of component type annex",
+      "minimal_edit": "Move the annex block from voter.impl to voter component type"
+    },
+    {
+      "diagnostic": "line 94: Assume statements are allowed only in component types",
+      "cause": "Assume statements are placed in implementation annex instead of component type annex",
+      "minimal_edit": "Move the annex block from voter.impl to voter component type"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Remove the annex block from voter.impl (lines 92-95)",
+    "Move the annex block from temp_control.i (lines 55-62) to temp_control component type",
+    "Replace 'voter.tempin1' with 'tempin1' in the assumption on line 56",
+    "Replace 'voter.tempin2' with 'tempin2' in the assumption on line 57",
+    "Remove assumptions referencing connections c0-c3 from temp_control component type",
+    "Move the annex block from voter.impl to voter component type",
+    "Replace 'temp1' with 'tempin1' in the assumption on line 86",
+    "Replace 'temp2' with 'tempin2' in the assumption on line 87"
+  ]
+}

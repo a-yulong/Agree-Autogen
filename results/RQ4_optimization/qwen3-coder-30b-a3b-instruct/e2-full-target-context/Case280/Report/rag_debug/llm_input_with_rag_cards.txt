@@ -1,0 +1,105 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place output range guarantees in component type scopes using visible feature names and concrete bounds.
+- Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic.
+Generic rules:
+- Assumptions and guarantees should reference valid component ports or visible variables in their scopes.
+- AGREE contracts must use logical operators and syntactically valid equation/assignment forms.
+- Avoid referencing AADL properties as AGREE variables unless explicitly exposed as typed ports or constants.
+- Ensure type consistency between helper declarations and expression results.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contracts.
+- Use `eq name : type = expression;` for stateful equations with initialized recurrence.
+Anti-patterns:
+- Do not reference implementation-only subcomponent ports in component type contracts.
+- Do not encode AADL timing properties as AGREE expressions without explicit typed exposure.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- MinePump::Int
+- MinePump::WaterLevelMonitoring
+- MinePump::MethaneMonitoring
+- MinePump::PumpCtrl
+- MinePump::WaterAlarm
+- MinePump::MinePump_Software
+- MinePump::CPU
+- MinePump::MinePump
+- MinePump::MinePump_Software.impl
+- MinePump::MinePump.impl
+- WaterLevelMonitoring_Thread
+- MethaneMonitoring_Thread
+- PumpCtrl_Thread
+- WaterAlarm_Thread
+- Software
+- Hardware
+- C1
+- C2
+- C3
+- WaterAlarm
+- MethaneLevel
+- WaterLevel
+- Int
+- WaterLevelMonitoring
+- MethaneMonitoring
+- PumpCtrl
+- MinePump_Software
+- MinePump_Software.impl
+- MinePump
+- MinePump.impl
+
+Target interface:
+Exact expression symbols: WaterAlarm
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+WaterAlarm | out | data | int | Int
+
+Raw requirement:
+The WaterLevelMonitoring component shall bound the WaterAlarm output at every evaluation step. The WaterAlarm value shall be greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "WaterAlarm >= 0 and WaterAlarm <= 100",
+      "kind": "output_guarantee",
+      "intent": "guarantee",
+      "evidence": [
+        "WaterAlarm"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "WaterAlarm is bounded at every evaluation step",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "WaterAlarm"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "When AGREE diagnostics report type mismatches or unresolved identifiers, trace the root cause to invalid helper declarations or references and either fix or remove the problematic clause.",
+    "If AGREE reports errors related to implementation-level references in component type annexes, move valid implementation bindings to the implementation annex or delete invalid guarantees."
+  ],
+  "generic_rules": [
+    "Use only visible AADL features or declared helpers in AGREE annexes to avoid '<error>' type mismatches.",
+    "Ensure AGREE scalar type declarations use int, real, or bool; avoid invalid type names like 'integer' or 'boolean'.",
+    "In implementation contracts, use assign only for existing output features or declared auxiliary variables; do not place guarantees in implementation scope.",
+    "For output dependency contracts, write guarantees relating visible outputs to visible inputs, avoiding implementation-only subcomponent paths."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks within component type or implementation annexes.",
+    "Generated AGREE code must not introduce package-qualified identifiers or types not present in the input AADL model.",
+    "AGREE equation and constant declarations must reference only visible identifiers or previously declared helpers in the same annex."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level subcomponent paths or output features in component type annexes unless they are valid in that scope.",
+    "Do not attempt to resolve type errors by adding new architecture; instead, fix or remove the invalid AGREE clause."
+  ],
+  "irrelevant_topics": [
+    "aadl_scope_notes",
+    "agree_syntax_notes"
+  ]
+}

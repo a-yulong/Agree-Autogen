@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Fix unresolved property references by ensuring all property definitions and constants are visible in the current AADL scope.",
+    "Resolve type errors in AGREE expressions by aligning helper declarations with the correct scalar types: int, real, or bool.",
+    "Address 'named thing must be an expression with a type' errors by tracing and correcting the first invalid identifier or helper on the same line."
+  ],
+  "generic_rules": [
+    "Only reference AADL features, constants, and properties that are explicitly declared or visible in the current scope.",
+    "Use AGREE scalar types (int, real, bool) consistently in const and eq declarations to avoid resolution errors.",
+    "Place AGREE contracts in valid annex scopes: component types for assumptions/guarantees, implementations for assignments.",
+    "Avoid introducing new package-qualified identifiers that are not present in the model's configured dependencies."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Guarantee expressions must evaluate to bool; use `eq` for boolean helper declarations.",
+    "Assignments in implementation scopes must reference existing output features or declared auxiliary variables."
+  ],
+  "anti_patterns": [
+    "Do not add new property definitions or constants that are not already present in the AADL model.",
+    "Do not reference identifiers or types that are unresolved or have mismatched types in AGREE expressions.",
+    "Do not place guarantee statements in implementation scope; use only assignments and bindings there."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about property associations not pointing to anything",
+    "AGREE validator diagnostics about property definitions not being resolved",
+    "AGREE validator diagnostics about unit literals not being resolved"
+  ]
+}

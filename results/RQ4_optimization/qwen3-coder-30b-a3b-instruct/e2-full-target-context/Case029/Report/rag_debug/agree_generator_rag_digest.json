@@ -1,0 +1,27 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations like `0.0 -> pre(t) + 0.1`",
+    "Place output assignments in implementation scope only when the left-hand side is an existing output feature or declared auxiliary variable",
+    "Generate guarantees for component behavior using AGREE logical operators such as `and`, `or`, `not(...)`, and implication `=>`"
+  ],
+  "generic_rules": [
+    "Assumptions and guarantees referring to component ports must be placed in valid component type scopes",
+    "Use `assume` and `guarantee` statements with descriptive labels and valid AGREE expressions",
+    "Ensure all visible identifiers are properly declared or referenced in AGREE annex blocks",
+    "Avoid placing guarantee statements in implementation scope; use only for output assignments"
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `eq name : type = expression;` for defining recursive variables with initial values and step sizes",
+    "Use `assign output = expression;` for mapping computed values to output ports in implementation scope",
+    "Use nested `if ... then ... else` for branching logic in AGREE contracts"
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope unless they are output assignments",
+    "Do not reference AADL property names like Period or Deadline as AGREE variables without explicit typed ports or constants"
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing properties",
+    "Component type vs implementation scope distinctions beyond annex placement",
+    "Validator diagnostics and repair patterns"
+  ]
+}

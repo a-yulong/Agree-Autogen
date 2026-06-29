@@ -1,0 +1,29 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 63: mismatched input ':' expecting 'in'",
+      "cause": "Invalid AGREE syntax for temporal quantification",
+      "minimal_edit": "Replace 'forall t:' with 'forall' in the temporal guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 63: no viable alternative at character '@'",
+      "cause": "Invalid AGREE temporal operator usage",
+      "minimal_edit": "Remove the '@t' temporal operator from the guarantee expression"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 82: Feature of the same name ('WaterAlarm') in component type",
+      "cause": "AGREE annex references component feature with same name",
+      "minimal_edit": "Remove the redundant guarantee in WaterAlarm annex that duplicates component type contract"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 82: mismatched input '>=' expecting 'in'",
+      "cause": "Invalid AGREE syntax in temporal quantification",
+      "minimal_edit": "Correct the temporal quantification syntax in WaterAlarm annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In PumpCtrl annex, change line 63 from 'forall t: WaterAlarm@t >= 0 and WaterAlarm@t <= 100' to 'forall WaterAlarm >= 0 and WaterAlarm <= 100'",
+    "In WaterAlarm annex, remove line 82 guarantee statement that duplicates the component type contract"
+  ]
+}

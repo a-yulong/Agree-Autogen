@@ -1,0 +1,67 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 98: Couldn't resolve reference to 'C1'.",
+      "cause": "C1 is a connection identifier, not a valid AGREE expression",
+      "minimal_edit": "Replace C1 with the correct port expression"
+    },
+    {
+      "diagnostic": "line 98: Couldn't resolve reference to 'accDataOut'.",
+      "cause": "accDataOut is a subcomponent port, not directly accessible in AGREE",
+      "minimal_edit": "Replace spg.accDataOut with the correct port expression"
+    },
+    {
+      "diagnostic": "line 98: Couldn't resolve reference to 'spg'.",
+      "cause": "spg is a subcomponent, not directly accessible in AGREE",
+      "minimal_edit": "Remove spg reference and use direct port expressions"
+    },
+    {
+      "diagnostic": "line 98: named thing must be an expression with a type",
+      "cause": "Invalid expression structure for AGREE",
+      "minimal_edit": "Rewrite as valid AGREE expression using port names"
+    },
+    {
+      "diagnostic": "line 98: right side of binary expression '=>' is of type 'int' but must be of type 'bool'",
+      "cause": "Invalid type in implication expression",
+      "minimal_edit": "Replace with valid boolean expression"
+    },
+    {
+      "diagnostic": "line 99: Couldn't resolve reference to 'C2'.",
+      "cause": "C2 is a connection identifier, not a valid AGREE expression",
+      "minimal_edit": "Replace C2 with the correct port expression"
+    },
+    {
+      "diagnostic": "line 99: Couldn't resolve reference to 'event_in'.",
+      "cause": "event_in is a subcomponent port, not directly accessible in AGREE",
+      "minimal_edit": "Replace spg.event_in with the correct port expression"
+    },
+    {
+      "diagnostic": "line 99: Couldn't resolve reference to 'spg'.",
+      "cause": "spg is a subcomponent, not directly accessible in AGREE",
+      "minimal_edit": "Remove spg reference and use direct port expressions"
+    },
+    {
+      "diagnostic": "line 99: left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Invalid expression structure for AGREE",
+      "minimal_edit": "Rewrite as valid AGREE expression using port names"
+    },
+    {
+      "diagnostic": "line 99: named thing must be an expression with a type",
+      "cause": "Invalid expression structure for AGREE",
+      "minimal_edit": "Rewrite as valid AGREE expression using port names"
+    },
+    {
+      "diagnostic": "line 99: right side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid type in implication expression",
+      "minimal_edit": "Replace with valid boolean expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace the entire annex block with valid AGREE expressions that reference only visible port names",
+    "For data routing: use 'accout = acc3_dataOutput.impl.C1' instead of 'C1 = spg.accDataOut => accout'",
+    "For control routing: use 'spg.event_in = acc_command_in' instead of 'C2 = acc_command_in => spg.event_in'",
+    "Remove all references to subcomponent names like 'spg' and connection names like 'C1', 'C2'",
+    "Ensure all expressions are valid AGREE expressions using only visible identifiers"
+  ]
+}

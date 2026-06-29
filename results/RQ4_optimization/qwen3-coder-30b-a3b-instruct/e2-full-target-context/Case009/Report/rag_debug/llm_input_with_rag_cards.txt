@@ -1,0 +1,174 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `assume "label": expression;` for input assumptions and `guarantee "label": expression;` for output guarantees in component type annexes.
+- Place AGREE contracts inside `annex agree {** ... **};` blocks within component type or implementation annexes as appropriate.
+- Generate `eq name : type = expression;` or `const name : type = value;` for named constants and equations in component type contracts.
+Generic rules:
+- Only generate AGREE clauses for visible identifiers and types found in the AADL model.
+- Use `assign output = expression;` in implementation annexes only for existing output features or declared auxiliary variables.
+- Avoid encoding AADL properties like timing or resource units as AGREE expressions unless explicitly typed in the model.
+- Do not generate range or equality checks for opaque Boolean or enumeration data unless numeric scalar representation is confirmed.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Assumptions and guarantees must be labeled with quoted strings.
+- Equations and constants are declared with `eq name : type = expression;` and `const name : type = value;`.
+Anti-patterns:
+- Do not assume that AADL property names like Deadline or Period are automatically available in AGREE scope.
+- Do not generate range checks for Boolean or opaque data unless numeric scalar representation is confirmed.
+- Do not place guarantee statements in implementation scope; use `assign` for output bindings only.
+- Do not generate clauses for identifiers not present in the visible symbol list or AADL model.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- aviation::Supervised_System
+- aviation::GeoFence_singleton
+- aviation::TCAS_singleton
+- aviation::GCAS_singleton
+- aviation::Supervisor
+- aviation::int
+- aviation::real
+- aviation::bool
+- aviation::Supervised_System.impl
+- aviation::GeoFence_singleton.impl
+- aviation::TCAS_singleton.impl
+- aviation::GCAS_singleton.impl
+- aviation::Supervisor.impl
+- gcas
+- tcas
+- geof
+- supervisor
+- gcas_ttr
+- tcas_ttr
+- geof_ttr
+- gcas_ttf
+- tcas_ttf
+- geof_ttf
+- ttf_to_top
+- ttr_to_top
+- p1_port
+- p2_port
+- p3_port
+- timeToFailure
+- timeToRecovery
+- p1
+- p2
+- p3
+- nearestIntruderAltitude
+- nearestIntruderGroundDistance
+- nearestIntruderLongitude
+- ownAltitude_in
+- ownHeading
+- ownVerticalVelocity
+- ownLatitude
+
+Target interface:
+Exact expression symbols: nearestIntruderAltitude, nearestIntruderGroundDistance, nearestIntruderLongitude, ownAltitude_in, ownHeading, ownVerticalVelocity, ownLatitude, ownLongitude, requiredVerticalVelocity, timeToRecovery, timeToFailure
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+nearestIntruderAltitude | in | data | opaque | int
+nearestIntruderGroundDistance | in | data | opaque | int
+nearestIntruderLongitude | in | data | opaque | int
+ownAltitude_in | in | data | opaque | int
+ownHeading | in | data | opaque | int
+ownVerticalVelocity | in | data | opaque | int
+ownLatitude | in | data | opaque | int
+ownLongitude | in | data | opaque | int
+requiredVerticalVelocity | out | data | opaque | int
+timeToRecovery | out | data | opaque | real
+timeToFailure | out | data | opaque | real
+
+Raw requirement:
+The environmental hypothesis specification for the TCAS_singleton component requires that the nearestIntruderAltitude parameter remains constant throughout the simulation. It further assumes that the following variables are greater than zero: nearestIntruderAltitude, ownAltitude_in, and nearestIntruderGroundDistance. Additionally, the geographical coordinate ranges for the own ship are constrained as follows: ownHeading must be between 0 and 360 degrees, ownLatitude must be between 0 and 90 degrees, and ownLongitude must be between -180 and +180 degrees.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "nearestIntruderAltitude is constant throughout the simulation",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "nearestIntruderAltitude"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "nearestIntruderAltitude > 0",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "nearestIntruderAltitude"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "ownAltitude_in > 0",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "ownAltitude_in"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "nearestIntruderGroundDistance > 0",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "nearestIntruderGroundDistance"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "0 <= ownHeading <= 360",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "ownHeading"
+      ]
+    },
+    {
+      "id": "R6",
+      "text": "0 <= ownLatitude <= 90",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "ownLatitude"
+      ]
+    },
+    {
+      "id": "R7",
+      "text": "-180 <= ownLongitude <= 180",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "ownLongitude"
+      ]
+    }
+  ]
+}

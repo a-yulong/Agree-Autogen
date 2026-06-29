@@ -1,0 +1,19 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `assume` for input timing constraints and `guarantee` for output execution time bounds in component type contracts.
+- Place `assign` statements in implementation annexes only for existing output features or declared auxiliary variables.
+- Generate `eq` declarations for range checks using visible numeric types and avoid Boolean-to-integer conversions.
+Generic rules:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Component type annexes are for assumptions, guarantees, constants, and equations; implementation annexes for assignments.
+- Use `assume` for input envelopes and `guarantee` for output ranges when bounds are specified.
+- Avoid encoding AADL properties directly as AGREE variables unless typed ports or constants are explicitly exposed.
+Syntax or pattern reminders:
+- Use `assume "label": expression;` and `guarantee "label": expression;` for contract statements.
+- Use `eq name : type = expression;` for helper declarations with proper type alignment.
+- Use `assign output = expression;` only for output features or declared auxiliary variables.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope; use `assign` for output bindings only.
+- Do not encode AADL timing properties like Compute_Execution_Time directly as AGREE expressions unless typed ports are available.
+- Do not convert Boolean or opaque data types into numeric comparisons without explicit scalar representation.
+</RAG_DIGEST>

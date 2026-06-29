@@ -1,0 +1,37 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'cpu_rm'.",
+      "cause": "AGREE expression references component instance 'cpu_rm' which is not a valid AGREE expression",
+      "minimal_edit": "Replace 'cpu_rm' with 'cpu_rm.p0' and 'cpu_rm.p1' respectively"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE expression references component instance 'cpu_rm' which is not a valid AGREE expression",
+      "minimal_edit": "Replace 'cpu_rm' with 'cpu_rm.p0' and 'cpu_rm.p1' respectively"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'mem'.",
+      "cause": "AGREE expression references component instance 'mem' which is not a valid AGREE expression",
+      "minimal_edit": "Replace 'mem' with 'mem.segment1' and 'mem.segment2' respectively"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE expression references component instance 'mem' which is not a valid AGREE expression",
+      "minimal_edit": "Replace 'mem' with 'mem.segment1' and 'mem.segment2' respectively"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE expression 'hello = hello' is not a valid assumption or guarantee",
+      "minimal_edit": "Replace 'hello = hello' with 'true'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'hello = cpu_rm' with 'hello = cpu_rm.p0' in the first assume statement",
+    "Replace 'hello = mem' with 'hello = mem.segment1' in the first assume statement",
+    "Replace 'hello = cpu_rm' with 'hello = cpu_rm.p1' in the second assume statement",
+    "Replace 'hello = mem' with 'hello = mem.segment2' in the second assume statement",
+    "Replace 'hello = hello' with 'true' in the guarantee statement"
+  ]
+}

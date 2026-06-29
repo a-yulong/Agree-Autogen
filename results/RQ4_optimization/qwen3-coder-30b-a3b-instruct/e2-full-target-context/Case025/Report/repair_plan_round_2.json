@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 56: Couldn't resolve reference to 'tempin1'.",
+      "cause": "AGREE annex is in component type scope but references component implementation port names",
+      "minimal_edit": "Replace 'voter.tempin1' with 'temp1' and 'voter.tempin2' with 'temp2' to reference visible inputs"
+    },
+    {
+      "diagnostic": "line 57: Couldn't resolve reference to 'tempin2'.",
+      "cause": "AGREE annex is in component type scope but references component implementation port names",
+      "minimal_edit": "Replace 'voter.tempin1' with 'temp1' and 'voter.tempin2' with 'temp2' to reference visible inputs"
+    },
+    {
+      "diagnostic": "line 58: Couldn't resolve reference to 'c0'.",
+      "cause": "AGREE annex is in component type scope but references implementation connection names",
+      "minimal_edit": "Remove or rewrite 'c0' reference to use only visible symbols"
+    },
+    {
+      "diagnostic": "line 59: Couldn't resolve reference to 'c1'.",
+      "cause": "AGREE annex is in component type scope but references implementation connection names",
+      "minimal_edit": "Remove or rewrite 'c1' reference to use only visible symbols"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from temp_control component type to temp_control.i implementation",
+    "Replace 'voter.tempin1' with 'temp1' and 'voter.tempin2' with 'temp2' in the assume statements",
+    "Remove or rewrite the guarantee statements that reference implementation-only identifiers 'c0' and 'c1'",
+    "Ensure all references in the AGREE annex use only visible symbols from the component type scope"
+  ]
+}

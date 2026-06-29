@@ -1,0 +1,25 @@
+{
+  "rag_rules": [
+    "Generate AGREE annex blocks within `annex agree {** ... **};` and place them in component type annexes for assumptions/guarantees, or implementation annexes for assignments.",
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` to encode signal flow relationships from requirement evidence."
+  ],
+  "generic_rules": [
+    "AGREE contracts must be scoped to the owning component and reference only visible identifiers from the AADL model.",
+    "Constants and equations in AGREE should be declared with `const name : type = value;` and `eq name : type = expression;`.",
+    "Assignments in AGREE are expressed as `assign output = expression;` and must be valid in the implementation scope.",
+    "Avoid encoding AADL properties like timing or unit tokens directly in AGREE expressions unless explicitly exposed as typed ports or constants."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE annex blocks are enclosed in `annex agree {** ... **};` and must be placed in component type or implementation annexes.",
+    "Use exact AADL component, port, and connection names as they appear in the model index for all identifiers in AGREE expressions."
+  ],
+  "anti_patterns": [
+    "Do not reference identifiers not present in the current component's visible scope, such as those from example models or assumed names.",
+    "Do not encode AADL timing or unit properties (e.g., ms, Hz) directly in AGREE expressions unless they are explicitly typed in the model."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and their mapping to AGREE variables",
+    "Model fusion and component insertion locations",
+    "Validator diagnostics and repair strategies"
+  ]
+}

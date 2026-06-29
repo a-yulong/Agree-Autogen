@@ -1,0 +1,50 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'cpu_rm'.",
+      "cause": "AGREE cannot resolve 'cpu_rm' as a valid expression in the context of the assume statement",
+      "minimal_edit": "Replace 'cpu_rm.p0' with 'cpu_rm.impl.P0' to reference the correct subcomponent"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'p0'.",
+      "cause": "AGREE cannot resolve 'p0' as a valid expression in the context of the assume statement",
+      "minimal_edit": "Replace 'cpu_rm.p0' with 'cpu_rm.impl.P0' to reference the correct subcomponent"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE requires a valid expression type for the assume statement, but 'cpu_rm.p0' is not resolvable",
+      "minimal_edit": "Replace 'cpu_rm.p0' with 'cpu_rm.impl.P0' to reference the correct subcomponent"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'mem'.",
+      "cause": "AGREE cannot resolve 'mem' as a valid expression in the context of the assume statement",
+      "minimal_edit": "Replace 'mem.segment1' with 'mem.sdram.segment1' to reference the correct subcomponent"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'segment1'.",
+      "cause": "AGREE cannot resolve 'segment1' as a valid expression in the context of the assume statement",
+      "minimal_edit": "Replace 'mem.segment1' with 'mem.sdram.segment1' to reference the correct subcomponent"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE requires a valid expression type for the assume statement, but 'mem.segment1' is not resolvable",
+      "minimal_edit": "Replace 'mem.segment1' with 'mem.sdram.segment1' to reference the correct subcomponent"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'impl'.",
+      "cause": "AGREE cannot resolve 'impl' as a valid expression in the context of the guarantee statement",
+      "minimal_edit": "Replace 'hello.impl' with 'hello' to reference the correct component"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE requires a valid expression type for the guarantee statement, but 'hello.impl' is not resolvable",
+      "minimal_edit": "Replace 'hello.impl' with 'hello' to reference the correct component"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'node_a = cpu_rm.p0' with 'node_a = cpu_rm.impl.P0' in the first assume statement",
+    "Replace 'node_a = mem.segment1' with 'node_a = mem.sdram.segment1' in the second assume statement",
+    "Replace 'hello = hello.impl' with 'hello = hello' in the guarantee statement"
+  ]
+}

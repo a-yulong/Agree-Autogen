@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations and nested if-then-else for branching logic.",
+    "Place assumptions and guarantees in valid component type or implementation scopes based on the target component."
+  ],
+  "generic_rules": [
+    "Use AGREE logical operators (and, or, not, =>) for expressing constraints and guarantees.",
+    "Declare auxiliary variables with `eq` and constants with `const` using valid AGREE scalar types (int, real, bool).",
+    "In implementation contracts, use `assign` only for output features or declared auxiliary variables; avoid placing guarantees in implementation scope.",
+    "For component type contracts, include input assumptions and output guarantees only when concrete bounds or visible relations are provided."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for structured contract statements.",
+    "Use `eq name : type = expression;` for defining auxiliary variables and `const name : type = value;` for constants.",
+    "Use `assign output = expression;` for output assignments in implementation scope."
+  ],
+  "anti_patterns": [
+    "Do not reference AADL properties like Compute_Execution_Time or unit tokens (ms, Hz, Bytes) as AGREE variables.",
+    "Do not use invalid AGREE scalar types such as 'integer' or 'boolean'; use 'int', 'real', or 'bool' instead."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing properties",
+    "Model traceability and requirement semantics",
+    "Validator-driven repair patterns"
+  ]
+}

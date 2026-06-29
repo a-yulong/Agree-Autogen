@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 13: Couldn't resolve reference to 'e'.",
+      "cause": "Variable 'e' is not declared in the AGREE annex scope",
+      "minimal_edit": "Declare 'e' as a constant in the AGREE annex using the expression 'Target - Actual'"
+    },
+    {
+      "diagnostic": "line 14: Couldn't resolve reference to 'e_dot'.",
+      "cause": "Variable 'e_dot' is not declared in the AGREE annex scope",
+      "minimal_edit": "Remove 'e_dot' from the guarantee expression or declare it as a constant"
+    },
+    {
+      "diagnostic": "line 14: Couldn't resolve reference to 'e_int'.",
+      "cause": "Variable 'e_int' is not declared in the AGREE annex scope",
+      "minimal_edit": "Remove 'e_int' from the guarantee expression or declare it as a constant"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add a constant declaration for 'e' in the AGREE annex: 'const e : real = Target - Actual;'",
+    "Remove 'e_dot' and 'e_int' from the guarantee expression",
+    "Ensure the guarantee statement uses only declared constants and visible port names"
+  ]
+}

@@ -1,0 +1,62 @@
+stage=model_analyst
+attempt=2
+exception_type=LLMCallError
+exception=Timed out while reading LLM provider response chunk: The read operation timed out
+
+status_code=200
+headers={
+  "Date": "Sat, 13 Jun 2026 15:11:16 GMT",
+  "Content-Type": "application/json",
+  "Transfer-Encoding": "chunked",
+  "Connection": "close",
+  "Access-Control-Allow-Origin": "*",
+  "X-Generation-Id": "gen-1781363475-SMuu6HkGZGiuan1mqhZn",
+  "access-control-expose-headers": "X-Generation-Id,cf-ray",
+  "Permissions-Policy": "payment=(self \"https://checkout.stripe.com\" \"https://connect-js.stripe.com\" \"https://js.stripe.com\" \"https://*.js.stripe.com\" \"https://hooks.stripe.com\")",
+  "Referrer-Policy": "no-referrer, strict-origin-when-cross-origin",
+  "X-Content-Type-Options": "nosniff",
+  "Server": "cloudflare",
+  "CF-RAY": "a0b206d5886ef8c8-SIN"
+}
+
+[RAW_RESPONSE_PREVIEW]
+
+
+[TRACEBACK]
+Traceback (most recent call last):
+  File "C:\Users\25780\Desktop\py_item\DeepSeek\Agree-Autogen_v2.0\src\agree_autogen\refactor\agents.py", line 361, in _read_response_with_deadline
+    chunk = response.read(65536)
+  File "C:\Python314\Lib\http\client.py", line 473, in read
+    return self._read_chunked(amt)
+           ~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Python314\Lib\http\client.py", line 597, in _read_chunked
+    while (chunk_left := self._get_chunk_left()) is not None:
+                         ~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Python314\Lib\http\client.py", line 579, in _get_chunk_left
+    chunk_left = self._read_next_chunk_size()
+  File "C:\Python314\Lib\http\client.py", line 539, in _read_next_chunk_size
+    line = self.fp.readline(_MAXLINE + 1)
+  File "C:\Python314\Lib\socket.py", line 725, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Python314\Lib\ssl.py", line 1304, in recv_into
+    return self.read(nbytes, buffer)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\ssl.py", line 1138, in read
+    return self._sslobj.read(len, buffer)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\25780\Desktop\py_item\DeepSeek\Agree-Autogen_v2.0\src\agree_autogen\refactor\agents.py", line 141, in call
+    payload = self._direct_chat_completion(request_kwargs)
+  File "C:\Users\25780\Desktop\py_item\DeepSeek\Agree-Autogen_v2.0\src\agree_autogen\refactor\agents.py", line 201, in _direct_chat_completion
+    response_body = self._read_response_with_deadline(response, timeout, status_code, response_headers)
+  File "C:\Users\25780\Desktop\py_item\DeepSeek\Agree-Autogen_v2.0\src\agree_autogen\refactor\agents.py", line 377, in _read_response_with_deadline
+    raise LLMCallError(
+    ...<4 lines>...
+    ) from exc
+agree_autogen.refactor.agents.LLMCallError: Timed out while reading LLM provider response chunk: The read operation timed out
+

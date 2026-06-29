@@ -1,0 +1,28 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 33: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "THROT.Actual is not a visible port; AGREE annex references Actual_Speed.val but AADL connection uses THROT.Actual which has incompatible type with Actual_Speed.",
+      "minimal_edit": "Remove the AGREE annex block entirely and re-declare it under Car.Car_Impl with valid visible port references only."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 35: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "CNTRL.Target port type does not match Target_Speed's type; AGREE annex assumes Target_Speed.val but connection binds to subcomponent port with incompatible type.",
+      "minimal_edit": "Remove the AGREE annex block entirely and re-declare it under Car.Car_Impl with valid visible port references only."
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 40: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "SM.State_Out is not a visible port; AGREE annex references const_tar_speed as a constant but it is not derived from any visible input or state.",
+      "minimal_edit": "Remove the AGREE annex block entirely and re-declare it under Car.Car_Impl with valid visible port references only."
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Delete the existing annex agree block from Car (component type) because it references subcomponent ports and const declarations not visible at component type level.",
+    "Create a new annex agree block in Car.Car_Impl (implementation) with only visible ports: Target_Speed, Actual_Speed, Target_Tire_Pitch, Actual_Tire_Pitch, State_Signal.",
+    "Rewrite the assume and guarantee clauses to use only visible ports and avoid const declarations of boolean state unless derived from visible inputs.",
+    "Replace 'const const_tar_speed: bool = true;' with a proper assumption based on visible input or remove it if not derivable from visible signals.",
+    "Rewrite 'guarantee \"acceleration_constraint\": const_tar_speed => (Actual_Speed.val - pre(Actual_Speed.val)) < max_accel;' to use a visible max_accel constant or remove if not defined in visible scope.",
+    "Ensure all references in the new annex use only the exact visible identifiers: Target_Speed, Actual_Speed, Target_Tire_Pitch, Actual_Tire_Pitch, State_Signal."
+  ]
+}

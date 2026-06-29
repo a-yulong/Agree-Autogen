@@ -1,0 +1,149 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `assume` and `guarantee` statements with descriptive labels for requirement-based contracts.
+- Place component type contracts in valid component type scopes, avoiding implementation-specific subcomponent references.
+Generic rules:
+- Stateful equations should use initialized temporal recurrence with `pre(t)` and `step`.
+- Output dependency guarantees should relate visible inputs to visible outputs.
+- Use AGREE logical operators (`and`, `or`, `not`, `=>`) for complex expressions.
+- Ensure type consistency between declarations and expressions in AGREE annexes.
+Syntax or pattern reminders:
+- Use `eq name : type = expression;` for equation declarations and `const name : type = value;` for constants.
+- Branching logic in AGREE should use nested `if ... then ... else` expressions.
+- Avoid referencing AADL property names like Period or Deadline directly in AGREE expressions.
+Anti-patterns:
+- Do not reference implementation-only subcomponent ports in component type contracts.
+- Do not encode AADL timing properties as AGREE expressions unless explicit typed ports or constants are available.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- AviateControlLevel::autopilot
+- AviateControlLevel::GCAS_Monitor
+- AviateControlLevel::ACAS_Monitor
+- AviateControlLevel::SA_Monitor
+- AviateControlLevel::GF_Monitor
+- AviateControlLevel::Wx_Monitor
+- AviateControlLevel::FLS_Monitor
+- AviateControlLevel::Aviate_Decider
+- AviateControlLevel::Pilot_Command
+- AviateControlLevel::GCAS_Recovery
+- AviateControlLevel::ACAS_recovery
+- AviateControlLevel::Switch
+- AviateControlLevel::Aviate_Control_Level
+- AviateControlLevel::autopilot.autopilot_impl
+- AviateControlLevel::GCAS_Monitor.GCAS_Monitor_impl
+- AviateControlLevel::ACAS_Monitor.ACAS_Monitor_impl
+- AviateControlLevel::SA_Monitor.SA_Monitor_impl
+- AviateControlLevel::GF_Monitor.GF_Monitor_impl
+- AviateControlLevel::Wx_Monitor.Wx_Monitor_impl
+- AviateControlLevel::FLS_Monitor.FLS_Monitor_impl
+- AviateControlLevel::Aviate_Decider.Aviate_Decider_impl
+- AviateControlLevel::Pilot_Command.Pilot_Command_impl
+- AviateControlLevel::GCAS_Recovery.GCAS_Recovery_impl
+- AviateControlLevel::ACAS_recovery.ACAS_recovery_impl
+- AviateControlLevel::Switch.Switch_impl
+- AviateControlLevel::Aviate_Control_Level.Aviate_Control_Level_impl
+- gcasm
+- acasm
+- sam
+- gfm
+- wxm
+- flsm
+- pc
+- dmc
+- swt
+- VV
+- DeltaHeading
+- Airspeed
+- acl_to_pc
+- gcasm_to_decider
+
+Target interface:
+Exact expression symbols: latitude, longitude, distance, outImpact, outRecovery, acasRequested
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+latitude | in | data | real | Base_Types::float
+longitude | in | data | real | Base_Types::float
+distance | in | data | real | Base_types::float
+outImpact | out | data | real | Base_Types::float
+outRecovery | out | data | real | Base_Types::float
+acasRequested | out | data | bool | Base_Types::Boolean
+
+Raw requirement:
+The ACAS_Monitor component shall set the system collision time constant to 8.0 and the recovery time constant to 5.0. When the value of the distance input port is less than or equal to 10.0 feet, the ACAS_Monitor component shall ensure that the acasRequested output port is true. During simulation, the value of the outImpact output port shall transition from 0.0 to the constant collision time constant value of 8.0, and the value of the outRecovery output port shall transition from 0.0 to the constant recovery time constant value of 5.0.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "ACAS_Monitor component shall set the system collision time constant to 8.0",
+      "kind": "other",
+      "intent": "describe",
+      "evidence": [
+        "AviateControlLevel::ACAS_Monitor.ACAS_Monitor_impl"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "ACAS_Monitor component shall set the recovery time constant to 5.0",
+      "kind": "other",
+      "intent": "describe",
+      "evidence": [
+        "AviateControlLevel::ACAS_Monitor.ACAS_Monitor_impl"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "When distance <= 10.0 feet, acasRequested output port shall be true",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "distance",
+        "acasRequested"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "outImpact output port shall transition from 0.0 to 8.0",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "outImpact"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "outRecovery output port shall transition from 0.0 to 5.0",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "outRecovery"
+      ]
+    }
+  ]
+}

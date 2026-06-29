@@ -1,0 +1,24 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Use only visible identifiers and types in AGREE annexes to prevent resolution errors.
+- Ensure type declarations in AGREE match AADL scalar types (int, real, bool) to avoid resolution failures.
+- Write guarantees that relate visible outputs to visible inputs, avoiding implementation-level dependencies in component type contracts.
+- Place assumptions and guarantees in component type scopes when they refer to component ports.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Use `eq` for helper declarations and `const` for named constants in AGREE.
+- Ensure that all identifiers used in AGREE expressions are declared or visible in the same annex or AADL scope.
+- Avoid referencing package-qualified identifiers unless they are explicitly imported via `with` clauses.
+Anti-patterns:
+- Do not introduce identifiers or types that are not visible in the current AADL scope or declared in the annex.
+- Do not place implementation-level bindings in component type annexes; use implementation scopes instead.
+- Do not reference subcomponent ports directly in component type contracts unless they are represented through valid variables or outputs.
+Irrelevant retrieved material:
+- aadl_scope_notes
+- agree_syntax_notes
+- type scope range assumption and guarantee
+- type scope deterministic dependency guarantee
+- Named Thing Has No Type
+- Assumed Type vs Actual Type
+- AGREE Scalar Type Names
+</RAG_DIGEST>

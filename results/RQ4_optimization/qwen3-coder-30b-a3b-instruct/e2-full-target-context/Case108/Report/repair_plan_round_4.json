@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 29: Couldn't resolve reference to 'acc1DataOut'.",
+      "cause": "Reference to non-existent port 'acc1DataOut' in spg subcomponent",
+      "minimal_edit": "Remove the data_routing assumption"
+    },
+    {
+      "diagnostic": "line 29: Couldn't resolve reference to 'spg'.",
+      "cause": "Reference to non-existent subcomponent 'spg'",
+      "minimal_edit": "Remove the data_routing assumption"
+    },
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'event_in'.",
+      "cause": "Reference to non-existent port 'event_in' in spg subcomponent",
+      "minimal_edit": "Remove the control_routing assumption"
+    },
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'spg'.",
+      "cause": "Reference to non-existent subcomponent 'spg'",
+      "minimal_edit": "Remove the control_routing assumption"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Remove the entire annex agree block from acc1_dataOutput component type",
+    "Move the data routing and control routing assumptions to the implementation annex of acc1_dataOutput.impl",
+    "Replace the assumptions with valid AGREE assignments using the existing connections C1 and C2"
+  ]
+}

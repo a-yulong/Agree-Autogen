@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 19: Couldn't resolve reference to 'abs_val'.",
+      "cause": "abs_val is not a recognized AGREE function; should use abs",
+      "minimal_edit": "Replace 'abs_val' with 'abs'"
+    },
+    {
+      "diagnostic": "line 19: left and right sides of binary expression '<' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Expression contains unresolved type '<error>' due to abs_val error",
+      "minimal_edit": "Replace 'abs_val' with 'abs' to fix type resolution"
+    },
+    {
+      "diagnostic": "line 19: left side of binary expression '<' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Expression contains unresolved type '<error>' due to abs_val error",
+      "minimal_edit": "Replace 'abs_val' with 'abs' to fix type resolution"
+    },
+    {
+      "diagnostic": "line 33: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "Connection port name mismatch in implementation",
+      "minimal_edit": "Change 'THROT.Actual' to 'THROT.Actual_Speed' in connection AcSpeedToTop"
+    },
+    {
+      "diagnostic": "line 35: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "Connection port name mismatch in implementation",
+      "minimal_edit": "Change 'CNTRL.Target' to 'CNTRL.Target_Speed' in connection TgSpeedToCntrl"
+    },
+    {
+      "diagnostic": "line 40: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "Connection port name mismatch in implementation",
+      "minimal_edit": "Change 'SM.State_Out' to 'SM.State_Signal' in connection SSToSM"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "In the AGREE annex, replace 'abs_val' with 'abs' on line 19",
+    "In the system implementation, change 'THROT.Actual' to 'THROT.Actual_Speed' in the AcSpeedToTop connection on line 33",
+    "In the system implementation, change 'CNTRL.Target' to 'CNTRL.Target_Speed' in the TgSpeedToCntrl connection on line 35",
+    "In the system implementation, change 'SM.State_Out' to 'SM.State_Signal' in the SSToSM connection on line 40"
+  ]
+}

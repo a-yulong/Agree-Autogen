@@ -1,0 +1,51 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'acc2DataOut'.",
+      "cause": "Reference to non-existent port 'acc2DataOut' in subcomponent 'spg'",
+      "minimal_edit": "Replace 'spg.acc2DataOut' with 'acc2out' (the output port of the component)"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'spg'.",
+      "cause": "Reference to non-existent subcomponent 'spg' in component implementation",
+      "minimal_edit": "Remove 'spg.' prefix from 'spg.acc2DataOut' and 'spg.event_in'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved reference 'spg.acc2DataOut' resulting in '<error>' type",
+      "minimal_edit": "Replace 'spg.acc2DataOut' with 'acc2out' to ensure type consistency"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Expression 'spg.acc2DataOut' is not a valid expression due to unresolved reference",
+      "minimal_edit": "Replace 'spg.acc2DataOut' with 'acc2out' to make it a valid expression"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'event_in'.",
+      "cause": "Reference to non-existent port 'event_in' in subcomponent 'spg'",
+      "minimal_edit": "Replace 'spg.event_in' with 'acc2_command_in' (the input port of the component)"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'spg'.",
+      "cause": "Reference to non-existent subcomponent 'spg' in component implementation",
+      "minimal_edit": "Remove 'spg.' prefix from 'spg.event_in'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'int', but must be of the same type",
+      "cause": "Type mismatch due to unresolved reference 'spg.event_in' resulting in '<error>' type",
+      "minimal_edit": "Replace 'spg.event_in' with 'acc2_command_in' to ensure type consistency"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Expression 'spg.event_in' is not a valid expression due to unresolved reference",
+      "minimal_edit": "Replace 'spg.event_in' with 'acc2_command_in' to make it a valid expression"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove 'spg.' prefix from 'spg.acc2DataOut' in the first guarantee",
+    "Replace 'spg.acc2DataOut' with 'acc2out' in the first guarantee",
+    "Remove 'spg.' prefix from 'spg.event_in' in the second guarantee",
+    "Replace 'spg.event_in' with 'acc2_command_in' in the second guarantee"
+  ]
+}

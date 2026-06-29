@@ -1,0 +1,9 @@
+annex agree {**
+  assume "engine_running_true": engine_running = true;
+  guarantee "door_handler_behavior": swivel = (engine_running and closed and latched and locked);
+  guarantee "de_arrest_logic": de_arrest = (engine_running and not closed);
+  guarantee "lock_logic": lock = (engine_running and not locked);
+  guarantee "door_locked_logic": door_locked = (engine_running and locked);
+  guarantee "warning_info_logic": warning_info = (engine_running and (warn_diff_pres or warn_slide));
+  guarantee "ecam_info_logic": ecam_info = (engine_running and emergency_evacuation);
+**};

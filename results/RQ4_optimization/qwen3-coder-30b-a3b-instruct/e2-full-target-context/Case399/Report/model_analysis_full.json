@@ -1,0 +1,573 @@
+{
+  "component_types": [
+    {
+      "name": "Test::BA::Backend_BA_V3::Alpha_Type",
+      "kind": "data"
+    },
+    {
+      "name": "Test::BA::Backend_BA_V3::One_Dimension_Array",
+      "kind": "data"
+    },
+    {
+      "name": "Test::BA::Backend_BA_V3::A_Struct",
+      "kind": "data"
+    },
+    {
+      "name": "Test::BA::Backend_BA_V3::Compute_Spg",
+      "kind": "subprogram"
+    },
+    {
+      "name": "Test::BA::Backend_BA_V3::Print_Thread_Begin_Execution",
+      "kind": "subprogram"
+    },
+    {
+      "name": "Test::BA::Backend_BA_V3::Print_Spg",
+      "kind": "subprogram"
+    },
+    {
+      "name": "Test::BA::Backend_BA_V3::Computation_Th",
+      "kind": "thread"
+    },
+    {
+      "name": "Test::BA::Backend_BA_V3::Producer_Th",
+      "kind": "thread"
+    },
+    {
+      "name": "Test::BA::Backend_BA_V3::Consumer_Th",
+      "kind": "thread"
+    },
+    {
+      "name": "Test::BA::Backend_BA_V3::the_processor",
+      "kind": "processor"
+    },
+    {
+      "name": "Test::BA::Backend_BA_V3::A",
+      "kind": "process"
+    },
+    {
+      "name": "Test::BA::Backend_BA_V3::B",
+      "kind": "process"
+    },
+    {
+      "name": "Test::BA::Backend_BA_V3::PC_Simple",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Test::BA::Backend_BA_V3::A_Struct.impl",
+      "kind": "data",
+      "type_name": "Test::BA::Backend_BA_V3::A_Struct"
+    },
+    {
+      "name": "Test::BA::Backend_BA_V3::A.Impl",
+      "kind": "process",
+      "type_name": "Test::BA::Backend_BA_V3::A"
+    },
+    {
+      "name": "Test::BA::Backend_BA_V3::B.Impl",
+      "kind": "process",
+      "type_name": "Test::BA::Backend_BA_V3::B"
+    },
+    {
+      "name": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "kind": "system",
+      "type_name": "Test::BA::Backend_BA_V3::PC_Simple"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "Test::BA::Backend_BA_V3::A_Struct.impl",
+      "name": "All_elems",
+      "category": "data",
+      "classifier": "Test::BA::Backend_BA_V3::One_Dimension_Array"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::A_Struct.impl",
+      "name": "elem",
+      "category": "data",
+      "classifier": "Base_Types::Integer"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::A.Impl",
+      "name": "Computation",
+      "category": "thread",
+      "classifier": "Test::BA::Backend_BA_V3::Computation_Th"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::A.Impl",
+      "name": "Producer",
+      "category": "thread",
+      "classifier": "Test::BA::Backend_BA_V3::Producer_Th"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::B.Impl",
+      "name": "Consumer",
+      "category": "thread",
+      "classifier": "Test::BA::Backend_BA_V3::Consumer_Th"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "name": "pr_A",
+      "category": "process",
+      "classifier": "Test::BA::Backend_BA_V3::A.Impl"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "name": "pr_B",
+      "category": "process",
+      "classifier": "Test::BA::Backend_BA_V3::B.Impl"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "name": "Device_A",
+      "category": "device",
+      "classifier": "Native_Sockets::Native_Sockets.pohi_c"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "name": "Device_B",
+      "category": "device",
+      "classifier": "Native_Sockets::Native_Sockets.pohi_c"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "name": "CPU_A",
+      "category": "processor",
+      "classifier": "Test::BA::Backend_BA_V3::the_processor"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "name": "CPU_B",
+      "category": "processor",
+      "classifier": "Test::BA::Backend_BA_V3::the_processor"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "name": "the_bus",
+      "category": "bus",
+      "classifier": "Buses::Ethernet::Ethernet.impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Test::BA::Backend_BA_V3::Compute_Spg",
+      "name": "A_Data_Out",
+      "direction": "out",
+      "category": "parameter",
+      "type": "Test::BA::Backend_BA_V3::Alpha_Type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Print_Spg",
+      "name": "A_Data_In",
+      "direction": "in",
+      "category": "parameter",
+      "type": "Test::BA::Backend_BA_V3::A_Struct.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Computation_Th",
+      "name": "Data_Out",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Producer_Th",
+      "name": "Data_In",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Producer_Th",
+      "name": "Data_Source1",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Test::BA::Backend_BA_V3::A_Struct.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Producer_Th",
+      "name": "Data_Source2",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Test::BA::Backend_BA_V3::A_Struct.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Producer_Th",
+      "name": "Pr_Index",
+      "direction": "out",
+      "category": "event data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Consumer_Th",
+      "name": "Data_Sink1",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Test::BA::Backend_BA_V3::A_Struct.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Consumer_Th",
+      "name": "Data_Sink2",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Test::BA::Backend_BA_V3::A_Struct.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Consumer_Th",
+      "name": "Cr_Index",
+      "direction": "in",
+      "category": "event data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::A",
+      "name": "Alpha1",
+      "direction": "out",
+      "category": "data port",
+      "type": "Test::BA::Backend_BA_V3::A_Struct.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::A",
+      "name": "Alpha2",
+      "direction": "out",
+      "category": "data port",
+      "type": "Test::BA::Backend_BA_V3::A_Struct.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::A",
+      "name": "Alpha3",
+      "direction": "out",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::B",
+      "name": "Beta1",
+      "direction": "in",
+      "category": "data port",
+      "type": "Test::BA::Backend_BA_V3::A_Struct.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::B",
+      "name": "Beta2",
+      "direction": "in",
+      "category": "data port",
+      "type": "Test::BA::Backend_BA_V3::A_Struct.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::B",
+      "name": "Beta3",
+      "direction": "in",
+      "category": "data port",
+      "type": "Base_Types::Integer",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "Test::BA::Backend_BA_V3::A.Impl",
+      "name": "Z3",
+      "kind": "port",
+      "source": "Test::BA::Backend_BA_V3::Producer_Th.Data_Source1",
+      "destination": "Test::BA::Backend_BA_V3::A.Alpha1"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::A.Impl",
+      "name": "Z5",
+      "kind": "port",
+      "source": "Test::BA::Backend_BA_V3::Producer_Th.Data_Source2",
+      "destination": "Test::BA::Backend_BA_V3::A.Alpha2"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::A.Impl",
+      "name": "Z9",
+      "kind": "port",
+      "source": "Test::BA::Backend_BA_V3::Producer_Th.Pr_Index",
+      "destination": "Test::BA::Backend_BA_V3::A.Alpha3"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::A.Impl",
+      "name": "Z12",
+      "kind": "port",
+      "source": "Test::BA::Backend_BA_V3::Computation_Th.Data_Out",
+      "destination": "Test::BA::Backend_BA_V3::Producer_Th.Data_In"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::B.Impl",
+      "name": "Z4",
+      "kind": "port",
+      "source": "Test::BA::Backend_BA_V3::A.Alpha1",
+      "destination": "Test::BA::Backend_BA_V3::Consumer_Th.Data_Sink1"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::B.Impl",
+      "name": "Z7",
+      "kind": "port",
+      "source": "Test::BA::Backend_BA_V3::A.Alpha2",
+      "destination": "Test::BA::Backend_BA_V3::Consumer_Th.Data_Sink2"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::B.Impl",
+      "name": "Z10",
+      "kind": "port",
+      "source": "Test::BA::Backend_BA_V3::A.Alpha3",
+      "destination": "Test::BA::Backend_BA_V3::Consumer_Th.Cr_Index"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "name": "Z1",
+      "kind": "bus access",
+      "source": "Test::BA::Backend_BA_V3::Buses::Ethernet::Ethernet.impl",
+      "destination": "Test::BA::Backend_BA_V3::Native_Sockets::Native_Sockets.pohi_c.Eth"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "name": "Z2",
+      "kind": "bus access",
+      "source": "Test::BA::Backend_BA_V3::Buses::Ethernet::Ethernet.impl",
+      "destination": "Test::BA::Backend_BA_V3::Native_Sockets::Native_Sockets.pohi_c.Eth"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "name": "Z6",
+      "kind": "port",
+      "source": "Test::BA::Backend_BA_V3::A.Alpha1",
+      "destination": "Test::BA::Backend_BA_V3::B.Beta1"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "name": "Z8",
+      "kind": "port",
+      "source": "Test::BA::Backend_BA_V3::A.Alpha2",
+      "destination": "Test::BA::Backend_BA_V3::B.Beta2"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "name": "Z11",
+      "kind": "port",
+      "source": "Test::BA::Backend_BA_V3::A.Alpha3",
+      "destination": "Test::BA::Backend_BA_V3::B.Beta3"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Test::BA::Backend_BA_V3::Compute_Spg",
+      "owner_kind": "subprogram",
+      "name": "Source_Name",
+      "value": "\"compute_spg\"",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Compute_Spg",
+      "owner_kind": "subprogram",
+      "name": "Source_Text",
+      "value": "(\"producer_consumer.c\")",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Print_Thread_Begin_Execution",
+      "owner_kind": "subprogram",
+      "name": "Source_Name",
+      "value": "\"print_thread_begin_execution\"",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Print_Thread_Begin_Execution",
+      "owner_kind": "subprogram",
+      "name": "Source_Text",
+      "value": "(\"producer_consumer.c\")",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Print_Spg",
+      "owner_kind": "subprogram",
+      "name": "Source_Name",
+      "value": "\"print_spg\"",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Print_Spg",
+      "owner_kind": "subprogram",
+      "name": "Source_Text",
+      "value": "(\"producer_consumer.c\")",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Computation_Th",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Computation_Th",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "500 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Computation_Th",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "1 ms .. 5 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Computation_Th",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Producer_Th",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Periodic",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Producer_Th",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "1 ms .. 10 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Producer_Th",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "1",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Producer_Th",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "500 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Consumer_Th",
+      "owner_kind": "thread",
+      "name": "Dispatch_Protocol",
+      "value": "Sporadic",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Consumer_Th",
+      "owner_kind": "thread",
+      "name": "Compute_Execution_Time",
+      "value": "1 ms .. 20 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Consumer_Th",
+      "owner_kind": "thread",
+      "name": "Priority",
+      "value": "2",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::Consumer_Th",
+      "owner_kind": "thread",
+      "name": "Period",
+      "value": "10 ms",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::the_processor",
+      "owner_kind": "processor",
+      "name": "Deployment::Execution_Platform",
+      "value": "Native",
+      "applies_to": ""
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "owner_kind": "system implementation",
+      "name": "Actual_Processor_Binding",
+      "value": "(reference (CPU_A))",
+      "applies_to": "pr_A"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "owner_kind": "system implementation",
+      "name": "Actual_Processor_Binding",
+      "value": "(reference (CPU_B))",
+      "applies_to": "pr_B"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "owner_kind": "system implementation",
+      "name": "Actual_Connection_Binding",
+      "value": "(reference (the_bus))",
+      "applies_to": "Z6"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "owner_kind": "system implementation",
+      "name": "Actual_Connection_Binding",
+      "value": "(reference (the_bus))",
+      "applies_to": "Z8"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "owner_kind": "system implementation",
+      "name": "Actual_Connection_Binding",
+      "value": "(reference (the_bus))",
+      "applies_to": "Z11"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "owner_kind": "system implementation",
+      "name": "actual_processor_binding",
+      "value": "(reference (CPU_A))",
+      "applies_to": "Device_A"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "owner_kind": "system implementation",
+      "name": "actual_processor_binding",
+      "value": "(reference (CPU_B))",
+      "applies_to": "Device_B"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "owner_kind": "system implementation",
+      "name": "Deployment::port_number",
+      "value": "4002",
+      "applies_to": "pr_B"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "owner_kind": "system implementation",
+      "name": "Source_Text",
+      "value": "(\"devicesconf.c\")",
+      "applies_to": "Device_A"
+    },
+    {
+      "owner": "Test::BA::Backend_BA_V3::PC_Simple.Native",
+      "owner_kind": "system implementation",
+      "name": "Source_Text",
+      "value": "(\"devicesconf.c\")",
+      "applies_to": "Device_B"
+    }
+  ]
+}

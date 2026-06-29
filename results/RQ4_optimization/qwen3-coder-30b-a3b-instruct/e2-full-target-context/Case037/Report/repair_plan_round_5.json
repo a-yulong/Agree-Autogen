@@ -1,0 +1,21 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Target (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "AGREE cannot reference AADL port types directly; port names must be used as expressions",
+      "minimal_edit": "Replace `Target` with `Target.value` in the AGREE annex"
+    },
+    {
+      "diagnostic": "Actual (port spec) points to Types  speed.speed_impl (entity reference), which is not of an adequate kind",
+      "cause": "AGREE cannot reference AADL port types directly; port names must be used as expressions",
+      "minimal_edit": "Replace `Actual` with `Actual.value` in the AGREE annex"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "In the AGREE annex block, change `variable e = Target - Actual;` to `variable e = Target.value - Actual.value;`",
+    "In the AGREE annex block, change `variable e_dot = diff(e, time);` to `variable e_dot = diff(e, time);` (no change needed for this line)",
+    "In the AGREE annex block, change `variable e_int = integ(e, time);` to `variable e_int = integ(e, time);` (no change needed for this line)",
+    "In the AGREE annex block, change `guarantee \"Actuator_Input control law\": Actuator_Input = P * e + D * e_dot + I * e_int;` to `guarantee \"Actuator_Input control law\": Actuator_Input.value = P * e + D * e_dot + I * e_int;`"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'pspg'.",
+      "cause": "pspg is not visible in the component type scope",
+      "minimal_edit": "Remove pspg from the guarantee statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'speed'.",
+      "cause": "speed is not visible in the component type scope",
+      "minimal_edit": "Replace speed with the actual port name from the component type"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Type mismatch due to unresolved references",
+      "minimal_edit": "Replace the entire guarantee with a valid expression using only visible identifiers"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid expression due to unresolved identifiers",
+      "minimal_edit": "Replace the guarantee with a valid expression using only visible identifiers"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from thr_mgmt to thr_mgmt.i",
+    "Replace guarantee \"R2\": speed = pspg.speed; with a valid expression using only visible identifiers",
+    "Ensure the guarantee refers to the correct port names and types visible in the component type"
+  ]
+}

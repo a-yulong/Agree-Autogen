@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: Latched expressions are valid only for input data ports or event expressions over input event data ports",
+      "cause": "AGREE guarantee references output port 'latched' in a component type annex",
+      "minimal_edit": "Replace 'latched' with a valid input expression or remove it from the guarantee"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: Latched expressions can appear only in component implementations",
+      "cause": "AGREE guarantee references output port 'latched' in a component type annex",
+      "minimal_edit": "Move the guarantee to a component implementation annex or rewrite to use only input ports"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: mismatched input 'and' expecting '('",
+      "cause": "Invalid syntax due to incorrect use of 'and' with output port 'latched'",
+      "minimal_edit": "Rewrite the guarantee to use only valid input port expressions"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 101: right side of binary expression 'and' is of type '<error>' but must be of type 'bool'",
+      "cause": "Invalid expression due to use of output port 'latched' in boolean context",
+      "minimal_edit": "Replace 'latched' with a valid boolean expression using only input ports"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from the component type 'door' to the component implementation 'door.imp'",
+    "In the implementation annex, rewrite the guarantee to reference only input ports: 'de_arrest => (handle_position and closed and locked)'",
+    "Remove the reference to 'latched' which is an output port and not valid in this context"
+  ]
+}

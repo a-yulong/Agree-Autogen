@@ -1,0 +1,35 @@
+{
+  "items": [
+    {
+      "id": "R1",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "TrajectoryExtrapolation computes intruder vertical velocity as difference between current and previous nearestIntruderAltitude",
+      "evidence": [
+        "tcas::TrajectoryExtrapolation.impl",
+        "nearestIntruderAltitude"
+      ]
+    },
+    {
+      "id": "R2",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "text": "TrajectoryExtrapolation predicts future intruder altitude by adding computed vertical velocity to current nearestIntruderAltitude",
+      "evidence": [
+        "tcas::TrajectoryExtrapolation.impl",
+        "nearestIntruderAltitude",
+        "projectedIntruderAltitude"
+      ]
+    },
+    {
+      "id": "R3",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "text": "Projected intruder altitude output shall be assigned the predicted future altitude value",
+      "evidence": [
+        "tcas::TrajectoryExtrapolation.impl",
+        "projectedIntruderAltitude"
+      ]
+    }
+  ]
+}

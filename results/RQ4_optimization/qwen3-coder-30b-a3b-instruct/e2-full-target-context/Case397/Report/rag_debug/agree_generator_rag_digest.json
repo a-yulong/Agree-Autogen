@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Place output range guarantees in component type scopes when concrete bounds or visible features are provided.",
+    "Use assign statements in implementation scopes only for existing output features or declared auxiliary variables.",
+    "Generate syntactically valid AGREE annex blocks with proper assume/guarantee syntax and visible symbol usage."
+  ],
+  "generic_rules": [
+    "Component type contracts should include assumptions and guarantees for ports using visible feature names or constants.",
+    "Implementation contracts may use assign for output bindings but must not include guarantee statements.",
+    "AGREE annexes must be enclosed in `annex agree {** ... **};` blocks with valid component scope placement.",
+    "Ensure type consistency between helper declarations and expression results (bool, int, real)."
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract statements.",
+    "Declare auxiliary variables with `eq name : type = expression;` for complex boolean conditions.",
+    "Use `assign output = expression;` for implementation-level output bindings."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope; use only assume and assign.",
+    "Do not reference AADL property names like Period or Deadline as AGREE variables without explicit model exposure.",
+    "Avoid mismatched types in helper declarations and expressions (e.g., bool vs int)."
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing parameters not exposed as model features",
+    "Model fusion and owner/scope preservation rules",
+    "Validator diagnostics and repair patterns"
+  ]
+}

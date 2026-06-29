@@ -1,0 +1,30 @@
+{
+  "rag_rules": [
+    "Fix unresolved references like 'kinematicLinearization' by ensuring function names match exactly and are visible in the current scope.",
+    "Resolve type errors by aligning helper declarations with the actual types of expressions, e.g., use 'real' for real arithmetic and 'bool' for comparisons.",
+    "Avoid placing guarantee statements in implementation scope; move them to component type annexes where port references are valid."
+  ],
+  "generic_rules": [
+    "Use AGREE logical operators and temporal recurrence patterns for stateful contracts.",
+    "Place component type contracts in component type scopes and implementation contracts in implementation scopes.",
+    "Ensure all identifiers referenced in AGREE contracts are visible and properly typed.",
+    "Use assign only for output features or declared auxiliary variables in implementation scope."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Stateful equations should use initialized temporal recurrence like `0.0 -> pre(t) + step`.",
+    "Binary expressions in guarantees must have matching types on both sides.",
+    "Guarantee expressions must resolve to valid types; avoid `<error>` types by fixing root references."
+  ],
+  "anti_patterns": [
+    "Do not place guarantee statements in implementation scope unless they refer to visible output features or auxiliary variables.",
+    "Do not reference undefined or misspelled functions like 'kinematicLinearization' in AGREE contracts.",
+    "Do not mix incompatible types in binary expressions; ensure left and right sides match (e.g., int with int, real with real)."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics",
+    "AGREE validator diagnostics",
+    "Component type annexes vs implementation annexes",
+    "Model traceability and requirement semantics"
+  ]
+}

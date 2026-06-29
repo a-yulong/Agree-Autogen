@@ -1,0 +1,16 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- Use only visible AADL features or declared helpers within the same annex to prevent type errors and unresolved references.
+- For implementation contracts, use assign statements only for existing output features or declared auxiliary variables; avoid placing guarantees in implementation scope.
+- When defining range constraints, ensure the types of expressions match the expected types (e.g., bool for comparisons, real for numeric bounds).
+- If a generated clause references an opaque Boolean or enumeration-like data port without a numeric scalar representation, remove it to avoid type mismatches.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks and placed in component type or implementation annexes as appropriate.
+- Use `const` for named constants and `eq` for helper declarations within the same annex to maintain visibility and type consistency.
+Anti-patterns:
+- Do not introduce package-qualified identifiers or data types that are not present in the AADL model's configured dependencies.
+- Avoid placing guarantee statements in implementation scope; use assign for output bindings only.
+Irrelevant retrieved material:
+- aadl_scope_notes
+- agree_syntax_notes
+</RAG_DIGEST>

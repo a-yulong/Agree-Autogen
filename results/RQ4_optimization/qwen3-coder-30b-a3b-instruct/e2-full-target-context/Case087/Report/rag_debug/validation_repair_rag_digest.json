@@ -1,0 +1,23 @@
+{
+  "rag_rules": [
+    "AGREE diagnostics pointing to implementation-level references in type annexes should be resolved by moving valid bindings to implementation scope or removing invalid guarantees.",
+    "AGREE syntax errors near '$' characters indicate invalid or missing identifiers in expressions; these should be corrected by ensuring all referenced names are valid and visible in the current scope."
+  ],
+  "generic_rules": [
+    "When generating AGREE contracts, ensure all identifiers and property references are visible in the current AADL scope to avoid 'does not point to anything' diagnostics.",
+    "AGREE guarantees and assumptions must be scoped correctly: type-level contracts reference component ports, while implementation-level bindings use subcomponent paths and outputs.",
+    "AGREE expressions should only reference data types and features that are explicitly declared or visible in the current annex context."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks and placed in appropriate component type or implementation annexes.",
+    "AGREE property associations and expressions must reference valid identifiers that are declared or visible in the current scope."
+  ],
+  "anti_patterns": [
+    "Do not place implementation-level bindings in component type annexes unless they are valid outputs or variables; this causes scope-related diagnostics.",
+    "Avoid generating AGREE clauses that reference identifiers or data types not present in the current AADL model or its configured dependencies."
+  ],
+  "irrelevant_topics": [
+    "AADL Inspector diagnostics about property associations not pointing to anything",
+    "AGREE validator diagnostics about missing EOF or invalid alternatives at '$' characters"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "left side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port type mismatch in arithmetic expression",
+      "minimal_edit": "Change Target to Actual in the expression to match the expected real type"
+    },
+    {
+      "diagnostic": "right side of binary expression '-' is of type 'Types::speed.speed_impl' but must be of type'int' or 'real'",
+      "cause": "Port type mismatch in arithmetic expression",
+      "minimal_edit": "Change Actual to Target in the expression to match the expected real type"
+    },
+    {
+      "diagnostic": "Non-constant expression in constant declaration",
+      "cause": "Port references in constant declaration are not allowed in AGREE",
+      "minimal_edit": "Remove the constant declaration and inline the expression directly in the guarantee"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace 'const e : real = Target - Actual;' with 'const e : real = Actual - Target;' to use valid real operands",
+    "Update the guarantee to reference the corrected expression directly: 'guarantee \"actuator_input_pid\": Actuator_Input = 1.0 * (Actual - Target);'",
+    "Remove the constant declaration 'const e : real = Actual - Target;' from the annex"
+  ]
+}

@@ -1,0 +1,19 @@
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Use `guarantee "label": expression;` for output dependency contracts that relate visible outputs to visible inputs.
+- Place component type guarantees in valid component type scopes, avoiding implementation-only subcomponent paths.
+- Generate syntactically valid AGREE expressions using logical operators like `and`, `or`, `not(...)`, and implication `=>`.
+Generic rules:
+- Ensure all AGREE declarations use valid scalar types: int, real, bool.
+- Avoid referencing AADL property names directly in AGREE expressions unless they are explicitly typed ports or constants.
+- When generating guarantees, ensure the expression relates visible identifiers from the component's interface.
+- Use initialized temporal recurrence for stateful equations and nested `if ... then ... else` for branching logic.
+Syntax or pattern reminders:
+- AGREE contracts must use `assume` and `guarantee` labels with valid expressions.
+- Equations in AGREE should use `eq name : type = expression;` syntax.
+- Constants in AGREE should use `const name : type = value;` syntax.
+Anti-patterns:
+- Do not reference AADL timing properties like Period or Deadline directly in AGREE expressions.
+- Do not place implementation-level bindings in component type contracts.
+- Avoid using subcomponent ports in component type annexes unless represented through valid variables or outputs.
+</RAG_DIGEST>

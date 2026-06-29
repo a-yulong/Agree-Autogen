@@ -1,0 +1,26 @@
+{
+  "rag_rules": [
+    "Insert AGREE annex blocks only into component type or implementation scopes based on whether the contract references visible features or implementation-level bindings.",
+    "Preserve AADL structure by ensuring annex placement does not alter component hierarchies or introduce invalid scope references."
+  ],
+  "generic_rules": [
+    "Use component type scope for contracts on visible ports and outputs; use implementation scope only for bindings tied to subcomponent connections.",
+    "Ensure all expressions in AGREE annexes reference only explicitly exposed features, constants, or variables—not internal subcomponent paths or AADL properties."
+  ],
+  "syntax_or_pattern_reminders": [
+    "AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.",
+    "Use `eq` to define helper boolean expressions for range checks; use `guarantee` to assert output constraints on visible outputs."
+  ],
+  "anti_patterns": [
+    "Avoid referencing AADL properties (e.g., Period, Deadline) directly in AGREE expressions—they are not in scope unless mapped to explicit ports or constants.",
+    "Do not use subcomponent port paths in component type annexes; only visible features are permitted."
+  ],
+  "irrelevant_topics": [
+    "assign output = expression;",
+    "assume \"label\": expression;",
+    "validator diagnostics",
+    "repair content",
+    "AGREE annex generation logic",
+    "requirement traceability"
+  ]
+}

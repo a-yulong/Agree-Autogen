@@ -1,0 +1,28 @@
+{
+  "rag_rules": [
+    "Use initialized temporal recurrence for stateful equations like `t = 0.1 -> pre(t) + step`",
+    "Place assumptions and guarantees in valid component type scopes when referring to ports",
+    "Declare helper variables with explicit types to avoid assumed vs actual type mismatches"
+  ],
+  "generic_rules": [
+    "Use `eq` for initialized state variables and `pre()` for previous value comparisons",
+    "Guard temporal comparisons with an initialized boolean flag",
+    "Express guarantees using AGREE logical operators like `and`, `or`, `not`, and implication `=>`",
+    "Avoid referencing AADL properties directly in AGREE expressions unless explicitly exposed as variables"
+  ],
+  "syntax_or_pattern_reminders": [
+    "Use `assume \"label\": expression;` and `guarantee \"label\": expression;` for contract clauses",
+    "Use `eq name : type = expression;` for helper declarations with explicit typing",
+    "Use `const name : type = value;` for named constants in contracts"
+  ],
+  "anti_patterns": [
+    "Do not reference AADL timing properties like Deadline or Period directly in AGREE expressions",
+    "Do not use subcomponent ports in component type contracts unless represented through variables or outputs",
+    "Do not generate guarantees without ensuring all identifiers are visible or declared in the same annex"
+  ],
+  "irrelevant_topics": [
+    "AADL property associations and timing constraints",
+    "Model fusion and owner/scope preservation rules",
+    "Validator-driven repair patterns"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Assume statements are allowed only in component types",
+      "cause": "AGREE annex is placed in system implementation instead of system type",
+      "minimal_edit": "Move the annex agree block from ADIRU.impl to ADIRU"
+    },
+    {
+      "diagnostic": "left side of binary expression '=>' is of type 'int' but must be of type 'bool'",
+      "cause": "Port references used in boolean implication without proper AGREE expression syntax",
+      "minimal_edit": "Replace port references with valid AGREE boolean expressions using '->' or equivalent"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'partitions::acc_process.impl' and 'partitions::acc_partition.impl', but must be of the same type",
+      "cause": "Type mismatch in equality expressions between process and partition types",
+      "minimal_edit": "Remove or rewrite binding assumptions to use valid component references"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'main_cpu'",
+      "cause": "Reference to undefined component 'main_cpu' in property assignments",
+      "minimal_edit": "Remove or rewrite property assignments that reference undefined components"
+    },
+    {
+      "diagnostic": "Property Deployment_Properties::Actual_Processor_Binding does not apply to ADIRU",
+      "cause": "Property applied to wrong component type",
+      "minimal_edit": "Move property assignments to appropriate component implementation scope"
+    },
+    {
+      "diagnostic": "The referenced property set 'Deployment_Properties' of property 'Actual_Processor_Binding' is not listed in a with clause",
+      "cause": "Missing with clause for property set",
+      "minimal_edit": "Add 'with Deployment_Properties;' to the package declaration"
+    }
+  ],
+  "repair_mode": "edit_full_model",
+  "executor_steps": [
+    "Add 'with Deployment_Properties;' to the package ADIRU declaration",
+    "Move the annex agree block from ADIRU.impl to ADIRU system type",
+    "Replace port references in assume statements with valid AGREE boolean expressions",
+    "Remove or rewrite binding assumptions that compare incompatible types",
+    "Move property assignments to appropriate component implementation scope",
+    "Remove or fix property assignments that reference undefined components"
+  ]
+}

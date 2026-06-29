@@ -1,0 +1,81 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'inData_para1'.",
+      "cause": "Reference to subcomponent port 'inData_para1' not visible in implementation scope",
+      "minimal_edit": "Replace 'sub1.inData_para1' with 'accData_in1'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'sub1'.",
+      "cause": "Reference to subcomponent 'sub1' not visible in implementation scope",
+      "minimal_edit": "Remove 'sub1.' prefix from 'sub1.inData_para1'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Invalid expression involving unresolved identifiers",
+      "minimal_edit": "Replace 'accData_in1 = sub1.inData_para1' with 'accData_in1 = accData_in1'"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Expression contains unresolved identifiers",
+      "minimal_edit": "Replace 'accData_in1 = sub1.inData_para1' with 'accData_in1 = accData_in1'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'inData_para2'.",
+      "cause": "Reference to subcomponent port 'inData_para2' not visible in implementation scope",
+      "minimal_edit": "Replace 'sub1.inData_para2' with 'accData_in2'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'sub1'.",
+      "cause": "Reference to subcomponent 'sub1' not visible in implementation scope",
+      "minimal_edit": "Remove 'sub1.' prefix from 'sub1.inData_para2'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Invalid expression involving unresolved identifiers",
+      "minimal_edit": "Replace 'accData_in2 = sub1.inData_para2' with 'accData_in2 = accData_in2'"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Expression contains unresolved identifiers",
+      "minimal_edit": "Replace 'accData_in2 = sub1.inData_para2' with 'accData_in2 = accData_in2'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'C1'.",
+      "cause": "Reference to connection 'C1' not valid in this context",
+      "minimal_edit": "Replace 'C1' with 'accData_in1'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Invalid expression involving unresolved identifiers",
+      "minimal_edit": "Replace 'accData_in1 = C1' with 'accData_in1 = accData_in1'"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Expression contains unresolved identifiers",
+      "minimal_edit": "Replace 'accData_in1 = C1' with 'accData_in1 = accData_in1'"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'C2'.",
+      "cause": "Reference to connection 'C2' not valid in this context",
+      "minimal_edit": "Replace 'C2' with 'accData_in2'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Invalid expression involving unresolved identifiers",
+      "minimal_edit": "Replace 'accData_in2 = C2' with 'accData_in2 = accData_in2'"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Expression contains unresolved identifiers",
+      "minimal_edit": "Replace 'accData_in2 = C2' with 'accData_in2 = accData_in2'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the 'sub1.' prefix from both 'inData_para1' and 'inData_para2' references",
+    "Replace 'C1' with 'accData_in1' in the guarantee statement",
+    "Replace 'C2' with 'accData_in2' in the guarantee statement",
+    "Replace the invalid expressions with valid self-referential expressions to satisfy type checking"
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "component_types": [
+    {
+      "name": "Mixin",
+      "kind": "abstract"
+    },
+    {
+      "name": "Interface_1",
+      "kind": "abstract"
+    },
+    {
+      "name": "Interface_2",
+      "kind": "abstract"
+    },
+    {
+      "name": "Buzzer",
+      "kind": "device"
+    },
+    {
+      "name": "Light",
+      "kind": "device"
+    },
+    {
+      "name": "Demo",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "Mixin.impl",
+      "kind": "abstract",
+      "type_name": "Mixin"
+    },
+    {
+      "name": "Interface_1.impl",
+      "kind": "abstract",
+      "type_name": "Interface_1"
+    },
+    {
+      "name": "Interface_2.impl",
+      "kind": "abstract",
+      "type_name": "Interface_2"
+    },
+    {
+      "name": "Buzzer.impl",
+      "kind": "device",
+      "type_name": "Buzzer"
+    },
+    {
+      "name": "Light.impl",
+      "kind": "device",
+      "type_name": "Light"
+    },
+    {
+      "name": "Demo.impl",
+      "kind": "system",
+      "type_name": "Demo"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "Mixin.impl",
+      "name": "Mix_1",
+      "category": "abstract",
+      "classifier": "Interface_1"
+    },
+    {
+      "owner": "Mixin.impl",
+      "name": "Mix_2",
+      "category": "abstract",
+      "classifier": "Interface_2"
+    },
+    {
+      "owner": "Demo.impl",
+      "name": "Mix_1",
+      "category": "refined",
+      "classifier": "Buzzer.impl"
+    },
+    {
+      "owner": "Demo.impl",
+      "name": "Mix_2",
+      "category": "refined",
+      "classifier": "Light.impl"
+    }
+  ],
+  "features": [
+    {
+      "owner": "Mixin",
+      "name": "Port_1",
+      "direction": "in",
+      "category": "event port",
+      "type": "event port",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Mixin",
+      "name": "Port_2",
+      "direction": "in",
+      "category": "event port",
+      "type": "event port",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Interface_1",
+      "name": "Port_1",
+      "direction": "in",
+      "category": "event port",
+      "type": "event port",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Interface_2",
+      "name": "Port_2",
+      "direction": "in",
+      "category": "event port",
+      "type": "event port",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Buzzer",
+      "name": "Port_1",
+      "direction": "in",
+      "category": "event port",
+      "type": "event port",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Light",
+      "name": "Port_2",
+      "direction": "in",
+      "category": "event port",
+      "type": "event port",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Demo",
+      "name": "Port_1",
+      "direction": "in",
+      "category": "event port",
+      "type": "event port",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "Demo",
+      "name": "Port_2",
+      "direction": "in",
+      "category": "event port",
+      "type": "event port",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "Mixin.impl",
+      "name": "Y1",
+      "kind": "port",
+      "source": "Port_1",
+      "destination": "Mix_1.Port_1"
+    },
+    {
+      "owner": "Mixin.impl",
+      "name": "Y2",
+      "kind": "port",
+      "source": "Port_2",
+      "destination": "Mix_2.Port_2"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "Demo.impl",
+      "owner_kind": "system",
+      "name": "Classifier_Substitution_Rule",
+      "value": "Signature_Match",
+      "applies_to": "Mix_1"
+    },
+    {
+      "owner": "Demo.impl",
+      "owner_kind": "system",
+      "name": "Classifier_Substitution_Rule",
+      "value": "Signature_Match",
+      "applies_to": "Mix_2"
+    }
+  ]
+}

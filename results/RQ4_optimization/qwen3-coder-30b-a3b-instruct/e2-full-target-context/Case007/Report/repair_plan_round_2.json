@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "mismatched input '=' expecting ':'",
+      "cause": "Invalid AGREE syntax in const declaration",
+      "minimal_edit": "Change 'const concurrencyFactor = gcas_timeToRecovery <= timeToFailure;' to 'const concurrencyFactor : bool = gcas_timeToRecovery <= timeToFailure;'"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type 'real' and '<error>', but must be of the same type",
+      "cause": "Invalid AGREE syntax in guarantee statement",
+      "minimal_edit": "Change 'guarantee \"timeToFailure_min\": timeToFailure = timeToFailure_min;' to 'guarantee \"timeToFailure_min\": timeToFailure = timeToFailure_min;' (add explicit type annotation if needed)"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "Invalid AGREE syntax in guarantee statement",
+      "minimal_edit": "Change 'guarantee \"timeToFailure_min\": timeToFailure = timeToFailure_min;' to 'guarantee \"timeToFailure_min\": timeToFailure = timeToFailure_min;' (add explicit type annotation if needed)"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Add explicit type annotations to all const declarations and guarantee statements in the AGREE annex",
+    "Change 'const concurrencyFactor = gcas_timeToRecovery <= timeToFailure;' to 'const concurrencyFactor : bool = gcas_timeToRecovery <= timeToFailure;'",
+    "Ensure all guarantee statements have proper type consistency"
+  ]
+}

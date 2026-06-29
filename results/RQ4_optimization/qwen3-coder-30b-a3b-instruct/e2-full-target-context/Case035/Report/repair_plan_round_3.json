@@ -1,0 +1,41 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 19: Couldn't resolve reference to 'abs'.",
+      "cause": "abs function not recognized in AGREE context",
+      "minimal_edit": "Replace abs(Actual_Speed.val - pre(Actual_Speed.val)) with (Actual_Speed.val - pre(Actual_Speed.val)) to avoid undefined function call"
+    },
+    {
+      "diagnostic": "line 19: left and right sides of binary expression '<' are of type '<error>' and 'real', but must be of the same type",
+      "cause": "Expression contains unresolved type '<error>' due to previous abs function error",
+      "minimal_edit": "Ensure expression types match by removing abs and using direct subtraction"
+    },
+    {
+      "diagnostic": "line 19: left side of binary expression '<' is of type '<error>' but must be of type'int' or 'real'",
+      "cause": "Expression contains unresolved type '<error>' due to previous abs function error",
+      "minimal_edit": "Ensure expression types match by removing abs and using direct subtraction"
+    },
+    {
+      "diagnostic": "line 33: 'Actual' and 'Actual_Speed' have incompatible classifiers.",
+      "cause": "Port name mismatch in connection declaration",
+      "minimal_edit": "Change 'THROT.Actual' to 'THROT.Actual_Speed' to match port name"
+    },
+    {
+      "diagnostic": "line 35: The types of 'Target_Speed' and 'Target' do not match.",
+      "cause": "Port name mismatch in connection declaration",
+      "minimal_edit": "Change 'CNTRL.Target' to 'CNTRL.Target_Speed' to match port name"
+    },
+    {
+      "diagnostic": "line 40: 'State_Out' and 'State_Signal' have incompatible classifiers.",
+      "cause": "Port name mismatch in connection declaration",
+      "minimal_edit": "Change 'SM.State_Out' to 'SM.State_Signal' to match port name"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Edit line 19 to replace abs(Actual_Speed.val - pre(Actual_Speed.val)) with (Actual_Speed.val - pre(Actual_Speed.val))",
+    "Edit line 33 to change 'THROT.Actual' to 'THROT.Actual_Speed'",
+    "Edit line 35 to change 'CNTRL.Target' to 'CNTRL.Target_Speed'",
+    "Edit line 40 to change 'SM.State_Out' to 'SM.State_Signal'"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 29: Couldn't resolve reference to 'acc1DataOut'.",
+      "cause": "spg.acc1DataOut is not a valid AGREE expression; it references a subcomponent port that is not visible in the component type scope",
+      "minimal_edit": "Replace spg.acc1DataOut with acc1out"
+    },
+    {
+      "diagnostic": "line 29: Couldn't resolve reference to 'spg'.",
+      "cause": "spg is a subcomponent reference that is not valid in component type scope",
+      "minimal_edit": "Remove spg. prefix from acc1DataOut"
+    },
+    {
+      "diagnostic": "line 29: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Expression references invalid subcomponent port causing type mismatch",
+      "minimal_edit": "Replace spg.acc1DataOut with acc1out"
+    },
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'event_in'.",
+      "cause": "spg.event_in is not a valid AGREE expression; it references a subcomponent port that is not visible in the component type scope",
+      "minimal_edit": "Replace spg.event_in with acc1_command_in"
+    },
+    {
+      "diagnostic": "line 30: Couldn't resolve reference to 'spg'.",
+      "cause": "spg is a subcomponent reference that is not valid in component type scope",
+      "minimal_edit": "Remove spg. prefix from event_in"
+    },
+    {
+      "diagnostic": "line 30: left and right sides of binary expression '=' are of type 'int' and '<error>', but must be of the same type",
+      "cause": "Expression references invalid subcomponent port causing type mismatch",
+      "minimal_edit": "Replace spg.event_in with acc1_command_in"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from acc1_dataOutput component type to acc1_dataOutput.impl component implementation",
+    "Replace spg.acc1DataOut with acc1out in the data_routing assumption",
+    "Replace spg.event_in with acc1_command_in in the control_routing assumption"
+  ]
+}

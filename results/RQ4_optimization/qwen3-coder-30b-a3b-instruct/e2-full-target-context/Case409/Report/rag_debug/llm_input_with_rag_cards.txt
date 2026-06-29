@@ -1,0 +1,119 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place AGREE assumptions and guarantees in component type scopes when they refer to ports or features visible at that level.
+- Use component type annexes for input envelope assumptions and output range guarantees with concrete bounds or named constants.
+Generic rules:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Component type annexes are the standard location for assumptions, guarantees, constants, and equation declarations.
+- Do not reference implementation-only subcomponent paths in component type annexes.
+- Ensure type alignment between helper declarations and expressions (e.g., bool for comparisons, int for arithmetic).
+Syntax or pattern reminders:
+- Use `eq variable_name : type = expression;` for equation declarations in AGREE.
+- Guarantees should relate visible outputs to visible inputs without relying on internal subcomponent paths.
+Anti-patterns:
+- Avoid placing implementation-level bindings in component type scopes unless explicitly required.
+- Do not encode AADL timing properties as AGREE expressions unless typed ports or constants are available.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- PartitionedSystemExample::integer
+- PartitionedSystemExample::ordercmd
+- PartitionedSystemExample::protected_data
+- PartitionedSystemExample::partition1_rt
+- PartitionedSystemExample::partition2_rt
+- PartitionedSystemExample::sensor_temperature_spg
+- PartitionedSystemExample::sensor_receiveinput_spg
+- PartitionedSystemExample::commandboard_receiveinput_spg
+- PartitionedSystemExample::commandboard_printinfos_spg
+- PartitionedSystemExample::sensor_temperature_thread
+- PartitionedSystemExample::sensor_receiveinput_thread
+- PartitionedSystemExample::commandboard_receiveinput_thread
+- PartitionedSystemExample::commandboard_printinfos_thread
+- PartitionedSystemExample::partition1_process
+- PartitionedSystemExample::partition2_process
+- PartitionedSystemExample::powerpc
+- PartitionedSystemExample::partition1_memory
+- PartitionedSystemExample::partition2_memory
+- PartitionedSystemExample::main_memory
+- PartitionedSystemExample::arincsystem
+- PartitionedSystemExample::partition1_rt.impl
+- PartitionedSystemExample::partition2_rt.impl
+- PartitionedSystemExample::sensor_temperature_thread.impl
+- PartitionedSystemExample::partition1_process.impl
+- PartitionedSystemExample::partition2_process.impl
+- PartitionedSystemExample::powerpc.impl
+- PartitionedSystemExample::main_memory.impl
+- PartitionedSystemExample::arincsystem.impl
+- temperature
+- order
+- receiver
+- printer
+- sem
+- blackboard
+- part1
+- part2
+- part1mem
+- part2mem
+- mem
+- cpu
+
+Target interface:
+Exact expression symbols: temp, tempavg, newavg, need_semaphore
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+temp | in | data | int | integer
+tempavg | requires | access | opaque | 
+newavg | out | event | event | 
+need_semaphore | requires | access | opaque | 
+
+Raw requirement:
+The commandboard_receiveinput_thread component shall operate under a bounded input condition for temp. The environment shall keep temp greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "temp >= 0 and temp <= 100",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "temp"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "commandboard_receiveinput_thread operates under bounded input condition for temp",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "PartitionedSystemExample::commandboard_receiveinput_thread",
+        "temp"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 200: Couldn't resolve reference to 'DMS::doors_process'.",
+      "cause": "AGREE annex is in component type scope but references component type name as if it were a port expression",
+      "minimal_edit": "Replace DMS::doors_process with a valid port expression using visible ports from the component type"
+    },
+    {
+      "diagnostic": "line 200: left and right sides of binary expression '=' are of type '<error>' and 'bool', but must be of the same type",
+      "cause": "Invalid expression using component type name instead of port expression",
+      "minimal_edit": "Replace DMS::doors_process with a valid port expression using visible ports from the component type"
+    },
+    {
+      "diagnostic": "line 200: named thing must be an expression with a type",
+      "cause": "Invalid expression using component type name instead of port expression",
+      "minimal_edit": "Replace DMS::doors_process with a valid port expression using visible ports from the component type"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Replace DMS::doors_process in the guarantee with a valid port expression using visible ports",
+    "Change guarantee \"process_depends_on_engine\": DMS::doors_process = D1_engine_running; to guarantee \"process_depends_on_engine\": D1_engine_running = true;",
+    "Remove the invalid component type reference DMS::doors_process from the AGREE annex"
+  ]
+}

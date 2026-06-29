@@ -1,0 +1,18 @@
+<RAG_DIGEST agent="validation_repair">
+Generic rules:
+- AGREE contracts must only reference visible AADL features or helper declarations within the same annex scope.
+- AGREE scalar type names must be int, real, or bool; avoid package-qualified or undefined types.
+- When a guarantee expression has type <error>, trace and fix the root unresolved reference or delete the invalid clause.
+- Ensure AGREE type declarations match the actual types of their expressions to avoid assumed vs actual type mismatches.
+Syntax or pattern reminders:
+- AGREE contracts are enclosed in `annex agree {** ... **};` blocks.
+- Component type annexes are for assumptions and guarantees; implementation annexes are for bindings and assignments.
+- Use only identifiers that are declared or visible in the current AADL scope.
+Anti-patterns:
+- Do not introduce package-qualified identifiers or property references not present in the model's configured dependencies.
+- Do not reference subcomponent ports in component type contracts unless represented through valid variables or outputs.
+Irrelevant retrieved material:
+- AADL Inspector diagnostics about property associations
+- AGREE validator diagnostics about component type annexes
+- Model traceability and requirement semantics
+</RAG_DIGEST>

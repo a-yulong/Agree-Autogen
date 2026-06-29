@@ -1,0 +1,30 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'SSM'.",
+      "cause": "SSM is a subcomponent, not a port; cannot be referenced directly in AGREE contract",
+      "minimal_edit": "Replace SSM.State_Out with a valid port reference or remove the expression"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'State_Out'.",
+      "cause": "State_Out is a port of the component type, not accessible in implementation scope",
+      "minimal_edit": "Remove or rewrite the reference to State_Out in the assume statement"
+    },
+    {
+      "diagnostic": "left and right sides of binary expression '=' are of type '<error>' and 'Types::state_sig.impl', but must be of the same type",
+      "cause": "Invalid port reference on left side of equality; cannot resolve SSM.State_Out",
+      "minimal_edit": "Remove or rewrite the equality expression to use valid identifiers"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "AGREE cannot resolve SSM.State_Out as a valid expression",
+      "minimal_edit": "Remove the invalid expression from the assume statement"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the assume statement 'assume \"signal_flow_routing\": SSM.State_Out = State_Out;' from the AGREE annex block",
+    "Remove the guarantee statement 'guarantee \"immediate_timing\": true;' from the AGREE annex block",
+    "Move the timing constraint to the connection declaration in the implementation"
+  ]
+}

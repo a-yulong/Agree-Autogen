@@ -1,0 +1,119 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: Data_Elev_Input, Data_AilL_Input, Data_AilR_Input, Data_MotorL_Input, Data_MotorR_Input, Data_Rudder_Input, Data_Elev_Output, Data_AilL_Output, Data_AilR_Output, Data_MotorL_Output, Data_MotorR_Output, Data_Rudder_Output, Dev_Bus
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+Data_Elev_Input | in | data | opaque | Base_Types::Integer_16
+Data_AilL_Input | in | data | opaque | Base_Types::Integer_16
+Data_AilR_Input | in | data | opaque | Base_Types::Integer_16
+Data_MotorL_Input | in | data | opaque | Base_Types::Integer_16
+Data_MotorR_Input | in | data | opaque | Base_Types::Integer_16
+Data_Rudder_Input | in | data | opaque | Base_Types::Integer_16
+Data_Elev_Output | out | data | opaque | Base_Types::Integer_16
+Data_AilL_Output | out | data | opaque | Base_Types::Integer_16
+Data_AilR_Output | out | data | opaque | Base_Types::Integer_16
+Data_MotorL_Output | out | data | opaque | Base_Types::Integer_16
+Data_MotorR_Output | out | data | opaque | Base_Types::Integer_16
+Data_Rudder_Output | out | data | opaque | Base_Types::Integer_16
+Dev_Bus | requires | access | opaque | 
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Data_AilL_Output = 1 when Data_AilL_Input > 0, otherwise Data_AilL_Output = 0",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Data_AilL_Input",
+        "Data_AilL_Output"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Compteur | lines 38-40
+annex agree {**
+    guarantee "ailL_output_logic": Data_AilL_Output = if Data_AilL_Input > 0 then 1 else 0;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+No validator line numbers were available.
+
+[TARGET MODEL CONTEXT]
+package flyByWire_hard
+public
+
+  with Papa_Types;
+  with Base_Types;
+
+  with paparazzi_hard;
+
+  -- buses
+
+  -- bus that links processors and devices
+  bus Device_Bus
+  end Device_Bus;
+
+  bus implementation Device_Bus.MCU1
+  end Device_Bus.MCU1;
+
+  -- bus that links processors and memories
+  bus Mem_Bus_MCU1
+  end Mem_Bus_MCU1;
+
+  -- devices
+  device Compteur
+  features
+    Data_Elev_Input : in data port Base_Types::Integer_16;
+    Data_AilL_Input : in data port Base_Types::Integer_16;
+    Data_AilR_Input : in data port Base_Types::Integer_16;
+    Data_MotorL_Input : in data port Base_Types::Integer_16;
+    Data_MotorR_Input : in data port Base_Types::Integer_16;
+    Data_Rudder_Input : in data port Base_Types::Integer_16;
+    Data_Elev_Output : out data port Base_Types::Integer_16;
+    Data_AilL_Output : out data port Base_Types::Integer_16;
+    Data_AilR_Output : out data port Base_Types::Integer_16;
+    Data_MotorL_Output : out data port Base_Types::Integer_16;
+    Data_MotorR_Output : out data port Base_Types::Integer_16;
+    Data_Rudder_Output : out data port Base_Types::Integer_16;
+    Dev_Bus : requires bus access Device_Bus.MCU1;
+  end Compteur;
+
+  device Servo
+  features
+    Data_Input : in data port Base_Types::Integer_16;
+    Dev_bus : requires bus access Device_Bus.MCU1;
+  end Servo;
+
+  device Recepteur
+  features
+    RC_Input : in event data port Papa_Types::Unknown;
+    RC_Output : out event data port Papa_Types::Unknown;
+    RC_Evt_Output : out event port;
+    Dev_Bus : requires bus access Device_Bus.MCU1;
+  end Recepteur;
+
+  --processor
+  processor Proc_MCU1
+  features
+    Mem_Bus : requires bus access Mem_Bus_MCU1;
+    Dev_Bus : requires bus access Device_Bus.MCU1;
+    SPI : requires bus access paparazzi_hard::SPI;
+  end Proc_MCU1;
+
+  -- AADL processor = microprocessor + scheduler
+  processor implementation Proc_MCU1.Impl
+  end Proc_MCU1.Impl;
+
+  -- memory
+  memory Ram_MCU1
+  features
+    Mem_Bus : requires bus access Mem_Bus_MCU1;
+  end Ram_MCU1;
+
+end flyByWire_hard;

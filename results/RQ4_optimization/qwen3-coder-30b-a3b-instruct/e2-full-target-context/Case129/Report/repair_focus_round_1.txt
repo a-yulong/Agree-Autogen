@@ -1,0 +1,248 @@
+round=1
+
+[TARGET INTERFACE]
+Exact expression symbols: (none)
+No feature-level AGREE expression symbols are available for this target.
+The structural names below are model elements, not AGREE expression values:
+- Hello_World1::Hello_Spg_1
+- Hello_World1::Task
+- Hello_World1::node_a
+- Hello_World1::partition_runtime
+- Hello_World1::cpurm
+- Hello_World1::myram
+- Hello_World1::segment
+- Hello_World1::hello
+- Hello_World1::Task.impl_1
+- Hello_World1::node_a.impl
+- Hello_World1::partition_runtime.i
+- Hello_World1::cpurm.impl
+- Hello_World1::segment.i
+- Hello_World1::myram.stram
+- Hello_World1::myram.sdram
+- Hello_World1::hello.impl
+- Mycalls
+- Task1
+- P0
+- segment1
+- node_a
+- cpu_rm
+- mem
+- P_Spg
+- Task
+- Task.impl_1
+- node_a.impl
+- hello
+- hello.impl
+
+[REQUIREMENT ANALYSIS]
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Task.impl_1 shall execute with Periodic dispatch protocol",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "Hello_World1::Task.impl_1 Dispatch_Protocol"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "Task.impl_1 shall have a period of 100 ms",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Hello_World1::Task.impl_1 Period"
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "Task.impl_1 shall complete compute execution within 0 ms .. 3 ms",
+      "kind": "timing_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Hello_World1::Task.impl_1 Compute_Execution_time"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "Task.impl_1 shall run at priority 100",
+      "kind": "data_constraint",
+      "intent": "guarantee",
+      "evidence": [
+        "Hello_World1::Task.impl_1 Priority"
+      ]
+    }
+  ]
+}
+
+[CURRENT ANNEX CONTEXT]
+-- owner: Task | lines 22-27
+annex agree {**
+    guarantee "R1": Task.impl_1.Dispatch_Protocol = "Periodic";
+    guarantee "R2": Task.impl_1.Period = 100.0;
+    guarantee "R3": Task.impl_1.Compute_Execution_time >= 0.0 and Task.impl_1.Compute_Execution_time <= 3.0;
+    guarantee "R4": Task.impl_1.Priority = 100;
+  **};
+
+[DIAGNOSTIC LINE CONTEXT]
+   19:   -------------
+   20: 
+   21:   thread Task
+   22:   annex agree {**
+>> 23:     guarantee "R1": Task.impl_1.Dispatch_Protocol = "Periodic";
+   24:     guarantee "R2": Task.impl_1.Period = 100.0;
+   25:     guarantee "R3": Task.impl_1.Compute_Execution_time >= 0.0 and Task.impl_1.Compute_Execution_time <= 3.0;
+   26:     guarantee "R4": Task.impl_1.Priority = 100;
+   27:   **};
+
+   20: 
+   21:   thread Task
+   22:   annex agree {**
+   23:     guarantee "R1": Task.impl_1.Dispatch_Protocol = "Periodic";
+>> 24:     guarantee "R2": Task.impl_1.Period = 100.0;
+   25:     guarantee "R3": Task.impl_1.Compute_Execution_time >= 0.0 and Task.impl_1.Compute_Execution_time <= 3.0;
+   26:     guarantee "R4": Task.impl_1.Priority = 100;
+   27:   **};
+   28:   end Task;
+
+   21:   thread Task
+   22:   annex agree {**
+   23:     guarantee "R1": Task.impl_1.Dispatch_Protocol = "Periodic";
+   24:     guarantee "R2": Task.impl_1.Period = 100.0;
+>> 25:     guarantee "R3": Task.impl_1.Compute_Execution_time >= 0.0 and Task.impl_1.Compute_Execution_time <= 3.0;
+   26:     guarantee "R4": Task.impl_1.Priority = 100;
+   27:   **};
+   28:   end Task;
+   29: 
+
+   22:   annex agree {**
+   23:     guarantee "R1": Task.impl_1.Dispatch_Protocol = "Periodic";
+   24:     guarantee "R2": Task.impl_1.Period = 100.0;
+   25:     guarantee "R3": Task.impl_1.Compute_Execution_time >= 0.0 and Task.impl_1.Compute_Execution_time <= 3.0;
+>> 26:     guarantee "R4": Task.impl_1.Priority = 100;
+   27:   **};
+   28:   end Task;
+   29: 
+   30:   thread implementation Task.impl_1
+
+[TARGET MODEL CONTEXT]
+package Hello_World1
+public
+  with Deployment;
+  with ARINC653;
+
+  -----------------
+  -- Subprograms --
+  -----------------
+
+  subprogram Hello_Spg_1
+  properties
+    -- Source_Language => (C);
+    Source_Name     => "user_Hello_Spg_1";
+    Source_Text     => ("hello.c");
+  end Hello_Spg_1;
+
+  -------------
+  -- Threads --
+  -------------
+
+  thread Task
+  end Task;
+
+  thread implementation Task.impl_1
+  calls
+    Mycalls: {
+    P_Spg : subprogram Hello_Spg_1;
+    };
+  properties
+    Priority => 100;
+    Dispatch_Protocol                  => Periodic;
+    Period                             => 100 ms;
+    Compute_Execution_time             => 0 ms .. 3 ms;
+  end Task.impl_1;
+
+  -------------
+  -- Process --
+  -------------
+
+  process node_a
+  end node_a;
+
+  process implementation node_a.impl
+  subcomponents
+    Task1 : thread Task.impl_1;
+  end node_a.impl;
+
+
+  ---------------
+  -- Processor --
+  ---------------
+
+  virtual processor partition_runtime
+  end partition_runtime;
+
+  virtual processor implementation partition_runtime.i
+  end partition_runtime.i;
+
+  processor cpurm
+  properties
+    Deployment::Execution_Platform => AIR;
+  end cpurm;
+
+  processor implementation cpurm.impl
+  subcomponents
+    P0 : virtual processor partition_runtime.i
+    { Deployment::Execution_Platform => AIR;
+      ARINC653::Partition_Identifier => 0;
+      ARINC653::Partition_Name       => "P0";
+    };
+
+  properties
+    ARINC653::Module_Major_Frame => 1 sec;
+    ARINC653::Module_Schedule =>
+            ( [Partition => reference (P0);
+               Duration  => 300 ms;
+               Periodic_Processing_Start => true;]
+            );
+  end cpurm.impl;
+
+  memory myram end myram;
+  memory segment end segment;
+
+  memory implementation segment.i
+  end segment.i;
+
+  memory implementation  myram.stram
+  properties
+    Base_Address => 40000000;
+    Byte_Count   => 16#400000#;
+  end myram.stram;
+
+  memory implementation myram.sdram
+  subcomponents
+    segment1 : memory segment.i {Base_Address => 40100000; Byte_Count => 16#400000#;};
+  properties
+    Base_Address => 40000000;
+    Byte_Count   => 16#400000#;
+  end myram.sdram;
+
+  ------------
+  -- System --
+  ------------
+
+  system hello
+  end hello;
+
+  system implementation hello.impl
+  subcomponents
+    node_a : process node_a.impl;
+    cpu_rm : processor cpurm.impl;
+
+    mem    :  memory myram.sdram;
+  properties
+    Actual_Processor_Binding => (reference (cpu_rm.p0)) applies to node_a;
+    actual_memory_binding => (reference (mem.segment1)) applies to Node_A;
+  end hello.impl;
+
+end Hello_World1;

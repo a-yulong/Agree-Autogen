@@ -1,0 +1,16 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Cannot analyze AADL specifications",
+      "cause": "AGREE annex is attached to a component type (Vitesse_Air) but the validator cannot resolve AADL package context due to missing or malformed package reference visibility",
+      "minimal_edit": "Remove the package qualification from the annex owner reference by ensuring the annex is correctly scoped to the component type without external dependency ambiguity"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Verify that the AGREE annex is attached directly to the Vitesse_Air component type without any package-qualified prefix in the annex declaration",
+    "Ensure no external package references (e.g., autopilot_hard::) are implied or embedded in the AGREE expression — use only visible port names V_Air_Output and Dev_Bus as operands",
+    "Confirm the annex syntax is strictly: annex agree {** guarantee \"v_air_output_bounds\": V_Air_Output >= 0 and V_Air_Output <= 100; **};",
+    "Revalidate the AADL model with explicit inclusion of all 'with' clauses in the package declaration, ensuring Base_Types is visible (already present)"
+  ]
+}

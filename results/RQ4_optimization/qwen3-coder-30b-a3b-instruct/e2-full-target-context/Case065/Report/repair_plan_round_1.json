@@ -1,0 +1,31 @@
+{
+  "problems": [
+    {
+      "diagnostic": "line 75: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Forcing_Safe_Mode is an event port, not a boolean expression",
+      "minimal_edit": "Remove the assumption statement at line 75"
+    },
+    {
+      "diagnostic": "line 77: left side of binary expression '=>' is of type '<error>' but must be of type 'bool'",
+      "cause": "Getting_Back_To_Normal_Mode is an event port, not a boolean expression",
+      "minimal_edit": "Remove the assumption statement at line 77"
+    },
+    {
+      "diagnostic": "line 106: Couldn't resolve reference to ConnectionEnd 'attitude_window'",
+      "cause": "Connection reference is invalid or undefined in the context",
+      "minimal_edit": "Remove the invalid connection Cnx5 from the implementation"
+    },
+    {
+      "diagnostic": "line 107: Couldn't resolve reference to ConnectionEnd 'check_thresholds'",
+      "cause": "Connection reference is invalid or undefined in the context",
+      "minimal_edit": "Remove the invalid connection Cnx6 from the implementation"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the assumption statement at line 75: assume \"mode_transition_SM\": Forcing_Safe_Mode => Changing_mode_to_SM;",
+    "Remove the assumption statement at line 77: assume \"mode_transition_NM\": Getting_Back_To_Normal_Mode => Changing_mode_to_NM;",
+    "Remove the invalid connection Cnx5 from the implementation: Cnx5 : port TCP.attitude_window -> FDR.attitude_window;",
+    "Remove the invalid connection Cnx6 from the implementation: Cnx6 : port TCP.check_thresholds -> FDR.check_thresholds;"
+  ]
+}

@@ -1,0 +1,422 @@
+{
+  "component_types": [
+    {
+      "name": "agree_temperature::temperature_type",
+      "kind": "data"
+    },
+    {
+      "name": "agree_temperature::command",
+      "kind": "data"
+    },
+    {
+      "name": "agree_temperature::temperature_sensor",
+      "kind": "system"
+    },
+    {
+      "name": "agree_temperature::control_panel",
+      "kind": "system"
+    },
+    {
+      "name": "agree_temperature::temp_control",
+      "kind": "system"
+    },
+    {
+      "name": "agree_temperature::voter",
+      "kind": "system"
+    },
+    {
+      "name": "agree_temperature::controller",
+      "kind": "system"
+    },
+    {
+      "name": "agree_temperature::heater",
+      "kind": "system"
+    },
+    {
+      "name": "agree_temperature::cooler",
+      "kind": "system"
+    },
+    {
+      "name": "agree_temperature::integration",
+      "kind": "system"
+    }
+  ],
+  "component_implementations": [
+    {
+      "name": "agree_temperature::command.impl",
+      "kind": "data",
+      "type_name": "agree_temperature::command"
+    },
+    {
+      "name": "agree_temperature::temperature_sensor.i1",
+      "kind": "system",
+      "type_name": "agree_temperature::temperature_sensor"
+    },
+    {
+      "name": "agree_temperature::temperature_sensor.i2",
+      "kind": "system",
+      "type_name": "agree_temperature::temperature_sensor"
+    },
+    {
+      "name": "agree_temperature::control_panel.i",
+      "kind": "system",
+      "type_name": "agree_temperature::control_panel"
+    },
+    {
+      "name": "agree_temperature::temp_control.i",
+      "kind": "system",
+      "type_name": "agree_temperature::temp_control"
+    },
+    {
+      "name": "agree_temperature::voter.impl",
+      "kind": "system",
+      "type_name": "agree_temperature::voter"
+    },
+    {
+      "name": "agree_temperature::controller.impl",
+      "kind": "system",
+      "type_name": "agree_temperature::controller"
+    },
+    {
+      "name": "agree_temperature::heater.impl",
+      "kind": "system",
+      "type_name": "agree_temperature::heater"
+    },
+    {
+      "name": "agree_temperature::cooler.impl",
+      "kind": "system",
+      "type_name": "agree_temperature::cooler"
+    },
+    {
+      "name": "agree_temperature::integration.impl",
+      "kind": "system",
+      "type_name": "agree_temperature::integration"
+    }
+  ],
+  "subcomponents": [
+    {
+      "owner": "agree_temperature::temp_control.i",
+      "name": "heater",
+      "category": "system",
+      "classifier": "agree_temperature::heater.impl"
+    },
+    {
+      "owner": "agree_temperature::temp_control.i",
+      "name": "cooler",
+      "category": "system",
+      "classifier": "agree_temperature::cooler.impl"
+    },
+    {
+      "owner": "agree_temperature::temp_control.i",
+      "name": "controller",
+      "category": "system",
+      "classifier": "agree_temperature::controller.impl"
+    },
+    {
+      "owner": "agree_temperature::temp_control.i",
+      "name": "voter",
+      "category": "system",
+      "classifier": "agree_temperature::voter.impl"
+    },
+    {
+      "owner": "agree_temperature::integration.impl",
+      "name": "temp_control",
+      "category": "system",
+      "classifier": "agree_temperature::temp_control.i"
+    },
+    {
+      "owner": "agree_temperature::integration.impl",
+      "name": "user_panel",
+      "category": "system",
+      "classifier": "agree_temperature::control_panel.i"
+    },
+    {
+      "owner": "agree_temperature::integration.impl",
+      "name": "sensor1",
+      "category": "system",
+      "classifier": "agree_temperature::temperature_sensor.i1"
+    },
+    {
+      "owner": "agree_temperature::integration.impl",
+      "name": "sensor2",
+      "category": "system",
+      "classifier": "agree_temperature::temperature_sensor.i2"
+    }
+  ],
+  "features": [
+    {
+      "owner": "agree_temperature::temperature_type",
+      "name": "temperature_type",
+      "direction": "in",
+      "category": "data",
+      "type": "base_types::unsigned_8",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "agree_temperature::command",
+      "name": "command",
+      "direction": "in",
+      "category": "data",
+      "type": "opaque",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "agree_temperature::command.impl",
+      "name": "heater_on",
+      "direction": "in",
+      "category": "data",
+      "type": "base_types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "agree_temperature::command.impl",
+      "name": "cooler_on",
+      "direction": "in",
+      "category": "data",
+      "type": "base_types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "agree_temperature::temperature_sensor",
+      "name": "dataout",
+      "direction": "out",
+      "category": "data port",
+      "type": "agree_temperature::temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "agree_temperature::control_panel",
+      "name": "cmd",
+      "direction": "out",
+      "category": "data port",
+      "type": "agree_temperature::command.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "agree_temperature::temp_control",
+      "name": "temp1",
+      "direction": "in",
+      "category": "data port",
+      "type": "agree_temperature::temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "agree_temperature::temp_control",
+      "name": "temp2",
+      "direction": "in",
+      "category": "data port",
+      "type": "agree_temperature::temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "agree_temperature::temp_control",
+      "name": "user_request",
+      "direction": "in",
+      "category": "data port",
+      "type": "agree_temperature::command.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "agree_temperature::voter",
+      "name": "tempin1",
+      "direction": "in",
+      "category": "data port",
+      "type": "agree_temperature::temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "agree_temperature::voter",
+      "name": "tempin2",
+      "direction": "in",
+      "category": "data port",
+      "type": "agree_temperature::temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "agree_temperature::voter",
+      "name": "tempout",
+      "direction": "out",
+      "category": "data port",
+      "type": "agree_temperature::temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "agree_temperature::controller",
+      "name": "tempin",
+      "direction": "in",
+      "category": "data port",
+      "type": "agree_temperature::temperature_type",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "agree_temperature::controller",
+      "name": "user_request",
+      "direction": "in",
+      "category": "data port",
+      "type": "agree_temperature::command.impl",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "agree_temperature::controller",
+      "name": "heater_on",
+      "direction": "out",
+      "category": "data port",
+      "type": "base_types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "agree_temperature::controller",
+      "name": "cooler_on",
+      "direction": "out",
+      "category": "data port",
+      "type": "base_types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "agree_temperature::heater",
+      "name": "enabled",
+      "direction": "in",
+      "category": "data port",
+      "type": "base_types::boolean",
+      "scalar": "opaque"
+    },
+    {
+      "owner": "agree_temperature::cooler",
+      "name": "enabled",
+      "direction": "in",
+      "category": "data port",
+      "type": "base_types::boolean",
+      "scalar": "opaque"
+    }
+  ],
+  "connections": [
+    {
+      "owner": "agree_temperature::temp_control.i",
+      "name": "c0",
+      "kind": "port",
+      "source": "agree_temperature::temp_control.temp1",
+      "destination": "agree_temperature::voter.tempin1"
+    },
+    {
+      "owner": "agree_temperature::temp_control.i",
+      "name": "c1",
+      "kind": "port",
+      "source": "agree_temperature::temp_control.temp2",
+      "destination": "agree_temperature::voter.tempin2"
+    },
+    {
+      "owner": "agree_temperature::temp_control.i",
+      "name": "c2",
+      "kind": "port",
+      "source": "agree_temperature::temp_control.user_request",
+      "destination": "agree_temperature::controller.user_request"
+    },
+    {
+      "owner": "agree_temperature::temp_control.i",
+      "name": "c3",
+      "kind": "port",
+      "source": "agree_temperature::controller.heater_on",
+      "destination": "agree_temperature::heater.enabled"
+    },
+    {
+      "owner": "agree_temperature::temp_control.i",
+      "name": "c4",
+      "kind": "port",
+      "source": "agree_temperature::controller.cooler_on",
+      "destination": "agree_temperature::cooler.enabled"
+    },
+    {
+      "owner": "agree_temperature::temp_control.i",
+      "name": "c5",
+      "kind": "port",
+      "source": "agree_temperature::voter.tempout",
+      "destination": "agree_temperature::controller.tempin"
+    },
+    {
+      "owner": "agree_temperature::integration.impl",
+      "name": "sensor1_tc",
+      "kind": "port",
+      "source": "agree_temperature::sensor1.dataout",
+      "destination": "agree_temperature::temp_control.temp1"
+    },
+    {
+      "owner": "agree_temperature::integration.impl",
+      "name": "sensor2_tc",
+      "kind": "port",
+      "source": "agree_temperature::sensor2.dataout",
+      "destination": "agree_temperature::temp_control.temp2"
+    },
+    {
+      "owner": "agree_temperature::integration.impl",
+      "name": "up_to_tc",
+      "kind": "port",
+      "source": "agree_temperature::user_panel.cmd",
+      "destination": "agree_temperature::temp_control.user_request"
+    }
+  ],
+  "properties": [
+    {
+      "owner": "agree_temperature::temp_control.i",
+      "owner_kind": "implementation",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": "agree_temperature::temp_control.i.c0"
+    },
+    {
+      "owner": "agree_temperature::temp_control.i",
+      "owner_kind": "implementation",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": "agree_temperature::temp_control.i.c1"
+    },
+    {
+      "owner": "agree_temperature::temp_control.i",
+      "owner_kind": "implementation",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": "agree_temperature::temp_control.i.c2"
+    },
+    {
+      "owner": "agree_temperature::temp_control.i",
+      "owner_kind": "implementation",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": "agree_temperature::temp_control.i.c3"
+    },
+    {
+      "owner": "agree_temperature::temp_control.i",
+      "owner_kind": "implementation",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": "agree_temperature::temp_control.i.c4"
+    },
+    {
+      "owner": "agree_temperature::temp_control.i",
+      "owner_kind": "implementation",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": "agree_temperature::temp_control.i.c5"
+    },
+    {
+      "owner": "agree_temperature::integration.impl",
+      "owner_kind": "implementation",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": "agree_temperature::integration.impl.sensor1_tc"
+    },
+    {
+      "owner": "agree_temperature::integration.impl",
+      "owner_kind": "implementation",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": "agree_temperature::integration.impl.sensor2_tc"
+    },
+    {
+      "owner": "agree_temperature::integration.impl",
+      "owner_kind": "implementation",
+      "name": "communication_properties::timing",
+      "value": "immediate",
+      "applies_to": "agree_temperature::integration.impl.up_to_tc"
+    }
+  ]
+}

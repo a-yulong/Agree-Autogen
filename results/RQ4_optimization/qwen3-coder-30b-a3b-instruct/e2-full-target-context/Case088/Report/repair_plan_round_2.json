@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 182: Couldn't resolve reference to 'acc_in_data_x'.",
+      "cause": "AGREE annex in component type scope cannot directly reference subcomponent ports like 'attitude_sub.acc_in_data_x'",
+      "minimal_edit": "Remove all assume/guarantee clauses referencing 'attitude_sub.acc_in_data_x' and 'attitude_sub.acc_in_data_y'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 182: Couldn't resolve reference to 'attitude_sub'.",
+      "cause": "'attitude_sub' is a subcomponent binding visible only in implementation scope, not in component type scope",
+      "minimal_edit": "Remove all assume/guarantee clauses referencing 'attitude_sub.acc_in_data_x' and 'attitude_sub.acc_in_data_y'"
+    },
+    {
+      "diagnostic": "/CaseProject/modified_model.aadl | line 182: named thing must be an expression with a type",
+      "cause": "Expression 'attitude_sub.acc_in_data_x' is invalid in component type annex because 'attitude_sub' is not a visible entity in type scope",
+      "minimal_edit": "Remove all assume/guarantee clauses referencing 'attitude_sub.acc_in_data_x' and 'attitude_sub.acc_in_data_y'"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Delete the entire annex agree block from ATTITUDE_CALCULATION (not ATTITUDE_CALCULATION.IMPL)",
+    "No new clauses or identifiers are to be added",
+    "No other model changes are required because the routing is already correctly declared in the AADL connections"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'door1'.",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent 'door1' which is not visible in type scope",
+      "minimal_edit": "Remove the 'door1' reference from the assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'handle_position'.",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent 'door1' and its port 'handle_position' which are not visible in type scope",
+      "minimal_edit": "Remove the 'door1.handle_position' reference from the assume statement"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'closed'.",
+      "cause": "AGREE annex is in process type scope but references implementation subcomponent 'door1' and its port 'closed' which are not visible in type scope",
+      "minimal_edit": "Remove the 'door1.closed' reference from the assume statement"
+    }
+  ],
+  "repair_mode": "edit_owner",
+  "executor_steps": [
+    "Move the AGREE annex block from the process type 'doors_process' to the process implementation 'doors_process.imp'",
+    "Remove the invalid references to 'door1.handle_position' and 'door1.closed' from the assume statements in the AGREE annex",
+    "Keep only the valid signal flow assumptions using only the process-level ports"
+  ]
+}

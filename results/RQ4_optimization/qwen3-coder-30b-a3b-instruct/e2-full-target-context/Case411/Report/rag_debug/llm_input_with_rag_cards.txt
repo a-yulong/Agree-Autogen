@@ -1,0 +1,120 @@
+You are the AGREE Generator.
+
+Return only an AGREE annex block:
+annex agree {**
+  ...
+**};
+
+Generation task:
+- Use the requirement items as semantic guidance, not as a gate that can force an empty annex.
+- Generate the strongest valid AGREE contract you can from the raw requirement, requirement items, visible symbols, and RAG rules.
+- Prefer concrete assumptions/guarantees over an empty annex when the requirement contains explicit bounds, equality, implication, dependency, routing, or signal-flow intent that can be represented with visible symbols.
+- If some requirement wording is not directly expressible, still generate any valid partial contract that captures the executable part.
+
+Operand rules:
+- Every assume or guarantee must use this exact form: `guarantee "short label": expression;` or `assume "short label": expression;`.
+- Never output unlabeled clauses such as `guarantee x = y;`.
+- Use only exact visible target-interface symbols.
+- Do not use subcomponent paths, implementation-only ports, AADL type names, property names, package names, units, or invented fields.
+- Put assume, guarantee, eq, and const in component type annexes.
+- Numeric comparisons require numeric visible symbols; equality requires compatible operand types.
+- Use AGREE operator words: `and`, `or`, `not`, `=>`.
+
+RAG rules:
+<RAG_DIGEST agent="agree_generator">
+RAG rules:
+- Place input envelope assumptions and output range guarantees in component type annexes when concrete bounds or visible relations are provided.
+- Use assign statements in implementation scopes only for existing output features or declared auxiliary variables.
+- Generate AGREE contracts inside `annex agree {** ... **};` blocks with valid component type or implementation scope.
+Generic rules:
+- Ensure AGREE expressions match the actual data types of visible features and ports.
+- Avoid encoding AADL properties as AGREE variables unless explicitly exposed as typed ports or constants.
+- Do not convert Boolean domain values into integers unless the port is an AGREE bool in scope.
+- Use visible identifiers from the AADL model to construct valid AGREE expressions.
+Syntax or pattern reminders:
+- AGREE contracts must be enclosed in `annex agree {** ... **};` blocks.
+- Assumptions and guarantees should reference valid component ports or declared variables.
+- Equation declarations in AGREE must use correct type matching for boolean, integer, and real expressions.
+Anti-patterns:
+- Do not place guarantee statements in implementation scope; use only assumptions and assignments.
+- Do not reference AADL timing properties like Period or Deadline as AGREE variables.
+- Do not generate range checks for Boolean or opaque data ports without numeric scalar representation.
+</RAG_DIGEST>
+
+Visible target-interface symbols:
+- PartitionedSystemExample::integer
+- PartitionedSystemExample::ordercmd
+- PartitionedSystemExample::protected_data
+- PartitionedSystemExample::partition1_rt
+- PartitionedSystemExample::partition2_rt
+- PartitionedSystemExample::sensor_temperature_spg
+- PartitionedSystemExample::sensor_receiveinput_spg
+- PartitionedSystemExample::commandboard_receiveinput_spg
+- PartitionedSystemExample::commandboard_printinfos_spg
+- PartitionedSystemExample::sensor_temperature_thread
+- PartitionedSystemExample::sensor_receiveinput_thread
+- PartitionedSystemExample::commandboard_receiveinput_thread
+- PartitionedSystemExample::commandboard_printinfos_thread
+- PartitionedSystemExample::partition1_process
+- PartitionedSystemExample::partition2_process
+- PartitionedSystemExample::powerpc
+- PartitionedSystemExample::partition1_memory
+- PartitionedSystemExample::partition2_memory
+- PartitionedSystemExample::main_memory
+- PartitionedSystemExample::arincsystem
+- PartitionedSystemExample::partition1_rt.impl
+- PartitionedSystemExample::partition2_rt.impl
+- PartitionedSystemExample::sensor_temperature_thread.impl
+- PartitionedSystemExample::partition1_process.impl
+- PartitionedSystemExample::partition2_process.impl
+- PartitionedSystemExample::powerpc.impl
+- PartitionedSystemExample::main_memory.impl
+- PartitionedSystemExample::arincsystem.impl
+- temperature
+- order
+- receiver
+- printer
+- sem
+- blackboard
+- part1
+- part2
+- part1mem
+- part2mem
+- mem
+- cpu
+
+Target interface:
+Exact expression symbols: queueingout, samplingin
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+queueingout | out | data | int | integer
+samplingin | in | data | int | integer
+
+Raw requirement:
+The partition2_process component shall operate under a bounded input condition for samplingin. The environment shall keep samplingin greater than or equal to 0 and less than or equal to 100.
+
+Requirement items:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "samplingin >= 0 and samplingin <= 100",
+      "kind": "input_assumption",
+      "intent": "assume",
+      "evidence": [
+        "samplingin"
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "partition2_process operates under bounded input condition for samplingin",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": [
+        "PartitionedSystemExample::partition2_process",
+        "samplingin"
+      ]
+    }
+  ]
+}
