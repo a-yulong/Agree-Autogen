@@ -185,6 +185,25 @@ def prepare(args: argparse.Namespace) -> int:
     return 0
 
 
+def prepare_many(args: argparse.Namespace) -> int:
+    manifest_path = Path(args.manifest)
+    if not manifest_path.exists():
+        raise SystemExit(f"Missing manifest: {manifest_path}")
+    rows = []
+    with manifest_path.open("r", newline="", encoding="utf-8-sig") as handle:
+        reader = csv.DictReader(handle)
+        for entry in reader:
+            label = entry["setting"].strip()
+            directory = Path(entry["directory"].strip())
+            if not directory.exists():
+                raise SystemExit(f"Missing setting directory for {label}: {directory}")
+            rows.extend(build_input_rows(directory, label, args.case_limit))
+    rows.sort(key=lambda item: (item["setting"], case_number(item["case_id"])))
+    write_csv(Path(args.output), rows, INPUT_COLUMNS)
+    print(f"wrote {len(rows)} rows to {args.output}")
+    return 0
+
+
 def make_prompt(row: dict[str, str]) -> str:
     return f"""You are evaluating an AADL+AGREE artifact generated from a natural-language requirement.
 
@@ -523,6 +542,12 @@ def build_parser() -> argparse.ArgumentParser:
     prepare_parser.add_argument("--output", default="results/expert_review/review_inputs.csv")
     prepare_parser.add_argument("--case-limit", type=int)
     prepare_parser.set_defaults(func=prepare)
+
+    prepare_many_parser = subparsers.add_parser("prepare-many")
+    prepare_many_parser.add_argument("--manifest", required=True)
+    prepare_many_parser.add_argument("--output", default="results/expert_review/review_inputs.csv")
+    prepare_many_parser.add_argument("--case-limit", type=int)
+    prepare_many_parser.set_defaults(func=prepare_many)
 
     score_parser = subparsers.add_parser("score")
     score_parser.add_argument("--input", default="results/expert_review/review_inputs.csv")
