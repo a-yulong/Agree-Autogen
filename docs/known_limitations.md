@@ -18,6 +18,14 @@ The knowledge base is curated for AGREE-AutoGen experiments. It is not a complet
 
 Reported metrics apply to the released benchmark cases and configurations. They should not be interpreted as universal guarantees about all AADL models, all AGREE contracts, or all safety requirements.
 
+## Released Evaluation Records
+
+The benchmark manifest lists case files and sizes. A complete source-model/commit/target provenance registry is not included. Cases derived from the same architecture may be statistically dependent.
+
+The `expert_1` and `expert_2` columns identify two model-based rubric-scoring channels, not human participants. Recorded dimensions and the prompt support offline recomputation. Historical ratings do not retain scorer engine identifiers and versions, so an exact rerun of original scoring calls is not currently specified. Agreement between channels does not establish semantic correctness.
+
+The separate 342-case boundary pool and 72-case OSATE UI comparison described in the manuscript are not included in this release. The main 459-case benchmark must not be treated as evidence for that separate comparison.
+
 ## Validator Failures
 
 A validator failure is an experimental outcome. It means the pipeline produced an artifact that did not pass configured validation. It should not be conflated with provider failure, missing output, or an incomplete run.

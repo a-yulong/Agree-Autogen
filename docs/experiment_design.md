@@ -2,6 +2,18 @@
 
 The experimental evaluation studies how model choice, retrieval support, agent decomposition, and optimization mechanisms affect AGREE contract generation. All experiments use the same reporting format so that per-case outcomes can be aggregated into success rates, first-pass success rates, repair behavior, validator failures, and stage-error counts.
 
+## Current Manuscript Mapping
+
+Historical experiment IDs below are retained in directory names. The current manuscript uses:
+
+| Manuscript RQ | Selected runs | Historical directories |
+| --- | --- | --- |
+| RQ1: End-to-End Framework Effectiveness | Full, Direct, paired rubric ratings, repair and cost | `RQ1_full_e2_rag_models`, `RQ3_agent` |
+| RQ2: Ablation Study and Configuration Sensitivity | Analysis/optimization ablations and retrieval depths | `RQ3_agent`, `RQ4_optimization`, `RQ2_rag_topk` |
+| RQ3: Cross-Model Variation | Five full-framework runs and paired rubric ratings | `RQ1_full_e2_rag_models`; final GPT run in `results/paper_runs` |
+
+See `paper/data/source_manifest.json` for exact selections and `paper/README.md` for definitions. The earlier GPT run in `RQ1_full_e2_rag_models/gpt-5.4` is historical, not the manuscript run.
+
 ## Dataset
 
 Experiments are organized over case directories containing:

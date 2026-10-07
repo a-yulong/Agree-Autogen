@@ -1,6 +1,6 @@
-"""Prepare, score, and summarize the RQ1 expert review table.
+"""Prepare, score, and summarize paired rubric assessments.
 
-The workflow uses neutral expert identifiers in files and CSV columns. Engine
+The workflow uses expert_1/expert_2 as model-scoring channel identifiers. Engine
 names and endpoint credentials are supplied through environment variables and
 are not written to the output tables.
 """

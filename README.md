@@ -2,7 +2,7 @@
 
 AGREE-AutoGen is a multi-agent framework for generating and validating AGREE contracts from natural-language requirements and AADL architecture models. It treats contract generation as a sequence of constrained decisions: retrieved AGREE/AADL knowledge constrains the available formal patterns, architecture analysis constrains the visible model scope, requirement analysis constrains formalization intent, generation produces candidate AGREE clauses, model fusion inserts the clauses into the appropriate AADL owner, and validation-guided repair uses tool diagnostics to make bounded corrections.
 
-The repository is designed as a research artifact. It contains the implementation, prompts, validation interface, retrieval resources, experiment configuration, and result-processing scripts needed to inspect the method and reproduce the reported analyses.
+The repository contains the implementation, prompts, validation interface, retrieval resources, experiment configurations, and released case records. The current manuscript's numerical analysis entry point is [`paper/README.md`](paper/README.md).
 
 ## Highlights
 
@@ -88,7 +88,7 @@ The experiment scripts support:
 
 Experiment design is documented in `docs/experiment_design.md`. Result formats and metric definitions are documented in `docs/result_schema.md`.
 
-The repository includes the released aggregate summaries and the per-case RQ1-RQ4 result tree under `results/`.
+The directory names under `results/` retain the original experiment IDs and do not correspond one-to-one to the current manuscript's RQs. Use [`paper/data/source_manifest.json`](paper/data/source_manifest.json) to identify the selected runs and [`paper/data/statistics/`](paper/data/statistics/) for recomputed manuscript statistics. Historical summaries are retained for traceability and are not the current manuscript results.
 
 ## Reproducibility
 
@@ -99,6 +99,12 @@ The repository supports three reproduction levels:
 - full experiment execution with model-provider credentials.
 
 See `docs/reproducibility.md` for commands, dependencies, and expected outputs.
+
+To recompute manuscript statistics without model-provider calls:
+
+```powershell
+python paper/scripts/recompute_statistics.py
+```
 
 ## Citation
 

@@ -1,29 +1,23 @@
-# Experiment Results
+# Experiment results
 
-This directory contains the released AGREE-AutoGen experiment outputs used for the reported RQ1-RQ4 analysis.
-
-## Result Sets
+The directory names retain historical experiment IDs. For the current manuscript's RQ1--RQ3, use `paper/data/source_manifest.json` for run selection and `paper/data/statistics/` for recomputed results.
 
 | Directory | Content |
-|---|---|
-| `RQ1_full_e2_rag_models/` | Full E2 pipeline results for the model comparison. |
-| `RQ2_rag_topk/` | Retrieval top-k comparison under the Qwen setting, including the balanced 3-3-3 baseline. |
-| `RQ3_agent/` | Agent-ablation results for direct generation and the analyst-ablation settings retained in the final study. |
-| `RQ4_optimization/` | Optimization-ablation results for raw RAG without digest, no agent strategy guidance, and full target context. |
+| --- | --- |
+| `RQ1_full_e2_rag_models/` | Full-framework model runs, including an earlier GPT provider-failure run. |
+| `RQ2_rag_topk/` | Retrieval-depth runs. |
+| `RQ3_agent/` | Direct baseline and analysis ablations. |
+| `RQ4_optimization/` | Digest, guidance, and target-context ablations. |
+| `paper_runs/gpt-5.4-high-stable/` | Final GPT run selected for the current manuscript. |
+| `expert_review/` | Full/Direct paired rubric inputs and ratings. |
+| `expert_review_rq1_full/` | Five-model paired rubric inputs and ratings. |
 
-Each setting directory contains per-case outputs under `Case001` to `Case459` when the setting has completed the full benchmark. A case directory preserves the generated reports and intermediate artifacts produced by the run.
+Per-case reports retain validator outcomes, repair counts, measured cost, and stage errors. Provider/stage errors and validator rejection are distinct outcomes.
 
-## Aggregate Tables
+## Historical summaries
 
-The root CSV and Markdown files summarize the same result set:
+`completed_experiments_summary.*` and `all_experiments_summary_20260622.*` are historical summaries. They do not select the final manuscript GPT run and their zero-valued timing columns must not be used as measured execution cost. Their directory IDs are not the current manuscript's RQ labels.
 
-- `completed_experiments_summary.csv`
-- `completed_experiments_summary.md`
-- `all_experiments_summary_20260622.csv`
-- `all_experiments_summary_20260622.md`
+## Current statistics
 
-The aggregate tables report completed cases, final successes, final failures, stage errors, first-pass successes, repair-round counts, and timing/token statistics when available.
-
-## Metric Source
-
-Metrics are computed from `Case*_report.json` files. A case is counted as completed when its report contains a case identifier and a success field. Validator failures remain experimental failures. Provider or stage errors are counted separately when the report marks them as stage errors.
+Run `python paper/scripts/recompute_statistics.py` from the repository root. The source selections and case-level extracts are documented in `paper/README.md`. This recomputes exact numerical results without regenerating figures or calling model services.

@@ -1,5 +1,13 @@
 ﻿# Reproducibility
 
+## Manuscript Statistics
+
+Run `python paper/scripts/recompute_statistics.py` to recompute current manuscript results with Python 3.11 or later. The script uses the standard library, makes no provider calls, and does not generate figures.
+
+Run `python paper/scripts/rebuild_inputs.py` for a source-report audit. This checks all 6,885 selected reports against checksums and compact extracts. It requires the referenced report paths to be checked out. Numerical recomputation needs only the extracts and rating files.
+
+See `paper/README.md` for denominators, strict-usability thresholds, and source selections.
+
 This repository supports three reproduction levels:
 
 1. offline inspection of benchmark inputs, prompts, knowledge sources, code, aggregate tables, and per-case results;
@@ -91,5 +99,5 @@ Aggregate per-case reports:
 python scripts/aggregate_experiment_results.py --result-root outputs/e2_cases_1_5
 ```
 
-The released aggregate result files under `results/` were computed from the per-case JSON reports stored in the same result tree.
+The dated summaries under `results/` describe historical executions. Their zero-valued cost columns are not valid manuscript cost measurements. Current runtime, token, validation, and rubric statistics are recomputed under `paper/data/statistics/` from selected measured records.
 
