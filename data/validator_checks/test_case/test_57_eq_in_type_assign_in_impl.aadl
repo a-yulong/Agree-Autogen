@@ -1,0 +1,39 @@
+package TestEqInTypeAssignInImpl
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    -- 修复记录#1场景：eq在ComponentType中，assign在ComponentImplementation中
+    system TestSystem
+        features
+            input: in data port int;
+            output: out data port int;
+        annex agree {**
+            -- eq定义在component type中
+            eq x : int = input + 5;
+            eq y : int;  -- 只有声明，没有表达式
+        **};
+    end TestSystem;
+
+    system implementation TestSystem.impl
+        annex agree {**
+            -- assign在component implementation中
+            -- 应该能够找到type中的eq x
+            assign x = input * 2;
+
+            -- 对于只有声明的eq y，assign是允许的
+            assign y = input + 10;
+
+            assign output = x + y;
+        **};
+    end TestSystem.impl;
+
+end TestEqInTypeAssignInImpl;

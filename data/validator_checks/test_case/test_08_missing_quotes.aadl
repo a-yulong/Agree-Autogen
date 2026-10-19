@@ -1,0 +1,26 @@
+package TestMissingQuotes
+public
+	with Base_Types;
+
+	data int extends Base_Types::Integer
+	end int;
+
+	data real extends Base_Types::Float
+	end real;
+
+	data bool extends Base_Types::Boolean
+	end bool;
+
+	system TestSystem
+		features
+			input1: in data port int;
+			output1: out data port int;
+		annex agree {**
+			eq x : int = 0;
+			-- 错误8：标签名缺少双引号
+			guarantee test: x >= 0;
+			assume safe: x < 100;
+		**};
+	end TestSystem;
+
+end TestMissingQuotes;

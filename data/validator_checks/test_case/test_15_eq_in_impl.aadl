@@ -1,0 +1,17 @@
+package TestEqInImpl
+public
+	with Base_Types;
+	system TestSystem
+		features
+			input1: in data port Base_Types::Integer;
+			output1: out data port Base_Types::Integer;
+	end TestSystem;
+
+	system implementation TestSystem.Impl
+		annex agree {**
+			-- 错误15：eq和guarantee语句在component implementation中
+			eq x : int = 0;
+			guarantee "test": x >= 0;
+		**};
+	end TestSystem.Impl;
+end TestEqInImpl;

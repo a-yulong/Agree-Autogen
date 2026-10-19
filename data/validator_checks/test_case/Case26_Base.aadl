@@ -1,0 +1,41 @@
+package refuel_single
+public
+	with base_types;
+	with gcas_nodes;
+	
+	system Refuel_singleton
+		features
+			timeToRecovery: out data port real;
+		annex agree {**
+			eq t: real = 0.0 -> pre(t) + 0.1;
+			eq returnToHomeMode: bool;
+			eq distance: real;
+			
+			const fuelDistance: real = 50.0;
+			const velocity: real = 5.0;
+			
+			guarantee "timeToRecovery relates distance and velocity": timeToRecovery = distance / velocity;
+			guarantee "safe fuel before recovery": timeToRecovery > (fuelDistance / velocity);
+		**};
+	end Refuel_singleton;
+	
+	system implementation Refuel_singleton.impl
+		annex agree {**
+			assign distance = 0.0 -> if returnToHomeMode then pre(distance) - velocity else pre(distance) + velocity;
+			assign returnToHomeMode = True;
+		**};
+	end Refuel_singleton.impl;
+	
+	
+	-- Type Aliases
+	
+	data int extends base_types::Integer
+	end int;
+	
+	data real extends base_types::Float 
+	end real;
+	
+	data bool extends base_types::Boolean
+	end bool;
+	
+end refuel_single;

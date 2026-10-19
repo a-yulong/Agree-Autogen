@@ -1,0 +1,49 @@
+package CollisionAvoidance
+public
+	with Base_Types;
+	with Agree_Nodes;
+	
+	process CollisionAlgorithm
+		features
+			ownAlt: in data port Base_Types::float;
+			ownVertVel: in data port Base_Types::float;
+			ownVertAcc: in data port Base_Types::float;
+			intAlt: in data port Base_Types::float;
+			intVertVel: in data port Base_Types::float;
+			intVertAcc: in data port Base_Types::float;
+			ownLocation: in data port Base_Types::integer;
+		
+		annex agree {**
+			const SAFE_ALT_DELTA : real = 50.0;
+			const TIME_STEP : real = 0.1;
+			const INTRUDER_FIXED_ALT : real = 1000.0;
+			const ACCEL_UP : real = 50.0;
+			const ACCEL_DOWN : real = -50.0;
+			
+			eq t : real = 0.0 -> pre(t) + TIME_STEP;
+			eq projectedAlt : real;
+			eq goesUp : bool;
+			eq goesDown : bool;
+			eq nextOwnAlt : real;
+			
+			assume "initial own altitude above 1000": t = 0.0 => ownAlt > INTRUDER_FIXED_ALT;
+			assume "intruder altitude constant": True -> intAlt = pre(intAlt) and intAlt = INTRUDER_FIXED_ALT;
+			assume "own location constant": True -> ownLocation = pre(ownLocation);
+			assume "own altitude always non-negative initial": t = 0.0 => ownAlt >= 0.0;
+			
+			guarantee "no simultaneous up and down": not (goesUp and goesDown);
+			guarantee "next own altitude non-negative": nextOwnAlt >= 0.0;
+			guarantee "safe altitude difference next step": nextOwnAlt > intAlt + SAFE_ALT_DELTA or intAlt > nextOwnAlt + SAFE_ALT_DELTA;
+		**};
+	end CollisionAlgorithm;
+	
+	process implementation CollisionAlgorithm.CollisionAlgorithm_impl
+		annex agree {**
+			assign projectedAlt = ownAlt + ownVertVel;
+			assign goesUp = projectedAlt > ownAlt;
+			assign goesDown = projectedAlt < ownAlt;
+			assign nextOwnAlt = ownAlt + ownVertVel * TIME_STEP;
+		**};
+	end CollisionAlgorithm.CollisionAlgorithm_impl;
+	
+end CollisionAvoidance;

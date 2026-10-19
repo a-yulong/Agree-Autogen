@@ -1,0 +1,214 @@
+package Microwave_SEng5861
+public
+	with Base_Types;
+
+	data int extends Base_Types::Integer
+	end int;
+
+	data bool extends Base_Types::Boolean
+	end bool;
+
+	-- This system managed    
+	system Mode_Control
+		features
+			start: in data port Base_Types::Boolean;
+			clear: in data port Base_Types::Boolean;
+			seconds_to_cook: in data port Base_Types::Integer;
+			door_closed: in data port Base_Types::Boolean;
+			cooking_mode: out data port Base_Types::Integer;
+	end Mode_Control;
+
+	system implementation Mode_Control.Impl
+		annex agree {**
+		**};
+	end Mode_Control.Impl;
+
+	system Display_Control
+		features
+			clear: in data port Base_Types::Boolean;
+			kp_0: in data port Base_Types::Boolean;
+			kp_1: in data port Base_Types::Boolean;
+			kp_2: in data port Base_Types::Boolean;
+			kp_3: in data port Base_Types::Boolean;
+			kp_4: in data port Base_Types::Boolean;
+			kp_5: in data port Base_Types::Boolean;
+			kp_6: in data port Base_Types::Boolean;
+			kp_7: in data port Base_Types::Boolean;
+			kp_8: in data port Base_Types::Boolean;
+			kp_9: in data port Base_Types::Boolean;
+			cooking_mode: in data port Base_Types::Integer;
+			left_digit: out data port Base_Types::Integer;
+			middle_digit: out data port Base_Types::Integer;
+			right_digit: out data port Base_Types::Integer;
+			seconds_to_cook: out data port Base_Types::Integer;
+		annex agree {**
+			-- 派生信号定义
+			eq setup_mode : bool = (cooking_mode = 0);
+			eq cooking_mode_active : bool = (cooking_mode = 1);
+			eq clear_re : bool = clear and not pre(clear);
+			eq kp0_re : bool = kp_0 and not pre(kp_0);
+			eq kp1_re : bool = kp_1 and not pre(kp_1);
+			eq kp2_re : bool = kp_2 and not pre(kp_2);
+			eq kp3_re : bool = kp_3 and not pre(kp_3);
+			eq kp4_re : bool = kp_4 and not pre(kp_4);
+			eq kp5_re : bool = kp_5 and not pre(kp_5);
+			eq kp6_re : bool = kp_6 and not pre(kp_6);
+			eq kp7_re : bool = kp_7 and not pre(kp_7);
+			eq kp8_re : bool = kp_8 and not pre(kp_8);
+			eq kp9_re : bool = kp_9 and not pre(kp_9);
+			
+			-- 内部状态：当前所有数位（初始值合理，状态递推在类型层）
+			eq current_left : int = 0 -> 
+				if clear_re then 0
+				else if setup_mode then
+					if kp1_re then 1
+					else if kp2_re then 2
+					else if kp3_re then 3
+					else if kp4_re then 4
+					else if kp5_re then 5
+					else if kp6_re then 6
+					else if kp7_re then 7
+					else if kp8_re then 8
+					else if kp9_re then 9
+					else pre(current_left)
+				else if cooking_mode_active then
+					if (pre(current_middle) = 0 and pre(current_right) = 0) then 0
+					else if (pre(current_middle) = 0 and pre(current_right) > 0) then pre(current_left)
+					else if pre(current_right) > 0 then pre(current_left)
+					else pre(current_left) - 1
+				else pre(current_left);
+			eq current_middle : int = 0 ->
+				if clear_re then 0
+				else if setup_mode then
+					if kp0_re then 0
+					else if kp1_re then 1
+					else if kp2_re then 2
+					else if kp3_re then 3
+					else if kp4_re then 4
+					else if kp5_re then 5
+					else if kp6_re then 6
+					else if kp7_re then 7
+					else if kp8_re then 8
+					else if kp9_re then 9
+					else pre(current_middle)
+				else if cooking_mode_active then
+					if (pre(current_left) = 0 and pre(current_middle) = 0 and pre(current_right) = 0) then 0
+					else if pre(current_right) > 0 then pre(current_middle)
+					else if pre(current_middle) > 0 then pre(current_middle) - 1
+					else if pre(current_left) > 0 then 5
+					else 0
+				else pre(current_middle);
+			eq current_right : int = 0 ->
+				if clear_re then 0
+				else if setup_mode then
+					if kp0_re then 0
+					else if kp1_re then 1
+					else if kp2_re then 2
+					else if kp3_re then 3
+					else if kp4_re then 4
+					else if kp5_re then 5
+					else if kp6_re then 6
+					else if kp7_re then 7
+					else if kp8_re then 8
+					else if kp9_re then 9
+					else pre(current_right)
+				else if cooking_mode_active then
+					if (pre(current_left) = 0 and pre(current_middle) = 0 and pre(current_right) = 0) then 0
+					else if pre(current_right) > 0 then pre(current_right) - 1
+					else if (pre(current_middle) > 0 or pre(current_left) > 0) then 9
+					else 0
+				else pre(current_right);
+			
+			-- 内部状态与输出端口的绑定（用guarantee+单向蕴含，避免impl层作用域问题）
+			guarantee "bind left_digit": true => left_digit = current_left;
+			guarantee "bind middle_digit": true => middle_digit = current_middle;
+			guarantee "bind right_digit": true => right_digit = current_right;
+			guarantee "bind seconds_to_cook": true => seconds_to_cook = current_left * 600 + current_middle * 60 + current_right * 10;
+			
+			-- 数位合法性保证
+			guarantee "left_digit in [0,9]": left_digit >= 0 and left_digit <= 9;
+			guarantee "middle_digit in [0,9]": middle_digit >= 0 and middle_digit <= 9;
+			guarantee "right_digit in [0,9]": right_digit >= 0 and right_digit <= 9;
+			-- 总时长与数位的精确映射保证（冗余但确保顶层可见）
+			guarantee "seconds_to_cook matches digits": seconds_to_cook = left_digit * 600 + middle_digit * 60 + right_digit * 10;
+		**};
+	end Display_Control;
+
+	system implementation Display_Control.Impl
+		annex agree {**
+			-- 空的annex agree块，仅满足可能的子组件引用要求（虽当前无）
+		**};
+	end Display_Control.Impl;
+
+	system Output_Processing
+		features
+			cooking_mode: in data port Base_Types::Integer;
+			heating_element_on: out data port Base_Types::Boolean;
+	end Output_Processing;
+
+	system implementation Output_Processing.Impl
+		annex agree {**
+		**};
+	end Output_Processing.Impl;
+
+	system Microwave_Control
+		features
+			clear: in data port Base_Types::Boolean;
+			start: in data port Base_Types::Boolean;
+			kp_0: in data port Base_Types::Boolean;
+			kp_1: in data port Base_Types::Boolean;
+			kp_2: in data port Base_Types::Boolean;
+			kp_3: in data port Base_Types::Boolean;
+			kp_4: in data port Base_Types::Boolean;
+			kp_5: in data port Base_Types::Boolean;
+			kp_6: in data port Base_Types::Boolean;
+			kp_7: in data port Base_Types::Boolean;
+			kp_8: in data port Base_Types::Boolean;
+			kp_9: in data port Base_Types::Boolean;
+			door_closed: in data port Base_Types::Boolean;
+
+			heating_element_on: out data port Base_Types::Boolean;
+			left_digit: out data port Base_Types::Integer;
+			middle_digit: out data port Base_Types::Integer;
+			right_digit: out data port Base_Types::Integer;
+	end Microwave_Control;
+
+	system implementation Microwave_Control.Impl
+		subcomponents
+			MC: system Mode_Control.Impl;
+			DC: system Display_Control.Impl;
+			OP: system Output_Processing.Impl;
+		connections
+			clear_TO_MC_clear: port clear -> MC.clear {Communication_Properties::Timing => immediate;};
+			clear_TO_DC_clear: port clear -> DC.clear {Communication_Properties::Timing => immediate;};
+			start_TO_MC_start: port start -> MC.start {Communication_Properties::Timing => immediate;};
+			kp_0_TO_DC_kp_0: port kp_0 -> DC.kp_0 {Communication_Properties::Timing => immediate;};
+			kp_1_TO_DC_kp_1: port kp_1 -> DC.kp_1 {Communication_Properties::Timing => immediate;};
+			kp_2_TO_DC_kp_2: port kp_2 -> DC.kp_2 {Communication_Properties::Timing => immediate;};
+			kp_3_TO_DC_kp_3: port kp_3 -> DC.kp_3 {Communication_Properties::Timing => immediate;};
+			kp_4_TO_DC_kp_4: port kp_4 -> DC.kp_4 {Communication_Properties::Timing => immediate;};
+			kp_5_TO_DC_kp_5: port kp_5 -> DC.kp_5 {Communication_Properties::Timing => immediate;};
+			kp_6_TO_DC_kp_6: port kp_6 -> DC.kp_6 {Communication_Properties::Timing => immediate;};
+			kp_7_TO_DC_kp_7: port kp_7 -> DC.kp_7 {Communication_Properties::Timing => immediate;};
+			kp_8_TO_DC_kp_8: port kp_8 -> DC.kp_8 {Communication_Properties::Timing => immediate;};
+			kp_9_TO_DC_kp_9: port kp_9 -> DC.kp_9 {Communication_Properties::Timing => immediate;};
+			door_closed_TO_MC_door_closed: port door_closed -> MC.door_closed {
+				Communication_Properties::Timing => immediate;};
+
+			DC_steps_to_cook_TO_MC_steps_to_cook: port DC.seconds_to_cook -> MC.seconds_to_cook {
+				Communication_Properties::Timing => immediate;};
+			MC_cooking_mode_TO_OP_cooking_mode: port MC.cooking_mode -> OP.cooking_mode {
+				Communication_Properties::Timing => immediate;};
+
+			-- Note: this communication path is *delayed*
+			MC_enable_TO_DC_enable: port MC.cooking_mode -> DC.cooking_mode {
+				Communication_Properties::Timing => delayed;};
+
+			OP_heating_element_on_TO_heating_element_on: port OP.heating_element_on -> heating_element_on {
+				Communication_Properties::Timing => immediate;};
+			DC_left_digit_TO_left_digit: port DC.left_digit -> left_digit;
+			DC_middle_digit_TO_middle_digit: port DC.middle_digit -> middle_digit;
+			DC_right_digit_TO_right_digit: port DC.right_digit -> right_digit;
+	end Microwave_Control.Impl;
+
+end Microwave_SEng5861;

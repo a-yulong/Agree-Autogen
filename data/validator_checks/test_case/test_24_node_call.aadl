@@ -1,0 +1,43 @@
+package TestNodeCall
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input1: in data port int;
+            input2: in data port bool;
+            output1: out data port int;
+        annex agree {**
+            -- 定义一些节点
+            node add(a : int; b : int) returns (c : int);
+            let
+                c = a + b;
+            tel;
+
+            node not_bool(x : bool) returns (y : bool);
+            let
+                y = not x;
+            tel;
+
+            -- 错误24：节点调用错误
+            eq result1 : int = add(input1, true);        -- 参数类型不匹配
+            eq result2 : bool = not_bool(5);              -- 参数类型不匹配
+            eq result3 : int = add(input1);               -- 参数数量不足
+            eq result4 : int = add(input1, 2, 3);         -- 参数数量过多
+            eq result5 : int = unknown_node(input1);       -- 未定义的节点
+
+            
+            eq good : int = add(input1, 10);
+        **};
+    end TestSystem;
+
+end TestNodeCall;

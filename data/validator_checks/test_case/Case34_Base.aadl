@@ -1,0 +1,63 @@
+package tcas_single
+public
+	with base_types;
+
+	system TCAS_singleton
+		features
+			nearestIntruderAltitude: in data port int;
+			nearestIntruderGroundDistance: in data port int;
+			nearestIntruderLongitude: in data port int;
+			ownAltitude_in: in data port int;
+			ownHeading: in data port int; -- degrees from North
+			ownVerticalVelocity: in data port int;
+			ownLatitude: in data port int;
+			ownLongitude: in data port int;
+			
+			requiredVerticalVelocity: out data port int;
+			timeToRecovery: out data port real;
+		
+		annex agree {**
+			const sameAltitudeGoUp: int = 50;
+			const sameAltitudeGoDown: int = -50;
+			const intrusionFromAbove: int = -10;
+			const intrusionFromBelow: int = 10;
+			const safeAltitudeDifference: int = 100;
+			
+			eq t: real = 0.0 -> pre(t) + 1.0;
+			eq ownAltitude: int = ownAltitude_in -> pre(ownAltitude) + pre(requiredVerticalVelocity);
+			eq ownAircraftGoesUpOnTie: bool = (ownLongitude > nearestIntruderLongitude);
+			eq altitude_diff: int = if (ownAltitude - nearestIntruderAltitude >= 0) then (ownAltitude - nearestIntruderAltitude) else (nearestIntruderAltitude - ownAltitude);
+			
+			assume "constant intruder altitude": True -> nearestIntruderAltitude = pre(nearestIntruderAltitude);
+			assume "intruder aircraft above ground": nearestIntruderAltitude > 0;
+			assume "intruder distance above zero": nearestIntruderGroundDistance > 0;
+			assume "Own aircraft above ground": ownAltitude > 0;
+			assume "heading is in normalized degrees": ownHeading >= 0 and ownHeading < 360;
+			assume "own latitude is sensible": ownLatitude >= 0 and ownLatitude <= 90;
+			assume "own longitude is sensible": ownLongitude >= -180 and ownLongitude <= 180;
+			
+			guarantee "more eastern aircraft priority rule": ownAircraftGoesUpOnTie = (ownLongitude > nearestIntruderLongitude);
+			guarantee "safe altitude difference after recovery time": t >= timeToRecovery => altitude_diff >= safeAltitudeDifference;
+		**};
+	end TCAS_singleton;
+
+	system implementation TCAS_singleton.impl
+		annex agree {**
+			assign timeToRecovery = 9.1;
+			assign requiredVerticalVelocity = 
+				if (ownAltitude = nearestIntruderAltitude) 
+					then if (ownLongitude > nearestIntruderLongitude) 
+						then sameAltitudeGoUp
+						else sameAltitudeGoDown
+				else if(ownAltitude < nearestIntruderAltitude)
+					then intrusionFromAbove
+					else intrusionFromBelow;
+		**};
+	end TCAS_singleton.impl;
+
+	data int extends base_types::Integer
+	end int;
+
+	data real extends base_types::Float
+	end real;
+end tcas_single;

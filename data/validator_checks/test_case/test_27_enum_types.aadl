@@ -1,0 +1,35 @@
+package TestEnumTypes
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    -- 枚举类型定义
+    data color
+        enumeration
+            RED,
+            GREEN,
+            BLUE
+        end enumeration;
+    end color;
+
+    system TestSystem
+        features
+            c: in data port color;
+            output1: out data port color;
+        annex agree {**
+            -- 错误27：枚举类型使用错误
+            eq x : color = YELLOW;              -- 未定义的枚举值
+            eq y : int = c + RED;               -- 枚举与整数运算
+            eq z : bool = c = 5;                -- 枚举与整数比较
+
+            -- assign枚举值
+            assign output1 = PURPLE;             -- 未定义的枚举值
+        **};
+    end TestSystem;
+
+end TestEnumTypes;

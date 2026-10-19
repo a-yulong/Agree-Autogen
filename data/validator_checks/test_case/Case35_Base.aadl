@@ -1,0 +1,113 @@
+package Car
+public
+	with Base_Types;
+
+	-- 自定义AGREE所需基础类型
+	data real extends Base_Types::Float
+	end real;
+
+	data bool extends Base_Types::Boolean
+	end bool;
+
+	data int extends Base_Types::Integer
+	end int;
+
+	-- 简化为单一数值扩展类型（原结构仅含单个val字段，功能完全一致）
+	data speed extends real
+	end speed;
+
+	data pitch extends real
+	end pitch;
+
+	data state_sig extends int
+	end state_sig;
+
+	-- 补全缺失的Transmission系统骨架
+	system Throttle
+		features
+			Actuator_Input: in data port Base_Types::Float;
+			Actual: out data port speed;
+		annex agree {** **};
+	end Throttle;
+
+	system implementation Throttle.Throttle_Impl
+		annex agree {** **};
+	end Throttle.Throttle_Impl;
+
+	system Speed_Control
+		features
+			Target: in data port speed;
+			Actual: in data port speed;
+			Actuator_Input: out data port Base_Types::Float;
+		annex agree {** **};
+	end Speed_Control;
+
+	system implementation Speed_Control.Speed_Control_Impl
+		annex agree {** **};
+	end Speed_Control.Speed_Control_Impl;
+
+	system State_Machine
+		features
+			State_Out: out data port state_sig;
+		annex agree {** **};
+	end State_Machine;
+
+	system implementation State_Machine.Impl
+		annex agree {** **};
+	end State_Machine.Impl;
+
+	-- 补全缺失的Steering系统骨架
+	system Axle
+		features
+			Target_Tire_Direction: in data port pitch;
+			Actual_Tire_Direction: out data port pitch;
+		annex agree {** **};
+	end Axle;
+
+	system implementation Axle.Axle_Impl
+		annex agree {** **};
+	end Axle.Axle_Impl;
+
+	system Car
+		features
+			Target_Speed: in data port speed;
+			Actual_Speed: out data port speed;
+			Target_Tire_Pitch: in data port pitch;
+			Actual_Tire_Pitch: out data port pitch;
+			State_Signal: out data port state_sig;
+		
+		annex agree {**
+			const max_accel : real = 40.0;
+			eq const_tar_speed : bool = true -> (pre(Target_Speed) = Target_Speed);
+			
+			assume "target_speed_non_negative": Target_Speed >= 0.0;
+			assume "target_speed_below_limit": Target_Speed < 150.0;
+			
+			guarantee "actual_speed_limited_when_target_constant": const_tar_speed => (Actual_Speed <= Target_Speed);
+			guarantee "actual_speed_acceleration_upper_bound": (Actual_Speed - pre(Actual_Speed)) < max_accel;
+			guarantee "actual_speed_deceleration_upper_bound": (pre(Actual_Speed) - Actual_Speed) < max_accel;
+		**};
+	end Car;
+
+	system implementation Car.Car_Impl
+		subcomponents
+			THROT: system Throttle.Throttle_Impl;
+			CNTRL: system Speed_Control.Speed_Control_Impl;
+			AXL: system Axle.Axle_Impl;
+			SM: system State_Machine.Impl;
+
+		connections
+			SpeedToThrot: port CNTRL.Actuator_Input -> THROT.Actuator_Input;
+			AcSpeedToTop: port THROT.Actual -> Actual_Speed;
+			AcSpeedToCntrl: port THROT.Actual -> CNTRL.Actual;
+			TgSpeedToCntrl: port Target_Speed -> CNTRL.Target;
+			TgPtichToAxl: port Target_Tire_Pitch -> AXL.Target_Tire_Direction;
+			AcPtichToCar: port AXL.Actual_Tire_Direction -> Actual_Tire_Pitch;
+			SSToSM: port SM.State_Out -> State_Signal;
+
+		annex agree {**
+			-- 子组件AGREE占位块已在类型层和实现层满足要求
+		**};
+	end Car.Car_Impl;
+
+end Car;

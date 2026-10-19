@@ -1,0 +1,31 @@
+package TestSynchronyAssumptions
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input1: in data port int;
+            input2: in data port int;
+            output1: out data port int;
+        annex agree {**
+            -- 同步假设（如果AGREE支持这些）
+            synchronicity
+                -- 错误35：同步规约错误
+                input1 => input2;  -- 某种同步关系
+            end synchronicity;
+
+            eq x : int = input1 + input2;
+            eq y : int = pre(x) + 1;
+
+            -- 同步相关的保证
+            guarantee "sync_behavior": x = y;
+        **};
+    end TestSystem;
+
+end TestSynchronyAssumptions;

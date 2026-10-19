@@ -1,0 +1,175 @@
+﻿Validation and Repair expanded prompt (Case003)
+
+This example is reconstructed from the saved repair focus and repair plan artifacts.
+The raw validator output was not stored verbatim, so the diagnostics below follow the recorded repair plan summary.
+
+You are the Validation Repair Executor.
+
+Task:
+Execute the repair plan exactly. Do not reinterpret the requirement. Do not add new clauses or identifiers unless the plan explicitly requires them.
+
+Output form:
+- If repair_mode is `edit_annex`, output only the repaired AGREE annex block(s).
+- If repair_mode is `edit_owner` or `edit_full_model`, output the complete modified AADL model.
+- If the plan removes an entire annex or moves content to a different owner, output the complete modified AADL model.
+- Do not output Markdown or explanation.
+
+Execution rules:
+- Follow executor_steps in order.
+- Make the smallest validator-driven edit.
+- Preserve existing valid clauses when possible.
+- Keep assume/guarantee clauses only in scopes where their referenced identifiers are visible.
+- If repair_mode is `edit_full_model`, preserve unrelated AADL text.
+- Numeric comparisons require numeric AGREE expressions with compatible int/real types.
+- Equality and inequality require compatible operand types.
+- AGREE does not support AADL type-membership expressions such as `x in Package::Type`.
+- AADL type names, property names, package names, and units are not AGREE variables.
+- Preserve AGREE delimiters when returning annexes: annex agree {** ... **};
+
+Repair context:
+
+Target component:
+GeoFence_singleton.impl
+
+Requirement Analyst summary:
+{
+  "items": [
+    {
+      "id": "R1",
+      "text": "Once time t exceeds 1.7, distanceFromFence shall remain greater than its preceding time-step value",
+      "kind": "behavior_relation",
+      "intent": "guarantee",
+      "evidence": ["t", "distanceFromFence"]
+    },
+    {
+      "id": "R2",
+      "text": "timeToRecovery >= 0 and timeToRecovery <= 100",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": ["timeToRecovery"]
+    },
+    {
+      "id": "R3",
+      "text": "timeToFailure = 9.5",
+      "kind": "data_constraint",
+      "intent": "describe",
+      "evidence": ["timeToFailure"]
+    },
+    {
+      "id": "R4",
+      "text": "distanceFromFence = circleLinearization(t)",
+      "kind": "behavior_relation",
+      "intent": "describe",
+      "evidence": ["distanceFromFence", "circleLinearization", "t"]
+    }
+  ]
+}
+
+Target interface:
+Exact expression symbols: timeToRecovery, timeToFailure
+Use only these exact names as expression operands; do not prefix them with component, implementation, package, property, or metadata names.
+
+name | direction | kind | scalar | aadl_type
+timeToRecovery | out | data | opaque | real
+timeToFailure | out | data | opaque | real
+
+Focused AADL context:
+```aadl
+system GeoFence_singleton
+	features
+		timeToRecovery: out data port real;
+		timeToFailure: out data port real;
+	annex agree {**
+	  assume "timeToRecovery_bounds": 0.0 <= timeToRecovery and timeToRecovery <= 100.0;
+	  assume "timeToFailure_value": timeToFailure = 9.5;
+	  guarantee "distanceFromFence_computation": distanceFromFence = circleLinearization(t);
+	  guarantee "distance_monotonicity": (t > 1.7) => (distanceFromFence > distanceFromFence_previous);
+	**};
+	end GeoFence_singleton;
+```
+
+Current AGREE annex blocks:
+```aadl
+-- owner: GeoFence_singleton | lines 49-54
+annex agree {**
+  assume "timeToRecovery_bounds": 0.0 <= timeToRecovery and timeToRecovery <= 100.0;
+  assume "timeToFailure_value": timeToFailure = 9.5;
+  guarantee "distanceFromFence_computation": distanceFromFence = circleLinearization(t);
+  guarantee "distance_monotonicity": (t > 1.7) => (distanceFromFence > distanceFromFence_previous);
+**};
+```
+
+Diagnostic line context:
+```aadl
+   48: 			timeToFailure: out data port real;
+   49: 	annex agree {**
+   50: 	  assume "timeToRecovery_bounds": 0.0 <= timeToRecovery and timeToRecovery <= 100.0;
+   51: 	  assume "timeToFailure_value": timeToFailure = 9.5;
+>> 52: 	  guarantee "distanceFromFence_computation": distanceFromFence = circleLinearization(t);
+   53: 	  guarantee "distance_monotonicity": (t > 1.7) => (distanceFromFence > distanceFromFence_previous);
+   54: 	**};
+```
+
+AADL Inspector diagnostics:
+- Could not resolve reference to `circleLinearization`
+- Could not resolve reference to `distanceFromFence`
+- Could not resolve reference to `t`
+- Could not resolve reference to `distanceFromFence_previous`
+- type mismatch in AGREE guarantee
+
+AGREE validator diagnostics:
+- Named thing must be an expression with a type
+- left and right sides of binary expression `>` are of type `<error>` and `real`
+- right side of binary expression `>` is of type `<error>` but must be of type `int` or `real`
+
+Current visible identifiers:
+- timeToRecovery
+- timeToFailure
+
+Repair plan:
+{
+  "problems": [
+    {
+      "diagnostic": "Couldn't resolve reference to 'circleLinearization'.",
+      "cause": "undefined function reference in AGREE guarantee",
+      "minimal_edit": "Remove guarantee statement referencing undefined function"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'distanceFromFence'.",
+      "cause": "undefined variable reference in AGREE guarantee",
+      "minimal_edit": "Remove guarantee statement referencing undefined variable"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 't'.",
+      "cause": "undefined variable reference in AGREE guarantee",
+      "minimal_edit": "Remove guarantee statement referencing undefined variable"
+    },
+    {
+      "diagnostic": "named thing must be an expression with a type",
+      "cause": "invalid expression in AGREE guarantee",
+      "minimal_edit": "Remove guarantee statement with invalid expression"
+    },
+    {
+      "diagnostic": "Couldn't resolve reference to 'distanceFromFence_previous'.",
+      "cause": "undefined variable reference in AGREE guarantee",
+      "minimal_edit": "Remove guarantee statement referencing undefined variable"
+    }
+  ],
+  "repair_mode": "edit_annex",
+  "executor_steps": [
+    "Remove the guarantee statement at line 52: \"distanceFromFence_computation\": distanceFromFence = circleLinearization(t);",
+    "Remove the guarantee statement at line 53: \"distance_monotonicity\": (t > 1.7) => (distanceFromFence > distanceFromFence_previous);"
+  ]
+}
+
+AADL Inspector diagnostics:
+- Could not resolve reference to `circleLinearization`
+- Could not resolve reference to `distanceFromFence`
+- Could not resolve reference to `t`
+- Could not resolve reference to `distanceFromFence_previous`
+- type mismatch in AGREE guarantee
+
+AGREE validator diagnostics:
+- Named thing must be an expression with a type
+- left and right sides of binary expression `>` are of type `<error>` and `real`
+- right side of binary expression `>` is of type `<error>` but must be of type `int` or `real`

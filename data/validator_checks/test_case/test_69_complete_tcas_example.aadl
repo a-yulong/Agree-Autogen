@@ -1,0 +1,70 @@
+package TCAS_Example
+public
+    with Base_Types;
+    with Agree_Nodes;
+    with tcas_nodes;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    -- TCAS系统类型
+    system TCAS_singleton
+        features
+            own_alt: in data port int;
+            intruder_alt: in data port int;
+            time_to_closest_approach: in data port int;
+            up: out data port bool;
+            down: out data port bool;
+        annex agree {**
+            -- 常量定义在component type中
+            const ALT_THRESHOLD : int = 100;
+            const TIME_THRESHOLD : int = 30;
+
+            -- eq声明（没有表达式）
+            eq sameAltitudeGoUp : bool;
+            eq sameAltitudeGoDown : bool;
+            eq intrusionFromAbove : bool;
+            eq intrusionFromBelow : bool;
+            eq ownAircraftGoesUpOnTie : bool;
+
+            -- eq定义（有表达式）
+            eq alt_diff : int = own_alt - intruder_alt;
+            eq abs_alt_diff : int = tcas_nodes::abs_diff(own_alt, intruder_alt);
+
+            -- 保证语句
+            assume "own_alt_positive": own_alt >= 0;
+            assume "intruder_alt_positive": intruder_alt >= 0;
+        **};
+    end TCAS_singleton;
+
+    -- TCAS系统实现
+    system implementation TCAS_singleton.impl
+        annex agree {**
+            -- 引用type中的const
+            eq alt_sep_ok : bool = abs_alt_diff > ALT_THRESHOLD;
+            eq time_ok : bool = time_to_closest_approach > TIME_THRESHOLD;
+
+            -- 给type中声明的eq赋值
+            assign sameAltitudeGoUp = alt_diff = 0 and own_alt < intruder_alt + 50;
+            assign sameAltitudeGoDown = alt_diff = 0 and own_alt > intruder_alt - 50;
+            assign intrusionFromAbove = alt_diff > 0 and alt_diff < ALT_THRESHOLD;
+            assign intrusionFromBelow = alt_diff < 0 and alt_diff > -ALT_THRESHOLD;
+            assign ownAircraftGoesUpOnTie = sameAltitudeGoUp and not sameAltitudeGoDown;
+
+            -- 输出赋值
+            assign up = (intrusionFromBelow or ownAircraftGoesUpOnTie) and not alt_sep_ok;
+            assign down = (intrusionFromAbove or sameAltitudeGoDown) and not alt_sep_ok;
+
+            -- 保证语句
+            guarantee "not_both_up_and_down": not (up and down);
+            guarantee "up_when_intrusion_below": intrusionFromBelow => up;
+        **};
+    end TCAS_singleton.impl;
+
+end TCAS_Example;

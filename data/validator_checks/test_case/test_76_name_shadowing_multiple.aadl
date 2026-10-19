@@ -1,0 +1,55 @@
+package TestNameShadowingMultiple
+public
+    -- 错误场景：同时遮蔽多个内置类型名
+    with Base_Types;
+
+    -- 同时遮蔽多个内置类型名！
+    data real extends Base_Types::Float
+    end real;
+
+    data integer extends Base_Types::Integer
+    end integer;
+
+    data boolean extends Base_Types::Boolean
+    end boolean;
+
+    system HybridController
+        features
+            temperature: in data port real;
+            pressure: in data port real;
+            valve_position: out data port real;
+            valve_open: out data port boolean;
+            cycle_count: out data port integer;
+            target_temp: in data port real;
+
+        annex agree {**
+            -- 所有 const 都使用被遮蔽的类型
+            const TEMP_LOW : real = 20.0;
+            const TEMP_HIGH : real = 100.0;
+            const PRESSURE_MAX : real = 50.0;
+            const CYCLE_INIT : integer = 0;
+
+            -- eq 语句混合使用被遮蔽的类型
+            eq temp_ok : boolean = temperature >= TEMP_LOW and temperature <= TEMP_HIGH;
+            eq pressure_ok : boolean = pressure <= PRESSURE_MAX;
+            eq system_ok : boolean = temp_ok and pressure_ok;
+            eq valve_cmd : real = if system_ok then (target_temp - temperature) * 0.5 else 0.0;
+            eq cycle : integer = CYCLE_INIT -> pre(cycle) + 1;
+
+            -- guarantee 语句
+            guarantee "valve_safe_when_not_ok": not system_ok => (valve_position = 0.0);
+            guarantee "valve_open_when_needed": valve_position > 0.0 = valve_open;
+            guarantee "cycle_positive": cycle >= CYCLE_INIT;
+            guarantee "pressure_safety": not pressure_ok => (valve_position = 0.0);
+        **};
+    end HybridController;
+
+    system implementation HybridController.impl
+        annex agree {**
+            assign valve_position = valve_cmd;
+            assign valve_open = (valve_position > 0.0);
+            assign cycle_count = cycle;
+        **};
+    end HybridController.impl;
+
+end TestNameShadowingMultiple;

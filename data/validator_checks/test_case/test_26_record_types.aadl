@@ -1,0 +1,36 @@
+package TestRecordTypes
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    -- 记录类型定义
+    data point
+        features
+            x: data int;
+            y: data int;
+    end point;
+
+    system TestSystem
+        features
+            p: in data port point;
+            output1: out data port int;
+        annex agree {**
+            -- 错误26：记录字段访问错误
+            eq x_val : int = p.z;              -- 不存在的字段
+            eq y_val : bool = p.y;             -- 字段类型不匹配
+            eq bad : int = p.x + true;         -- 混合类型运算
+
+            -- 记录字面量（如果支持）
+            eq new_p : point = point { x = 5, y = true };  -- 字段类型错误
+        **};
+    end TestSystem;
+
+end TestRecordTypes;

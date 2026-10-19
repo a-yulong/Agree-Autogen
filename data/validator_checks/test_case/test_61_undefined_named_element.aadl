@@ -1,0 +1,35 @@
+package TestUndefinedNamedElement
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    -- 修复记录#8场景：未定义的NamedElmExpr引用
+    system TestSystem
+        features
+            input: in data port int;
+            output: out data port int;
+        annex agree {**
+            -- 引用未定义的变量
+            eq x : int = undefined_variable + 5;
+
+            -- 在if条件中引用未定义变量
+            eq y : int = if undefined_bool then 1 else 0;
+
+            -- assign未定义的变量
+            assign undefined_variable = input;
+
+            -- 在guarantee中引用未定义变量
+            guarantee "bad_ref": undefined_variable > 0;
+
+            -- 正确的定义和使用
+            eq defined_var : int = input + 10;
+            assign output = defined_var;
+        **};
+    end TestSystem;
+
+end TestUndefinedNamedElement;

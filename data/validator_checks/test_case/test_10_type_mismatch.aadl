@@ -1,0 +1,25 @@
+package TestTypeMismatch
+public
+	with Base_Types;
+
+	data int extends Base_Types::Integer
+	end int;
+
+	data real extends Base_Types::Float
+	end real;
+
+	data bool extends Base_Types::Boolean
+	end bool;
+
+	system TestSystem
+		features
+			altitude: in data port real;
+			output1: out data port int;
+		annex agree {**
+			-- 错误10：将逻辑表达式赋值给数值变量
+			eq danger : real = (altitude < 30.0);
+			eq x : int = (altitude > 0.0);
+		**};
+	end TestSystem;
+
+end TestTypeMismatch;

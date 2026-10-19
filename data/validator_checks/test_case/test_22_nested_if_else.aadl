@@ -1,0 +1,29 @@
+package TestNestedIfElse
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input1: in data port int;
+            cond1: in data port bool;
+            output1: out data port int;
+        annex agree {**
+            -- 错误22：if-then-else类型不匹配
+            eq x : int = if cond1 then 5 else true;
+            eq y : real = if input1 > 0 then "hello" else 3.14;
+
+            -- 嵌套if-then-else
+            eq z : int = if cond1 then (if input1 > 0 then 10 else 20) else false;
+        **};
+    end TestSystem;
+
+end TestNestedIfElse;

@@ -1,0 +1,41 @@
+package TestLambdaFunctions
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input1: in data port int;
+            output1: out data port int;
+        annex agree {**
+            -- 错误45：lambda函数（如果支持）
+
+            -- 高阶函数参数
+            type IntToInt = (int) -> int;
+
+            -- lambda表达式
+            eq increment : IntToInt = (x : int) => x + 1;
+            eq double : IntToInt = (x : int) => x * 2;
+
+            -- 应用lambda
+            eq result1 : int = increment(input1);
+            eq result2 : int = double(result1);
+
+            -- 错误：lambda类型不匹配
+            eq bad_lambda : IntToInt = (x : int) => x > 0;  -- 返回bool而不是int
+            eq bad_param : int = increment(true);  -- 参数类型错误
+
+            -- 组合lambda
+            eq compose : IntToInt = (x : int) => increment(double(x));
+
+            -- 闭包（如果支持）
+            eq add_input : IntToInt = (x : int) => x + input1;
+        **};
+    end TestSystem;
+
+end TestLambdaFunctions;

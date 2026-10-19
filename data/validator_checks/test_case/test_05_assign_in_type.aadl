@@ -1,0 +1,24 @@
+package TestAssignInType
+public
+	with Base_Types;
+
+	data int extends Base_Types::Integer
+	end int;
+
+	data real extends Base_Types::Float
+	end real;
+
+	data bool extends Base_Types::Boolean
+	end bool;
+
+	system TestSystem
+		features
+			input1: in data port int;
+			output1: out data port int;
+		annex agree {**
+			-- 错误5：assign不能出现在component type中
+			assign output1 = input1;
+		**};
+	end TestSystem;
+
+end TestAssignInType;

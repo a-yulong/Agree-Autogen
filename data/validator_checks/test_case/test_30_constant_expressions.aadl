@@ -1,0 +1,29 @@
+package TestConstantExpressions
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            output1: out data port int;
+        annex agree {**
+            -- 错误30：常量表达式错误
+            const MAX_VALUE : int = 100 + true;       -- 类型混合
+            const PI : real = 3.14 + "string";        -- 字符串与数值
+            const FLAG : bool = 5 and true;            -- 整数与逻辑
+
+            -- 常量引用
+            eq x : int = MAX_VALUE + 5;
+            eq y : real = UNDEFINED_CONST;             -- 未定义的常量
+        **};
+    end TestSystem;
+
+end TestConstantExpressions;

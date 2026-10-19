@@ -1,0 +1,38 @@
+package TestAssumeGuarantee
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input1: in data port int;
+            input2: in data port bool;
+            output1: out data port int;
+        annex agree {**
+            eq x : int = if input2 then input1 else -input1;
+            eq y : int = x + 5;
+
+            -- 错误39：assume/guarantee类型错误
+            assume "input_non_negative": input1 >= 0;
+            assume "bad_assume_type": input1 = "string";  -- 类型不匹配
+            assume "bad_assume_var": undefined_var > 0;  -- 未定义变量
+
+            guarantee "output_positive": output1 > 0;
+            guarantee "bad_guarantee_type": y = true;  -- 类型不匹配
+            guarantee "implication_type": (input1 > 0) => 5;  -- 后件不是bool
+
+            -- named assume/guarantee
+            assume "named": input2 implies input1 > 0;
+            guarantee "named_guarantee": input1 >= 0 => y >= 5;
+        **};
+    end TestSystem;
+
+end TestAssumeGuarantee;

@@ -1,79 +1,17 @@
-# Knowledge Base
+# Knowledge base
 
-The knowledge base provides retrieval support for AGREE-AutoGen. It is used to supply compact AGREE/AADL rules, verified patterns, and defensive constraints to the generation pipeline.
+| Module | Content | Runtime cards |
+| --- | --- | ---: |
+| Ksyn | AGREE syntax, types, declarations, and AADL scope | 21 |
+| Kexp | Contract examples and formalization patterns | 18 |
+| Kdef | Generation and repair rules | 38 |
 
-The knowledge base is not treated as a general document dump. Its purpose is to improve grounded contract generation by making relevant syntax, scope, and example knowledge available at the point where agents need it.
+`raw/` contains the input documents. `processed/` contains the text and JSONL inputs read by the pipeline. `runtime_cards.jsonl` contains the cards loaded by `RagBundleBuilder`; `card_counts.json` contains their counts. Kexp contains 12 package examples, split into 18 runtime cards. Kdef contains 34 JSONL rules and four rules defined in `rag_bundle.py`.
 
-## Knowledge Roles
+The loader and retrieval code are in `src/agree_autogen/refactor/rag_bundle.py`. Recorded Case003 queries, candidates, selected cards, and digest are in `examples/recorded_case003/`.
 
-The repository organizes retrieval sources into three roles:
-
-- **Syntax and scope knowledge:** AGREE syntax, AADL scoping rules, annex placement, visible identifiers, property sets, and type references.
-- **Example-pattern knowledge:** verified AGREE snippets and contract patterns that illustrate valid forms.
-- **Defensive-rule knowledge:** constraints that discourage unsupported constructs, invisible identifiers, unlabeled assumptions or guarantees, and accidental copying of irrelevant examples.
-
-These roles are recorded in `sources.yaml`.
-
-## Directory Layout
-
-```text
-knowledge_base/
-  raw/             Source documents and local source notes
-  processed/       Curated markdown, text, and JSONL retrieval inputs
-  index/           Local retrieval index output
-  sources.yaml     Source inventory
-```
-
-`index/` is a generated local artifact. The repository should track only the files required to rebuild or inspect the index.
-
-## Source Inventory
-
-Representative sources include:
-
-- `raw/kdef/Attention.txt`;
-- `raw/kexp/AGREE_code_knowledge_dataset.txt`;
-- `raw/ksyn/AGREE_knowledge_dataset_en.pdf`;
-- `raw/ksyn/AGREE_Users_Guide.pdf`;
-- `raw/ksyn/AADL_AS5506C.local_source.md`.
-
-Processed files include:
-
-- `processed/kdef/attention_en.md`;
-- `processed/kdef/defensive_rules.jsonl`;
-- `processed/kexp/agree_code_knowledge_dataset.txt`;
-- `processed/ksyn/agree_syntax_notes.md`;
-- `processed/ksyn/aadl_scope_notes.md`.
-
-## Retrieval Digest
-
-AGREE-AutoGen does not pass long retrieved documents directly to every downstream agent. Retrieved material is summarized into digest rules that emphasize:
-
-- visible identifiers and owner scope;
-- labeled `assume` and `guarantee` clauses;
-- valid AGREE expression operands;
-- placement of type-level and implementation-level content;
-- common invalid patterns to avoid.
-
-The digest stage reduces noise and lowers the risk of copying irrelevant examples.
-
-## Building Retrieval Assets
-
-Dry-run the index builder:
+Build the document corpus:
 
 ```powershell
-python scripts/build_rag_index.py --dry-run
+python scripts/build_rag_index.py --knowledge-base knowledge_base --output knowledge_base/index
 ```
-
-Build the local retrieval index:
-
-```powershell
-python scripts/build_rag_index.py `
-  --knowledge-base knowledge_base `
-  --output knowledge_base/index
-```
-
-Generated vector-store or cache directories should not be committed unless the release explicitly documents them as reproducibility artifacts.
-
-## Licensing and Source Boundaries
-
-Knowledge-base files may originate from specifications, guides, examples, and curated notes. Each source should be listed in `sources.yaml` with enough information to identify its role and origin. Materials with uncertain redistribution rights should be referenced through source notes rather than copied into the repository.

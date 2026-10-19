@@ -1,0 +1,38 @@
+package TestModeSpecifications
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input1: in data port int;
+            mode_switch: in data port bool;
+            output1: out data port int;
+        annex agree {**
+            -- 错误33：模式规约错误
+            modes
+                normal: mode;
+                emergency: mode;
+            end modes;
+
+            eq x : int = 0;
+
+            assign x in normal = input1;
+            assign x in emergency = -1;
+
+            -- 模式转换条件
+            transitions
+                normal -[mode_switch]-> emergency;  -- 如果支持
+                emergency -[not mode_switch]-> normal;
+
+            -- 错误：在类型中使用mode赋值
+            guarantee "bad_mode": mode_switch => x = 5;  -- 正常使用
+        **};
+    end TestSystem;
+
+end TestModeSpecifications;

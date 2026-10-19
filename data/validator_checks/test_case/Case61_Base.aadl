@@ -1,0 +1,84 @@
+package AHRS::Subprograms
+
+  -- This package models the subprograms of the AHRS case study
+
+public
+
+  with AHRS::Data_Types;
+
+  subprogram ACCELERO_SUB
+  features
+    acc_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    acc_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    acc_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+
+  annex agree {**
+    const MIN_ACC_RANGE : real = -156.96;
+    const MAX_ACC_RANGE : real = 156.96;
+
+    guarantee "x_axis_acceleration_within_physical_envelope":
+      acc_out_data_x >= MIN_ACC_RANGE and acc_out_data_x <= MAX_ACC_RANGE;
+
+    guarantee "y_axis_acceleration_within_physical_envelope":
+      acc_out_data_y >= MIN_ACC_RANGE and acc_out_data_y <= MAX_ACC_RANGE;
+
+    guarantee "z_axis_acceleration_within_physical_envelope":
+      acc_out_data_z >= MIN_ACC_RANGE and acc_out_data_z <= MAX_ACC_RANGE;
+  **};
+
+  properties
+    Source_Name     => "entryaccelero";
+    Source_Text     => ("threads.cpp");
+  end ACCELERO_SUB;
+
+  subprogram implementation ACCELERO_SUB.impl
+  annex agree {**
+    -- 为示例闭环生成占位assign，实际应用中应绑定到真实实现逻辑
+    assign acc_out_data_x = 0.0;
+    assign acc_out_data_y = 0.0;
+    assign acc_out_data_z = 0.0;
+  **};
+  end ACCELERO_SUB.impl;
+
+  subprogram MAGNETO_SUB
+  features
+    mag_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    mag_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    mag_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+
+  properties
+    Source_Name     => "entrymagneto";
+    Source_Text     => ("threads.cpp");
+  end MAGNETO_SUB;
+
+  subprogram GYRO_SUB
+  features
+    gyro_out_data_x : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    gyro_out_data_y : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    gyro_out_data_z : out parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+
+  properties
+    Source_Name     => "entrygyro";
+    Source_Text     => ("threads.cpp");
+  end GYRO_SUB;
+
+  subprogram ATTITUDE_SUB
+  features
+    acc_in_data_x	: in parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    mag_in_data_x	: in parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    gyro_in_data_x	: in parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+
+    acc_in_data_y	: in parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    mag_in_data_y	: in parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    gyro_in_data_y	: in parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+
+    acc_in_data_z	: in parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    mag_in_data_z	: in parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+    gyro_in_data_z	: in parameter AHRS::Data_Types::FLOAT32_TYPE_AADL;
+
+  properties
+    Source_Name     => "entryattitude";
+    Source_Text     => ("threads.cpp");
+  end ATTITUDE_SUB;
+
+end AHRS::Subprograms;

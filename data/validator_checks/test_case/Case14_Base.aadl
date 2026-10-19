@@ -1,0 +1,211 @@
+package AviateControlLevel
+public
+	with Base_Types;
+	with Agree_Nodes;
+	
+	data autopilot
+	end autopilot;
+	
+	data implementation autopilot.autopilot_impl
+		subcomponents
+			VV: data  Base_Types::float;
+			DeltaHeading:  data  Base_Types::float;
+			Airspeed:  data  Base_Types::float;
+	end autopilot.autopilot_impl;
+	
+	-- GCAS monitor receives 6D position, 6D velocity data and outputs  expected loss as a cost function
+	process GCAS_Monitor
+		features
+			altitude: in data port Base_Types::float;
+			verticalVelocity: in data port Base_Types::float;
+			--Output from the GCAS monitor
+			outImpact: out data port Base_Types::float;
+			outRecovery: out data port Base_Types::float;
+			gcasRequested: out data port Base_Types::boolean;
+	end GCAS_Monitor;
+	
+	process implementation GCAS_Monitor.GCAS_Monitor_impl
+	end GCAS_Monitor.GCAS_Monitor_impl;
+	
+	-- ACAS Monitor
+	process ACAS_Monitor
+		features
+			latitude: in data port Base_Types::float;
+			longitude: in data port Base_Types::float;
+			distance: in data port Base_types::float;
+			outImpact: out data port Base_Types::float;
+			outRecovery: out data port Base_Types::float;
+			acasRequested: out data port Base_Types::Boolean;
+	end ACAS_Monitor;
+
+	process implementation ACAS_Monitor.ACAS_Monitor_impl
+	end ACAS_Monitor.ACAS_Monitor_impl;
+	
+	-- Separation Assurance monitor
+	process SA_Monitor
+		features
+			horzDistance: in data port Base_types::float;
+			vertDistance: in data port Base_types::float;
+			saRequested: out data port Base_Types::Boolean;
+	end SA_Monitor;
+
+	process implementation SA_Monitor.SA_Monitor_impl
+	end SA_Monitor.SA_Monitor_impl;
+	
+	process GF_Monitor
+		features
+			latitude: in data port Base_Types::float;
+			longitude: in data port Base_Types::float;
+			distance: in data port Base_types::float;
+			gfRequested: out data port Base_Types::Boolean;
+	end GF_Monitor;
+
+	process implementation GF_Monitor.GF_Monitor_impl
+	end GF_Monitor.GF_Monitor_impl;
+	
+	process Wx_Monitor
+		features
+			latitude: in data port Base_Types::float;
+			longitude: in data port Base_Types::float;
+			distance: in data port Base_types::float;
+			wxRequested: out data port Base_Types::Boolean;
+	end Wx_Monitor;
+
+	process implementation Wx_Monitor.Wx_Monitor_impl
+	end Wx_Monitor.Wx_Monitor_impl;
+	
+	process FLS_Monitor
+		features
+			linkConnection: in data port Base_Types::boolean;
+			landingRequested: out data port Base_Types::boolean;
+	end FLS_Monitor;
+	
+	process Aviate_Decider
+	features
+			inpGCASM : in data port Base_Types::boolean;
+			inpGCASImpact: in data port Base_Types::float;
+			inpGCASRecovery: in data port Base_Types::float;
+			inpSAM : in data port Base_Types::boolean;
+			inpACASM : in data port Base_Types::boolean;
+			inpACASImpact: in data port Base_Types::float;
+			inpACASRecovery: in data port Base_Types::float;
+			inpGFM : in data port Base_Types::boolean;
+			inpWxM : in data port Base_Types::boolean;
+			inpFLS: in data port Base_Types::boolean;
+			outDec: out data port Base_Types::integer;
+	end Aviate_Decider;
+	
+	process implementation Aviate_Decider.Aviate_Decider_impl 
+	end Aviate_Decider.Aviate_Decider_impl;
+	
+	process Pilot_Command
+		features
+			inpPC: in data port Base_Types::float;
+			outPC: out data port Autopilot.Autopilot_Impl;
+	end Pilot_Command;
+	
+	process GCAS_Recovery
+		features
+			outGCASR: out data port autopilot.autopilot_impl;
+			outImpact: out data port Base_Types::float;
+			outRecovery: out data port Base_Types::float;
+			outAltitude: out data port Base_Types::float;
+			outTime: out data port Base_Types::float;
+		annex agree {**
+			const time_step : real = 1.0;
+			const initial_velocity : real = 150.0;
+			const min_recovery_time : real = 8.9;
+			const safe_altitude_threshold : real = 0.0;
+			const min_time_bound : real = 0.0;
+			const max_time_bound : real = 10.0;
+
+			eq t : real = 0.0 -> pre(t) + time_step;
+			eq altitude : real;
+			eq recovery_time : real;
+			eq time_range_initial : real;
+			eq time_range_final : real;
+
+			assume "time range initial within bounds": time_range_initial >= min_time_bound and time_range_initial <= max_time_bound;
+			assume "time range final within bounds": time_range_final >= min_time_bound and time_range_final <= max_time_bound;
+			assume "recovery time meets threshold": recovery_time > min_recovery_time;
+
+			guarantee "safe altitude after recovery": t >= recovery_time => altitude > safe_altitude_threshold;
+			guarantee "time stays within bounds": t >= min_time_bound and t <= max_time_bound;
+		**};
+	end GCAS_Recovery;
+			
+	process implementation GCAS_Recovery.GCAS_Recovery_impl
+		annex agree {**
+			assign altitude = Agree_Nodes::gcasDynamics3(t, t);
+			assign recovery_time = 8.91;
+			assign time_range_initial = 0.0;
+			assign time_range_final = 10.0;
+			assign outTime = t;
+			assign outAltitude = altitude;
+			assign outRecovery = 8.91;
+			assign outImpact = 7.0;
+		**};
+	end GCAS_Recovery.GCAS_Recovery_impl;
+	
+	process ACAS_recovery
+		features
+			outACASRecovery: out data port Base_Types::float;
+			outACASImpact:out data port Base_Types::float;
+	end ACAS_recovery;
+	
+	process Switch
+		features
+			inpDecider : in data port Base_Types::integer;
+			inpPC: in data port autopilot.autopilot_impl;
+			outSwitchVV: out data port Base_Types::float;
+			outSwitchDeltaHeading: out data port Base_Types::float;
+			outSwitchAirspeed: out data port Base_Types::float;
+	end Switch;
+	
+	system Aviate_Control_Level
+		features
+			inACL: in data port Base_Types::float; 
+			inAircraftState: in data port Base_Types::float;
+			outACLVV: out data port  Base_Types::float;
+			outACLDeltaHeading:  out data port Base_Types::float;
+			outACLAirspeed:  out data port  Base_Types::float;
+	end Aviate_Control_Level;
+	
+	system implementation Aviate_Control_Level.Aviate_Control_Level_impl
+		subcomponents
+			gcasm: process GCAS_Monitor;
+			acasm: process ACAS_Monitor;
+			sam: process SA_Monitor;
+			gfm: process GF_Monitor;
+			wxm: process Wx_Monitor;
+			flsm: process FLS_Monitor;
+			pc: process Pilot_Command;
+			dmc: process Aviate_Decider;
+			swt: process Switch;
+		connections
+			acl_to_pc: port inACL -> pc.inpPC;
+			
+			--Connections from monitors to decider
+			gcasm_to_decider: port gcasm.gcasRequested -> dmc.inpGCASM;
+			gcasmimp_to_decider: port gcasm.outImpact -> dmc.inpGCASImpact;
+			gcasrec_to_decider: port gcasm.outRecovery -> dmc.inpGCASRecovery;
+			
+			sam_to_decider: port sam.saRequested -> dmc.inpSAM;
+			acasm_to_decider: port acasm.acasRequested -> dmc.inpACASM;
+			acasmimp_to_decider: port acasm.outImpact -> dmc.inpACASImpact;
+			acasrec_to_decider: port acasm.outRecovery -> dmc.inpACASRecovery;
+			
+			gfm_to_decider: port gfm.gfRequested -> dmc.inpGFM;
+			wxm_to_decider: port wxm.wxRequested -> dmc.inpWxM;
+			flsm_to_decider: port flsm.landingRequested -> dmc.inpFLS;
+			
+			--Connection from recovery or PC to switch
+			pc_to_swt: port pc.outPC->swt.inpPC;
+			
+			dec_to_switch: port dmc.outDec -> swt.inpDecider;
+			switchvv_to_aclvv: port swt.outSwitchVV -> outACLVV;
+			switchdeltaheading_to_acldeltaheading: port swt.outSwitchDeltaHeading -> outACLDeltaHeading;
+			switchAirspeed_to_aclAirspeed: port swt.outSwitchAirspeed -> outACLAirspeed;
+	end Aviate_Control_Level.Aviate_Control_Level_impl;
+	
+end AviateControlLevel;

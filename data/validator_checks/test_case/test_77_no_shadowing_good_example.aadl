@@ -1,0 +1,60 @@
+package TestNoShadowingGoodExample
+public
+    -- 正确示例：不使用内置类型名作为自定义类型名
+    with Base_Types;
+
+    -- 使用不同的名称，避免命名冲突！
+    data MyReal extends Base_Types::Float
+    end MyReal;
+
+    data MyInteger extends Base_Types::Integer
+    end MyInteger;
+
+    data MyBoolean extends Base_Types::Boolean
+    end MyBoolean;
+
+    -- 或者使用更具描述性的名称
+    data Temperature extends Base_Types::Float
+    end Temperature;
+
+    data Pressure extends Base_Types::Float
+    end Pressure;
+
+    data ValveState extends Base_Types::Integer
+    end ValveState;
+
+    system GoodController
+        features
+            temp_in: in data port Temperature;
+            press_in: in data port Pressure;
+            valve_out: out data port ValveState;
+            is_active: out data port MyBoolean;
+            target_temp: in data port Temperature;
+
+        annex agree {**
+            -- 使用不会冲突的类型名
+            const TEMP_MIN : Temperature = 0.0;
+            const TEMP_MAX : Temperature = 100.0;
+            const PRESSURE_LIMIT : Pressure = 50.0;
+            const VALVE_CLOSED : ValveState = 0;
+            const VALVE_OPEN : ValveState = 1;
+
+            -- eq 语句
+            eq temp_in_range : MyBoolean = temp_in >= TEMP_MIN and temp_in <= TEMP_MAX;
+            eq press_ok : MyBoolean = press_in <= PRESSURE_LIMIT;
+            eq valve_cmd : ValveState = if temp_in_range and press_ok then VALVE_OPEN else VALVE_CLOSED;
+
+            -- guarantee 语句
+            guarantee "valve_safe": not (temp_in_range and press_ok) => (valve_out = VALVE_CLOSED);
+            guarantee "active_when_valve_open": valve_out = VALVE_OPEN => is_active;
+        **};
+    end GoodController;
+
+    system implementation GoodController.impl
+        annex agree {**
+            assign valve_out = valve_cmd;
+            assign is_active = (valve_cmd = VALVE_OPEN);
+        **};
+    end GoodController.impl;
+
+end TestNoShadowingGoodExample;

@@ -1,0 +1,25 @@
+package TestBidirectionalImplication
+public
+	with Base_Types;
+
+	data int extends Base_Types::Integer
+	end int;
+
+	data real extends Base_Types::Float
+	end real;
+
+	data bool extends Base_Types::Boolean
+	end bool;
+
+	system TestSystem
+		features
+			input1: in data port int;
+			output1: out data port int;
+		annex agree {**
+			eq x : int = 0;
+			-- 错误12：使用了双向蕴含<->而不是单向蕴含=>
+			guarantee "test": (x >= 0) <-> (output1 >= 0);
+		**};
+	end TestSystem;
+
+end TestBidirectionalImplication;

@@ -1,0 +1,47 @@
+package TestDeadCode
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input1: in data port int;
+            output1: out data port int;
+        annex agree {**
+            -- 错误47：死代码和未使用的定义
+
+            -- 未使用的eq变量
+            eq unused1 : int = input1 + 5;
+            eq unused2 : bool = input1 > 0;
+
+            -- 使用的变量
+            eq used : int = input1 * 2;
+
+            -- 未使用的节点
+            node unused_node(x : int) returns (y : int);
+            let
+                y = x + 1;
+            tel;
+
+            -- 使用的节点
+            node used_node(x : int) returns (y : int);
+            let
+                y = x * 2;
+            tel;
+
+            -- 节点调用
+            eq result : int = used_node(used);
+
+            -- 赋值
+            assign output1 = result;
+
+            -- 注意：unused1、unused2、unused_node都是死代码
+        **};
+    end TestSystem;
+
+end TestDeadCode;

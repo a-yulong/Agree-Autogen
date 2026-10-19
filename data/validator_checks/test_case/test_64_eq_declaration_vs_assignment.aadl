@@ -1,0 +1,48 @@
+package TestEqDeclarationVsAssignment
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    -- 修复记录#13场景：区分eq声明和eq赋值
+    system TestSystem
+        features
+            distance: in data port real;
+            output: out data port bool;
+        annex agree {**
+            -- eq声明：只有类型，没有表达式
+            -- 这不算赋值，可以在impl中用assign
+            eq close_obstacle : bool;
+            eq very_close_obstacle : bool;
+
+            -- eq赋值：有表达式
+            -- 这算是赋值，如果在impl中assign会冲突
+            eq counter : int = 0 -> pre(counter) + 1;
+
+            -- 阈值常量
+            const obstacle_distance_threshold : real = 10.0;
+            const very_close_threshold : real = 5.0;
+        **};
+    end TestSystem;
+
+    system implementation TestSystem.impl
+        annex agree {**
+            -- assign给声明的eq - 这是允许的
+            assign close_obstacle = distance <= obstacle_distance_threshold;
+            assign very_close_obstacle = distance <= very_close_threshold;
+
+            -- assign给有表达式的eq - 这应该报"Multiple assignments"
+            assign counter = 0 -> pre(counter) + 2;
+
+            assign output = close_obstacle or very_close_obstacle;
+        **};
+    end TestSystem.impl;
+
+end TestEqDeclarationVsAssignment;

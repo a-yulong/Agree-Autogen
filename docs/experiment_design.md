@@ -49,7 +49,7 @@ Reported outputs should include:
 - stage-error counts and rerun notes;
 - final aggregate tables used by the paper.
 
-This study supports claims about model capability under the same generation architecture.
+
 
 ## RQ2: Retrieval Configuration
 

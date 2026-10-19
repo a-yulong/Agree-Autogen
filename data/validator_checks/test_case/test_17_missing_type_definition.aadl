@@ -1,0 +1,31 @@
+package TestMissingTypeDefinition
+public
+    -- 引用了不存在的包
+    with NonExistent_Types;
+
+    system TestSystem
+        features
+            -- 使用不存在的包中的类型
+            input1: in data port NonExistent_Types::Integer;
+            output1: out data port NonExistent_Types::Integer;
+        
+        annex agree {**
+            -- 使用不存在的类型定义变量
+            eq counter : NonExistent_Types::Integer = 0;
+            
+            -- 保证语句
+            guarantee "counter non-negative": counter >= 0;
+        **};
+    end TestSystem;
+
+    system implementation TestSystem.Impl
+        annex agree {**
+            -- 在实现中定义状态变量
+            eq state : NonExistent_Types::Integer = 0 -> pre(state) + 1;
+            
+            -- 赋值语句
+            assign output1 = state;
+        **};
+    end TestSystem.Impl;
+
+end TestMissingTypeDefinition;

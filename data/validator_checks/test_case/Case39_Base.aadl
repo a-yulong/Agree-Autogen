@@ -1,0 +1,76 @@
+package Transmission
+public
+	with Base_Types;
+
+	data int extends Base_Types::Integer
+	end int;
+
+	data real extends Base_Types::Float
+	end real;
+
+	data bool extends Base_Types::Boolean
+	end bool;
+
+	data speed
+	end speed;
+
+	data implementation speed.speed_impl
+	subcomponents
+		val : data Base_Types::Float;
+	end speed.speed_impl;
+
+	data state_sig
+	end state_sig;
+
+	data implementation state_sig.impl
+	subcomponents
+		val : data Base_Types::Integer;
+	end state_sig.impl;
+
+	system Speed_Control
+		features
+			Target: in data port speed.speed_impl;
+			Actuator_Input: out data port Base_Types::Float;
+			Actual: in data port speed.speed_impl;
+	end Speed_Control;
+
+	system implementation Speed_Control.Speed_Control_Impl
+	end Speed_Control.Speed_Control_Impl;
+
+	system Throttle
+		features
+			Actuator_Input: in data port Base_Types::Float;
+			Actual: out data port speed.speed_impl;
+	end Throttle;
+
+	system implementation Throttle.Throttle_Impl
+	end Throttle.Throttle_Impl;
+
+	system State_Machine
+		features
+			State_Out: out data port state_sig.impl;
+	end State_Machine;
+
+	system implementation State_Machine.Impl
+		subcomponents
+			SSM: system Sub_State_Machine.Impl;
+
+		connections
+			SMToSSM: port SSM.State_Out -> State_Out;
+	end State_Machine.Impl;
+
+	system Sub_State_Machine
+		features
+			State_Out: out data port state_sig.impl;
+		annex agree {**
+			eq State_Val : int = 0 -> pre(State_Val);
+			guarantee "SUB_STATE_OUT_INITIAL": (not pre(true)) => (State_Val = 0);
+			guarantee "SUB_STATE_OUT_HOLDS": pre(true) => (State_Val = pre(State_Val));
+			guarantee "STATE_OUT_EQ_STATE_VAL": State_Out.val = State_Val;
+		**};
+	end Sub_State_Machine;
+
+	system implementation Sub_State_Machine.Impl
+	end Sub_State_Machine.Impl;
+
+end Transmission;

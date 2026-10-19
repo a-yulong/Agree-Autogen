@@ -1,0 +1,24 @@
+package TestConstDeclaration
+public
+	with Base_Types;
+
+	data int extends Base_Types::Integer
+	end int;
+
+	data real extends Base_Types::Float
+	end real;
+
+	data bool extends Base_Types::Boolean
+	end bool;
+
+	system TestSystem
+		features
+			input1: in data port int;
+			output1: out data port int;
+		annex agree {**
+			-- 错误4：const声明语法错误
+			const int x = 0;
+		**};
+	end TestSystem;
+
+end TestConstDeclaration;

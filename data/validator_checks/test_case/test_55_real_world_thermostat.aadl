@@ -1,0 +1,76 @@
+package Thermostat
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    -- 温度传感器
+    system TempSensor
+        features
+            current_temp: out data port real;
+    end TempSensor;
+
+    system implementation TempSensor.impl
+        annex agree {**
+            -- 模拟温度传感器，可能有噪声
+            eq noise : real = 0.1 * (0.0 -> pre(noise) + 0.5);
+            eq temp : real = 20.0 -> pre(temp) + 0.1 + noise;
+            assign current_temp = temp;
+        **};
+    end TempSensor.impl;
+
+    -- 加热器
+    system Heater
+        features
+            on: in data port bool;
+            heat_out: out data port real;
+    end Heater;
+
+    system implementation Heater.impl
+        annex agree {**
+            eq heat : real = 0.0 -> if on then pre(heat) + 1.0 else pre(heat) - 0.5;
+            -- 错误55：现实世界模型中的各种问题
+            eq heat_clamped : real = if heat < 0.0 then 0.0
+                                     else if heat > 10.0 then 10.0
+                                     else heat;
+            assign heat_out = heat_clamped;
+        **};
+    end Heater.impl;
+
+    -- 温控器控制器
+    system Thermostat
+        features
+            target_temp: in data port real;
+            measured_temp: in data port real;
+            heater_on: out data port bool;
+    end Thermostat;
+
+    system implementation Thermostat.impl
+        annex agree {**
+            eq hysteresis : real = 1.0;
+            eq should_heat : bool = measured_temp < target_temp - hysteresis;
+            eq should_stop : bool = measured_temp > target_temp + hysteresis;
+
+            -- 状态机：开启/关闭加热器
+            eq heating : bool = false ->
+                if pre(heating) then not should_stop else should_heat;
+
+            -- 错误：类型问题
+            eq bad : bool = measured_temp + 5.0;  -- 类型不匹配
+
+            assign heater_on = heating;
+
+            -- 保证
+            assume "target_valid": target_temp >= 10.0 and target_temp <= 30.0;
+            guarantee "temp_stays_close": abs(measured_temp - target_temp) <= 2.0;
+        **};
+    end Thermostat.impl;
+
+end Thermostat;

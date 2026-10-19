@@ -1,0 +1,51 @@
+package TestBooleanLogicEdgeCases
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            a: in data port bool;
+            b: in data port bool;
+            output1: out data port bool;
+        annex agree {**
+            -- 错误51：布尔逻辑边界情况
+
+            -- 重言式（总是真）
+            eq tautology : bool = a or not a;
+
+            -- 矛盾式（总是假）
+            eq contradiction : bool = a and not a;
+
+            -- 德摩根定律
+            eq demorgan1 : bool = not (a and b) = (not a or not b);
+            eq demorgan2 : bool = not (a or b) = (not a and not b);
+
+            -- 蕴含等价式
+            eq implication : bool = (a => b) = (not a or b);
+
+            -- 双向蕴含
+            eq iff : bool = (a = b) = ((a => b) and (b => a));
+
+            -- 异或
+            eq xor : bool = (a or b) and not (a and b);
+
+            -- 复杂的布尔表达式
+            eq complex : bool = ((a => b) and (b => a)) or (a and not b);
+
+            -- 错误：非布尔值用于逻辑运算
+            eq bad_logic1 : bool = 5 and a;
+            eq bad_logic2 : bool = a or "true";
+            eq bad_logic3 : bool = not 10;
+
+            -- 赋值
+            assign output1 = demorgan1 and demorgan2;
+        **};
+    end TestSystem;
+
+end TestBooleanLogicEdgeCases;

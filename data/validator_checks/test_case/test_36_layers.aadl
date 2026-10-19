@@ -1,0 +1,34 @@
+package TestLayers
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input1: in data port int;
+            output1: out data port int;
+        annex agree {**
+            -- 层定义（如果AGREE支持layer）
+            layer HighLevel;
+            layer LowLevel;
+
+            eq x : int = input1 + 1;
+            eq y : int in HighLevel = x * 2;
+            eq z : int in LowLevel = x + 10;
+
+            -- 错误36：层使用错误
+            guarantee "bad_layer_ref": y = z;  -- 不同层的变量关系
+            guarantee "layer_guarantee" in HighLevel: y > x;
+
+            -- assign在层中
+            assign output1 = y in HighLevel;
+            assign output1 = z in LowLevel;  -- 多层assign可能有问题
+        **};
+    end TestSystem;
+
+end TestLayers;

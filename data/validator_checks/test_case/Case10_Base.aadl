@@ -1,0 +1,218 @@
+package AviateControlLevel
+public
+	with Base_Types;
+	with Agree_Nodes;
+	
+	data int extends Base_Types::Integer
+	end int;
+	
+	data real extends Base_Types::Float
+	end real;
+	
+	data bool extends Base_Types::Boolean
+	end bool;
+	
+	data autopilot
+	end autopilot;
+	
+	data implementation autopilot.autopilot_impl
+		subcomponents
+			VV: data real;
+			DeltaHeading: data real;
+			Airspeed: data real;
+	end autopilot.autopilot_impl;
+	
+	-- GCAS monitor receives 6D position, 6D velocity data and outputs  expected loss as a cost function
+	process GCAS_Monitor
+		features
+			altitude: in data port real;
+			verticalVelocity: in data port real;
+			--Output from the GCAS monitor
+			outImpact: out data port real;
+			outRecovery: out data port real;
+			gcasRequested: out data port bool;
+	end GCAS_Monitor;
+	
+	process implementation GCAS_Monitor.GCAS_Monitor_impl
+	end GCAS_Monitor.GCAS_Monitor_impl;
+	
+	-- ACAS Monitor
+	process ACAS_Monitor
+		features
+			latitude: in data port real;
+			longitude: in data port real;
+			distance: in data port real;
+			outImpact: out data port real;
+			outRecovery: out data port real;
+			acasRequested: out data port bool;
+		annex agree {**
+			eq t : real = 0.0 -> pre(t) + 1.0;
+			eq OCB_current : real = 0.0 -> if (distance != pre(distance)) then pre(OCB_current) + 0.1 else if (latitude != pre(latitude)) then pre(OCB_current) - 0.1 else pre(OCB_current) + 0.01;
+			eq horz_isolation_extra : real = 5.0 -> if (OCB_current != pre(OCB_current)) then pre(horz_isolation_extra) + 0.1 else pre(horz_isolation_extra);
+			eq vert_isolation_extra : real = 3.0 -> if (OCB_current != pre(OCB_current)) then pre(vert_isolation_extra) + 0.1 else pre(vert_isolation_extra);
+			eq obst_has_monetary_value : bool = true;
+			eq pre_takeoff_phase : bool = true;
+			eq collision_risk : bool = (distance >= 0.0) and (distance <= 100.0);
+			eq known_obst_collision_possible : bool = if pre_takeoff_phase then false else collision_risk;
+
+			assume "distance non-negative": distance >= 0.0;
+			assume "latitude bounded": latitude >= -90.0 and latitude <= 90.0;
+			assume "longitude bounded": longitude >= -180.0 and longitude <= 180.0;
+
+			guarantee "horz isolation extra positive": horz_isolation_extra > 0.0;
+			guarantee "vert isolation extra positive": vert_isolation_extra > 0.0;
+			guarantee "obstacle has monetary value": obst_has_monetary_value = true;
+			guarantee "pre takeoff phase holds": pre_takeoff_phase = true;
+			guarantee "no known collision before takeoff": pre_takeoff_phase => known_obst_collision_possible = false;
+			guarantee "OCB changes over time": OCB_current != pre(OCB_current);
+			guarantee "acas requested when collision risk": collision_risk => acasRequested;
+			guarantee "outImpact non-negative": outImpact >= 0.0;
+			guarantee "outRecovery non-negative": outRecovery >= 0.0;
+		**};
+	end ACAS_Monitor;
+
+	process implementation ACAS_Monitor.ACAS_Monitor_impl
+		annex agree {**
+			assign acasRequested = collision_risk;
+			assign outImpact = if collision_risk then 0.5 * distance else 0.0;
+			assign outRecovery = if collision_risk then OCB_current * 2.0 else 0.0;
+		**};
+	end ACAS_Monitor.ACAS_Monitor_impl;
+	
+	-- Separation Assurance monitor
+	process SA_Monitor
+		features
+			horzDistance: in data port real;
+			vertDistance: in data port real;
+			saRequested: out data port bool;
+	end SA_Monitor;
+
+	process implementation SA_Monitor.SA_Monitor_impl
+	end SA_Monitor.SA_Monitor_impl;
+	
+	process GF_Monitor
+		features
+			latitude: in data port real;
+			longitude: in data port real;
+			distance: in data port real;
+			gfRequested: out data port bool;
+	end GF_Monitor;
+
+	process implementation GF_Monitor.GF_Monitor_impl
+	end GF_Monitor.GF_Monitor_impl;
+	
+	process Wx_Monitor
+		features
+			latitude: in data port real;
+			longitude: in data port real;
+			distance: in data port real;
+			wxRequested: out data port bool;
+	end Wx_Monitor;
+
+	process implementation Wx_Monitor.Wx_Monitor_impl
+	end Wx_Monitor.Wx_Monitor_impl;
+	
+	process FLS_Monitor
+		features
+			linkConnection: in data port bool;
+			landingRequested: out data port bool;
+	end FLS_Monitor;
+	
+	process Aviate_Decider
+		features
+			inpGCASM : in data port bool;
+			inpGCASImpact: in data port real;
+			inpGCASRecovery: in data port real;
+			inpSAM : in data port bool;
+			inpACASM : in data port bool;
+			inpACASImpact: in data port real;
+			inpACASRecovery: in data port real;
+			inpGFM : in data port bool;
+			inpWxM : in data port bool;
+			inpFLS: in data port bool;
+			outDec: out data port int;
+	end Aviate_Decider;
+	
+	process implementation Aviate_Decider.Aviate_Decider_impl 
+	end Aviate_Decider.Aviate_Decider_impl;
+	
+	process Pilot_Command
+		features
+			inpPC: in data port real;
+			outPC: out data port autopilot.autopilot_impl;
+	end Pilot_Command;
+	
+	process GCAS_Recovery
+		features
+			outGCASR: out data port autopilot.autopilot_impl;
+			outImpact: out data port real;
+			outRecovery: out data port real;
+			outAltitude: out data port real;
+			outTime: out data port real;
+	end GCAS_Recovery;
+			
+	process implementation GCAS_Recovery.GCAS_Recovery_impl
+	end GCAS_Recovery.GCAS_Recovery_impl;
+	
+	process ACAS_recovery
+		features
+			outACASRecovery: out data port real;
+			outACASImpact:out data port real;
+	end ACAS_recovery;
+	
+	process Switch
+		features
+			inpDecider : in data port int;
+			inpPC: in data port autopilot.autopilot_impl;
+			outSwitchVV: out data port real;
+			outSwitchDeltaHeading: out data port real;
+			outSwitchAirspeed: out data port real;
+	end Switch;
+	
+	system Aviate_Control_Level
+		features
+			inACL: in data port real; 
+			inAircraftState: in data port real;
+			outACLVV: out data port real;
+			outACLDeltaHeading:  out data port real;
+			outACLAirspeed:  out data port real;
+	end Aviate_Control_Level;
+	
+	system implementation Aviate_Control_Level.Aviate_Control_Level_impl
+		subcomponents
+			gcasm: process GCAS_Monitor;
+			acasm: process ACAS_Monitor;
+			sam: process SA_Monitor;
+			gfm: process GF_Monitor;
+			wxm: process Wx_Monitor;
+			flsm: process FLS_Monitor;
+			pc: process Pilot_Command;
+			dmc: process Aviate_Decider;
+			swt: process Switch;
+		connections
+			acl_to_pc: port inACL -> pc.inpPC;
+			
+			--Connections from monitors to decider
+			gcasm_to_decider: port gcasm.gcasRequested -> dmc.inpGCASM;
+			gcasmimp_to_decider: port gcasm.outImpact -> dmc.inpGCASImpact;
+			gcasrec_to_decider: port gcasm.outRecovery -> dmc.inpGCASRecovery;
+			
+			sam_to_decider: port sam.saRequested -> dmc.inpSAM;
+			acasm_to_decider: port acasm.acasRequested -> dmc.inpACASM;
+			acasmimp_to_decider: port acasm.outImpact -> dmc.inpACASImpact;
+			acasrec_to_decider: port acasm.outRecovery -> dmc.inpACASRecovery;
+			
+			gfm_to_decider: port gfm.gfRequested -> dmc.inpGFM;
+			wxm_to_decider: port wxm.wxRequested -> dmc.inpWxM;
+			flsm_to_decider: port flsm.landingRequested -> dmc.inpFLS;
+			
+			--Connection from recovery or PC to switch
+			pc_to_swt: port pc.outPC->swt.inpPC;
+			
+			dec_to_switch: port dmc.outDec -> swt.inpDecider;
+			switchvv_to_aclvv: port swt.outSwitchVV -> outACLVV;
+			switchdeltaheading_to_acldeltaheading: port swt.outSwitchDeltaHeading -> outACLDeltaHeading;
+			switchAirspeed_to_aclAirspeed: port swt.outSwitchAirspeed -> outACLAirspeed;
+	end Aviate_Control_Level.Aviate_Control_Level_impl;
+	
+end AviateControlLevel;

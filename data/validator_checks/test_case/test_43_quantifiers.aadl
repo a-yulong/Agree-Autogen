@@ -1,0 +1,37 @@
+package TestQuantifiers
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    -- 数组类型
+    data int_array extends Base_Types::Integer[]
+    end int_array;
+
+    system TestSystem
+        features
+            arr: in data port int_array;
+            output1: out data port bool;
+        annex agree {**
+            -- 错误43：量词使用错误
+            eq all_positive : bool = forall i : int :: arr[i] > 0;
+            eq exists_negative : bool = exists i : int :: arr[i] < 0;
+
+            -- 量词范围问题
+            eq bad_forall : bool = forall x : int :: x > x + 1;  -- 不可满足
+            eq bad_exists : bool = exists y : bool :: y and not y;  -- 不可满足
+
+            -- 嵌套量词
+            eq nested : bool = forall i : int :: exists j : int :: arr[j] > arr[i];
+
+            -- 量词类型错误
+            eq type_error : bool = forall s : string :: s = "test";  -- 字符串量词
+            eq return_error : int = forall i : int :: arr[i];  -- 返回不是bool
+        **};
+    end TestSystem;
+
+end TestQuantifiers;

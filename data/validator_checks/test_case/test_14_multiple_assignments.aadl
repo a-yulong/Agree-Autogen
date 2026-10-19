@@ -1,0 +1,29 @@
+package TestMultipleAssignments
+public
+    with Base_Types;
+
+    data int extends Base_Types::Integer
+    end int;
+
+    data real extends Base_Types::Float
+    end real;
+
+    data bool extends Base_Types::Boolean
+    end bool;
+
+    system TestSystem
+        features
+            input1: in data port int;
+            output1: out data port int;
+    end TestSystem;
+
+    system implementation TestSystem.impl
+        annex agree {**
+            eq x : int = 0;
+            -- 错误14：对x进行多次赋值
+            assign x = input1;
+            assign x = 5;
+        **};
+    end TestSystem.impl;
+
+end TestMultipleAssignments;

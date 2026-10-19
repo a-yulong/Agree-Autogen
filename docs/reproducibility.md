@@ -99,5 +99,5 @@ Aggregate per-case reports:
 python scripts/aggregate_experiment_results.py --result-root outputs/e2_cases_1_5
 ```
 
-The dated summaries under `results/` describe historical executions. Their zero-valued cost columns are not valid manuscript cost measurements. Current runtime, token, validation, and rubric statistics are recomputed under `paper/data/statistics/` from selected measured records.
+Runtime, token, validation, and rubric statistics for the selected runs are computed under `paper/data/statistics/`. The selected input files are listed in `paper/data/source_manifest.json`.
 

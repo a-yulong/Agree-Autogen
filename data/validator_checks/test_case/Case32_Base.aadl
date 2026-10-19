@@ -1,0 +1,192 @@
+package tcas
+public
+	with base_types;
+
+	
+	data int extends base_types::Integer
+	end int;
+	
+	data real extends base_types::Float
+	end real;
+	
+	data bool extends base_types::Boolean
+	end bool;
+	
+	-- Top Level system, contains devices for situational awareness and threat resolution
+	
+	system TCAS
+		features
+			nearestIntruderAltitude: in data port real;
+			nearestIntruderGroundDistance: in data port int;
+			nearestIntruderLongitude: in data port int;
+			
+			ownAltitude: in data port real;
+			ownHeading: in data port int; -- degrees from North
+			ownVerticalVelocity: in data port int;
+			ownLatitude: in data port int;
+			ownLongitude: in data port int;
+			
+			requiredVerticalVelocity: out data port int;
+			
+	end TCAS;
+	
+	system implementation TCAS.impl
+		
+		subcomponents
+			surveillance: system Surveillance.impl;
+			instrumentation: system Instrumentation.impl;
+			trajectoryExtrapolation: system TrajectoryExtrapolation.impl;
+			threatDetection: system ThreatDetection.impl;
+			maneuverTemplates: system ManeuverTemplates.impl;
+			responseSelection: system ResponseSelection.impl;
+--			
+		connections
+			nia_from_external: port nearestIntruderAltitude -> surveillance.nearestIntruderAltitude_in;
+			nigd_from_external: port nearestIntruderGroundDistance -> surveillance.nearestIntruderGroundDistance_in;
+			nilo_from_external: port nearestIntruderLongitude -> surveillance.nearestIntruderLongitude_in;
+
+			oa_from_external: port ownAltitude -> instrumentation.altitude_in;
+			oh_from_external: port ownHeading -> instrumentation.heading_in;
+			ovv_from_external: port ownVerticalVelocity -> instrumentation.verticalVelocity_in;
+			ola_from_external: port ownLatitude -> instrumentation.ownLatitude_in;
+			olo_from_external: port ownLongitude -> instrumentation.ownLongitude_in;
+			
+			a_to_td: port instrumentation.altitude -> threatDetection.altitude;
+			h_to_td: port instrumentation.heading -> threatDetection.heading;
+			vv_to_td: port instrumentation.verticalVelocity -> threatDetection.verticalVelocity;
+			nia_to_td: port surveillance.nearestIntruderAltitude -> threatDetection.nearestIntruderAltitude;
+			nigd_to_td: port surveillance.nearestIntruderGroundDistance -> threatDetection.nearestIntruderGroundDistance;
+			
+			td_to_rs: port threatDetection.threatDetected -> responseSelection.threatDetected;
+			
+			oa_to_rs: port instrumentation.altitude -> responseSelection.ownAltitude;
+			ia_to_rs: port surveillance.nearestIntruderAltitude -> responseSelection.threatAltitude;
+			
+			ol_to_rs: port instrumentation.ownLongitude -> responseSelection.ownLongitude;
+			il_to_rs: port surveillance.nearestIntruderLongitude -> responseSelection.threatLongitude;
+		
+			rvv_to_external: port responseSelection.requiredVerticalVelocity -> requiredVerticalVelocity;
+
+	end TCAS.impl;
+	
+	-- Determine characteristics of nearby aircraft that intrude on the 'safety cylinder'
+	
+	system Surveillance
+		features
+			nearestIntruderAltitude_in: in data port real;
+			nearestIntruderGroundDistance_in: in data port int;
+			nearestIntruderLongitude_in: in data port int;
+
+			nearestIntruderAltitude: out data port real;
+			nearestIntruderGroundDistance: out data port int;
+			nearestIntruderLongitude: out data port int;
+	end Surveillance;
+	
+	system implementation Surveillance.impl
+		annex agree {**
+		**};
+	end Surveillance.impl;
+	
+	-- Determine characteristics of my own aircraft
+--	
+	system Instrumentation
+		features
+			altitude_in: in data port real;
+			heading_in: in data port int; -- degrees from North
+			verticalVelocity_in: in data port int;
+			ownLatitude_in: in data port int;
+			ownLongitude_in: in data port int;
+			
+			altitude: out data port real;
+			heading: out data port int; -- degrees from North
+			verticalVelocity: out data port int;
+			ownLatitude: out data port int;
+			ownLongitude: out data port int;
+	end Instrumentation;
+	
+	system implementation Instrumentation.impl
+		annex agree {**
+		**};
+	end Instrumentation.impl;
+--	
+	-- Extrapolate future position of own/intruder aircraft using linearizations of the kinematic equation y(t) = 1/2*a*t^2 + v(0)*t + y(0)
+	
+	system TrajectoryExtrapolation
+		features
+			nearestIntruderAltitude: in data port real;
+			projectedIntruderAltitude: out data port real;
+	end TrajectoryExtrapolation;
+	
+	system implementation TrajectoryExtrapolation.impl
+		annex agree {**
+		**};
+	end TrajectoryExtrapolation.impl;
+--	
+--	-- Determine threat status of intruder
+--	
+	system ThreatDetection
+		features
+			altitude: in data port real;
+			heading: in data port int; -- degrees from North
+			verticalVelocity: in data port int;
+			nearestIntruderAltitude: in data port real;
+			nearestIntruderGroundDistance: in data port int;
+			threatDetected: out data port bool;
+	end ThreatDetection;
+	
+	system implementation ThreatDetection.impl
+		annex agree {**
+		**};
+	end ThreatDetection.impl;
+--	
+--	-- Offers known 'Maneuver templates' for threat resolution
+--	
+	system ManeuverTemplates
+		features
+			sameAltitudeGoUp: out data port int;
+			sameAltitudeGoDown: out data port int;
+			bottomIntrusion: out data port int;
+			topIntrusion: out data port int;
+		annex agree {**
+			const sameAltitudeGoUp_val : int = 50;
+			const sameAltitudeGoDown_val : int = -50;
+			const bottomIntrusion_val : int = 10;
+			const topIntrusion_val : int = -10;
+			
+			guarantee "sameAltitudeGoUp_is_50": sameAltitudeGoUp = sameAltitudeGoUp_val;
+			guarantee "sameAltitudeGoDown_is_minus50": sameAltitudeGoDown = sameAltitudeGoDown_val;
+			guarantee "bottomIntrusion_is_10": bottomIntrusion = bottomIntrusion_val;
+			guarantee "topIntrusion_is_minus10": topIntrusion = topIntrusion_val;
+			guarantee "sameAltitudeGoUp_non_zero": not (sameAltitudeGoUp = 0);
+			guarantee "sameAltitudeGoDown_non_zero": not (sameAltitudeGoDown = 0);
+		**};
+	end ManeuverTemplates;
+	
+	system implementation ManeuverTemplates.impl
+		annex agree {**
+			assign sameAltitudeGoUp = 50;
+			assign sameAltitudeGoDown = -50;
+			assign bottomIntrusion = 10;
+			assign topIntrusion = -10;
+		**};
+	end ManeuverTemplates.impl;
+--	
+--	-- Given a threat, select from a Maneuver Template
+--	
+	system ResponseSelection
+		features
+			threatDetected: in data port bool;
+			threatAltitude: in data port real;
+			ownAltitude: in data port real;
+			ownLongitude: in data port int;
+			threatLongitude: in data port int;
+			
+			requiredVerticalVelocity: out data port int;
+	end ResponseSelection;
+--	
+	system implementation ResponseSelection.impl
+		annex agree {**
+		**};
+	end ResponseSelection.impl;
+--	
+end tcas;

@@ -1,0 +1,64 @@
+Offline expansion note for Case003
+=================================
+
+The raw model-fusion LLM input was not persisted as a standalone prompt file in the Case003 report. The following reconstruction uses the exact `model_fusion_target.txt` and `model_fusion_plan.txt` templates plus the saved Case003 inputs/outputs. It is included so the paper editor can see the actual fields and their values; it should not be cited as a byte-for-byte runtime transcript.
+
+Template: model_fusion_target.txt
+
+Requirement text:
+The GeoFence_singleton component shall establish a recursive variable t with a time step of 0.1, declare the variable distanceFromFence, and compute distanceFromFence by invoking the circleLinearization function from the geofence_nodes library with the time variable t as its input parameter. The component must guarantee that, once the time t exceeds the recovery time value of 1.7, the computed distanceFromFence shall remain greater than its preceding time-step value. Additionally, the system failure time shall be set to 9.5.
+
+Previous target component: GeoFence_singleton.impl
+
+Candidate component declarations include:
+- system GeoFence_singleton
+- system implementation GeoFence_singleton.impl
+- system Supervised_System
+- system implementation Supervised_System.impl
+- system TCAS_singleton / TCAS_singleton.impl
+- system GCAS_singleton / GCAS_singleton.impl
+- system Supervisor / Supervisor.impl
+
+Saved target-selection output:
+{
+  "mentioned_component_type": "GeoFence_singleton",
+  "mentioned_component_implementation": "GeoFence_singleton.impl",
+  "evidence": "The GeoFence_singleton component",
+  "confidence": "high"
+}
+
+Template: model_fusion_plan.txt
+
+Target-location plan:
+{
+  "mentioned_component_type": "GeoFence_singleton",
+  "mentioned_component_implementation": "GeoFence_singleton.impl",
+  "evidence": "The GeoFence_singleton component",
+  "confidence": "high"
+}
+
+Generated AGREE:
+annex agree {**
+  assume "timeToRecovery_bounds": 0.0 <= timeToRecovery and timeToRecovery <= 100.0;
+  assume "timeToFailure_value": timeToFailure = 9.5;
+  guarantee "distanceFromFence_computation": distanceFromFence = circleLinearization(t);
+  guarantee "distance_monotonicity": (t > 1.7) => (distanceFromFence > distanceFromFence_previous);
+**};
+
+Saved fusion-plan output:
+{
+  "target_component_type": "GeoFence_singleton",
+  "target_component_implementation": "GeoFence_singleton.impl",
+  "generated_content_kind": "type_contract",
+  "insertions": [
+    {
+      "owner": "GeoFence_singleton",
+      "owner_kind": "component_type",
+      "operation": "insert_or_replace",
+      "annex_block_id": "AGREE_BLOCK_1"
+    }
+  ],
+  "preserve_unrelated_code": true
+}
+
+Deterministic post-processing: `_apply_fusion_plan()` calls `_replace_or_insert_annex()` and writes the annex under the selected `GeoFence_singleton` type declaration; it does not rewrite unrelated package or implementation text.

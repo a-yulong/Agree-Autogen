@@ -1,36 +1,27 @@
-﻿# AGREE-AutoGen
+# AGREE-AutoGen
 
-AGREE-AutoGen is a multi-agent framework for generating and validating AGREE contracts from natural-language requirements and AADL architecture models. It treats contract generation as a sequence of constrained decisions: retrieved AGREE/AADL knowledge constrains the available formal patterns, architecture analysis constrains the visible model scope, requirement analysis constrains formalization intent, generation produces candidate AGREE clauses, model fusion inserts the clauses into the appropriate AADL owner, and validation-guided repair uses tool diagnostics to make bounded corrections.
+AGREE-AutoGen generates AGREE contracts from natural-language requirements and an existing AADL model. The pipeline extracts architecture facts and requirement items, retrieves AGREE/AADL rules, generates a contract, inserts it into the target component, and repairs validation errors.
 
-The repository contains the implementation, prompts, validation interface, retrieval resources, experiment configurations, and released case records. The current manuscript's numerical analysis entry point is [`paper/README.md`](paper/README.md).
+## Materials
 
-## Highlights
+| Content | Location |
+| --- | --- |
+| 459 requirement–model cases | `data/benchmark/cases/` |
+| Dataset screening tables and per-case checks | `data/preparation/` |
+| Knowledge documents, contract examples, and generation rules | `knowledge_base/` |
+| Complete agent prompt templates | `prompts/` |
+| Pipeline code | `src/agree_autogen/` |
+| Original dataset construction scripts | `scripts/` |
+| Experiment settings and original batch runners | `experiments/` |
+| Recorded prompts, retrieval, integration, and repair for Case003 | `examples/recorded_case003/` |
+| Per-case experiment results | `results/` |
+| Combined score table, Excel workbook, and scoring rubric | `results/review_master/` |
+| Validator test inputs and outputs | `data/validator_checks/`, `results/validator_checks/` |
+| Manuscript statistics | `paper/data/statistics/` |
 
-- Scope-aware AADL analysis for identifying visible component features, owners, connections, properties, and insertion targets.
-- Requirement analysis that separates behavioral intent from structural descriptions before formalization.
-- Retrieval-augmented AGREE generation using curated syntax, scope, example, and defensive-rule knowledge.
-- Controlled model fusion that inserts or replaces AGREE annexes without rewriting unrelated AADL model content.
-- Validation-guided repair through a standalone AGREE validator and focused diagnostic feedback.
-- Experiment scripts for model comparison, retrieval settings, agent ablations, optimization ablations, reruns, and metric aggregation.
+The score table contains 2,754 records. Full/Qwen is shared by the framework comparison and the five-model comparison and appears once in this table.
 
-## Repository Contents
-
-```text
-data/benchmark/cases/    459 benchmark inputs used by the experiments
-knowledge_base/          Three retrieval sources: syntax/scope, examples, and defensive rules
-prompts/                 Agent prompts used by the pipeline
-src/agree_autogen/       Pipeline implementation
-tools/agree-validator/   Standalone AGREE validation interface and bundled AADL support files
-results/                 Released aggregate and per-case experiment results
-scripts/                 Core run and aggregation entry points
-tests/                   Offline checks for the released artifact
-```
-
-The artifact boundary is described in `ARTIFACT_SCOPE.md`.
-
-## Quick Start
-
-Create an environment and install the package:
+## Install
 
 ```powershell
 python -m venv .venv
@@ -39,25 +30,9 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-Run an offline dry run on a bundled benchmark case:
+## Run a case
 
-```powershell
-python scripts/run_files.py `
-  --requirement data/benchmark/cases/Case001/Case001_Req.txt `
-  --aadl data/benchmark/cases/Case001/Case001_Base.aadl `
-  --output-dir outputs/Case001_dry `
-  --setting E2 `
-  --skip-validation `
-  --dry-run
-```
-
-Run the offline test subset:
-
-```powershell
-python -m pytest -q tests/test_fusion.py tests/test_model_analyst.py tests/test_validators.py tests/test_metrics.py tests/test_build_rag_index.py tests/test_experiment_configs.py tests/test_run_files_cli.py
-```
-
-Full generation requires an OpenAI-compatible model endpoint:
+Configure the model endpoint:
 
 ```powershell
 $env:AGREE_MODEL_BASE_URL = "https://api.example.com/v1"
@@ -65,52 +40,45 @@ $env:AGREE_MODEL_API_KEY = "replace-with-your-key"
 $env:AGREE_MODEL_NAME = "model-name"
 ```
 
-Use environment variables for credentials. Do not commit real keys.
+Configure JDK 17 and an OSATE installation with AGREE, then build the validator:
 
-## Validation Tool
+```powershell
+$env:JAVA_HOME = "path\to\jdk17"
+$env:OSATE_HOME = "path\to\osate"
+.\tools\agree-validator\build.ps1
+```
 
-The standalone AGREE validator is included under `tools/agree-validator/`. It provides a Java command-line interface that loads AADL projects, AGREE annexes, bundled static libraries, and OSATE/AGREE plugin resources, then emits JSON diagnostics.
+```powershell
+python scripts/run_files.py `
+  --requirement data/benchmark/cases/Case001/Case001_Req.txt `
+  --aadl data/benchmark/cases/Case001/Case001_Base.aadl `
+  --output-dir outputs/Case001 `
+  --setting E2
+```
 
-The validator requires a local JDK and OSATE/AGREE installation. OSATE itself is not redistributed in this repository.
+For an offline dry run, append `--skip-validation --dry-run`.
 
-See `docs/validator_setup.md` for setup and command examples.
-
-## Experiments and Results
-
-The experiment scripts support:
-
-- model comparison;
-- retrieval setting selection;
-- agent ablation;
-- optimization ablation;
-- rerun of missing or provider-failed cases;
-- aggregate metric generation.
-
-Experiment design is documented in `docs/experiment_design.md`. Result formats and metric definitions are documented in `docs/result_schema.md`.
-
-The directory names under `results/` retain the original experiment IDs and do not correspond one-to-one to the current manuscript's RQs. Use [`paper/data/source_manifest.json`](paper/data/source_manifest.json) to identify the selected runs and [`paper/data/statistics/`](paper/data/statistics/) for recomputed manuscript statistics. Historical summaries are retained for traceability and are not the current manuscript results.
-
-## Reproducibility
-
-The repository supports three reproduction levels:
-
-- offline inspection of code, prompts, configurations, and results;
-- local smoke execution with bundled examples and a local validator setup;
-- full experiment execution with model-provider credentials.
-
-See `docs/reproducibility.md` for commands, dependencies, and expected outputs.
-
-To recompute manuscript statistics without model-provider calls:
+## Recompute results
 
 ```powershell
 python paper/scripts/recompute_statistics.py
+python paper/scripts/rebuild_inputs.py
 ```
 
-## Citation
+The first command computes validation, repair, runtime, token, and rubric statistics. The second checks the 6,885 selected reports against the stored measurements. The run selection is in `paper/data/source_manifest.json`.
 
-If you use AGREE-AutoGen in academic work, cite this repository. See `CITATION.cff`.
+## Experiment runs
 
-## License
+The manuscript groups the experiments as follows:
 
-The code is released under the MIT License. See `LICENSE`. Third-party tools and source documents may have their own licenses; see the relevant documentation and source manifests.
+| Comparison | Runs |
+| --- | --- |
+| RQ1: framework effectiveness | Full and Direct |
+| RQ2: ablation and retrieval depth | Analysis stages, retrieval depth, digest, strategy guidance, and target context |
+| RQ3: model comparison | Qwen, Codestral, Gemma, GPT, and Llama |
 
+`experiments/original_runs/` contains the original PowerShell batch runners. Their parameters select the repository, input, and output directories. `docs/experiment_design.md` maps their directory names to the manuscript experiments.
+
+## License and citation
+
+See `LICENSE` and `CITATION.cff`.

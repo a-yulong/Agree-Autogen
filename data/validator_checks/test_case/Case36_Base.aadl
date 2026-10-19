@@ -1,0 +1,48 @@
+package Steering
+public
+	with Base_Types;
+
+	data real extends Base_Types::Float
+	end real;
+
+	system Axle
+		features
+			Target_Tire_Direction: in data port real;
+			Actual_Tire_Direction: out data port real;
+			Speed: in data port real;
+		
+		annex agree {**
+			const HIGH_SPEED_THRESHOLD : real = 45.0;
+			const MAX_SAFE_ANGLE : real = 0.20;
+
+			guarantee "high_speed_positive_large_target_limit_upper":
+				(Speed > HIGH_SPEED_THRESHOLD) and (Target_Tire_Direction > MAX_SAFE_ANGLE)
+				=> (Actual_Tire_Direction = MAX_SAFE_ANGLE);
+
+			guarantee "high_speed_negative_large_target_limit_lower":
+				(Speed > HIGH_SPEED_THRESHOLD) and (Target_Tire_Direction < -MAX_SAFE_ANGLE)
+				=> (Actual_Tire_Direction = -MAX_SAFE_ANGLE);
+
+			guarantee "low_speed_or_small_target_follow_exactly":
+				((Speed <= HIGH_SPEED_THRESHOLD) or (Target_Tire_Direction >= -MAX_SAFE_ANGLE and Target_Tire_Direction <= MAX_SAFE_ANGLE))
+				=> (Actual_Tire_Direction = Target_Tire_Direction);
+		**};
+	end Axle;
+
+	system implementation Axle.Axle_Impl
+		annex agree {**
+			assign Actual_Tire_Direction =
+				if (Speed > HIGH_SPEED_THRESHOLD) then
+					if (Target_Tire_Direction > MAX_SAFE_ANGLE) then
+						MAX_SAFE_ANGLE
+					else
+						if (Target_Tire_Direction < -MAX_SAFE_ANGLE) then
+							-MAX_SAFE_ANGLE
+						else
+							Target_Tire_Direction
+				else
+					Target_Tire_Direction;
+		**};
+	end Axle.Axle_Impl;
+
+end Steering;

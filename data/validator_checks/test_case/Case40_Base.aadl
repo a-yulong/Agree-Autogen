@@ -1,0 +1,70 @@
+package Transmission
+public
+	with Base_Types;
+
+	data int extends Base_Types::Integer
+	end int;
+
+	data real extends Base_Types::Float
+	end real;
+
+	data bool extends Base_Types::Boolean
+	end bool;
+
+	data speed extends Base_Types::Float
+	end speed;
+
+	data state_sig extends Base_Types::Integer
+	end state_sig;
+
+	system Speed_Control
+		features
+			Target: in data port speed;
+			Actuator_Input: out data port Base_Types::Float;
+			Actual: in data port speed;
+	end Speed_Control;
+
+	system implementation Speed_Control.Speed_Control_Impl
+	end Speed_Control.Speed_Control_Impl;
+
+	system Throttle
+		features
+			Actuator_Input: in data port Base_Types::Float;
+			Actual: out data port speed;
+	end Throttle;
+
+	system implementation Throttle.Throttle_Impl
+	end Throttle.Throttle_Impl;
+
+	system State_Machine
+		features
+			State_Out: out data port state_sig;
+		annex agree {**
+			eq local_state : int = 0 -> pre(local_state);
+			eq state_out_val : int;
+			guarantee "sub state holds previous value": state_out_val = local_state;
+		**};
+	end State_Machine;
+
+	system implementation State_Machine.Impl
+		subcomponents
+			SSM: system Sub_State_Machine.Impl;
+
+		connections
+			SMToSSM: port SSM.State_Out -> State_Out;
+		annex agree {**
+			assign state_out_val = State_Out;
+		**};
+	end State_Machine.Impl;
+
+	system Sub_State_Machine
+		features
+			State_Out: out data port state_sig;
+	end Sub_State_Machine;
+
+	system implementation Sub_State_Machine.Impl
+		annex agree {**
+		**};
+	end Sub_State_Machine.Impl;
+
+end Transmission;

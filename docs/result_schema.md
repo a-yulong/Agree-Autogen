@@ -1,6 +1,6 @@
 # Result Schema
 
-AGREE-AutoGen reports are designed to make each case outcome auditable. A complete result artifact should include per-case JSON reports and aggregate CSV or JSON summaries computed from those reports.
+Each case produces a JSON report. Aggregate CSV and JSON summaries are computed from those reports.
 
 Field names may vary slightly across experiment generations. This document defines the canonical interpretation used for analysis and publication.
 
@@ -62,7 +62,7 @@ Derived interpretation:
 | `validation_report` | Structured validator diagnostics. |
 | `final_artifact` | Final fused AADL/AGREE output path or content summary. |
 
-Trace fields are used for qualitative inspection and ablation analysis. They should not be required for simple success-rate computation, but they should be retained when releasing complete experiment artifacts.
+Trace fields record intermediate outputs for case inspection and ablation analysis.
 
 ## Aggregate Metrics
 
@@ -94,7 +94,7 @@ Stage errors represent pipeline or infrastructure interruptions. Examples includ
 - filesystem interruption;
 - validator process launch failure.
 
-Stage errors may be rerun when the experiment policy allows it. Validator failures should not be silently rerun as infrastructure failures.
+Stage errors and validator failures are recorded as separate outcomes.
 
 ## Recommended Release Files
 
